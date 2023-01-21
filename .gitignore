@@ -1,0 +1,4 @@
+.vs/
+*.o
+test/a.out
+ragnarok_server

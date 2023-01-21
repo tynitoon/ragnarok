@@ -1,0 +1,173 @@
+#include <stdio.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/time.h>
+
+#include "list.h"
+#include "protocol.h"
+#include "server.h"
+
+int start_server(int port, t_list* clients)
+{
+	int					opt = 1;
+	int 				master_socket;
+	int 				addrlen;
+	int 				ret_value;
+	int 				max_fd;
+	int					fd;
+	struct sockaddr_in	address;
+	t_list_element*		tmp;
+	t_list_element*		save;
+	t_client			new_client;
+	t_client*			client;
+	t_message*			message;
+	size_t				message_size;
+	fd_set				readfds;
+
+	//Init values
+	memset(&new_client, 0, sizeof(t_client));
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_port = htons(port);
+	addrlen = sizeof(address);
+
+	//Create a master socket
+	if ((master_socket = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+	{
+		perror("socket failed");
+		return -1;
+	}
+
+	//Set master socket to allow multiple connections and relaunch server
+	if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0)
+	{
+		perror("setsockopt");
+		return -1;
+	}
+
+	//Bind the socket to localhost port
+	if (bind(master_socket, (struct sockaddr*)&address, sizeof(address)) < 0)
+	{
+		perror("bind failed");
+		return -1;
+	}
+	printf("Listener on port %d\n", port);
+
+	//Try to specify maximum of 10 pending connections for the master socket
+	if (listen(master_socket, 10) < 0)
+	{
+		perror("listen");
+		return -1;
+	}
+	
+	printf("Waiting for connections...\n");
+
+	while (1)
+	{
+		//Clear the socket set
+		FD_ZERO(&readfds);
+
+		//Add master socket to set
+		FD_SET(master_socket, &readfds);
+
+		//Add client socket and find max_fd
+		max_fd = master_socket;
+		tmp = clients->head;
+		while (tmp != NULL)
+		{
+			fd = *(int*)tmp->buffer;
+
+			if (fd > 0)
+				FD_SET(fd, &readfds);
+
+			if (fd > max_fd)
+				max_fd = fd;
+
+			tmp = tmp->next;
+		}
+
+		//Wait for an activity on one of the sockets (timeout is NULL)
+		if ((select(max_fd + 1, &readfds, NULL, NULL, NULL) < 0) && (errno != EINTR))
+			printf("select error");
+
+		//If something happened on the master socket then its an incoming connection
+		if (FD_ISSET(master_socket, &readfds))
+		{
+			if ((fd = accept(master_socket, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0)
+			{
+				perror("accept");
+				return -1;
+			}
+
+			//inform user of socket number - used in send and receive commands
+			printf("New connection , socket fd is %d , ip is : %s , port : %d\n", fd, inet_ntoa(address.sin_addr), ntohs(address.sin_port));
+
+			new_client.fd = fd;
+
+			add_to_list(clients, (char*)&new_client, sizeof(t_client));
+		}
+
+		//Check if there are some IO operation on other sockets
+		tmp = clients->head;
+		while (tmp != NULL)
+		{
+			client = (t_client*)tmp->buffer;
+			fd = *(int*)tmp->buffer;
+			if (FD_ISSET(fd, &readfds))
+			{
+				//Check if it was for closing and read the incoming message
+				if ((ret_value = read(fd, &client->buffer[client->buffer_index], BUFFER_SIZE - client->buffer_index)) == 0)
+				{
+					//A client is disconnected, get his details and print
+					getpeername(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+					printf("Host disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr), ntohs(address.sin_port));
+
+					//Close the socket
+					close(fd);
+
+					//Remove from client list
+					save = tmp->next;
+					remove_from_list(clients, tmp);
+					tmp = save;
+					continue;
+				}
+				else
+				{
+					client->buffer_index += ret_value;
+					//If there is enough data to get the message's size
+					while (client->buffer_index >= (int)sizeof(int))
+					{
+						message = (t_message*)client->buffer;
+						message_size = message->size;
+
+						//if the message_size is impossible (cheater or network error)
+						if (message_size < sizeof(t_message) || message_size > BUFFER_SIZE)
+							client->buffer_index = 0;
+						else if (client->buffer_index >= message_size)
+						{
+							//Change the size to have only the data size
+							message->size = message_size - sizeof(t_message);
+
+							//Add message to list
+							add_to_list(&client->messages, (char*)message, message_size);
+
+							//Shift datas in the buffer (circular buffer)
+							client->buffer_index -= message_size;
+							memmove(client->buffer, &client->buffer[message_size], client->buffer_index);
+						}
+						else
+							break;
+					}
+				}
+			}
+			tmp = tmp->next;
+		}
+	}
+
+	return 0;
+}
