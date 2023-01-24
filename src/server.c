@@ -11,6 +11,17 @@
 #include "list.h"
 #include "protocol.h"
 #include "server.h"
+#include "single_memory.h"
+
+static void add_message_to_client(t_list* client_messages, t_data_type type)
+{
+	t_list_element* element;
+	
+	element = get_memory(sizeof(t_list_element) + sizeof(t_message));
+	((t_message*)element->buffer)->type = type;
+
+	add_list_element_to_list(client_messages, element);
+}
 
 int start_server(int port, t_list* clients)
 {
@@ -23,14 +34,12 @@ int start_server(int port, t_list* clients)
 	struct sockaddr_in	address;
 	t_list_element*		tmp;
 	t_list_element*		save;
-	t_client			new_client;
 	t_client*			client;
 	t_message*			message;
 	size_t				message_size;
 	fd_set				readfds;
 
 	//Init values
-	memset(&new_client, 0, sizeof(t_client));
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons(port);
@@ -80,7 +89,16 @@ int start_server(int port, t_list* clients)
 		tmp = clients->head;
 		while (tmp != NULL)
 		{
-			fd = *(int*)tmp->buffer;
+			client = (t_client*)tmp->buffer;
+			if (client->state == READY_TO_BE_REMOVED)
+			{
+				save = tmp->next;
+				remove_from_list(clients, tmp);
+				free_memory(tmp); //No need to free_memory for messages because they are already all consummed by threads
+				tmp = save;
+				continue;
+			}
+			fd = client->fd;
 
 			if (fd > 0)
 				FD_SET(fd, &readfds);
@@ -93,7 +111,7 @@ int start_server(int port, t_list* clients)
 
 		//Wait for an activity on one of the sockets (timeout is NULL)
 		if ((select(max_fd + 1, &readfds, NULL, NULL, NULL) < 0) && (errno != EINTR))
-			printf("select error");
+			fprintf(stderr, "Error in start_server: select failed\n");
 
 		//If something happened on the master socket then its an incoming connection
 		if (FD_ISSET(master_socket, &readfds))
@@ -107,9 +125,25 @@ int start_server(int port, t_list* clients)
 			//inform user of socket number - used in send and receive commands
 			printf("New connection , socket fd is %d , ip is : %s , port : %d\n", fd, inet_ntoa(address.sin_addr), ntohs(address.sin_port));
 
-			new_client.fd = fd;
 
-			add_to_list(clients, (char*)&new_client, sizeof(t_client));
+			save = get_memory(sizeof(t_list_element) + sizeof(t_client));
+			client = (t_client*)save->buffer;
+			
+			if (init_list(&client->messages) != 0 || pthread_mutex_init(&client->mutex, NULL) != 0)
+			{
+				fprintf(stderr, "Error in start_server: mutex init failed\n");
+				free_memory(save);
+				close(fd);
+			}
+			else
+			{
+				client->state = CONNECTED;
+				client->fd = fd;
+				client->buffer_index = 0;
+
+				add_list_element_to_list(clients, save);
+				add_message_to_client(&client->messages, CONNECT);
+			}
 		}
 
 		//Check if there are some IO operation on other sockets
@@ -117,7 +151,7 @@ int start_server(int port, t_list* clients)
 		while (tmp != NULL)
 		{
 			client = (t_client*)tmp->buffer;
-			fd = *(int*)tmp->buffer;
+			fd = client->fd;
 			if (FD_ISSET(fd, &readfds))
 			{
 				//Check if it was for closing and read the incoming message
@@ -130,11 +164,9 @@ int start_server(int port, t_list* clients)
 					//Close the socket
 					close(fd);
 
-					//Remove from client list
-					save = tmp->next;
-					remove_from_list(clients, tmp);
-					tmp = save;
-					continue;
+					//Don't remove client now, threads need to compute the disconnection
+					client->state = DISCONNECTED;
+					add_message_to_client(&client->messages, DISCONNECT);
 				}
 				else
 				{
@@ -150,11 +182,14 @@ int start_server(int port, t_list* clients)
 							client->buffer_index = 0;
 						else if (client->buffer_index >= message_size)
 						{
+							save = get_memory(sizeof(t_list_element) + sizeof(t_message));
+							message = (t_message*)save->buffer;
+
+							//Copy datas
+							memcpy(message, client->buffer, message_size);
 							//Change the size to have only the data size
 							message->size = message_size - sizeof(t_message);
-
-							//Add message to list
-							add_to_list(&client->messages, (char*)message, message_size);
+							add_list_element_to_list(&client->messages, save);
 
 							//Shift datas in the buffer (circular buffer)
 							client->buffer_index -= message_size;

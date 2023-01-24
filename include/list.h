@@ -1,6 +1,9 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include "pthread.h"
+#include <stddef.h>
+
 typedef struct              s_list_element
 {
     struct s_list_element*  prev;
@@ -10,13 +13,14 @@ typedef struct              s_list_element
 
 typedef struct              s_list
 {
+    pthread_mutex_t         mutex;
     t_list_element*         head;
     t_list_element*         tail;
 }                           t_list;
 
-void add_to_list(t_list* list, char* buffer, size_t size);
-void add_list_element_to_list(t_list* list, t_list_element* to_add);
-void remove_from_list(t_list* list, t_list_element* to_remove);
-void display_list(t_list* list);
+int             init_list(t_list* list);
+void            add_list_element_to_list(t_list* list, t_list_element* to_add);
+t_list_element* remove_from_list(t_list* list, t_list_element* to_remove);
+void            display_list(t_list* list);
 
 #endif

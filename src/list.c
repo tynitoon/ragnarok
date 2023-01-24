@@ -1,19 +1,21 @@
-#include <stddef.h>
 #include <string.h>
 #include <stdio.h>
 
 #include "single_memory.h"
 #include "list.h"
 
-void add_to_list(t_list* list, char* buffer, size_t size)
+int init_list(t_list* list)
 {
-	t_list_element* new_element;
+	if (pthread_mutex_init(&list->mutex, NULL) != 0)
+	{
+		fprintf(stderr, "Error in init_list: mutex init failed\n");
+		return -1;
+	}
 
-	new_element = get_memory(sizeof(t_list_element) + size);
-	memcpy(new_element->buffer, buffer, size);
+	list->head = NULL;
+	list->tail = NULL;
 
-	add_list_element_to_list(list, new_element);
-
+	return 0;
 }
 
 void add_list_element_to_list(t_list* list, t_list_element* to_add)
@@ -21,6 +23,7 @@ void add_list_element_to_list(t_list* list, t_list_element* to_add)
 	to_add->next = NULL;
 	to_add->prev = list->tail;
 
+	pthread_mutex_lock(&list->mutex);
 	if (list->tail == NULL)
 	{
 		list->tail = to_add;
@@ -31,13 +34,15 @@ void add_list_element_to_list(t_list* list, t_list_element* to_add)
 		list->tail->next = to_add;
 		list->tail = to_add;
 	}
+	pthread_mutex_unlock(&list->mutex);
 }
 
-void remove_from_list(t_list* list, t_list_element* to_remove)
+t_list_element* remove_from_list(t_list* list, t_list_element* to_remove)
 {
 	if (to_remove == NULL)
-		return;
+		return NULL;
 
+	pthread_mutex_lock(&list->mutex);
 	if (list->head == to_remove)
 	{
 		list->head = to_remove->next;
@@ -59,11 +64,15 @@ void remove_from_list(t_list* list, t_list_element* to_remove)
 		to_remove->prev->next = to_remove->next;
 		to_remove->next->prev = to_remove->prev;
 	}
+	pthread_mutex_unlock(&list->mutex);
+	
+	return to_remove;
 }
 
 void display_list(t_list* list)
 {
 	t_list_element* element;
+	int				count = 0;
 
 	printf("\nDisplay list :\n");
 	element = list->head;
@@ -71,5 +80,8 @@ void display_list(t_list* list)
 	{
 		printf("element = %ld\n", (unsigned long)element);
 		element = element->next;
+		++count;
 	}
+	printf("List size = %d\n", count);
+
 }

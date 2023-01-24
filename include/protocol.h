@@ -3,7 +3,10 @@
 
 typedef enum    e_data_type
 {
-	MESSAGE = 0,
+	CONNECT		= 0,
+	DISCONNECT	= 1,
+	MOVE		= 2,
+	MESSAGE		= 3
 }               t_data_type;
 
 typedef struct  s_message

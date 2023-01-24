@@ -4,10 +4,11 @@ RM	= rm -f
 
 NAME	= ragnarok_server
 
-SRCS	= ./src/main.c	\
-	  ./src/server.c	\
-	  ./src/list.c		\
-	  ./src/single_memory.c
+SRCS	= ./src/main.c		\
+	  ./src/server.c		\
+	  ./src/list.c			\
+	  ./src/single_memory.c	\
+	  ./src/game.c
 
 CFLAGS	= -g -ggdb -Wall -Wextra -Werror -I include/
 
