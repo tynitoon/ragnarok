@@ -1,4 +1,5 @@
 .vs/
+lib/
 *.o
 test/a.out
 ragnarok_server

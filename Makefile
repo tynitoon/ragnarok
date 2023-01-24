@@ -10,7 +10,9 @@ SRCS	= ./src/main.c		\
 	  ./src/single_memory.c	\
 	  ./src/game.c
 
-CFLAGS	= -g -ggdb -Wall -Wextra -Werror -I include/
+CFLAGS	= -g -ggdb -Wall -Wextra -Werror -I include/ -I external/ 
+
+LDFLAGS = -L lib/ -lpthread -lsqlite
 
 #CFLAGS	=  -I include/
 
@@ -19,7 +21,7 @@ OBJS	= $(SRCS:.c=.o)
 all: server
 
 server: $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJS)

@@ -5,10 +5,16 @@
 #include "single_memory.h"
 #include "server.h"
 
+#include "sqlite/sqlite3.h"
+
 int main()
 {
 	t_game_infos	game_infos;
 	int				count_threads;
+
+	sqlite3* db;
+
+	sqlite3_open("database.db", &db);
 
 	//Init values
 	if (init_list(&game_infos.clients) != 0)
