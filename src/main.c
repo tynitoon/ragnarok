@@ -1,20 +1,27 @@
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
+
+#include "sqlite/sqlite3.h"
 
 #include "game.h"
 #include "single_memory.h"
 #include "server.h"
 
-#include "sqlite/sqlite3.h"
-
 int main()
 {
+	sqlite3*		db;
 	t_game_infos	game_infos;
 	int				count_threads;
+	
+	//Open or create database
+	if (sqlite3_open("database.db", &db) != SQLITE_OK)
+	{
+		fprintf(stderr, "Error in main: Cannot open database: %s\n", sqlite3_errmsg(db));
+		sqlite3_close(db);
 
-	sqlite3* db;
-
-	sqlite3_open("database.db", &db);
+		return 1;
+	}
 
 	//Init values
 	if (init_list(&game_infos.clients) != 0)
