@@ -7,8 +7,11 @@ NAME	= ragnarok_server
 SRCS	= ./src/main.c		\
 	  ./src/server.c		\
 	  ./src/list.c			\
+	  ./src/map.c			\
 	  ./src/single_memory.c	\
-	  ./src/game.c
+	  ./src/hash.c			\
+	  ./src/game.c			\
+	  ./src/sqlite.c
 
 CFLAGS	= -g -ggdb -Wall -Wextra -Werror -I include/ -I external/ 
 

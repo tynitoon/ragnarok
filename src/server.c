@@ -20,7 +20,7 @@ static void add_message_to_client(t_list* client_messages, t_data_type type)
 	element = get_memory(sizeof(t_list_element) + sizeof(t_message));
 	((t_message*)element->buffer)->type = type;
 
-	add_list_element_to_list(client_messages, element);
+	add_list_element(client_messages, element);
 }
 
 int start_server(int port, t_list* clients)
@@ -90,21 +90,25 @@ int start_server(int port, t_list* clients)
 		while (tmp != NULL)
 		{
 			client = (t_client*)tmp->buffer;
+
 			if (client->state == READY_TO_BE_REMOVED)
 			{
 				save = tmp->next;
-				remove_from_list(clients, tmp);
+				remove_list_element(clients, tmp);
 				free_memory(tmp); //No need to free_memory for messages because they are already all consummed by threads
 				tmp = save;
 				continue;
 			}
-			fd = client->fd;
+			else if (client->state == CONNECTED)
+			{
+				fd = client->fd;
 
-			if (fd > 0)
-				FD_SET(fd, &readfds);
+				if (fd > 0)
+					FD_SET(fd, &readfds);
 
-			if (fd > max_fd)
-				max_fd = fd;
+				if (fd > max_fd)
+					max_fd = fd;
+			}
 
 			tmp = tmp->next;
 		}
@@ -141,7 +145,7 @@ int start_server(int port, t_list* clients)
 				client->fd = fd;
 				client->buffer_index = 0;
 
-				add_list_element_to_list(clients, save);
+				add_list_element(clients, save);
 				add_message_to_client(&client->messages, CONNECT);
 			}
 		}
@@ -189,7 +193,7 @@ int start_server(int port, t_list* clients)
 							memcpy(message, client->buffer, message_size);
 							//Change the size to have only the data size
 							message->size = message_size - sizeof(t_message);
-							add_list_element_to_list(&client->messages, save);
+							add_list_element(&client->messages, save);
 
 							//Shift datas in the buffer (circular buffer)
 							client->buffer_index -= message_size;

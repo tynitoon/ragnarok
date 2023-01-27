@@ -16,4 +16,10 @@ typedef struct  s_message
 	char        buffer[];
 }               t_message;
 
+typedef struct	s_connect_message
+{
+	char		username[32];
+	char		password[32];
+}				t_connect_message;
+
 #endif

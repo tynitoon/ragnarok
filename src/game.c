@@ -7,13 +7,14 @@
 #include "game.h"
 #include "list.h"
 
-static void connect_command(int fd)
+static void connect_command(int fd, t_connect_message* data)
 {
 	//CREATE MAP COLLECTION
 	//CHECK SQLITE PERFORMANCE
 	//ADD SQLITE IMPLEMENTATION
 
 	fd = fd;
+	data = data;
 	//Check that the player is not already connected
 	//Get character from sqlite
 	//Or create if it doesn't exist
@@ -35,7 +36,7 @@ static void handle_message(t_client* client, t_message* message)
 	switch (message->type)
 	{
 		case CONNECT:
-			connect_command(client->fd);
+			connect_command(client->fd, (t_connect_message*)message->buffer);
 			break;
 		case DISCONNECT:
 			disconnect_command(client);
@@ -67,7 +68,7 @@ void* search_and_compute_tasks(void* datas)
 			{
 				while (client->messages.head != NULL)
 				{
-					message_element = remove_from_list(&client->messages, client->messages.head);
+					message_element = remove_list_element(&client->messages, client->messages.head);
 					handle_message(client, (t_message*)message_element->buffer);
 					free_memory(message_element);
 				}

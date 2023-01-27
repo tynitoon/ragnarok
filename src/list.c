@@ -18,7 +18,7 @@ int init_list(t_list* list)
 	return 0;
 }
 
-void add_list_element_to_list(t_list* list, t_list_element* to_add)
+void add_list_element(t_list* list, t_list_element* to_add)
 {
 	to_add->next = NULL;
 	to_add->prev = list->tail;
@@ -37,7 +37,7 @@ void add_list_element_to_list(t_list* list, t_list_element* to_add)
 	pthread_mutex_unlock(&list->mutex);
 }
 
-t_list_element* remove_from_list(t_list* list, t_list_element* to_remove)
+t_list_element* remove_list_element(t_list* list, t_list_element* to_remove)
 {
 	if (to_remove == NULL)
 		return NULL;

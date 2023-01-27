@@ -67,7 +67,7 @@ void* get_memory(size_t size)
 		block = (t_block*)element->buffer;
 		if (block->size == size)
 		{
-			remove_from_list(&g_frees, element);
+			remove_list_element(&g_frees, element);
 			element->next = g_memory_head - 1;
 
 			return element->buffer + sizeof(t_block);
@@ -85,8 +85,8 @@ void* get_memory(size_t size)
 			if ((unsigned long)tmp_block < (unsigned long)g_memory_head + g_memory_index)
 				tmp_block->prev_size = new_block->size;
 
-			remove_from_list(&g_frees, element);
-			add_list_element_to_list(&g_frees, new_element);
+			remove_list_element(&g_frees, element);
+			add_list_element(&g_frees, new_element);
 
 			element->next = g_memory_head - 1;
 			block->size = size;
@@ -156,9 +156,9 @@ void free_memory(void* ptr)
 		if ((unsigned long)tmp_block < (unsigned long)g_memory_head + g_memory_index)
 			tmp_block->prev_size = prev_block->size;
 
-		remove_from_list(&g_frees, prev_element);
-		remove_from_list(&g_frees, next_element);
-		add_list_element_to_list(&g_frees, prev_element);
+		remove_list_element(&g_frees, prev_element);
+		remove_list_element(&g_frees, next_element);
+		add_list_element(&g_frees, prev_element);
 	}
 	else if (prev_element != NULL && prev_element->next != g_memory_head - 1)
 	{
@@ -188,7 +188,7 @@ void free_memory(void* ptr)
 			g_frees.tail = current_element;
 	}
 	else
-		add_list_element_to_list(&g_frees, current_element);
+		add_list_element(&g_frees, current_element);
 }
 
 void display_memory()

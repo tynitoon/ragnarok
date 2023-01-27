@@ -1,31 +1,61 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "sqlite/sqlite3.h"
-
+#include "sqlite.h"
 #include "game.h"
 #include "single_memory.h"
 #include "server.h"
 
+#include "hash.h"
+#include "map.h"
+
 int main()
 {
-	sqlite3*		db;
 	t_game_infos	game_infos;
 	int				count_threads;
-	
-	//Open or create database
-	if (sqlite3_open("database.db", &db) != SQLITE_OK)
-	{
-		fprintf(stderr, "Error in main: Cannot open database: %s\n", sqlite3_errmsg(db));
-		sqlite3_close(db);
-
-		return 1;
-	}
 
 	//Init values
-	if (init_list(&game_infos.clients) != 0)
+	if (init_database() != 0 ||
+		init_list(&game_infos.clients) != 0)
 		return 1;
+
+	//int walah[2];
+	//walah[0] = 1;
+	//walah[1] = 2;
+
+	//t_list_element2 tmp;
+	//tmp.prev = NULL;
+	//tmp.next = NULL;
+	//printf("%ld %ld %ld %ld\n", (unsigned long)&tmp.prev, (unsigned long)&tmp.next, (unsigned long)&tmp.buffer, (unsigned long)tmp.buffer);
+
+	//sqlite_set_array("UPDATE user SET character_row_ids = ? WHERE username = 'default'", 2, sizeof(int), walah);
+
+	//t_sqlite_array* data = sqlite_get_array("SELECT character_row_ids FROM user WHERE username = 'default'");
+
+	//if (data != NULL)
+	//{
+	//	size_t i = 0;
+	//	for (i = 0; i < data->size; ++i)
+	//	{
+	//		printf("value = %d\n", ((int*)data->buffer)[i]);
+	//	}
+	//	free_memory(data);
+	//}
+
+	//t_map map;
+	//init_map(&map);
+
+	//int i;
+
+	//for (i = 0; i < 6; ++i)
+	//{
+	//	add_map_element(&map, i, &arr[i]);
+	//	display_map(&map);
+	//	printf("_____________\n");
+	//}
+
 
 	count_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1; //We remove one for the main thread
 

@@ -1,0 +1,227 @@
+//#include <stdio.h>
+//
+//#include "map.h"
+//
+//static t_map_element* left_rotation(t_map_element* element)
+//{
+//	t_map_element*	tmp;
+//	int				weight_left = 0;
+//	int				weight_right = 0;
+//
+//	tmp = element;
+//	element = element->right;
+//	tmp->right = element->left;
+//	element->left = tmp;
+//	element->weight = tmp->weight;
+//
+//	if (tmp->left != NULL)
+//		weight_left = tmp->left->weight;
+//	if (tmp->right != NULL)
+//		weight_right = tmp->right->weight;
+//
+//	tmp->weight = weight_left + weight_right + 1;
+//
+//	return element;
+//}
+//
+//static t_map_element* right_rotation(t_map_element* element)
+//{
+//	t_map_element* tmp;
+//
+//	tmp = element;
+//	element = element->left;
+//	tmp->left = element->right;
+//	element->right = tmp;
+//	element->weight = tmp->weight;
+//	tmp->weight = tmp->left->weight + tmp->right->weight + 1;
+//
+//	return element;
+//}
+//
+//static t_map_element* balance_binary_tree(t_map_element* element)
+//{
+//	float weight_balance;
+//
+//	if (element->left != NULL)
+//	{
+//		weight_balance = (float)element->left->weight / (float)element->weight;
+//		if (weight_balance > 0.6)
+//			return right_rotation(element);
+//	}
+//	else if (element->right != NULL)
+//	{
+//		weight_balance = (float)element->right->weight / (float)element->weight;
+//		if (weight_balance > 0.6)
+//			return left_rotation(element);
+//	}
+//
+//	return element;
+//
+//	//if (weight_balance > 0.70771 && )
+//	//if (element->left != NULL)
+//	//{
+//	//	weight_balance = (float)element->left->weight / (float)element->weight;
+//	//	if (weight_balance > 0.70711 && element->left->left != NULL)
+//	//	{
+//	//		if ((float)element->left->left->weight / (float)element->left->weight <= 0.414213)
+//	//			element->left = left_rotation(element->left);
+//
+//	//		element = right_rotation(element);
+//	//	}
+//	//	else if (weight_balance < 0.29289 && element->right != NULL && )
+//	//}
+//
+//	//return element;
+//
+//	//float wbal = (float)root.left.weight / (float)root.weight;
+//	//if (wbal > 0.70711 && root.left != nil) {
+//
+//	//	if ((float)root.left.left.weight / (float)root.left.weight > 0.414213)
+//	//		root = rightRotate(root);
+//	//	else {
+//	//		root.left = leftRotate(root.left);
+//	//		root = rightRotate(root);
+//	//	}
+//	//}
+//	//else if (wbal < 0.29289 && root.right != nil) {
+//	//	if ((float)(root.right.left.weight / (float)root.right.weight) < 0.585786)
+//	//		root = leftRotate(root);
+//	//	else {
+//	//		root.right = rightRotate(root.right);
+//	//		root = leftRotate(root);
+//	//	}
+//	//}
+//	//return root;
+//}
+//
+//
+//static void display_binary_tree(t_map_element* element)
+//{
+//	if (element == NULL)
+//		return;
+//
+//	display_binary_tree(element->left);
+//	display_binary_tree(element->right);
+//	printf("%d\n", element->key);
+//}
+//
+//
+//int init_map(t_map* map)
+//{
+//	if (pthread_mutex_init(&map->mutex, NULL) != 0)
+//	{
+//		fprintf(stderr, "Error in init_map: mutex init failed\n");
+//		return -1;
+//	}
+//
+//	map->root = NULL;
+//
+//	return 0;
+//}
+//
+//void* get_map_element(t_map* map, int searched_key)
+//{
+//	t_map_element* tmp;
+//
+//	tmp = map->root;
+//
+//	while (tmp != NULL)
+//	{
+//		if (searched_key == tmp->key)
+//			return tmp->data;
+//		else if (searched_key < tmp->key)
+//			tmp = tmp->left;
+//		else
+//			tmp = tmp->right;
+//	}
+//
+//	return NULL;
+//}
+//
+//void add_map_element(t_map* map, int key, void* data)
+//{
+//	t_map_element* tmp;
+//
+//	if (map->root == NULL)
+//	{
+//		map->root = get_memory(sizeof(t_map_element));
+//		tmp = map->root;
+//	}
+//	else
+//	{
+//		map->root = balance_binary_tree(map->root);
+//		tmp = map->root;
+//		while (tmp != NULL)
+//		{
+//			tmp = balance_binary_tree(tmp);
+//			++tmp->weight;
+//
+//			if (key < tmp->key)
+//			{
+//				if (tmp->left == NULL)
+//				{
+//					tmp->left = get_memory(sizeof(t_map_element));
+//					tmp = tmp->left;
+//					break;
+//				}
+//				else
+//					tmp = tmp->left;
+//			}
+//			else
+//			{
+//				if (tmp->right == NULL)
+//				{
+//					tmp->right = get_memory(sizeof(t_map_element));
+//					tmp = tmp->right;
+//					break;
+//				}
+//				else
+//					tmp = tmp->right;
+//			}
+//		}
+//	}
+//
+//	tmp->key = key;
+//	tmp->data = data;
+//	tmp->weight = 1;
+//	tmp->left = NULL;
+//	tmp->right = NULL;
+//}
+//
+//void display_map(t_map* map)
+//{
+//	display_binary_tree(map->root);
+//}
+//
+////void *remove_map_element(t_map* map, int key)
+////{
+////	if (root == nil) {
+////		System.out.println("Key not found");
+////		return root;
+////	}
+////	if (key < root.element)
+////		root.left = delete(key, root.left);
+////	else if (key > root.element)
+////		root.right = delete(key, root.right);
+////
+////	else if (root.left == nil)
+////		root = root.right;  // root contains key and has one child - right
+////	else if (root.right == nil)
+////		root = root.left;   // root contains key and has one child - left
+////
+////	else if (root.left.weight > root.right.weight) {
+////		root = rightRotate(root);
+////		root.right = delete(key, root.right);
+////	}
+////	else {
+////		root = leftRotate(root);
+////		root.left = delete(key, root.left);
+////	}
+////
+////	if (root != nil) {
+////		root.weight = root.left.weight + root.right.weight + 1;
+////		root = checkRotation(root);
+////	}
+////
+////	return root;
+////}
