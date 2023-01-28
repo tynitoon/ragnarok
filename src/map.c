@@ -10,40 +10,58 @@
 static void refresh_map(t_map* map)
 {
 	unsigned int	hash;
-	t_list_element* list_element;
-	t_map_element*	map_element;
-	t_list			tmp_list;
+	t_map_element*	tmp = NULL;
+	t_map_element*	tmp2;
+	t_map_element*	next;
+	t_map_element*	save;
 	size_t			i;
-
-	memset(&tmp_list, 0, sizeof(t_list));
 
 	for (i = 0; i < map->size - CHUNK_SIZE; ++i)
 	{
-		list_element = map->datas[i].head;
-		while (list_element != NULL)
+		if (map->datas[i] == NULL)
+			continue;
+
+		if (tmp == NULL)
 		{
-			add_list_element(&tmp_list, list_element);
-			list_element = list_element->next;
+			tmp = map->datas[i];
+			save = tmp;
 		}
-		map->datas[i].head = NULL;
-		map->datas[i].tail = NULL;
+		else
+			tmp->next = map->datas[i];
+
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+
+		map->datas[i] = NULL;
 	}
 
-	list_element = tmp_list.head;
-	while (list_element != NULL)
+	tmp = save;
+	while (tmp != NULL)
 	{
-		map_element = (t_map_element*)list_element->data;
-		hash = generate_hash(map_element->key, map->key_size);
-		add_list_element(&map->datas[hash % map->size], list_element);
+		hash = generate_hash(tmp->key, map->key_size);
 
-		list_element = list_element->next;
+		next = tmp->next;
+		tmp->next = NULL;
+
+		if (map->datas[hash % map->size] == NULL)
+			map->datas[hash % map->size] = tmp;
+		else
+		{
+			tmp2 = map->datas[hash % map->size];
+			while (tmp2->next != NULL)
+				tmp2 = tmp2->next;
+
+			tmp2->next = tmp;
+		}
+
+		tmp = next;
 	}
 }
 
 static void grow_map(t_map* map)
 {
-	map->datas = realloc_memory(map->datas, map->size * sizeof(t_list) + CHUNK_SIZE * sizeof(t_list));
-	memset(&map->datas[map->size], 0, CHUNK_SIZE * sizeof(t_list));
+	map->datas = realloc_memory(map->datas, (map->size + CHUNK_SIZE) * sizeof(t_map_element*));
+	memset(&map->datas[map->size], 0, CHUNK_SIZE * sizeof(t_map_element*));
 	map->size += CHUNK_SIZE;
 }
 
@@ -56,8 +74,8 @@ void init_map(t_map* map, size_t key_size)
 void add_map_element(t_map* map, void* key, void* data)
 {
 	unsigned int	hash;
-	t_list_element* list_element;
-	t_map_element*	map_element;
+	t_map_element*	element;
+	t_map_element*	tmp;
 
 	pthread_mutex_lock(&map->mutex);
 
@@ -66,25 +84,31 @@ void add_map_element(t_map* map, void* key, void* data)
 
 	hash = generate_hash(key, map->key_size);
 
-	list_element = map->datas[hash % map->size].head;
-	while (list_element != NULL)
+	tmp = map->datas[hash % map->size];
+	while (tmp != NULL)
 	{
-		map_element = (t_map_element*)list_element->data;
-		if (map_element->key == key)
+		if (tmp->key == key)
 		{
 			pthread_mutex_unlock(&map->mutex);
 
 			return;
 		}
 
-		list_element = list_element->next;
+		if (tmp->next == NULL)
+			break;
+
+		tmp = tmp->next;
 	}
 
-	list_element = get_memory(sizeof(t_list_element) + sizeof(t_map_element));
-	map_element = (t_map_element*)list_element->data;
-	map_element->key = key;
-	map_element->data = data;
-	add_list_element(&map->datas[hash % map->size], list_element);
+	element = get_memory(sizeof(t_map_element));
+	element->key = key;
+	element->data = data;
+	element->next = NULL;
+
+	if (tmp == NULL)
+		map->datas[hash % map->size] = element;
+	else
+		tmp->next = element;
 
 	++map->elements;
 	if ((double)map->elements / (double)map->size > 0.75)
@@ -99,8 +123,7 @@ void add_map_element(t_map* map, void* key, void* data)
 void* get_map_element(t_map* map, void* key)
 {
 	unsigned int	hash;
-	t_list_element* list_element;
-	t_map_element*	map_element;
+	t_map_element*	tmp;
 
 	pthread_mutex_lock(&map->mutex);
 
@@ -113,18 +136,17 @@ void* get_map_element(t_map* map, void* key)
 
 	hash = generate_hash(key, map->key_size);
 
-	list_element = map->datas[hash % map->size].head;
-	while (list_element != NULL)
+	tmp = map->datas[hash % map->size];
+	while (tmp != NULL)
 	{
-		map_element = (t_map_element*)list_element->data;
-		if (map_element->key == key)
+		if (tmp->key == key)
 		{
 			pthread_mutex_unlock(&map->mutex);
 
-			return map_element->data;
+			return tmp->data;
 		}
 
-		list_element = list_element->next;
+		tmp = tmp->next;
 	}
 
 	pthread_mutex_unlock(&map->mutex);
@@ -135,8 +157,9 @@ void* get_map_element(t_map* map, void* key)
 void* remove_map_element(t_map* map, void* key)
 {
 	unsigned int	hash;
-	t_list_element* list_element;
-	t_map_element* map_element;
+	t_map_element*	tmp;
+	t_map_element*	save;
+	void*			data;
 
 	pthread_mutex_lock(&map->mutex);
 
@@ -149,20 +172,23 @@ void* remove_map_element(t_map* map, void* key)
 
 	hash = generate_hash(key, map->key_size);
 
-	list_element = map->datas[hash % map->size].head;
-	while (list_element != NULL)
+	tmp = map->datas[hash % map->size];
+	while (tmp != NULL)
 	{
-		map_element = (t_map_element*)list_element->data;
-		if (map_element->key == key)
+		if (tmp->key == key)
 		{
-			remove_list_element(&map->datas[hash % map->size], list_element);
+			save->next = tmp->next;
+			data = tmp->data;
+			free_memory(tmp);
+			--map->elements;
 
 			pthread_mutex_unlock(&map->mutex);
 
-			return map_element->data;
+			return data;
 		}
 
-		list_element = list_element->next;
+		save = tmp;
+		tmp = tmp->next;
 	}
 
 	pthread_mutex_unlock(&map->mutex);
@@ -172,22 +198,22 @@ void* remove_map_element(t_map* map, void* key)
 
 void display_map(t_map* map)
 {
-	t_list_element* list_element;
-	t_map_element*	map_element;
+	t_map_element*	tmp;
 	size_t			i;
+	size_t			count_element = 0;
 
 	for (i = 0; i < map->size; ++i)
 	{
-		list_element = map->datas[i].head;
-		while (list_element != NULL)
+		tmp = map->datas[i];
+		while (tmp != NULL)
 		{
-			map_element = (t_map_element*)list_element->data;
-			printf("index = %ld, key = %p, key size = %ld, data = %p, hash = %u\n", i, map_element->key, map->key_size, map_element->data, generate_hash(map_element->key, map->key_size));
+			printf("index = %ld, key = %p, key size = %ld, data = %p, hash = %u\n", i, tmp->key, map->key_size, tmp->data, generate_hash(tmp->key, map->key_size));
+			++count_element;
 
-			list_element = list_element->next;
+			tmp = tmp->next;
 		}
 	}
-	printf("size map = %ld\n", map->size);
+	printf("size map = %ld count element = %ld\n", map->size, count_element);
 }
 
 //#include <stdio.h>

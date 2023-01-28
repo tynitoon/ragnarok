@@ -58,6 +58,7 @@ int main()
 		//printf("j = %d\n", j);
 	}
 
+	//display_map(&map);
 	display_memory();
 
 	//display_map(&map);

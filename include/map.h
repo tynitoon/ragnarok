@@ -6,16 +6,19 @@
 
 #include "list.h"
 
+
+
 typedef struct              s_map_element
 {
     void*                   key;
     void*                   data;
+    struct s_map_element*   next;
 }                           t_map_element;
 
 typedef struct              s_map
 {
     pthread_mutex_t         mutex;
-    t_list                  *datas;
+    t_map_element**         datas;
     size_t                  elements;
     size_t                  key_size;
     size_t                  size;
