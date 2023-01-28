@@ -1,6 +1,6 @@
 #ifndef HASH_H
 #define HASH_H
 
-unsigned int generate_hash(const void* data, int length);
+unsigned int generate_hash(void* data, unsigned int length);
 
 #endif

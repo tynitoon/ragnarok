@@ -2,12 +2,12 @@
 
 #define GET_16_BITS(value) ((unsigned int)(*(unsigned short*)(value)))
 
-unsigned int generate_hash(const void* data, int length)
+unsigned int generate_hash(void* data, unsigned int length)
 {
     unsigned int    hash;
     int             remaining_bits;
 
-    if (length <= 0 || data == NULL)
+    if (data == NULL)
         return 0;
 
     hash = length;

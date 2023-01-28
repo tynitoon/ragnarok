@@ -8,7 +8,6 @@
 #include "single_memory.h"
 #include "server.h"
 
-#include "hash.h"
 #include "map.h"
 
 int main()
@@ -17,9 +16,10 @@ int main()
 	int				count_threads;
 
 	//Init values
-	if (init_database() != 0 ||
-		init_list(&game_infos.clients) != 0)
+	if (init_database() != 0)
 		return 1;
+
+	memset(&game_infos, 0, sizeof(t_game_infos));
 
 	//int walah[2];
 	//walah[0] = 1;
@@ -44,17 +44,23 @@ int main()
 	//	free_memory(data);
 	//}
 
-	//t_map map;
-	//init_map(&map);
+	t_map map;
+	
+	init_map(&map, sizeof(int));
 
-	//int i;
+	int j;
+	int arr[100000];
 
-	//for (i = 0; i < 6; ++i)
-	//{
-	//	add_map_element(&map, i, &arr[i]);
-	//	display_map(&map);
-	//	printf("_____________\n");
-	//}
+	for (j = 0; j < 100000; ++j)
+	{
+		arr[j] = j;
+		add_map_element(&map, &arr[j], &arr[j]);
+		//printf("j = %d\n", j);
+	}
+
+	display_memory();
+
+	//display_map(&map);
 
 
 	count_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1; //We remove one for the main thread

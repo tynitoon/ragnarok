@@ -4,26 +4,13 @@
 #include "single_memory.h"
 #include "list.h"
 
-int init_list(t_list* list)
-{
-	if (pthread_mutex_init(&list->mutex, NULL) != 0)
-	{
-		fprintf(stderr, "Error in init_list: mutex init failed\n");
-		return -1;
-	}
-
-	list->head = NULL;
-	list->tail = NULL;
-
-	return 0;
-}
-
 void add_list_element(t_list* list, t_list_element* to_add)
 {
+	pthread_mutex_lock(&list->mutex);
+
 	to_add->next = NULL;
 	to_add->prev = list->tail;
 
-	pthread_mutex_lock(&list->mutex);
 	if (list->tail == NULL)
 	{
 		list->tail = to_add;
@@ -34,6 +21,7 @@ void add_list_element(t_list* list, t_list_element* to_add)
 		list->tail->next = to_add;
 		list->tail = to_add;
 	}
+
 	pthread_mutex_unlock(&list->mutex);
 }
 
@@ -43,6 +31,7 @@ t_list_element* remove_list_element(t_list* list, t_list_element* to_remove)
 		return NULL;
 
 	pthread_mutex_lock(&list->mutex);
+
 	if (list->head == to_remove)
 	{
 		list->head = to_remove->next;
@@ -64,6 +53,7 @@ t_list_element* remove_list_element(t_list* list, t_list_element* to_remove)
 		to_remove->prev->next = to_remove->next;
 		to_remove->next->prev = to_remove->prev;
 	}
+
 	pthread_mutex_unlock(&list->mutex);
 	
 	return to_remove;

@@ -62,14 +62,14 @@ void* search_and_compute_tasks(void* datas)
 		client_element = game_infos->clients.head;
 		while (client_element != NULL)
 		{
-			client = (t_client*)client_element->buffer;
+			client = (t_client*)client_element->data;
 			//If there are some messages, lock the client and consume messages
 			if (client->state != READY_TO_BE_REMOVED && client->messages.head != NULL && pthread_mutex_trylock(&client->mutex) == 0)
 			{
 				while (client->messages.head != NULL)
 				{
 					message_element = remove_list_element(&client->messages, client->messages.head);
-					handle_message(client, (t_message*)message_element->buffer);
+					handle_message(client, (t_message*)message_element->data);
 					free_memory(message_element);
 				}
 			}

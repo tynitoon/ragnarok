@@ -18,7 +18,7 @@ static void add_message_to_client(t_list* client_messages, t_data_type type)
 	t_list_element* element;
 	
 	element = get_memory(sizeof(t_list_element) + sizeof(t_message));
-	((t_message*)element->buffer)->type = type;
+	((t_message*)element->data)->type = type;
 
 	add_list_element(client_messages, element);
 }
@@ -89,7 +89,7 @@ int start_server(int port, t_list* clients)
 		tmp = clients->head;
 		while (tmp != NULL)
 		{
-			client = (t_client*)tmp->buffer;
+			client = (t_client*)tmp->data;
 
 			if (client->state == READY_TO_BE_REMOVED)
 			{
@@ -131,30 +131,22 @@ int start_server(int port, t_list* clients)
 
 
 			save = get_memory(sizeof(t_list_element) + sizeof(t_client));
-			client = (t_client*)save->buffer;
+			client = (t_client*)save->data;
+			memset(client, 0, sizeof(t_client));
 			
-			if (init_list(&client->messages) != 0 || pthread_mutex_init(&client->mutex, NULL) != 0)
-			{
-				fprintf(stderr, "Error in start_server: mutex init failed\n");
-				free_memory(save);
-				close(fd);
-			}
-			else
-			{
-				client->state = CONNECTED;
-				client->fd = fd;
-				client->buffer_index = 0;
+			client->state = CONNECTED;
+			client->fd = fd;
+			client->buffer_index = 0;
 
-				add_list_element(clients, save);
-				add_message_to_client(&client->messages, CONNECT);
-			}
+			add_list_element(clients, save);
+			add_message_to_client(&client->messages, CONNECT);
 		}
 
 		//Check if there are some IO operation on other sockets
 		tmp = clients->head;
 		while (tmp != NULL)
 		{
-			client = (t_client*)tmp->buffer;
+			client = (t_client*)tmp->data;
 			fd = client->fd;
 			if (FD_ISSET(fd, &readfds))
 			{
@@ -187,7 +179,7 @@ int start_server(int port, t_list* clients)
 						else if (client->buffer_index >= message_size)
 						{
 							save = get_memory(sizeof(t_list_element) + sizeof(t_message));
-							message = (t_message*)save->buffer;
+							message = (t_message*)save->data;
 
 							//Copy datas
 							memcpy(message, client->buffer, message_size);

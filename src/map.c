@@ -1,3 +1,195 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "map.h"
+#include "single_memory.h"
+#include "hash.h"
+
+#define CHUNK_SIZE (1 << 6) // 64 t_list
+
+static void refresh_map(t_map* map)
+{
+	unsigned int	hash;
+	t_list_element* list_element;
+	t_map_element*	map_element;
+	t_list			tmp_list;
+	size_t			i;
+
+	memset(&tmp_list, 0, sizeof(t_list));
+
+	for (i = 0; i < map->size - CHUNK_SIZE; ++i)
+	{
+		list_element = map->datas[i].head;
+		while (list_element != NULL)
+		{
+			add_list_element(&tmp_list, list_element);
+			list_element = list_element->next;
+		}
+		map->datas[i].head = NULL;
+		map->datas[i].tail = NULL;
+	}
+
+	list_element = tmp_list.head;
+	while (list_element != NULL)
+	{
+		map_element = (t_map_element*)list_element->data;
+		hash = generate_hash(map_element->key, map->key_size);
+		add_list_element(&map->datas[hash % map->size], list_element);
+
+		list_element = list_element->next;
+	}
+}
+
+static void grow_map(t_map* map)
+{
+	map->datas = realloc_memory(map->datas, map->size * sizeof(t_list) + CHUNK_SIZE * sizeof(t_list));
+	memset(&map->datas[map->size], 0, CHUNK_SIZE * sizeof(t_list));
+	map->size += CHUNK_SIZE;
+}
+
+void init_map(t_map* map, size_t key_size)
+{
+	memset(map, 0, sizeof(t_map));
+	map->key_size = key_size;
+}
+
+void add_map_element(t_map* map, void* key, void* data)
+{
+	unsigned int	hash;
+	t_list_element* list_element;
+	t_map_element*	map_element;
+
+	pthread_mutex_lock(&map->mutex);
+
+	if (map->size == 0)
+		grow_map(map);
+
+	hash = generate_hash(key, map->key_size);
+
+	list_element = map->datas[hash % map->size].head;
+	while (list_element != NULL)
+	{
+		map_element = (t_map_element*)list_element->data;
+		if (map_element->key == key)
+		{
+			pthread_mutex_unlock(&map->mutex);
+
+			return;
+		}
+
+		list_element = list_element->next;
+	}
+
+	list_element = get_memory(sizeof(t_list_element) + sizeof(t_map_element));
+	map_element = (t_map_element*)list_element->data;
+	map_element->key = key;
+	map_element->data = data;
+	add_list_element(&map->datas[hash % map->size], list_element);
+
+	++map->elements;
+	if ((double)map->elements / (double)map->size > 0.75)
+	{
+		grow_map(map);
+		refresh_map(map);
+	}
+
+	pthread_mutex_unlock(&map->mutex);
+}
+
+void* get_map_element(t_map* map, void* key)
+{
+	unsigned int	hash;
+	t_list_element* list_element;
+	t_map_element*	map_element;
+
+	pthread_mutex_lock(&map->mutex);
+
+	if (map->size == 0)
+	{
+		pthread_mutex_unlock(&map->mutex);
+
+		return NULL;
+	}
+
+	hash = generate_hash(key, map->key_size);
+
+	list_element = map->datas[hash % map->size].head;
+	while (list_element != NULL)
+	{
+		map_element = (t_map_element*)list_element->data;
+		if (map_element->key == key)
+		{
+			pthread_mutex_unlock(&map->mutex);
+
+			return map_element->data;
+		}
+
+		list_element = list_element->next;
+	}
+
+	pthread_mutex_unlock(&map->mutex);
+
+	return NULL;
+}
+
+void* remove_map_element(t_map* map, void* key)
+{
+	unsigned int	hash;
+	t_list_element* list_element;
+	t_map_element* map_element;
+
+	pthread_mutex_lock(&map->mutex);
+
+	if (map->size == 0)
+	{
+		pthread_mutex_unlock(&map->mutex);
+
+		return NULL;
+	}
+
+	hash = generate_hash(key, map->key_size);
+
+	list_element = map->datas[hash % map->size].head;
+	while (list_element != NULL)
+	{
+		map_element = (t_map_element*)list_element->data;
+		if (map_element->key == key)
+		{
+			remove_list_element(&map->datas[hash % map->size], list_element);
+
+			pthread_mutex_unlock(&map->mutex);
+
+			return map_element->data;
+		}
+
+		list_element = list_element->next;
+	}
+
+	pthread_mutex_unlock(&map->mutex);
+
+	return NULL;
+}
+
+void display_map(t_map* map)
+{
+	t_list_element* list_element;
+	t_map_element*	map_element;
+	size_t			i;
+
+	for (i = 0; i < map->size; ++i)
+	{
+		list_element = map->datas[i].head;
+		while (list_element != NULL)
+		{
+			map_element = (t_map_element*)list_element->data;
+			printf("index = %ld, key = %p, key size = %ld, data = %p, hash = %u\n", i, map_element->key, map->key_size, map_element->data, generate_hash(map_element->key, map->key_size));
+
+			list_element = list_element->next;
+		}
+	}
+	printf("size map = %ld\n", map->size);
+}
+
 //#include <stdio.h>
 //
 //#include "map.h"
