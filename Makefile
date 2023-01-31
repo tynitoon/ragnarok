@@ -1,36 +1,20 @@
-CC	= gcc
+CURRENT_DIR = $(shell pwd)
 
-RM	= rm -f
+all: server client
 
-NAME	= ragnarok_server
+server:
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/server/
 
-SRCS	= ./src/main.c		\
-	  ./src/server.c		\
-	  ./src/list.c			\
-	  ./src/map.c			\
-	  ./src/single_memory.c	\
-	  ./src/hash.c			\
-	  ./src/game.c			\
-	  ./src/sqlite.c
-
-CFLAGS	= -g -ggdb -Wall -Wextra -Werror -I include/ -I external/ 
-
-LDFLAGS = -L lib/ -lpthread -lsqlite
-
-#CFLAGS	=  -I include/
-
-OBJS	= $(SRCS:.c=.o)
-
-all: server
-
-server: $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LDFLAGS)
+client:
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/client/
 
 clean:
-	$(RM) $(OBJS)
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/server/ clean
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/client/ clean
 
 fclean: clean
-	$(RM) $(NAME)
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/server/ fclean
+	$(MAKE) PROJECT_DIR=$(CURRENT_DIR) -C ./src/client/ fclean
 
 re: fclean all
 
