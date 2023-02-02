@@ -1,4 +1,5 @@
 CC	= gcc
+
 AR	= ar rcs
 
 RM	= rm -f
@@ -15,6 +16,7 @@ all: server
 
 server: $(OBJS)
 	$(AR) $(NAME) $(OBJS)
+	mkdir -p ../../lib/
 	mv $(NAME) ../../lib/
 
 clean:
