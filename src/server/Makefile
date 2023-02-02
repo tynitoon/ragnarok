@@ -2,22 +2,22 @@ CC				= gcc
 
 RM				= rm -f
 
-NAME			= $(PROJECT_DIR)/ragnarok_server
+NAME			= ragnarok_server
 
-SRCS			= $(PROJECT_DIR)/src/server/main.c				\
-				$(PROJECT_DIR)/src/server/server.c				\
-				$(PROJECT_DIR)/src/server/game.c				\
-				$(PROJECT_DIR)/src/tool/list.c					\
-				$(PROJECT_DIR)/src/tool/map.c					\
-				$(PROJECT_DIR)/src/tool/single_memory.c			\
-				$(PROJECT_DIR)/src/tool/hash.c					\
-				$(PROJECT_DIR)/src/tool/sqlite.c
+SRCS			= ./main.c					\
+				./server.c					\
+				./game.c					\
+				../tool/list.c				\
+				../tool/map.c				\
+				../tool/single_memory.c		\
+				../tool/hash.c				\
+				../tool/sqlite.c
 
 OBJS			= $(SRCS:.c=.o)
 
-LDFLAGS			= -L $(PROJECT_DIR)/lib/ -lpthread -lsqlite
+LDFLAGS			= -L ../../lib/ -lpthread -lsqlite
 
-CFLAGS			= -g -ggdb -Wall -Wextra -Werror -I $(PROJECT_DIR)/include/ -I $(PROJECT_DIR)/external/
+CFLAGS			= -g -ggdb -Wall -Wextra -Werror -I ../../include/ -I ../../external/
 
 all: server
 

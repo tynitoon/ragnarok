@@ -7,31 +7,20 @@
 #include "single_memory.h"
 
 #define CHUNK_SIZE		(1 << 27) //128 MegaBytes
-#define MAX_FREE_INDEX	15
+#define MAX_FREE_INDEX	20
 
 typedef struct				s_block
 {
 	size_t					size;
 	size_t					prev_size;
+	struct s_block*			next_free;
+	struct s_block*			prev_free;
 }							t_block;
-
-//We have to reimplement the list to remove the mutex
-typedef struct              s_list_element
-{
-	struct s_list_element*	prev;
-	struct s_list_element*	next;
-	char                    data[];
-}                           t_list_element;
-
-typedef struct              s_list
-{
-	t_list_element*			head;
-	t_list_element*			tail;
-}                           t_list;
 
 static unsigned long	g_memory_index = 0;
 static void*			g_memory_head = NULL;
-static t_list			g_frees[MAX_FREE_INDEX];
+static t_block*			g_frees[MAX_FREE_INDEX];
+static int				g_table_index[MAX_FREE_INDEX];
 static pthread_mutex_t	g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int	compute_index(size_t size)
@@ -55,89 +44,84 @@ static int	compute_index(size_t size)
 	size |= size >> 16;
 	size |= size >> 32;
 
-	return tab64[((size_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58] / 2;
+	return tab64[((size_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58] >> 1;
 }
 
-static void add_list_element(t_list_element* to_add, int index)
+static void add_list_element(t_block* to_add, int index)
 {
-	to_add->next = NULL;
-	to_add->prev = g_frees[index].tail;
+	to_add->prev_free = NULL;
+	to_add->next_free = g_frees[index];
 
-	if (g_frees[index].tail == NULL)
+	if (g_frees[index] != NULL)
+		g_frees[index]->prev_free = to_add;
+
+	g_frees[index] = to_add;
+
+	for (int i = 0; i <= index; ++i)
 	{
-		g_frees[index].tail = to_add;
-		g_frees[index].head = to_add;
-	}
-	else
-	{
-		g_frees[index].tail->next = to_add;
-		g_frees[index].tail = to_add;
+		if (g_table_index[i] == -1 || index < g_table_index[i])
+			g_table_index[i] = index;
 	}
 }
 
-static void remove_list_element(t_list_element* to_remove, int index)
+static void remove_list_element(t_block* to_remove, int index)
 {
 	if (to_remove == NULL)
 		return;
 
-	if (g_frees[index].head == to_remove)
+	if (g_frees[index] == to_remove)
 	{
-		g_frees[index].head = to_remove->next;
-		if (g_frees[index].head != NULL)
-			g_frees[index].head->prev = NULL;
-		else
-			g_frees[index].tail = NULL;
-	}
-	else if (g_frees[index].tail == to_remove)
-	{
-		g_frees[index].tail = to_remove->prev;
-		if (g_frees[index].tail != NULL)
-			g_frees[index].tail->next = NULL;
-		else
-			g_frees[index].head = NULL;
+		g_frees[index] = to_remove->next_free;
+		if (g_frees[index] == NULL)
+		{
+			int max_index = g_table_index[index + 1];
+			for (int i = 0; i <= index; ++i)
+			{
+				if (g_table_index[i] == index)
+					g_table_index[i] = max_index;
+			}
+		}
 	}
 	else
 	{
-		to_remove->prev->next = to_remove->next;
-		to_remove->next->prev = to_remove->prev;
+		to_remove->prev_free->next_free = to_remove->next_free;
+
+		if (to_remove->next_free != NULL)
+			to_remove->next_free->prev_free = to_remove->prev_free;
 	}
 
-	to_remove->next = g_memory_head - 1;
+	to_remove->next_free = g_memory_head - 1;
 }
 
 static void set_prev_size(t_block* block)
 {
 	size_t size = block->size;
 
-	block = (t_block*)((unsigned long)block + sizeof(t_block) + size + sizeof(t_list_element));
+	block = (t_block*)((unsigned long)block + sizeof(t_block) + size);
 	if ((unsigned long)block < (unsigned long)g_memory_head + CHUNK_SIZE)
 		block->prev_size = size;
 }
 
-static void split_memory(t_list_element* element, t_block* block, size_t size)
+static void split_memory(t_block* block, size_t size)
 {
-	t_list_element* new_element;
 	t_block* new_block;
 
-	if (element->next != g_memory_head - 1)
-		remove_list_element(element, compute_index(block->size));
+	if (block->next_free != g_memory_head - 1)
+		remove_list_element(block, compute_index(block->size));
 
-	new_element = (t_list_element*)((unsigned long)element + sizeof(t_list_element) + sizeof(t_block) + size);
-	new_block = (t_block*)new_element->data;
-	new_block->size = block->size - sizeof(t_list_element) - sizeof(t_block) - size;
+	new_block = (t_block*)((unsigned long)block + sizeof(t_block) + size);
+	new_block->size = block->size - sizeof(t_block) - size;
 	new_block->prev_size = size;
 
 	set_prev_size(new_block);
 
-	add_list_element(new_element, compute_index(new_block->size));
+	add_list_element(new_block, compute_index(new_block->size));
 	
 	block->size = size;
 }
 
 static void* get_memory_unsafe(size_t size)
 {
-	t_list_element* new_element;
-	t_list_element* element;
 	t_block*		new_block;
 	t_block*		block;
 	int				index;
@@ -147,9 +131,9 @@ static void* get_memory_unsafe(size_t size)
 
 	if (g_memory_head == NULL)
 	{
-		if (size > CHUNK_SIZE - sizeof(t_list_element) - sizeof(t_block))
+		if (size > CHUNK_SIZE - sizeof(t_block))
 		{
-			fprintf(stderr, "Error in get_memory: asked memory = %ld bytes, remaining memory = %ld bytes\n", size, CHUNK_SIZE - sizeof(t_list_element) - sizeof(t_block));
+			fprintf(stderr, "Error in get_memory: asked memory = %ld bytes, remaining memory = %ld bytes\n", size, CHUNK_SIZE - sizeof(t_block));
 			return NULL;
 		}
 
@@ -162,72 +146,64 @@ static void* get_memory_unsafe(size_t size)
 			return NULL;
 		}
 
-		memset(&g_frees, 0, sizeof(g_frees));
-		new_element = g_memory_head;
-		new_element->next = g_memory_head - 1; //Impossible value, so we know it's not free
-		new_block = (t_block*)new_element->data;
+		memset(&g_frees, 0, sizeof(t_block*) * MAX_FREE_INDEX);
+		memset(&g_table_index, -1, sizeof(int) * MAX_FREE_INDEX);
+		new_block = g_memory_head;
+		new_block->next_free = g_memory_head - 1; //Impossible value, so we know it's not free
 		new_block->size = size;
 		new_block->prev_size = 0;
 
-		g_memory_index = sizeof(t_list_element) + sizeof(t_block) + size;
+		g_memory_index = sizeof(t_block) + size;
 
 		set_prev_size(new_block);
 
-		return new_element->data + sizeof(t_block);
+		return (void*)((unsigned long)new_block + sizeof(t_block));
 	}
 
 	//Search in free list
-	index = compute_index(size) + 1;
-	if (index >= MAX_FREE_INDEX)
-		index = MAX_FREE_INDEX - 1;
+	index = g_table_index[compute_index(size) + 1];
 
-	while (index < MAX_FREE_INDEX)
+	if (index != -1)
 	{
-		element = g_frees[index].head;
-		if (element != NULL)
+		block = g_frees[index];
+		if (block != NULL)
 		{
-			block = (t_block*)element->data;
-			if (block->size > size + sizeof(t_list_element) + sizeof(t_block))
+			if (block->size > sizeof(t_block) + size)
 			{
-				split_memory(element, block, size);
+				split_memory(block, size);
 
-				return element->data + sizeof(t_block);
+				return (void*)((unsigned long)block + sizeof(t_block));
 			}
 			else
 			{
-				remove_list_element(element, index);
+				remove_list_element(block, index);
 
-				return element->data + sizeof(t_block);
+				return (void*)((unsigned long)block + sizeof(t_block));
 			}
 		}
-		++index;
 	}
 
 	//There is no place in free list. We have to create a new t_list_element
-	new_element = (t_list_element*)(g_memory_head + g_memory_index);
+	new_block = (t_block*)((unsigned long)g_memory_head + g_memory_index);
 
-	if ((unsigned long)new_element + sizeof(t_block) + size > (unsigned long)g_memory_head + CHUNK_SIZE)
+	if ((unsigned long)new_block + sizeof(t_block) + size > (unsigned long)g_memory_head + CHUNK_SIZE)
 	{
 		fprintf(stderr, "Error in get_memory: memory is full\n");
 		return NULL;
 	}
 
-	new_block = (t_block*)new_element->data;
 	new_block->size = size;
-	new_element->next = g_memory_head - 1;
+	new_block->next_free = g_memory_head - 1;
 
 	set_prev_size(new_block);
 
-	g_memory_index += sizeof(t_list_element) + sizeof(t_block) + size;
+	g_memory_index += sizeof(t_block) + size;
 
-	return new_element->data + sizeof(t_block);
+	return (void*)((unsigned long)new_block + sizeof(t_block));
 }
 
 static void free_memory_unsafe(void* ptr)
 {
-	t_list_element* prev_element = NULL;
-	t_list_element* current_element;
-	t_list_element* next_element = NULL;
 	t_block*		prev_block = NULL;
 	t_block*		current_block;
 	t_block*		next_block = NULL;
@@ -237,59 +213,52 @@ static void free_memory_unsafe(void* ptr)
 	if (g_memory_head == NULL || ptr < g_memory_head || g_memory_head + CHUNK_SIZE < ptr)
 		return;
 
-	current_element = ptr - sizeof(t_list_element) - sizeof(t_block);
-	current_block = (t_block*)current_element->data;
+	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
 	if (current_block->prev_size != 0)
-	{
-		prev_element = (t_list_element*)((unsigned long)current_element - current_block->prev_size - sizeof(t_block) - sizeof(t_list_element));
-		prev_block = (t_block*)prev_element->data;
-	}
+		prev_block = (t_block*)((unsigned long)current_block - sizeof(t_block) - current_block->prev_size);
 
 	//Check if the next element is outside the allocated memory
 	if ((unsigned long)current_block + sizeof(t_block) + current_block->size < (unsigned long)g_memory_head + g_memory_index)
-	{
-		next_element = (t_list_element*)((unsigned long)current_block + sizeof(t_block) + current_block->size);
-		next_block = (t_block*)next_element->data;
-	}
+		next_block = (t_block*)((unsigned long)current_block + sizeof(t_block) + current_block->size);
 
-	if (prev_element != NULL && next_element != NULL && prev_element->next != g_memory_head - 1 && next_element->next != g_memory_head - 1)
+	if (prev_block != NULL && next_block != NULL && prev_block->next_free != g_memory_head - 1 && next_block->next_free != g_memory_head - 1)
 	{
 		oldIndex = compute_index(prev_block->size);
-		prev_block->size += current_block->size + next_block->size + 2 * sizeof(t_list_element) + 2 * sizeof(t_block);
+		prev_block->size += (sizeof(t_block) << 1) + current_block->size + next_block->size;
 		newIndex = compute_index(prev_block->size);
 
 		set_prev_size(prev_block);
 
-		remove_list_element(next_element, compute_index(next_block->size));
+		remove_list_element(next_block, compute_index(next_block->size));
 		if (oldIndex != newIndex)
 		{
-			remove_list_element(prev_element, oldIndex);
-			add_list_element(prev_element, newIndex);
+			remove_list_element(prev_block, oldIndex);
+			add_list_element(prev_block, newIndex);
 		}
 	}
-	else if (prev_element != NULL && prev_element->next != g_memory_head - 1)
+	else if (prev_block != NULL && prev_block->next_free != g_memory_head - 1)
 	{
 		oldIndex = compute_index(prev_block->size);
-		prev_block->size += current_block->size + sizeof(t_list_element) + sizeof(t_block);
+		prev_block->size += sizeof(t_block) + current_block->size;
 		newIndex = compute_index(prev_block->size);
 
 		set_prev_size(prev_block);
 
 		if (oldIndex != newIndex)
 		{
-			remove_list_element(prev_element, oldIndex);
-			add_list_element(prev_element, newIndex);
+			remove_list_element(prev_block, oldIndex);
+			add_list_element(prev_block, newIndex);
 		}
 	}
-	else if (next_element != NULL && next_element->next != g_memory_head - 1)
+	else if (next_block != NULL && next_block->next_free != g_memory_head - 1)
 	{
-		remove_list_element(next_element, compute_index(next_block->size));
-		current_block->size += next_block->size + sizeof(t_list_element) + sizeof(t_block);
-		add_list_element(current_element, compute_index(current_block->size));
+		remove_list_element(next_block, compute_index(next_block->size));
+		current_block->size += sizeof(t_block) + next_block->size;
+		add_list_element(current_block, compute_index(current_block->size));
 	}
 	else
-		add_list_element(current_element, compute_index(current_block->size));
+		add_list_element(current_block, compute_index(current_block->size));
 }
 
 void* get_memory(size_t size)
@@ -330,9 +299,9 @@ void* realloc_memory(void* ptr, size_t size)
 
 	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
-	if (current_block->size > size + sizeof(t_list_element) + sizeof(t_block))
+	if (current_block->size > sizeof(t_block) + size)
 	{
-		split_memory((t_list_element*)((unsigned long)current_block - sizeof(t_list_element)), current_block, size);
+		split_memory(current_block, size);
 
 		pthread_mutex_unlock(&g_main_mutex);
 
@@ -370,40 +339,36 @@ void release_memory()
 
 void display_memory()
 {
-	t_list_element* element;
 	t_block*		block;
 	size_t			total_allocated_size = 0;
 	int				i;
 
-	element = g_memory_head;
+	block = (t_block*)g_memory_head;
 	printf("Block list :\n\n");
-	while (element != NULL)
+	while (block != NULL)
 	{
-		block = (t_block*)element->data;
 		if (block->size == 0)
 			break;
 
-		printf("element = %ld size = %ld bytes free = %d next block should be = %ld\n", (unsigned long)element, block->size, (element->next != g_memory_head - 1), (unsigned long)element + block->size + sizeof(t_list_element) + sizeof(t_block));
+		printf("element = %ld size = %ld bytes free = %d next block should be = %ld\n", (unsigned long)block, block->size, (block->next_free != g_memory_head - 1), (unsigned long)block + sizeof(t_block) + block->size);
 
-		if (element->next == g_memory_head - 1)
-			total_allocated_size += (sizeof(t_list_element) + sizeof(t_block) + block->size);
+		if (block->next_free == g_memory_head - 1)
+			total_allocated_size += sizeof(t_block) + block->size;
 
-		element = (t_list_element*)((unsigned long)element + block->size + sizeof(t_list_element) + sizeof(t_block));
-		if ((unsigned long)element >= (unsigned long)g_memory_head + CHUNK_SIZE)
-			element = NULL;
+		block = (t_block*)((unsigned long)block + sizeof(t_block) + block->size);
+		if ((unsigned long)block >= (unsigned long)g_memory_head + CHUNK_SIZE)
+			block = NULL;
 	}
 
 	printf("\nfree list :\n\n");
 	for (i = 0; i < MAX_FREE_INDEX; ++i)
 	{
-		element = g_frees[i].head;
-		while (element != NULL)
+		block = g_frees[i];
+		while (block != NULL)
 		{
-			block = (t_block*)element->data;
+			printf("element = %ld size = %ld free = %d element->prev = %ld\n", (unsigned long)block, block->size, (block->next_free != g_memory_head - 1), (unsigned long)block->prev_free);
 
-			printf("element = %ld size = %ld free = %d element->prev = %ld\n", (unsigned long)element, block->size, (element->next != g_memory_head - 1), (unsigned long)element->prev);
-
-			element = element->next;
+			block = block->next_free;
 		}
 	}
 
