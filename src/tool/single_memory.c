@@ -21,6 +21,7 @@ static unsigned long	g_memory_index = 0;
 static void*			g_memory_head = NULL;
 static t_block*			g_frees[MAX_FREE_INDEX];
 static int				g_table_index[MAX_FREE_INDEX];
+static size_t			g_architecture_size = sizeof(void*);
 static pthread_mutex_t	g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int	compute_index(size_t size)
@@ -45,6 +46,11 @@ static int	compute_index(size_t size)
 	size |= size >> 32;
 
 	return tab64[((size_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58] >> 1;
+}
+
+static size_t align_size(size_t size)
+{
+	return (size + (g_architecture_size - 1)) & -g_architecture_size;
 }
 
 static void add_list_element(t_block* to_add, int index)
@@ -138,6 +144,7 @@ static void* get_memory_unsafe(size_t size)
 		}
 
 		g_memory_head = mmap(NULL, CHUNK_SIZE, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+
 		if (g_memory_head == MAP_FAILED)
 		{
 			g_memory_head = NULL;
@@ -267,6 +274,7 @@ void* get_memory(size_t size)
 
 	pthread_mutex_lock(&g_main_mutex);
 
+	size = align_size(size);
 	ptr = get_memory_unsafe(size);
 
 	pthread_mutex_unlock(&g_main_mutex);
@@ -297,6 +305,7 @@ void* realloc_memory(void* ptr, size_t size)
 		return new_ptr;
 	}
 
+	size = align_size(size);
 	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
 	if (current_block->size > sizeof(t_block) + size)
