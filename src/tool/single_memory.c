@@ -6,7 +6,7 @@
 
 #include "single_memory.h"
 
-#define CHUNK_SIZE		(1 << 27) //128 MegaBytes
+#define CHUNK_SIZE		(1 << 30) //1 Go
 #define MAX_FREE_INDEX	20
 
 typedef struct				s_block
@@ -21,7 +21,6 @@ static unsigned long	g_memory_index = 0;
 static void*			g_memory_head = NULL;
 static t_block*			g_frees[MAX_FREE_INDEX];
 static int				g_table_index[MAX_FREE_INDEX];
-static size_t			g_architecture_size = sizeof(void*);
 static pthread_mutex_t	g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 static int	compute_index(size_t size)
@@ -50,7 +49,7 @@ static int	compute_index(size_t size)
 
 static size_t align_size(size_t size)
 {
-	return (size + (g_architecture_size - 1)) & -g_architecture_size;
+	return (size + (sizeof(void*) - 1)) & -sizeof(void*);
 }
 
 static void add_list_element(t_block* to_add, int index)
