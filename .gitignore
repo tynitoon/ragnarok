@@ -3,3 +3,4 @@ lib/
 *.o
 test/a.out
 ragnarok_server
+memory

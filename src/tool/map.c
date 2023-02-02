@@ -5,7 +5,7 @@
 #include "single_memory.h"
 #include "hash.h"
 
-#define CHUNK_SIZE (1 << 6) // 64 t_list
+#define CHUNK_SIZE (1 << 6) // 64 t_map_element
 
 static void refresh_map(t_map* map)
 {

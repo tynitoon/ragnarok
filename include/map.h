@@ -4,10 +4,6 @@
 #include <pthread.h>
 #include <stddef.h>
 
-#include "list.h"
-
-
-
 typedef struct              s_map_element
 {
     void*                   key;

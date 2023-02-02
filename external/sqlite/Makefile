@@ -7,14 +7,14 @@ NAME	= libsqlite.a
 
 SRCS	= ./sqlite3.c
 
-CFLAGS	=
+CFLAGS	= -O3
 
 OBJS	= $(SRCS:.c=.o)
 
 all: server
 
 server: $(OBJS)
-	$(AR) $(NAME) $(CFLAGS) $(OBJS)
+	$(AR) $(NAME) $(OBJS)
 	mv $(NAME) ../../lib/
 
 clean:
