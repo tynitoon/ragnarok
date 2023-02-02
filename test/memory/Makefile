@@ -2,21 +2,23 @@ CC				= gcc
 
 RM				= rm -f
 
-NAME			= test_01
+NAME			= test_memory
 
-SRCS			= ./main.c		\
-				../../src/tool/single_memory.c \
+SRCS			= ./main.c						\
+				../../src/tool/single_memory.c	\
 				../../src/tool/list.c
 
 OBJS			= $(SRCS:.c=.o)
 
-CFLAGS			= -O3 -I ../../include/
+CFLAGS			=  -O3 -Wall -Wextra -Werror -I ../../include/
 
-all: memory
+all: test
 
 memory: $(OBJS)
 	$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
-	./test_01
+
+test: fclean memory
+	./$(NAME)
 
 clean:
 	$(RM) $(OBJS)

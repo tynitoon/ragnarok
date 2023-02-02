@@ -7,11 +7,19 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/time.h>
+#include <stdlib.h>
 
 #include "list.h"
 #include "protocol.h"
 #include "server.h"
 #include "single_memory.h"
+
+static long int get_timestamp_microsecond()
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return tv.tv_sec * 1000000 + tv.tv_usec;
+}
 
 static void add_message_to_client(t_list* client_messages, t_data_type type)
 {
@@ -38,6 +46,9 @@ int start_server(int port, t_list* clients)
 	t_message*			message;
 	size_t				message_size;
 	fd_set				readfds;
+	long int			before = 0;
+	long int			duration;
+	int					count_message = 0;
 
 	//Init values
 	address.sin_family = AF_INET;
@@ -178,6 +189,9 @@ int start_server(int port, t_list* clients)
 							client->buffer_index = 0;
 						else if (client->buffer_index >= message_size)
 						{
+							if (count_message == 0)
+								before = get_timestamp_microsecond();
+
 							save = get_memory(sizeof(t_list_element) + message_size);
 							message = (t_message*)save->data;
 
@@ -190,6 +204,14 @@ int start_server(int port, t_list* clients)
 							//Shift datas in the buffer (circular buffer)
 							client->buffer_index -= message_size;
 							memmove(client->buffer, &client->buffer[message_size], client->buffer_index);
+							
+							++count_message;
+							if (count_message >= 100000)
+							{
+								duration = get_timestamp_microsecond() - before;
+								printf("100000 messages received in :\t\ttime elapsed = %ld microseconds\n", duration);
+								exit(0);
+							}
 						}
 						else
 							break;

@@ -8,7 +8,7 @@
 
 #define TEST_SIZE 100000
 
-long int get_timestamp_microsecond()
+static long int get_timestamp_microsecond()
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);

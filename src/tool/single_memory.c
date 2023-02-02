@@ -55,6 +55,8 @@ static size_t align_size(size_t size)
 
 static void add_list_element(t_block* to_add, int index)
 {
+	int	i;
+
 	to_add->prev_free = NULL;
 	to_add->next_free = g_frees[index];
 
@@ -63,7 +65,7 @@ static void add_list_element(t_block* to_add, int index)
 
 	g_frees[index] = to_add;
 
-	for (int i = 0; i <= index; ++i)
+	for (i = 0; i <= index; ++i)
 	{
 		if (g_table_index[i] == -1 || index < g_table_index[i])
 			g_table_index[i] = index;
@@ -72,6 +74,9 @@ static void add_list_element(t_block* to_add, int index)
 
 static void remove_list_element(t_block* to_remove, int index)
 {
+	int	i;
+	int	max_index;
+
 	if (to_remove == NULL)
 		return;
 
@@ -80,8 +85,8 @@ static void remove_list_element(t_block* to_remove, int index)
 		g_frees[index] = to_remove->next_free;
 		if (g_frees[index] == NULL)
 		{
-			int max_index = g_table_index[index + 1];
-			for (int i = 0; i <= index; ++i)
+			max_index = g_table_index[index + 1];
+			for (i = 0; i <= index; ++i)
 			{
 				if (g_table_index[i] == index)
 					g_table_index[i] = max_index;
