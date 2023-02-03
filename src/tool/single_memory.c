@@ -2,27 +2,33 @@
 #include <string.h>
 #include <stdio.h>
 
+#include <stdlib.h>
+
 #include <pthread.h>
 
 #include "single_memory.h"
 
-#define CHUNK_SIZE		(1 << 30) //1 Go
-#define MAX_FREE_INDEX	20
+#define CHUNK_SIZE			(1 << 30)										//1 Go. It can be change if we see that the server need more memory
+#define MAX_FREE_INDEX		40												//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
 
 typedef struct				s_block
 {
-	size_t					size;
-	size_t					prev_size;
-	struct s_block*			next_free;
-	struct s_block*			prev_free;
+	size_t					size;											//Navigate to the next block
+	size_t					prev_size;										//Navigate to the previous block
+	struct s_block*			next_free;										//Double linked list on free blocks. Equal g_impossible_address if not free or something else if it is
+	struct s_block*			prev_free;										//Double linked list on free blocks
 }							t_block;
 
-static unsigned long	g_memory_index = 0;
-static void*			g_memory_head = NULL;
-static t_block*			g_frees[MAX_FREE_INDEX];
-static int				g_table_index[MAX_FREE_INDEX];
-static pthread_mutex_t	g_main_mutex = PTHREAD_MUTEX_INITIALIZER;
+static unsigned long		g_memory_offset = 0;							//Max address offset, if it reachs CHUNK_SIZE, the memory can be full if no free block match
+static void*				g_memory_head = NULL;							//Address of the head memory (given at the first call by mmap)
+static t_block*				g_frees[MAX_FREE_INDEX];						//Free blocks are ordered in it, depending of the compute_index(block->size) 
+static int					g_table_index[MAX_FREE_INDEX];					//A index in free blocks can be empty. We use this table to reduce iterations
+static pthread_mutex_t		g_main_mutex = PTHREAD_MUTEX_INITIALIZER;		//For Thread safe allocation
 
+static void* g_impossible_address = (void*)sizeof(void*);					//Impossible address, it used to detect a free element
+																			//!!!WARNING!!! This variable can change randomly in gcc -O3 but it seems ok if MAX_FREE_INDEX is equal to 40 !!!WARNING!!!
+
+//It is a quick Log2, it uses the Debruijn algorithm
 static int	compute_index(size_t size)
 {
 	static const int tab64[64] =
@@ -44,18 +50,22 @@ static int	compute_index(size_t size)
 	size |= size >> 16;
 	size |= size >> 32;
 
-	return tab64[((size_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58] >> 1;
+
+	return tab64[((size_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58];
 }
 
+//Align value to the current architecture, negative sizeof is used as mask, example with size == 5 : (5 + 8 - 1) & -8 => 0000 1100 & 1111 1000 => 0000 1000 == 8
+//A negative number is full of 1, this integer 0b11111111111111111111111111111000 is equal to -8 and 0b11111111111111111111111111111111 is equal to -1
 static size_t align_size(size_t size)
 {
-	return (size + (sizeof(void*) - 1)) & -sizeof(void*);
+	return (size + sizeof(void*) - 1) & -sizeof(void*);
 }
 
 static void add_list_element(t_block* to_add, int index)
 {
 	int	i;
 
+	//Push front
 	to_add->prev_free = NULL;
 	to_add->next_free = g_frees[index];
 
@@ -64,6 +74,7 @@ static void add_list_element(t_block* to_add, int index)
 
 	g_frees[index] = to_add;
 
+	//Update g_table_index
 	for (i = 0; i <= index; ++i)
 	{
 		if (g_table_index[i] == -1 || index < g_table_index[i])
@@ -82,6 +93,8 @@ static void remove_list_element(t_block* to_remove, int index)
 	if (g_frees[index] == to_remove)
 	{
 		g_frees[index] = to_remove->next_free;
+
+		//Update g_table_index
 		if (g_frees[index] == NULL)
 		{
 			max_index = g_table_index[index + 1];
@@ -94,15 +107,17 @@ static void remove_list_element(t_block* to_remove, int index)
 	}
 	else
 	{
+		//The variable prev_free is only used to remove a block from list without iteration
 		to_remove->prev_free->next_free = to_remove->next_free;
 
 		if (to_remove->next_free != NULL)
 			to_remove->next_free->prev_free = to_remove->prev_free;
 	}
 
-	to_remove->next_free = g_memory_head - 1;
+	to_remove->next_free = (t_block*)g_impossible_address;
 }
 
+//We avoid problems by setting the prev_size variable before creating the a block
 static void set_prev_size(t_block* block)
 {
 	size_t size = block->size;
@@ -112,11 +127,12 @@ static void set_prev_size(t_block* block)
 		block->prev_size = size;
 }
 
+//With a split, the get_memory is a kind of best fit
 static void split_memory(t_block* block, size_t size)
 {
 	t_block* new_block;
 
-	if (block->next_free != g_memory_head - 1)
+	if (block->next_free != g_impossible_address)
 		remove_list_element(block, compute_index(block->size));
 
 	new_block = (t_block*)((unsigned long)block + sizeof(t_block) + size);
@@ -130,23 +146,20 @@ static void split_memory(t_block* block, size_t size)
 	block->size = size;
 }
 
+//Get memory function without mutex
 static void* get_memory_unsafe(size_t size)
 {
 	t_block*		new_block;
 	t_block*		block;
 	int				index;
 
-	if (size == 0)
+	//Avoid impossible values
+	if (size == 0 || size > CHUNK_SIZE - sizeof(t_block))
 		return NULL;
 
+	//Init memory if it is the first call
 	if (g_memory_head == NULL)
 	{
-		if (size > CHUNK_SIZE - sizeof(t_block))
-		{
-			fprintf(stderr, "Error in get_memory: asked memory = %ld bytes, remaining memory = %ld bytes\n", size, CHUNK_SIZE - sizeof(t_block));
-			return NULL;
-		}
-
 		g_memory_head = mmap(NULL, CHUNK_SIZE, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
 
 		if (g_memory_head == MAP_FAILED)
@@ -157,17 +170,20 @@ static void* get_memory_unsafe(size_t size)
 			return NULL;
 		}
 
+		g_impossible_address = (void*)((unsigned long)g_memory_head - sizeof(void*));
+
 		memset(&g_frees, 0, sizeof(t_block*) * MAX_FREE_INDEX);
 		memset(&g_table_index, -1, sizeof(int) * MAX_FREE_INDEX);
 		new_block = g_memory_head;
-		new_block->next_free = g_memory_head - 1; //Impossible value, so we know it's not free
+		new_block->next_free = g_impossible_address;
 		new_block->size = size;
 		new_block->prev_size = 0;
 
-		g_memory_index = sizeof(t_block) + size;
+		g_memory_offset = sizeof(t_block) + size;
 
 		set_prev_size(new_block);
 
+		//return the point on the data, not on the block
 		return (void*)((unsigned long)new_block + sizeof(t_block));
 	}
 
@@ -188,27 +204,28 @@ static void* get_memory_unsafe(size_t size)
 			else
 			{
 				remove_list_element(block, index);
-
+				
 				return (void*)((unsigned long)block + sizeof(t_block));
 			}
 		}
 	}
 
-	//There is no place in free list. We have to create a new t_list_element
-	new_block = (t_block*)((unsigned long)g_memory_head + g_memory_index);
+	//There is no place in free list. We have to create a new block using the offset
+	new_block = (t_block*)((unsigned long)g_memory_head + g_memory_offset);
 
 	if ((unsigned long)new_block + sizeof(t_block) + size > (unsigned long)g_memory_head + CHUNK_SIZE)
 	{
-		fprintf(stderr, "Error in get_memory: memory is full\n");
+		fprintf(stderr, "Error in get_memory: memory is full or asked size is too big\n");
 		return NULL;
 	}
 
 	new_block->size = size;
-	new_block->next_free = g_memory_head - 1;
+	new_block->next_free = (t_block*)g_impossible_address;
 
 	set_prev_size(new_block);
 
-	g_memory_index += sizeof(t_block) + size;
+	//We update the offset
+	g_memory_offset += sizeof(t_block) + size;
 
 	return (void*)((unsigned long)new_block + sizeof(t_block));
 }
@@ -221,19 +238,21 @@ static void free_memory_unsafe(void* ptr)
 	int				oldIndex;
 	int				newIndex;
 
-	if (g_memory_head == NULL || ptr < g_memory_head || g_memory_head + CHUNK_SIZE < ptr)
-		return;
-
 	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
+	if (g_memory_head == NULL || ptr < g_memory_head || (unsigned long)g_memory_head + CHUNK_SIZE < (unsigned long)ptr)
+		return;
+
+	//Check if previous block exists and get it if it does
 	if (current_block->prev_size != 0)
 		prev_block = (t_block*)((unsigned long)current_block - sizeof(t_block) - current_block->prev_size);
 
-	//Check if the next element is outside the allocated memory
-	if ((unsigned long)current_block + sizeof(t_block) + current_block->size < (unsigned long)g_memory_head + g_memory_index)
+	//Check if the next block is inside the allocated memory and get it if it is
+	if ((unsigned long)current_block + sizeof(t_block) + current_block->size < (unsigned long)g_memory_head + g_memory_offset)
 		next_block = (t_block*)((unsigned long)current_block + sizeof(t_block) + current_block->size);
 
-	if (prev_block != NULL && next_block != NULL && prev_block->next_free != g_memory_head - 1 && next_block->next_free != g_memory_head - 1)
+	//Check if previous and next blocks are both freed to create a bigger free element
+	if (prev_block != NULL && next_block != NULL && prev_block->next_free != g_impossible_address && next_block->next_free != g_impossible_address)
 	{
 		oldIndex = compute_index(prev_block->size);
 		prev_block->size += (sizeof(t_block) << 1) + current_block->size + next_block->size;
@@ -248,7 +267,7 @@ static void free_memory_unsafe(void* ptr)
 			add_list_element(prev_block, newIndex);
 		}
 	}
-	else if (prev_block != NULL && prev_block->next_free != g_memory_head - 1)
+	else if (prev_block != NULL && prev_block->next_free != g_impossible_address) //Same for only previous block
 	{
 		oldIndex = compute_index(prev_block->size);
 		prev_block->size += sizeof(t_block) + current_block->size;
@@ -262,14 +281,14 @@ static void free_memory_unsafe(void* ptr)
 			add_list_element(prev_block, newIndex);
 		}
 	}
-	else if (next_block != NULL && next_block->next_free != g_memory_head - 1)
+	else if (next_block != NULL && next_block->next_free != g_impossible_address) //Same for only next block
 	{
 		remove_list_element(next_block, compute_index(next_block->size));
 		current_block->size += sizeof(t_block) + next_block->size;
 		add_list_element(current_block, compute_index(current_block->size));
 	}
 	else
-		add_list_element(current_block, compute_index(current_block->size));
+		add_list_element(current_block, compute_index(current_block->size)); // No bigger block to create, we push the block freed into the list
 }
 
 void* get_memory(size_t size)
@@ -278,6 +297,7 @@ void* get_memory(size_t size)
 
 	pthread_mutex_lock(&g_main_mutex);
 
+	//we have to call align_size to gain speed, the core is faster if it is a multiple of its architecture (32 or 64 bits)
 	size = align_size(size);
 	ptr = get_memory_unsafe(size);
 
@@ -300,7 +320,8 @@ void* realloc_memory(void* ptr, size_t size)
 	void*		new_ptr;
 	t_block*	current_block;
 
-	if (ptr < g_memory_head || g_memory_head + CHUNK_SIZE < ptr)
+	//If the pointer doesn't come from a get_memory()
+	if (ptr < g_memory_head || (unsigned long)g_memory_head + CHUNK_SIZE < (unsigned long)ptr)
 	{
 		new_ptr = get_memory_unsafe(size);
 
@@ -312,6 +333,7 @@ void* realloc_memory(void* ptr, size_t size)
 	size = align_size(size);
 	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
+	//Instant split if we ask a smaller size
 	if (current_block->size > sizeof(t_block) + size)
 	{
 		split_memory(current_block, size);
@@ -320,20 +342,23 @@ void* realloc_memory(void* ptr, size_t size)
 
 		return ptr;
 	}
-	else if (current_block->size >= size)
+	else if (current_block->size >= size) //That means that we have not the place for block datas
 	{
 		pthread_mutex_unlock(&g_main_mutex);
 
 		return ptr;
 	}
 
+	//New pointer for a bigger size
 	new_ptr = get_memory_unsafe(size);
 
+	//We copy old datas at the new address
 	if (size > current_block->size)
 		memcpy(new_ptr, ptr, current_block->size);
 	else
 		memcpy(new_ptr, ptr, size);
 	
+	//Free old pointer
 	free_memory_unsafe(ptr);
 
 	pthread_mutex_unlock(&g_main_mutex);
@@ -341,6 +366,7 @@ void* realloc_memory(void* ptr, size_t size)
 	return new_ptr;
 }
 
+//It will probably never be used because the program free its memory himself when it get closed
 void release_memory()
 {
 	if (g_memory_head == NULL)
@@ -350,6 +376,7 @@ void release_memory()
 		fprintf(stderr, "Error in release_memory: munmap failed\n");
 }
 
+//Useful for debugging
 void display_memory()
 {
 	t_block*		block;
@@ -363,9 +390,9 @@ void display_memory()
 		if (block->size == 0)
 			break;
 
-		printf("element = %ld size = %ld bytes free = %d next block should be = %ld\n", (unsigned long)block, block->size, (block->next_free != g_memory_head - 1), (unsigned long)block + sizeof(t_block) + block->size);
+		printf("element = %ld size = %ld bytes free = %d next block should be = %ld\n", (unsigned long)block, block->size, (block->next_free != g_impossible_address), (unsigned long)block + sizeof(t_block) + block->size);
 
-		if (block->next_free == g_memory_head - 1)
+		if (block->next_free == g_impossible_address)
 			total_allocated_size += sizeof(t_block) + block->size;
 
 		block = (t_block*)((unsigned long)block + sizeof(t_block) + block->size);
@@ -379,7 +406,7 @@ void display_memory()
 		block = g_frees[i];
 		while (block != NULL)
 		{
-			printf("element = %ld size = %ld free = %d element->prev = %ld\n", (unsigned long)block, block->size, (block->next_free != g_memory_head - 1), (unsigned long)block->prev_free);
+			printf("element = %ld size = %ld free = %d element->prev = %ld\n", (unsigned long)block, block->size, (block->next_free != g_impossible_address), (unsigned long)block->prev_free);
 
 			block = block->next_free;
 		}

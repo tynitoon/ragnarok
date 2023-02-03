@@ -41,15 +41,15 @@ int main()
         return 1;
     }
 
-
     // function for chat
     srand(time(NULL));
     memset(&message, 0, sizeof(t_message));
+    memset(&buffer, 1, sizeof(buffer));
     for (i = 0; i < 100000; ++i)
     {
         message.type = CONNECT;
         message.size = sizeof(t_message) + rand() % (MAX - sizeof(t_message));
-        memcpy(buffer, &message, message.size);
+        memcpy(buffer, &message, sizeof(t_message));
 
         if (write(fd, buffer, message.size) < 0)
             return 0;

@@ -17,7 +17,7 @@ OBJS_SERVER		= $(SRCS_SERVER:.c=.o)
 
 OBJS_CLIENT		= $(SRCS_CLIENT:.c=.o)
 
-LDFLAGS			= -L ../../lib/ -lpthread -lsqlite
+LDFLAGS			= -lpthread
 
 CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../include/ -I ../../external/
 

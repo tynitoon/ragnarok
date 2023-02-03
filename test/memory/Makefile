@@ -10,12 +10,14 @@ SRCS			= ./main.c						\
 
 OBJS			= $(SRCS:.c=.o)
 
-CFLAGS			=  -O3 -Wall -Wextra -Werror -I ../../include/
+LDFLAGS			= -lpthread
+
+CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../include/
 
 all: test
 
 memory: $(OBJS)
-	$(CC) -o $(NAME) $(CFLAGS) $(OBJS)
+	$(CC) -o $(NAME) $(CFLAGS) $(OBJS) $(LDFLAGS)
 
 test: fclean memory
 	./$(NAME)
