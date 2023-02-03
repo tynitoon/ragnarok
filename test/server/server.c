@@ -48,7 +48,7 @@ int start_server(int port, t_list* clients)
 	fd_set				readfds;
 	long int			before = 0;
 	long int			duration;
-	int					count_message = 0;
+	int					count_message = -1;
 
 	//Init values
 	address.sin_family = AF_INET;
@@ -76,7 +76,6 @@ int start_server(int port, t_list* clients)
 		perror("bind failed");
 		return -1;
 	}
-	printf("Listener on port %d\n", port);
 
 	//Try to specify maximum of 10 pending connections for the master socket
 	if (listen(master_socket, 10) < 0)
@@ -84,8 +83,6 @@ int start_server(int port, t_list* clients)
 		perror("listen");
 		return -1;
 	}
-	
-	printf("Waiting for connections...\n");
 
 	while (1)
 	{
@@ -137,10 +134,6 @@ int start_server(int port, t_list* clients)
 				return -1;
 			}
 
-			//inform user of socket number - used in send and receive commands
-			printf("New connection , socket fd is %d , ip is : %s , port : %d\n", fd, inet_ntoa(address.sin_addr), ntohs(address.sin_port));
-
-
 			save = get_memory(sizeof(t_list_element) + sizeof(t_client));
 			client = (t_client*)save->data;
 			memset(client, 0, sizeof(t_client));
@@ -177,6 +170,14 @@ int start_server(int port, t_list* clients)
 				}
 				else
 				{
+					if (count_message == -1)
+					{
+						count_message = 0;
+						printf("-----------------------------------------------------------------------------\n");
+						printf("SERVER:\n");
+						before = get_timestamp_microsecond();
+					}
+
 					client->buffer_index += ret_value;
 					//If there is enough data to get the message's size
 					while (client->buffer_index >= (int)sizeof(int))
@@ -189,9 +190,6 @@ int start_server(int port, t_list* clients)
 							client->buffer_index = 0;
 						else if (client->buffer_index >= message_size)
 						{
-							if (count_message == 0)
-								before = get_timestamp_microsecond();
-
 							save = get_memory(sizeof(t_list_element) + message_size);
 							message = (t_message*)save->data;
 

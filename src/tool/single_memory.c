@@ -174,8 +174,8 @@ static void* get_memory_unsafe(size_t size)
 
 		memset(&g_frees, 0, sizeof(t_block*) * MAX_FREE_INDEX);
 		memset(&g_table_index, -1, sizeof(int) * MAX_FREE_INDEX);
-		new_block = g_memory_head;
-		new_block->next_free = g_impossible_address;
+		new_block = (t_block*)g_memory_head;
+		new_block->next_free = (t_block*)g_impossible_address;
 		new_block->size = size;
 		new_block->prev_size = 0;
 
@@ -321,7 +321,7 @@ void* realloc_memory(void* ptr, size_t size)
 	t_block*	current_block;
 
 	//If the pointer doesn't come from a get_memory()
-	if (ptr < g_memory_head || (unsigned long)g_memory_head + CHUNK_SIZE < (unsigned long)ptr)
+	if (ptr <= g_memory_head || (unsigned long)g_memory_head + CHUNK_SIZE < (unsigned long)ptr)
 	{
 		new_ptr = get_memory_unsafe(size);
 
@@ -381,6 +381,7 @@ void display_memory()
 {
 	t_block*		block;
 	size_t			total_allocated_size = 0;
+	size_t			only_data_allocated_size = 0;
 	int				i;
 
 	block = (t_block*)g_memory_head;
@@ -393,7 +394,10 @@ void display_memory()
 		printf("element = %ld size = %ld bytes free = %d next block should be = %ld\n", (unsigned long)block, block->size, (block->next_free != g_impossible_address), (unsigned long)block + sizeof(t_block) + block->size);
 
 		if (block->next_free == g_impossible_address)
+		{
 			total_allocated_size += sizeof(t_block) + block->size;
+			only_data_allocated_size += block->size;
+		}
 
 		block = (t_block*)((unsigned long)block + sizeof(t_block) + block->size);
 		if ((unsigned long)block >= (unsigned long)g_memory_head + CHUNK_SIZE)
@@ -413,4 +417,5 @@ void display_memory()
 	}
 
 	printf("\nTotal allocated size = %ld\n", total_allocated_size);
+	printf("\nOnly data allocated size = %ld\n", only_data_allocated_size);
 }

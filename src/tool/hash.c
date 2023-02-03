@@ -17,8 +17,8 @@ unsigned int generate_hash(void* data, unsigned int length)
     while (length > 0)
     {
         hash += GET_16_BITS(data);
-        hash = (hash << 16) ^ ((GET_16_BITS(data + 2) << 11) ^ hash);
-        data += sizeof(unsigned int);
+        hash = (hash << 16) ^ ((GET_16_BITS((unsigned long)data + 2) << 11) ^ hash);
+        data = (void*)((unsigned long)data + sizeof(unsigned int));
         hash += hash >> 11;
 
         --length;
