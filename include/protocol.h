@@ -6,7 +6,9 @@ typedef enum    e_data_type
 	CONNECT		= 0,
 	DISCONNECT	= 1,
 	MOVE		= 2,
-	MESSAGE		= 3
+	MESSAGE		= 3,
+	POPUP		= 4,
+	MAX_VALUE	= 0xFFFFFFFFFFFFFFFF
 }               t_data_type;
 
 typedef struct  s_message
@@ -16,10 +18,10 @@ typedef struct  s_message
 	char        buffer[];
 }               t_message;
 
-typedef struct	s_connect_message
+typedef struct	s_connect
 {
 	char		username[32];
 	char		password[32];
-}				t_connect_message;
+}				t_connect;
 
 #endif

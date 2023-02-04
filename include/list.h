@@ -8,6 +8,7 @@ typedef struct              s_list_element
 {
     struct s_list_element*  prev;
     struct s_list_element*  next;
+    int                     reading_thread;
     char                    data[];
 }                           t_list_element;
 

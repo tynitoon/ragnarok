@@ -5,9 +5,7 @@
 
 #include "sqlite.h"
 #include "game.h"
-#include "single_memory.h"
 #include "server.h"
-
 #include "map.h"
 
 int main()
@@ -20,6 +18,7 @@ int main()
 		return 1;
 
 	memset(&game_infos, 0, sizeof(t_game_infos));
+	init_map(&game_infos.rowid_to_user);
 
 	//int walah[2];
 	//walah[0] = 1;

@@ -13,16 +13,6 @@
 #include "server.h"
 #include "single_memory.h"
 
-static void add_message_to_client(t_list* client_messages, t_data_type type)
-{
-	t_list_element* element;
-	
-	element = get_memory(sizeof(t_list_element) + sizeof(t_message));
-	((t_message*)element->data)->type = type;
-
-	add_list_element(client_messages, element);
-}
-
 int start_server(int port, t_list* clients)
 {
 	int					opt = 1;
@@ -90,25 +80,21 @@ int start_server(int port, t_list* clients)
 		while (tmp != NULL)
 		{
 			client = (t_client*)tmp->data;
+			fd = client->fd;
 
-			if (client->state == READY_TO_BE_REMOVED)
+			if (fd > 0)
+				FD_SET(fd, &readfds);
+			else if (client->messages.head == NULL) //Client is not connected anymore and threads has consummed all messages
 			{
-				save = tmp->next;
-				remove_list_element(clients, tmp);
-				free_memory(tmp); //No need to free_memory for messages because they are already all consummed by threads
-				tmp = save;
+				save = remove_list_element(clients, tmp); //No problem on thread safe, because the ->next is pointing on the right target
+				tmp = save->next;
+				free_memory(save); //I don't think it's possible to have a free, then a malloc, then a write memory while a thread is just doing 'if (data == NULL) tmp = tmp->next'
+
 				continue;
 			}
-			else if (client->state == CONNECTED)
-			{
-				fd = client->fd;
 
-				if (fd > 0)
-					FD_SET(fd, &readfds);
-
-				if (fd > max_fd)
-					max_fd = fd;
-			}
+			if (fd > max_fd)
+				max_fd = fd;
 
 			tmp = tmp->next;
 		}
@@ -134,12 +120,9 @@ int start_server(int port, t_list* clients)
 			client = (t_client*)save->data;
 			memset(client, 0, sizeof(t_client));
 			
-			client->state = CONNECTED;
 			client->fd = fd;
-			client->buffer_index = 0;
 
 			add_list_element(clients, save);
-			add_message_to_client(&client->messages, CONNECT);
 		}
 
 		//Check if there are some IO operation on other sockets
@@ -160,13 +143,12 @@ int start_server(int port, t_list* clients)
 					//Close the socket
 					close(fd);
 
-					//Don't remove client now, threads need to compute the disconnection
-					client->state = DISCONNECTED;
-					add_message_to_client(&client->messages, DISCONNECT);
+					client->fd = -1;
 				}
 				else
 				{
 					client->buffer_index += ret_value;
+
 					//If there is enough data to get the message's size
 					while (client->buffer_index >= (int)sizeof(int))
 					{
@@ -183,6 +165,7 @@ int start_server(int port, t_list* clients)
 
 							//Copy datas
 							memcpy(message, client->buffer, message_size);
+
 							//Change the size to have only the data size
 							message->size = message_size - sizeof(t_message);
 							add_list_element(&client->messages, save);

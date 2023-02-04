@@ -7,16 +7,8 @@
 
 #define BUFFER_SIZE 4096
 
-typedef enum            s_connection_state
-{
-    DISCONNECTED        = 0,
-    CONNECTED           = 1,
-    READY_TO_BE_REMOVED = 2
-}                       t_connection_state;
-
 typedef struct          s_client
 {
-    t_connection_state  state;
     int                 fd;
     t_list              messages;
     size_t              buffer_index;

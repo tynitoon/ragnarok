@@ -4,7 +4,8 @@ RM				= rm -f
 
 NAME			= ragnarok_client
 
-SRCS			= main.c
+SRCS			= main.c					\
+				../tool/single_memory.c
 
 OBJS			= $(SRCS:.c=.o)
 

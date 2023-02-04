@@ -1,26 +1,55 @@
 #include <pthread.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "single_memory.h"
 #include "protocol.h"
 #include "server.h"
 #include "game.h"
 #include "list.h"
+#include "map.h"
+#include "sqlite.h"
 
-static void connect_command(int fd, t_connect_message* data)
+static void connect_command(t_game_infos* game_infos, int fd, t_connect* data)
 {
-	//CREATE MAP COLLECTION
-	//CHECK SQLITE PERFORMANCE
-	//ADD SQLITE IMPLEMENTATION
+	t_user*		user;
+	t_message*	message;
+	char		buffer[512];
+	int			rowid;
+	
+	//Check username and password
+	sprintf(buffer, "SELECT rowid FROM user WHERE username = '%s' AND password = '%s'", data->username, data->password);
+	rowid = sqlite_get_integer(buffer);
 
-	fd = fd;
-	data = data;
-	//Check that the player is not already connected
-	//Get character from sqlite
-	//Or create if it doesn't exist
-	//Create character structure then add it to map
-	//Verify that his position is still possible (move him it's not)
-	//Send datas : send(fd, buffer, strlen(buffer), 0 );
+	//Use buffer to send response
+	message = (t_message*)buffer;
+
+	//User doesn't exist or failed his password
+	if (rowid == -1)
+	{
+		message->type = POPUP;
+		message->size = sizeof(t_message) + 128 * sizeof(char);
+		strcpy(message->buffer, "Error in username or password");
+		send(fd, message, message->size, 0);
+		return;
+	}
+
+	user = get_map_element(game_infos->rowid_to_user, rowid);
+
+	if (user != NULL)
+	{
+		//User already connected
+		//On recupere le client via le user
+		//On envoie un message de déco au client
+		//On supprime le user.
+	}
+
+	//On creer un user
+	user = get_memory(sizeof(t_user));
+	//On fait les links entre user et client
+	//On ajoute le user à la map
+	
 }
 
 static void disconnect_command(t_client* client)
@@ -28,15 +57,15 @@ static void disconnect_command(t_client* client)
 	//Try to get the character from map
 	//Delete character from list
 	//Save last infos in sqlite
-	client->state = READY_TO_BE_REMOVED;
+	client = client;
 }
 
-static void handle_message(t_client* client, t_message* message)
+static void handle_message(t_game_infos* game_infos, t_client* client, t_message* message)
 {
 	switch (message->type)
 	{
 		case CONNECT:
-			connect_command(client->fd, (t_connect_message*)message->buffer);
+			connect_command(game_infos, client->fd, (t_connect*)message->buffer);
 			break;
 		case DISCONNECT:
 			disconnect_command(client);
@@ -54,7 +83,6 @@ void* search_and_compute_tasks(void* datas)
 {
 	t_game_infos*	game_infos = (t_game_infos*)datas;
 	t_list_element* client_element;
-	t_list_element* message_element;
 	t_client*		client;
 
 	while (1)
@@ -64,14 +92,15 @@ void* search_and_compute_tasks(void* datas)
 		{
 			client = (t_client*)client_element->data;
 			//If there are some messages, lock the client and consume messages
-			if (client->state != READY_TO_BE_REMOVED && client->messages.head != NULL && pthread_mutex_trylock(&client->mutex) == 0)
+			if (client->messages.head != NULL && pthread_mutex_trylock(&client->mutex) == 0)
 			{
 				while (client->messages.head != NULL)
 				{
-					message_element = remove_list_element(&client->messages, client->messages.head);
-					handle_message(client, (t_message*)message_element->data);
-					free_memory(message_element);
+					handle_message(game_infos, client, (t_message*)client->messages.head->data);
+					free_memory(remove_list_element(&client->messages, client->messages.head));
 				}
+
+				pthread_mutex_unlock(&client->mutex);
 			}
 			client_element = client_element->next;
 		}

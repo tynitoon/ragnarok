@@ -1,95 +1,65 @@
-#include <arpa/inet.h> // inet_addr()
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h> // bzero()
+#include <strings.h>
 #include <sys/socket.h>
-#include <unistd.h> // read(), write(), close()
-#define MAX 80
-#define PORT 4242
-#define SA struct sockaddr
+#include <unistd.h>
+#include <time.h>
 
-typedef enum    e_data_type
-{
-    MESSAGE = 0,
-}               t_data_type;
+#include "protocol.h"
+#include "single_memory.h"
 
-typedef struct  s_message
-{
-	size_t      size;
-	t_data_type type;
-	char        buffer[];
-}               t_message;
-
-void func(int sockfd)
-{
-  t_message *message;
-  int size;
-  int i;
-  int ret_value;
-
-  srand(time(NULL));
-  unsigned long start = time(NULL);
-	for (i = 0; i < 10000; ++i) {
-	  size = sizeof(t_message) + rand() % 600;
-	  message = malloc(size);
-	  message->size = size;
-	  message->type = MESSAGE;
-	  memset(message->buffer, 0, size - sizeof(t_message));
-	  
-	  //bzero(buff, sizeof(buff));
-	  //printf("Enter the string : ");
-		//		n = 0;
-		//		while ((buff[n++] = getchar()) != '\n')
-		//			;
-		ret_value = write(sockfd, message, size);
-		//if (ret_value == -1)
-		//	printf("error\n");
-		//else
-		//	printf("size = %d ret_value = %d\n", size, ret_value);
-
-		//		if ((strncmp(buff, "exit", 4)) == 0) {
-		//			printf("Client Exit...\n");
-		//		break;
-		//}
-		free(message);
-		sleep(1);
-	}
-}
+#define MAX 4096
 
 int main()
 {
-	int sockfd, connfd;
-	struct sockaddr_in servaddr, cli;
+    int                 fd;
+    struct sockaddr_in  servaddr;
+    char                buffer[MAX];
+    int                 i;
+    t_message           message;
+    t_connect_message   connect_message;
 
-	// socket create and verification
-	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	if (sockfd == -1) {
-		printf("socket creation failed...\n");
-		exit(0);
-	}
-	else
-		printf("Socket successfully created..\n");
-	bzero(&servaddr, sizeof(servaddr));
+    // socket create and verification
+    fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (fd == -1) {
+        printf("socket creation failed...\n");
+        return 1;
+    }
 
-	// assign IP, PORT
-	servaddr.sin_family = AF_INET;
-	servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-	servaddr.sin_port = htons(PORT);
+    memset(&servaddr, 0, sizeof(servaddr));
 
-	// connect the client socket to server socket
-	if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr))
-		!= 0) {
-		printf("connection with the server failed...\n");
-		exit(0);
-	}
-	else
-		printf("connected to the server..\n");
+    // assign IP, PORT
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr.sin_port = htons(4242);
 
-	// function for chat
-	func(sockfd);
+    // connect the client socket to server socket
+    if (connect(fd, (struct sockaddr*)&servaddr, sizeof(servaddr)) != 0)
+    {
+        printf("connection with the server failed...\n");
+        return 1;
+    }
 
-	// close the socket
-	close(sockfd);
+    // function for chat
+    message.type = CONNECT;
+    message.size = sizeof(t_message) + sizeof(t_connect_message);
+    printf("message.size = %lu %lu %lu\n", message.size, sizeof(t_message), sizeof(t_connect_message));
+    memcpy(connect_message.username, "default\0", strlen("default") + 1);
+    memcpy(connect_message.password, "default\0", strlen("default") + 1);
+
+    memcpy(buffer, &message, sizeof(t_message));
+    memcpy(&buffer[sizeof(t_message)], &connect_message, sizeof(t_connect_message));
+
+    printf("user = %s password = %s\n", (char*)(&buffer[sizeof(t_message)]), (char*)(&buffer[sizeof(t_message) + 32]));
+
+    if (write(fd, buffer, message.size) < 0)
+        return -1;
+
+    // close the socket
+    close(fd);
+
+    return 0;
 }
