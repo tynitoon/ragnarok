@@ -28,7 +28,7 @@ int main()
 	srand(time(NULL));
 	for (i = 0; i < TEST_SIZE; ++i)
 	{
-		size[i] = rand() % 5 * sizeof(int);
+		size[i] = rand() % 140;
 		random_nb[i] = rand();
 	}
 

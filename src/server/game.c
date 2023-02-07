@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 
 #include "single_memory.h"
 #include "protocol.h"
@@ -35,7 +37,7 @@ static void connect_command(t_game_infos* game_infos, int fd, t_connect* data)
 		return;
 	}
 
-	user = get_map_element(game_infos->rowid_to_user, rowid);
+	user = get_map_element(&game_infos->rowid_to_user, rowid);
 
 	if (user != NULL)
 	{

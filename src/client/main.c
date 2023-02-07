@@ -20,7 +20,7 @@ int main()
     char                buffer[MAX];
     int                 i;
     t_message           message;
-    t_connect_message   connect_message;
+    t_connect           connect_message;
 
     // socket create and verification
     fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -45,13 +45,13 @@ int main()
 
     // function for chat
     message.type = CONNECT;
-    message.size = sizeof(t_message) + sizeof(t_connect_message);
-    printf("message.size = %lu %lu %lu\n", message.size, sizeof(t_message), sizeof(t_connect_message));
+    message.size = sizeof(t_message) + sizeof(t_connect);
+    printf("message.size = %lu %lu %lu\n", message.size, sizeof(t_message), sizeof(t_connect));
     memcpy(connect_message.username, "default\0", strlen("default") + 1);
     memcpy(connect_message.password, "default\0", strlen("default") + 1);
 
     memcpy(buffer, &message, sizeof(t_message));
-    memcpy(&buffer[sizeof(t_message)], &connect_message, sizeof(t_connect_message));
+    memcpy(&buffer[sizeof(t_message)], &connect_message, sizeof(t_connect));
 
     printf("user = %s password = %s\n", (char*)(&buffer[sizeof(t_message)]), (char*)(&buffer[sizeof(t_message) + 32]));
 

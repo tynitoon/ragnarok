@@ -3,4 +3,5 @@ lib/
 *.o
 test/a.out
 ragnarok_server
+ragnarok_client
 test_*
