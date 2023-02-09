@@ -9,8 +9,16 @@
 
 #include "single_memory.h"
 
-#define PAGE_NUMBER			18												//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go, mmap need multiple of a page size
-#define MAX_FREE_INDEX		40												//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
+#define PAGE_NUMBER				18											//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go, mmap need multiple of a page size
+#define MAX_FREE_INDEX			40											//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
+#define NOT_INITIALIZED_VALUE	100											//Used to init g_table_index so we just have to compare index with <
+
+typedef enum				s_filter
+{
+	PREV_BLOCK_IS_FREE	= (1 << 0),
+	NEXT_BLOCK_IS_FREE	= (1 << 1),
+	BOTH_BLOCK_ARE_FREE = PREV_BLOCK_IS_FREE | NEXT_BLOCK_IS_FREE
+}							t_filter;
 
 typedef struct				s_block
 {
@@ -65,8 +73,6 @@ static size_t align_size(size_t size)
 
 static void add_list_element(t_block* to_add, int index)
 {
-	int	i;
-
 	//Push front
 	to_add->prev_free = NULL;
 	to_add->next_free = g_frees[index];
@@ -77,16 +83,15 @@ static void add_list_element(t_block* to_add, int index)
 	g_frees[index] = to_add;
 
 	//Update g_table_index
-	for (i = 0; i <= index; ++i)
+	for (int i = 0; i <= index; ++i)
 	{
-		if (g_table_index[i] == -1 || index < g_table_index[i])
+		if (index < g_table_index[i])
 			g_table_index[i] = index;
 	}
 }
 
 static void remove_list_element(t_block* to_remove, int index)
 {
-	int	i;
 	int	max_index;
 
 	if (to_remove == NULL)
@@ -100,7 +105,7 @@ static void remove_list_element(t_block* to_remove, int index)
 		if (g_frees[index] == NULL)
 		{
 			max_index = g_table_index[index + 1];
-			for (i = 0; i <= index; ++i)
+			for (int i = 0; i <= index; ++i)
 			{
 				if (g_table_index[i] == index)
 					g_table_index[i] = max_index;
@@ -175,7 +180,9 @@ static void* get_memory_unsafe(size_t size)
 		g_impossible_address = (void*)((unsigned long)g_memory_head - sizeof(void*));
 
 		memset(&g_frees, 0, sizeof(t_block*) * MAX_FREE_INDEX);
-		memset(&g_table_index, -1, sizeof(int) * MAX_FREE_INDEX);
+		for (int i = 0; i < MAX_FREE_INDEX; ++i)
+			g_table_index[i] = NOT_INITIALIZED_VALUE;
+
 		new_block = (t_block*)g_memory_head;
 		new_block->next_free = (t_block*)g_impossible_address;
 		new_block->size = size;
@@ -196,7 +203,7 @@ static void* get_memory_unsafe(size_t size)
 	//Search in free list
 	index = g_table_index[compute_index(size) + 1];
 
-	if (index != -1)
+	if (index != NOT_INITIALIZED_VALUE)
 	{
 		block = g_frees[index];
 		if (block != NULL)
@@ -243,6 +250,7 @@ static void free_memory_unsafe(void* ptr)
 	t_block*		next_block = NULL;
 	int				oldIndex;
 	int				newIndex;
+	int				filter = 0;
 
 	current_block = (t_block*)((unsigned long)ptr - sizeof(t_block));
 
@@ -251,51 +259,61 @@ static void free_memory_unsafe(void* ptr)
 
 	//Check if previous block exists and get it if it does
 	if (current_block->prev_size != 0)
+	{
 		prev_block = (t_block*)((unsigned long)current_block - sizeof(t_block) - current_block->prev_size);
+		if (prev_block->next_free != g_impossible_address)
+			filter |= PREV_BLOCK_IS_FREE;
+	}
 
 	//Check if the next block is inside the allocated memory and get it if it is
 	if ((unsigned long)current_block + sizeof(t_block) + current_block->size < (unsigned long)g_memory_head + g_memory_offset)
+	{
 		next_block = (t_block*)((unsigned long)current_block + sizeof(t_block) + current_block->size);
-
-	//Check if previous and next blocks are both freed to create a bigger free element
-	if (prev_block != NULL && next_block != NULL && prev_block->next_free != g_impossible_address && next_block->next_free != g_impossible_address)
-	{
-		oldIndex = compute_index(prev_block->size);
-		prev_block->size += (sizeof(t_block) << 1) + current_block->size + next_block->size;
-		newIndex = compute_index(prev_block->size);
-
-		set_prev_size(prev_block);
-
-		remove_list_element(next_block, compute_index(next_block->size));
-		if (oldIndex != newIndex)
-		{
-			remove_list_element(prev_block, oldIndex);
-			add_list_element(prev_block, newIndex);
-		}
+		if (next_block->next_free != g_impossible_address)
+			filter |= NEXT_BLOCK_IS_FREE;
 	}
-	else if (prev_block != NULL && prev_block->next_free != g_impossible_address) //Same for only previous block
-	{
-		oldIndex = compute_index(prev_block->size);
-		prev_block->size += sizeof(t_block) + current_block->size;
-		newIndex = compute_index(prev_block->size);
 
-		set_prev_size(prev_block);
-
-		if (oldIndex != newIndex)
-		{
-			remove_list_element(prev_block, oldIndex);
-			add_list_element(prev_block, newIndex);
-		}
-	}
-	else if (next_block != NULL && next_block->next_free != g_impossible_address) //Same for only next block
+	//Try to merge blocks
+	switch (filter)
 	{
-		remove_list_element(next_block, compute_index(next_block->size));
-		current_block->size += sizeof(t_block) + next_block->size;
-		set_prev_size(current_block);
-		add_list_element(current_block, compute_index(current_block->size));
+		case BOTH_BLOCK_ARE_FREE:
+			oldIndex = compute_index(prev_block->size);
+			prev_block->size += (sizeof(t_block) << 1) + current_block->size + next_block->size;
+			newIndex = compute_index(prev_block->size);
+
+			set_prev_size(prev_block);
+
+			remove_list_element(next_block, compute_index(next_block->size));
+
+			if (oldIndex != newIndex)
+			{
+				remove_list_element(prev_block, oldIndex);
+				add_list_element(prev_block, newIndex);
+			}
+			break;
+		case PREV_BLOCK_IS_FREE:
+			oldIndex = compute_index(prev_block->size);
+			prev_block->size += sizeof(t_block) + current_block->size;
+			newIndex = compute_index(prev_block->size);
+
+			set_prev_size(prev_block);
+
+			if (oldIndex != newIndex)
+			{
+				remove_list_element(prev_block, oldIndex);
+				add_list_element(prev_block, newIndex);
+			}
+			break;
+		case NEXT_BLOCK_IS_FREE:
+			remove_list_element(next_block, compute_index(next_block->size));
+			current_block->size += sizeof(t_block) + next_block->size;
+			set_prev_size(current_block);
+			add_list_element(current_block, compute_index(current_block->size));
+			break;
+		default:
+			add_list_element(current_block, compute_index(current_block->size));
+			break;
 	}
-	else
-		add_list_element(current_block, compute_index(current_block->size)); // No bigger block to create, we push the block freed into the list
 }
 
 void* get_memory(size_t size)
