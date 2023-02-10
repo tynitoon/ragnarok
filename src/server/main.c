@@ -18,7 +18,7 @@ int main()
 		return 1;
 
 	memset(&game_infos, 0, sizeof(t_game_infos));
-	init_map(&game_infos.rowid_to_user);
+	init_map(&game_infos.id_to_user);
 
 	//int walah[2];
 	//walah[0] = 1;

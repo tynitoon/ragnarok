@@ -96,3 +96,51 @@ int	sqlite_get_integer(char* sql_command)
 	return data;
 }
 
+t_character* sqlite_get_characters(char* sql_command, int* character_counter)
+{
+	t_character*	characters = NULL;
+	sqlite3_stmt*	sql_statement;
+	size_t			count = 0;
+	size_t			allocated_size = 0;
+	size_t			size;
+
+	if (sqlite3_prepare_v2(database, sql_command, -1, &sql_statement, 0) != SQLITE_OK)
+	{
+		fprintf(stderr, "Error in sqlite_get_array: Cannot prepare statement: %s\n", sqlite3_errmsg(database));
+		return NULL;
+	}
+
+	printf("SQL : %s\n", sql_command);
+	while (sqlite3_step(sql_statement) == SQLITE_ROW)
+	{
+		if (allocated_size <= count)
+		{
+			characters = realloc_memory(characters, allocated_size + sizeof(t_character) * 10);
+			allocated_size += 10;
+		}
+		
+		//Get user_id
+		characters[count].user_id = sqlite3_column_int(sql_statement, 0);
+
+		//Get name
+		size = (size_t)sqlite3_column_bytes(sql_statement, 1);
+		memcpy(characters[count].name, sqlite3_column_text(sql_statement, 1), size);
+
+		//Get position
+		size = (size_t)sqlite3_column_bytes(sql_statement, 2);
+		if (size != 0)
+			memcpy(&characters[count].position, sqlite3_column_blob(sql_statement, 2), size);
+		else
+			memset(&characters[count].position, 0, sizeof(t_position));
+
+		++count;
+	}
+
+	*character_counter = count;
+	characters = realloc_memory(characters, count * sizeof(t_character));
+
+	sqlite3_finalize(sql_statement);
+
+	return characters;
+}
+

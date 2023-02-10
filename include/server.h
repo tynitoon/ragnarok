@@ -3,12 +3,15 @@
 
 #include <pthread.h>
 
+#include "game.h"
 #include "list.h"
 
 #define BUFFER_SIZE 4096
 
 typedef struct          s_client
 {
+    int                 user_id;
+    t_character*        character;
     int                 fd;
     t_list              messages;
     size_t              buffer_index;
