@@ -45,7 +45,7 @@ int start_server(int port, t_list* clients)
 	//Set master socket to allow multiple connections and relaunch server
 	if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0)
 	{
-		perror("setsockopt");
+		perror("setsockopt failed");
 		return -1;
 	}
 
@@ -55,7 +55,6 @@ int start_server(int port, t_list* clients)
 		perror("bind failed");
 		return -1;
 	}
-	printf("Listener on port %d\n", port);
 
 	//Try to specify maximum of 10 pending connections for the master socket
 	if (listen(master_socket, 10) < 0)
@@ -63,8 +62,6 @@ int start_server(int port, t_list* clients)
 		perror("listen");
 		return -1;
 	}
-	
-	printf("Waiting for connections...\n");
 
 	while (1)
 	{

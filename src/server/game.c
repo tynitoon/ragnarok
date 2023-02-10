@@ -34,7 +34,7 @@ static void connect_command(t_game_infos* game_infos, t_client* client, t_connec
 		message->type = POPUP;
 		message->size = sizeof(t_message) + 128 * sizeof(char);
 		strcpy(message->buffer, "Error in username or password");
-		send(client->fd, message, message->size, 0);
+		write(client->fd, message, message->size);
 		return;
 	}
 
@@ -45,13 +45,13 @@ static void connect_command(t_game_infos* game_infos, t_client* client, t_connec
 
 	add_map_element(&game_infos->id_to_user, client->user_id, client);
 	
+	//Get characters then send them to client
 	sprintf(buffer, "SELECT user_id, name, position FROM character WHERE user_id = '%d'", client->user_id);
 	characters = sqlite_get_characters(buffer, &character_counter);
-
-	for (int i = 0; i < character_counter; ++i)
-	{
-		printf("user_id = %d name = %s map index = %d pos X = %f pos Y = %f\n", characters[i].user_id, characters[i].name, characters[i].position.map, characters[i].position.x, characters[i].position.y);
-	}
+	message->type = CHARACTER_LIST_CONNECT;
+	message->size = sizeof(t_message) + character_counter * sizeof(t_character);
+	memcpy(message->buffer, &characters, character_counter * sizeof(t_character));
+	write(client->fd, message, message->size);
 }
 
 static void disconnect_command(t_client* client)
