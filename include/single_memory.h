@@ -1,10 +1,11 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stddef.h>
+#include <stdint.h>
 
-void* get_memory(size_t size);
-void* realloc_memory(void* ptr, size_t size);
+void* get_memory(uint64_t size);
+void* calloc_memory(uint64_t nmemb, uint64_t size);
+void* realloc_memory(void* ptr, uint64_t size);
 void free_memory(void* ptr);
 void release_memory();
 void display_memory();
