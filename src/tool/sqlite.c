@@ -18,11 +18,11 @@ int init_database()
 	return 0;
 }
 
-int sqlite_set_array(char* sql_command, size_t array_size, size_t element_size, void* array)
+int sqlite_set_array(char* sql_command, uint64_t array_size, uint64_t element_size, void* array)
 {
 	sqlite3_stmt*	sql_statement;
 	t_sqlite_array* data;
-	size_t			full_size;
+	uint64_t		full_size;
 
 	full_size = sizeof(t_sqlite_array) + array_size * element_size;
 
@@ -55,7 +55,7 @@ t_sqlite_array *sqlite_get_array(char* sql_command)
 {
 	sqlite3_stmt*	sql_statement;
 	t_sqlite_array* data;
-	size_t			full_size;
+	uint64_t		full_size;
 
 	if (sqlite3_prepare_v2(database, sql_command, -1, &sql_statement, 0) != SQLITE_OK)
 	{
@@ -66,7 +66,7 @@ t_sqlite_array *sqlite_get_array(char* sql_command)
     if (sqlite3_step(sql_statement) != SQLITE_ROW) //Entry doesn't exist
 		return NULL;
 
-	full_size = (size_t)sqlite3_column_bytes(sql_statement, 0);
+	full_size = (uint64_t)sqlite3_column_bytes(sql_statement, 0);
 	data = get_memory(full_size);
 	memcpy(data, sqlite3_column_blob(sql_statement, 0), full_size);
 
@@ -100,9 +100,9 @@ t_character* sqlite_get_characters(char* sql_command, int* character_counter)
 {
 	t_character*	characters = NULL;
 	sqlite3_stmt*	sql_statement;
-	size_t			count = 0;
-	size_t			allocated_size = 0;
-	size_t			size;
+	uint64_t		count = 0;
+	uint64_t		allocated_size = 0;
+	uint64_t		size;
 
 	if (sqlite3_prepare_v2(database, sql_command, -1, &sql_statement, 0) != SQLITE_OK)
 	{
@@ -123,11 +123,11 @@ t_character* sqlite_get_characters(char* sql_command, int* character_counter)
 		characters[count].user_id = sqlite3_column_int(sql_statement, 0);
 
 		//Get name
-		size = (size_t)sqlite3_column_bytes(sql_statement, 1);
+		size = (uint64_t)sqlite3_column_bytes(sql_statement, 1);
 		memcpy(characters[count].name, sqlite3_column_text(sql_statement, 1), size);
 
 		//Get position
-		size = (size_t)sqlite3_column_bytes(sql_statement, 2);
+		size = (uint64_t)sqlite3_column_bytes(sql_statement, 2);
 		if (size != 0)
 			memcpy(&characters[count].position, sqlite3_column_blob(sql_statement, 2), size);
 		else

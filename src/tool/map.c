@@ -210,8 +210,8 @@ void delete_map(t_map* map)
 void display_map(t_map* map)
 {
 	t_map_element*	tmp;
-	size_t			i;
-	size_t			count_element = 0;
+	uint64_t		i;
+	uint64_t		count_element = 0;
 
 	for (i = 0; i < map->size; ++i)
 	{

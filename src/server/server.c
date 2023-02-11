@@ -26,7 +26,7 @@ int start_server(int port, t_list* clients)
 	t_list_element*		save;
 	t_client*			client;
 	t_message*			message;
-	size_t				message_size;
+	uint64_t			message_size;
 	fd_set				readfds;
 
 	//Init values
