@@ -18,28 +18,7 @@ int main()
 		return 1;
 
 	memset(&game_infos, 0, sizeof(t_game_infos));
-	init_map(&game_infos.id_to_user);
-
-	//int walah[2];
-	//walah[0] = 1;
-	//walah[1] = 2;
-
-
-	//sqlite_set_array("UPDATE user SET character_row_ids = ? WHERE username = 'default'", 2, sizeof(int), walah);
-
-	//t_sqlite_array* data = sqlite_get_array("SELECT character_row_ids FROM user WHERE username = 'default'");
-
-	//if (data != NULL)
-	//{
-	//	size_t i = 0;
-	//	for (i = 0; i < data->size; ++i)
-	//	{
-	//		printf("value = %d\n", ((int*)data->buffer)[i]);
-	//	}
-	//	free_memory(data);
-	//}
-
-
+	init_map(&game_infos.user_id_to_authentified_client);
 
 	count_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1; //We remove one for the main thread
 

@@ -39,11 +39,11 @@ static void connect_command(t_game_infos* game_infos, t_client* client, t_connec
 	}
 
 	//Check and disconnect if a user is already connected with this username
-	already_connected_client = get_map_element(&game_infos->id_to_user, client->user_id);
+	already_connected_client = get_map_element(&game_infos->user_id_to_authentified_client, client->user_id);
 	if (already_connected_client != NULL)
 		close(already_connected_client->fd);
 
-	add_map_element(&game_infos->id_to_user, client->user_id, client);
+	add_map_element(&game_infos->user_id_to_authentified_client, client->user_id, client);
 	
 	//Get characters then send them to client
 	sprintf(buffer, "SELECT user_id, name, position FROM character WHERE user_id = '%d'", client->user_id);
