@@ -1,3 +1,11 @@
+#JEREMIEM : PERSONNAL NOTES :
+En cas de git clone, ne pas oublier de remplacer les mallocs présents par ceux du single_memory, il s'agit de define à rechercher.
+Pour make la lib :
+- Aller dans raylib-master\src
+- Editer le Makefile en rajouant ../../../../include à la variable INCLUDE_PATHS
+- Faire un mingw32-make PLATFORM=PLATFORM_DESKTOP dans cygwin64
+
+
 # Raylib Setup using Premake5
 This is a simplified set of instructions for how to setup a project using premake.
 
