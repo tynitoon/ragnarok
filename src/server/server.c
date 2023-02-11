@@ -42,7 +42,7 @@ int start_server(int port, t_list* clients)
 		return -1;
 	}
 
-	//Set master socket to allow multiple connections and relaunch server
+	//Set socket option so the address can be reused when relaunching the server
 	if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0)
 	{
 		perror("setsockopt failed");
