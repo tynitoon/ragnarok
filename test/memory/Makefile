@@ -4,15 +4,15 @@ RM				= rm -f
 
 NAME			= test_memory
 
-SRCS			= ./main.c						\
-				../../src/tool/single_memory.c	\
-				../../src/tool/list.c
+SRCS			= ./sources/main.c					\
+				../../tools/sources/single_memory.c	\
+				../../tools/sources/list.c
 
 OBJS			= $(SRCS:.c=.o)
 
 LDFLAGS			= -lpthread
 
-CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../include/
+CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../tools/includes/
 
 all: test
 

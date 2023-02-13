@@ -6,12 +6,12 @@ NAME_SERVER		= test_server
 
 NAME_CLIENT		= test_client
 
-SRCS_SERVER		= ./main_server.c				\
-				./server.c						\
-				../../src/tool/list.c			\
-				../../src/tool/single_memory.c
+SRCS_SERVER		= ./sources/main_server.c			\
+				./sources/server.c					\
+				../../tools/sources/list.c			\
+				../../tools/sources/single_memory.c
 
-SRCS_CLIENT		= ./main_client.c
+SRCS_CLIENT		= ./sources/main_client.c
 
 OBJS_SERVER		= $(SRCS_SERVER:.c=.o)
 
@@ -19,7 +19,7 @@ OBJS_CLIENT		= $(SRCS_CLIENT:.c=.o)
 
 LDFLAGS			= -lpthread
 
-CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../include/ -I ../../external/
+CFLAGS			= -O3 -Wall -Wextra -Werror -I ../../tools/includes -I ../../server/includes/
 
 all: test
 
