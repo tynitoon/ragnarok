@@ -2,7 +2,7 @@
 #define SQLITE_H
 
 #include "sqlite3.h"
-#include "game.h"
+#include "protocol.h"
 
 typedef struct	s_sqlite_array
 {

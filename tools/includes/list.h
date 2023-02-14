@@ -26,7 +26,9 @@ void            display_list(t_list* list);
 
 #else
 
-#include <Windows.h>
+/* Define Things to avoid include windows.h */
+typedef void*               HANDLE;
+/* End of defines for windows.h */
 
 typedef struct              s_list_element
 {

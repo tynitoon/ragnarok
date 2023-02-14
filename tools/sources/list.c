@@ -79,6 +79,7 @@ void display_list(t_list* list)
 
 #else
 
+#include <Windows.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>

@@ -27,4 +27,18 @@ typedef struct	s_connect
 	char		password[32];
 }				t_connect;
 
+typedef struct  s_position
+{
+	int			map;
+	float		x;
+	float		y;
+}				t_position;
+
+typedef struct  s_character
+{
+	int			user_id;
+	char		name[32];
+	t_position	position;
+}				t_character;
+
 #endif
