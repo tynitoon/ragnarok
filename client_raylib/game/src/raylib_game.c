@@ -15,6 +15,7 @@
 #include "raylib.h"
 #include "screens.h"    // NOTE: Declares global (extern) variables and screens functions
 #include "client.h"
+#include "map.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
@@ -58,16 +59,20 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 int main(void)
 {
-    t_server server;
+    t_map assets;
+    //t_server server;
 
-    start_client("127.0.0.1", "4242", &server);
-    // Initialization
-    //---------------------------------------------------------
-    InitWindow(screenWidth, screenHeight, "raylib game template");
+    //start_client("127.0.0.1", "4242", &server);
 
-    InitAudioDevice();      // Initialize audio device
+    // Init
+    InitWindow(screenWidth, screenHeight, "Ragnarok Client");
+    InitAudioDevice();
+    init_map(&assets);
 
-    // Load global data (assets that must be available in all screens, i.e. font)
+    // Create a loader that take the map assets in parameter so it can fill it or remove it just by passing one enum
+
+
+
     font = LoadFont("resources/mecha.png");
     music = LoadMusicStream("resources/ambient.ogg");
     fxCoin = LoadSound("resources/coin.wav");
