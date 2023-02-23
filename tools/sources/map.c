@@ -10,8 +10,8 @@
 
 static void grow_map(t_map* map)
 {
-	t_map_element* element;
-	t_map_element* save;
+	t_map_element*	element;
+	t_map_element*	save;
 	unsigned long	index;
 	unsigned long	i;
 	unsigned long	oldsize;
@@ -311,8 +311,8 @@ void init_map(t_map* map)
 void add_map_element(t_map* map, unsigned long key, void* data)
 {
 	unsigned long	index;
-	t_map_element* element;
-	t_map_element* tmp;
+	t_map_element*	element;
+	t_map_element*	tmp;
 
 	init_mutex(map);
 	WaitForSingleObject(map->mutex, INFINITE);
@@ -377,9 +377,9 @@ void* get_map_element(t_map* map, unsigned long key)
 void* remove_map_element(t_map* map, unsigned long key)
 {
 	unsigned long	index;
-	t_map_element* tmp;
-	t_map_element* save = NULL;
-	void* data;
+	t_map_element*	tmp;
+	t_map_element*	save = NULL;
+	void*			data;
 
 	init_mutex(map);
 	WaitForSingleObject(map->mutex, INFINITE);
@@ -423,8 +423,8 @@ void* remove_map_element(t_map* map, unsigned long key)
 
 void delete_map(t_map* map)
 {
-	t_map_element* element;
-	t_map_element* save;
+	t_map_element*	element;
+	t_map_element*	save;
 	unsigned long	i;
 
 	init_mutex(map);
@@ -453,7 +453,7 @@ void delete_map(t_map* map)
 
 void display_map(t_map* map)
 {
-	t_map_element* tmp;
+	t_map_element*	tmp;
 	uint64_t		i;
 	uint64_t		count_element = 0;
 
