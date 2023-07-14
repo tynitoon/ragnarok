@@ -15,27 +15,8 @@
 
 int start_server(int port, t_list* clients)
 {
-	int					opt = 1;
-	int 				master_socket;
-	int 				addrlen;
-	int 				ret_value;
-	int 				max_fd;
-	int					fd;
-	struct sockaddr_in	address;
-	t_list_element*		tmp;
-	t_list_element*		save;
-	t_client*			client;
-	t_message*			message;
-	uint64_t			message_size;
-	fd_set				readfds;
-
-	//Init values
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = INADDR_ANY;
-	address.sin_port = htons(port);
-	addrlen = sizeof(address);
-
 	//Create a master socket
+	int master_socket;
 	if ((master_socket = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
 		perror("socket failed");
@@ -43,6 +24,7 @@ int start_server(int port, t_list* clients)
 	}
 
 	//Set socket option so the address can be reused when relaunching the server
+	int opt = 1;
 	if (setsockopt(master_socket, SOL_SOCKET, SO_REUSEADDR, (char*)&opt, sizeof(opt)) < 0)
 	{
 		perror("setsockopt failed");
@@ -50,6 +32,10 @@ int start_server(int port, t_list* clients)
 	}
 
 	//Bind the socket to localhost port
+	struct sockaddr_in address;
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = INADDR_ANY;
+	address.sin_port = htons(port);
 	if (bind(master_socket, (struct sockaddr*)&address, sizeof(address)) < 0)
 	{
 		perror("bind failed");
@@ -63,6 +49,17 @@ int start_server(int port, t_list* clients)
 		return -1;
 	}
 
+	//Loop for connection and messages
+	int             addrlen = sizeof(struct sockaddr_in);
+	int             ret_value;
+	int             max_fd;
+	int             fd;
+	t_list_element* tmp;
+	t_list_element* save;
+	t_client*       client;
+	t_message*      message;
+	uint64_t        message_size;
+	fd_set          readfds;
 	while (1)
 	{
 		//Clear the socket set

@@ -17,13 +17,13 @@ static long int get_timestamp_microsecond()
 
 int main()
 {
-	int			i;
-	int			j;
-	char*		ptr[TEST_SIZE];
-	int			size[TEST_SIZE];
-	int			random_nb[TEST_SIZE];
-	long int	before;
-	long int	duration;
+	int      i;
+	int      j;
+	char*    ptr[TEST_SIZE];
+	int      size[TEST_SIZE];
+	int      random_nb[TEST_SIZE];
+	long int before;
+	long int duration;
 
 	srand(time(NULL));
 	for (i = 0; i < TEST_SIZE; ++i)

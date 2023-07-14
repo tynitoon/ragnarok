@@ -15,18 +15,13 @@
 
 static void connect_command(t_game_infos* game_infos, t_client* client, t_connect* data)
 {
-	t_character*	characters;
-	t_client*		already_connected_client;
-	t_message*		message;
-	char			buffer[512];
-	int				character_counter;
-	
 	//Check username and password
+	char buffer[512];
 	sprintf(buffer, "SELECT user_id FROM user WHERE username = '%s' AND password = '%s'", data->username, data->password);
 	client->user_id = sqlite_get_integer(buffer);
 
 	//Use buffer to send response
-	message = (t_message*)buffer;
+	t_message* message = (t_message*)buffer;
 
 	//User doesn't exist or failed his password
 	if (client->user_id == -1)
@@ -39,15 +34,16 @@ static void connect_command(t_game_infos* game_infos, t_client* client, t_connec
 	}
 
 	//Check and disconnect if a user is already connected with this username
-	already_connected_client = get_map_element(&game_infos->user_id_to_authentified_client, client->user_id);
+	t_client* already_connected_client = get_map_element(&game_infos->user_id_to_authentified_client, client->user_id);
 	if (already_connected_client != NULL)
 		close(already_connected_client->fd);
 
 	add_map_element(&game_infos->user_id_to_authentified_client, client->user_id, client);
 	
 	//Get characters then send them to client
+	int character_counter;
 	sprintf(buffer, "SELECT user_id, name, position FROM character WHERE user_id = '%d'", client->user_id);
-	characters = sqlite_get_characters(buffer, &character_counter);
+	t_character* characters = sqlite_get_characters(buffer, &character_counter);
 	message->type = CHARACTER_LIST_CONNECT;
 	message->size = sizeof(t_message) + character_counter * sizeof(t_character);
 	memcpy(message->buffer, &characters, character_counter * sizeof(t_character));

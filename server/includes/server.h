@@ -7,15 +7,15 @@
 
 #define BUFFER_SIZE 4096
 
-typedef struct          s_client
+typedef struct      s_client
 {
-    int                 user_id;
-    int                 fd;
-    t_list              messages;
-    size_t              buffer_index;
-    char                buffer[BUFFER_SIZE];
-    pthread_mutex_t     mutex;
-}                       t_client;
+    int             user_id;
+    int             fd;
+    t_list          messages;
+    size_t          buffer_index;
+    char            buffer[BUFFER_SIZE];
+    pthread_mutex_t mutex;
+}                   t_client;
 
 int start_server(int port, t_list* clients);
 

@@ -20,13 +20,13 @@ static long int get_timestamp_microsecond()
 
 int main()
 {
-    int                             i;
-    std::unordered_map<int, int*>   map;
-    t_map                           hash_map;
-    int                             arr[TEST_SIZE];
-    int                             check[TEST_SIZE];
-    long int	                    before;
-    long int	                    duration;
+    int                           i;
+    std::unordered_map<int, int*> map;
+    t_map                         hash_map;
+    int                           arr[TEST_SIZE];
+    int                           check[TEST_SIZE];
+    long int	                  before;
+    long int	                  duration;
 
     init_map(&hash_map);
     

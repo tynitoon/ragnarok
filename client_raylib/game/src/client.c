@@ -9,7 +9,7 @@
 #include "client.h"
 #include "single_memory.h"
 
-// Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
+// Needed to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
@@ -17,28 +17,22 @@
 
 int start_client(char* address, char* port, t_server* server)
 {
-	WSADATA             wsaData;
-	struct addrinfo* possible_address = NULL;
-	struct addrinfo     server_address;
-	int                 ret_value;
-	t_list_element*		save;
-	t_message*          message;
-	uint64_t			message_size;
-
 	//Init WinSock
-	memset(server, 0, sizeof(t_server));
+	int     ret_value;
+	WSADATA wsaData;
 	if ((ret_value = WSAStartup(MAKEWORD(2, 2), &wsaData)) != 0)
 	{
 		printf("WSAStartup failed with error: %d\n", ret_value);
 		return -1;
 	}
 
+	//Resolve the server address and port
+	struct addrinfo* possible_address;
+	struct addrinfo  server_address;
 	memset(&server_address, 0, sizeof(server_address));
 	server_address.ai_family = AF_INET;
 	server_address.ai_socktype = SOCK_STREAM;
 	server_address.ai_protocol = IPPROTO_TCP;
-
-	//Resolve the server address and port
 	if ((ret_value = getaddrinfo(address, port, &server_address, &possible_address)) != 0)
 	{
 		printf("getaddrinfo failed with error: %d\n", ret_value);
@@ -47,6 +41,7 @@ int start_client(char* address, char* port, t_server* server)
 	}
 
 	//Create socket
+	memset(server, 0, sizeof(t_server));
 	if ((server->fd = socket(possible_address->ai_family, possible_address->ai_socktype, possible_address->ai_protocol)) == INVALID_SOCKET)
 	{
 		printf("socket failed with error: %ld\n", WSAGetLastError());
@@ -64,6 +59,10 @@ int start_client(char* address, char* port, t_server* server)
 		return -1;
 	}
 
+	//Loop to receive messages from server
+	t_list_element* save;
+	t_message*      message;
+	uint64_t        message_size;
 	while (1)
 	{
 		//Check if it was for closing and read the incoming message

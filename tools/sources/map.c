@@ -220,13 +220,13 @@ void display_map(t_map* map)
 		tmp = map->datas[i];
 		while (tmp != NULL)
 		{
-			printf("index = %ld, key = %lu, data = %p, index = %lu\n", i, tmp->key, tmp->data, tmp->key % map->size);
+			printf("index = %ld, key = %lu, data = %p\n", i, tmp->key, tmp->data);
 			++count_element;
 
 			tmp = tmp->next;
 		}
 	}
-	printf("size map = %ld count element = %ld\n", map->size, count_element);
+	printf("total size map = %ld count element = %ld\n", map->size, count_element);
 }
 
 #else
@@ -462,13 +462,13 @@ void display_map(t_map* map)
 		tmp = map->datas[i];
 		while (tmp != NULL)
 		{
-			printf("index = %ld, key = %lu, data = %p, index = %lu\n", i, tmp->key, tmp->data, tmp->key % map->size);
+			printf("index = %ld, key = %lu, data = %p\n", i, tmp->key, tmp->data);
 			++count_element;
 
 			tmp = tmp->next;
 		}
 	}
-	printf("size map = %ld count element = %ld\n", map->size, count_element);
+	printf("total size map = %ld count element = %ld\n", map->size, count_element);
 }
 
 #endif

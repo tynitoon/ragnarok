@@ -10,19 +10,15 @@
 
 int main()
 {
-	t_game_infos	game_infos;
-	int				count_threads;
-
 	//Init values
+	t_game_infos game_infos;
+	memset(&game_infos, 0, sizeof(t_game_infos));
+	init_map(&game_infos.user_id_to_authentified_client);
 	if (init_database() != 0)
 		return 1;
 
-	memset(&game_infos, 0, sizeof(t_game_infos));
-	init_map(&game_infos.user_id_to_authentified_client);
-
-	count_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1; //We remove one for the main thread
-
 	//Start thread consummers
+	int count_threads = sysconf(_SC_NPROCESSORS_ONLN) - 1; //We remove one for the main thread
 	for (int i = 0; i < count_threads; ++i)
 	{
 		pthread_t	thread_id;
