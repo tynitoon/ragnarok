@@ -11,4 +11,4 @@
  */
 unsigned int generate_hash(void* data, unsigned int length);
 
-#endif
+#endif /* HASH_H */

@@ -1,40 +1,17 @@
-#ifndef MAP_H_
-#define MAP_H_
+#ifndef MAP_H
+#define MAP_H
 
+#include <stddef.h>
+
+/* Definitions to avoid duplication code for crossplatform
+   DO NOT INCLUDE <windows.h> here or raylib will not be able to compile */
 #ifdef linux
-
 #include <pthread.h>
-#include <stddef.h>
 
-typedef struct            s_map_element
-{
-	unsigned long         key;
-	void*                 data;
-	struct s_map_element* next;
-}                         t_map_element;
-
-typedef struct            s_map
-{
-	pthread_mutex_t       mutex;
-	t_map_element**       datas;
-	size_t                size;
-	size_t                elements;
-}                         t_map;
-
-void  init_map(t_map* map);
-void  add_map_element(t_map* map,unsigned long key, void* data);
-void* get_map_element(t_map* map, unsigned long key);
-void* remove_map_element(t_map* map, unsigned long key);
-void  delete_map(t_map* map);
-void  display_map(t_map* map);
-
+typedef pthread_mutex_t    MUTEX;
 #else
-
-#include <stddef.h>
-
-/* Define Things to avoid include windows.h */
-typedef void* HANDLE;
-/* End of defines for windows.h */
+typedef void* MUTEX;
+#endif /* Linux or windows */
 
 typedef struct            s_map_element
 {
@@ -45,7 +22,7 @@ typedef struct            s_map_element
 
 typedef struct            s_map
 {
-	HANDLE                mutex;
+	MUTEX                 mutex;
 	t_map_element**       datas;
 	size_t                size;
 	size_t                elements;
@@ -101,6 +78,4 @@ void  delete_map(t_map* map);
  */
 void  display_map(t_map* map);
 
-#endif
-
-#endif
+#endif /* MAP_H */

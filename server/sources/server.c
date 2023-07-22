@@ -144,7 +144,7 @@ int start_server(int port, t_list* clients)
 					client->buffer_index += ret_value;
 
 					//If there is enough data to get the message's size
-					while (client->buffer_index >= (int)sizeof(int))
+					while (client->buffer_index >= sizeof(int))
 					{
 						message = (t_message*)client->buffer;
 						message_size = message->size;

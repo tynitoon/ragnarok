@@ -41,4 +41,4 @@ typedef struct  s_character
 	t_position	position;
 }				t_character;
 
-#endif
+#endif /* PROTOCOL_H */

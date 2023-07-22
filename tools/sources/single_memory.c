@@ -35,6 +35,12 @@ static int						g_table_index[MAX_FREE_INDEX];					//A index in free blocks can 
 static pthread_mutex_t			g_main_mutex = PTHREAD_MUTEX_INITIALIZER;		//For Thread safe allocation
 static const void*				g_impossible_address = (void*)sizeof(void*);	//Impossible address, it used to detect a free element
 
+//Quick check to determine an address is in the allocated memory
+static int	is_in_memory(void* ptr)
+{
+	return g_memory_head != NULL && g_memory_head < ptr && (uint64_t)ptr < (uint64_t)g_memory_head + g_memory_size;
+}
+
 //It is a quick Log2, it uses the Debruijn algorithm
 static int compute_index(uint64_t size)
 {
@@ -240,6 +246,7 @@ static void* get_memory_unsafe(uint64_t size)
 	return (void*)((uint64_t)new_block + sizeof(t_block));
 }
 
+//Free memory function without mutex
 static void free_memory_unsafe(void* ptr)
 {
 	t_block*	prev_block = NULL;
@@ -251,7 +258,7 @@ static void free_memory_unsafe(void* ptr)
 
 	current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 
-	if (g_memory_head == NULL || ptr < g_memory_head || (uint64_t)g_memory_head + g_memory_size < (uint64_t)ptr)
+	if (!is_in_memory(ptr))
 		return;
 
 	//Check if previous block exists and get it if it does
@@ -363,7 +370,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 	pthread_mutex_lock(&g_main_mutex);
 
 	//If the pointer doesn't come from a get_memory()
-	if (g_memory_head == NULL || ptr <= g_memory_head || (uint64_t)g_memory_head + g_memory_size < (uint64_t)ptr)
+	if (!is_in_memory(ptr))
 	{
 		new_ptr = get_memory_unsafe(size);
 
@@ -383,7 +390,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 		return ptr;
 	}
-	else if (current_block->size >= size) //That means that we have not the place for block datas
+	else if (current_block->size >= size) //That means that we have not the place for block datas and that we can't split
 	{
 		pthread_mutex_unlock(&g_main_mutex);
 
@@ -394,10 +401,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 	new_ptr = get_memory_unsafe(size);
 
 	//We copy old datas at the new address
-	if (size > current_block->size)
-		memcpy(new_ptr, ptr, current_block->size);
-	else
-		memcpy(new_ptr, ptr, size);
+	memcpy(new_ptr, ptr, current_block->size);
 
 	//Free old pointer
 	free_memory_unsafe(ptr);
@@ -474,6 +478,12 @@ static t_block*					g_frees[MAX_FREE_INDEX];						//Free blocks are ordered in i
 static int						g_table_index[MAX_FREE_INDEX];					//A index in free blocks can be empty. We use this table to reduce iterations
 static HANDLE 					g_main_mutex = NULL;							//For Thread safe allocation
 static const void*				g_impossible_address = (void*)sizeof(void*);	//Impossible address, it used to detect a free element
+
+//Quick check to determine an address is in the allocated memory
+static int	is_in_memory(void* ptr)
+{
+	return g_memory_head != NULL && g_memory_head < ptr  && (uint64_t)ptr < (uint64_t)g_memory_head + g_memory_size;
+}
 
 //It is a quick Log2, it uses the Debruijn algorithm
 static int	compute_index(uint64_t size)
@@ -561,7 +571,7 @@ static void remove_list_element(t_block* to_remove, int index)
 	to_remove->next_free = (t_block*)g_impossible_address;
 }
 
-//We avoid problems by setting the prev_size variable before creating the a block
+//We avoid problems by setting the prev_size variable before creating a block
 static void set_prev_size(t_block* block)
 {
 	uint64_t	size = block->size;
@@ -680,6 +690,7 @@ static void* get_memory_unsafe(uint64_t size)
 	return (void*)((uint64_t)new_block + sizeof(t_block));
 }
 
+//Free memory function without mutex
 static void free_memory_unsafe(void* ptr)
 {
 	t_block*	prev_block = NULL;
@@ -691,7 +702,7 @@ static void free_memory_unsafe(void* ptr)
 
 	current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 
-	if (g_memory_head == NULL || ptr < g_memory_head || (uint64_t)g_memory_head + g_memory_size < (uint64_t)ptr)
+	if (!is_in_memory(ptr))
 		return;
 
 	//Check if previous block exists and get it if it does
@@ -811,8 +822,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 	init_mutex();
 	WaitForSingleObject(g_main_mutex, INFINITE);
 
-	//If the pointer doesn't come from a get_memory()
-	if (g_memory_head == NULL || ptr <= g_memory_head || (uint64_t)g_memory_head + g_memory_size < (uint64_t)ptr)
+	if (!is_in_memory(ptr))
 	{
 		new_ptr = get_memory_unsafe(size);
 
@@ -832,7 +842,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 		return ptr;
 	}
-	else if (current_block->size >= size) //That means that we have not the place for block datas
+	else if (current_block->size >= size) //That means that we have not the place for block datas and that we can't split
 	{
 		ReleaseMutex(g_main_mutex);
 
@@ -843,10 +853,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 	new_ptr = get_memory_unsafe(size);
 
 	//We copy old datas at the new address
-	if (size > current_block->size)
-		memcpy(new_ptr, ptr, current_block->size);
-	else
-		memcpy(new_ptr, ptr, size);
+	memcpy(new_ptr, ptr, current_block->size);
 
 	//Free old pointer
 	free_memory_unsafe(ptr);

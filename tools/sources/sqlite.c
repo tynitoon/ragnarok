@@ -84,7 +84,7 @@ int	sqlite_get_integer(char* sql_command)
 
 	if (sqlite3_prepare_v2(database, sql_command, -1, &sql_statement, 0) != SQLITE_OK)
 	{
-		fprintf(stderr, "Error in sqlite_get_array: Cannot prepare statement: %s\n", sqlite3_errmsg(database));
+		fprintf(stderr, "Error in sqlite_get_integer: Cannot prepare statement: %s\n", sqlite3_errmsg(database));
 		return -1;
 	}
 
@@ -108,11 +108,10 @@ t_character* sqlite_get_characters(char* sql_command, int* character_counter)
 
 	if (sqlite3_prepare_v2(database, sql_command, -1, &sql_statement, 0) != SQLITE_OK)
 	{
-		fprintf(stderr, "Error in sqlite_get_array: Cannot prepare statement: %s\n", sqlite3_errmsg(database));
+		fprintf(stderr, "Error in sqlite_get_characters: Cannot prepare statement: %s\n", sqlite3_errmsg(database));
 		return NULL;
 	}
 
-	printf("SQL : %s\n", sql_command);
 	while (sqlite3_step(sql_statement) == SQLITE_ROW)
 	{
 		if (allocated_size <= count)

@@ -19,4 +19,4 @@ typedef struct s_game_infos
  */
 void* search_and_compute_tasks(void* datas);
 
-#endif
+#endif /* GAME_H */
