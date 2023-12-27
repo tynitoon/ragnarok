@@ -8,32 +8,32 @@
 #ifdef linux
 #include <pthread.h>
 
-typedef pthread_mutex_t    MUTEX;
+typedef pthread_mutex_t		MUTEX;
 #else
 typedef void* MUTEX;
 #endif /* Linux or windows */
 
-typedef struct            s_map_element
+typedef struct				s_map_element
 {
-	unsigned long         key;
-	void*                 data;
-	struct s_map_element* next;
-}                         t_map_element;
+	unsigned long			key;
+	void*					data;
+	struct s_map_element*	next;
+}							t_map_element;
 
-typedef struct            s_map
+typedef struct				s_map
 {
-	MUTEX                 mutex;
-	t_map_element**       datas;
-	size_t                size;
-	size_t                elements;
-}                         t_map;
+	MUTEX					mutex;
+	t_map_element**			datas;
+	size_t					size;
+	size_t					elements;
+}							t_map;
 
 /*
  * /brief initialize a map
  *
  * /param[in] map is the map to initialize
  */
-void  init_map(t_map* map);
+void init_map(t_map* map);
 
 /*
  * /brief add element in map, if the key already exists, the data is replaced
@@ -42,7 +42,7 @@ void  init_map(t_map* map);
  * /param[in] key is an id, you can use hash.h to generate your own key or increment an unsigned long
  * /param[in] data is the data to store
  */
-void  add_map_element(t_map* map, unsigned long key, void* data);
+void add_map_element(t_map* map, unsigned long key, void* data);
 
 /*
  * /brief retrieve data from a key
@@ -69,13 +69,13 @@ void* remove_map_element(t_map* map, unsigned long key);
  *
  * /param[in] map is the map where elements are stored
  */
-void  delete_map(t_map* map);
+void delete_map(t_map* map);
 
 /*
  * /brief display all index, key and data. It also displays the used size and the total size of the map
  *
  * /param[in] map is the map where elements are stored
  */
-void  display_map(t_map* map);
+void display_map(t_map* map);
 
 #endif /* MAP_H */

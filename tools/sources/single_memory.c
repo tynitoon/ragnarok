@@ -170,13 +170,11 @@ static void* get_memory_unsafe(uint64_t size)
 	if (g_memory_head == NULL)
 	{
 		g_memory_size = (uint64_t)sysconf(_SC_PAGE_SIZE) << PAGE_NUMBER;
-		g_memory_head = mmap(NULL, g_memory_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+		g_memory_head = malloc(g_memory_size);
 
-		if (g_memory_head == MAP_FAILED)
+		if (g_memory_head == NULL)
 		{
-			g_memory_head = NULL;
-
-			fprintf(stderr, "Error in get_memory: mmap failed\n");
+			fprintf(stderr, "Error in get_memory: malloc failed\n");
 			return NULL;
 		}
 
@@ -458,9 +456,9 @@ void display_memory()
 
 typedef enum					s_filter
 {
-	PREV_BLOCK_IS_FREE = (1 << 0),
-	NEXT_BLOCK_IS_FREE = (1 << 1),
-	BOTH_BLOCK_ARE_FREE = PREV_BLOCK_IS_FREE | NEXT_BLOCK_IS_FREE
+	PREV_BLOCK_IS_FREE	= (1 << 0),
+	NEXT_BLOCK_IS_FREE	= (1 << 1),
+	BOTH_BLOCK_ARE_FREE	= PREV_BLOCK_IS_FREE | NEXT_BLOCK_IS_FREE
 }								t_filter;
 
 typedef struct					s_block
@@ -616,7 +614,7 @@ static void* get_memory_unsafe(uint64_t size)
 	{
 		GetSystemInfo(&system_infos);
 		g_memory_size = (uint64_t)system_infos.dwPageSize << PAGE_NUMBER;
-		g_memory_head = VirtualAlloc(NULL, g_memory_size, MEM_COMMIT, PAGE_READWRITE);
+		g_memory_head = malloc(g_memory_size);
 
 		if (g_memory_head == NULL)
 		{

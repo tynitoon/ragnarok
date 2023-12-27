@@ -35,12 +35,15 @@ static Sound* load_sound(char* path)
 	return pointer;
 }
 
-static Image* load_image(char* path)
+static Texture2D* load_texture2D(char* path)
 {
-	Image*	pointer	= get_memory(sizeof(Image));
-	Image	tmp		= LoadImage(path);
+	Image*		pointer	= get_memory(sizeof(Texture2D));
+	Image		image	= LoadImage(path);
+	Texture2D	texture = LoadTextureFromImage(image);
 
-	memcpy(pointer, &tmp, sizeof(Image));
+	UnloadImage(image);
+
+	memcpy(pointer, &texture, sizeof(Texture2D));
 
 	return pointer;
 }
@@ -64,9 +67,9 @@ static void unload_sound(void* data)
 	free_memory(data);
 }
 
-static void unload_image(void* data)
+static void unload_texture2D(void* data)
 {
-	UnloadImage(*(Image*)data);
+	UnloadTexture(*(Texture2D*)data);
 	free_memory(data);
 }
 
@@ -74,12 +77,12 @@ static void unload_image(void* data)
 static void load_UI(t_map* assets)
 {
 	add_map_element(assets, INDEX_UI_FONT,				load_font("resources/UI/font.png"));
-	add_map_element(assets, INDEX_UI_BUTTON_BIG,		load_image("resources/UI/button_big.png"));
+	add_map_element(assets, INDEX_UI_BUTTON_BIG, load_texture2D("resources/UI/button_big.png"));
 }
 
 static void load_main_menu(t_map* assets)
 {
-	add_map_element(assets, INDEX_MAIN_MENU_BACKGROUND, load_image("resources/main_menu/background.png"));
+	add_map_element(assets, INDEX_MAIN_MENU_BACKGROUND, load_texture2D("resources/main_menu/background.png"));
 	add_map_element(assets, INDEX_MAIN_MENU_MUSIC,		load_music("resources/main_menu/music.png"));
 }
 
@@ -87,12 +90,12 @@ static void load_main_menu(t_map* assets)
 static void unload_UI(t_map* assets)
 {
 	unload_font(remove_map_element(assets, INDEX_UI_FONT));
-	unload_image(remove_map_element(assets, INDEX_UI_BUTTON_BIG));
+	unload_texture2D(remove_map_element(assets, INDEX_UI_BUTTON_BIG));
 }
 
 static void unload_main_menu(t_map* assets)
 {
-	unload_image(remove_map_element(assets, INDEX_MAIN_MENU_BACKGROUND));
+	unload_texture2D(remove_map_element(assets, INDEX_MAIN_MENU_BACKGROUND));
 	unload_music(remove_map_element(assets, INDEX_MAIN_MENU_MUSIC));
 }
 

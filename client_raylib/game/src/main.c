@@ -1,29 +1,26 @@
 #include "raylib.h"
-#include "client.h"
-#include "map.h"
-#include "assets_loader.h"
-
-#define WINDOW_WIDTH	800
-#define WINDOW_HEIGHT	450
-#define WINDOW_NAME		"Ragnarok Client"
-
-typedef struct  s_game_infos
-{
-	bool		is_running;
-	t_server	server;
-	t_map		assets;
-}				t_game_infos;
+#include "game.h"
 
 t_game_infos game;
 
 static void init_game()
 {
+	//Init Game
 	game.is_running = true;
+	game.is_in_game = false;
+
+	//Init Window
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_NAME);
-	InitAudioDevice();
-	init_map(&game.assets);
+	game.settings.scale = 1.0f;
 	SetTargetFPS(60);
-	//load_group_assets(&game.assets, GROUP_UI);
+
+	//Init Audio
+	InitAudioDevice();
+	
+	//Init Assets
+	init_map(&game.assets);
+	load_group_assets(&game.assets, GROUP_MAIN_MENU);
+	load_group_assets(&game.assets, GROUP_UI);
 }
 
 static void clear_game()
@@ -32,16 +29,56 @@ static void clear_game()
 	CloseWindow();
 }
 
-static void Update()
+static void update()
 {
 	//UpdateMusicStream(music);
+	//Basic Handle keys
+	if (IsKeyPressed(KEY_ENTER) && (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)))
+	{
+		if (IsWindowFullscreen())
+		{
+			ToggleFullscreen();
+			SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+			game.settings.scale = 1.0f;
+		}
+		else
+		{
+			int display = GetCurrentMonitor();
+			SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
+			game.settings.scale = (float)GetMonitorWidth(display) / (float)WINDOW_WIDTH;
+			ToggleFullscreen();
+		}
+	}
+
+	if (game.is_in_game)
+	{
+
+	}
+	else
+	{
+
+	}
 }
 
-static void Draw()
+
+
+static void draw()
 {
 	BeginDrawing();
 
 	//ClearBackground(RAYWHITE); Don't know if it's usefull
+	if (game.is_in_game)
+	{
+	}
+	else
+	{
+		//Display backround
+		Texture2D* background = get_map_element(&game.assets, INDEX_MAIN_MENU_BACKGROUND);
+		DrawTextureEx(*background, (Vector2){ 0.0f, 0.0f }, 0.0f, game.settings.scale, WHITE);
+
+		//Display centered text
+		draw_text("Main Menu", (Vector2) { 960.0f, 30.0f }, 72.0f, MAROON, ALIGNEMENT_CENTER_TOP);
+	}
 
 	EndDrawing();
 }
@@ -56,8 +93,8 @@ int main(void)
 
 	while (game.is_running)
 	{
-		Update();
-		Draw();
+		update();
+		draw();
 	}
 
 	clear_game();

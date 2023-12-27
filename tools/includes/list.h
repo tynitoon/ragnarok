@@ -6,24 +6,24 @@
 #ifdef linux
 #include <pthread.h>
 
-typedef pthread_mutex_t    MUTEX;
+typedef pthread_mutex_t		MUTEX;
 #else
-typedef void*              MUTEX;
+typedef void*				MUTEX;
 #endif /* Linux or windows */
 
-typedef struct             s_list_element
+typedef struct				s_list_element
 {
-	struct s_list_element* prev;
-	struct s_list_element* next;
-	char                   data[];
-}                          t_list_element;
+	struct s_list_element*	prev;
+	struct s_list_element*	next;
+	char					data[];
+}							t_list_element;
 
-typedef struct              s_list
+typedef struct				s_list
 {
-	MUTEX                   mutex;
-	t_list_element*         head;
-	t_list_element*         tail;
-}                           t_list;
+	MUTEX					mutex;
+	t_list_element*			head;
+	t_list_element*			tail;
+}							t_list;
 
 /*
  * /brief add an element at the end of the list
@@ -31,7 +31,7 @@ typedef struct              s_list
  * /param[in] list structure, it has to be initialized before
  * /param[in] to_add is the element to add (Must not be NULL)
  */
-void            add_list_element(t_list* list, t_list_element* to_add);
+void add_list_element(t_list* list, t_list_element* to_add);
 
 /*
  * /brief add an element at the end of the list

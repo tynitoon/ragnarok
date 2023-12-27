@@ -1,6 +1,8 @@
 #ifndef ASSETS_LOADER_H
 #define ASSETS_LOADER_H
 
+#include "map.h"
+
 typedef enum    e_asset_group
 {
 	GROUP_UI		= 0,
@@ -16,7 +18,7 @@ typedef enum    e_asset_index
 	INDEX_MAIN_MENU_BACKGROUND,
 }				t_asset_index;
 
-//void load_group_assets(t_map* assets, t_asset_group group);
-//void unload_group_assets(t_map* assets, t_asset_group group);
+void load_group_assets(t_map* assets, t_asset_group group);
+void unload_group_assets(t_map* assets, t_asset_group group);
 
 #endif
