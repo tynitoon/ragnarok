@@ -26,6 +26,13 @@ typedef struct				s_list
 }							t_list;
 
 /*
+ * /brief initialize a list
+ *
+ * /param[in] list is the list to initialize
+ */
+void init_list(t_list* list);
+
+/*
  * /brief add an element at the end of the list
  * 
  * /param[in] list structure, it has to be initialized before

@@ -31,14 +31,14 @@ typedef _W64 unsigned long ULONG_PTR, * PULONG_PTR;
 typedef UINT_PTR    SOCKET;
 /* End of defines for windows.h */
 
-typedef struct      s_server
+typedef struct      s_client
 {
     SOCKET          fd;
     t_list          messages;
     uint64_t        buffer_index;
     char            buffer[BUFFER_SIZE];
-}                   t_server;
+}                   t_client;
 
-int start_client(char* address, char* port, t_server* server);
+int start_client(char* address, char* port, t_client* server);
 
 #endif

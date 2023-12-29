@@ -6,6 +6,11 @@
 
 #include "list.h"
 
+void init_list(t_list* list)
+{
+	memset(list, 0, sizeof(t_list));
+}
+
 void add_list_element(t_list* list, t_list_element* to_add)
 {
 	pthread_mutex_lock(&list->mutex);
@@ -90,6 +95,11 @@ static void init_mutex(t_list* list)
 {
 	if (list->mutex == NULL)
 		list->mutex = CreateMutex(NULL, FALSE, NULL);
+}
+
+void init_list(t_list* list)
+{
+	memset(list, 0, sizeof(t_list));
 }
 
 void add_list_element(t_list* list, t_list_element* to_add)

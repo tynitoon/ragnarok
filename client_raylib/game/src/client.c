@@ -15,7 +15,7 @@
 #pragma comment (lib, "AdvApi32.lib")
 
 
-int start_client(char* address, char* port, t_server* server)
+int start_client(char* address, char* port, t_client* client)
 {
 	//Init WinSock
 	int     ret_value;
@@ -41,8 +41,8 @@ int start_client(char* address, char* port, t_server* server)
 	}
 
 	//Create socket
-	memset(server, 0, sizeof(t_server));
-	if ((server->fd = socket(possible_address->ai_family, possible_address->ai_socktype, possible_address->ai_protocol)) == INVALID_SOCKET)
+	memset(client, 0, sizeof(t_client));
+	if ((client->fd = socket(possible_address->ai_family, possible_address->ai_socktype, possible_address->ai_protocol)) == INVALID_SOCKET)
 	{
 		printf("socket failed with error: %ld\n", WSAGetLastError());
 		freeaddrinfo(possible_address);
@@ -51,9 +51,9 @@ int start_client(char* address, char* port, t_server* server)
 	}
 
 	//Connect to server
-	if ((ret_value = connect(server->fd, possible_address->ai_addr, (int)possible_address->ai_addrlen)) == SOCKET_ERROR)
+	if ((ret_value = connect(client->fd, possible_address->ai_addr, (int)possible_address->ai_addrlen)) == SOCKET_ERROR)
 	{
-		closesocket(server->fd);
+		closesocket(client->fd);
 		freeaddrinfo(possible_address);
 		WSACleanup();
 		return -1;
@@ -66,43 +66,43 @@ int start_client(char* address, char* port, t_server* server)
 	while (1)
 	{
 		//Check if it was for closing and read the incoming message
-		if ((ret_value = recv(server->fd, &server->buffer[server->buffer_index], BUFFER_SIZE - server->buffer_index, 0)) == 0)
+		if ((ret_value = recv(client->fd, &client->buffer[client->buffer_index], BUFFER_SIZE - client->buffer_index, 0)) == 0)
 		{
 			//Close the socket
-			closesocket(server->fd);
-			server->fd = -1;
+			closesocket(client->fd);
+			client->fd = -1;
 			WSACleanup();
 
 			return 0;
 		}
 		else
 		{
-			server->buffer_index += ret_value;
+			client->buffer_index += ret_value;
 
 			//If there is enough data to get the message's size
-			while (server->buffer_index >= (int)sizeof(int))
+			while (client->buffer_index >= (int)sizeof(int))
 			{
-				message = (t_message*)server->buffer;
+				message = (t_message*)client->buffer;
 				message_size = message->size;
 
 				//if the message_size is impossible (cheater or network error)
 				if (message_size < sizeof(t_message) || message_size > BUFFER_SIZE)
-					server->buffer_index = 0;
-				else if (server->buffer_index >= message_size)
+					client->buffer_index = 0;
+				else if (client->buffer_index >= message_size)
 				{
 					save = (t_list_element*)get_memory(sizeof(t_list_element) + message_size);
 					message = (t_message*)save->data;
 
 					//Copy datas
-					memcpy(message, server->buffer, message_size);
+					memcpy(message, client->buffer, message_size);
 
 					//Change the size to have only the data size
 					message->size = message_size - sizeof(t_message);
-					add_list_element(&server->messages, save);
+					add_list_element(&client->messages, save);
 
 					//Shift datas in the buffer (circular buffer)
-					server->buffer_index -= message_size;
-					memmove(server->buffer, &server->buffer[message_size], server->buffer_index);
+					client->buffer_index -= message_size;
+					memmove(client->buffer, &client->buffer[message_size], client->buffer_index);
 				}
 				else
 					break;

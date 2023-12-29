@@ -17,7 +17,8 @@ typedef struct		s_game_settings
 typedef struct		s_game_infos
 {
 	bool			is_running;
-	t_server		server;
+	t_client		client;
+	t_list			entities;
 	t_map			assets;
 	t_game_settings	settings;
 	bool			is_in_game;
