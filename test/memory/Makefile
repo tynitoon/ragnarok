@@ -6,7 +6,7 @@ NAME			= test_memory
 
 SRCS			= ./sources/main.c					\
 				../../tools/sources/single_memory.c	\
-				../../tools/sources/list.c
+				../../tools/sources/mutex.c
 
 OBJS			= $(SRCS:.c=.o)
 
