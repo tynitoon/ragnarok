@@ -3,15 +3,7 @@
 
 #include <stddef.h>
 
-/* Definitions to avoid duplication code for crossplatform
-   DO NOT INCLUDE <windows.h> here or raylib will not be able to compile */
-#ifdef linux
-#include <pthread.h>
-
-typedef pthread_mutex_t		MUTEX;
-#else
-typedef void* MUTEX;
-#endif /* Linux or windows */
+#include "mutex"
 
 typedef struct				s_map_element
 {

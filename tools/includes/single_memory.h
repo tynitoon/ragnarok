@@ -2,7 +2,12 @@
 #define SINGLE_MEMORY_H
 
 #include <stdint.h>
-#include <stdlib.h>
+
+/* Used to easily replace allocation functions */
+#define MALLOC(size)			get_memory(size)
+#define CALLOC(number, size)	calloc_memory(number, size)
+#define REALLOC(ptr, size)		realloc_memory(ptr, size)
+#define FREE(ptr)				free_memory(ptr)
 
 /*
  * /brief find the best fit in 1Go memory (allocated at the first call) and return an unused block having a size in bytes

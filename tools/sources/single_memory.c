@@ -1,14 +1,15 @@
-#ifdef linux
-
-#include <sys/mman.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
 
+#include "mutex.h"
 #include "single_memory.h"
 
-#define PAGE_NUMBER				18												//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go, mmap need multiple of a page size
+#ifdef linux
+
+#include <unistd.h>
+
+#define PAGE_NUMBER				18												//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go
 #define MAX_FREE_INDEX			40												//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
 #define NOT_INITIALIZED_VALUE	100												//Used to init g_table_index so we just have to compare index with <
 
@@ -27,12 +28,12 @@ typedef struct					s_block
 	struct s_block*				prev_free;										//Double linked list on free blocks
 }								t_block;
 
-static uint64_t					g_memory_size;									//Size of the mmap allocation
+static uint64_t					g_memory_size;									//Size of the allocation
 static uint64_t					g_memory_offset = 0;							//Max address offset, if it reachs g_memory_size, the memory can be full if no free block match
-static void*					g_memory_head = NULL;							//Address of the head memory (given at the first call by mmap)
+static void*					g_memory_head = NULL;							//Address of the head memory (given at the first call by malloc)
 static t_block*					g_frees[MAX_FREE_INDEX];						//Free blocks are ordered in it, depending of the compute_index(block->size) 
 static int						g_table_index[MAX_FREE_INDEX];					//A index in free blocks can be empty. We use this table to reduce iterations
-static pthread_mutex_t			g_main_mutex = PTHREAD_MUTEX_INITIALIZER;		//For Thread safe allocation
+static MUTEX					g_main_mutex;									//For Thread safe allocation
 static const void*				g_impossible_address = (void*)sizeof(void*);	//Impossible address, it used to detect a free element
 
 //Quick check to determine an address is in the allocated memory
@@ -318,44 +319,49 @@ static void free_memory_unsafe(void* ptr)
 	}
 }
 
+static void init_mutex()
+{
+	if (g_memory_head == NULL)
+		mutex_init(&g_main_mutex);
+}
+
 void* get_memory(uint64_t size)
 {
-	void*	ptr;
+	init_mutex();
 
 	size = align_size(size);
 
-	pthread_mutex_lock(&g_main_mutex);
+	mutex_lock(&g_main_mutex);
 
-	ptr = get_memory_unsafe(size);
+	void* ptr = get_memory_unsafe(size);
 
-	pthread_mutex_unlock(&g_main_mutex);
+	mutex_unlock(&g_main_mutex);
 
 	return ptr;
 }
 
 void* calloc_memory(uint64_t nmemb, uint64_t size)
 {
-	void*	new_ptr;
+	init_mutex();
 
 	size = align_size(nmemb * size);
 
 	if (size == 0)
 		return NULL;
 
-	pthread_mutex_lock(&g_main_mutex);
+	mutex_lock(&g_main_mutex);
 
-	new_ptr = get_memory_unsafe(size);
+	void* new_ptr = get_memory_unsafe(size);
 	memset(new_ptr, 0, size);
 
-	pthread_mutex_unlock(&g_main_mutex);
+	mutex_unlock(&g_main_mutex);
 
 	return new_ptr;
 }
 
 void* realloc_memory(void* ptr, uint64_t size)
 {
-	void*		new_ptr;
-	t_block*	current_block;
+	init_mutex();
 
 	if (size == 0)
 	{
@@ -365,32 +371,33 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 	size = align_size(size);
 
-	pthread_mutex_lock(&g_main_mutex);
+	mutex_lock(&g_main_mutex);
 
 	//If the pointer doesn't come from a get_memory()
+	void* new_ptr;
 	if (!is_in_memory(ptr))
 	{
 		new_ptr = get_memory_unsafe(size);
 
-		pthread_mutex_unlock(&g_main_mutex);
+		mutex_unlock(&g_main_mutex);
 
 		return new_ptr;
 	}
 
-	current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
+	t_block* current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 
 	//Instant split if we ask a smaller size
 	if (current_block->size > sizeof(t_block) + size)
 	{
 		split_memory(current_block, size);
 
-		pthread_mutex_unlock(&g_main_mutex);
+		mutex_unlock(&g_main_mutex);
 
 		return ptr;
 	}
 	else if (current_block->size >= size) //That means that we have not the place for block datas and that we can't split
 	{
-		pthread_mutex_unlock(&g_main_mutex);
+		mutex_unlock(&g_main_mutex);
 
 		return ptr;
 	}
@@ -404,42 +411,20 @@ void* realloc_memory(void* ptr, uint64_t size)
 	//Free old pointer
 	free_memory_unsafe(ptr);
 
-	pthread_mutex_unlock(&g_main_mutex);
+	mutex_unlock(&g_main_mutex);
 
 	return new_ptr;
 }
 
 void free_memory(void* ptr)
 {
-	pthread_mutex_lock(&g_main_mutex);
+	init_mutex();
+
+	mutex_lock(&g_main_mutex);
 
 	free_memory_unsafe(ptr);
 
-	pthread_mutex_unlock(&g_main_mutex);
-}
-
-void display_memory()
-{
-	uint64_t	allocated_size = 0;
-	uint64_t	freed_size = 0;
-	t_block*	block = (t_block*)g_memory_head;
-
-	if (g_memory_head == NULL)
-		return;
-
-	while ((uint64_t)block < (uint64_t)g_memory_head + g_memory_offset)
-	{
-		if (block->next_free == g_impossible_address)
-			allocated_size += block->size;
-		else
-			freed_size += block->size;
-
-		block = (t_block*)((uint64_t)block + sizeof(t_block) + block->size);
-	}
-
-	printf("Allocated bytes : %lu\n", allocated_size);
-	printf("Freed bytes : %lu\n", freed_size);
-	printf("Unused bytes : %lu\n", g_memory_size - allocated_size - freed_size);
+	mutex_unlock(&g_main_mutex);
 }
 
 #else
@@ -450,7 +435,7 @@ void display_memory()
 
 #include "single_memory.h"
 
-#define PAGE_NUMBER				18												//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go, mmap need multiple of a page size
+#define PAGE_NUMBER				18												//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go
 #define MAX_FREE_INDEX			40												//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
 #define NOT_INITIALIZED_VALUE	100												//Used to init g_table_index so we just have to compare index with <
 
@@ -469,9 +454,9 @@ typedef struct					s_block
 	struct s_block*				prev_free;										//Double linked list on free blocks
 }								t_block;
 
-static uint64_t					g_memory_size;									//Size of the mmap allocation
+static uint64_t					g_memory_size;									//Size of the allocation
 static uint64_t					g_memory_offset = 0;							//Max address offset, if it reachs g_memory_size, the memory can be full if no free block match
-static void*					g_memory_head = NULL;							//Address of the head memory (given at the first call by mmap)
+static void*					g_memory_head = NULL;							//Address of the head memory (given at the first call by malloc)
 static t_block*					g_frees[MAX_FREE_INDEX];						//Free blocks are ordered in it, depending of the compute_index(block->size) 
 static int						g_table_index[MAX_FREE_INDEX];					//A index in free blocks can be empty. We use this table to reduce iterations
 static HANDLE 					g_main_mutex = NULL;							//For Thread safe allocation
@@ -618,7 +603,7 @@ static void* get_memory_unsafe(uint64_t size)
 
 		if (g_memory_head == NULL)
 		{
-			fprintf(stderr, "Error in get_memory: mmap failed\n");
+			fprintf(stderr, "Error in get_memory: malloc failed\n");
 			return NULL;
 		}
 
@@ -698,10 +683,10 @@ static void free_memory_unsafe(void* ptr)
 	int			newIndex;
 	int			filter = 0;
 
-	current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
-
 	if (!is_in_memory(ptr))
 		return;
+
+	current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 
 	//Check if previous block exists and get it if it does
 	if (current_block->prev_size != 0)
@@ -870,15 +855,24 @@ void free_memory(void* ptr)
 	ReleaseMutex(g_main_mutex);
 }
 
+#endif
+
 void display_memory()
 {
-	uint64_t	allocated_size = 0;
-	uint64_t	freed_size = 0;
-	t_block*	block = (t_block*)g_memory_head;
+	init_mutex();
+
+	mutex_lock(&g_main_mutex);
 
 	if (g_memory_head == NULL)
+	{
+		printf("No memory have been allocated at the moment\n");
+		mutex_unlock(&g_main_mutex);
 		return;
+	}
 
+	uint64_t	allocated_size = 0;
+	uint64_t	freed_size = 0;
+	t_block* block = (t_block*)g_memory_head;
 	while ((uint64_t)block < (uint64_t)g_memory_head + g_memory_offset)
 	{
 		if (block->next_free == g_impossible_address)
@@ -889,9 +883,9 @@ void display_memory()
 		block = (t_block*)((uint64_t)block + sizeof(t_block) + block->size);
 	}
 
-	printf("Allocated bytes : %I64d\n", allocated_size);
-	printf("Freed bytes : %I64d\n", freed_size);
-	printf("Unused bytes : %I64d\n", g_memory_size - allocated_size - freed_size);
-}
+	printf("Allocated bytes : %llu\n", allocated_size);
+	printf("Freed bytes : %llu\n", freed_size);
+	printf("Unused bytes : %llu\n", g_memory_size - allocated_size - freed_size);
 
-#endif
+	mutex_unlock(&g_main_mutex);
+}
