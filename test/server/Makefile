@@ -9,9 +9,12 @@ NAME_CLIENT		= test_client
 SRCS_SERVER		= ./sources/main_server.c			\
 				./sources/server.c					\
 				../../tools/sources/list.c			\
-				../../tools/sources/single_memory.c
+				../../tools/sources/single_memory.c \
+				../../tools/sources/mutex.c
 
-SRCS_CLIENT		= ./sources/main_client.c
+SRCS_CLIENT		= ./sources/main_client.c \
+				../../tools/sources/single_memory.c \
+				../../tools/sources/mutex.c
 
 OBJS_SERVER		= $(SRCS_SERVER:.c=.o)
 

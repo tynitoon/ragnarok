@@ -26,6 +26,14 @@ typedef struct
 void list_init(t_list* list);
 
 /*
+ * /brief destroy a list, you will have to init it again if you want to use it
+ *
+ * /param[in] list is the list to destroy
+ * /remark since it also destroys the mutex, it cannot be threadsafe
+ */
+void list_destroy(t_list* list);
+
+/*
  * /brief store the data at the front of the list
  * 
  * /param[in] list structure, it has to be initialized before

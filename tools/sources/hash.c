@@ -9,7 +9,7 @@ unsigned int generate_hash(void* data, unsigned int length)
 
 	//Init values
 	unsigned int hash = length;
-	int          remaining_bits = length & 3;
+	int remaining_bits = length & 3;
 	length >>= 2;
 
 	//Loop to hash data
@@ -27,20 +27,26 @@ unsigned int generate_hash(void* data, unsigned int length)
 	switch (remaining_bits)
 	{
 		case 3:
+		{
 			hash += GET_16_BITS(data);
 			hash ^= hash << 16;
 			hash ^= ((signed char)((char*)data)[sizeof(unsigned short)]) << 18;
 			hash += hash >> 11;
 			break;
+		}
 		case 2:
+		{
 			hash += GET_16_BITS(data);
 			hash ^= hash << 11;
 			hash += hash >> 17;
 			break;
+		}
 		case 1:
+		{
 			hash += (signed char)*((char*)data);
 			hash ^= hash << 10;
 			hash += hash >> 1;
+		}
 	}
 
 	//Final touch

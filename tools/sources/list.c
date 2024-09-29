@@ -15,6 +15,12 @@ void list_init(t_list* list)
 	mutex_init(&list->mutex);
 }
 
+void list_destroy(t_list* list)
+{
+	list_clear(list);
+	mutex_destroy(&list->mutex);
+}
+
 void list_add_front(t_list* list, void* to_add)
 {
 	if (to_add == NULL)
@@ -385,15 +391,17 @@ int list_find(t_list* list, void* to_find)
 
 void list_display(t_list* list)
 {
-	t_list_element* element;
+	mutex_lock(&list->mutex);
 
 	printf("Display list:\n");
 	printf("head = %ld tail = %ld nb of elements = %ld\n", (uint64_t)list->head, (uint64_t)list->tail, list->nb_elements);
 	printf("All elements:\n");
-	element = list->head;
+	t_list_element* element = list->head;
 	while (element != NULL)
 	{
 		printf("element = %ld element->prev = %ld element->next = %ld element->data = %ld\n", (uint64_t)element, (uint64_t)element->prev, (uint64_t)element->next, (uint64_t)element->data);
 		element = element->next;
 	}
+
+	mutex_unlock(&list->mutex);
 }

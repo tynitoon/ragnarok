@@ -7,6 +7,7 @@
 /* //////////////////////////////////////////////////////////////////////// */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
@@ -15,12 +16,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/time.h>
-#include <stdlib.h>
 
 #include "list.h"
 #include "protocol.h"
 #include "server.h"
 #include "single_memory.h"
+#include "test.h"
 
 static long int get_timestamp_microsecond()
 {
@@ -31,7 +32,7 @@ static long int get_timestamp_microsecond()
 
 int start_server(int port, t_list* clients)
 {
-	//Create a master socket
+	//Create a TCP master socket
 	int master_socket;
 	if ((master_socket = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
@@ -66,19 +67,9 @@ int start_server(int port, t_list* clients)
 	}
 
 	//Loop for connection and messages
-	int             addrlen = sizeof(struct sockaddr_in);
-	int             ret_value;
-	int             max_fd;
-	int             fd;
-	t_list_element* tmp;
-	t_list_element* save;
-	t_client*       client;
-	t_message*      message;
-	uint64_t        message_size;
-	fd_set          readfds;
-	int             count_message = -1;
-	long int        before = 0;
-	long int        duration;
+	fd_set readfds;
+	int count_message = -1;
+	long int before = 0;
 	while (1)
 	{
 		//Clear the socket set
@@ -88,20 +79,21 @@ int start_server(int port, t_list* clients)
 		FD_SET(master_socket, &readfds);
 
 		//Add client socket and find max_fd
-		max_fd = master_socket;
-		tmp = clients->head;
+		int max_fd = master_socket;
+		t_list_element* tmp = clients->head;
+		int addrlen = sizeof(struct sockaddr_in);
 		while (tmp != NULL)
 		{
-			client = (t_client*)tmp->data;
-			fd = client->fd;
+			t_client* client = (t_client*)tmp->data;
+			int fd = client->fd;
 
 			if (fd > 0)
 				FD_SET(fd, &readfds);
 			else if (client->messages.head == NULL) //Client is not connected anymore and threads has consummed all messages
 			{
-				save = remove_list_element(clients, tmp); //No problem on thread safe, because the ->next is pointing on the right target
-				tmp = save->next;
-				free_memory(save); //I don't think it's possible to have a free, then a malloc, then a write memory while a thread is just doing 'if (data == NULL) tmp = tmp->next'
+				void* data = tmp->data;
+				tmp = tmp->next;
+				FREE(list_remove(clients, data));
 
 				continue;
 			}
@@ -119,7 +111,8 @@ int start_server(int port, t_list* clients)
 		//If something happened on the master socket then its an incoming connection
 		if (FD_ISSET(master_socket, &readfds))
 		{
-			if ((fd = accept(master_socket, (struct sockaddr*)&address, (socklen_t*)&addrlen)) < 0)
+			int fd = accept(master_socket, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+			if (fd < 0)
 			{
 				perror("accept");
 				return -1;
@@ -128,30 +121,28 @@ int start_server(int port, t_list* clients)
 			//inform user of socket number - used in send and receive commands
 			printf("New connection , socket fd is %d , ip is : %s , port : %d\n", fd, inet_ntoa(address.sin_addr), ntohs(address.sin_port));
 
-
-			save = get_memory(sizeof(t_list_element) + sizeof(t_client));
-			client = (t_client*)save->data;
+			t_client* client = MALLOC(sizeof(t_client));
 			memset(client, 0, sizeof(t_client));
-
 			client->fd = fd;
 
-			add_list_element(clients, save);
+			list_add_back(clients, client);
 		}
 
 		//Check if there are some IO operation on other sockets
 		tmp = clients->head;
 		while (tmp != NULL)
 		{
-			client = (t_client*)tmp->data;
-			fd = client->fd;
+			t_client* client = (t_client*)tmp->data;
+			int fd = client->fd;
 			if (FD_ISSET(fd, &readfds))
 			{
+				int ret_value = read(fd, &client->buffer[client->buffer_index], BUFFER_SIZE - client->buffer_index);
 				//Check if it was for closing and read the incoming message
-				if ((ret_value = read(fd, &client->buffer[client->buffer_index], BUFFER_SIZE - client->buffer_index)) == 0)
+				if (ret_value == 0)
 				{
 					//A client is disconnected, get his details and print
 					getpeername(fd, (struct sockaddr*)&address, (socklen_t*)&addrlen);
-					printf("Host disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr), ntohs(address.sin_port));
+					printf("client disconnected , ip %s , port %d \n", inet_ntoa(address.sin_addr), ntohs(address.sin_port));
 
 					//Close the socket
 					close(fd);
@@ -173,33 +164,34 @@ int start_server(int port, t_list* clients)
 					//If there is enough data to get the message's size
 					while (client->buffer_index >= sizeof(int))
 					{
-						message = (t_message*)client->buffer;
-						message_size = message->size;
+						t_message* message = (t_message*)client->buffer;
+						uint64_t total_packet_size = sizeof(t_message) + message->size;
 
 						//if the message_size is impossible (cheater or network error)
-						if (message_size < sizeof(t_message) || message_size > BUFFER_SIZE)
+						if (total_packet_size - sizeof(t_message) > BUFFER_SIZE)
 							client->buffer_index = 0;
-						else if (client->buffer_index >= message_size)
+						else if (client->buffer_index >= total_packet_size)
 						{
-							save = get_memory(sizeof(t_list_element) + message_size);
-							message = (t_message*)save->data;
-
-							//Copy datas
-							memcpy(message, client->buffer, message_size);
-
-							//Change the size to have only the data size
-							message->size = message_size - sizeof(t_message);
-							add_list_element(&client->messages, save);
+							//Duplicate data and add message
+							message = MALLOC(total_packet_size);
+							memcpy(message, client->buffer, total_packet_size);
+							list_add_back(&client->messages, message);
 
 							//Shift datas in the buffer (circular buffer)
-							client->buffer_index -= message_size;
-							memmove(client->buffer, &client->buffer[message_size], client->buffer_index);
+							client->buffer_index -= total_packet_size;
+							memmove(client->buffer, &client->buffer[total_packet_size], client->buffer_index);
 
 							++count_message;
-							if (count_message >= 100000)
+							if (count_message >= NUMBER_OF_MESSAGE)
 							{
-								duration = get_timestamp_microsecond() - before;
-								printf("100000 messages received in :\t\ttime elapsed = %ld microseconds\n", duration);
+								long int duration = get_timestamp_microsecond() - before;
+								printf("%d messages received in :\t\ttime elapsed = %ld microseconds\n", NUMBER_OF_MESSAGE, duration);
+								//tmp = client->messages.head;
+								//while (tmp != NULL)
+								//{
+								//	printf("message = %s\n", ((t_message*)tmp->data)->buffer);
+								//	tmp = tmp->next;
+								//}
 								exit(0);
 							}
 						}

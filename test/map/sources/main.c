@@ -28,7 +28,7 @@ int main()
     long int	                  before;
     long int	                  duration;
 
-    init_map(&hash_map);
+    map_init(&hash_map);
     
     srand(time(NULL));
     for (i = 0; i < TEST_SIZE; ++i)
@@ -78,7 +78,7 @@ int main()
     before = get_timestamp_microsecond();
     for (i = 0; i < TEST_SIZE; ++i)
     {
-        add_map_element(&hash_map, arr[i], &arr[i]);
+        map_add(&hash_map, arr[i], &arr[i]);
     }
     duration = get_timestamp_microsecond() - before;
     printf("%d add key/value iterations:\ttime elapsed = %ld microseconds\n", TEST_SIZE, duration);
@@ -86,7 +86,7 @@ int main()
     before = get_timestamp_microsecond();
     for (i = 0; i < TEST_SIZE; ++i)
     {
-        if (check[i] != *(int*)get_map_element(&hash_map, arr[i]))
+        if (check[i] != *(int*)map_get(&hash_map, arr[i]))
             printf("Error, wrong value returned by hash_map\n");
     }
     duration = get_timestamp_microsecond() - before;
@@ -95,17 +95,17 @@ int main()
     before = get_timestamp_microsecond();
     for (i = 0; i < TEST_SIZE; ++i)
     {
-        remove_map_element(&hash_map, arr[i]);
+        map_remove(&hash_map, arr[i]);
     }
     duration = get_timestamp_microsecond() - before;
     printf("%d remove value iterations:\t\ttime elapsed = %ld microseconds\n", TEST_SIZE, duration);
 
     for (i = 0; i < TEST_SIZE; ++i)
     {
-        add_map_element(&hash_map, arr[i], &arr[i]);
+        map_add(&hash_map, arr[i], &arr[i]);
     }
     before = get_timestamp_microsecond();
-    delete_map(&hash_map);
+    map_delete(&hash_map);
     duration = get_timestamp_microsecond() - before;
     printf("clear everything:\t\t\ttime elapsed = %ld microseconds\n", duration);
 }

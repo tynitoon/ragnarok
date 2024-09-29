@@ -3,19 +3,19 @@
 
 #include <stddef.h>
 
-#include "mutex"
+#include "mutex.h"
 
 typedef struct				s_map_element
 {
-	unsigned long			key;
+	unsigned int			key;
 	void*					data;
 	struct s_map_element*	next;
 }							t_map_element;
 
-typedef struct				s_map
+typedef struct
 {
 	MUTEX					mutex;
-	t_map_element**			datas;
+	t_map_element**			data;
 	size_t					size;
 	size_t					elements;
 }							t_map;
@@ -25,7 +25,7 @@ typedef struct				s_map
  *
  * /param[in] map is the map to initialize
  */
-void init_map(t_map* map);
+void map_init(t_map* map);
 
 /*
  * /brief add element in map, if the key already exists, the data is replaced
@@ -34,7 +34,7 @@ void init_map(t_map* map);
  * /param[in] key is an id, you can use hash.h to generate your own key or increment an unsigned long
  * /param[in] data is the data to store
  */
-void add_map_element(t_map* map, unsigned long key, void* data);
+void map_add(t_map* map, unsigned int key, void* data);
 
 /*
  * /brief retrieve data from a key
@@ -44,7 +44,7 @@ void add_map_element(t_map* map, unsigned long key, void* data);
  *
  * /return the data or NULL if the key doesn't exist
  */
-void* get_map_element(t_map* map, unsigned long key);
+void* map_get(t_map* map, unsigned int key);
 
 /*
  * /brief remove data from map
@@ -54,20 +54,28 @@ void* get_map_element(t_map* map, unsigned long key);
  *
  * /return the removed data or NULL if the key doesn't exist
  */
-void* remove_map_element(t_map* map, unsigned long key);
+void* map_remove(t_map* map, unsigned int key);
 
 /*
- * /brief delete a map, you have to init it again if you want to reuse it
+ * /brief remove all elements of the map and reallocate data like a first call
  *
  * /param[in] map is the map where elements are stored
  */
-void delete_map(t_map* map);
+void map_clear(t_map* map);
+
+/*
+ * /brief delete a map, you will have to init it again if you want to reuse it
+ *
+ * /param[in] map is the map where elements are stored
+ * /remark since it also destroys the mutex, it cannot be threadsafe 
+ */
+void map_delete(t_map* map);
 
 /*
  * /brief display all index, key and data. It also displays the used size and the total size of the map
  *
  * /param[in] map is the map where elements are stored
  */
-void display_map(t_map* map);
+void map_display(t_map* map);
 
 #endif /* MAP_H */

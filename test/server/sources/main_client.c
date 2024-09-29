@@ -9,16 +9,14 @@
 #include <time.h>
 
 #include "protocol.h"
-
-#define MAX 1000
+#include "single_memory.h"
+#include "test.h"
 
 int main()
 {
 	int                fd;
 	struct sockaddr_in servaddr;
-	char               buffer[MAX];
 	int                i;
-	t_message          message;
 
 	// socket create and verification
 	fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -43,15 +41,15 @@ int main()
 
 	// function for chat
 	srand(time(NULL));
-	memset(&message, 0, sizeof(t_message));
-	memset(&buffer, 1, sizeof(buffer));
-	for (i = 0; i < 100000; ++i)
-	{
-		message.type = CONNECT;
-		message.size = sizeof(t_message) + rand() % (MAX - sizeof(t_message));
-		memcpy(buffer, &message, sizeof(t_message));
 
-		if (write(fd, buffer, message.size) < 0)
+	t_message* message = MALLOC(sizeof(t_message) + strlen("salut"));
+	message->type = MESSAGE;
+	message->size = 6;
+	strcpy(message->buffer, "salut");
+	
+	for (i = 0; i < NUMBER_OF_MESSAGE; ++i)
+	{
+		if (write(fd, message, sizeof(t_message) + message->size) < 0)
 			return 0;
 	}
 

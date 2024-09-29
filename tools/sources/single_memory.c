@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <inttypes.h> /* For PRIu64 */
+#include <inttypes.h> //For PRIu64
 
 #include "mutex.h"
 #include "single_memory.h"

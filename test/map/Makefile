@@ -6,6 +6,7 @@ NAME			= test_map
 
 SRCS			= ./sources/main.c					\
 				../../tools/sources/single_memory.c	\
+				../../tools/sources/mutex.c			\
 				../../tools/sources/map.c
 
 OBJS			= $(SRCS:.c=.o)

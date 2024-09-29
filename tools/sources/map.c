@@ -1,292 +1,48 @@
-#ifdef linux
-
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h> //For PRIu64
 
-#include "map.h"
 #include "single_memory.h"
+#include "map.h"
 
-#define FIRST_ALLOCATION (1 << 7) // 128 t_map_element
+#define FIRST_ALLOCATION (1 << 7) //128 t_map_element
 
-static void grow_map(t_map* map)
+static void map_grow(t_map* map)
 {
-	t_map_element*	element;
-	t_map_element*	save;
-	unsigned long	index;
-	unsigned long	i;
-	unsigned long	oldsize;
-
 	if (map->size == 0)
 	{
-		map->datas = (t_map_element**)realloc_memory(map->datas, FIRST_ALLOCATION * sizeof(t_map_element*));
-		memset(map->datas, 0, FIRST_ALLOCATION * sizeof(t_map_element*));
+		map->data = (t_map_element**)realloc_memory(map->data, FIRST_ALLOCATION * sizeof(t_map_element*));
+		memset(map->data, 0, FIRST_ALLOCATION * sizeof(t_map_element*));
 		map->size = FIRST_ALLOCATION;
 	}
 	else
 	{
-		oldsize = map->size;
-		map->size <<= 1;	
-		map->datas = (t_map_element**)realloc_memory(map->datas, map->size * sizeof(t_map_element*));
-		memset(&map->datas[oldsize], 0, oldsize * sizeof(t_map_element*));
-
-		for (i = 0; i < oldsize; ++i)
-		{
-			if (map->datas[i] != NULL)
-			{
-				element = map->datas[i];
-				save = NULL;
-				while (element != NULL)
-				{
-					if ((index = element->key % map->size) != i)
-					{
-						if (save == NULL)
-							map->datas[i] = element->next;
-						else
-							save->next = element->next;
-
-						element->next = map->datas[index];
-						map->datas[index] = element;
-
-						if (save == NULL)
-							element = map->datas[i];
-						else
-							element = save->next;
-					}
-					else
-					{
-						save = element;
-						element = element->next;
-					}
-
-				}
-			}
-		}
-	}
-}
-
-void init_map(t_map* map)
-{
-	memset(map, 0, sizeof(t_map));
-	grow_map(map);
-}
-
-void add_map_element(t_map* map, unsigned long key, void* data)
-{
-	unsigned long	index;
-	t_map_element*	element;
-	t_map_element*	tmp;
-
-	pthread_mutex_lock(&map->mutex);
-
-	index = key % map->size;
-
-	//Check if already present and try to replace value
-	tmp = map->datas[index];
-	while (tmp != NULL)
-	{
-		if (tmp->key == key)
-		{
-			tmp->data = data;
-
-			pthread_mutex_unlock(&map->mutex);
-
-			return;
-		}
-
-		tmp = tmp->next;
-	}
-
-	//It's a new element so we create it and link it
-	element = (t_map_element*)get_memory(sizeof(t_map_element));
-	element->key = key;
-	element->data = data;
-
-	element->next = map->datas[index];
-	map->datas[index] = element;
-
-	++map->elements;
-	if ((double)map->elements / (double)map->size > 0.75)
-		grow_map(map);
-
-	pthread_mutex_unlock(&map->mutex);
-}
-
-void* get_map_element(t_map* map, unsigned long key)
-{
-	t_map_element*	tmp;
-
-	pthread_mutex_lock(&map->mutex);
-
-	tmp = map->datas[key % map->size];
-	while (tmp != NULL)
-	{
-		if (tmp->key == key)
-		{
-			pthread_mutex_unlock(&map->mutex);
-
-			return tmp->data;
-		}
-		tmp = tmp->next;
-	}
-
-	pthread_mutex_unlock(&map->mutex);
-
-	return NULL;
-}
-
-void* remove_map_element(t_map* map, unsigned long key)
-{
-	unsigned long	index;
-	t_map_element*	tmp;
-	t_map_element*	save = NULL;
-	void*			data;
-
-	pthread_mutex_lock(&map->mutex);
-
-	if (map->size == 0)
-	{
-		pthread_mutex_unlock(&map->mutex);
-
-		return NULL;
-	}
-
-	index = key % map->size;
-
-	tmp = map->datas[index];
-	while (tmp != NULL)
-	{
-		if (tmp->key == key)
-		{
-			if (save == NULL)
-				map->datas[index] = tmp->next;
-			else
-				save->next = tmp->next;
-
-			data = tmp->data;
-			free_memory(tmp);
-			--map->elements;
-
-			pthread_mutex_unlock(&map->mutex);
-
-			return data;
-		}
-
-		save = tmp;
-		tmp = tmp->next;
-	}
-
-	pthread_mutex_unlock(&map->mutex);
-
-	return NULL;
-}
-
-void delete_map(t_map* map)
-{
-	t_map_element*	element;
-	t_map_element*	save;
-	unsigned long	i;
-
-	pthread_mutex_lock(&map->mutex);
-
-	for (i = 0; i < map->size; ++i)
-	{
-		if (map->datas[i] != NULL)
-		{
-			element = map->datas[i];
-			while (element != NULL)
-			{
-				save = element->next;
-				free_memory(element);
-
-				element = save;
-			}
-		}
-	}
-	free_memory(map->datas);
-	map->elements = 0;
-	map->size = 0;
-
-	pthread_mutex_unlock(&map->mutex);
-}
-
-void display_map(t_map* map)
-{
-	t_map_element*	tmp;
-	uint64_t		i;
-	uint64_t		count_element = 0;
-
-	for (i = 0; i < map->size; ++i)
-	{
-		tmp = map->datas[i];
-		while (tmp != NULL)
-		{
-			printf("index = %ld, key = %lu, data = %p\n", i, tmp->key, tmp->data);
-			++count_element;
-
-			tmp = tmp->next;
-		}
-	}
-	printf("total size map = %ld count element = %ld\n", map->size, count_element);
-}
-
-#else
-
-#include <Windows.h>
-#include <stdio.h>
-#include <string.h>
-
-#include "map.h"
-#include "single_memory.h"
-
-#define FIRST_ALLOCATION (1 << 7) // 128 t_map_element
-
-static void init_mutex(t_map* map)
-{
-	if (map->mutex == NULL)
-		map->mutex = CreateMutex(NULL, FALSE, NULL);
-}
-
-static void grow_map(t_map* map)
-{
-	t_map_element* element;
-	t_map_element* save;
-	unsigned long	index;
-	unsigned long	i;
-	unsigned long	oldsize;
-
-	if (map->size == 0)
-	{
-		map->datas = (t_map_element**)realloc_memory(map->datas, FIRST_ALLOCATION * sizeof(t_map_element*));
-		memset(map->datas, 0, FIRST_ALLOCATION * sizeof(t_map_element*));
-		map->size = FIRST_ALLOCATION;
-	}
-	else
-	{
-		oldsize = map->size;
+		size_t oldsize = map->size;
 		map->size <<= 1;
-		map->datas = (t_map_element**)realloc_memory(map->datas, map->size * sizeof(t_map_element*));
-		memset(&map->datas[oldsize], 0, oldsize * sizeof(t_map_element*));
+		map->data = (t_map_element**)realloc_memory(map->data, map->size * sizeof(t_map_element*));
+		memset(&map->data[oldsize], 0, oldsize * sizeof(t_map_element*));
 
-		for (i = 0; i < oldsize; ++i)
+		for (size_t i = 0; i < oldsize; ++i)
 		{
-			if (map->datas[i] != NULL)
+			if (map->data[i] != NULL)
 			{
-				element = map->datas[i];
-				save = NULL;
+				t_map_element* element = map->data[i];
+				t_map_element* save = NULL;
 				while (element != NULL)
 				{
-					if ((index = element->key % map->size) != i)
+					unsigned int index = element->key % map->size;
+					if (index != i)
 					{
 						if (save == NULL)
-							map->datas[i] = element->next;
+							map->data[i] = element->next;
 						else
 							save->next = element->next;
 
-						element->next = map->datas[index];
-						map->datas[index] = element;
+						element->next = map->data[index];
+						map->data[index] = element;
 
 						if (save == NULL)
-							element = map->datas[i];
+							element = map->data[i];
 						else
 							element = save->next;
 					}
@@ -302,32 +58,27 @@ static void grow_map(t_map* map)
 	}
 }
 
-void init_map(t_map* map)
+void map_init(t_map* map)
 {
 	memset(map, 0, sizeof(t_map));
-	grow_map(map);
+	mutex_init(&map->mutex);
+	map_grow(map);
 }
 
-void add_map_element(t_map* map, unsigned long key, void* data)
+void map_add(t_map* map, unsigned int key, void* data)
 {
-	unsigned long	index;
-	t_map_element*	element;
-	t_map_element*	tmp;
-
-	init_mutex(map);
-	WaitForSingleObject(map->mutex, INFINITE);
-
-	index = key % map->size;
+	mutex_lock(&map->mutex);
 
 	//Check if already present and try to replace value
-	tmp = map->datas[index];
+	unsigned int index = key % map->size;
+	t_map_element* tmp = map->data[index];
 	while (tmp != NULL)
 	{
 		if (tmp->key == key)
 		{
 			tmp->data = data;
 
-			ReleaseMutex(map->mutex);
+			mutex_unlock(&map->mutex);
 
 			return;
 		}
@@ -336,78 +87,70 @@ void add_map_element(t_map* map, unsigned long key, void* data)
 	}
 
 	//It's a new element so we create it and link it
-	element = (t_map_element*)get_memory(sizeof(t_map_element));
+	t_map_element* element = (t_map_element*)get_memory(sizeof(t_map_element));
 	element->key = key;
 	element->data = data;
 
-	element->next = map->datas[index];
-	map->datas[index] = element;
+	element->next = map->data[index];
+	map->data[index] = element;
 
 	++map->elements;
 	if ((double)map->elements / (double)map->size > 0.75)
-		grow_map(map);
+		map_grow(map);
 
-	ReleaseMutex(map->mutex);
+	mutex_unlock(&map->mutex);
 }
 
-void* get_map_element(t_map* map, unsigned long key)
+void* map_get(t_map* map, unsigned int key)
 {
-	t_map_element* tmp;
+	mutex_lock(&map->mutex);
 
-	init_mutex(map);
-	WaitForSingleObject(map->mutex, INFINITE);
-
-	tmp = map->datas[key % map->size];
+	t_map_element* tmp = map->data[key % map->size];
 	while (tmp != NULL)
 	{
 		if (tmp->key == key)
 		{
-			ReleaseMutex(map->mutex);
+			mutex_unlock(&map->mutex);
 
 			return tmp->data;
 		}
 		tmp = tmp->next;
 	}
 
-	ReleaseMutex(map->mutex);
+	mutex_unlock(&map->mutex);
 
 	return NULL;
 }
 
-void* remove_map_element(t_map* map, unsigned long key)
+void* map_remove(t_map* map, unsigned int key)
 {
-	unsigned long	index;
-	t_map_element*	tmp;
-	t_map_element*	save = NULL;
-	void*			data;
-
-	init_mutex(map);
-	WaitForSingleObject(map->mutex, INFINITE);
+	mutex_lock(&map->mutex);
 
 	if (map->size == 0)
 	{
-		ReleaseMutex(map->mutex);
+		mutex_unlock(&map->mutex);
 
 		return NULL;
 	}
 
-	index = key % map->size;
+	unsigned int index = key % map->size;
 
-	tmp = map->datas[index];
+	t_map_element* save = NULL;
+	t_map_element* tmp = map->data[index];
 	while (tmp != NULL)
 	{
 		if (tmp->key == key)
 		{
 			if (save == NULL)
-				map->datas[index] = tmp->next;
+				map->data[index] = tmp->next;
 			else
 				save->next = tmp->next;
 
-			data = tmp->data;
+			void* data = tmp->data;
 			free_memory(tmp);
 			--map->elements;
 
-			ReleaseMutex(map->mutex);
+			mutex_unlock(&map->mutex);
 
 			return data;
 		}
@@ -416,25 +159,22 @@ void* remove_map_element(t_map* map, unsigned long key)
 		tmp = tmp->next;
 	}
 
-	ReleaseMutex(map->mutex);
+	mutex_unlock(&map->mutex);
 
 	return NULL;
 }
 
-void delete_map(t_map* map)
+void map_clear(t_map* map)
 {
-	t_map_element*	element;
-	t_map_element*	save;
-	unsigned long	i;
+	mutex_lock(&map->mutex);
 
-	init_mutex(map);
-	WaitForSingleObject(map->mutex, INFINITE);
-
-	for (i = 0; i < map->size; ++i)
+	//Remove all elements
+	for (size_t i = 0; i < map->size; ++i)
 	{
-		if (map->datas[i] != NULL)
+		if (map->data[i] != NULL)
 		{
-			element = map->datas[i];
+			t_map_element* save;
+			t_map_element* element = map->data[i];
 			while (element != NULL)
 			{
 				save = element->next;
@@ -444,31 +184,54 @@ void delete_map(t_map* map)
 			}
 		}
 	}
-	free_memory(map->datas);
 	map->elements = 0;
 	map->size = 0;
 
-	ReleaseMutex(map->mutex);
+	//Reallocate the size to FIRST_ALLOCATION
+	map_grow(map);
+
+	mutex_unlock(&map->mutex);
 }
 
-void display_map(t_map* map)
+void map_delete(t_map* map)
 {
-	t_map_element*	tmp;
-	uint64_t		i;
-	uint64_t		count_element = 0;
-
-	for (i = 0; i < map->size; ++i)
+	for (size_t i = 0; i < map->size; ++i)
 	{
-		tmp = map->datas[i];
+		if (map->data[i] != NULL)
+		{
+			t_map_element* save;
+			t_map_element* element = map->data[i];
+			while (element != NULL)
+			{
+				save = element->next;
+				free_memory(element);
+
+				element = save;
+			}
+		}
+	}
+	free_memory(map->data);
+	map->elements = 0;
+	map->size = 0;
+}
+
+void map_display(t_map* map)
+{
+	mutex_lock(&map->mutex);
+
+	size_t count_element = 0;
+	for (size_t i = 0; i < map->size; ++i)
+	{
+		t_map_element* tmp = map->data[i];
 		while (tmp != NULL)
 		{
-			printf("index = %ld, key = %lu, data = %p\n", i, tmp->key, tmp->data);
+			printf("index = %" PRIu64 ", key = %u, data = %p\n", i, tmp->key, tmp->data);
 			++count_element;
 
 			tmp = tmp->next;
 		}
 	}
-	printf("total size map = %ld count element = %ld\n", map->size, count_element);
-}
+	printf("total size map = %" PRIu64 " count element = %" PRIu64 "\n", map->size, count_element);
 
-#endif
+	mutex_unlock(&map->mutex);
+}
