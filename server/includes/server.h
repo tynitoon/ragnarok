@@ -1,22 +1,21 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <pthread.h>
-
 #include "list.h"
+#include "message.h"
 
-#define BUFFER_SIZE 4096
-
-typedef struct      s_client
+typedef struct
 {
-    int             user_id;
-    int             fd;
-    t_list          messages;
-    size_t          buffer_index;
-    char            buffer[BUFFER_SIZE];
-    pthread_mutex_t mutex;
-}                   t_client;
+	int			sockfd;
+	t_message	message;
+}				t_dest_message;
 
-int start_server(int port, t_list* clients);
+/*!
+ * \brief start a TCP server
+ *
+ * \param[out] messages_received by clients (list of t_dest_message)
+ * \param[in] messages_to_send to clients (list of list of t_dest_message, each list is for a specific sockfd)
+ */
+void server_start(int port, t_list* messages_received, t_list* messages_to_send);
 
 #endif

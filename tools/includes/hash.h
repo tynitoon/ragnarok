@@ -1,7 +1,7 @@
 #ifndef HASH_H
 #define HASH_H
 
-/*
+/*!
  * /brief hash data into an unsigned int
  *
  * /param[in] data that will be hashed
@@ -9,6 +9,6 @@
  *
  * /return an unsigned int which is the hash of the data
  */
-unsigned int generate_hash(void* data, unsigned int length);
+unsigned int hash_generate(void* data, unsigned int length);
 
 #endif /* HASH_H */

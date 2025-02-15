@@ -9,28 +9,28 @@ typedef pthread_mutex_t	MUTEX;
 typedef void*			MUTEX;
 #endif /* Linux or windows */
 
-/*
+/*!
  * /brief init a mutex
  *
  * /param[in] mutex is the mutex to init
  */
 void mutex_init(MUTEX* mutex);
 
-/*
+/*!
  * /brief lock a mutex
  *
  * /param[in] mutex is the mutex to lock
  */
 void mutex_lock(MUTEX* mutex);
 
-/*
+/*!
  * /brief unlock a mutex
  *
  * /param[in] mutex is the mutex to unlock
  */
 void mutex_unlock(MUTEX* mutex);
 
-/*
+/*!
  * /brief destroy a mutex
  *
  * /param[in] mutex is the mutex to destroy

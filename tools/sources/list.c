@@ -21,6 +21,15 @@ void list_destroy(t_list* list)
 	mutex_destroy(&list->mutex);
 }
 
+bool list_is_empty(t_list* list)
+{
+	mutex_lock(&list->mutex);
+	bool is_empty = list->nb_elements == 0;
+	mutex_unlock(&list->mutex);
+
+	return is_empty;
+}
+
 void list_add_front(t_list* list, void* to_add)
 {
 	if (to_add == NULL)
@@ -31,13 +40,13 @@ void list_add_front(t_list* list, void* to_add)
 
 	mutex_lock(&list->mutex);
 
-	//Init element
+	/* Init element */
 	t_list_element* element = MALLOC(sizeof(t_list_element));
 	element->data = to_add;
 	element->prev = NULL;
 	element->next = list->head;
 
-	//If the list is empty head == tail == element, otherwise the new element replace the head
+	/* If the list is empty head == tail == element, otherwise the new element replace the head */
 	if (list->nb_elements == 0)
 	{
 		list->head = element;
@@ -64,13 +73,13 @@ void list_add_back(t_list* list, void* to_add)
 
 	mutex_lock(&list->mutex);
 
-	//Init the element
+	/* Init the element */
 	t_list_element* element = MALLOC(sizeof(t_list_element));
 	element->data = to_add;
 	element->next = NULL;
 	element->prev = list->tail;
 
-	//If the list is empty head == tail == element, otherwise the new element replace the tail
+	/* If the list is empty head == tail == element, otherwise the new element replace the tail */
 	if (list->nb_elements == 0)
 	{
 		list->head = element;
@@ -101,7 +110,7 @@ void list_add_at(t_list* list, void* to_add, size_t position)
 	element->data = to_add;
 	if (list->nb_elements == 0 || position == 0)
 	{
-		//Copy of list_add_front
+		/* Copy of list_add_front */
 		element->prev = NULL;
 		element->next = list->head;
 		if (list->nb_elements == 0)
@@ -117,7 +126,7 @@ void list_add_at(t_list* list, void* to_add, size_t position)
 	}
 	else if (position >= list->nb_elements)
 	{
-		//Copy of list_add_back
+		/* Copy of list_add_back */
 		element->next = NULL;
 		element->prev = list->tail;
 		list->tail->next = element;
@@ -125,11 +134,11 @@ void list_add_at(t_list* list, void* to_add, size_t position)
 	}
 	else
 	{
-		//Add at position
+		/* Add at position */
 		t_list_element* tmp;
 		size_t currentPosition;
 
-		//A little optimisation
+		/* A little optimisation */
 		if (position < list->nb_elements / 2)
 		{
 			currentPosition = 0;
@@ -151,7 +160,7 @@ void list_add_at(t_list* list, void* to_add, size_t position)
 			}
 		}
 
-		//Insert the element
+		/* Insert the element */
 		element->next = tmp;
 		element->prev = tmp->prev;
 		tmp->prev = element;
@@ -174,10 +183,10 @@ void* list_remove_front(t_list* list)
 		data = NULL;
 	else
 	{
-		//Store the front element
+		/* Store the front element */
 		t_list_element* front_element = list->head;
 
-		//Update the list
+		/* Update the list */
 		list->head = list->head->next;
 		if (list->head == NULL)
 			list->tail = NULL;
@@ -185,7 +194,7 @@ void* list_remove_front(t_list* list)
 			list->head->prev = NULL;
 		--list->nb_elements;
 
-		//Store the data and free the container
+		/* Store the data and free the container */
 		data = front_element->data;
 		FREE(front_element);
 	}
@@ -205,10 +214,10 @@ void* list_remove_back(t_list* list)
 		data = NULL;
 	else
 	{
-		//Get the back element and free the container
+		/* Get the back element and free the container */
 		t_list_element* back_element = list->tail;
 
-		//Update the list
+		/* Update the list */
 		list->tail = list->tail->prev;
 		if (list->tail == NULL)
 			list->head = NULL;
@@ -216,7 +225,7 @@ void* list_remove_back(t_list* list)
 			list->tail->next = NULL;
 		--list->nb_elements;
 
-		//Store the data and free the container
+		/* Store the data and free the container */
 		data = back_element->data;
 		FREE(back_element);
 	}
@@ -228,16 +237,16 @@ void* list_remove_back(t_list* list)
 
 void* list_remove_at(t_list* list, size_t position)
 {
-	void* data;
+	void* data = NULL;
 	t_list_element* removed_element = NULL;
 
 	mutex_lock(&list->mutex);
 
 	if (list->nb_elements == 0 || position > list->nb_elements - 1)
-		data = NULL;
+		return data;
 	else if (position == 0)
 	{
-		//Copy of list_remove_front
+		/* Copy of list_remove_front */
 		removed_element = list->head;
 
 		list->head = list->head->next;
@@ -248,7 +257,7 @@ void* list_remove_at(t_list* list, size_t position)
 	}
 	else if (position == list->nb_elements - 1)
 	{
-		//Copy of list_remove_back
+		/* Copy of list_remove_back */
 		removed_element = list->tail;
 
 		list->tail = list->tail->prev;
@@ -259,10 +268,10 @@ void* list_remove_at(t_list* list, size_t position)
 	}
 	else
 	{
-		//Remove at position
+		/* Remove at position */
 		size_t currentPosition;
 
-		//A little optimisation
+		/* A little optimisation */
 		if (position < list->nb_elements / 2)
 		{
 			currentPosition = 0;
@@ -284,7 +293,7 @@ void* list_remove_at(t_list* list, size_t position)
 			}
 		}
 
-		//Link previous and next element between them
+		/* Link previous and next element between them */
 		removed_element->prev->next = removed_element->next;
 		removed_element->next->prev = removed_element->prev;
 	}

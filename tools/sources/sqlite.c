@@ -34,7 +34,7 @@ int sqlite_set_array(char* sql_command, uint64_t array_size, uint64_t element_si
 		return -1;
 	}
 
-	data = get_memory(full_size);
+	data = memory_get(full_size);
 	data->size = array_size;
 	memcpy(data->buffer, array, array_size * element_size);
 
@@ -43,11 +43,11 @@ int sqlite_set_array(char* sql_command, uint64_t array_size, uint64_t element_si
 	if (sqlite3_step(sql_statement) != SQLITE_DONE) //Entry doesn't exist
 	{
 		fprintf(stderr, "Error in sqlite_set_array: Execution failed: %s", sqlite3_errmsg(database));
-		free_memory(data);
+		memory_free(data);
 		return -1;
 	}
 
-	free_memory(data);
+	memory_free(data);
 	sqlite3_finalize(sql_statement);
 
 	return 0;
@@ -69,7 +69,7 @@ t_sqlite_array *sqlite_get_array(char* sql_command)
 		return NULL;
 
 	full_size = (uint64_t)sqlite3_column_bytes(sql_statement, 0);
-	data = get_memory(full_size);
+	data = memory_get(full_size);
 	memcpy(data, sqlite3_column_blob(sql_statement, 0), full_size);
 
     sqlite3_finalize(sql_statement);
@@ -116,7 +116,7 @@ t_character* sqlite_get_characters(char* sql_command, int* character_counter)
 	{
 		if (allocated_size <= count)
 		{
-			characters = realloc_memory(characters, allocated_size + sizeof(t_character) * 10);
+			characters = memory_realloc(characters, allocated_size + sizeof(t_character) * 10);
 			allocated_size += 10;
 		}
 		
@@ -138,7 +138,7 @@ t_character* sqlite_get_characters(char* sql_command, int* character_counter)
 	}
 
 	*character_counter = count;
-	characters = realloc_memory(characters, count * sizeof(t_character));
+	characters = memory_realloc(characters, count * sizeof(t_character));
 
 	sqlite3_finalize(sql_statement);
 

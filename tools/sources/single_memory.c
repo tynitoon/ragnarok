@@ -1,15 +1,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <inttypes.h> //For PRIu64
+#include <inttypes.h> /* For PRIu64 */
+#include <stdbool.h>
 
 #include "mutex.h"
 #include "single_memory.h"
 
-#define PAGE_NUMBER				18									//In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go
-#define MAX_FREE_INDEX			40									//Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000)
-#define NOT_INITIALIZED_VALUE	100									//Used to init g_table_index so we just have to compare index with <
+#define PAGE_NUMBER				18									/*!< In this system a page is 4096 bytes, so 4096 * 2^18 = 1Go */
+#define MAX_FREE_INDEX			40									/*!< Each index is a power of 2. So max size can be 2^40 (more than 1 000 000 000 000) */
+#define NOT_INITIALIZED_VALUE	100									/*!< Used to init g_table_index so we just have to compare index with */
 
+/*!
+ * \brief flag used to determine which block is freed
+ */
 typedef enum
 {
 	PREV_BLOCK_IS_FREE	= (1 << 0),
@@ -17,26 +21,34 @@ typedef enum
 	BOTH_BLOCK_ARE_FREE = PREV_BLOCK_IS_FREE | NEXT_BLOCK_IS_FREE
 }								t_filter;
 
+/*!
+ * \brief memory block
+ */
 typedef struct					s_block
 {
-	uint64_t					size;								//Navigate to the next block
-	uint64_t					prev_size;							//Navigate to the previous block
-	struct s_block*				next_free;							//Double linked list on free blocks. Equal g_impossible_address if not free or something else if it is
-	struct s_block*				prev_free;							//Double linked list on free blocks
+	uint64_t					size;								/*!< Navigate to the next block */
+	uint64_t					prev_size;							/*!< Navigate to the previous block */
+	struct s_block*				next_free;							/*!< Double linked list on free blocks. Equal g_impossible_address if not free or something else if it is */
+	struct s_block*				prev_free;							/*!< Double linked list on free blocks */
 }								t_block;
 
-static uint64_t					g_memory_size;						//Size of the allocation
-static uint64_t					g_memory_offset = 0;				//Max address offset, if it reachs g_memory_size, the memory can be full if no free block match
-static void*					g_memory_head = NULL;				//Address of the head memory (given at the first call by malloc)
-static t_block*					g_frees[MAX_FREE_INDEX];			//Free blocks are ordered in it, depending of the compute_index(block->size) 
-static int						g_table_index[MAX_FREE_INDEX];		//A index in free blocks can be empty. We use this table to reduce iterations
-static MUTEX					g_main_mutex;						//For Thread safe allocation
-static const void*				g_impossible_address;				//Impossible address, it used to detect a free element
+static uint64_t					g_memory_size;						/*!< Size of the allocation */
+static uint64_t					g_memory_offset = 0;				/*!< Max address offset, if it reachs g_memory_size, the memory can be full if no free block match */
+static void*					g_memory_head = NULL;				/*!< Address of the head memory (given at the first call by malloc) */
+static t_block*					g_frees[MAX_FREE_INDEX];			/*!< Free blocks are ordered in it, depending of the compute_index(block->size)  */
+static int						g_table_index[MAX_FREE_INDEX];		/*!< A index in free blocks can be empty. We use this table to reduce iterations */
+static MUTEX					g_main_mutex;						/*!< For Thread safe allocation */
+static const void*				g_impossible_address;				/*!< Impossible address, it used to detect a free element */
 
 #ifdef  linux
 
 #include <unistd.h>
 
+/*!
+ * \brief Find memory size to allocate based on page size
+ *
+ * \return the memory size to allocate in bytes
+ */
 static uint64_t find_memory_size()
 {
 	return (uint64_t)sysconf(_SC_PAGE_SIZE) << PAGE_NUMBER;
@@ -46,6 +58,11 @@ static uint64_t find_memory_size()
 
 #include <Windows.h>
 
+/*!
+ * \brief Find memory size to allocate based on page size
+ *
+ * \return the memory size to allocate in bytes
+ */
 static uint64_t find_memory_size()
 {
 	SYSTEM_INFO	system_infos;
@@ -55,14 +72,24 @@ static uint64_t find_memory_size()
 
 #endif
 
-//Quick check to determine an address is in the allocated memory
-static int	is_in_memory(void* ptr)
+/*!
+ * \brief Quick check to determine an address is in the allocated memory
+ *
+ * \return true if the address is in the memory range, false otherwise
+ */
+static bool is_in_memory(void* ptr)
 {
 	return g_memory_head != NULL && g_memory_head < ptr && (uint64_t)ptr < (uint64_t)g_memory_head + g_memory_size;
 }
 
-//It is a quick Log2, it uses the Debruijn algorithm
-static int compute_index(uint64_t size)
+/*!
+ * \brief Quick Log2, it uses the Debruijn algorithm
+ *
+ * \param[in] nb is the number that will be transforms into its Log2 
+ *
+ * \return Log2(nb)
+ */
+static int compute_index(uint64_t nb)
 {
 	static const int	tab64[64] =
 	{
@@ -76,27 +103,40 @@ static int compute_index(uint64_t size)
 		44, 24, 15,  8, 23,  7,  6,  5
 };
 
-	size |= size >> 1;
-	size |= size >> 2;
-	size |= size >> 4;
-	size |= size >> 8;
-	size |= size >> 16;
-	size |= size >> 32;
+	nb |= nb >> 1;
+	nb |= nb >> 2;
+	nb |= nb >> 4;
+	nb |= nb >> 8;
+	nb |= nb >> 16;
+	nb |= nb >> 32;
 
 
-	return tab64[((uint64_t)((size - (size >> 1)) * 0x07EDD5E59A4E28C2)) >> 58];
+	return tab64[((uint64_t)((nb - (nb >> 1)) * 0x07EDD5E59A4E28C2)) >> 58];
 }
 
-//Align value to the current architecture to gain performances, negative sizeof is used as mask, example with size == 5 : (5 + 8 - 1) & -8 => 0000 1100 & 1111 1000 => 0000 1000 == 8
-//A negative number is full of 1, this integer 0b11111111111111111111111111111000 is equal to -8 and 0b11111111111111111111111111111111 is equal to -1
+/*!
+ * \brief Align value to the current architecture to gain performances
+ *
+ * \param[in] size that needs to be aligned
+ *
+ * \return aligned size
+ * \remark negative sizeof is used as mask, example with size == 5 : (5 + 8 - 1) & -8 => 0000 1100 & 1111 1000 => 0000 1000 == 8
+ *         A negative number is full of 1, this integer 0b11111111111111111111111111111000 is equal to -8 and 0b11111111111111111111111111111111 is equal to -1
+ */
 static uint64_t align_size(uint64_t size)
 {
 	return (size + sizeof(void*) - 1) & -sizeof(void*);
 }
 
+/*!
+ * \brief Insert list element at a specific free index
+ *
+ * \param[in] to_add is the block to add
+ * \param[in] index of the g_free where we want to insert our element
+ */
 static void add_list_element(t_block* to_add, int index)
 {
-	//Push front
+	/* Push front */
 	to_add->prev_free = NULL;
 	to_add->next_free = g_frees[index];
 
@@ -105,7 +145,7 @@ static void add_list_element(t_block* to_add, int index)
 
 	g_frees[index] = to_add;
 
-	//Update g_table_index
+	/* Update g_table_index */
 	for (int i = 0; i <= index; ++i)
 	{
 		if (index < g_table_index[i])
@@ -113,6 +153,12 @@ static void add_list_element(t_block* to_add, int index)
 	}
 }
 
+/*!
+ * \brief Remove list element from a specific free index
+ *
+ * \param[in] to_remove is the block to remove
+ * \param[in] index of the g_free where we want to remove our element
+ */
 static void remove_list_element(t_block* to_remove, int index)
 {
 	if (to_remove == NULL)
@@ -122,7 +168,7 @@ static void remove_list_element(t_block* to_remove, int index)
 	{
 		g_frees[index] = to_remove->next_free;
 
-		//Update g_table_index
+		/* Update g_table_index */
 		if (g_frees[index] == NULL)
 		{
 			int	max_index = g_table_index[index + 1];
@@ -135,7 +181,7 @@ static void remove_list_element(t_block* to_remove, int index)
 	}
 	else
 	{
-		//The variable prev_free is only used to remove a block from list without iteration
+		/* The variable prev_free is only used to remove a block from list without iteration */
 		to_remove->prev_free->next_free = to_remove->next_free;
 
 		if (to_remove->next_free != NULL)
@@ -145,7 +191,13 @@ static void remove_list_element(t_block* to_remove, int index)
 	to_remove->next_free = (t_block*)g_impossible_address;
 }
 
-//We avoid problems by setting the prev_size variable before creating the a block
+/*!
+ * \brief Set the size of the block in the prev_size of the next block
+ *
+ * \param[in] block that have a size that we want to write in the next block
+ *
+ * \remark We avoid problems by setting the prev_size variable before creating the a block
+ */
 static void set_prev_size(t_block* block)
 {
 	uint64_t	size = block->size;
@@ -155,7 +207,14 @@ static void set_prev_size(t_block* block)
 		block->prev_size = size;
 }
 
-//With a split, the get_memory is a kind of best fit
+/*!
+ * \brief Split a block
+ *
+ * \param[in] block that we want to split
+ * \param[in] size is the new size that we want for the block
+ *
+ * \remark With a split, the get_memory is a kind of best fit
+ */
 static void split_memory(t_block* block, uint64_t size)
 {
 	if (block->next_free != g_impossible_address)
@@ -172,14 +231,18 @@ static void split_memory(t_block* block, uint64_t size)
 	block->size = size;
 }
 
-//Get memory function without mutex
-static void* get_memory_unsafe(uint64_t size)
+/*!
+ * \brief memory_get without mutex
+ *
+ * \param[in] size that we want to allocate
+ */
+static void* memory_get_unsafe(uint64_t size)
 {
 	if (size == 0)
 		return NULL;
 
 	t_block* new_block;
-	//Init memory if it is the first call
+	/* Init memory if it is the first call */
 	if (g_memory_head == NULL)
 	{
 		g_memory_size = find_memory_size();
@@ -206,15 +269,15 @@ static void* get_memory_unsafe(uint64_t size)
 
 		set_prev_size(new_block);
 
-		//return the point on the data, not on the block
+		/* return the point on the data, not on the block */
 		return (void*)((uint64_t)new_block + sizeof(t_block));
 	}
 
-	//Avoid impossible values
+	/* Avoid impossible values */
 	if (size > g_memory_size - sizeof(t_block))
 		return NULL;
 
-	//Search in free list
+	/* Search in free list */
 	int	index = g_table_index[compute_index(size) + 1];
 	if (index != NOT_INITIALIZED_VALUE)
 	{
@@ -234,7 +297,7 @@ static void* get_memory_unsafe(uint64_t size)
 		}
 	}
 
-	//There is no place in free list. We have to create a new block using the offset
+	/* There is no place in free list. We have to create a new block using the offset */
 	new_block = (t_block*)((uint64_t)g_memory_head + g_memory_offset);
 
 	if ((uint64_t)new_block + sizeof(t_block) + size > (uint64_t)g_memory_head + g_memory_size)
@@ -248,22 +311,26 @@ static void* get_memory_unsafe(uint64_t size)
 
 	set_prev_size(new_block);
 
-	//We update the offset
+	/* We update the offset */
 	g_memory_offset += sizeof(t_block) + size;
 
 	return (void*)((uint64_t)new_block + sizeof(t_block));
 }
 
-//Free memory function without mutex
-static void free_memory_unsafe(void* ptr)
+/*!
+ * \brief memory_free without mutex
+ *
+ * \param[in] ptr that we want to free
+ */
+static void memory_free_unsafe(void* ptr)
 {
 	if (!is_in_memory(ptr))
 		return;
 
-	//Init filter
+	/* Init filter */
 	int filter = 0;
 
-	//Check if previous block exists and get it if it does
+	/* Check if previous block exists and get it if it does */
 	t_block* prev_block = NULL;
 	t_block* current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 	if (current_block->prev_size != 0)
@@ -273,7 +340,7 @@ static void free_memory_unsafe(void* ptr)
 			filter |= PREV_BLOCK_IS_FREE;
 	}
 
-	//Check if the next block is inside the allocated memory and get it if it is
+	/* Check if the next block is inside the allocated memory and get it if it is */
 	t_block* next_block = NULL;
 	if ((uint64_t)current_block + sizeof(t_block) + current_block->size < (uint64_t)g_memory_head + g_memory_offset)
 	{
@@ -282,7 +349,7 @@ static void free_memory_unsafe(void* ptr)
 			filter |= NEXT_BLOCK_IS_FREE;
 	}
 
-	//Try to merge blocks
+	/* Try to merge blocks */
 	switch (filter)
 	{
 		case BOTH_BLOCK_ARE_FREE:
@@ -333,13 +400,16 @@ static void free_memory_unsafe(void* ptr)
 	}
 }
 
+/*!
+ * \brief Initialize the mutex
+ */
 static void init_mutex()
 {
 	if (g_memory_head == NULL)
 		mutex_init(&g_main_mutex);
 }
 
-void* get_memory(uint64_t size)
+void* memory_get(uint64_t size)
 {
 	init_mutex();
 
@@ -347,14 +417,14 @@ void* get_memory(uint64_t size)
 
 	mutex_lock(&g_main_mutex);
 
-	void* ptr = get_memory_unsafe(size);
+	void* ptr = memory_get_unsafe(size);
 
 	mutex_unlock(&g_main_mutex);
 
 	return ptr;
 }
 
-void* calloc_memory(uint64_t nmemb, uint64_t size)
+void* memory_calloc(uint64_t nmemb, uint64_t size)
 {
 	init_mutex();
 
@@ -365,7 +435,7 @@ void* calloc_memory(uint64_t nmemb, uint64_t size)
 
 	mutex_lock(&g_main_mutex);
 
-	void* new_ptr = get_memory_unsafe(size);
+	void* new_ptr = memory_get_unsafe(size);
 	memset(new_ptr, 0, size);
 
 	mutex_unlock(&g_main_mutex);
@@ -373,13 +443,13 @@ void* calloc_memory(uint64_t nmemb, uint64_t size)
 	return new_ptr;
 }
 
-void* realloc_memory(void* ptr, uint64_t size)
+void* memory_realloc(void* ptr, uint64_t size)
 {
 	init_mutex();
 
 	if (size == 0)
 	{
-		free_memory(ptr);
+		memory_free(ptr);
 		return NULL;
 	}
 
@@ -387,11 +457,11 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 	mutex_lock(&g_main_mutex);
 
-	//If the pointer doesn't come from a get_memory()
+	/* If the pointer doesn't come from a get_memory() */
 	void* new_ptr;
 	if (!is_in_memory(ptr))
 	{
-		new_ptr = get_memory_unsafe(size);
+		new_ptr = memory_get_unsafe(size);
 
 		mutex_unlock(&g_main_mutex);
 
@@ -400,7 +470,7 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 	t_block* current_block = (t_block*)((uint64_t)ptr - sizeof(t_block));
 
-	//Instant split if we ask a smaller size
+	/* Instant split if we ask a smaller size */
 	if (current_block->size > sizeof(t_block) + size)
 	{
 		split_memory(current_block, size);
@@ -409,39 +479,39 @@ void* realloc_memory(void* ptr, uint64_t size)
 
 		return ptr;
 	}
-	else if (current_block->size >= size) //That means that we have not the place for block datas and that we can't split
+	else if (current_block->size >= size) /* That means that we have not the place for block datas and that we can't split */
 	{
 		mutex_unlock(&g_main_mutex);
 
 		return ptr;
 	}
 
-	//New pointer for a bigger size
-	new_ptr = get_memory_unsafe(size);
+	/* New pointer for a bigger size */
+	new_ptr = memory_get_unsafe(size);
 
-	//We copy old datas at the new address
+	/* We copy old datas at the new address */
 	memcpy(new_ptr, ptr, current_block->size);
 
-	//Free old pointer
-	free_memory_unsafe(ptr);
+	/* Free old pointer */
+	memory_free_unsafe(ptr);
 
 	mutex_unlock(&g_main_mutex);
 
 	return new_ptr;
 }
 
-void free_memory(void* ptr)
+void memory_free(void* ptr)
 {
 	init_mutex();
 
 	mutex_lock(&g_main_mutex);
 
-	free_memory_unsafe(ptr);
+	memory_free_unsafe(ptr);
 
 	mutex_unlock(&g_main_mutex);
 }
 
-void display_memory()
+void memory_display()
 {
 	init_mutex();
 
@@ -463,6 +533,8 @@ void display_memory()
 			allocated_size += block->size;
 		else
 			freed_size += block->size;
+
+		printf("Address = %p prev size = %" PRIu64 " size = %" PRIu64 "\n", block, block->prev_size, block->size);
 
 		block = (t_block*)((uint64_t)block + sizeof(t_block) + block->size);
 	}

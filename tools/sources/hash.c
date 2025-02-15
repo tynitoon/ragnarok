@@ -2,17 +2,17 @@
 
 #define GET_16_BITS(value) ((unsigned int)(*(unsigned short*)(value)))
 
-unsigned int generate_hash(void* data, unsigned int length)
+unsigned int hash_generate(void* data, unsigned int length)
 {
 	if (data == NULL)
 		return 0;
 
-	//Init values
+	/* Init values */
 	unsigned int hash = length;
 	int remaining_bits = length & 3;
 	length >>= 2;
 
-	//Loop to hash data
+	/* Loop to hash data */
 	while (length > 0)
 	{
 		hash += GET_16_BITS(data);
@@ -23,7 +23,7 @@ unsigned int generate_hash(void* data, unsigned int length)
 		--length;
 	}
 
-	//Hash last bits
+	/* Hash last bits */
 	switch (remaining_bits)
 	{
 		case 3:
@@ -49,7 +49,7 @@ unsigned int generate_hash(void* data, unsigned int length)
 		}
 	}
 
-	//Final touch
+	/* Final touch */
 	hash ^= hash << 3;
 	hash += hash >> 5;
 	hash ^= hash << 4;

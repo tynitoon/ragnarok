@@ -3,11 +3,14 @@
 
 #include "mutex.h"
 
-#ifdef  linux
+#ifdef linux
 
 void mutex_init(MUTEX* mutex)
 {
-	if (pthread_mutex_init(mutex, NULL) != 0)
+	pthread_mutexattr_t attribute;
+	pthread_mutexattr_init(&attribute);
+	pthread_mutexattr_settype(&attribute, PTHREAD_MUTEX_RECURSIVE);
+	if (pthread_mutex_init(mutex, &attribute) != 0)
 	{
 		fprintf(stderr, "Error in mutex_init: cannot create a new mutex\n");
 		exit(1);

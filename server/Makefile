@@ -11,6 +11,7 @@ SRCS			= ./sources/main.c					\
 				../tools/sources/map.c				\
 				../tools/sources/single_memory.c	\
 				../tools/sources/hash.c				\
+				../tools/sources/mutex.c			\
 				../tools/sources/sqlite.c
 
 OBJS			= $(SRCS:.c=.o)

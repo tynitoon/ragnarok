@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#include "message.h"
+
 typedef enum				e_data_type
 {
 	CONNECT					= 0,
@@ -11,15 +13,8 @@ typedef enum				e_data_type
 	MESSAGE					= 3,
 	POPUP					= 4,
 	CHARACTER_LIST_CONNECT	= 5,
-	MAX_VALUE				= 0xFFFFFFFFFFFFFFFF
+	MAX_VALUE				= 0xFFFFFFFF
 }							t_data_type;
-
-typedef struct	s_message
-{
-	uint64_t	size;
-	t_data_type	type;
-	char		buffer[];
-}				t_message;
 
 typedef struct	s_connect
 {
