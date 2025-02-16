@@ -5,4 +5,6 @@ test/a.out
 ragnarok_server
 ragnarok_client
 test_*
-client/x64/
+x64/
+build/
+build*
