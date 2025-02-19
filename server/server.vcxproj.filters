@@ -26,7 +26,7 @@
     <ClInclude Include="server.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="message.hpp">
+    <ClInclude Include="..\tools\includes\message.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

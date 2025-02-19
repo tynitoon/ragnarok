@@ -1,86 +1,152 @@
 #include "server.hpp"
-//#include <thread>
-//#include <iostream>
 
 #include <iostream>
 
 Server::Server(uint32_t port) :
-	port_(port),
-	acceptor_(io_context_, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-	udp_socket_(io_context_, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port + 1))
+	m_unique_id(0),
+	m_sequence_id(0),
+	m_acceptor(m_io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
+	m_udp_socket(m_io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port + 1))
 {
-	StartAccept();
+	std::array<char, MAX_MESSAGE_SIZE> buffer;
+	ListenHandshakeUDP(buffer);
+	AcceptClient();
 }
 
 void Server::Run()
 {
-	io_context_.run();
+	m_io_context.run();
 }
 
-void Server::SendMessage(uint32_t fd, Message&& to_send)
+void Server::SendMessage(uint32_t id, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.size);
-	std::lock_guard<std::mutex> lock(fd_to_clients_mutex_);
-	fd_to_clients_[fd]->socket->async_send(buffer);
+	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+	for (auto kv : m_id_to_clients)
+		kv.second->socket->async_send(buffer, [](const boost::system::error_code& error, size_t bytes_transferred) {});
+	//if (m_id_to_clients.contains(id))
+	//	m_id_to_clients[id]->socket->async_send(buffer, [](const boost::system::error_code& error, size_t bytes_transferred) {});
 }
 
-void Server::SendMessage(std::vector<uint32_t> fds, Message&& to_send)
+void Server::SendMessage(std::vector<uint32_t> ids, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.size);
-	std::lock_guard<std::mutex> lock(fd_to_clients_mutex_);
-	for (auto fd : fds)
-		fd_to_clients_[fd]->socket->async_send(buffer);
+	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+	for (auto id : ids)
+	{
+		if (m_id_to_clients.contains(id))
+			m_id_to_clients[id]->socket->async_send(buffer, [](const boost::system::error_code& error, size_t bytes_transferred) {});
+	}
+}
+
+void Server::SendDirectMessage(uint32_t id, Message&& to_send)
+{
+	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+	if (m_id_to_clients.contains(id))
+	{
+		to_send.SetSequenceID(m_sequence_id++);
+		m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, [](const boost::system::error_code& error, size_t bytes_transferred) {});
+	}
+}
+
+void Server::SendDirectMessage(std::vector<uint32_t> ids, Message&& to_send)
+{
+	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+	to_send.SetSequenceID(m_sequence_id++);
+	for (auto id : ids)
+	{
+		if (m_id_to_clients.contains(id))
+			m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, [](const boost::system::error_code& error, size_t bytes_transferred) {});
+	}
 }
 
 deleted_unique_ptr<ReceivedMessage> Server::ReadMessage()
 {
-	std::lock_guard<std::mutex> lock(message_received_mutex_);
-	if (!message_received_queue_.empty())
+	std::lock_guard<std::mutex> lock(m_message_received_mutex);
+	if (!m_message_received_queue.empty())
 	{
-		deleted_unique_ptr<ReceivedMessage> received_message = std::move(message_received_queue_.front());
-		message_received_queue_.pop();
+		deleted_unique_ptr<ReceivedMessage> received_message = std::move(m_message_received_queue.front());
+		m_message_received_queue.pop();
 		return received_message;
 	}
 
 	return deleted_unique_ptr<ReceivedMessage>(nullptr);
 }
 
-void Server::StartAccept()
+void Server::ListenHandshakeUDP(std::array<char, MAX_MESSAGE_SIZE>& buffer)
+{
+	boost::asio::ip::udp::endpoint remote_endpoint;
+	m_udp_socket.async_receive_from(
+		boost::asio::buffer(buffer), remote_endpoint,
+		[&](const boost::system::error_code& error, std::size_t bytes_transferred)
+		{
+			if (error)
+			{
+				std::cerr << "Error while UDP async receive: " << error.message() << std::endl;
+				return;
+			}
+
+			/* Check that we have enough data for Handshake */
+			if (bytes_transferred == sizeof(HandshakeMessage))
+			{
+				HandshakeMessage* incoming = reinterpret_cast<HandshakeMessage*>(buffer.data());
+				if (incoming->GetType() == MessageType::HANDSHAKE && incoming->GetSize() == sizeof(HandshakeMessage))
+				{
+					std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+					if (m_id_to_clients.contains(incoming->GetUniqueID()))
+					{
+						std::shared_ptr<Client> client = m_id_to_clients[incoming->GetUniqueID()];
+						client->is_init = true;
+						client->endpoint = remote_endpoint;
+						SendHandshake(client, 0);
+					}
+				}
+			}
+
+			ListenHandshakeUDP(buffer);
+		});
+}
+
+void Server::AcceptClient()
 {
 	/* Prepare a new client socket */
-	auto socket = std::make_shared<boost::asio::ip::tcp::socket>(io_context_);
-	acceptor_.async_accept(*socket,
+	auto socket = std::make_shared<boost::asio::ip::tcp::socket>(m_io_context);
+	m_acceptor.async_accept(*socket,
 		[this, socket](boost::system::error_code error)
 		{
-			if (!error)
+			if (error)
 			{
-				/* Create a new client and add it*/
-				auto new_client = std::make_shared<Client>();
-				new_client->socket = socket;
-				std::string ip = socket->remote_endpoint().address().to_string();
-				{
-					std::lock_guard<std::mutex> lock(fd_to_clients_mutex_);
-
-					if (ip_to_nbs_.contains(ip))
-						++ip_to_nbs_[ip];
-					else
-						ip_to_nbs_[ip] = port_ + 1; //TODO pas bon car lorsqu'un client se déco ça ne pourra pas libéré le port
-					//TODO send connect message to ask client to open a specific port in UDP
-					//TODO see if he will have to conf its router or not
-
-					new_client->endpoint = boost::asio::ip::udp::endpoint(socket->remote_endpoint().address(), ip_to_nbs_[ip]);
-					fd_to_clients_.insert(std::make_pair(new_client->socket->native_handle(), new_client));
-				}
-
-				/* Listen incoming messages from this client */
-				HandleClient(new_client);
-
-				/* Prepare a new accept for the next potential connection */
-				StartAccept();
-			}
-			else
 				std::cerr << "Error while async_accept: " << error.message() << std::endl;
+				return;
+			}
+
+			/* Create a new client and add it*/
+			std::shared_ptr<Client> new_client = std::make_shared<Client>();
+			new_client->socket = socket;
+			{
+				std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+				m_id_to_clients[static_cast<uint32_t>(socket->native_handle())] = new_client;
+			}
+
+			/* Send the Handshake to the client*/
+			std::cout << "send handshake" << std::endl;
+			SendHandshake(new_client, static_cast<uint32_t>(socket->native_handle()));
+
+			/* Listen incoming messages from this client */
+			HandleClient(new_client);
+
+			/* Prepare a new accept for the next potential connection */
+			AcceptClient();
 		});
+}
+
+void Server::SendHandshake(std::shared_ptr<Client> client, uint32_t unique_id)
+{
+	HandshakeMessage message(unique_id);
+	auto buffer = boost::asio::buffer(&message, message.GetSize());
+	client->socket->async_send(buffer, [](const boost::system::error_code& error, size_t bytes_transferred) {});
 }
 
 void Server::HandleClient(std::shared_ptr<Client> client)
@@ -90,7 +156,17 @@ void Server::HandleClient(std::shared_ptr<Client> client)
 	client->socket->async_read_some(buffer,
 		[this, client](boost::system::error_code error, std::size_t bytes_transferred)
 		{
-			if (!error)
+			if (error)
+			{
+				std::cerr << "Connexion closed: " << error.message() << std::endl;
+				{
+					std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+					m_id_to_clients.erase(static_cast<uint32_t>(client->socket->native_handle()));
+				}
+				return;
+			}
+
+			if (client->is_init)
 			{
 				client->nb_bytes += bytes_transferred;
 
@@ -99,46 +175,39 @@ void Server::HandleClient(std::shared_ptr<Client> client)
 				while (client->nb_bytes - offset >= sizeof(Message))
 				{
 					Message* incoming = reinterpret_cast<Message*>(&client->buffer[offset]);
-					if (incoming->size > client->buffer.max_size()) /* Error because the message cannot be bigger than the buffer */
+					uint32_t message_size = incoming->GetSize();
+					if (message_size > client->buffer.max_size()) /* Error because the message cannot be bigger than the buffer */
 					{
-						std::cerr << "Drop packet: incoming size = " << incoming->size << std::endl;
+						std::cerr << "Drop packet: incoming size = " << message_size << std::endl;
 						client->nb_bytes = 0;
 					}
-					else if (client->nb_bytes - offset >= incoming->size) /* The incoming message is complete */
+					else if (client->nb_bytes - offset >= message_size) /* The incoming message is complete */
 					{
 						/* Create a new message and copy incoming data inside */
-						std::size_t allocate_size = incoming->size - sizeof(Message) + sizeof(ReceivedMessage);
-						deleted_unique_ptr<ReceivedMessage> received_message(reinterpret_cast<ReceivedMessage*>(::operator new(allocate_size)),
-							[allocate_size](ReceivedMessage* ptr)
+						deleted_unique_ptr<Message> new_message(reinterpret_cast<Message*>(::operator new(message_size)),
+							[message_size](Message* ptr)
 							{
-								::operator delete(ptr, allocate_size);
+								::operator delete(ptr, message_size);
 							});
-						received_message->fd = client->socket->native_handle();
-						memmove(&received_message->message, incoming, incoming->size);
+						memmove(new_message.get(), incoming, message_size);
 
 						/* Push our new message in the queue */
 						{
-							std::lock_guard<std::mutex> lock(message_received_mutex_);
-							message_received_queue_.push(std::move(received_message));
+							std::lock_guard<std::mutex> lock(m_message_received_mutex);
+							m_message_received_queue.push(std::make_unique<ReceivedMessage>(ReceivedMessage{ static_cast<uint32_t>(client->socket->native_handle()), std::move(new_message) }));
 						}
 
 						/* This message is handled, we go to the next message */
-						offset += incoming->size;
+						offset += message_size;
 					}
 					else
 						break;
 				}
+				client->nb_bytes -= offset;
+				memmove(&client->buffer[0], &client->buffer[offset], client->nb_bytes);
+			}
 
-				/* No more message to handle, wait to receive more bytes from this client */
-				HandleClient(client);
-			}
-			else
-			{
-				std::cerr << "Connexion closed: " << error.message() << std::endl;
-				{
-					std::lock_guard<std::mutex> lock(fd_to_clients_mutex_);
-					fd_to_clients_.erase(client->socket->native_handle());
-				}
-			}
+			/* No more message to handle, wait to receive more bytes from this client */
+			HandleClient(client);
 		});
 }
