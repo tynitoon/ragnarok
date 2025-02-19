@@ -39,6 +39,10 @@ public:
 	 */
 	void SendDirectMessage(Message&& to_send);
 
+	/**
+	 * @brief Get a message from the receive queue after removing it (nullptr if empty)
+	 * @return Return a received message
+	 */
 	deleted_unique_ptr<Message> ReadMessage();
 
 private:
@@ -52,16 +56,17 @@ private:
 	 */
 	void HandleReceiveTCP();
 
-	static constexpr size_t MAX_MESSAGE_SIZE = 4096;	/* Max message size */
+	static constexpr size_t MAX_MESSAGE_SIZE = 4096;					/* Max message size */
 	std::array<char, MAX_MESSAGE_SIZE> m_tcp_buffer;					/* Buffer that contains bytes received from the server by TCP */
 	std::array<char, MAX_MESSAGE_SIZE> m_udp_buffer;					/* Buffer that contains bytes received from the server by UDP */
-	std::size_t m_tcp_nb_bytes = 0;										/* Actual number of data bytes contained in the buffer (from TCP) */
-	std::size_t m_udp_nb_bytes = 0;										/* Actual number of data bytes contained in the buffer (from UDP) */
-	std::uint32_t m_highest_sequence_id = 0;							/* Highest sequence ID received from server */
+	std::size_t m_tcp_nb_bytes;											/* Actual number of data bytes contained in the buffer (from TCP) */
+	std::size_t m_udp_nb_bytes;											/* Actual number of data bytes contained in the buffer (from UDP) */
+	std::uint32_t m_highest_sequence_id ;								/* Highest sequence ID received from server */
 	boost::asio::io_context m_io_context;								/* I/O boost context */
 	boost::asio::ip::tcp::socket m_tcp_socket;							/* Used to handle TCP*/
 	boost::asio::ip::udp::socket m_udp_socket;							/* Used to receive UDP messages */
 	boost::asio::ip::udp::endpoint m_server_endpoint;					/* Used to send UDP messages */
+	boost::asio::ip::udp::endpoint m_remote_endpoint;					/* Endpoint that is filled when we receive UDP messages */
 	std::queue<deleted_unique_ptr<Message>> m_message_received_queue;	/* Received messages */
 	std::mutex m_socket_mutex;											/* Mutex to protect message queue */
 	std::mutex m_message_received_mutex;								/* Mutex to protect message queue */

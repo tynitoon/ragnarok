@@ -2,14 +2,37 @@
 
 #include <iostream>
 
+void SendHandler(const boost::system::error_code& error, size_t bytes_transferred)
+{
+	if (error)
+		std::cerr << "Error while send: " << error.message() << std::endl;
+	else
+		std::cout << "send " << bytes_transferred << " bytes" << std::endl;
+}
+
 Client::Client(std::string ip, uint32_t port) :
+	m_tcp_nb_bytes(0),
+	m_udp_nb_bytes(0),
+	m_highest_sequence_id(0),
 	m_tcp_socket(m_io_context),
 	m_udp_socket(m_io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
 	m_server_endpoint(boost::asio::ip::address::from_string(ip), port + 1)
 {
-	m_tcp_socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port));
-	HandleReceiveTCP();
-	HandleReceiveUDP();
+	std::cout << "Trying to connect to " << ip << ":" << port << std::endl;
+	m_tcp_socket.async_connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port),
+		[this](boost::system::error_code error)
+		{
+			if (error)
+			{
+				std::cerr << "Error while async_connect: " << error.message() << std::endl;
+				//TODO : Send a message to workers that ask to write a popup that contains a button do quit the client
+				return;
+			}
+
+			/* Start TCP and UDP handles if we are connected */
+			HandleReceiveTCP();
+			HandleReceiveUDP();
+		});
 }
 
 void Client::Run()
@@ -21,14 +44,14 @@ void Client::SendMessage(Message&& to_send)
 {
 	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
 	std::lock_guard<std::mutex> lock(m_socket_mutex);
-	m_tcp_socket.async_send(buffer, [](const boost::system::error_code& error, size_t bytes_transferred) {});
+	m_tcp_socket.async_send(buffer, SendHandler);
 }
 
 void Client::SendDirectMessage(Message&& to_send)
 {
 	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
 	std::lock_guard<std::mutex> lock(m_socket_mutex);
-	m_udp_socket.async_send_to(buffer, m_server_endpoint, [](const boost::system::error_code& error, size_t bytes_transferred) { std::cout << "send " << bytes_transferred << std::endl; });
+	m_udp_socket.async_send_to(buffer, m_server_endpoint, SendHandler);
 }
 
 deleted_unique_ptr<Message> Client::ReadMessage()
@@ -46,10 +69,9 @@ deleted_unique_ptr<Message> Client::ReadMessage()
 
 void Client::HandleReceiveUDP()
 {
-	boost::asio::ip::udp::endpoint remote_endpoint;
 	/* Prepare a buffer to fill */
 	auto buffer = boost::asio::buffer(&m_udp_buffer[m_udp_nb_bytes], m_udp_buffer.max_size() - m_udp_nb_bytes);
-	m_udp_socket.async_receive_from(boost::asio::buffer(buffer), remote_endpoint,
+	m_udp_socket.async_receive_from(boost::asio::buffer(buffer), m_remote_endpoint,
 		[this](const boost::system::error_code& error, size_t bytes_transferred)
 		{
 			if (error)
@@ -98,7 +120,8 @@ void Client::HandleReceiveUDP()
 					break;
 			}
 			m_udp_nb_bytes -= offset;
-			memmove(&m_udp_buffer[0], &m_udp_buffer[offset], m_udp_nb_bytes);
+			if (offset < m_udp_buffer.max_size())
+				memmove(&m_udp_buffer[0], &m_udp_buffer[offset], m_udp_nb_bytes);
 
 			HandleReceiveUDP();
 		});
@@ -117,7 +140,6 @@ void Client::HandleReceiveTCP()
 				return;
 			}
 
-			std::cout << "received bytes = " << bytes_transferred << std::endl;
 			m_tcp_nb_bytes += bytes_transferred;
 
 			/* Check that we have enough data */
@@ -130,6 +152,7 @@ void Client::HandleReceiveTCP()
 				{
 					std::cerr << "Drop packet: incoming size = " << message_size << std::endl;
 					m_tcp_nb_bytes = 0;
+					offset = 0;
 				}
 				else if (m_tcp_nb_bytes - offset >= message_size) /* The incoming message is complete */
 				{
@@ -141,7 +164,6 @@ void Client::HandleReceiveTCP()
 						});
 					memmove(new_message.get(), incoming, message_size);
 
-					std::cout << "full message " << new_message->GetSequenceID() << " " << new_message->GetSize() << " " << static_cast<uint32_t>(new_message->GetType()) << std::endl;
 					/* Push our new message in the queue */
 					{
 						std::lock_guard<std::mutex> lock(m_message_received_mutex);
@@ -155,7 +177,8 @@ void Client::HandleReceiveTCP()
 					break;
 			}
 			m_tcp_nb_bytes -= offset;
-			memmove(&m_tcp_buffer[0], &m_tcp_buffer[offset], m_tcp_nb_bytes);
+			if (offset < m_tcp_buffer.max_size())
+				memmove(&m_tcp_buffer[0], &m_tcp_buffer[offset], m_tcp_nb_bytes);
 
 			/* No more message to handle, wait to receive more bytes from server */
 			HandleReceiveTCP();

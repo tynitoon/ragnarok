@@ -145,10 +145,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="worker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tools\includes\message.hpp" />
     <ClInclude Include="client.hpp" />
+    <ClInclude Include="worker.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
