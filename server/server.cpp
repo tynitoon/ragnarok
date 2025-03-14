@@ -2,7 +2,32 @@
 
 #include <iostream>
 
-void SendHandler(const boost::system::error_code& error, size_t bytes_transferred)
+/*!
+ * \brief Create a shared_ptr to increase lifetime of to_send data
+ *
+ * \param[in] msg The message to convert
+ *
+ * \return A shared_ptr to the message
+ */
+inline static std::shared_ptr<Message> MessageToSharedPtr(Message&& msg)
+{
+	uint32_t size = msg.GetSize();
+	void* buffer_data = ::operator new(size);
+	memmove(buffer_data, &msg, size);
+	return std::shared_ptr<Message>(reinterpret_cast<Message*>(buffer_data),
+		[size](Message* ptr)
+		{
+			::operator delete(ptr, size);
+		});
+}
+
+/*!
+ * \brief Callback to handle the send operation
+ *
+ * \param[in] error The error code
+ * \param[in] bytes_transferred The number of bytes transferred
+ */
+inline static void SendHandler(const boost::system::error_code& error, size_t bytes_transferred)
 {
 	if (error)
 		std::cerr << "Error while send: " << error.message() << std::endl;
@@ -10,11 +35,11 @@ void SendHandler(const boost::system::error_code& error, size_t bytes_transferre
 		std::cout << "send " << bytes_transferred << " bytes" << std::endl;
 }
 
-Server::Server(uint32_t port) :
-	m_unique_id(0),
+Server::Server(uint16_t tcp_port, uint16_t udp_port) :
+	m_unique_id(1),
 	m_sequence_id(0),
-	m_acceptor(m_io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), port)),
-	m_udp_socket(m_io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port + 1))
+	m_acceptor(m_io_context, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), tcp_port)),
+	m_udp_socket(m_io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), udp_port))
 {
 	ListenHandshakeUDP();
 	AcceptClient();
@@ -27,12 +52,19 @@ void Server::Run()
 
 void Server::SendMessage(uint32_t id, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
+
 	try
 	{
 		std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
 		if (m_id_to_clients.contains(id))
-			m_id_to_clients[id]->socket->async_send(buffer, SendHandler);
+		{
+			m_id_to_clients[id]->socket->async_send(buffer, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+				{
+					SendHandler(error, bytes_transferred);
+				});
+		}
 	}
 	catch (const std::exception& e)
 	{
@@ -42,14 +74,20 @@ void Server::SendMessage(uint32_t id, Message&& to_send)
 
 void Server::SendMessage(const std::vector<uint32_t>& ids, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
 	try
 	{
 		std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
 		for (auto id : ids)
 		{
 			if (m_id_to_clients.contains(id))
-				m_id_to_clients[id]->socket->async_send(buffer, SendHandler);
+			{
+				m_id_to_clients[id]->socket->async_send(buffer, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+					{
+						SendHandler(error, bytes_transferred);
+					});
+			}
 		}
 	}
 	catch (const std::exception& e)
@@ -60,14 +98,18 @@ void Server::SendMessage(const std::vector<uint32_t>& ids, Message&& to_send)
 
 void Server::SendDirectMessage(uint32_t id, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
 	try
 	{
 		std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
 		if (m_id_to_clients.contains(id))
 		{
 			to_send.SetSequenceID(m_sequence_id++);
-			m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, SendHandler);
+			m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+				{
+					SendHandler(error, bytes_transferred);
+				});
 		}
 	}
 	catch (const std::exception& e)
@@ -78,7 +120,8 @@ void Server::SendDirectMessage(uint32_t id, Message&& to_send)
 
 void Server::SendDirectMessage(const std::vector<uint32_t>& ids, Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
 	try
 	{
 		std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
@@ -86,7 +129,12 @@ void Server::SendDirectMessage(const std::vector<uint32_t>& ids, Message&& to_se
 		for (auto id : ids)
 		{
 			if (m_id_to_clients.contains(id))
-				m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, SendHandler);
+			{
+				m_udp_socket.async_send_to(buffer, m_id_to_clients[id]->endpoint, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+					{
+						SendHandler(error, bytes_transferred);
+					});
+			}
 		}
 	}
 	catch (const std::exception& e)
@@ -134,31 +182,31 @@ void Server::ListenHandshakeUDP()
 				if (incoming->GetType() == MessageType::HANDSHAKE && incoming->GetSize() == sizeof(HandshakeMessage))
 				{
 					uint32_t unique_id = incoming->GetUniqueID();
-					std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
-					if (m_id_to_clients.contains(unique_id))
+
+					/* Avoid double lock */	
+					bool must_send_message = false;
 					{
-						/* Init the client if needed */
-						std::shared_ptr<Client> client = m_id_to_clients[unique_id];
-						if (!client->is_init)
+						std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
+						if (m_id_to_clients.contains(unique_id))
 						{
-							std::cout << "New client is initialized : ID = " << unique_id << std::endl;
-							client->is_init = true;
-							client->endpoint = m_remote_endpoint;
-							SendHandshake(client, 0);
+							/* Init the client if needed */
+							std::shared_ptr<Client>& client = m_id_to_clients[unique_id];
+							if (!client->is_init)
+							{
+								std::cout << "New client is initialized : ID = " << unique_id << std::endl;
+								client->is_init = true;
+								client->endpoint = m_remote_endpoint;
+								must_send_message = true;
+							}
 						}
 					}
+					if (must_send_message)
+						SendMessage(unique_id, HandshakeMessage(0));
 				}
 			}
 
 			ListenHandshakeUDP();
 		});
-}
-
-void Server::SendHandshake(const std::shared_ptr<Client>& client, uint32_t unique_id)
-{
-	HandshakeMessage message(unique_id);
-	auto buffer = boost::asio::buffer(&message, message.GetSize());
-	client->socket->async_send(buffer, SendHandler);
 }
 
 void Server::AcceptClient()
@@ -177,14 +225,15 @@ void Server::AcceptClient()
 			/* Create a new client and add it*/
 			std::cout << "New client" << std::endl;
 			std::shared_ptr<Client> new_client = std::make_shared<Client>();
+			new_client->unique_id = m_unique_id++;
 			new_client->socket = socket;
 			{
 				std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
-				m_id_to_clients[static_cast<uint32_t>(socket->native_handle())] = new_client;
+				m_id_to_clients[new_client->unique_id] = new_client;
 			}
 
 			/* Send the Handshake to the client*/
-			SendHandshake(new_client, static_cast<uint32_t>(socket->native_handle()));
+			SendMessage(new_client->unique_id, HandshakeMessage(new_client->unique_id));
 
 			/* Listen incoming messages from this client */
 			HandleClient(new_client);
@@ -203,11 +252,10 @@ void Server::HandleClient(const std::shared_ptr<Client>& client)
 		{
 			if (error)
 			{
-				uint32_t unique_id = client->socket->native_handle();
-				std::cerr << "Connexion closed: " << error.message() << " ID = " << unique_id << std::endl;
+				std::cerr << "Connexion closed: " << error.message() << " ID = " << client->unique_id << std::endl;
 				{
 					std::lock_guard<std::mutex> lock(m_id_to_clients_mutex);
-					m_id_to_clients.erase(unique_id);
+					m_id_to_clients.erase(client->unique_id);
 				}
 				return;
 			}
@@ -240,7 +288,7 @@ void Server::HandleClient(const std::shared_ptr<Client>& client)
 						/* Push our new message in the queue */
 						{
 							std::lock_guard<std::mutex> lock(m_message_received_mutex);
-							m_message_received_queue.push(std::make_unique<MessageFrom>(MessageFrom{ static_cast<uint32_t>(client->socket->native_handle()), std::move(new_message) }));
+							m_message_received_queue.push(std::make_unique<MessageFrom>(MessageFrom{ client->unique_id, std::move(new_message) }));
 						}
 
 						/* This message is handled, we go to the next message */

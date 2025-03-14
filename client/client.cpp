@@ -2,7 +2,32 @@
 
 #include <iostream>
 
-void SendHandler(const boost::system::error_code& error, size_t bytes_transferred)
+/*!
+ * \brief Create a shared_ptr to increase lifetime of to_send data
+ *
+ * \param[in] msg The message to convert
+ *
+ * \return A shared_ptr to the message
+ */
+inline static std::shared_ptr<Message> MessageToSharedPtr(Message&& msg)
+{
+	uint32_t size = msg.GetSize();
+	void* buffer_data = ::operator new(size);
+	memmove(buffer_data, &msg, size);
+	return std::shared_ptr<Message>(reinterpret_cast<Message*>(buffer_data),
+		[size](Message* ptr)
+		{
+			::operator delete(ptr, size);
+		});
+}
+
+/*!
+ * \brief Callback to handle the send operation
+ *
+ * \param[in] error The error code
+ * \param[in] bytes_transferred The number of bytes transferred
+ */
+inline static void SendHandler(const boost::system::error_code& error, size_t bytes_transferred)
 {
 	if (error)
 		std::cerr << "Error while send: " << error.message() << std::endl;
@@ -10,16 +35,20 @@ void SendHandler(const boost::system::error_code& error, size_t bytes_transferre
 		std::cout << "send " << bytes_transferred << " bytes" << std::endl;
 }
 
-Client::Client(std::string ip, uint32_t port) :
+Client::Client(std::string ip, uint16_t tcp_port, uint16_t udp_port) :
+	m_is_init(false),
+	m_handshake_is_running(false),
+	m_tcp_buffer(),
+	m_udp_buffer(),
 	m_tcp_nb_bytes(0),
 	m_udp_nb_bytes(0),
 	m_highest_sequence_id(0),
 	m_tcp_socket(m_io_context),
 	m_udp_socket(m_io_context, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), 0)),
-	m_server_endpoint(boost::asio::ip::address::from_string(ip), port + 1)
+	m_server_endpoint(boost::asio::ip::address::from_string(ip), udp_port)
 {
-	std::cout << "Trying to connect to " << ip << ":" << port << std::endl;
-	m_tcp_socket.async_connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), port),
+	std::cout << "Trying to connect to " << ip << ", TCP port:" << tcp_port << " UDP port:" << udp_port << std::endl;
+	m_tcp_socket.async_connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(ip), tcp_port),
 		[this](boost::system::error_code error)
 		{
 			if (error)
@@ -42,16 +71,24 @@ void Client::Run()
 
 void Client::SendMessage(Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
 	std::lock_guard<std::mutex> lock(m_socket_mutex);
-	m_tcp_socket.async_send(buffer, SendHandler);
+	m_tcp_socket.async_send(buffer, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+		{
+			SendHandler(error, bytes_transferred);
+		});
 }
 
 void Client::SendDirectMessage(Message&& to_send)
 {
-	auto buffer = boost::asio::buffer(&to_send, to_send.GetSize());
+	auto msg_ptr = MessageToSharedPtr(std::move(to_send));
+	auto buffer = boost::asio::buffer(msg_ptr.get(), msg_ptr->GetSize());
 	std::lock_guard<std::mutex> lock(m_socket_mutex);
-	m_udp_socket.async_send_to(buffer, m_server_endpoint, SendHandler);
+	m_udp_socket.async_send_to(buffer, m_server_endpoint, [msg_ptr](const boost::system::error_code& error, size_t bytes_transferred)
+		{
+			SendHandler(error, bytes_transferred);
+		});
 }
 
 deleted_unique_ptr<Message> Client::ReadMessage()
@@ -136,7 +173,7 @@ void Client::HandleReceiveTCP()
 		{
 			if (error)
 			{
-				std::cerr << "Connexion closed: " << error.message() << std::endl;
+				std::cerr << "Connection closed: " << error.message() << std::endl;
 				return;
 			}
 
@@ -156,18 +193,38 @@ void Client::HandleReceiveTCP()
 				}
 				else if (m_tcp_nb_bytes - offset >= message_size) /* The incoming message is complete */
 				{
-					/* Create a new message and copy incoming data inside */
-					deleted_unique_ptr<Message> new_message(reinterpret_cast<Message*>(::operator new(message_size)),
-						[message_size](Message* ptr)
-						{
-							::operator delete(ptr, message_size);
-						});
-					memmove(new_message.get(), incoming, message_size);
-
-					/* Push our new message in the queue */
+					if (m_is_init)
 					{
-						std::lock_guard<std::mutex> lock(m_message_received_mutex);
-						m_message_received_queue.push(std::move(new_message));
+						/* Create a new message and copy incoming data inside */
+						deleted_unique_ptr<Message> new_message(reinterpret_cast<Message*>(::operator new(message_size)),
+							[message_size](Message* ptr)
+							{
+								::operator delete(ptr, message_size);
+							});
+						memmove(new_message.get(), incoming, message_size);
+
+						/* Push our new message in the queue */
+						{
+							std::lock_guard<std::mutex> lock(m_message_received_mutex);
+							m_message_received_queue.push(std::move(new_message));
+						}
+					}
+					else if (incoming->GetType() == MessageType::HANDSHAKE)
+					{
+						HandshakeMessage* handshake = reinterpret_cast<HandshakeMessage*>(incoming);
+						std::cout << handshake->GetUniqueID() << std::endl;
+						if (handshake->GetUniqueID() == 0)
+						{
+							m_handshake_is_running = false;
+							m_is_init = true;
+							std::cout << "Connection is initialized" << std::endl;
+						}
+						else if (!m_handshake_is_running)
+						{
+							std::thread handshake_thread(&Client::HandshakeLoop, this, handshake->GetUniqueID());
+							handshake_thread.detach();
+							m_handshake_is_running = true;
+						}
 					}
 
 					/* This message is handled, we go to the next message */
@@ -183,4 +240,13 @@ void Client::HandleReceiveTCP()
 			/* No more message to handle, wait to receive more bytes from server */
 			HandleReceiveTCP();
 		});
+}
+
+void Client::HandshakeLoop(uint32_t unique_id) noexcept
+{
+	while (m_handshake_is_running)
+	{
+		SendDirectMessage(HandshakeMessage{ unique_id });
+		std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	}
 }

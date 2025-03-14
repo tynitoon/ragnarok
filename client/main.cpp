@@ -2,7 +2,7 @@
 #include "worker.hpp"
 
 int main() {
-	std::shared_ptr<Client> client = std::make_shared<Client>("127.0.0.1", 4242);
+	std::shared_ptr<Client> client = std::make_shared<Client>("127.0.0.1", 4242, 4243);
 	std::vector<std::thread> threads;
 	threads.push_back(std::thread([&client]()
 		{

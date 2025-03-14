@@ -7,13 +7,14 @@
 class Worker
 {
 public:
-	/**
-	 * @brief Worker constructor
-	 * @param server The server object that is communicating with all clients
+	/*!
+	 * \brief Worker constructor
+	 * 
+	 * \param[in] server The server object that is communicating with all clients
 	 */
 	Worker(const std::shared_ptr<Server>& server) noexcept;
 
-	/**
+	/*!
 	 * @brief Handle messages from clients
 	 */
 	void Run();

@@ -10,10 +10,10 @@ enum class MessageType
 	HANDSHAKE = 0,
 };
 
-/**
- * @brief Header of all network messages
+/*!
+ * \brief Header of all network messages
  */
-__pragma(pack(push, 1))
+#pragma pack(push, 1)
 class Message
 {
 	public:
@@ -51,12 +51,12 @@ class Message
 		uint32_t m_size;		/* Total size of the message */
 		uint32_t m_type;		/* Type of the message */
 };
-__pragma(pack(pop))
+#pragma pack(pop)
 
-/**
- * @brief Message that is needed to link UDP and TCP connexion in a same client
+/*!
+ * \brief Message that is needed to link UDP and TCP connexion in a same client
  */
-__pragma(pack(push, 1))
+#pragma pack(push, 1)
 class HandshakeMessage : public Message
 {
 public:
@@ -73,9 +73,6 @@ public:
 private:
 	uint32_t m_unique_id;	/* Unique ID in order to link UDP and TCP connections */
 };
-__pragma(pack(pop))
-
-
-
+#pragma pack(pop)
 
 #endif
