@@ -15,6 +15,12 @@ void Worker::Run()
 		{
 			switch (message->message->GetType())
 			{
+				case MessageType::LOGIN:
+				{
+					//LoginMessage* login = reinterpret_cast<LoginMessage*>(message->message.get());
+					//std::cout << "Worker::Run: Login message received : " << login->GetUsername() << " " << login->GetPassword() << std::endl;
+					break;
+				}
 				default:
 					break;
 			}

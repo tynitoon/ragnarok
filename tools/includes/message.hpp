@@ -1,13 +1,22 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-#include <iostream>
+#undef ERROR	/* Avoid conflict with Windows.h */
 
 #include <cstdint>
+#include <iostream>
+#include <string_view>
 
 enum class MessageType
 {
-	HANDSHAKE = 0,
+	HANDSHAKE	= 0,
+	LOGIN		= 1,
+	ERROR		= 2
+};
+
+enum class ErrorType : uint32_t
+{
+	LOGIN_FAILED = 0
 };
 
 /*!
@@ -53,6 +62,38 @@ class Message
 };
 #pragma pack(pop)
 
+static constexpr size_t ERROR_FIELD_SIZE = 256;	/* Login field size */
+/*!
+ * \brief Contains an error code and a message if needed
+ */
+#pragma pack(push, 1)
+class ErrorMessage : public Message
+{
+public:
+	ErrorMessage(ErrorType error, std::string_view message) :
+		Message(sizeof(ErrorMessage), MessageType::ERROR),
+		m_error(htonl(static_cast<uint32_t>(error))),
+		m_message()
+	{
+		std::copy(message.begin(), message.end(), m_message.begin());
+	}
+
+	std::string_view GetMessage() const noexcept
+	{
+		return std::string_view(reinterpret_cast<const char*>(m_message.data()), strnlen_s(reinterpret_cast<const char*>(m_message.data()), ERROR_FIELD_SIZE));
+	}
+
+	ErrorType GetError() const noexcept
+	{
+		return static_cast<ErrorType>(ntohl(m_error));
+	}
+
+private:
+	uint32_t m_error;									/* Error code */
+	std::array<uint8_t, ERROR_FIELD_SIZE> m_message;	/* Error message */
+};
+#pragma pack(pop)
+
 /*!
  * \brief Message that is needed to link UDP and TCP connexion in a same client
  */
@@ -72,6 +113,40 @@ public:
 
 private:
 	uint32_t m_unique_id;	/* Unique ID in order to link UDP and TCP connections */
+};
+#pragma pack(pop)
+
+static constexpr size_t LOGIN_USERNAME_FIELD_SIZE = 32;	/* Login field size */
+static constexpr size_t LOGIN_PASSWORD_FIELD_SIZE = 64;	/* Login field size */
+/*!
+ * \brief Contains the username and password of the user
+ */
+#pragma pack(push, 1)
+class LoginMessage : public Message
+{
+public:
+	LoginMessage(std::string_view username, std::string_view password) :
+		Message(sizeof(LoginMessage), MessageType::LOGIN),
+		m_username(),
+		m_password()
+	{
+		std::copy(username.begin(), username.end(), m_username.begin());
+		std::copy(password.begin(), password.end(), m_password.begin());
+	}
+
+	std::string_view GetUsername() const noexcept
+	{
+		return std::string_view(reinterpret_cast<const char*>(m_username.data()), strnlen_s(reinterpret_cast<const char*>(m_username.data()), LOGIN_USERNAME_FIELD_SIZE));
+	}
+
+	std::string_view GetPassword() const noexcept
+	{
+		return std::string_view(reinterpret_cast<const char*>(m_password.data()), strnlen_s(reinterpret_cast<const char*>(m_password.data()), LOGIN_PASSWORD_FIELD_SIZE));
+	}
+
+private:
+	std::array<uint8_t, LOGIN_USERNAME_FIELD_SIZE> m_username;	/* User username */
+	std::array<uint8_t, LOGIN_PASSWORD_FIELD_SIZE> m_password;	/* User password */
 };
 #pragma pack(pop)
 

@@ -152,6 +152,7 @@ std::unique_ptr<MessageFrom> Server::ReadMessage()
 		{
 			std::unique_ptr<MessageFrom> message = std::move(m_message_received_queue.front());
 			m_message_received_queue.pop();
+				
 			return message;
 		}
 	}

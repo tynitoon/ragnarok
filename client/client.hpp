@@ -60,16 +60,7 @@ private:
 	 */
 	void HandleReceiveTCP();
 
-	/*!
-	 * \brief Perform a send with the unique ID to the server every 250ms
-	 *
-	 * \param[in] unique_id The unique ID to send to the server
-	 */
-	void HandshakeLoop(uint32_t unique_id) noexcept;
-
 	static constexpr size_t MAX_MESSAGE_SIZE = 4096;					/* Max message size */
-	bool m_is_init;														/* True if the client is connected with TCP and UDP */
-	std::atomic<bool> m_handshake_is_running;							/* To know if we are trying to handshake with the server */
 	std::array<char, MAX_MESSAGE_SIZE> m_tcp_buffer;					/* Buffer that contains bytes received from the server by TCP */
 	std::array<char, MAX_MESSAGE_SIZE> m_udp_buffer;					/* Buffer that contains bytes received from the server by UDP */
 	std::size_t m_tcp_nb_bytes;											/* Actual number of data bytes contained in the buffer (from TCP) */

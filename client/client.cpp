@@ -36,8 +36,6 @@ inline static void SendHandler(const boost::system::error_code& error, size_t by
 }
 
 Client::Client(std::string ip, uint16_t tcp_port, uint16_t udp_port) :
-	m_is_init(false),
-	m_handshake_is_running(false),
 	m_tcp_buffer(),
 	m_udp_buffer(),
 	m_tcp_nb_bytes(0),
@@ -193,38 +191,18 @@ void Client::HandleReceiveTCP()
 				}
 				else if (m_tcp_nb_bytes - offset >= message_size) /* The incoming message is complete */
 				{
-					if (m_is_init)
-					{
-						/* Create a new message and copy incoming data inside */
-						deleted_unique_ptr<Message> new_message(reinterpret_cast<Message*>(::operator new(message_size)),
-							[message_size](Message* ptr)
-							{
-								::operator delete(ptr, message_size);
-							});
-						memmove(new_message.get(), incoming, message_size);
+					/* Create a new message and copy incoming data inside */
+					deleted_unique_ptr<Message> new_message(reinterpret_cast<Message*>(::operator new(message_size)),
+						[message_size](Message* ptr)
+						{
+							::operator delete(ptr, message_size);
+						});
+					memmove(new_message.get(), incoming, message_size);
 
-						/* Push our new message in the queue */
-						{
-							std::lock_guard<std::mutex> lock(m_message_received_mutex);
-							m_message_received_queue.push(std::move(new_message));
-						}
-					}
-					else if (incoming->GetType() == MessageType::HANDSHAKE)
+					/* Push our new message in the queue */
 					{
-						HandshakeMessage* handshake = reinterpret_cast<HandshakeMessage*>(incoming);
-						std::cout << handshake->GetUniqueID() << std::endl;
-						if (handshake->GetUniqueID() == 0)
-						{
-							m_handshake_is_running = false;
-							m_is_init = true;
-							std::cout << "Connection is initialized" << std::endl;
-						}
-						else if (!m_handshake_is_running)
-						{
-							std::thread handshake_thread(&Client::HandshakeLoop, this, handshake->GetUniqueID());
-							handshake_thread.detach();
-							m_handshake_is_running = true;
-						}
+						std::lock_guard<std::mutex> lock(m_message_received_mutex);
+						m_message_received_queue.push(std::move(new_message));
 					}
 
 					/* This message is handled, we go to the next message */
@@ -240,13 +218,4 @@ void Client::HandleReceiveTCP()
 			/* No more message to handle, wait to receive more bytes from server */
 			HandleReceiveTCP();
 		});
-}
-
-void Client::HandshakeLoop(uint32_t unique_id) noexcept
-{
-	while (m_handshake_is_running)
-	{
-		SendDirectMessage(HandshakeMessage{ unique_id });
-		std::this_thread::sleep_for(std::chrono::milliseconds(250));
-	}
 }
