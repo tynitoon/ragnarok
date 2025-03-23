@@ -148,12 +148,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\tools\sources\database.cpp" />
+    <ClCompile Include="..\tools\sources\hasher.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="server.cpp" />
     <ClCompile Include="worker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tools\includes\database.hpp" />
+    <ClInclude Include="..\tools\includes\hasher.hpp" />
     <ClInclude Include="..\tools\includes\message.hpp" />
     <ClInclude Include="server.hpp" />
     <ClInclude Include="worker.hpp" />
