@@ -265,12 +265,20 @@ class RagnarokAgent:
         return None
 
     def try_transfer(self) -> Skill | None:
-        """Try to find and load a relevant skill for the current environment."""
+        """Try to find and load a relevant skill for the current environment.
+
+        Skills are crystallized from the direct policy (DirectPolicyNet),
+        so we load them into real_trainer.policy, not into actor_critic.
+        """
         skill = self.skill_selector.select(self.env)
         if skill is not None:
-            self.actor_critic.load_state_dict(
-                {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
-            )
+            try:
+                self.real_trainer.policy.load_state_dict(
+                    {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
+                )
+            except RuntimeError:
+                # Architecture mismatch — skip transfer
+                return None
         return skill
 
     def save(self, path: str):
