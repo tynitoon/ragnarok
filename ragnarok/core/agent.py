@@ -95,12 +95,13 @@ class RagnarokAgent:
 
         # Real experience trainer (direct A2C on raw observations)
         reward_shaper = self._get_reward_shaper(env.env_name)
+        entropy_coeff, lr = self._get_training_hparams(env.env_name)
         self.real_trainer = RealExperienceTrainer(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
             gamma=config.policy.gamma,
-            entropy_coeff=0.01,
-            lr=3e-4,
+            entropy_coeff=entropy_coeff,
+            lr=lr,
             grad_clip=0.5,
             reward_shaper=reward_shaper,
         )
@@ -111,6 +112,13 @@ class RagnarokAgent:
         self.total_episodes = 0
         self.total_steps = 0
         self.h_accum: list[np.ndarray] = []  # For latent centroid computation
+
+    @staticmethod
+    def _get_training_hparams(env_name: str) -> tuple[float, float]:
+        """Environment-specific hyperparameters (entropy_coeff, lr)."""
+        if "MountainCar" in env_name:
+            return 0.02, 1e-3  # More exploration, faster learning
+        return 0.01, 3e-4  # Default (works for CartPole)
 
     @staticmethod
     def _get_reward_shaper(env_name: str):
