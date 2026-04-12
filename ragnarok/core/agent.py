@@ -311,6 +311,11 @@ class RagnarokAgent:
                 self.real_trainer.policy.load_state_dict(
                     {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
                 )
+                # Also load normalizer state if available
+                if skill.normalizer_state:
+                    self.env.normalizer = RunningNormalizer.from_state_dict(
+                        skill.normalizer_state
+                    )
             except RuntimeError:
                 # Architecture mismatch — skip transfer
                 return None
