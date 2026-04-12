@@ -34,6 +34,21 @@ REGISTRY: dict[str, EnvSpec] = {
         is_discrete=True,
         reward_threshold=-100.0,
     ),
+    # === Continuous control ===
+    "pendulum": EnvSpec(
+        gym_name="Pendulum-v1",
+        obs_dim=3,
+        action_dim=1,
+        is_discrete=False,
+        reward_threshold=-200.0,
+    ),
+    "mountaincar-continuous": EnvSpec(
+        gym_name="MountainCarContinuous-v0",
+        obs_dim=2,
+        action_dim=1,
+        is_discrete=False,
+        reward_threshold=90.0,
+    ),
 }
 
 

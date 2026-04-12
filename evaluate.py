@@ -55,7 +55,16 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
             pass
 
     env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer)
-    policy = DirectPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
+
+    # Load appropriate policy type
+    if env_spec.is_discrete:
+        policy = DirectPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
+    else:
+        from ragnarok.learning.real_experience import ContinuousPolicyNet
+        policy = ContinuousPolicyNet(
+            env_spec.obs_dim, env_spec.action_dim,
+            action_low=env.action_low, action_high=env.action_high,
+        ).to(DEVICE)
     policy.load_state_dict({k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()})
     policy.eval()
 
@@ -77,9 +86,12 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
         while not done:
             obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
             with torch.no_grad():
-                action_idx = policy.act(obs_t, deterministic=True)
-            action_onehot = env.action_to_onehot(action_idx)
-            obs, reward, terminated, truncated, _ = env.step(action_onehot)
+                if env_spec.is_discrete:
+                    action_idx = policy.act(obs_t, deterministic=True)
+                    action = env.action_to_onehot(action_idx)
+                else:
+                    action = policy.act(obs_t, deterministic=True)
+            obs, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
             total_reward += reward
             steps += 1

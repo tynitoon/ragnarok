@@ -100,11 +100,14 @@ class RagnarokAgent:
         self.real_trainer = RealExperienceTrainer(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
+            discrete=env.is_discrete,
             gamma=config.policy.gamma,
             entropy_coeff=entropy_coeff,
             lr=lr,
             grad_clip=0.5,
             reward_shaper=reward_shaper,
+            action_low=env.action_low,
+            action_high=env.action_high,
         )
 
         # Dream augmenter (trains direct policy on imagined experience)
@@ -133,6 +136,10 @@ class RagnarokAgent:
             return 0.02, 1e-3  # More exploration, faster learning
         if "Acrobot" in env_name:
             return 0.05, 1e-3  # High exploration for swing-up discovery
+        if "Pendulum" in env_name:
+            return 0.005, 1e-3  # Continuous: lower entropy, higher LR
+        if "MountainCarContinuous" in env_name:
+            return 0.01, 1e-3
         return 0.01, 3e-4  # Default (works for CartPole)
 
     @staticmethod

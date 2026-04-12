@@ -51,6 +51,8 @@ class SkillConfig:
         "CartPole-v1": 450.0,
         "MountainCar-v0": -120.0,
         "Acrobot-v1": -100.0,
+        "Pendulum-v1": -200.0,
+        "MountainCarContinuous-v0": 90.0,
     })
 
 

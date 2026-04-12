@@ -21,8 +21,12 @@ class RagnarokEnv:
 
         if self.is_discrete:
             self.action_dim = self.env.action_space.n
+            self.action_low = None
+            self.action_high = None
         else:
             self.action_dim = int(np.prod(self.env.action_space.shape))
+            self.action_low = self.env.action_space.low.flatten().astype(np.float32)
+            self.action_high = self.env.action_space.high.flatten().astype(np.float32)
 
         # Normalizer
         self.normalizer = normalizer or RunningNormalizer(
