@@ -308,7 +308,7 @@ class RealExperienceTrainer:
     def collect_batch_and_train(self, env, batch_episodes: int = 4):
         """Collect multiple episodes, then train on all data at once.
 
-        Much lower variance than single-episode training for continuous envs.
+        Lower variance than single-episode training for continuous envs.
         Returns (mean_reward, metrics, last_episode_data).
         """
         all_log_probs, all_values, all_entropies, all_rewards = [], [], [], []
