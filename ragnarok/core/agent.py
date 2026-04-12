@@ -190,37 +190,55 @@ class RagnarokAgent:
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
         """Collect and train from real experience (A2C on raw observations).
 
+        Also feeds episode data into the replay buffer for world model training.
         Returns (episode_reward, metrics).
         """
-        reward, metrics = self.real_trainer.collect_and_train(self.env)
+        reward, metrics, episode_data = self.real_trainer.collect_and_train(self.env)
+
+        # Feed into replay buffer for world model training
+        if episode_data is not None:
+            obs, acts, rews, dones = episode_data
+            self.replay_buffer.add_episode(obs, acts, rews, dones)
+            self.recent_episodes.append(episode_data)
+            self.total_steps += len(rews)
+
         self.episode_rewards.append(reward)
         self.total_episodes += 1
         return reward, metrics
 
-    def check_crystallization(self) -> Skill | None:
+    def check_crystallization(self, eval_episodes: int = 5) -> Skill | None:
         """Check if the current policy should be crystallized into a skill.
 
+        Runs evaluation episodes (deterministic) to get true performance.
         Returns the new Skill if crystallized, None otherwise.
         """
         if self.total_episodes < self.config.skill.min_episodes:
             return None
 
-        if len(self.episode_rewards) < self.config.skill.crystallization_window:
-            return None
-
-        mean_reward = np.mean(self.episode_rewards)
+        # Run actual evaluation (deterministic policy)
+        eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
         threshold = self.config.skill.thresholds.get(self.env.env_name, float("inf"))
 
-        if mean_reward >= threshold:
-            # Compute latent centroid
-            centroid = np.mean(self.h_accum[-10000:], axis=0) if self.h_accum else np.zeros(self.config.world_model.hidden_dim)
+        if eval_reward >= threshold:
+            # Compute latent centroid from world model encoding
+            centroid = np.zeros(self.config.world_model.hidden_dim)
+            if self.replay_buffer.num_episodes > 0:
+                try:
+                    obs, acts, _, _ = self.replay_buffer.sample_sequences(10, 10)
+                    obs_t = torch.tensor(obs, device=DEVICE)
+                    act_t = torch.tensor(acts, device=DEVICE)
+                    with torch.no_grad():
+                        outputs = self.rssm.observe(obs_t, act_t)
+                        centroid = to_numpy(outputs["h"].mean(dim=(0, 1)))
+                except Exception:
+                    pass
 
             skill = Skill(
                 name=f"{self.env.env_name}_{self.total_episodes}ep",
                 env_name=self.env.env_name,
-                policy_state_dict={k: v.cpu() for k, v in self.actor_critic.state_dict().items()},
+                policy_state_dict={k: v.cpu() for k, v in self.real_trainer.policy.state_dict().items()},
                 latent_centroid=centroid,
-                performance=mean_reward,
+                performance=eval_reward,
                 normalizer_state=self.env.normalizer.state_dict(),
                 episodes_trained=self.total_episodes,
             )

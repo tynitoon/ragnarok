@@ -66,8 +66,12 @@ class RealExperienceTrainer:
         self.policy = DirectPolicyNet(obs_dim, action_dim).to(DEVICE)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr)
 
-    def collect_and_train(self, env, deterministic: bool = False) -> tuple[float, dict[str, float]]:
-        """Collect one episode and train on it. Returns (total_reward, metrics)."""
+    def collect_and_train(self, env, deterministic: bool = False):
+        """Collect one episode and train on it.
+
+        Returns (total_reward, metrics, episode_data) where episode_data is
+        (observations, actions, rewards, dones) as numpy arrays, or None if deterministic.
+        """
         obs = env.reset()
         log_probs, values, rewards, entropies = [], [], [], []
         observations, actions = [], []
@@ -99,8 +103,18 @@ class RealExperienceTrainer:
             done = terminated or truncated
             total_reward += reward
 
+        # Build episode data for replay buffer
+        dones = [0.0] * len(rewards)
+        dones[-1] = 1.0
+        episode_data = (
+            np.array(observations, dtype=np.float32),
+            np.array(actions, dtype=np.float32),
+            np.array(rewards, dtype=np.float32),
+            np.array(dones, dtype=np.float32),
+        )
+
         if deterministic or len(rewards) < 2:
-            return total_reward, {}
+            return total_reward, {}, episode_data
 
         # Compute discounted returns
         returns = []
@@ -134,13 +148,13 @@ class RealExperienceTrainer:
             "real/critic_loss": critic_loss.item(),
             "real/entropy": entropies.mean().item(),
             "real/mean_return": returns.mean().item(),
-        }
+        }, episode_data
 
     def evaluate(self, env, episodes: int = 5) -> float:
         """Evaluate policy without training."""
         rewards = []
         for _ in range(episodes):
-            r, _ = self.collect_and_train(env, deterministic=True)
+            r, _, _ = self.collect_and_train(env, deterministic=True)
             rewards.append(r)
         return float(np.mean(rewards))
 
