@@ -28,7 +28,7 @@ REGISTRY: dict[str, EnvSpec] = {
         reward_threshold=-120.0,
     ),
     "lunarlander": EnvSpec(
-        gym_name="LunarLander-v2",
+        gym_name="LunarLander-v3",
         obs_dim=8,
         action_dim=4,
         is_discrete=True,

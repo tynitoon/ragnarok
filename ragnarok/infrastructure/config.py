@@ -50,7 +50,7 @@ class SkillConfig:
     thresholds: dict = field(default_factory=lambda: {
         "CartPole-v1": 450.0,
         "MountainCar-v0": -120.0,
-        "LunarLander-v2": 200.0,
+        "LunarLander-v3": 200.0,
     })
 
 

@@ -131,6 +131,8 @@ class RagnarokAgent:
         """Environment-specific hyperparameters (entropy_coeff, lr)."""
         if "MountainCar" in env_name:
             return 0.02, 1e-3  # More exploration, faster learning
+        if "LunarLander" in env_name:
+            return 0.01, 5e-4  # Moderate LR for complex control
         return 0.01, 3e-4  # Default (works for CartPole)
 
     @staticmethod
