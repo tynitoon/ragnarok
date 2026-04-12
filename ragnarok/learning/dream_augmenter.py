@@ -17,7 +17,7 @@ import torch.nn.functional as F
 import numpy as np
 
 from ragnarok.core.rssm import RSSM
-from ragnarok.learning.real_experience import DirectPolicyNet
+from ragnarok.learning.real_experience import DirectPolicyNet, ContinuousPolicyNet
 from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.infrastructure.device import DEVICE
 
@@ -26,11 +26,11 @@ class DreamAugmenter:
     """Generates synthetic training data by dreaming in the world model.
 
     Unlike DreamTrainer (which trains a latent-space policy), this trains
-    the same DirectPolicyNet used for real experience — but on imagined data.
+    the same DirectPolicyNet/ContinuousPolicyNet used for real experience
+    — but on imagined data. Supports both discrete and continuous actions.
     """
 
-    def __init__(self, rssm: RSSM, policy: DirectPolicyNet,
-                 replay_buffer: ReplayBuffer,
+    def __init__(self, rssm: RSSM, policy, replay_buffer: ReplayBuffer,
                  horizon: int = 15, dream_batch: int = 64,
                  gamma: float = 0.99, entropy_coeff: float = 0.01,
                  lr: float = 1e-4, grad_clip: float = 0.5):
@@ -42,6 +42,7 @@ class DreamAugmenter:
         self.gamma = gamma
         self.entropy_coeff = entropy_coeff
         self.grad_clip = grad_clip
+        self.discrete = isinstance(policy, DirectPolicyNet)
 
         # Separate optimizer for dream training (lower LR to avoid overriding real data)
         self.optimizer = torch.optim.Adam(policy.parameters(), lr=lr)
@@ -89,19 +90,33 @@ class DreamAugmenter:
             with torch.no_grad():
                 decoded_obs = self.rssm.decoder(torch.cat([h, z], dim=-1))
 
-            # Get action from direct policy (on decoded observations)
-            logits, value = self.policy(decoded_obs)
-            dist = torch.distributions.Categorical(logits=logits)
-            action_idx = dist.sample()
-
-            log_probs_list.append(dist.log_prob(action_idx))
-            values_list.append(value)
-            entropies_list.append(dist.entropy())
             decoded_obs_list.append(decoded_obs)
 
-            # Convert to one-hot for RSSM
-            action_onehot = F.one_hot(action_idx, num_classes=self.rssm.action_dim).float()
-            actions_list.append(action_onehot)
+            if self.discrete:
+                # Discrete: Categorical policy
+                logits, value = self.policy(decoded_obs)
+                dist = torch.distributions.Categorical(logits=logits)
+                action_idx = dist.sample()
+                log_probs_list.append(dist.log_prob(action_idx))
+                values_list.append(value)
+                entropies_list.append(dist.entropy())
+                # Convert to one-hot for RSSM
+                action_for_rssm = F.one_hot(action_idx, num_classes=self.rssm.action_dim).float()
+            else:
+                # Continuous: Gaussian policy
+                mean, logstd, value = self.policy(decoded_obs)
+                dist = torch.distributions.Normal(mean, logstd.exp())
+                raw_action = dist.rsample()
+                lp = dist.log_prob(raw_action).sum(dim=-1)
+                squashed = torch.tanh(raw_action)
+                lp -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+                log_probs_list.append(lp)
+                values_list.append(value)
+                entropies_list.append(self.policy.entropy(decoded_obs))
+                # Rescale for RSSM (use raw env-scale action)
+                action_for_rssm = self.policy._rescale(squashed)
+
+            actions_list.append(action_for_rssm)
 
             # Step world model forward
             with torch.no_grad():
