@@ -24,6 +24,7 @@ from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
 from ragnarok.learning.real_experience import RealExperienceTrainer
+from ragnarok.learning.dream_augmenter import DreamAugmenter
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE, to_numpy
@@ -104,6 +105,18 @@ class RagnarokAgent:
             lr=lr,
             grad_clip=0.5,
             reward_shaper=reward_shaper,
+        )
+
+        # Dream augmenter (trains direct policy on imagined experience)
+        self.dream_augmenter = DreamAugmenter(
+            rssm=self.rssm,
+            policy=self.real_trainer.policy,
+            replay_buffer=self.replay_buffer,
+            horizon=config.policy.imagination_horizon,
+            dream_batch=64,
+            gamma=config.policy.gamma,
+            entropy_coeff=entropy_coeff,
+            lr=lr * 0.3,  # Lower LR to avoid overriding real learning
         )
 
         # Tracking
@@ -208,9 +221,13 @@ class RagnarokAgent:
         return self.wm_trainer.train(steps)
 
     def train_policy(self, steps: int | None = None) -> dict[str, float]:
-        """Train the policy via dream training."""
+        """Train the policy via dream training (latent-space policy)."""
         steps = steps or self.config.policy.train_steps
         return self.dream_trainer.train(steps)
+
+    def train_policy_dream(self, steps: int = 10) -> dict[str, float]:
+        """Train the direct policy on imagined experience (dream augmentation)."""
+        return self.dream_augmenter.train(steps)
 
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
         """Collect and train from real experience (A2C on raw observations).

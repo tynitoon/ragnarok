@@ -80,13 +80,13 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
                 for k, v in wm_metrics.items():
                     metrics[f"wm/{k}"] = v
 
-            # === 3. Dream training (optional, once WM is mature) ===
+            # === 3. Dream augmentation (train direct policy on imagined data) ===
             if (episode % dream_train_every == 0 and
-                    episode >= 100 and
-                    agent.replay_buffer.num_episodes >= 50):
-                dream_metrics = agent.train_policy(steps=dream_train_steps)
+                    episode >= 50 and
+                    agent.replay_buffer.num_episodes >= 20):
+                dream_metrics = agent.train_policy_dream(steps=dream_train_steps)
                 for k, v in dream_metrics.items():
-                    metrics[f"dream/{k}"] = v
+                    metrics[k] = v
 
             logger.log(episode, metrics)
 
