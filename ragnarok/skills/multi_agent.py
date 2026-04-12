@@ -12,6 +12,7 @@ from ragnarok.skills.library import SkillLibrary
 from ragnarok.skills.skill import Skill
 from ragnarok.skills.router import CentroidRouter, LearnedRouter
 from ragnarok.learning.real_experience import DirectPolicyNet, ContinuousPolicyNet
+from ragnarok.learning.sac import SACPolicy
 from ragnarok.core.normalizer import RunningNormalizer
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.environments.registry import REGISTRY
@@ -40,11 +41,15 @@ class LoadedSkill:
         if env_spec is None:
             raise ValueError(f"No registry entry for {skill.env_name}")
 
-        # Build policy
+        # Build policy (auto-detect SAC vs ContinuousPolicyNet)
         if env_spec.is_discrete:
             policy = DirectPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
         else:
-            policy = ContinuousPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
+            has_critic = any("critic_head" in k for k in skill.policy_state_dict)
+            if has_critic:
+                policy = ContinuousPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
+            else:
+                policy = SACPolicy(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
 
         policy.load_state_dict(
             {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}

@@ -56,15 +56,24 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
 
     env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer)
 
-    # Load appropriate policy type
+    # Load appropriate policy type (auto-detect from saved weights)
     if env_spec.is_discrete:
         policy = DirectPolicyNet(env_spec.obs_dim, env_spec.action_dim).to(DEVICE)
     else:
-        from ragnarok.learning.real_experience import ContinuousPolicyNet
-        policy = ContinuousPolicyNet(
-            env_spec.obs_dim, env_spec.action_dim,
-            action_low=env.action_low, action_high=env.action_high,
-        ).to(DEVICE)
+        # Detect SAC vs ContinuousPolicyNet by checking for critic_head key
+        has_critic = any("critic_head" in k for k in skill.policy_state_dict)
+        if has_critic:
+            from ragnarok.learning.real_experience import ContinuousPolicyNet
+            policy = ContinuousPolicyNet(
+                env_spec.obs_dim, env_spec.action_dim,
+                action_low=env.action_low, action_high=env.action_high,
+            ).to(DEVICE)
+        else:
+            from ragnarok.learning.sac import SACPolicy
+            policy = SACPolicy(
+                env_spec.obs_dim, env_spec.action_dim,
+                action_low=env.action_low, action_high=env.action_high,
+            ).to(DEVICE)
     policy.load_state_dict({k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()})
     policy.eval()
 
