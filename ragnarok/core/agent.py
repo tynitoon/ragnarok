@@ -254,10 +254,17 @@ class RagnarokAgent:
         """Check if the current policy should be crystallized into a skill.
 
         Runs evaluation episodes (deterministic) to get true performance.
+        Only crystallizes once per environment.
         Returns the new Skill if crystallized, None otherwise.
         """
         if self.total_episodes < self.config.skill.min_episodes:
             return None
+
+        # Don't re-crystallize if we already have a skill for this env
+        if hasattr(self, '_crystallized_envs') and self.env.env_name in self._crystallized_envs:
+            return None
+        if not hasattr(self, '_crystallized_envs'):
+            self._crystallized_envs = set()
 
         # Run actual evaluation (deterministic policy)
         eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
@@ -287,6 +294,7 @@ class RagnarokAgent:
                 episodes_trained=self.total_episodes,
             )
             self.skill_library.save_skill(skill)
+            self._crystallized_envs.add(self.env.env_name)
             return skill
 
         return None
