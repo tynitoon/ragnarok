@@ -28,10 +28,22 @@ class Logger:
         for key, value in metrics.items():
             self.tb_writer.add_scalar(key, value, step)
 
+        # Expand fields if new metrics appear
+        all_keys = sorted(metrics.keys())
         if self._csv_writer is None:
-            self._csv_fields = ["step"] + sorted(metrics.keys())
-            self._csv_writer = csv.DictWriter(self._csv_file, fieldnames=self._csv_fields)
+            self._csv_fields = ["step"] + all_keys
+            self._csv_writer = csv.DictWriter(self._csv_file, fieldnames=self._csv_fields,
+                                              extrasaction="ignore")
             self._csv_writer.writeheader()
+        else:
+            new_keys = [k for k in all_keys if k not in self._csv_fields]
+            if new_keys:
+                self._csv_fields.extend(new_keys)
+                # Rewrite header by reopening
+                self._csv_file.close()
+                self._csv_file = open(self.csv_path, "a", newline="")
+                self._csv_writer = csv.DictWriter(self._csv_file, fieldnames=self._csv_fields,
+                                                  extrasaction="ignore")
 
         row = {"step": step}
         row.update(metrics)

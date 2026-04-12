@@ -50,20 +50,34 @@ class ReplayBuffer:
             removed = self.episodes.popleft()
             self.total_steps -= removed.length
 
+    @property
+    def max_episode_length(self) -> int:
+        """Longest episode currently in the buffer."""
+        if not self.episodes:
+            return 0
+        return max(ep.length for ep in self.episodes)
+
     def sample_sequences(self, batch_size: int, seq_length: int
                          ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """Sample random subsequences from stored episodes.
 
+        Automatically caps seq_length to the longest available episode
+        to avoid excessive padding.
+
         Returns:
-            obs:     (batch, seq_length, obs_dim)
-            actions: (batch, seq_length, action_dim)
-            rewards: (batch, seq_length)
-            dones:   (batch, seq_length)
+            obs:     (batch, actual_seq_length, obs_dim)
+            actions: (batch, actual_seq_length, action_dim)
+            rewards: (batch, actual_seq_length)
+            dones:   (batch, actual_seq_length)
         """
+        # Cap sequence length to what's actually available
+        effective_seq_length = min(seq_length, self.max_episode_length)
+        seq_length = max(effective_seq_length, 2)  # Need at least 2 steps
+
         # Filter episodes long enough
         valid_episodes = [ep for ep in self.episodes if ep.length >= seq_length]
         if not valid_episodes:
-            # Fall back: use any episode, pad with zeros if needed
+            # Fall back: use any episode, use their full length
             valid_episodes = list(self.episodes)
 
         obs_list, act_list, rew_list, done_list = [], [], [], []
