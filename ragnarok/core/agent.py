@@ -275,10 +275,11 @@ class RagnarokAgent:
             return None
 
         # Don't re-crystallize if we already have a skill for this env
-        if hasattr(self, '_crystallized_envs') and self.env.env_name in self._crystallized_envs:
-            return None
-        if not hasattr(self, '_crystallized_envs'):
-            self._crystallized_envs = set()
+        existing = self.skill_library.list_skills()
+        for name in existing:
+            skill = self.skill_library.load_skill(name)
+            if skill and skill.env_name == self.env.env_name:
+                return None
 
         # Run actual evaluation (deterministic policy)
         eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
@@ -308,7 +309,6 @@ class RagnarokAgent:
                 episodes_trained=self.total_episodes,
             )
             self.skill_library.save_skill(skill)
-            self._crystallized_envs.add(self.env.env_name)
             return skill
 
         return None
