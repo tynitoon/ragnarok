@@ -94,6 +94,7 @@ class RagnarokAgent:
         )
 
         # Real experience trainer (direct A2C on raw observations)
+        reward_shaper = self._get_reward_shaper(env.env_name)
         self.real_trainer = RealExperienceTrainer(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
@@ -101,6 +102,7 @@ class RagnarokAgent:
             entropy_coeff=0.01,
             lr=3e-4,
             grad_clip=0.5,
+            reward_shaper=reward_shaper,
         )
 
         # Tracking
@@ -109,6 +111,21 @@ class RagnarokAgent:
         self.total_episodes = 0
         self.total_steps = 0
         self.h_accum: list[np.ndarray] = []  # For latent centroid computation
+
+    @staticmethod
+    def _get_reward_shaper(env_name: str):
+        """Get environment-specific reward shaping function."""
+        if "MountainCar" in env_name:
+            # MountainCar: encourage reaching higher positions
+            # obs[0] = position (range: -1.2 to 0.6), obs[1] = velocity
+            # Goal at position >= 0.5
+            def shaper(obs, reward, next_obs):
+                # Potential-based shaping (position + abs(velocity))
+                height_bonus = (next_obs[0] + 1.2) / 1.8  # Normalize to [0, 1]
+                velocity_bonus = abs(next_obs[1]) * 10  # Encourage movement
+                return reward + 0.1 * height_bonus + 0.05 * velocity_bonus
+            return shaper
+        return None  # No shaping for other environments
 
     def collect_episode(self, explore_ratio: float = 0.1) -> float:
         """Run one episode, collecting data into buffers.

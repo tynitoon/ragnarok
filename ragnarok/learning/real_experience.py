@@ -57,11 +57,13 @@ class RealExperienceTrainer:
 
     def __init__(self, obs_dim: int, action_dim: int,
                  gamma: float = 0.99, entropy_coeff: float = 0.01,
-                 lr: float = 3e-4, grad_clip: float = 0.5):
+                 lr: float = 3e-4, grad_clip: float = 0.5,
+                 reward_shaper=None):
         self.gamma = gamma
         self.entropy_coeff = entropy_coeff
         self.grad_clip = grad_clip
         self.action_dim = action_dim
+        self.reward_shaper = reward_shaper  # Optional: fn(obs, reward, next_obs) -> shaped_reward
 
         self.policy = DirectPolicyNet(obs_dim, action_dim).to(DEVICE)
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr)
@@ -98,10 +100,17 @@ class RealExperienceTrainer:
             observations.append(obs.copy())
             actions.append(action_onehot)
 
-            obs, reward, terminated, truncated, _ = env.step(action_onehot)
-            rewards.append(reward)
+            next_obs, reward, terminated, truncated, _ = env.step(action_onehot)
+
+            # Apply reward shaping if configured
+            train_reward = reward
+            if self.reward_shaper is not None:
+                train_reward = self.reward_shaper(obs, reward, next_obs)
+
+            rewards.append(train_reward)
             done = terminated or truncated
-            total_reward += reward
+            total_reward += reward  # Track real reward, not shaped
+            obs = next_obs
 
         # Build episode data for replay buffer
         dones = [0.0] * len(rewards)
