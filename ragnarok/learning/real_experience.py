@@ -48,7 +48,7 @@ class ContinuousPolicyNet(nn.Module):
     squashed through tanh and rescaled to [action_low, action_high].
     """
 
-    def __init__(self, obs_dim: int, action_dim: int, hidden: int = 64,
+    def __init__(self, obs_dim: int, action_dim: int, hidden: int = 128,
                  action_low: np.ndarray | None = None,
                  action_high: np.ndarray | None = None):
         super().__init__()
@@ -304,6 +304,113 @@ class RealExperienceTrainer:
             "real/entropy": entropies.mean().item(),
             "real/mean_return": returns.mean().item(),
         }
+
+    def collect_batch_and_train(self, env, batch_episodes: int = 4):
+        """Collect multiple episodes, then train on all data at once.
+
+        Much lower variance than single-episode training for continuous envs.
+        Returns (mean_reward, metrics, last_episode_data).
+        """
+        all_log_probs, all_values, all_entropies, all_rewards = [], [], [], []
+        total_rewards = []
+        last_episode_data = None
+
+        for _ in range(batch_episodes):
+            if self.discrete:
+                result = self._collect_discrete_data(env)
+            else:
+                result = self._collect_continuous_data(env)
+
+            ep_reward, log_probs, values, entropies, rewards, episode_data = result
+            total_rewards.append(ep_reward)
+            all_log_probs.extend(log_probs)
+            all_values.extend(values)
+            all_entropies.extend(entropies)
+            all_rewards.extend(rewards)
+            last_episode_data = episode_data
+
+        if len(all_rewards) < 2:
+            return float(np.mean(total_rewards)), {}, last_episode_data
+
+        metrics = self._train_a2c(all_log_probs, all_values, all_entropies, all_rewards)
+        return float(np.mean(total_rewards)), metrics, last_episode_data
+
+    def _collect_continuous_data(self, env):
+        """Collect one continuous episode without training. Returns components."""
+        obs = env.reset()
+        log_probs, values, rewards, entropies = [], [], [], []
+        observations, actions = [], []
+        done = False
+        total_reward = 0.0
+
+        while not done:
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            mean, logstd, value = self.policy(obs_t)
+            dist = torch.distributions.Normal(mean, logstd.exp())
+            raw_action = dist.rsample()
+
+            lp = dist.log_prob(raw_action).sum(dim=-1)
+            squashed = torch.tanh(raw_action)
+            lp -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+
+            log_probs.append(lp)
+            values.append(value)
+            entropies.append(self.policy.entropy(obs_t))
+
+            env_action = self.policy._rescale(squashed).squeeze(0).detach().cpu().numpy()
+            observations.append(obs.copy())
+            actions.append(env_action.copy())
+
+            next_obs, reward, terminated, truncated, _ = env.step(env_action)
+            train_reward = reward
+            if self.reward_shaper is not None:
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                train_reward = self.reward_shaper(obs, reward, raw_obs)
+
+            rewards.append(train_reward)
+            done = terminated or truncated
+            total_reward += reward
+            obs = next_obs
+
+        episode_data = self._build_episode_data(observations, actions, rewards)
+        return total_reward, log_probs, values, entropies, rewards, episode_data
+
+    def _collect_discrete_data(self, env):
+        """Collect one discrete episode without training. Returns components."""
+        obs = env.reset()
+        log_probs, values, rewards, entropies = [], [], [], []
+        observations, actions = [], []
+        done = False
+        total_reward = 0.0
+
+        while not done:
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            logits, value = self.policy(obs_t)
+            dist = torch.distributions.Categorical(logits=logits)
+            action = dist.sample()
+
+            log_probs.append(dist.log_prob(action))
+            values.append(value)
+            entropies.append(dist.entropy())
+
+            action_idx = action.item()
+            action_onehot = env.action_to_onehot(action_idx)
+            observations.append(obs.copy())
+            actions.append(action_onehot)
+
+            next_obs, reward, terminated, truncated, _ = env.step(action_onehot)
+            train_reward = reward
+            if self.reward_shaper is not None:
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                train_reward = self.reward_shaper(obs, reward, raw_obs)
+
+            rewards.append(train_reward)
+            done = terminated or truncated
+            total_reward += reward
+            obs = next_obs
+
+        episode_data = self._build_episode_data(observations, actions, rewards)
+        return total_reward, log_probs, values, entropies, rewards, episode_data
 
     def evaluate(self, env, episodes: int = 5) -> float:
         """Evaluate policy without training."""

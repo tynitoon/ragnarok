@@ -151,7 +151,7 @@ class RagnarokAgent:
         if "Acrobot" in env_name:
             return 0.05, 1e-3  # High exploration for swing-up discovery
         if "Pendulum" in env_name:
-            return 0.005, 1e-3  # Continuous: lower entropy, higher LR
+            return 0.02, 3e-4  # Continuous: moderate entropy, stable LR
         if "MountainCarContinuous" in env_name:
             return 0.01, 1e-3
         return 0.01, 3e-4  # Default (works for CartPole)
@@ -269,9 +269,12 @@ class RagnarokAgent:
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
         """Collect and train from real experience (A2C on raw observations).
 
-        Also feeds episode data into the replay buffer for world model training.
+        Uses batch training (4 episodes) for continuous envs (lower variance).
         Returns (episode_reward, metrics).
         """
+        if not self.env.is_discrete:
+            return self._train_policy_real_batch(batch_episodes=4)
+
         reward, metrics, episode_data = self.real_trainer.collect_and_train(self.env)
 
         # Feed into replay buffer for world model training
@@ -283,6 +286,23 @@ class RagnarokAgent:
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        return reward, metrics
+
+    def _train_policy_real_batch(self, batch_episodes: int = 4
+                                  ) -> tuple[float, dict[str, float]]:
+        """Batch A2C training for continuous envs: collect N episodes, train once."""
+        reward, metrics, episode_data = self.real_trainer.collect_batch_and_train(
+            self.env, batch_episodes=batch_episodes
+        )
+
+        if episode_data is not None:
+            obs, acts, rews, dones = episode_data
+            self.replay_buffer.add_episode(obs, acts, rews, dones)
+            self.recent_episodes.append(episode_data)
+            self.total_steps += len(rews)
+
+        self.episode_rewards.append(reward)
+        self.total_episodes += batch_episodes
         return reward, metrics
 
     def check_crystallization(self, eval_episodes: int = 5) -> Skill | None:
