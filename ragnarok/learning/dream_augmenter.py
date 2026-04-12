@@ -120,7 +120,7 @@ class DreamAugmenter:
 
             # Step world model forward
             with torch.no_grad():
-                h = self.rssm.core.step(h, z, action_onehot)
+                h = self.rssm.core.step(h, z, action_for_rssm)
                 prior_mean, prior_logstd = self.rssm.core.forward_prior(h)
                 z = self.rssm.core.sample(prior_mean, prior_logstd)
 
