@@ -305,35 +305,185 @@ class RealExperienceTrainer:
             "real/mean_return": returns.mean().item(),
         }
 
-    def collect_batch_and_train(self, env, batch_episodes: int = 4):
-        """Collect multiple episodes, then train on all data at once.
+    def collect_batch_and_train(self, env, batch_episodes: int = 4,
+                                ppo_epochs: int = 4, clip_eps: float = 0.2):
+        """Collect episodes, then train with PPO clipping for stability.
 
-        Lower variance than single-episode training for continuous envs.
+        Multi-epoch PPO is much more sample-efficient and stable for
+        continuous control than single-pass A2C.
         Returns (mean_reward, metrics, last_episode_data).
         """
-        all_log_probs, all_values, all_entropies, all_rewards = [], [], [], []
+        all_obs, all_raw_actions, all_rewards = [], [], []
         total_rewards = []
         last_episode_data = None
 
         for _ in range(batch_episodes):
             if self.discrete:
-                result = self._collect_discrete_data(env)
+                ep_data = self._collect_with_storage_discrete(env)
             else:
-                result = self._collect_continuous_data(env)
+                ep_data = self._collect_with_storage_continuous(env)
 
-            ep_reward, log_probs, values, entropies, rewards, episode_data = result
+            ep_reward, obs_list, raw_act_list, rewards, episode_data = ep_data
             total_rewards.append(ep_reward)
-            all_log_probs.extend(log_probs)
-            all_values.extend(values)
-            all_entropies.extend(entropies)
+            all_obs.extend(obs_list)
+            all_raw_actions.extend(raw_act_list)
             all_rewards.extend(rewards)
             last_episode_data = episode_data
 
         if len(all_rewards) < 2:
             return float(np.mean(total_rewards)), {}, last_episode_data
 
-        metrics = self._train_a2c(all_log_probs, all_values, all_entropies, all_rewards)
+        metrics = self._train_ppo(
+            all_obs, all_raw_actions, all_rewards,
+            epochs=ppo_epochs, clip_eps=clip_eps,
+        )
         return float(np.mean(total_rewards)), metrics, last_episode_data
+
+    def _collect_with_storage_continuous(self, env):
+        """Collect one continuous episode, storing obs + raw actions for PPO."""
+        obs = env.reset()
+        obs_list, raw_act_list, rewards = [], [], []
+        observations, actions = [], []
+        done = False
+        total_reward = 0.0
+
+        while not done:
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            with torch.no_grad():
+                mean, logstd, _ = self.policy(obs_t)
+                dist = torch.distributions.Normal(mean, logstd.exp())
+                raw_action = dist.sample()
+
+            squashed = torch.tanh(raw_action)
+            env_action = self.policy._rescale(squashed).squeeze(0).cpu().numpy()
+
+            obs_list.append(obs.copy())
+            raw_act_list.append(raw_action.squeeze(0).cpu().numpy())
+            observations.append(obs.copy())
+            actions.append(env_action.copy())
+
+            next_obs, reward, terminated, truncated, _ = env.step(env_action)
+            train_reward = reward
+            if self.reward_shaper is not None:
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                train_reward = self.reward_shaper(obs, reward, raw_obs)
+
+            rewards.append(train_reward)
+            done = terminated or truncated
+            total_reward += reward
+            obs = next_obs
+
+        episode_data = self._build_episode_data(observations, actions, rewards)
+        return total_reward, obs_list, raw_act_list, rewards, episode_data
+
+    def _collect_with_storage_discrete(self, env):
+        """Collect one discrete episode, storing obs + action indices for PPO."""
+        obs = env.reset()
+        obs_list, act_idx_list, rewards = [], [], []
+        observations, actions = [], []
+        done = False
+        total_reward = 0.0
+
+        while not done:
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            with torch.no_grad():
+                logits, _ = self.policy(obs_t)
+                dist = torch.distributions.Categorical(logits=logits)
+                action = dist.sample()
+
+            action_idx = action.item()
+            action_onehot = env.action_to_onehot(action_idx)
+
+            obs_list.append(obs.copy())
+            act_idx_list.append(np.array([action_idx], dtype=np.float32))
+            observations.append(obs.copy())
+            actions.append(action_onehot)
+
+            next_obs, reward, terminated, truncated, _ = env.step(action_onehot)
+            train_reward = reward
+            if self.reward_shaper is not None:
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                train_reward = self.reward_shaper(obs, reward, raw_obs)
+
+            rewards.append(train_reward)
+            done = terminated or truncated
+            total_reward += reward
+            obs = next_obs
+
+        episode_data = self._build_episode_data(observations, actions, rewards)
+        return total_reward, obs_list, act_idx_list, rewards, episode_data
+
+    def _train_ppo(self, obs_list, action_list, rewards,
+                   epochs: int = 4, clip_eps: float = 0.2) -> dict:
+        """PPO training with clipped surrogate loss.
+
+        Re-evaluates the policy multiple times on stored data for
+        more stable and sample-efficient continuous control learning.
+        """
+        obs_t = torch.tensor(np.array(obs_list), dtype=torch.float32, device=DEVICE)
+        act_t = torch.tensor(np.array(action_list), dtype=torch.float32, device=DEVICE)
+
+        # Compute returns
+        returns = []
+        R = 0.0
+        for r in reversed(rewards):
+            R = r + self.gamma * R
+            returns.insert(0, R)
+        returns_t = torch.tensor(returns, dtype=torch.float32, device=DEVICE)
+        returns_t = (returns_t - returns_t.mean()) / (returns_t.std() + 1e-8)
+
+        # Compute old log_probs (frozen)
+        with torch.no_grad():
+            if self.discrete:
+                logits, old_values = self.policy(obs_t)
+                dist = torch.distributions.Categorical(logits=logits)
+                old_log_probs = dist.log_prob(act_t.squeeze(-1).long())
+            else:
+                mean, logstd, old_values = self.policy(obs_t)
+                dist = torch.distributions.Normal(mean, logstd.exp())
+                old_log_probs = dist.log_prob(act_t).sum(dim=-1)
+                squashed = torch.tanh(act_t)
+                old_log_probs -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+
+        total_metrics = {}
+        for epoch in range(epochs):
+            if self.discrete:
+                logits, values = self.policy(obs_t)
+                dist = torch.distributions.Categorical(logits=logits)
+                new_log_probs = dist.log_prob(act_t.squeeze(-1).long())
+                entropy = dist.entropy()
+            else:
+                mean, logstd, values = self.policy(obs_t)
+                dist = torch.distributions.Normal(mean, logstd.exp())
+                new_log_probs = dist.log_prob(act_t).sum(dim=-1)
+                squashed = torch.tanh(act_t)
+                new_log_probs -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+                entropy = self.policy.entropy(obs_t)
+
+            # PPO clipped ratio
+            ratio = torch.exp(new_log_probs - old_log_probs)
+            advantages = returns_t - values.detach()
+
+            surr1 = ratio * advantages
+            surr2 = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps) * advantages
+            actor_loss = -torch.min(surr1, surr2).mean()
+
+            critic_loss = F.mse_loss(values, returns_t)
+            entropy_loss = -entropy.mean()
+
+            loss = actor_loss + 0.5 * critic_loss + self.entropy_coeff * entropy_loss
+
+            self.optimizer.zero_grad()
+            loss.backward()
+            nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
+            self.optimizer.step()
+
+        return {
+            "real/actor_loss": actor_loss.item(),
+            "real/critic_loss": critic_loss.item(),
+            "real/entropy": entropy.mean().item(),
+            "real/mean_return": returns_t.mean().item(),
+        }
 
     def _collect_continuous_data(self, env):
         """Collect one continuous episode without training. Returns components."""
