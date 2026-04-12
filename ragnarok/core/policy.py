@@ -5,6 +5,7 @@ and outputs actions. This is the "decision maker" that learns through
 dream training (imagined rollouts in the world model).
 """
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -51,23 +52,30 @@ class Actor(nn.Module):
     def act(self, state: torch.Tensor, deterministic: bool = False) -> torch.Tensor:
         """Sample an action (or take the mode if deterministic).
 
-        Returns one-hot for discrete, raw values for continuous.
+        For discrete: uses straight-through Gumbel-Softmax during training
+        to maintain gradient flow. Returns one-hot vectors.
+        For continuous: uses reparameterized sampling.
         """
-        dist = self.forward(state)
+        features = self.trunk(state)
 
-        if deterministic:
-            if self.discrete:
-                action_idx = dist.logits.argmax(dim=-1)
+        if self.discrete:
+            logits = self.head(features)
+            if deterministic:
+                action_idx = logits.argmax(dim=-1)
+                return F.one_hot(action_idx, self.action_dim).float()
             else:
-                return torch.tanh(dist.mean)
+                # Straight-through Gumbel-Softmax: differentiable discrete sampling
+                # Forward: hard one-hot, Backward: soft probabilities
+                soft = F.gumbel_softmax(logits, tau=1.0, hard=True)
+                return soft
         else:
-            if self.discrete:
-                action_idx = dist.sample()
+            mean = self.mean_head(features)
+            logstd = self.logstd_head(features).clamp(-5.0, 2.0)
+            if deterministic:
+                return torch.tanh(mean)
             else:
+                dist = Normal(mean, logstd.exp())
                 return torch.tanh(dist.rsample())
-
-        # Convert to one-hot for discrete
-        return F.one_hot(action_idx, self.action_dim).float()
 
     def log_prob(self, state: torch.Tensor, action: torch.Tensor) -> torch.Tensor:
         """Compute log probability of an action given state."""
@@ -86,8 +94,16 @@ class Actor(nn.Module):
 
     def entropy(self, state: torch.Tensor) -> torch.Tensor:
         """Compute entropy of the action distribution."""
-        dist = self.forward(state)
-        return dist.entropy() if self.discrete else dist.entropy().sum(dim=-1)
+        features = self.trunk(state)
+        if self.discrete:
+            logits = self.head(features)
+            probs = F.softmax(logits, dim=-1)
+            log_probs = F.log_softmax(logits, dim=-1)
+            return -(probs * log_probs).sum(dim=-1)
+        else:
+            logstd = self.logstd_head(features).clamp(-5.0, 2.0)
+            # Entropy of Normal: 0.5 * ln(2*pi*e*sigma^2) per dimension
+            return (0.5 + 0.5 * np.log(2 * np.pi) + logstd).sum(dim=-1)
 
 
 class Critic(nn.Module):

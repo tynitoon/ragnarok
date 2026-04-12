@@ -312,11 +312,20 @@ class RSSM(nn.Module):
         # Reward prediction loss
         reward_loss = F.mse_loss(outputs["reward_pred"], reward_seq)
 
-        # Continue prediction loss (binary cross-entropy)
+        # Continue prediction loss (class-weighted binary cross-entropy)
+        # Done examples are rare (~5%), so we upweight them heavily
         continue_target = 1.0 - done_seq.float()
-        continue_loss = F.binary_cross_entropy_with_logits(
-            outputs["continue_pred"], continue_target
+        # Weight: done steps (target=0) get 10x weight
+        pos_weight = torch.ones_like(continue_target)
+        done_mask = done_seq.float() > 0.5
+        pos_weight[done_mask] = 0.1  # Lower pos_weight for done=True (target=0)
+        # Use per-element weighting
+        continue_loss_raw = F.binary_cross_entropy_with_logits(
+            outputs["continue_pred"], continue_target, reduction="none"
         )
+        # Weight the done examples 10x more
+        weights = torch.where(done_mask, 10.0, 1.0)
+        continue_loss = (continue_loss_raw * weights).mean()
 
         # KL divergence between posterior and prior
         posterior = Normal(outputs["post_mean"], outputs["post_logstd"].exp())

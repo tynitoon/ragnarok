@@ -5,6 +5,11 @@ the agent "dreams" — it imagines trajectories using the world model and
 trains the policy on those imagined experiences.
 
 This is like a human rehearsing scenarios in their head.
+
+Key design (Dreamer v2 style):
+- Gradients flow through both rewards AND continue predictions to the actor
+- The continue signal is critical for environments like CartPole where
+  reward is constant (1.0/step) and the only useful signal is episode length
 """
 
 import torch
@@ -18,47 +23,38 @@ from ragnarok.infrastructure.device import DEVICE
 def compute_lambda_returns(rewards: torch.Tensor, values: torch.Tensor,
                            continues: torch.Tensor, gamma: float = 0.99,
                            gae_lambda: float = 0.95) -> torch.Tensor:
-    """Compute GAE lambda-returns for imagined trajectories.
+    """Compute Dreamer v2 style lambda-returns.
 
-    Args:
-        rewards: (batch, horizon) predicted rewards
-        values: (batch, horizon+1) predicted values
-        continues: (batch, horizon) continue probabilities (sigmoid applied)
-        gamma: discount factor
-        gae_lambda: GAE lambda
+    Gradients flow through rewards and continues (NOT detached).
+    Values are detached (used as bootstrap only).
 
-    Returns:
-        returns: (batch, horizon) lambda-return targets
+    V_lambda_t = r_t + gamma * c_t * ((1-lambda) * v_{t+1} + lambda * V_lambda_{t+1})
     """
     horizon = rewards.shape[1]
-    returns = torch.zeros_like(rewards)
+    # Bootstrap from the last value (detached)
+    last = values[:, -1]
 
-    last_value = values[:, -1]
-    last_return = last_value
-
+    returns_list = []
     for t in reversed(range(horizon)):
-        cont = continues[:, t]
-        reward = rewards[:, t]
-        value = values[:, t]
-        next_value = values[:, t + 1]
+        r = rewards[:, t]
+        c = continues[:, t]
+        v_next = values[:, t + 1]
+        last = r + gamma * c * ((1 - gae_lambda) * v_next + gae_lambda * last)
+        returns_list.append(last)
 
-        # TD target
-        td_target = reward + gamma * cont * next_value
-        # GAE
-        td_error = td_target - value
-        last_return = value + td_error + gamma * gae_lambda * cont * (last_return - next_value)
-        returns[:, t] = last_return
-
-    return returns
+    returns_list.reverse()
+    return torch.stack(returns_list, dim=1)
 
 
 class DreamTrainer:
     """Trains the actor-critic through imagination in the world model.
 
-    1. Sample initial states from the replay buffer (via world model encoding)
-    2. Imagine trajectories using the world model + current policy
-    3. Compute lambda-returns on imagined rewards
-    4. Update actor to maximize returns, critic to predict returns
+    Dreamer v2 approach:
+    1. Sample initial states from replay buffer
+    2. Imagine trajectories (gradients flow through dynamics)
+    3. Compute lambda-returns (gradients through rewards + continues)
+    4. Actor maximizes returns via straight-through gradients
+    5. Critic regresses toward lambda-return targets (detached)
     """
 
     def __init__(self, rssm: RSSM, actor_critic: ActorCritic,
@@ -89,21 +85,17 @@ class DreamTrainer:
         )
 
     def _get_initial_states(self) -> tuple[torch.Tensor, torch.Tensor]:
-        """Sample initial latent states from the replay buffer.
-
-        Encodes real observations through the world model to get
-        starting states for imagination.
-        """
-        seq_len = min(10, self.buffer.total_steps)
+        """Sample initial latent states from the replay buffer."""
+        seq_len = min(10, self.buffer.max_episode_length)
+        seq_len = max(seq_len, 2)
         obs, actions, _, _ = self.buffer.sample_sequences(
-            self.imag_batch, max(seq_len, 2)
+            self.imag_batch, seq_len
         )
         obs_t = torch.tensor(obs, device=DEVICE)
         act_t = torch.tensor(actions, device=DEVICE)
 
         with torch.no_grad():
             outputs = self.rssm.observe(obs_t, act_t)
-            # Take a random timestep from each sequence as starting state
             batch_size, time_steps = outputs["h"].shape[:2]
             t_idx = torch.randint(0, time_steps, (batch_size,), device=DEVICE)
             batch_idx = torch.arange(batch_size, device=DEVICE)
@@ -113,59 +105,64 @@ class DreamTrainer:
         return h0, z0
 
     def train_step(self) -> dict[str, float]:
-        """Single dream training step."""
+        """Single dream training step (Dreamer v2 style)."""
         if self.buffer.num_episodes == 0:
             return {}
 
-        # 1. Get initial states from real experience
+        # === 1. Get initial states ===
         h0, z0 = self._get_initial_states()
 
-        # 2. Imagine trajectories (gradients flow through world model to actor)
+        # === 2. Imagine trajectories ===
+        # Gradients flow: actor -> action -> world model dynamics -> rewards/continues
         imagined = self.rssm.imagine(
             h0, z0,
             policy_fn=self.ac.policy_fn,
             horizon=self.horizon,
         )
 
-        # 3. Compute values for all imagined states
-        h_seq = imagined["h"]          # (batch, horizon+1, hidden_dim)
-        z_seq = imagined["z"]          # (batch, horizon+1, stoch_dim)
-        rewards = imagined["reward_pred"]    # (batch, horizon)
-        continues = torch.sigmoid(imagined["continue_pred"])  # (batch, horizon)
+        h_seq = imagined["h"]       # (batch, horizon+1, hidden_dim)
+        z_seq = imagined["z"]       # (batch, horizon+1, stoch_dim)
+        rewards = imagined["reward_pred"]      # (batch, horizon)
+        continue_logits = imagined["continue_pred"]  # (batch, horizon)
+        continues = torch.sigmoid(continue_logits)   # Probability of continuing
 
-        # Flatten for critic
-        batch, time_plus_1, _ = h_seq.shape
+        batch = h_seq.shape[0]
         state_seq = torch.cat([h_seq, z_seq], dim=-1)  # (batch, horizon+1, state_dim)
-        values = self.ac.critic(state_seq.reshape(-1, state_seq.shape[-1]))
-        values = values.reshape(batch, time_plus_1)
 
-        # 4. Compute lambda-returns
+        # === 3. Compute values (detached for return computation) ===
+        with torch.no_grad():
+            values = self.ac.critic(
+                state_seq.reshape(-1, state_seq.shape[-1])
+            ).reshape(batch, self.horizon + 1)
+
+        # === 4. Compute lambda-returns ===
+        # Gradients flow through rewards and continues to the actor
         returns = compute_lambda_returns(
-            rewards, values.detach(), continues.detach(),
+            rewards, values, continues,
             self.gamma, self.gae_lambda
         )
 
-        # 5. Actor loss: maximize lambda-returns + entropy
-        # Compute actor's state for horizon steps (exclude last)
-        actor_states = state_seq[:, :-1].reshape(-1, state_seq.shape[-1])
-        actor_entropy = self.ac.actor.entropy(actor_states).mean()
+        # === 5. Actor update ===
+        # Actor maximizes lambda-returns + entropy bonus
+        actor_states = state_seq[:, :-1]  # (batch, horizon, state_dim)
+        actor_states_flat = actor_states.reshape(-1, state_seq.shape[-1])
+        actor_entropy = self.ac.actor.entropy(actor_states_flat).mean()
 
-        # Actor loss = negative returns (we want to maximize)
-        actor_loss = -(returns.mean()) - self.entropy_bonus * actor_entropy
+        # Baseline: subtract value to reduce variance
+        actor_loss = -(returns - values[:, :-1]).mean() - self.entropy_bonus * actor_entropy
 
         self.actor_optimizer.zero_grad()
         actor_loss.backward()
         torch.nn.utils.clip_grad_norm_(self.ac.actor.parameters(), self.grad_clip)
         self.actor_optimizer.step()
 
-        # 6. Critic loss: predict lambda-returns
-        # Re-compute values (actor weights changed)
-        with torch.no_grad():
-            target_returns = returns.detach()
-
+        # === 6. Critic update ===
+        # Critic predicts lambda-returns (targets are detached)
+        target_returns = returns.detach()
         critic_values = self.ac.critic(
             state_seq[:, :-1].detach().reshape(-1, state_seq.shape[-1])
         ).reshape(batch, self.horizon)
+
         critic_loss = 0.5 * (critic_values - target_returns).pow(2).mean()
 
         self.critic_optimizer.zero_grad()
@@ -179,6 +176,7 @@ class DreamTrainer:
             "entropy": actor_entropy.item(),
             "imagined_reward": rewards.mean().item(),
             "imagined_value": values.mean().item(),
+            "continue_prob": continues.mean().item(),
         }
 
     def train(self, steps: int) -> dict[str, float]:

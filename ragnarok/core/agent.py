@@ -23,6 +23,7 @@ from ragnarok.skills.library import SkillLibrary
 from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
+from ragnarok.learning.real_experience import RealExperienceTrainer
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE, to_numpy
@@ -92,8 +93,19 @@ class RagnarokAgent:
             grad_clip=config.policy.grad_clip,
         )
 
+        # Real experience trainer (direct A2C on raw observations)
+        self.real_trainer = RealExperienceTrainer(
+            obs_dim=env.obs_dim,
+            action_dim=env.action_dim,
+            gamma=config.policy.gamma,
+            entropy_coeff=0.01,
+            lr=3e-4,
+            grad_clip=0.5,
+        )
+
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
+        self.recent_episodes: deque = deque(maxlen=10)  # Recent episodes for real-experience training
         self.total_episodes = 0
         self.total_steps = 0
         self.h_accum: list[np.ndarray] = []  # For latent centroid computation
@@ -125,9 +137,8 @@ class RagnarokAgent:
                 # Epsilon-greedy exploration
                 if np.random.random() < explore_ratio:
                     action_np = self.env.sample_random_action()
-                    action_t = torch.tensor(action_np, device=DEVICE).unsqueeze(0)
                 else:
-                    action_t = self.actor_critic.act(h, z)
+                    action_t = self.actor_critic.act(h, z, deterministic=True)
                     action_np = to_numpy(action_t.squeeze(0))
 
             # Store h_t for centroid computation
@@ -153,12 +164,13 @@ class RagnarokAgent:
             self.total_steps += 1
 
         # Store episode in replay buffer
-        self.replay_buffer.add_episode(
-            np.array(observations),
-            np.array(actions),
-            np.array(rewards),
-            np.array(dones),
-        )
+        obs_arr = np.array(observations)
+        act_arr = np.array(actions)
+        rew_arr = np.array(rewards)
+        done_arr = np.array(dones)
+
+        self.replay_buffer.add_episode(obs_arr, act_arr, rew_arr, done_arr)
+        self.recent_episodes.append((obs_arr, act_arr, rew_arr, done_arr))
 
         self.episode_rewards.append(total_reward)
         self.total_episodes += 1
@@ -174,6 +186,16 @@ class RagnarokAgent:
         """Train the policy via dream training."""
         steps = steps or self.config.policy.train_steps
         return self.dream_trainer.train(steps)
+
+    def train_policy_real(self) -> tuple[float, dict[str, float]]:
+        """Collect and train from real experience (A2C on raw observations).
+
+        Returns (episode_reward, metrics).
+        """
+        reward, metrics = self.real_trainer.collect_and_train(self.env)
+        self.episode_rewards.append(reward)
+        self.total_episodes += 1
+        return reward, metrics
 
     def check_crystallization(self) -> Skill | None:
         """Check if the current policy should be crystallized into a skill.

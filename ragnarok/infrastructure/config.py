@@ -30,7 +30,7 @@ class PolicyConfig:
     imagination_batch: int = 256
     gamma: float = 0.99
     gae_lambda: float = 0.95
-    entropy_bonus: float = 1e-3
+    entropy_bonus: float = 3e-3
     grad_clip: float = 100.0
     train_steps: int = 100
 
