@@ -102,10 +102,11 @@ class RealExperienceTrainer:
 
             next_obs, reward, terminated, truncated, _ = env.step(action_onehot)
 
-            # Apply reward shaping if configured
+            # Apply reward shaping if configured (uses raw observations)
             train_reward = reward
             if self.reward_shaper is not None:
-                train_reward = self.reward_shaper(obs, reward, next_obs)
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                train_reward = self.reward_shaper(obs, reward, raw_obs)
 
             rewards.append(train_reward)
             done = terminated or truncated

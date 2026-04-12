@@ -33,6 +33,7 @@ class RagnarokEnv:
         """Reset environment and return normalized observation."""
         obs, _ = self.env.reset(seed=self.seed)
         obs = obs.flatten().astype(np.float32)
+        self.last_raw_obs = obs.copy()
         self.normalizer.update(obs)
         return self.normalizer.normalize(obs)
 
@@ -49,6 +50,7 @@ class RagnarokEnv:
 
         obs, reward, terminated, truncated, info = self.env.step(env_action)
         obs = obs.flatten().astype(np.float32)
+        self.last_raw_obs = obs.copy()
         self.normalizer.update(obs)
         return self.normalizer.normalize(obs), float(reward), terminated, truncated, info
 

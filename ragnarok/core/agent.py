@@ -132,7 +132,7 @@ class RagnarokAgent:
         if "MountainCar" in env_name:
             return 0.02, 1e-3  # More exploration, faster learning
         if "Acrobot" in env_name:
-            return 0.02, 5e-4  # More exploration for swing-up task
+            return 0.05, 1e-3  # High exploration for swing-up discovery
         return 0.01, 3e-4  # Default (works for CartPole)
 
     @staticmethod
@@ -147,6 +147,20 @@ class RagnarokAgent:
                 height_bonus = (next_obs[0] + 1.2) / 1.8  # Normalize to [0, 1]
                 velocity_bonus = abs(next_obs[1]) * 10  # Encourage movement
                 return reward + 0.1 * height_bonus + 0.05 * velocity_bonus
+            return shaper
+        if "Acrobot" in env_name:
+            # Acrobot: encourage the tip to reach higher
+            # Raw obs = [cos(t1), sin(t1), cos(t2), sin(t2), thetaDot1, thetaDot2]
+            # Tip height = -cos(t1) - cos(t1 + t2), range [-2, 2], goal > 1
+            # Note: next_obs here is raw (via env.last_raw_obs)
+            def shaper(obs, reward, next_obs):
+                cos1, sin1 = next_obs[0], next_obs[1]
+                cos2, sin2 = next_obs[2], next_obs[3]
+                cos12 = cos1 * cos2 - sin1 * sin2
+                tip_height = -cos1 - cos12
+                height_bonus = (tip_height + 2) / 4  # Normalize to [0, 1]
+                angular_velocity = abs(next_obs[4]) + abs(next_obs[5])
+                return reward + 0.5 * height_bonus + 0.1 * angular_velocity
             return shaper
         return None  # No shaping for other environments
 
