@@ -10,6 +10,7 @@ class EnvSpec:
     action_dim: int
     is_discrete: bool
     reward_threshold: float
+    pixel_obs: bool = False
 
 
 REGISTRY: dict[str, EnvSpec] = {
@@ -48,6 +49,23 @@ REGISTRY: dict[str, EnvSpec] = {
         action_dim=1,
         is_discrete=False,
         reward_threshold=90.0,
+    ),
+    # === Pixel observation variants ===
+    "cartpole-pixels": EnvSpec(
+        gym_name="CartPole-v1",
+        obs_dim=3 * 64 * 64,  # CHW flattened
+        action_dim=2,
+        is_discrete=True,
+        reward_threshold=400.0,
+        pixel_obs=True,
+    ),
+    "pendulum-pixels": EnvSpec(
+        gym_name="Pendulum-v1",
+        obs_dim=3 * 64 * 64,
+        action_dim=1,
+        is_discrete=False,
+        reward_threshold=-300.0,
+        pixel_obs=True,
     ),
 }
 

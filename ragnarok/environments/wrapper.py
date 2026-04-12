@@ -4,21 +4,30 @@ import numpy as np
 import gymnasium as gym
 from ragnarok.core.normalizer import RunningNormalizer
 
+# Image size for pixel observations
+PIXEL_SIZE = 64
+
 
 class RagnarokEnv:
     """Wraps a Gymnasium environment with observation normalization
-    and action space abstraction."""
+    and action space abstraction.
+
+    Supports both vector and pixel observation modes.
+    """
 
     def __init__(self, env_name: str, normalizer: RunningNormalizer | None = None,
-                 seed: int | None = None):
-        self.env = gym.make(env_name)
-        self.env_name = env_name
+                 seed: int | None = None, pixel_obs: bool = False):
+        self.pixel_obs = pixel_obs
         self.seed = seed
 
-        # Determine dimensions and type
-        self.obs_dim = int(np.prod(self.env.observation_space.shape))
-        self.is_discrete = isinstance(self.env.action_space, gym.spaces.Discrete)
+        if pixel_obs:
+            self.env = gym.make(env_name, render_mode="rgb_array")
+        else:
+            self.env = gym.make(env_name)
+        self.env_name = env_name
 
+        # Action space
+        self.is_discrete = isinstance(self.env.action_space, gym.spaces.Discrete)
         if self.is_discrete:
             self.action_dim = self.env.action_space.n
             self.action_low = None
@@ -28,16 +37,39 @@ class RagnarokEnv:
             self.action_low = self.env.action_space.low.flatten().astype(np.float32)
             self.action_high = self.env.action_space.high.flatten().astype(np.float32)
 
-        # Normalizer
+        # Observation dimensions
+        if pixel_obs:
+            self.obs_dim = 3 * PIXEL_SIZE * PIXEL_SIZE  # CHW flattened
+            self.vector_obs_dim = int(np.prod(self.env.observation_space.shape))
+        else:
+            self.obs_dim = int(np.prod(self.env.observation_space.shape))
+
+        # Normalizer (for vector obs; pixel obs uses /255 scaling)
         self.normalizer = normalizer or RunningNormalizer(
-            shape=(self.obs_dim,)
+            shape=(self.obs_dim,) if not pixel_obs else (self.obs_dim,)
         )
 
+    def _render_pixels(self) -> np.ndarray:
+        """Render current frame as 64x64 RGB, return as CHW float32 / 255."""
+        frame = self.env.render()  # (H, W, 3) uint8
+        # Resize to PIXEL_SIZE x PIXEL_SIZE using simple area interpolation
+        from PIL import Image
+        img = Image.fromarray(frame).resize(
+            (PIXEL_SIZE, PIXEL_SIZE), Image.BILINEAR
+        )
+        pixels = np.array(img, dtype=np.float32) / 255.0  # (64, 64, 3)
+        pixels = pixels.transpose(2, 0, 1)  # CHW
+        return pixels.flatten()  # (3*64*64,)
+
     def reset(self) -> np.ndarray:
-        """Reset environment and return normalized observation."""
+        """Reset environment and return observation."""
         obs, _ = self.env.reset(seed=self.seed)
         obs = obs.flatten().astype(np.float32)
         self.last_raw_obs = obs.copy()
+
+        if self.pixel_obs:
+            return self._render_pixels()
+
         self.normalizer.update(obs)
         return self.normalizer.normalize(obs)
 
@@ -47,7 +79,6 @@ class RagnarokEnv:
         Action should be one-hot for discrete environments.
         """
         if self.is_discrete:
-            # Convert one-hot to int
             env_action = int(np.argmax(action))
         else:
             env_action = action
@@ -55,6 +86,10 @@ class RagnarokEnv:
         obs, reward, terminated, truncated, info = self.env.step(env_action)
         obs = obs.flatten().astype(np.float32)
         self.last_raw_obs = obs.copy()
+
+        if self.pixel_obs:
+            return self._render_pixels(), float(reward), terminated, truncated, info
+
         self.normalizer.update(obs)
         return self.normalizer.normalize(obs), float(reward), terminated, truncated, info
 

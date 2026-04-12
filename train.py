@@ -41,7 +41,7 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     config.world_model.obs_dim = spec.obs_dim
     config.world_model.action_dim = spec.action_dim
 
-    env = RagnarokEnv(spec.gym_name, seed=seed)
+    env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
     agent = RagnarokAgent(config, env)
 
     total_params = (sum(p.numel() for p in agent.rssm.parameters()) +

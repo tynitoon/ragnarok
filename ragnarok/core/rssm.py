@@ -144,20 +144,26 @@ class RSSM(nn.Module):
 
     Combines encoder, recurrent core, decoder, reward predictor,
     and continue predictor into a single world model.
+
+    Supports pluggable encoder/decoder for different observation types
+    (vector observations use MLP, pixel observations use CNN).
     """
 
     def __init__(self, obs_dim: int, action_dim: int,
                  hidden_dim: int = 128, stoch_dim: int = 32,
-                 encoder_hidden: int = 128):
+                 encoder_hidden: int = 128,
+                 encoder: nn.Module | None = None,
+                 decoder: nn.Module | None = None):
         super().__init__()
         self.obs_dim = obs_dim
         self.action_dim = action_dim
         self.hidden_dim = hidden_dim
         self.stoch_dim = stoch_dim
 
-        self.encoder = RSSMEncoder(obs_dim, encoder_hidden)
+        # Pluggable encoder/decoder (default: MLP for vector observations)
+        self.encoder = encoder or RSSMEncoder(obs_dim, encoder_hidden)
         self.core = RSSMCore(stoch_dim, hidden_dim, action_dim, encoder_hidden)
-        self.decoder = nn.Sequential(
+        self.decoder = decoder or nn.Sequential(
             nn.Linear(hidden_dim + stoch_dim, 128),
             nn.ELU(),
             nn.Linear(128, obs_dim),

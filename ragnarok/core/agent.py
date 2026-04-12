@@ -14,6 +14,7 @@ import torch
 from collections import deque
 
 from ragnarok.core.rssm import RSSM
+from ragnarok.core.cnn import CNNEncoder, CNNDecoder
 from ragnarok.core.policy import ActorCritic
 from ragnarok.core.normalizer import RunningNormalizer
 from ragnarok.memory.replay_buffer import ReplayBuffer
@@ -38,13 +39,26 @@ class RagnarokAgent:
         self.config = config
         self.env = env
 
-        # World Model
+        # World Model — use CNN encoder/decoder for pixel observations
+        encoder = None
+        decoder = None
+        if getattr(env, 'pixel_obs', False):
+            encoder = CNNEncoder(
+                channels=3, feature_dim=config.world_model.encoder_hidden,
+            )
+            decoder = CNNDecoder(
+                latent_dim=config.world_model.hidden_dim + config.world_model.stoch_dim,
+                channels=3,
+            )
+
         self.rssm = RSSM(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
             hidden_dim=config.world_model.hidden_dim,
             stoch_dim=config.world_model.stoch_dim,
             encoder_hidden=config.world_model.encoder_hidden,
+            encoder=encoder,
+            decoder=decoder,
         ).to(DEVICE)
 
         # Policy — input = h + z (no memory context initially)
