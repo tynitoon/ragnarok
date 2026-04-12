@@ -44,13 +44,18 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
     agent = RagnarokAgent(config, env)
 
-    total_params = (sum(p.numel() for p in agent.rssm.parameters()) +
-                    sum(p.numel() for p in agent.real_trainer.policy.parameters()))
+    policy_params = sum(p.numel() for p in agent._active_policy.parameters())
+    rssm_params = sum(p.numel() for p in agent.rssm.parameters())
+    algo = "SAC" if agent.sac_trainer else "A2C"
     print(f"[Ragnarok] Environment: {spec.gym_name}")
     print(f"[Ragnarok] Device: {DEVICE}")
-    print(f"[Ragnarok] RSSM: {sum(p.numel() for p in agent.rssm.parameters()):,} params")
-    print(f"[Ragnarok] Policy: {sum(p.numel() for p in agent.real_trainer.policy.parameters()):,} params")
-    print(f"[Ragnarok] Total: {total_params:,} params")
+    print(f"[Ragnarok] Algorithm: {algo}")
+    print(f"[Ragnarok] RSSM: {rssm_params:,} params")
+    print(f"[Ragnarok] Policy: {policy_params:,} params")
+    if agent.sac_trainer:
+        q_params = sum(p.numel() for p in agent.sac_trainer.q1.parameters()) * 2
+        print(f"[Ragnarok] Q-networks: {q_params:,} params")
+    print(f"[Ragnarok] Total: {rssm_params + policy_params:,} params")
 
     # Try skill transfer
     if transfer:
@@ -100,7 +105,10 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
 
             # === 5. Progress report ===
             if episode % 50 == 0:
-                eval_mean = agent.real_trainer.evaluate(env, episodes=5)
+                if agent.sac_trainer:
+                    eval_mean = agent.sac_trainer.evaluate(env, episodes=5)
+                else:
+                    eval_mean = agent.real_trainer.evaluate(env, episodes=5)
                 elapsed = time.time() - start_time
                 eps_per_sec = episode / elapsed if elapsed > 0 else 0
                 print(f"[Ep {episode:4d}] reward: {ep_reward:7.1f} | "

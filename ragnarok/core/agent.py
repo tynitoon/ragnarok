@@ -25,6 +25,7 @@ from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
 from ragnarok.learning.real_experience import RealExperienceTrainer
+from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
@@ -108,9 +109,21 @@ class RagnarokAgent:
             grad_clip=config.policy.grad_clip,
         )
 
-        # Real experience trainer (direct A2C on raw observations)
+        # Real experience trainer
         reward_shaper = self._get_reward_shaper(env.env_name)
         entropy_coeff, lr = self._get_training_hparams(env.env_name)
+
+        # Use SAC for continuous envs, A2C/PPO for discrete
+        self.sac_trainer: SACTrainer | None = None
+        if not env.is_discrete:
+            self.sac_trainer = SACTrainer(
+                obs_dim=env.obs_dim,
+                action_dim=env.action_dim,
+                action_low=env.action_low,
+                action_high=env.action_high,
+                gamma=config.policy.gamma,
+            )
+
         self.real_trainer = RealExperienceTrainer(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
@@ -125,15 +138,16 @@ class RagnarokAgent:
         )
 
         # Dream augmenter (trains direct policy on imagined experience)
+        policy_for_dream = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
         self.dream_augmenter = DreamAugmenter(
             rssm=self.rssm,
-            policy=self.real_trainer.policy,
+            policy=policy_for_dream,
             replay_buffer=self.replay_buffer,
             horizon=config.policy.imagination_horizon,
             dream_batch=64,
             gamma=config.policy.gamma,
             entropy_coeff=entropy_coeff,
-            lr=lr * 0.3,  # Lower LR to avoid overriding real learning
+            lr=lr * 0.3,
         )
 
         # Tracking
@@ -142,6 +156,13 @@ class RagnarokAgent:
         self.total_episodes = 0
         self.total_steps = 0
         self.h_accum: list[np.ndarray] = []  # For latent centroid computation
+
+    @property
+    def _active_policy(self):
+        """The policy used for acting (SAC for continuous, A2C for discrete)."""
+        if self.sac_trainer is not None:
+            return self.sac_trainer.policy
+        return self.real_trainer.policy
 
     @staticmethod
     def _get_training_hparams(env_name: str) -> tuple[float, float]:
@@ -267,17 +288,16 @@ class RagnarokAgent:
         return self.dream_augmenter.train(steps)
 
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
-        """Collect and train from real experience (A2C on raw observations).
+        """Collect and train from real experience.
 
-        Uses batch training (4 episodes) for continuous envs (lower variance).
+        Uses SAC for continuous envs, A2C for discrete.
         Returns (episode_reward, metrics).
         """
-        if not self.env.is_discrete:
-            return self._train_policy_real_batch(batch_episodes=4)
+        if self.sac_trainer is not None:
+            return self._train_sac()
 
         reward, metrics, episode_data = self.real_trainer.collect_and_train(self.env)
 
-        # Feed into replay buffer for world model training
         if episode_data is not None:
             obs, acts, rews, dones = episode_data
             self.replay_buffer.add_episode(obs, acts, rews, dones)
@@ -288,12 +308,9 @@ class RagnarokAgent:
         self.total_episodes += 1
         return reward, metrics
 
-    def _train_policy_real_batch(self, batch_episodes: int = 4
-                                  ) -> tuple[float, dict[str, float]]:
-        """Batch A2C training for continuous envs: collect N episodes, train once."""
-        reward, metrics, episode_data = self.real_trainer.collect_batch_and_train(
-            self.env, batch_episodes=batch_episodes
-        )
+    def _train_sac(self) -> tuple[float, dict[str, float]]:
+        """SAC training: collect episode with off-policy updates."""
+        reward, metrics, episode_data = self.sac_trainer.collect_and_train(self.env)
 
         if episode_data is not None:
             obs, acts, rews, dones = episode_data
@@ -302,7 +319,7 @@ class RagnarokAgent:
             self.total_steps += len(rews)
 
         self.episode_rewards.append(reward)
-        self.total_episodes += batch_episodes
+        self.total_episodes += 1
         return reward, metrics
 
     def check_crystallization(self, eval_episodes: int = 5) -> Skill | None:
@@ -323,7 +340,10 @@ class RagnarokAgent:
                 return None
 
         # Run actual evaluation (deterministic policy)
-        eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
+        if self.sac_trainer is not None:
+            eval_reward = self.sac_trainer.evaluate(self.env, episodes=eval_episodes)
+        else:
+            eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
         threshold = self.config.skill.thresholds.get(self.env.env_name, float("inf"))
 
         if eval_reward >= threshold:
@@ -343,7 +363,7 @@ class RagnarokAgent:
             skill = Skill(
                 name=f"{self.env.env_name}_{self.total_episodes}ep",
                 env_name=self.env.env_name,
-                policy_state_dict={k: v.cpu() for k, v in self.real_trainer.policy.state_dict().items()},
+                policy_state_dict={k: v.cpu() for k, v in self._active_policy.state_dict().items()},
                 latent_centroid=centroid,
                 performance=eval_reward,
                 normalizer_state=self.env.normalizer.state_dict(),
@@ -355,18 +375,13 @@ class RagnarokAgent:
         return None
 
     def try_transfer(self) -> Skill | None:
-        """Try to find and load a relevant skill for the current environment.
-
-        Skills are crystallized from the direct policy (DirectPolicyNet),
-        so we load them into real_trainer.policy, not into actor_critic.
-        """
+        """Try to find and load a relevant skill for the current environment."""
         skill = self.skill_selector.select(self.env)
         if skill is not None:
             try:
-                self.real_trainer.policy.load_state_dict(
+                self._active_policy.load_state_dict(
                     {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
                 )
-                # Also load normalizer state if available
                 if skill.normalizer_state:
                     self.env.normalizer = RunningNormalizer.from_state_dict(
                         skill.normalizer_state
