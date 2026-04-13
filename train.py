@@ -44,17 +44,21 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
     agent = RagnarokAgent(config, env)
 
-    if agent.pixel_dqn is not None:
+    if agent.pixel_ppo is not None:
+        policy_params = sum(p.numel() for p in agent.pixel_ppo.net.parameters())
+        algo = "PPO"
+    elif agent.pixel_dqn is not None:
         policy_params = sum(p.numel() for p in agent.pixel_dqn.q_net.parameters())
+        algo = "DQN"
     else:
         policy_params = sum(p.numel() for p in agent._active_policy.parameters())
+        algo = "SAC" if agent.sac_trainer else "A2C"
     rssm_params = sum(p.numel() for p in agent.rssm.parameters())
-    algo = "DQN" if spec.pixel_obs else ("SAC" if agent.sac_trainer else "A2C")
     print(f"[Ragnarok] Environment: {spec.gym_name}")
     print(f"[Ragnarok] Device: {DEVICE}")
     print(f"[Ragnarok] Algorithm: {algo}")
-    if agent.pixel_dqn is not None:
-        print(f"[Ragnarok] DQN: {policy_params:,} params (Q-net + target)")
+    if spec.pixel_obs:
+        print(f"[Ragnarok] {algo}: {policy_params:,} params")
     else:
         print(f"[Ragnarok] RSSM: {rssm_params:,} params")
         print(f"[Ragnarok] Policy: {policy_params:,} params")

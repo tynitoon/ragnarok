@@ -125,44 +125,67 @@ class ContinuousPolicyNet(nn.Module):
 
 
 class PixelDQN(nn.Module):
-    """DQN for pixel observations with lightweight CNN.
+    """Dueling DQN with Nature-style CNN and auxiliary state prediction.
 
-    2 conv layers -> FC -> Q-values. Sized for simple control tasks.
+    Architecture: Nature CNN (Mnih 2015) + dueling (Wang 2016) + state aux head.
+    The auxiliary state-prediction head forces the CNN to learn useful features
+    even when the Q-signal is too noisy (bootstraps representation learning).
     """
 
     def __init__(self, action_dim: int, channels: int = 1,
-                 feature_dim: int = 128):
+                 feature_dim: int = 512, state_dim: int = 0):
         super().__init__()
         self.channels = channels
         self.action_dim = action_dim
-        # Lightweight CNN for 32x32 input
+        self.state_dim = state_dim
+        # Nature DQN conv layers for 84x84 input
         self.conv = nn.Sequential(
-            nn.Conv2d(channels, 16, 5, stride=2, padding=2),  # 32 -> 16
+            nn.Conv2d(channels, 32, 8, stride=4),   # 84 -> 20
             nn.ReLU(),
-            nn.Conv2d(16, 32, 3, stride=2, padding=1),  # 16 -> 8
+            nn.Conv2d(32, 64, 4, stride=2),          # 20 -> 9
+            nn.ReLU(),
+            nn.Conv2d(64, 64, 3, stride=1),          # 9 -> 7
             nn.ReLU(),
         )
-        conv_out = 32 * 8 * 8  # 2048
-        self.fc = nn.Sequential(
+        conv_out = 64 * 7 * 7  # 3136
+        # Dueling streams
+        self.value_stream = nn.Sequential(
+            nn.Linear(conv_out, feature_dim),
+            nn.ReLU(),
+            nn.Linear(feature_dim, 1),
+        )
+        self.advantage_stream = nn.Sequential(
             nn.Linear(conv_out, feature_dim),
             nn.ReLU(),
             nn.Linear(feature_dim, action_dim),
         )
+        # Auxiliary: predict underlying state vector from CNN features
+        if state_dim > 0:
+            self.state_head = nn.Sequential(
+                nn.Linear(conv_out, 128),
+                nn.ReLU(),
+                nn.Linear(128, state_dim),
+            )
 
-    def forward(self, obs: torch.Tensor) -> torch.Tensor:
-        """Returns Q-values for each action.
-
-        Args:
-            obs: (batch, channels*H*W) flattened pixel observations
-        Returns:
-            q_values: (batch, action_dim)
-        """
+    def features(self, obs: torch.Tensor) -> torch.Tensor:
+        """Extract CNN features (shared backbone)."""
         if obs.dim() == 2:
             size = int((obs.shape[1] / self.channels) ** 0.5)
             obs = obs.view(-1, self.channels, size, size)
         x = self.conv(obs)
-        x = x.view(x.size(0), -1)
-        return self.fc(x)
+        return x.view(x.size(0), -1)
+
+    def forward(self, obs: torch.Tensor) -> torch.Tensor:
+        """Returns Q-values: Q(s,a) = V(s) + A(s,a) - mean(A(s,:))."""
+        x = self.features(obs)
+        value = self.value_stream(x)
+        advantage = self.advantage_stream(x)
+        return value + advantage - advantage.mean(dim=1, keepdim=True)
+
+    def predict_state(self, obs: torch.Tensor) -> torch.Tensor:
+        """Predict underlying state vector from pixels (auxiliary task)."""
+        x = self.features(obs)
+        return self.state_head(x)
 
     def act(self, obs: torch.Tensor, deterministic: bool = False) -> int:
         q_values = self.forward(obs)
@@ -177,10 +200,13 @@ class PixelDQNTrainer:
 
     def __init__(self, action_dim: int, channels: int = 3,
                  capacity: int = 50000, batch_size: int = 32,
-                 gamma: float = 0.99, lr: float = 1e-4,
+                 gamma: float = 0.99, lr: float = 3e-4,
                  target_update: int = 500, tau: float = 0.005,
                  epsilon_start: float = 1.0,
-                 epsilon_end: float = 0.02, epsilon_decay: int = 5000):
+                 epsilon_end: float = 0.02, epsilon_decay: int = 5000,
+                 grad_clip: float = 10.0, train_every: int = 1,
+                 min_buffer: int = 2000, state_dim: int = 0,
+                 aux_weight: float = 1.0):
         self.action_dim = action_dim
         self.batch_size = batch_size
         self.gamma = gamma
@@ -189,9 +215,14 @@ class PixelDQNTrainer:
         self.epsilon_start = epsilon_start
         self.epsilon_end = epsilon_end
         self.epsilon_decay = epsilon_decay
+        self.grad_clip = grad_clip
+        self.train_every = train_every
+        self.min_buffer = min_buffer
+        self.state_dim = state_dim
+        self.aux_weight = aux_weight
 
-        self.q_net = PixelDQN(action_dim, channels).to(DEVICE)
-        self.target_net = PixelDQN(action_dim, channels).to(DEVICE)
+        self.q_net = PixelDQN(action_dim, channels, state_dim=state_dim).to(DEVICE)
+        self.target_net = PixelDQN(action_dim, channels, state_dim=state_dim).to(DEVICE)
         self.target_net.load_state_dict(self.q_net.state_dict())
         self.optimizer = torch.optim.Adam(self.q_net.parameters(), lr=lr)
 
@@ -202,6 +233,7 @@ class PixelDQNTrainer:
         self.rew_buf = []
         self.next_obs_buf = []
         self.done_buf = []
+        self.state_buf = []  # Vector state for auxiliary loss
         self.pos = 0
         self.size = 0
         self.total_steps = 0
@@ -210,13 +242,14 @@ class PixelDQNTrainer:
         return self.epsilon_end + (self.epsilon_start - self.epsilon_end) * \
             max(0, 1 - self.total_steps / self.epsilon_decay)
 
-    def add(self, obs, action, reward, next_obs, done):
+    def add(self, obs, action, reward, next_obs, done, state=None):
         if self.size < self.capacity:
             self.obs_buf.append(obs)
             self.act_buf.append(action)
             self.rew_buf.append(reward)
             self.next_obs_buf.append(next_obs)
             self.done_buf.append(done)
+            self.state_buf.append(state)
             self.size += 1
         else:
             self.obs_buf[self.pos] = obs
@@ -224,11 +257,31 @@ class PixelDQNTrainer:
             self.rew_buf[self.pos] = reward
             self.next_obs_buf[self.pos] = next_obs
             self.done_buf[self.pos] = done
+            self.state_buf[self.pos] = state
         self.pos = (self.pos + 1) % self.capacity
 
-    def train_step(self) -> float:
+    @staticmethod
+    def _random_shift(obs: torch.Tensor, channels: int, pad: int = 4) -> torch.Tensor:
+        """DrQ-style random shift augmentation for pixel observations.
+
+        Pad image by `pad` pixels, then random crop back to original size.
+        Forces CNN to learn translation-invariant features.
+        """
+        size = int((obs.shape[1] / channels) ** 0.5)
+        imgs = obs.view(-1, channels, size, size)
+        padded = F.pad(imgs, [pad] * 4, mode='replicate')
+        b, c, h, w = padded.shape
+        crop_h = torch.randint(0, 2 * pad + 1, (b,))
+        crop_w = torch.randint(0, 2 * pad + 1, (b,))
+        cropped = torch.stack([
+            padded[i, :, crop_h[i]:crop_h[i]+size, crop_w[i]:crop_w[i]+size]
+            for i in range(b)
+        ])
+        return cropped.view(b, -1)
+
+    def train_step(self) -> dict[str, float]:
         if self.size < self.batch_size:
-            return 0.0
+            return {"q_loss": 0.0}
 
         idx = np.random.randint(0, self.size, self.batch_size)
         obs = torch.tensor(np.array([self.obs_buf[i] for i in idx]),
@@ -242,19 +295,35 @@ class PixelDQNTrainer:
         dones = torch.tensor([self.done_buf[i] for i in idx],
                              dtype=torch.float32, device=DEVICE)
 
-        # Current Q
-        q_vals = self.q_net(obs).gather(1, acts.unsqueeze(1)).squeeze(1)
+        # DrQ augmentation: random shift on both obs and next_obs
+        obs_aug = self._random_shift(obs, self.q_net.channels)
+        next_obs_aug = self._random_shift(next_obs, self.q_net.channels)
 
-        # Target Q (Double DQN: select action with q_net, evaluate with target)
+        # Current Q (on augmented obs)
+        q_vals = self.q_net(obs_aug).gather(1, acts.unsqueeze(1)).squeeze(1)
+
+        # Target Q (Double DQN on augmented next_obs)
         with torch.no_grad():
-            next_actions = self.q_net(next_obs).argmax(dim=1)
-            next_q = self.target_net(next_obs).gather(1, next_actions.unsqueeze(1)).squeeze(1)
+            next_actions = self.q_net(next_obs_aug).argmax(dim=1)
+            next_q = self.target_net(next_obs_aug).gather(1, next_actions.unsqueeze(1)).squeeze(1)
             target = rews + self.gamma * next_q * (1 - dones)
 
-        loss = F.smooth_l1_loss(q_vals, target)
+        q_loss = F.smooth_l1_loss(q_vals, target)
+        total_loss = q_loss
+
+        # Auxiliary state-prediction loss (on un-augmented obs for accuracy)
+        aux_loss_val = 0.0
+        if self.state_dim > 0 and self.state_buf[0] is not None:
+            states = torch.tensor(np.array([self.state_buf[i] for i in idx]),
+                                  dtype=torch.float32, device=DEVICE)
+            pred_states = self.q_net.predict_state(obs)  # Un-augmented
+            aux_loss = F.mse_loss(pred_states, states)
+            total_loss = q_loss + self.aux_weight * aux_loss
+            aux_loss_val = aux_loss.item()
+
         self.optimizer.zero_grad()
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(self.q_net.parameters(), 10.0)
+        total_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.q_net.parameters(), self.grad_clip)
         self.optimizer.step()
 
         # Soft target network update (Polyak averaging)
@@ -262,7 +331,7 @@ class PixelDQNTrainer:
                                        self.q_net.parameters()):
             p_target.data.mul_(1 - self.tau).add_(p_online.data * self.tau)
 
-        return loss.item()
+        return {"q_loss": q_loss.item(), "aux_loss": aux_loss_val}
 
     def evaluate(self, env, episodes: int = 5) -> float:
         rewards = []
@@ -274,6 +343,262 @@ class PixelDQNTrainer:
                 obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
                 with torch.no_grad():
                     action_idx = self.q_net.act(obs_t, deterministic=True)
+                action_np = env.action_to_onehot(action_idx)
+                obs, reward, terminated, truncated, _ = env.step(action_np)
+                done = terminated or truncated
+                total += reward
+            rewards.append(total)
+        return float(np.mean(rewards))
+
+
+class PixelPPONet(nn.Module):
+    """CNN actor-critic for pixel observations with auxiliary state prediction.
+
+    Nature CNN backbone shared between actor and critic.
+    Auxiliary state prediction head bootstraps feature learning.
+    """
+
+    def __init__(self, action_dim: int, channels: int = 2,
+                 state_dim: int = 0):
+        super().__init__()
+        self.channels = channels
+        self.action_dim = action_dim
+        # Nature CNN backbone (shared)
+        self.conv = nn.Sequential(
+            nn.Conv2d(channels, 32, 8, stride=4),   # 84 -> 20
+            nn.ReLU(),
+            nn.Conv2d(32, 64, 4, stride=2),          # 20 -> 9
+            nn.ReLU(),
+            nn.Conv2d(64, 64, 3, stride=1),          # 9 -> 7
+            nn.ReLU(),
+        )
+        conv_out = 64 * 7 * 7  # 3136
+        self.actor = nn.Sequential(
+            nn.Linear(conv_out, 512), nn.ReLU(),
+            nn.Linear(512, action_dim),
+        )
+        self.critic = nn.Sequential(
+            nn.Linear(conv_out, 512), nn.ReLU(),
+            nn.Linear(512, 1),
+        )
+        if state_dim > 0:
+            self.state_head = nn.Sequential(
+                nn.Linear(conv_out, 128), nn.ReLU(),
+                nn.Linear(128, state_dim),
+            )
+        self.state_dim = state_dim
+        # Orthogonal initialization (important for PPO)
+        for m in self.modules():
+            if isinstance(m, (nn.Linear, nn.Conv2d)):
+                nn.init.orthogonal_(m.weight, gain=np.sqrt(2))
+                nn.init.zeros_(m.bias)
+        # Smaller init for policy head (more uniform initial distribution)
+        nn.init.orthogonal_(self.actor[-1].weight, gain=0.01)
+        nn.init.orthogonal_(self.critic[-1].weight, gain=1.0)
+
+    def features(self, obs: torch.Tensor) -> torch.Tensor:
+        if obs.dim() == 2:
+            size = int((obs.shape[1] / self.channels) ** 0.5)
+            obs = obs.view(-1, self.channels, size, size)
+        return self.conv(obs).view(obs.size(0), -1)
+
+    def forward(self, obs: torch.Tensor):
+        """Returns (action_logits, value)."""
+        x = self.features(obs)
+        return self.actor(x), self.critic(x).squeeze(-1)
+
+    def act(self, obs: torch.Tensor, deterministic: bool = False) -> int:
+        logits, _ = self.forward(obs)
+        if deterministic:
+            return logits.argmax(dim=-1).item()
+        return torch.distributions.Categorical(logits=logits).sample().item()
+
+
+class PixelPPOTrainer:
+    """PPO trainer for pixel observations.
+
+    On-policy: collect rollout, compute GAE, run PPO epochs.
+    No replay buffer or target network — avoids DQN's Q-divergence issues.
+    """
+
+    def __init__(self, action_dim: int, channels: int = 2,
+                 state_dim: int = 0, aux_weight: float = 2.0,
+                 gamma: float = 0.99, gae_lambda: float = 0.95,
+                 clip_ratio: float = 0.2, entropy_coeff: float = 0.01,
+                 value_coeff: float = 0.5, lr: float = 2.5e-4,
+                 grad_clip: float = 0.5, ppo_epochs: int = 4,
+                 minibatch_size: int = 64):
+        self.gamma = gamma
+        self.gae_lambda = gae_lambda
+        self.clip_ratio = clip_ratio
+        self.entropy_coeff = entropy_coeff
+        self.value_coeff = value_coeff
+        self.grad_clip = grad_clip
+        self.ppo_epochs = ppo_epochs
+        self.minibatch_size = minibatch_size
+        self.aux_weight = aux_weight
+
+        self.net = PixelPPONet(action_dim, channels, state_dim).to(DEVICE)
+        self.optimizer = torch.optim.Adam(self.net.parameters(), lr=lr, eps=1e-5)
+        self.total_steps = 0
+
+    def collect_rollout(self, env, n_steps: int = 512):
+        """Collect n_steps of experience for PPO training.
+
+        Returns dict of tensors ready for training.
+        """
+        obs_list, act_list, rew_list, done_list = [], [], [], []
+        logp_list, val_list, state_list = [], [], []
+
+        obs = env.reset()
+        for _ in range(n_steps):
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            with torch.no_grad():
+                logits, value = self.net(obs_t)
+                dist = torch.distributions.Categorical(logits=logits)
+                action = dist.sample()
+                logp = dist.log_prob(action)
+
+            action_idx = action.item()
+            action_np = env.action_to_onehot(action_idx)
+            next_obs, reward, terminated, truncated, _ = env.step(action_np)
+            done = terminated or truncated
+
+            obs_list.append(obs.copy())
+            act_list.append(action_idx)
+            rew_list.append(reward)
+            done_list.append(float(done))
+            logp_list.append(logp.item())
+            val_list.append(value.item())
+            state_list.append(env.last_raw_obs.copy())
+
+            self.total_steps += 1
+
+            if done:
+                obs = env.reset()
+            else:
+                obs = next_obs
+
+        # Bootstrap value for last state
+        with torch.no_grad():
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            _, last_val = self.net(obs_t)
+            last_val = last_val.item()
+
+        return {
+            "obs": np.array(obs_list),
+            "actions": np.array(act_list),
+            "rewards": np.array(rew_list),
+            "dones": np.array(done_list),
+            "logps": np.array(logp_list),
+            "values": np.array(val_list),
+            "states": np.array(state_list),
+            "last_value": last_val,
+        }
+
+    def _compute_gae(self, rewards, values, dones, last_value):
+        """Compute Generalized Advantage Estimation."""
+        n = len(rewards)
+        advantages = np.zeros(n, dtype=np.float32)
+        returns = np.zeros(n, dtype=np.float32)
+        gae = 0.0
+        for t in reversed(range(n)):
+            next_val = last_value if t == n - 1 else values[t + 1]
+            next_nonterminal = 1.0 - dones[t]
+            delta = rewards[t] + self.gamma * next_val * next_nonterminal - values[t]
+            gae = delta + self.gamma * self.gae_lambda * next_nonterminal * gae
+            advantages[t] = gae
+            returns[t] = advantages[t] + values[t]
+        return advantages, returns
+
+    def train_on_rollout(self, rollout: dict) -> dict[str, float]:
+        """Run PPO epochs on collected rollout."""
+        advantages, returns = self._compute_gae(
+            rollout["rewards"], rollout["values"],
+            rollout["dones"], rollout["last_value"]
+        )
+
+        obs_t = torch.tensor(rollout["obs"], dtype=torch.float32, device=DEVICE)
+        acts_t = torch.tensor(rollout["actions"], dtype=torch.long, device=DEVICE)
+        old_logps_t = torch.tensor(rollout["logps"], dtype=torch.float32, device=DEVICE)
+        returns_t = torch.tensor(returns, dtype=torch.float32, device=DEVICE)
+        adv_t = torch.tensor(advantages, dtype=torch.float32, device=DEVICE)
+        adv_t = (adv_t - adv_t.mean()) / (adv_t.std() + 1e-8)
+        states_t = torch.tensor(rollout["states"], dtype=torch.float32, device=DEVICE)
+
+        n = len(obs_t)
+        total_pg, total_vf, total_ent, total_aux = 0.0, 0.0, 0.0, 0.0
+        n_updates = 0
+
+        for _ in range(self.ppo_epochs):
+            idx = torch.randperm(n)
+            for start in range(0, n, self.minibatch_size):
+                mb = idx[start:start + self.minibatch_size]
+                logits, values = self.net(obs_t[mb])
+                dist = torch.distributions.Categorical(logits=logits)
+                logp = dist.log_prob(acts_t[mb])
+                entropy = dist.entropy().mean()
+
+                # PPO clipped objective
+                ratio = torch.exp(logp - old_logps_t[mb])
+                adv_mb = adv_t[mb]
+                pg_loss1 = -adv_mb * ratio
+                pg_loss2 = -adv_mb * torch.clamp(ratio, 1 - self.clip_ratio,
+                                                  1 + self.clip_ratio)
+                pg_loss = torch.max(pg_loss1, pg_loss2).mean()
+
+                # Value loss (clipped)
+                vf_loss = F.mse_loss(values, returns_t[mb])
+
+                # Auxiliary state prediction
+                aux_loss = torch.tensor(0.0, device=DEVICE)
+                if self.net.state_dim > 0:
+                    pred_state = self.net.state_head(self.net.features(obs_t[mb]))
+                    aux_loss = F.mse_loss(pred_state, states_t[mb])
+
+                loss = (pg_loss + self.value_coeff * vf_loss
+                        - self.entropy_coeff * entropy
+                        + self.aux_weight * aux_loss)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(self.net.parameters(), self.grad_clip)
+                self.optimizer.step()
+
+                total_pg += pg_loss.item()
+                total_vf += vf_loss.item()
+                total_ent += entropy.item()
+                total_aux += aux_loss.item()
+                n_updates += 1
+
+        # Compute episode rewards from rollout
+        ep_rewards = []
+        ep_reward = 0.0
+        for r, d in zip(rollout["rewards"], rollout["dones"]):
+            ep_reward += r
+            if d:
+                ep_rewards.append(ep_reward)
+                ep_reward = 0.0
+
+        return {
+            "pg_loss": total_pg / max(n_updates, 1),
+            "vf_loss": total_vf / max(n_updates, 1),
+            "entropy": total_ent / max(n_updates, 1),
+            "aux_loss": total_aux / max(n_updates, 1),
+            "mean_reward": float(np.mean(ep_rewards)) if ep_rewards else 0.0,
+            "n_episodes": len(ep_rewards),
+        }
+
+    def evaluate(self, env, episodes: int = 5) -> float:
+        rewards = []
+        for _ in range(episodes):
+            obs = env.reset()
+            total = 0.0
+            done = False
+            while not done:
+                obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+                with torch.no_grad():
+                    action_idx = self.net.act(obs_t, deterministic=True)
                 action_np = env.action_to_onehot(action_idx)
                 obs, reward, terminated, truncated, _ = env.step(action_np)
                 done = terminated or truncated

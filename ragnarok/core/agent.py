@@ -24,7 +24,10 @@ from ragnarok.skills.library import SkillLibrary
 from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
-from ragnarok.learning.real_experience import RealExperienceTrainer, PixelDQN, PixelDQNTrainer
+from ragnarok.learning.real_experience import (
+    RealExperienceTrainer, PixelDQN, PixelDQNTrainer,
+    PixelPPONet, PixelPPOTrainer,
+)
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
 from ragnarok.environments.wrapper import RagnarokEnv
@@ -147,20 +150,25 @@ class RagnarokAgent:
             action_high=env.action_high,
         )
 
-        # Pixel DQN — CNN Q-network with replay buffer + target network
-        self.pixel_dqn: PixelDQNTrainer | None = None
+        # Pixel policy — PPO with CNN (on-policy, no Q-divergence)
+        self.pixel_dqn: PixelDQNTrainer | None = None  # Keep for compatibility
+        self.pixel_ppo: PixelPPOTrainer | None = None
         if getattr(env, 'pixel_obs', False):
             n_channels = getattr(env, 'n_channels', 3)
-            self.pixel_dqn = PixelDQNTrainer(
+            self.pixel_ppo = PixelPPOTrainer(
                 action_dim=env.action_dim,
                 channels=n_channels,
-                capacity=200000,
-                batch_size=32,
-                lr=5e-5,
-                tau=0.001,
-                epsilon_start=1.0,
-                epsilon_end=0.05,
-                epsilon_decay=20000,
+                state_dim=env.vector_obs_dim,
+                aux_weight=2.0,
+                gamma=0.99,
+                gae_lambda=0.95,
+                clip_ratio=0.2,
+                entropy_coeff=0.01,
+                value_coeff=0.5,
+                lr=2.5e-4,
+                grad_clip=0.5,
+                ppo_epochs=4,
+                minibatch_size=64,
             )
 
         # Dream augmenter (trains direct policy on imagined experience)
@@ -339,55 +347,34 @@ class RagnarokAgent:
         return reward, metrics
 
     def _train_pixel(self) -> tuple[float, dict[str, float]]:
-        """Pixel training: DQN with replay buffer and target network.
+        """Pixel training: PPO with CNN and auxiliary state prediction.
 
-        Epsilon-greedy exploration, experience stored in DQN replay buffer.
-        Multiple gradient steps per environment step for efficiency.
+        Collects a rollout of 512 steps, then runs PPO updates.
+        On-policy approach avoids DQN's Q-value divergence.
         """
-        dqn = self.pixel_dqn
-        eps = dqn.epsilon()
+        ppo = self.pixel_ppo
 
-        obs = self.env.reset()
-        done = False
-        total_reward = 0.0
-        ep_losses = []
+        # Collect rollout (may span multiple episodes)
+        rollout = ppo.collect_rollout(self.env, n_steps=512)
 
-        while not done:
-            # Epsilon-greedy
-            if np.random.random() < eps:
-                action_idx = np.random.randint(self.env.action_dim)
-            else:
-                obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
-                with torch.no_grad():
-                    action_idx = dqn.q_net.act(obs_t, deterministic=True)
+        # Train PPO on collected rollout
+        train_metrics = ppo.train_on_rollout(rollout)
 
-            action_np = self.env.action_to_onehot(action_idx)
-            next_obs, reward, terminated, truncated, _ = self.env.step(action_np)
-            done = terminated or truncated
-
-            dqn.add(obs.copy(), action_idx, reward, next_obs.copy(), float(done))
-            dqn.total_steps += 1
-            self.total_steps += 1
-
-            # Train every step once replay buffer has enough diverse data
-            if dqn.size >= 2000:
-                loss = dqn.train_step()
-                ep_losses.append(loss)
-
-            total_reward += reward
-            obs = next_obs
-
-        self.episode_rewards.append(total_reward)
-        self.total_episodes += 1
+        self.total_steps = ppo.total_steps
+        n_eps = train_metrics["n_episodes"]
+        self.total_episodes += max(n_eps, 1)
+        ep_reward = train_metrics["mean_reward"]
+        self.episode_rewards.append(ep_reward)
 
         metrics = {
-            "dqn/epsilon": eps,
-            "dqn/replay_size": dqn.size,
+            "ppo/pg_loss": train_metrics["pg_loss"],
+            "ppo/vf_loss": train_metrics["vf_loss"],
+            "ppo/entropy": train_metrics["entropy"],
+            "ppo/aux_loss": train_metrics["aux_loss"],
+            "ppo/n_episodes": n_eps,
         }
-        if ep_losses:
-            metrics["dqn/loss"] = float(np.mean(ep_losses))
 
-        return total_reward, metrics
+        return ep_reward, metrics
 
     def _train_sac(self) -> tuple[float, dict[str, float]]:
         """SAC training: collect episode with off-policy updates."""
@@ -443,8 +430,10 @@ class RagnarokAgent:
                 except Exception:
                     pass
 
-            # Use DQN Q-network state dict for pixel envs
-            if self.pixel_dqn is not None:
+            # Use PPO/DQN network state dict for pixel envs
+            if self.pixel_ppo is not None:
+                policy_sd = {k: v.cpu() for k, v in self.pixel_ppo.net.state_dict().items()}
+            elif self.pixel_dqn is not None:
                 policy_sd = {k: v.cpu() for k, v in self.pixel_dqn.q_net.state_dict().items()}
             else:
                 policy_sd = {k: v.cpu() for k, v in self._active_policy.state_dict().items()}
@@ -464,13 +453,15 @@ class RagnarokAgent:
         return None
 
     def _evaluate_pixel(self, episodes: int = 5) -> float:
-        """Evaluate DQN pixel policy (greedy, no exploration)."""
+        """Evaluate pixel policy (greedy, no exploration)."""
+        if self.pixel_ppo is not None:
+            return self.pixel_ppo.evaluate(self.env, episodes=episodes)
         return self.pixel_dqn.evaluate(self.env, episodes=episodes)
 
     def try_transfer(self) -> Skill | None:
         """Try to find and load a relevant skill for the current environment."""
-        # Pixel envs use DQN (different architecture from vector skills)
-        if self.pixel_dqn is not None:
+        # Pixel envs use different architecture from vector skills
+        if self.pixel_ppo is not None or self.pixel_dqn is not None:
             return None
         skill = self.skill_selector.select(self.env)
         if skill is not None:
