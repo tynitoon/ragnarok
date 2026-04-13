@@ -18,6 +18,7 @@ class CNNEncoder(nn.Module):
     def __init__(self, channels: int = 3, feature_dim: int = 128,
                  depth: int = 32):
         super().__init__()
+        self.channels = channels
         self.feature_dim = feature_dim
 
         self.conv = nn.Sequential(
@@ -43,7 +44,7 @@ class CNNEncoder(nn.Module):
         """
         if obs.dim() == 2:
             # Flattened: reshape to (batch, C, H, W)
-            obs = obs.view(-1, 3, 64, 64)
+            obs = obs.view(-1, self.channels, 64, 64)
         x = self.conv(obs)
         x = x.view(x.size(0), -1)
         return self.fc(x)

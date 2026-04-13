@@ -24,7 +24,7 @@ from ragnarok.skills.library import SkillLibrary
 from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
-from ragnarok.learning.real_experience import RealExperienceTrainer
+from ragnarok.learning.real_experience import RealExperienceTrainer, PixelDQN, PixelDQNTrainer
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
 from ragnarok.environments.wrapper import RagnarokEnv
@@ -44,8 +44,9 @@ class RagnarokAgent:
         encoder = None
         decoder = None
         if getattr(env, 'pixel_obs', False):
+            n_channels = getattr(env, 'n_channels', 12)
             encoder = CNNEncoder(
-                channels=3, feature_dim=config.world_model.encoder_hidden,
+                channels=n_channels, feature_dim=config.world_model.encoder_hidden,
             )
             decoder = CNNDecoder(
                 latent_dim=config.world_model.hidden_dim + config.world_model.stoch_dim,
@@ -145,6 +146,22 @@ class RagnarokAgent:
             action_low=env.action_low,
             action_high=env.action_high,
         )
+
+        # Pixel DQN — CNN Q-network with replay buffer + target network
+        self.pixel_dqn: PixelDQNTrainer | None = None
+        if getattr(env, 'pixel_obs', False):
+            n_channels = getattr(env, 'n_channels', 3)
+            self.pixel_dqn = PixelDQNTrainer(
+                action_dim=env.action_dim,
+                channels=n_channels,
+                capacity=100000,
+                batch_size=64,
+                lr=5e-4,
+                target_update=1000,
+                epsilon_start=1.0,
+                epsilon_end=0.02,
+                epsilon_decay=5000,
+            )
 
         # Dream augmenter (trains direct policy on imagined experience)
         policy_for_dream = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
@@ -322,39 +339,55 @@ class RagnarokAgent:
         return reward, metrics
 
     def _train_pixel(self) -> tuple[float, dict[str, float]]:
-        """Pixel training: collect with RSSM encoder + latent policy.
+        """Pixel training: DQN with replay buffer and target network.
 
-        Dreamer-style: the policy never sees raw pixels, only latent states.
-        World model (CNN encoder) handles pixel → latent conversion.
-
-        Bootstrap strategy:
-        - Phase 1 (0-200 ep): pure random exploration, WM trains from ep 50
-        - Phase 2 (200+ ep): dream training begins, exploration decays
+        Epsilon-greedy exploration, experience stored in DQN replay buffer.
+        Multiple gradient steps per environment step for efficiency.
         """
-        ep = self.total_episodes
+        dqn = self.pixel_dqn
+        eps = dqn.epsilon()
 
-        # Phase 1: 100% random until WM has enough data
-        if ep < 200:
-            explore = 1.0
-        else:
-            explore = max(0.5 - (ep - 200) * 0.002, 0.05)
+        obs = self.env.reset()
+        done = False
+        total_reward = 0.0
+        ep_losses = []
 
-        reward = self.collect_episode(explore_ratio=explore)
-        metrics = {"explore_ratio": explore}
+        while not done:
+            # Epsilon-greedy
+            if np.random.random() < eps:
+                action_idx = np.random.randint(self.env.action_dim)
+            else:
+                obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+                with torch.no_grad():
+                    action_idx = dqn.q_net.act(obs_t, deterministic=True)
 
-        # World model training (ep 50+): every 5 episodes
-        if ep >= 50 and ep % 5 == 0:
-            wm_metrics = self.train_world_model(steps=30)
-            for k, v in wm_metrics.items():
-                metrics[f"wm/{k}"] = v
+            action_np = self.env.action_to_onehot(action_idx)
+            next_obs, reward, terminated, truncated, _ = self.env.step(action_np)
+            done = terminated or truncated
 
-        # Dream training (ep 200+): every episode
-        if ep >= 200:
-            dream_metrics = self.train_policy(steps=20)
-            for k, v in dream_metrics.items():
-                metrics[f"dream/{k}"] = v
+            dqn.add(obs.copy(), action_idx, reward, next_obs.copy(), float(done))
+            dqn.total_steps += 1
+            self.total_steps += 1
 
-        return reward, metrics
+            # Train every step once we have enough data
+            if dqn.size >= 500:
+                loss = dqn.train_step()
+                ep_losses.append(loss)
+
+            total_reward += reward
+            obs = next_obs
+
+        self.episode_rewards.append(total_reward)
+        self.total_episodes += 1
+
+        metrics = {
+            "dqn/epsilon": eps,
+            "dqn/replay_size": dqn.size,
+        }
+        if ep_losses:
+            metrics["dqn/loss"] = float(np.mean(ep_losses))
+
+        return total_reward, metrics
 
     def _train_sac(self) -> tuple[float, dict[str, float]]:
         """SAC training: collect episode with off-policy updates."""
@@ -410,10 +443,16 @@ class RagnarokAgent:
                 except Exception:
                     pass
 
+            # Use DQN Q-network state dict for pixel envs
+            if self.pixel_dqn is not None:
+                policy_sd = {k: v.cpu() for k, v in self.pixel_dqn.q_net.state_dict().items()}
+            else:
+                policy_sd = {k: v.cpu() for k, v in self._active_policy.state_dict().items()}
+
             skill = Skill(
                 name=f"{self.env.env_name}_{self.total_episodes}ep",
                 env_name=self.env.env_name,
-                policy_state_dict={k: v.cpu() for k, v in self._active_policy.state_dict().items()},
+                policy_state_dict=policy_sd,
                 latent_centroid=centroid,
                 performance=eval_reward,
                 normalizer_state=self.env.normalizer.state_dict(),
@@ -425,32 +464,14 @@ class RagnarokAgent:
         return None
 
     def _evaluate_pixel(self, episodes: int = 5) -> float:
-        """Evaluate latent policy on pixel env (deterministic)."""
-        rewards = []
-        for _ in range(episodes):
-            obs = self.env.reset()
-            h, z = self.rssm.initial_state(1, DEVICE)
-            prev_action = torch.zeros(1, self.env.action_dim, device=DEVICE)
-            total_reward = 0.0
-            done = False
-
-            while not done:
-                obs_t = torch.tensor(obs, device=DEVICE).unsqueeze(0)
-                with torch.no_grad():
-                    h, z = self.rssm.encode_observation(obs_t, h, z, prev_action)
-                    action_t = self.actor_critic.act(h, z, deterministic=True)
-                    action_np = to_numpy(action_t.squeeze(0))
-
-                obs, reward, terminated, truncated, _ = self.env.step(action_np)
-                done = terminated or truncated
-                total_reward += reward
-                prev_action = torch.tensor(action_np, device=DEVICE).unsqueeze(0)
-
-            rewards.append(total_reward)
-        return float(np.mean(rewards))
+        """Evaluate DQN pixel policy (greedy, no exploration)."""
+        return self.pixel_dqn.evaluate(self.env, episodes=episodes)
 
     def try_transfer(self) -> Skill | None:
         """Try to find and load a relevant skill for the current environment."""
+        # Pixel envs use DQN (different architecture from vector skills)
+        if self.pixel_dqn is not None:
+            return None
         skill = self.skill_selector.select(self.env)
         if skill is not None:
             try:

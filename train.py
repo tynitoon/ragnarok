@@ -44,14 +44,20 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
     agent = RagnarokAgent(config, env)
 
-    policy_params = sum(p.numel() for p in agent._active_policy.parameters())
+    if agent.pixel_dqn is not None:
+        policy_params = sum(p.numel() for p in agent.pixel_dqn.q_net.parameters())
+    else:
+        policy_params = sum(p.numel() for p in agent._active_policy.parameters())
     rssm_params = sum(p.numel() for p in agent.rssm.parameters())
-    algo = "Dreamer" if spec.pixel_obs else ("SAC" if agent.sac_trainer else "A2C")
+    algo = "DQN" if spec.pixel_obs else ("SAC" if agent.sac_trainer else "A2C")
     print(f"[Ragnarok] Environment: {spec.gym_name}")
     print(f"[Ragnarok] Device: {DEVICE}")
     print(f"[Ragnarok] Algorithm: {algo}")
-    print(f"[Ragnarok] RSSM: {rssm_params:,} params")
-    print(f"[Ragnarok] Policy: {policy_params:,} params")
+    if agent.pixel_dqn is not None:
+        print(f"[Ragnarok] DQN: {policy_params:,} params (Q-net + target)")
+    else:
+        print(f"[Ragnarok] RSSM: {rssm_params:,} params")
+        print(f"[Ragnarok] Policy: {policy_params:,} params")
     if agent.sac_trainer:
         q_params = sum(p.numel() for p in agent.sac_trainer.q1.parameters()) * 2
         print(f"[Ragnarok] Q-networks: {q_params:,} params")
@@ -113,7 +119,8 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
                 best_reward = ep_reward
 
             # === 5. Progress report ===
-            if episode % 50 == 0:
+            report_interval = 100 if is_pixel else 50
+            if episode % report_interval == 0:
                 if is_pixel:
                     eval_mean = agent._evaluate_pixel(episodes=5)
                 elif agent.sac_trainer:
@@ -121,8 +128,9 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
                 else:
                     eval_mean = agent.real_trainer.evaluate(env, episodes=5)
                 elapsed = time.time() - start_time
-                eps_per_sec = episode / elapsed if elapsed > 0 else 0
-                print(f"[Ep {episode:4d}] reward: {ep_reward:7.1f} | "
+                total_ep = agent.total_episodes
+                eps_per_sec = total_ep / elapsed if elapsed > 0 else 0
+                print(f"[Ep {total_ep:4d}] reward: {ep_reward:7.1f} | "
                       f"eval: {eval_mean:7.1f} | best: {best_reward:7.1f} | "
                       f"steps: {agent.total_steps} | "
                       f"skills: {agent.skill_library.num_skills} | "

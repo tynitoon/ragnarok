@@ -2,6 +2,8 @@
 
 Supports both discrete (Categorical A2C) and continuous (Gaussian A2C)
 action spaces. The direct policy operates on raw observations.
+Also provides PixelPolicyNet for pixel-based observations (CNN encoder
+directly in the policy, DQN-style — no RSSM reconstruction bottleneck).
 """
 
 import torch
@@ -10,6 +12,7 @@ import torch.nn.functional as F
 import numpy as np
 
 from ragnarok.infrastructure.device import DEVICE
+from ragnarok.core.cnn import CNNEncoder
 
 
 class DirectPolicyNet(nn.Module):
@@ -119,6 +122,160 @@ class ContinuousPolicyNet(nn.Module):
         """Approximate entropy (Gaussian entropy, ignoring tanh)."""
         _, logstd, _ = self.forward(obs)
         return (0.5 + 0.5 * np.log(2 * np.pi) + logstd).sum(dim=-1)
+
+
+class PixelDQN(nn.Module):
+    """DQN for pixel observations with lightweight CNN.
+
+    2 conv layers -> FC -> Q-values. Sized for simple control tasks.
+    """
+
+    def __init__(self, action_dim: int, channels: int = 1,
+                 feature_dim: int = 128):
+        super().__init__()
+        self.channels = channels
+        self.action_dim = action_dim
+        # Lightweight CNN for 64x64 input
+        self.conv = nn.Sequential(
+            nn.Conv2d(channels, 16, 8, stride=4, padding=2),  # 64 -> 16
+            nn.ReLU(),
+            nn.Conv2d(16, 32, 4, stride=2, padding=1),  # 16 -> 8
+            nn.ReLU(),
+        )
+        conv_out = 32 * 8 * 8  # 2048
+        self.fc = nn.Sequential(
+            nn.Linear(conv_out, feature_dim),
+            nn.ReLU(),
+            nn.Linear(feature_dim, action_dim),
+        )
+
+    def forward(self, obs: torch.Tensor) -> torch.Tensor:
+        """Returns Q-values for each action.
+
+        Args:
+            obs: (batch, channels*64*64) flattened pixel observations
+        Returns:
+            q_values: (batch, action_dim)
+        """
+        if obs.dim() == 2:
+            obs = obs.view(-1, self.channels, 64, 64)
+        x = self.conv(obs)
+        x = x.view(x.size(0), -1)
+        return self.fc(x)
+
+    def act(self, obs: torch.Tensor, deterministic: bool = False) -> int:
+        q_values = self.forward(obs)
+        return q_values.argmax(dim=-1).item()
+
+
+class PixelDQNTrainer:
+    """DQN trainer for pixel observations.
+
+    Handles replay buffer, target network updates, and epsilon-greedy.
+    """
+
+    def __init__(self, action_dim: int, channels: int = 3,
+                 capacity: int = 50000, batch_size: int = 32,
+                 gamma: float = 0.99, lr: float = 1e-4,
+                 target_update: int = 500, epsilon_start: float = 1.0,
+                 epsilon_end: float = 0.02, epsilon_decay: int = 5000):
+        self.action_dim = action_dim
+        self.batch_size = batch_size
+        self.gamma = gamma
+        self.target_update = target_update
+        self.epsilon_start = epsilon_start
+        self.epsilon_end = epsilon_end
+        self.epsilon_decay = epsilon_decay
+
+        self.q_net = PixelDQN(action_dim, channels).to(DEVICE)
+        self.target_net = PixelDQN(action_dim, channels).to(DEVICE)
+        self.target_net.load_state_dict(self.q_net.state_dict())
+        self.optimizer = torch.optim.Adam(self.q_net.parameters(), lr=lr)
+
+        # Simple replay buffer
+        self.capacity = capacity
+        self.obs_buf = []
+        self.act_buf = []
+        self.rew_buf = []
+        self.next_obs_buf = []
+        self.done_buf = []
+        self.pos = 0
+        self.size = 0
+        self.total_steps = 0
+
+    def epsilon(self) -> float:
+        return self.epsilon_end + (self.epsilon_start - self.epsilon_end) * \
+            max(0, 1 - self.total_steps / self.epsilon_decay)
+
+    def add(self, obs, action, reward, next_obs, done):
+        if self.size < self.capacity:
+            self.obs_buf.append(obs)
+            self.act_buf.append(action)
+            self.rew_buf.append(reward)
+            self.next_obs_buf.append(next_obs)
+            self.done_buf.append(done)
+            self.size += 1
+        else:
+            self.obs_buf[self.pos] = obs
+            self.act_buf[self.pos] = action
+            self.rew_buf[self.pos] = reward
+            self.next_obs_buf[self.pos] = next_obs
+            self.done_buf[self.pos] = done
+        self.pos = (self.pos + 1) % self.capacity
+
+    def train_step(self) -> float:
+        if self.size < self.batch_size:
+            return 0.0
+
+        idx = np.random.randint(0, self.size, self.batch_size)
+        obs = torch.tensor(np.array([self.obs_buf[i] for i in idx]),
+                           dtype=torch.float32, device=DEVICE)
+        acts = torch.tensor([self.act_buf[i] for i in idx],
+                            dtype=torch.long, device=DEVICE)
+        rews = torch.tensor([self.rew_buf[i] for i in idx],
+                            dtype=torch.float32, device=DEVICE)
+        next_obs = torch.tensor(np.array([self.next_obs_buf[i] for i in idx]),
+                                dtype=torch.float32, device=DEVICE)
+        dones = torch.tensor([self.done_buf[i] for i in idx],
+                             dtype=torch.float32, device=DEVICE)
+
+        # Current Q
+        q_vals = self.q_net(obs).gather(1, acts.unsqueeze(1)).squeeze(1)
+
+        # Target Q (Double DQN: select action with q_net, evaluate with target)
+        with torch.no_grad():
+            next_actions = self.q_net(next_obs).argmax(dim=1)
+            next_q = self.target_net(next_obs).gather(1, next_actions.unsqueeze(1)).squeeze(1)
+            target = rews + self.gamma * next_q * (1 - dones)
+
+        loss = F.smooth_l1_loss(q_vals, target)
+        self.optimizer.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.q_net.parameters(), 10.0)
+        self.optimizer.step()
+
+        # Update target network
+        if self.total_steps % self.target_update == 0:
+            self.target_net.load_state_dict(self.q_net.state_dict())
+
+        return loss.item()
+
+    def evaluate(self, env, episodes: int = 5) -> float:
+        rewards = []
+        for _ in range(episodes):
+            obs = env.reset()
+            total = 0.0
+            done = False
+            while not done:
+                obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+                with torch.no_grad():
+                    action_idx = self.q_net.act(obs_t, deterministic=True)
+                action_np = env.action_to_onehot(action_idx)
+                obs, reward, terminated, truncated, _ = env.step(action_np)
+                done = terminated or truncated
+                total += reward
+            rewards.append(total)
+        return float(np.mean(rewards))
 
 
 class RealExperienceTrainer:

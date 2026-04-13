@@ -41,7 +41,8 @@ class RagnarokEnv:
 
         # Observation dimensions
         if pixel_obs:
-            self.obs_dim = 3 * PIXEL_SIZE * PIXEL_SIZE  # CHW flattened
+            self.n_channels = 1  # Grayscale frame
+            self.obs_dim = self.n_channels * PIXEL_SIZE * PIXEL_SIZE
             self.vector_obs_dim = int(np.prod(self.env.observation_space.shape))
         else:
             self.obs_dim = int(np.prod(self.env.observation_space.shape))
@@ -65,17 +66,15 @@ class RagnarokEnv:
             self._obs_center = None
             self._obs_scale = None
 
-    def _render_pixels(self) -> np.ndarray:
-        """Render current frame as 64x64 RGB, return as CHW float32 / 255."""
+    def _render_single_frame(self) -> np.ndarray:
+        """Render current frame as 64x64 grayscale, CHW float32 / 255."""
         frame = self.env.render()  # (H, W, 3) uint8
-        # Resize to PIXEL_SIZE x PIXEL_SIZE using simple area interpolation
         from PIL import Image
         img = Image.fromarray(frame).resize(
             (PIXEL_SIZE, PIXEL_SIZE), Image.BILINEAR
-        )
-        pixels = np.array(img, dtype=np.float32) / 255.0  # (64, 64, 3)
-        pixels = pixels.transpose(2, 0, 1)  # CHW
-        return pixels.flatten()  # (3*64*64,)
+        ).convert('L')  # Grayscale
+        pixels = np.array(img, dtype=np.float32) / 255.0  # (64, 64)
+        return pixels.reshape(1, PIXEL_SIZE, PIXEL_SIZE)  # (1, 64, 64)
 
     def reset(self) -> np.ndarray:
         """Reset environment and return observation."""
@@ -84,7 +83,7 @@ class RagnarokEnv:
         self.last_raw_obs = obs.copy()
 
         if self.pixel_obs:
-            return self._render_pixels()
+            return self._render_single_frame().flatten()
 
         self.normalizer.update(obs)
         if self.normalize:
@@ -116,7 +115,7 @@ class RagnarokEnv:
         self.last_raw_obs = obs.copy()
 
         if self.pixel_obs:
-            return self._render_pixels(), float(reward), terminated, truncated, info
+            return self._render_single_frame().flatten(), float(reward), terminated, truncated, info
 
         self.normalizer.update(obs)
         if self.normalize:
