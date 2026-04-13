@@ -561,8 +561,12 @@ class RagnarokAgent:
                 except RuntimeError:
                     return None
 
-        # Activate trust region: save frozen reference policy
-        if loaded_skill is not None:
+        # Activate trust region for cross-task transfer only.
+        # Same-env transfer loads an already-optimized policy — KL penalty
+        # would only slow down fine-tuning.
+        is_cross_task = (loaded_skill is not None
+                         and loaded_skill.env_name != self.env.env_name)
+        if is_cross_task:
             import copy
             self._transfer_ref_policy = copy.deepcopy(self._active_policy)
             self._transfer_ref_policy.eval()

@@ -83,8 +83,8 @@ class CuriosityConfig:
 
 @dataclass
 class TransferConfig:
-    trust_region_episodes: int = 50   # KL penalty active for N episodes
-    trust_region_alpha: float = 1.0   # Initial KL penalty weight
+    trust_region_episodes: int = 20   # KL penalty active for N episodes
+    trust_region_alpha: float = 0.2   # Initial KL penalty weight
     ensemble_cores: int = 2           # Number of RSSM GRU cores
     disagreement_weight: float = 0.1  # Dream reward penalty for ensemble disagreement
 
