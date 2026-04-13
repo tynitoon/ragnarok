@@ -29,6 +29,7 @@ from ragnarok.learning.real_experience import (
 )
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
+from ragnarok.learning.curiosity import CuriosityModule
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE, to_numpy
@@ -119,6 +120,19 @@ class RagnarokAgent:
         reward_shaper = self._get_reward_shaper(env.env_name)
         entropy_coeff, lr = self._get_training_hparams(env.env_name)
 
+        # Intrinsic curiosity (forward prediction error as exploration bonus)
+        self.curiosity: CuriosityModule | None = None
+        if config.curiosity.enabled and not getattr(env, 'pixel_obs', False):
+            beta = self._get_curiosity_beta(env.env_name, config.curiosity.beta)
+            self.curiosity = CuriosityModule(
+                obs_dim=env.obs_dim,
+                action_dim=env.action_dim,
+                hidden=config.curiosity.hidden_dim,
+                lr=config.curiosity.lr,
+                beta=beta,
+                grad_clip=config.curiosity.grad_clip,
+            )
+
         # Use SAC for continuous envs, A2C/PPO for discrete
         self.sac_trainer: SACTrainer | None = None
         if not env.is_discrete:
@@ -134,6 +148,7 @@ class RagnarokAgent:
                 action_high=env.action_high,
                 gamma=config.policy.gamma,
                 reward_shaper=reward_shaper,
+                curiosity=self.curiosity,
             )
 
         self.real_trainer = RealExperienceTrainer(
@@ -145,6 +160,7 @@ class RagnarokAgent:
             lr=lr,
             grad_clip=0.5,
             reward_shaper=reward_shaper,
+            curiosity=self.curiosity,
             action_low=env.action_low,
             action_high=env.action_high,
         )
@@ -208,6 +224,23 @@ class RagnarokAgent:
         if "MountainCarContinuous" in env_name:
             return 0.01, 1e-3
         return 0.01, 3e-4  # Default (works for CartPole)
+
+    @staticmethod
+    def _get_curiosity_beta(env_name: str, default: float) -> float:
+        """Environment-specific curiosity strength.
+
+        Exploration-hard envs (sparse/negative reward) need strong curiosity.
+        Dense-reward envs need minimal curiosity to avoid signal pollution.
+        """
+        if "MountainCar" in env_name and "Continuous" not in env_name:
+            return 1.0   # Very strong: -1 reward every step, needs big bonus
+        if "Acrobot" in env_name:
+            return 0.3   # Moderate: sparse but less extreme
+        if "CartPole" in env_name:
+            return 0.01  # Minimal: dense +1 reward, curiosity noise hurts
+        if "Pendulum" in env_name:
+            return 0.05  # Low: continuous cost signal, don't overwhelm
+        return default
 
     @staticmethod
     def _get_reward_shaper(env_name: str):

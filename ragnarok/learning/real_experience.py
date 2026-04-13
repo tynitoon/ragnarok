@@ -389,6 +389,7 @@ class RealExperienceTrainer:
                  gamma: float = 0.99, entropy_coeff: float = 0.01,
                  lr: float = 3e-4, grad_clip: float = 0.5,
                  reward_shaper=None,
+                 curiosity=None,
                  action_low: np.ndarray | None = None,
                  action_high: np.ndarray | None = None):
         self.gamma = gamma
@@ -397,6 +398,7 @@ class RealExperienceTrainer:
         self.action_dim = action_dim
         self.discrete = discrete
         self.reward_shaper = reward_shaper
+        self.curiosity = curiosity  # CuriosityModule or None
 
         if discrete:
             self.policy = DirectPolicyNet(obs_dim, action_dim).to(DEVICE)
@@ -421,7 +423,7 @@ class RealExperienceTrainer:
         """Discrete action collection + training."""
         obs = env.reset()
         log_probs, values, rewards, entropies = [], [], [], []
-        observations, actions = [], []
+        observations, actions, next_observations = [], [], []
         done = False
         total_reward = 0.0
 
@@ -453,23 +455,38 @@ class RealExperienceTrainer:
                 train_reward = self.reward_shaper(obs, reward, raw_obs)
 
             rewards.append(train_reward)
+            next_observations.append(next_obs.copy())
             done = terminated or truncated
             total_reward += reward
             obs = next_obs
+
+        # Add intrinsic curiosity rewards (batch computation)
+        curiosity_loss = None
+        if self.curiosity is not None and len(observations) > 1:
+            obs_arr = np.array(observations)
+            act_arr = np.array(actions)
+            next_arr = np.array(next_observations)
+            intrinsic = self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
+            for i in range(len(rewards)):
+                rewards[i] += intrinsic[i]
+            curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
 
         episode_data = self._build_episode_data(observations, actions, rewards)
 
         if deterministic or len(rewards) < 2:
             return total_reward, {}, episode_data
 
-        return total_reward, self._train_a2c(log_probs, values, entropies, rewards), episode_data
+        metrics = self._train_a2c(log_probs, values, entropies, rewards)
+        if curiosity_loss is not None:
+            metrics["curiosity_loss"] = curiosity_loss
+        return total_reward, metrics, episode_data
 
     def _collect_continuous(self, env, deterministic: bool = False):
         """Continuous action collection + training."""
         obs = env.reset()
         log_probs, values, rewards, entropies = [], [], [], []
         raw_actions = []  # Pre-tanh actions for log_prob computation
-        observations, actions = [], []
+        observations, actions, next_observations = [], [], []
         done = False
         total_reward = 0.0
 
@@ -507,16 +524,31 @@ class RealExperienceTrainer:
                 train_reward = self.reward_shaper(obs, reward, raw_obs)
 
             rewards.append(train_reward)
+            next_observations.append(next_obs.copy())
             done = terminated or truncated
             total_reward += reward
             obs = next_obs
+
+        # Add intrinsic curiosity rewards
+        curiosity_loss = None
+        if self.curiosity is not None and len(observations) > 1:
+            obs_arr = np.array(observations)
+            act_arr = np.array(actions)
+            next_arr = np.array(next_observations)
+            intrinsic = self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
+            for i in range(len(rewards)):
+                rewards[i] += intrinsic[i]
+            curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
 
         episode_data = self._build_episode_data(observations, actions, rewards)
 
         if deterministic or len(rewards) < 2:
             return total_reward, {}, episode_data
 
-        return total_reward, self._train_a2c(log_probs, values, entropies, rewards), episode_data
+        metrics = self._train_a2c(log_probs, values, entropies, rewards)
+        if curiosity_loss is not None:
+            metrics["curiosity_loss"] = curiosity_loss
+        return total_reward, metrics, episode_data
 
     def _build_episode_data(self, observations, actions, rewards):
         """Build episode data tuple for replay buffer."""

@@ -142,13 +142,15 @@ class SACTrainer:
                  buffer_capacity: int = 100_000,
                  batch_size: int = 256,
                  warmup_steps: int = 1000,
-                 reward_shaper=None):
+                 reward_shaper=None,
+                 curiosity=None):
         self.gamma = gamma
         self.tau = tau
         self.batch_size = batch_size
         self.warmup_steps = warmup_steps
         self.action_dim = action_dim
         self.reward_shaper = reward_shaper
+        self.curiosity = curiosity  # CuriosityModule or None
 
         # Policy
         self.policy = SACPolicy(
@@ -193,7 +195,7 @@ class SACTrainer:
         obs = env.reset()
         done = False
         episode_reward = 0.0
-        observations, actions, rewards = [], [], []
+        observations, actions, rewards, next_observations = [], [], [], []
         metrics = {}
 
         while not done:
@@ -216,8 +218,17 @@ class SACTrainer:
             observations.append(obs.copy())
             actions.append(action.copy())
             rewards.append(reward)
+            next_observations.append(next_obs.copy())
 
-            self.replay.add(obs, action, shaped_reward, next_obs, float(done))
+            # Curiosity augments the shaped reward for replay buffer
+            buffer_reward = shaped_reward
+            if self.curiosity is not None:
+                intrinsic = self.curiosity.compute_intrinsic_rewards(
+                    obs.reshape(1, -1), action.reshape(1, -1), next_obs.reshape(1, -1)
+                )
+                buffer_reward += intrinsic[0]
+
+            self.replay.add(obs, action, buffer_reward, next_obs, float(done))
             episode_reward += reward
             self.total_steps += 1
             obs = next_obs
@@ -226,6 +237,15 @@ class SACTrainer:
             if self.total_steps >= self.warmup_steps and len(self.replay) >= self.batch_size:
                 for _ in range(updates_per_step):
                     metrics = self._update()
+
+        # Train curiosity predictor on the episode
+        if self.curiosity is not None and len(observations) > 1:
+            obs_arr = np.array(observations)
+            act_arr = np.array(actions)
+            next_arr = np.array(next_observations)
+            metrics["curiosity_loss"] = self.curiosity.train_on_transitions(
+                obs_arr, act_arr, next_arr
+            )
 
         # Build episode data for RSSM replay buffer
         dones = [0.0] * len(rewards)

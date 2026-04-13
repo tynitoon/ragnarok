@@ -57,6 +57,15 @@ class SkillConfig:
 
 
 @dataclass
+class CuriosityConfig:
+    enabled: bool = True
+    beta: float = 0.1         # Weight of intrinsic vs extrinsic reward
+    lr: float = 1e-3          # Predictor learning rate
+    hidden_dim: int = 64      # Predictor network hidden size
+    grad_clip: float = 1.0
+
+
+@dataclass
 class NormalizerConfig:
     clip: float = 5.0
     warmup_steps: int = 1000
@@ -70,6 +79,7 @@ class RagnarokConfig:
     memory: MemoryConfig = field(default_factory=MemoryConfig)
     skill: SkillConfig = field(default_factory=SkillConfig)
     normalizer: NormalizerConfig = field(default_factory=NormalizerConfig)
+    curiosity: CuriosityConfig = field(default_factory=CuriosityConfig)
     seed: int = 42
     log_dir: str = "logs"
     checkpoint_dir: str = "checkpoints"
