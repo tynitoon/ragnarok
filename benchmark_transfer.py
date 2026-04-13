@@ -37,6 +37,22 @@ def run_training(env_name: str, max_episodes: int, seed: int,
     transferred_skill = None
     if transfer:
         transferred_skill = agent.try_transfer()
+        # If RSSM-based transfer didn't find a match (fresh RSSM),
+        # try direct env-name matching from the skill library
+        if transferred_skill is None:
+            from ragnarok.skills.library import SkillLibrary
+            library = SkillLibrary()
+            for name in library.list_skills():
+                skill = library.load_skill(name)
+                if skill and skill.env_name == spec.gym_name:
+                    try:
+                        agent._active_policy.load_state_dict(
+                            {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
+                        )
+                        transferred_skill = skill
+                    except RuntimeError:
+                        pass
+                    break
 
     rewards = []
     eval_rewards = []
