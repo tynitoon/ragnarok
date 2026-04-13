@@ -1,14 +1,17 @@
-"""Ragnarok Phase 4: Autonomous multi-task sequential training.
+"""Ragnarok Phase 4+: Autonomous multi-task sequential training.
 
 Two-phase approach:
   Phase A: Train all environments from scratch, building the skill library.
   Phase B: Re-train all environments WITH transfer from saved skills.
            Compare episodes-to-threshold to prove transfer acceleration.
 
-Curriculum: CartPole -> MountainCar -> Acrobot -> Pendulum -> MountainCarContinuous
+Curriculum modes:
+  Default: CartPole -> MountainCar -> Acrobot -> Pendulum -> MountainCarContinuous
+  --auto:  Agent selects next env based on transfer utility + novelty scoring
 
 Usage:
     python multi_train.py                # full two-phase comparison
+    python multi_train.py --auto         # automatic curriculum selection
     python multi_train.py --phase A      # only build skill library
     python multi_train.py --phase B      # only transfer test (requires existing skills)
     python multi_train.py --seed 123
@@ -28,6 +31,8 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.environments.registry import get_env_spec
 from ragnarok.core.agent import RagnarokAgent
+from ragnarok.skills.curriculum import CurriculumSelector
+from ragnarok.skills.library import SkillLibrary
 
 
 # Curriculum order: easy discrete -> hard discrete -> continuous
@@ -189,6 +194,8 @@ def main():
                         help="Clear skill library before starting")
     parser.add_argument("--envs", type=str, nargs="+",
                         help="Specific environments to train (default: all)")
+    parser.add_argument("--auto", action="store_true",
+                        help="Automatic curriculum selection (agent chooses order)")
     args = parser.parse_args()
 
     skills_dir = "skills_data"
@@ -212,7 +219,18 @@ def main():
 
     fprint(f"[Ragnarok] Multi-task training")
     fprint(f"[Ragnarok] Device: {DEVICE}")
-    fprint(f"[Ragnarok] Curriculum: {' -> '.join(name for name, _ in curriculum)}")
+
+    # === AUTO CURRICULUM MODE ===
+    if args.auto:
+        library = SkillLibrary(skills_dir=skills_dir)
+        available = [name for name, _ in curriculum] if args.envs else None
+        selector = CurriculumSelector(library, available)
+        auto_curriculum = selector.get_ordered_curriculum(max_episodes_per_env=500)
+        curriculum = auto_curriculum
+        fprint(f"[Ragnarok] Auto curriculum: {' -> '.join(name for name, _ in curriculum)}")
+    else:
+        fprint(f"[Ragnarok] Curriculum: {' -> '.join(name for name, _ in curriculum)}")
+
     fprint(f"[Ragnarok] Skills dir: {skills_dir}")
 
     scratch_results = []
