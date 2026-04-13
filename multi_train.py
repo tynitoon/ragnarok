@@ -92,20 +92,6 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
     for iteration in range(1, max_episodes + 1):
         ep_reward, metrics = agent.train_policy_real()
 
-        # Train world model periodically (vector mode only, lighter than train.py)
-        if (not is_pixel and
-                iteration % 25 == 0 and
-                agent.replay_buffer.num_episodes >= 10):
-            agent.train_world_model(steps=30)
-
-        # Dream augmentation (vector mode only, skip SAC)
-        if (not is_pixel and
-                agent.sac_trainer is None and
-                iteration % 25 == 0 and
-                iteration >= 100 and
-                agent.replay_buffer.num_episodes >= 20):
-            agent.train_policy_dream(steps=15)
-
         # Check crystallization periodically (runs eval internally, so not every ep)
         skill = None
         if iteration % 10 == 0:
@@ -138,8 +124,10 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
                   f"best: {best_eval:7.1f} | "
                   f"steps: {agent.total_steps:6d} | {eps:.1f} ep/s")
 
-        # Early stop only on crystallization (robust signal, requires sustained performance)
+        # Early stop on crystallization or sustained threshold performance
         if crystallized_at and iteration > (crystallized_at + 50):
+            break
+        if threshold_at and iteration > (threshold_at + 100):
             break
 
     elapsed = time.time() - start_time
@@ -199,12 +187,20 @@ def main():
                         help="A=build skills, B=test transfer, AB=both")
     parser.add_argument("--clean", action="store_true",
                         help="Clear skill library before starting")
+    parser.add_argument("--envs", type=str, nargs="+",
+                        help="Specific environments to train (default: all)")
     args = parser.parse_args()
 
     skills_dir = "skills_data"
 
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
+
+    # Filter curriculum if --envs specified
+    if args.envs:
+        curriculum = [(name, eps) for name, eps in CURRICULUM if name in args.envs]
+    else:
+        curriculum = CURRICULUM
 
     # Clean start
     if args.clean:
@@ -216,7 +212,7 @@ def main():
 
     fprint(f"[Ragnarok] Multi-task training")
     fprint(f"[Ragnarok] Device: {DEVICE}")
-    fprint(f"[Ragnarok] Curriculum: {' -> '.join(name for name, _ in CURRICULUM)}")
+    fprint(f"[Ragnarok] Curriculum: {' -> '.join(name for name, _ in curriculum)}")
     fprint(f"[Ragnarok] Skills dir: {skills_dir}")
 
     scratch_results = []
@@ -229,7 +225,7 @@ def main():
         fprint(f"  PHASE A: Training from scratch (building skill library)")
         fprint(f"{'#'*60}")
 
-        for env_name, max_eps in CURRICULUM:
+        for env_name, max_eps in curriculum:
             result = train_single_env(
                 env_name, max_eps, args.seed,
                 transfer=False, skills_dir=skills_dir,
@@ -244,7 +240,7 @@ def main():
         fprint(f"  PHASE B: Re-training WITH skill transfer")
         fprint(f"{'#'*60}")
 
-        for env_name, max_eps in CURRICULUM:
+        for env_name, max_eps in curriculum:
             result = train_single_env(
                 env_name, max_eps, args.seed,
                 transfer=True, skills_dir=skills_dir,
