@@ -127,6 +127,7 @@ class RagnarokAgent:
                 action_low=env.action_low,
                 action_high=env.action_high,
                 gamma=config.policy.gamma,
+                reward_shaper=reward_shaper,
             )
 
         self.real_trainer = RealExperienceTrainer(

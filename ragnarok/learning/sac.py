@@ -141,12 +141,14 @@ class SACTrainer:
                  lr: float = 3e-4,
                  buffer_capacity: int = 100_000,
                  batch_size: int = 256,
-                 warmup_steps: int = 1000):
+                 warmup_steps: int = 1000,
+                 reward_shaper=None):
         self.gamma = gamma
         self.tau = tau
         self.batch_size = batch_size
         self.warmup_steps = warmup_steps
         self.action_dim = action_dim
+        self.reward_shaper = reward_shaper
 
         # Policy
         self.policy = SACPolicy(
@@ -205,11 +207,17 @@ class SACTrainer:
             next_obs, reward, terminated, truncated, _ = env.step(action)
             done = terminated or truncated
 
+            # Apply reward shaping using raw observations
+            shaped_reward = reward
+            if self.reward_shaper is not None:
+                raw_obs = getattr(env, 'last_raw_obs', next_obs)
+                shaped_reward = self.reward_shaper(obs, reward, raw_obs)
+
             observations.append(obs.copy())
             actions.append(action.copy())
             rewards.append(reward)
 
-            self.replay.add(obs, action, reward, next_obs, float(done))
+            self.replay.add(obs, action, shaped_reward, next_obs, float(done))
             episode_reward += reward
             self.total_steps += 1
             obs = next_obs
