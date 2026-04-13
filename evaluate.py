@@ -54,7 +54,10 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
         except Exception:
             pass
 
-    env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer)
+    # SAC policies train on raw obs (no normalization)
+    normalize = env_spec.is_discrete
+    env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer,
+                      normalize=normalize)
 
     # Load appropriate policy type (auto-detect from saved weights)
     if env_spec.is_discrete:

@@ -16,9 +16,11 @@ class RagnarokEnv:
     """
 
     def __init__(self, env_name: str, normalizer: RunningNormalizer | None = None,
-                 seed: int | None = None, pixel_obs: bool = False):
+                 seed: int | None = None, pixel_obs: bool = False,
+                 normalize: bool = True):
         self.pixel_obs = pixel_obs
         self.seed = seed
+        self.normalize = normalize
 
         if pixel_obs:
             self.env = gym.make(env_name, render_mode="rgb_array")
@@ -71,7 +73,9 @@ class RagnarokEnv:
             return self._render_pixels()
 
         self.normalizer.update(obs)
-        return self.normalizer.normalize(obs)
+        if self.normalize:
+            return self.normalizer.normalize(obs)
+        return obs
 
     def step(self, action: np.ndarray) -> tuple[np.ndarray, float, bool, bool, dict]:
         """Execute action and return (obs, reward, terminated, truncated, info).
@@ -91,7 +95,9 @@ class RagnarokEnv:
             return self._render_pixels(), float(reward), terminated, truncated, info
 
         self.normalizer.update(obs)
-        return self.normalizer.normalize(obs), float(reward), terminated, truncated, info
+        if self.normalize:
+            return self.normalizer.normalize(obs), float(reward), terminated, truncated, info
+        return obs, float(reward), terminated, truncated, info
 
     def action_to_onehot(self, action_idx: int) -> np.ndarray:
         """Convert integer action to one-hot vector."""
