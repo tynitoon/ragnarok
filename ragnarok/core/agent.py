@@ -323,22 +323,32 @@ class RagnarokAgent:
 
         Dreamer-style: the policy never sees raw pixels, only latent states.
         World model (CNN encoder) handles pixel → latent conversion.
+
+        Bootstrap strategy:
+        - First 50 episodes: pure random exploration (fill replay buffer)
+        - Episode 50+: world model training begins (short but frequent)
+        - Episode 100+: dream training begins (policy learns in imagination)
+        - Gradual exploration decay from 0.8 → 0.1
         """
-        # Exploration: high early, decay over time
-        explore = max(0.3 - self.total_episodes * 0.001, 0.05)
+        # High exploration early, gradual decay
+        explore = max(0.8 - self.total_episodes * 0.003, 0.1)
         reward = self.collect_episode(explore_ratio=explore)
 
         metrics = {"explore_ratio": explore}
 
-        # Train world model every episode (pixel = data-hungry)
-        if self.replay_buffer.num_episodes >= 5:
-            wm_metrics = self.train_world_model(steps=50)
+        # Phase 1 (ep 0-50): just collect data, no training
+        # Phase 2 (ep 50+): world model training
+        if self.replay_buffer.num_episodes >= 50:
+            # Adapt training intensity to available data
+            wm_steps = min(100, self.replay_buffer.num_episodes)
+            wm_metrics = self.train_world_model(steps=wm_steps)
             for k, v in wm_metrics.items():
                 metrics[f"wm/{k}"] = v
 
-        # Dream training once world model has some data
-        if self.replay_buffer.num_episodes >= 20:
-            dream_metrics = self.train_policy(steps=30)
+        # Phase 3 (ep 100+): dream training
+        if self.replay_buffer.num_episodes >= 100:
+            dream_steps = min(50, self.replay_buffer.num_episodes // 3)
+            dream_metrics = self.train_policy(steps=dream_steps)
             for k, v in dream_metrics.items():
                 metrics[f"dream/{k}"] = v
 
