@@ -54,10 +54,14 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
         except Exception:
             pass
 
-    # SAC (continuous) skills train without normalization
+    # SAC (continuous) skills use fixed normalization (from obs space bounds)
+    # instead of running normalizer to avoid replay buffer distribution shift.
     normalize = env_spec.is_discrete
     env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer,
                       normalize=normalize)
+    if not normalize:
+        # Freeze the loaded normalizer so stats don't update during eval
+        env.normalizer.freeze()
     env.normalizer.freeze()
 
     # Load appropriate policy type (auto-detect from saved weights)

@@ -51,6 +51,20 @@ class RagnarokEnv:
             shape=(self.obs_dim,) if not pixel_obs else (self.obs_dim,)
         )
 
+        # Fixed normalization based on observation space bounds
+        # (for off-policy methods like SAC: deterministic, no drift)
+        if not pixel_obs and not self.is_discrete:
+            obs_low = self.env.observation_space.low.flatten().astype(np.float32)
+            obs_high = self.env.observation_space.high.flatten().astype(np.float32)
+            # Clip infinite bounds to reasonable range
+            obs_low = np.clip(obs_low, -10.0, 10.0)
+            obs_high = np.clip(obs_high, -10.0, 10.0)
+            self._obs_center = (obs_high + obs_low) / 2.0
+            self._obs_scale = np.maximum((obs_high - obs_low) / 2.0, 1e-6)
+        else:
+            self._obs_center = None
+            self._obs_scale = None
+
     def _render_pixels(self) -> np.ndarray:
         """Render current frame as 64x64 RGB, return as CHW float32 / 255."""
         frame = self.env.render()  # (H, W, 3) uint8
@@ -75,6 +89,16 @@ class RagnarokEnv:
         self.normalizer.update(obs)
         if self.normalize:
             return self.normalizer.normalize(obs)
+        return self._fixed_normalize(obs)
+
+    def _fixed_normalize(self, obs: np.ndarray) -> np.ndarray:
+        """Fixed normalization from observation space bounds.
+
+        Used for off-policy methods (SAC) to avoid distribution shift.
+        Maps obs to approximately [-1, 1] using known bounds.
+        """
+        if self._obs_center is not None:
+            return ((obs - self._obs_center) / self._obs_scale).astype(np.float32)
         return obs
 
     def step(self, action: np.ndarray) -> tuple[np.ndarray, float, bool, bool, dict]:
@@ -97,7 +121,7 @@ class RagnarokEnv:
         self.normalizer.update(obs)
         if self.normalize:
             return self.normalizer.normalize(obs), float(reward), terminated, truncated, info
-        return obs, float(reward), terminated, truncated, info
+        return self._fixed_normalize(obs), float(reward), terminated, truncated, info
 
     def action_to_onehot(self, action_idx: int) -> np.ndarray:
         """Convert integer action to one-hot vector."""
