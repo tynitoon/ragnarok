@@ -84,7 +84,9 @@ class RagnarokAgent:
         self.skill_library = SkillLibrary(skills_dir=config.skill.skills_dir)
         self.skill_selector = SkillSelector(self.rssm, self.skill_library)
 
-        # Trainers
+        # Trainers — use smaller batches for pixel observations
+        wm_batch = 8 if getattr(env, 'pixel_obs', False) else config.world_model.batch_size
+        wm_seq = 15 if getattr(env, 'pixel_obs', False) else config.world_model.sequence_length
         self.wm_trainer = WorldModelTrainer(
             rssm=self.rssm,
             replay_buffer=self.replay_buffer,
@@ -92,15 +94,16 @@ class RagnarokAgent:
             grad_clip=config.world_model.grad_clip,
             kl_weight=config.world_model.kl_weight,
             free_nats=config.world_model.free_nats,
-            batch_size=config.world_model.batch_size,
-            seq_length=config.world_model.sequence_length,
+            batch_size=wm_batch,
+            seq_length=wm_seq,
         )
+        dream_batch = 64 if getattr(env, 'pixel_obs', False) else config.policy.imagination_batch
         self.dream_trainer = DreamTrainer(
             rssm=self.rssm,
             actor_critic=self.actor_critic,
             replay_buffer=self.replay_buffer,
             imagination_horizon=config.policy.imagination_horizon,
-            imagination_batch=config.policy.imagination_batch,
+            imagination_batch=dream_batch,
             gamma=config.policy.gamma,
             gae_lambda=config.policy.gae_lambda,
             entropy_bonus=config.policy.entropy_bonus,
@@ -337,18 +340,17 @@ class RagnarokAgent:
         metrics = {"explore_ratio": explore}
 
         # Phase 1 (ep 0-50): just collect data, no training
-        # Phase 2 (ep 50+): world model training
-        if self.replay_buffer.num_episodes >= 50:
-            # Adapt training intensity to available data
-            wm_steps = min(100, self.replay_buffer.num_episodes)
+        # Phase 2 (ep 30+): world model training
+        # Use small batch + short sequences for pixel efficiency
+        if self.replay_buffer.num_episodes >= 30:
+            wm_steps = 20  # Fewer steps but every episode
             wm_metrics = self.train_world_model(steps=wm_steps)
             for k, v in wm_metrics.items():
                 metrics[f"wm/{k}"] = v
 
-        # Phase 3 (ep 100+): dream training
-        if self.replay_buffer.num_episodes >= 100:
-            dream_steps = min(50, self.replay_buffer.num_episodes // 3)
-            dream_metrics = self.train_policy(steps=dream_steps)
+        # Phase 3 (ep 60+): dream training
+        if self.replay_buffer.num_episodes >= 60:
+            dream_metrics = self.train_policy(steps=15)
             for k, v in dream_metrics.items():
                 metrics[f"dream/{k}"] = v
 
