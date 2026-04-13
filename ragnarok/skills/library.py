@@ -28,8 +28,8 @@ class SkillLibrary:
                 data = torch.load(path, weights_only=False)
                 skill = Skill(**data)
                 self._cache[skill.name] = skill
-            except Exception:
-                pass  # Skip corrupted skill files
+            except Exception as e:
+                print(f"Warning: failed to load skill {path.name}: {e}")
 
     def save_skill(self, skill: Skill):
         """Save a skill to disk."""

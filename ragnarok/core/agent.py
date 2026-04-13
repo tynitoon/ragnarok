@@ -89,8 +89,9 @@ class RagnarokAgent:
         self.skill_selector = SkillSelector(self.rssm, self.skill_library)
 
         # Trainers — use smaller batches for pixel observations
-        wm_batch = 8 if getattr(env, 'pixel_obs', False) else config.world_model.batch_size
-        wm_seq = 15 if getattr(env, 'pixel_obs', False) else config.world_model.sequence_length
+        is_pixel = getattr(env, 'pixel_obs', False)
+        wm_batch = config.world_model.pixel_batch_size if is_pixel else config.world_model.batch_size
+        wm_seq = config.world_model.pixel_sequence_length if is_pixel else config.world_model.sequence_length
         self.wm_trainer = WorldModelTrainer(
             rssm=self.rssm,
             replay_buffer=self.replay_buffer,
@@ -101,7 +102,7 @@ class RagnarokAgent:
             batch_size=wm_batch,
             seq_length=wm_seq,
         )
-        dream_batch = 64 if getattr(env, 'pixel_obs', False) else config.policy.imagination_batch
+        dream_batch = config.policy.pixel_dream_batch if is_pixel else config.policy.imagination_batch
         self.dream_trainer = DreamTrainer(
             rssm=self.rssm,
             actor_critic=self.actor_critic,
@@ -192,10 +193,10 @@ class RagnarokAgent:
             policy=policy_for_dream,
             replay_buffer=self.replay_buffer,
             horizon=config.policy.imagination_horizon,
-            dream_batch=64,
+            dream_batch=config.policy.pixel_dream_batch,
             gamma=config.policy.gamma,
             entropy_coeff=entropy_coeff,
-            lr=lr * 0.3,
+            lr=lr * config.policy.dream_lr_ratio,
         )
 
         # Tracking
@@ -271,7 +272,7 @@ class RagnarokAgent:
             return shaper
         return None  # No shaping for other environments
 
-    def collect_episode(self, explore_ratio: float = 0.1) -> float:
+    def collect_episode(self, explore_ratio: float | None = None) -> float:
         """Run one episode, collecting data into buffers.
 
         Args:
@@ -280,6 +281,9 @@ class RagnarokAgent:
         Returns:
             Total episode reward
         """
+        if explore_ratio is None:
+            explore_ratio = self.config.policy.explore_ratio
+
         obs = self.env.reset()
         h, z = self.rssm.initial_state(1, DEVICE)
         prev_action = torch.zeros(1, self.env.action_dim, device=DEVICE)
@@ -460,8 +464,8 @@ class RagnarokAgent:
                     with torch.no_grad():
                         outputs = self.rssm.observe(obs_t, act_t)
                         centroid = to_numpy(outputs["h"].mean(dim=(0, 1)))
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"Warning: centroid extraction failed: {e}")
 
             # Use PPO/DQN network state dict for pixel envs
             if self.pixel_ppo is not None:

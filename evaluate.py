@@ -51,8 +51,8 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
     if skill.normalizer_state:
         try:
             normalizer = RunningNormalizer.from_state_dict(skill.normalizer_state)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"Warning: failed to load normalizer: {e}")
 
     # SAC (continuous) skills use fixed normalization (from obs space bounds)
     # instead of running normalizer to avoid replay buffer distribution shift.

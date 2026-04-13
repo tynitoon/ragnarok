@@ -18,6 +18,9 @@ class WorldModelConfig:
     train_every: int = 1000
     sequence_length: int = 50
     batch_size: int = 50
+    # Pixel-specific overrides (smaller to fit GPU memory)
+    pixel_batch_size: int = 8
+    pixel_sequence_length: int = 15
 
 
 @dataclass
@@ -33,6 +36,12 @@ class PolicyConfig:
     entropy_bonus: float = 3e-3
     grad_clip: float = 100.0
     train_steps: int = 100
+    # Pixel-specific
+    pixel_dream_batch: int = 64
+    # Dream augmenter learning rate ratio (relative to env-specific lr)
+    dream_lr_ratio: float = 0.3
+    # Exploration
+    explore_ratio: float = 0.1
 
 
 @dataclass
