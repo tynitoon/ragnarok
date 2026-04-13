@@ -41,7 +41,40 @@ class RagnarokAgent:
         self.config = config
         self.env = env
 
-        # World Model — use CNN encoder/decoder for pixel observations
+        # Build components
+        self.rssm = self._build_world_model(config, env)
+        self.replay_buffer = ReplayBuffer(capacity=config.memory.replay_capacity)
+        self.episodic_memory = EpisodicMemory(
+            state_dim=config.world_model.hidden_dim,
+            action_dim=env.action_dim,
+            capacity=config.memory.episodic_capacity,
+        )
+        self.skill_library = SkillLibrary(skills_dir=config.skill.skills_dir)
+        self.skill_selector = SkillSelector(self.rssm, self.skill_library)
+        self.curiosity, self.latent_curiosity = self._build_curiosity(config, env)
+        self.wm_trainer = self._build_wm_trainer(config, env)
+        self.sac_trainer, self.real_trainer, self.pixel_ppo = (
+            self._build_policy_trainers(config, env))
+        self.dream_augmenter = self._build_dream_augmenter(config, env)
+        self.dream_trainer = self.dream_augmenter
+
+        # Tracking
+        self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
+        self.episode_lengths: deque[int] = deque(maxlen=50)
+        self.recent_episodes: deque = deque(maxlen=10)
+        self.total_episodes = 0
+        self.total_steps = 0
+        self.h_accum: list[np.ndarray] = []
+
+        # Trust region for transfer (initialized when try_transfer succeeds)
+        self._transfer_ref_policy = None
+        self._transfer_episode_start = None
+
+    # ── Component builders ──────────────────────────────────────────
+
+    @staticmethod
+    def _build_world_model(config: RagnarokConfig, env: RagnarokEnv) -> RSSM:
+        """Build RSSM with appropriate encoder/decoder for obs type."""
         encoder = None
         decoder = None
         if getattr(env, 'pixel_obs', False):
@@ -53,8 +86,7 @@ class RagnarokAgent:
                 latent_dim=config.world_model.hidden_dim + config.world_model.stoch_dim,
                 channels=3,
             )
-
-        self.rssm = RSSM(
+        return RSSM(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
             hidden_dim=config.world_model.hidden_dim,
@@ -65,69 +97,60 @@ class RagnarokAgent:
             ensemble_cores=config.transfer.ensemble_cores,
         ).to(DEVICE)
 
-        # Memory
-        self.replay_buffer = ReplayBuffer(capacity=config.memory.replay_capacity)
-        self.episodic_memory = EpisodicMemory(
-            state_dim=config.world_model.hidden_dim,
+    def _build_curiosity(self, config: RagnarokConfig, env: RagnarokEnv
+                         ) -> tuple[CuriosityModule | None, LatentCuriosityModule | None]:
+        """Build intrinsic curiosity modules (forward prediction + latent KL)."""
+        if not config.curiosity.enabled or getattr(env, 'pixel_obs', False):
+            return None, None
+
+        beta = self._get_curiosity_beta(env.env_name, config.curiosity.beta)
+        curiosity = CuriosityModule(
+            obs_dim=env.obs_dim,
             action_dim=env.action_dim,
-            capacity=config.memory.episodic_capacity,
+            hidden=config.curiosity.hidden_dim,
+            lr=config.curiosity.lr,
+            beta=beta,
+            grad_clip=config.curiosity.grad_clip,
         )
+        latent = None
+        if config.curiosity.use_latent:
+            latent = LatentCuriosityModule(
+                rssm=self.rssm,
+                beta=beta,
+                min_rssm_episodes=config.curiosity.min_rssm_episodes,
+            )
+        return curiosity, latent
 
-        # Skills
-        self.skill_library = SkillLibrary(skills_dir=config.skill.skills_dir)
-        self.skill_selector = SkillSelector(self.rssm, self.skill_library)
-
-        # Trainers — use smaller batches for pixel observations
+    def _build_wm_trainer(self, config: RagnarokConfig, env: RagnarokEnv
+                          ) -> WorldModelTrainer:
+        """Build world model trainer with pixel-appropriate batch sizes."""
         is_pixel = getattr(env, 'pixel_obs', False)
-        wm_batch = config.world_model.pixel_batch_size if is_pixel else config.world_model.batch_size
-        wm_seq = config.world_model.pixel_sequence_length if is_pixel else config.world_model.sequence_length
-        self.wm_trainer = WorldModelTrainer(
+        return WorldModelTrainer(
             rssm=self.rssm,
             replay_buffer=self.replay_buffer,
             lr=config.world_model.lr,
             grad_clip=config.world_model.grad_clip,
             kl_weight=config.world_model.kl_weight,
             free_nats=config.world_model.free_nats,
-            batch_size=wm_batch,
-            seq_length=wm_seq,
+            batch_size=config.world_model.pixel_batch_size if is_pixel else config.world_model.batch_size,
+            seq_length=config.world_model.pixel_sequence_length if is_pixel else config.world_model.sequence_length,
         )
-        dream_batch = config.policy.pixel_dream_batch if is_pixel else config.policy.imagination_batch
 
-        # Real experience trainer
+    def _build_policy_trainers(self, config: RagnarokConfig, env: RagnarokEnv
+                               ) -> tuple[SACTrainer | None, RealExperienceTrainer, PixelPPOTrainer | None]:
+        """Build the appropriate policy trainers for the env type.
+
+        Returns (sac_trainer, real_trainer, pixel_ppo).
+        SAC for continuous, A2C for discrete, PixelPPO for pixel obs.
+        """
         reward_shaper = self._get_reward_shaper(env.env_name)
         entropy_coeff, lr = self._get_training_hparams(env.env_name)
 
-        # Intrinsic curiosity: forward prediction (fallback) + latent KL (primary)
-        self.curiosity: CuriosityModule | None = None
-        self.latent_curiosity: LatentCuriosityModule | None = None
-        if config.curiosity.enabled and not getattr(env, 'pixel_obs', False):
-            beta = self._get_curiosity_beta(env.env_name, config.curiosity.beta)
-            # Forward predictor as baseline / fallback
-            self.curiosity = CuriosityModule(
-                obs_dim=env.obs_dim,
-                action_dim=env.action_dim,
-                hidden=config.curiosity.hidden_dim,
-                lr=config.curiosity.lr,
-                beta=beta,
-                grad_clip=config.curiosity.grad_clip,
-            )
-            # Latent curiosity: KL(posterior||prior) from RSSM
-            if config.curiosity.use_latent:
-                self.latent_curiosity = LatentCuriosityModule(
-                    rssm=self.rssm,
-                    beta=beta,
-                    min_rssm_episodes=config.curiosity.min_rssm_episodes,
-                )
-
-        # Use SAC for continuous envs, A2C/PPO for discrete
-        self.sac_trainer: SACTrainer | None = None
+        # SAC for continuous control
+        sac = None
         if not env.is_discrete:
-            # Disable observation normalization for off-policy SAC.
-            # RunningNormalizer's changing stats create distribution
-            # shift in the replay buffer. SAC's 256-hidden network
-            # handles raw observation scales without normalization.
-            env.normalize = False
-            self.sac_trainer = SACTrainer(
+            env.normalize = False  # Off-policy: avoid replay buffer distribution shift
+            sac = SACTrainer(
                 obs_dim=env.obs_dim,
                 action_dim=env.action_dim,
                 action_low=env.action_low,
@@ -138,7 +161,8 @@ class RagnarokAgent:
                 latent_curiosity=self.latent_curiosity,
             )
 
-        self.real_trainer = RealExperienceTrainer(
+        # A2C/PPO real experience trainer (always created, also used for eval)
+        real = RealExperienceTrainer(
             obs_dim=env.obs_dim,
             action_dim=env.action_dim,
             discrete=env.is_discrete,
@@ -153,11 +177,11 @@ class RagnarokAgent:
             action_high=env.action_high,
         )
 
-        # Pixel policy — PPO with CNN (on-policy, no Q-divergence)
-        self.pixel_ppo: PixelPPOTrainer | None = None
+        # Pixel PPO for image observations
+        ppo = None
         if getattr(env, 'pixel_obs', False):
             n_channels = getattr(env, 'n_channels', 3)
-            self.pixel_ppo = PixelPPOTrainer(
+            ppo = PixelPPOTrainer(
                 action_dim=env.action_dim,
                 channels=n_channels,
                 state_dim=env.vector_obs_dim,
@@ -173,11 +197,19 @@ class RagnarokAgent:
                 minibatch_size=64,
             )
 
-        # Dream augmenter (unified dream training: single policy, decoded obs)
-        policy_for_dream = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
-        self.dream_augmenter = DreamAugmenter(
+        return sac, real, ppo
+
+    def _build_dream_augmenter(self, config: RagnarokConfig, env: RagnarokEnv
+                               ) -> DreamAugmenter:
+        """Build dream training augmenter (unified, single policy path)."""
+        is_pixel = getattr(env, 'pixel_obs', False)
+        _, lr = self._get_training_hparams(env.env_name)
+        entropy_coeff, _ = self._get_training_hparams(env.env_name)
+        dream_batch = config.policy.pixel_dream_batch if is_pixel else config.policy.imagination_batch
+        policy = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
+        return DreamAugmenter(
             rssm=self.rssm,
-            policy=policy_for_dream,
+            policy=policy,
             replay_buffer=self.replay_buffer,
             horizon=config.policy.imagination_horizon,
             dream_batch=dream_batch,
@@ -187,20 +219,6 @@ class RagnarokAgent:
             lr=lr * config.policy.dream_lr_ratio,
             disagreement_weight=config.transfer.disagreement_weight,
         )
-        # Alias for adaptive horizon (single dream training path)
-        self.dream_trainer = self.dream_augmenter
-
-        # Tracking
-        self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
-        self.episode_lengths: deque[int] = deque(maxlen=50)  # For adaptive horizon
-        self.recent_episodes: deque = deque(maxlen=10)  # Recent episodes for real-experience training
-        self.total_episodes = 0
-        self.total_steps = 0
-        self.h_accum: list[np.ndarray] = []  # For latent centroid computation
-
-        # Trust region for transfer (initialized when try_transfer succeeds)
-        self._transfer_ref_policy = None  # Frozen copy of transferred policy
-        self._transfer_episode_start = None  # Episode when transfer happened
 
     @property
     def _active_policy(self):
