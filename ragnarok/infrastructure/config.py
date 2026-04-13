@@ -78,7 +78,7 @@ class CuriosityConfig:
     grad_clip: float = 1.0
     # Latent curiosity (KL from RSSM)
     use_latent: bool = True   # Use KL-based latent curiosity when RSSM ready
-    min_rssm_episodes: int = 20  # Episodes before switching to latent curiosity
+    min_rssm_episodes: int = 50  # Episodes before latent curiosity activates
 
 
 @dataclass

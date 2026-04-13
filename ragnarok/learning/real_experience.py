@@ -566,9 +566,10 @@ class RealExperienceTrainer:
                            next_arr: np.ndarray) -> np.ndarray | None:
         """Compute intrinsic rewards using latent KL or forward prediction fallback.
 
-        When both latent and forward curiosity are available and latent is ready,
-        blends both signals (50/50) for smoother transition and complementary
-        exploration. Forward prediction alone is used until RSSM is ready.
+        Forward prediction is the primary signal. When the RSSM has trained
+        enough (min_rssm_episodes), latent KL blends in gradually over 50
+        episodes, capping at 50% weight. This avoids diluting forward curiosity
+        with noisy KL from an undertrained world model.
         """
         # Track episodes for latent curiosity readiness
         if self.latent_curiosity is not None:
@@ -583,9 +584,13 @@ class RealExperienceTrainer:
         if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
             latent_rewards = self.latent_curiosity.compute_batch_kl(obs_arr, act_arr)
 
-        # Blend both signals when available for smoother transition
+        # Ramp up latent weight gradually (0 -> 0.5 over 50 episodes after ready)
         if forward_rewards is not None and latent_rewards is not None:
-            return 0.5 * forward_rewards + 0.5 * latent_rewards
+            ramp_episodes = 50
+            eps_since_ready = (self.latent_curiosity._episodes_seen
+                               - self.latent_curiosity.min_rssm_episodes)
+            latent_weight = min(0.5, 0.5 * eps_since_ready / ramp_episodes)
+            return (1 - latent_weight) * forward_rewards + latent_weight * latent_rewards
         if latent_rewards is not None:
             return latent_rewards
         return forward_rewards
