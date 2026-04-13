@@ -62,6 +62,7 @@ class RagnarokAgent:
             encoder_hidden=config.world_model.encoder_hidden,
             encoder=encoder,
             decoder=decoder,
+            ensemble_cores=config.transfer.ensemble_cores,
         ).to(DEVICE)
 
         # Memory
@@ -184,6 +185,7 @@ class RagnarokAgent:
             gae_lambda=config.policy.gae_lambda,
             entropy_coeff=entropy_coeff,
             lr=lr * config.policy.dream_lr_ratio,
+            disagreement_weight=config.transfer.disagreement_weight,
         )
         # Alias for adaptive horizon (single dream training path)
         self.dream_trainer = self.dream_augmenter
@@ -195,6 +197,10 @@ class RagnarokAgent:
         self.total_episodes = 0
         self.total_steps = 0
         self.h_accum: list[np.ndarray] = []  # For latent centroid computation
+
+        # Trust region for transfer (initialized when try_transfer succeeds)
+        self._transfer_ref_policy = None  # Frozen copy of transferred policy
+        self._transfer_episode_start = None  # Episode when transfer happened
 
     @property
     def _active_policy(self):
@@ -369,6 +375,11 @@ class RagnarokAgent:
         For pixel envs, uses RSSM encoder + latent policy (Dreamer-style).
         Returns (episode_reward, metrics).
         """
+        # Update trust region in trainers
+        alpha = self._trust_region_alpha()
+        self.real_trainer.trust_region_alpha = alpha
+        self.real_trainer.trust_region_ref = self._transfer_ref_policy
+
         if getattr(self.env, 'pixel_obs', False):
             return self._train_pixel()
 
@@ -507,10 +518,15 @@ class RagnarokAgent:
         Strategy:
         1. First try exact env_name match (guaranteed dimension compatibility)
         2. Fall back to latent-space nearest-neighbor (cross-task transfer)
+
+        After successful transfer, activates trust region (KL penalty) to
+        prevent catastrophic forgetting of the transferred knowledge.
         """
         # Pixel envs use different architecture from vector skills
         if self.pixel_ppo is not None:
             return None
+
+        loaded_skill = None
 
         # 1. Exact env_name match — most reliable transfer
         env_name = self.env.env_name
@@ -524,25 +540,49 @@ class RagnarokAgent:
                         self.env.normalizer = RunningNormalizer.from_state_dict(
                             skill.normalizer_state
                         )
-                    return skill
+                    loaded_skill = skill
+                    break
                 except RuntimeError:
                     continue
 
         # 2. Latent-space nearest neighbor (cross-task)
-        skill = self.skill_selector.select(self.env)
-        if skill is not None:
-            try:
-                self._active_policy.load_state_dict(
-                    {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
-                )
-                if skill.normalizer_state:
-                    self.env.normalizer = RunningNormalizer.from_state_dict(
-                        skill.normalizer_state
+        if loaded_skill is None:
+            skill = self.skill_selector.select(self.env)
+            if skill is not None:
+                try:
+                    self._active_policy.load_state_dict(
+                        {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
                     )
-            except RuntimeError:
-                # Architecture mismatch — skip transfer
-                return None
-        return skill
+                    if skill.normalizer_state:
+                        self.env.normalizer = RunningNormalizer.from_state_dict(
+                            skill.normalizer_state
+                        )
+                    loaded_skill = skill
+                except RuntimeError:
+                    return None
+
+        # Activate trust region: save frozen reference policy
+        if loaded_skill is not None:
+            import copy
+            self._transfer_ref_policy = copy.deepcopy(self._active_policy)
+            self._transfer_ref_policy.eval()
+            for p in self._transfer_ref_policy.parameters():
+                p.requires_grad_(False)
+            self._transfer_episode_start = self.total_episodes
+
+        return loaded_skill
+
+    def _trust_region_alpha(self) -> float:
+        """Compute current trust region KL penalty weight (linear decay)."""
+        if self._transfer_ref_policy is None:
+            return 0.0
+        episodes_since = self.total_episodes - self._transfer_episode_start
+        max_episodes = self.config.transfer.trust_region_episodes
+        if episodes_since >= max_episodes:
+            self._transfer_ref_policy = None  # Free memory
+            return 0.0
+        alpha = self.config.transfer.trust_region_alpha
+        return alpha * (1.0 - episodes_since / max_episodes)
 
     def save(self, path: str):
         """Save full agent state to checkpoint."""

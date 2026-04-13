@@ -109,6 +109,86 @@ class RSSMCore(nn.Module):
         return dist.rsample()
 
 
+class EnsembleRSSMCore(nn.Module):
+    """Ensemble of N GRU cores sharing the same encoder.
+
+    Each core maintains its own GRU + prior network, producing independent
+    prior distributions. Disagreement between cores indicates model uncertainty.
+    Posterior network is shared (we always have ground truth observations).
+    """
+
+    def __init__(self, n_cores: int = 2, stoch_dim: int = 32,
+                 hidden_dim: int = 128, action_dim: int = 4,
+                 encoder_dim: int = 128):
+        super().__init__()
+        self.n_cores = n_cores
+        self.stoch_dim = stoch_dim
+        self.hidden_dim = hidden_dim
+
+        # Each core has its own pre_gru, gru, and prior
+        self.pre_grus = nn.ModuleList()
+        self.grus = nn.ModuleList()
+        self.priors = nn.ModuleList()
+
+        for _ in range(n_cores):
+            self.pre_grus.append(nn.Sequential(
+                nn.Linear(stoch_dim + action_dim, hidden_dim),
+                nn.ELU(),
+            ))
+            self.grus.append(nn.GRUCell(hidden_dim, hidden_dim))
+            self.priors.append(nn.Sequential(
+                nn.Linear(hidden_dim, 64),
+                nn.ELU(),
+                nn.Linear(64, stoch_dim * 2),
+            ))
+
+        # Shared posterior (same observation -> same posterior)
+        self.posterior = nn.Sequential(
+            nn.Linear(hidden_dim + encoder_dim, 64),
+            nn.ELU(),
+            nn.Linear(64, stoch_dim * 2),
+        )
+
+    def initial_state(self, batch_size: int, device: torch.device):
+        """Return zero-initialized states for all cores: list of (h, z)."""
+        states = []
+        for _ in range(self.n_cores):
+            h = torch.zeros(batch_size, self.hidden_dim, device=device)
+            z = torch.zeros(batch_size, self.stoch_dim, device=device)
+            states.append((h, z))
+        return states
+
+    def step_all(self, states: list, prev_action: torch.Tensor):
+        """Step all cores forward. Returns list of (h_new,) per core."""
+        new_hs = []
+        for i, (h, z) in enumerate(states):
+            x = torch.cat([z, prev_action], dim=-1)
+            x = self.pre_grus[i](x)
+            h_new = self.grus[i](x, h)
+            new_hs.append(h_new)
+        return new_hs
+
+    def prior_all(self, hs: list) -> list:
+        """Compute prior (mean, logstd) for each core."""
+        results = []
+        for i, h in enumerate(hs):
+            params = self.priors[i](h)
+            mean, logstd = params.chunk(2, dim=-1)
+            logstd = logstd.clamp(-5.0, 2.0)
+            results.append((mean, logstd))
+        return results
+
+    def disagreement(self, hs: list) -> torch.Tensor:
+        """Compute disagreement (variance of prior means across cores).
+
+        Returns scalar variance per batch element: (batch,)
+        """
+        priors = self.prior_all(hs)
+        means = torch.stack([m for m, _ in priors], dim=0)  # (n_cores, batch, stoch_dim)
+        # Variance across cores, mean across stoch_dim
+        return means.var(dim=0).mean(dim=-1)  # (batch,)
+
+
 class RewardPredictor(nn.Module):
     """Predicts scalar reward from (h_t, z_t)."""
 
@@ -153,7 +233,8 @@ class RSSM(nn.Module):
                  hidden_dim: int = 128, stoch_dim: int = 32,
                  encoder_hidden: int = 128,
                  encoder: nn.Module | None = None,
-                 decoder: nn.Module | None = None):
+                 decoder: nn.Module | None = None,
+                 ensemble_cores: int = 1):
         super().__init__()
         self.obs_dim = obs_dim
         self.action_dim = action_dim
@@ -163,6 +244,16 @@ class RSSM(nn.Module):
         # Pluggable encoder/decoder (default: MLP for vector observations)
         self.encoder = encoder or RSSMEncoder(obs_dim, encoder_hidden)
         self.core = RSSMCore(stoch_dim, hidden_dim, action_dim, encoder_hidden)
+
+        # Optional ensemble for uncertainty estimation
+        self.ensemble: EnsembleRSSMCore | None = None
+        if ensemble_cores > 1:
+            self.ensemble = EnsembleRSSMCore(
+                n_cores=ensemble_cores, stoch_dim=stoch_dim,
+                hidden_dim=hidden_dim, action_dim=action_dim,
+                encoder_dim=encoder_hidden,
+            )
+
         self.decoder = decoder or nn.Sequential(
             nn.Linear(hidden_dim + stoch_dim, 128),
             nn.ELU(),

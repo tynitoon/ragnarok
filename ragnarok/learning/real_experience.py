@@ -401,6 +401,9 @@ class RealExperienceTrainer:
         self.reward_shaper = reward_shaper
         self.curiosity = curiosity  # ForwardPredictor (fallback)
         self.latent_curiosity = latent_curiosity  # LatentCuriosityModule or None
+        # Trust region: set externally by agent after transfer
+        self.trust_region_ref = None  # Frozen reference policy
+        self.trust_region_alpha = 0.0  # Current KL penalty weight
 
         if discrete:
             self.policy = DirectPolicyNet(obs_dim, action_dim).to(DEVICE)
@@ -481,7 +484,8 @@ class RealExperienceTrainer:
         if deterministic or len(rewards) < 2:
             return total_reward, {}, episode_data
 
-        metrics = self._train_a2c(log_probs, values, entropies, rewards)
+        metrics = self._train_a2c(log_probs, values, entropies, rewards,
+                                  obs_list=observations)
         if curiosity_loss is not None:
             metrics["curiosity_loss"] = curiosity_loss
         return total_reward, metrics, episode_data
@@ -552,7 +556,8 @@ class RealExperienceTrainer:
         if deterministic or len(rewards) < 2:
             return total_reward, {}, episode_data
 
-        metrics = self._train_a2c(log_probs, values, entropies, rewards)
+        metrics = self._train_a2c(log_probs, values, entropies, rewards,
+                                  obs_list=observations)
         if curiosity_loss is not None:
             metrics["curiosity_loss"] = curiosity_loss
         return total_reward, metrics, episode_data
@@ -579,7 +584,8 @@ class RealExperienceTrainer:
             np.array(dones, dtype=np.float32),
         )
 
-    def _train_a2c(self, log_probs, values, entropies, rewards) -> dict:
+    def _train_a2c(self, log_probs, values, entropies, rewards,
+                   obs_list=None) -> dict:
         """Shared A2C training on collected episode data."""
         returns = []
         R = 0.0
@@ -600,17 +606,45 @@ class RealExperienceTrainer:
 
         loss = actor_loss + 0.5 * critic_loss + self.entropy_coeff * entropy_loss
 
+        # Trust region: KL penalty toward transferred policy
+        kl_penalty = 0.0
+        if self.trust_region_ref is not None and self.trust_region_alpha > 0 and obs_list:
+            kl_penalty = self._compute_trust_kl(obs_list)
+            loss = loss + self.trust_region_alpha * kl_penalty
+
         self.optimizer.zero_grad()
         loss.backward()
         nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
         self.optimizer.step()
 
-        return {
+        metrics = {
             "real/actor_loss": actor_loss.item(),
             "real/critic_loss": critic_loss.item(),
             "real/entropy": entropies.mean().item(),
             "real/mean_return": returns.mean().item(),
         }
+        if kl_penalty:
+            metrics["real/trust_kl"] = kl_penalty.item() if torch.is_tensor(kl_penalty) else kl_penalty
+        return metrics
+
+    def _compute_trust_kl(self, obs_list) -> torch.Tensor:
+        """Compute KL(current_policy || reference_policy) for trust region."""
+        obs_t = torch.tensor(np.array(obs_list), dtype=torch.float32, device=DEVICE)
+        if self.discrete:
+            logits_cur, _ = self.policy(obs_t)
+            with torch.no_grad():
+                logits_ref, _ = self.trust_region_ref(obs_t)
+            p_cur = torch.softmax(logits_cur, dim=-1)
+            p_ref = torch.softmax(logits_ref, dim=-1)
+            kl = (p_cur * (p_cur.log() - p_ref.log())).sum(dim=-1).mean()
+        else:
+            mean_cur, logstd_cur, _ = self.policy(obs_t)
+            with torch.no_grad():
+                mean_ref, logstd_ref, _ = self.trust_region_ref(obs_t)
+            cur = torch.distributions.Normal(mean_cur, logstd_cur.exp())
+            ref = torch.distributions.Normal(mean_ref, logstd_ref.exp())
+            kl = torch.distributions.kl_divergence(cur, ref).sum(dim=-1).mean()
+        return kl
 
     def collect_batch_and_train(self, env, batch_episodes: int = 4,
                                 ppo_epochs: int = 4, clip_eps: float = 0.2):

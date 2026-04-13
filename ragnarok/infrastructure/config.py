@@ -82,6 +82,14 @@ class CuriosityConfig:
 
 
 @dataclass
+class TransferConfig:
+    trust_region_episodes: int = 50   # KL penalty active for N episodes
+    trust_region_alpha: float = 1.0   # Initial KL penalty weight
+    ensemble_cores: int = 2           # Number of RSSM GRU cores
+    disagreement_weight: float = 0.1  # Dream reward penalty for ensemble disagreement
+
+
+@dataclass
 class NormalizerConfig:
     clip: float = 5.0
     warmup_steps: int = 1000
@@ -96,6 +104,7 @@ class RagnarokConfig:
     skill: SkillConfig = field(default_factory=SkillConfig)
     normalizer: NormalizerConfig = field(default_factory=NormalizerConfig)
     curiosity: CuriosityConfig = field(default_factory=CuriosityConfig)
+    transfer: TransferConfig = field(default_factory=TransferConfig)
     seed: int = 42
     log_dir: str = "logs"
     checkpoint_dir: str = "checkpoints"

@@ -57,7 +57,8 @@ class DreamAugmenter:
                  horizon: int = 15, dream_batch: int = 64,
                  gamma: float = 0.99, gae_lambda: float = 0.95,
                  entropy_coeff: float = 0.01,
-                 lr: float = 1e-4, grad_clip: float = 0.5):
+                 lr: float = 1e-4, grad_clip: float = 0.5,
+                 disagreement_weight: float = 0.1):
         self.rssm = rssm
         self.policy = policy
         self.buffer = replay_buffer
@@ -68,6 +69,7 @@ class DreamAugmenter:
         self.entropy_coeff = entropy_coeff
         self.grad_clip = grad_clip
         self.discrete = isinstance(policy, DirectPolicyNet)
+        self.disagreement_weight = disagreement_weight
 
         # Separate optimizer for dream training (lower LR to avoid overriding real data)
         self.optimizer = torch.optim.Adam(policy.parameters(), lr=lr)
@@ -100,6 +102,11 @@ class DreamAugmenter:
 
         # 1. Get starting states from real experience
         h, z = self._get_start_states()
+
+        # Reset ensemble states for this dream batch
+        if self.rssm.ensemble is not None:
+            self._ensemble_states = self.rssm.ensemble.initial_state(
+                h.shape[0], h.device)
 
         # 2. Imagine trajectory, using decoded observations for the direct policy
         log_probs_list = []
@@ -146,6 +153,16 @@ class DreamAugmenter:
                 reward = self.rssm.reward_predictor(h, z)
                 continue_logit = self.rssm.continue_predictor(h, z)
                 continue_prob = torch.sigmoid(continue_logit)
+
+                # Ensemble disagreement penalty: penalize rewards in uncertain regions
+                if self.rssm.ensemble is not None and self.disagreement_weight > 0:
+                    # Step ensemble cores
+                    ens_hs = self.rssm.ensemble.step_all(
+                        self._ensemble_states, action_for_rssm)
+                    disagr = self.rssm.ensemble.disagreement(ens_hs)
+                    reward = reward - self.disagreement_weight * disagr
+                    # Update ensemble states
+                    self._ensemble_states = [(eh, z) for eh in ens_hs]
 
             rewards_list.append(reward)
             continues_list.append(continue_prob)
