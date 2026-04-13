@@ -54,8 +54,10 @@ def evaluate_skill(skill_name: str, episodes: int = 10, seed: int = 42):
         except Exception:
             pass
 
-    env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer)
-    # Freeze normalizer during evaluation (use training-time stats as-is)
+    # SAC (continuous) skills train without normalization
+    normalize = env_spec.is_discrete
+    env = RagnarokEnv(env_spec.gym_name, seed=seed, normalizer=normalizer,
+                      normalize=normalize)
     env.normalizer.freeze()
 
     # Load appropriate policy type (auto-detect from saved weights)
