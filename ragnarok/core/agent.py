@@ -328,29 +328,29 @@ class RagnarokAgent:
         World model (CNN encoder) handles pixel → latent conversion.
 
         Bootstrap strategy:
-        - First 50 episodes: pure random exploration (fill replay buffer)
-        - Episode 50+: world model training begins (short but frequent)
-        - Episode 100+: dream training begins (policy learns in imagination)
-        - Gradual exploration decay from 0.8 → 0.1
+        - Phase 1 (0-200 ep): pure random exploration, WM trains from ep 50
+        - Phase 2 (200+ ep): dream training begins, exploration decays
         """
-        # High exploration early, gradual decay
-        explore = max(0.8 - self.total_episodes * 0.003, 0.1)
-        reward = self.collect_episode(explore_ratio=explore)
+        ep = self.total_episodes
 
+        # Phase 1: 100% random until WM has enough data
+        if ep < 200:
+            explore = 1.0
+        else:
+            explore = max(0.5 - (ep - 200) * 0.002, 0.05)
+
+        reward = self.collect_episode(explore_ratio=explore)
         metrics = {"explore_ratio": explore}
 
-        # Phase 1 (ep 0-50): just collect data, no training
-        # Phase 2 (ep 30+): world model training
-        # Use small batch + short sequences for pixel efficiency
-        if self.replay_buffer.num_episodes >= 30:
-            wm_steps = 20  # Fewer steps but every episode
-            wm_metrics = self.train_world_model(steps=wm_steps)
+        # World model training (ep 50+): every 5 episodes
+        if ep >= 50 and ep % 5 == 0:
+            wm_metrics = self.train_world_model(steps=30)
             for k, v in wm_metrics.items():
                 metrics[f"wm/{k}"] = v
 
-        # Phase 3 (ep 60+): dream training
-        if self.replay_buffer.num_episodes >= 60:
-            dream_metrics = self.train_policy(steps=15)
+        # Dream training (ep 200+): every episode
+        if ep >= 200:
+            dream_metrics = self.train_policy(steps=20)
             for k, v in dream_metrics.items():
                 metrics[f"dream/{k}"] = v
 
