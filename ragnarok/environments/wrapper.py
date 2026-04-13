@@ -4,8 +4,8 @@ import numpy as np
 import gymnasium as gym
 from ragnarok.core.normalizer import RunningNormalizer
 
-# Image size for pixel observations
-PIXEL_SIZE = 64
+# Image size for pixel observations (32x32 for fast training)
+PIXEL_SIZE = 32
 
 
 class RagnarokEnv:

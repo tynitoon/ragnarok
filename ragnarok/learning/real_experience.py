@@ -135,11 +135,11 @@ class PixelDQN(nn.Module):
         super().__init__()
         self.channels = channels
         self.action_dim = action_dim
-        # Lightweight CNN for 64x64 input
+        # Lightweight CNN for 32x32 input
         self.conv = nn.Sequential(
-            nn.Conv2d(channels, 16, 8, stride=4, padding=2),  # 64 -> 16
+            nn.Conv2d(channels, 16, 5, stride=2, padding=2),  # 32 -> 16
             nn.ReLU(),
-            nn.Conv2d(16, 32, 4, stride=2, padding=1),  # 16 -> 8
+            nn.Conv2d(16, 32, 3, stride=2, padding=1),  # 16 -> 8
             nn.ReLU(),
         )
         conv_out = 32 * 8 * 8  # 2048
@@ -153,12 +153,13 @@ class PixelDQN(nn.Module):
         """Returns Q-values for each action.
 
         Args:
-            obs: (batch, channels*64*64) flattened pixel observations
+            obs: (batch, channels*H*W) flattened pixel observations
         Returns:
             q_values: (batch, action_dim)
         """
         if obs.dim() == 2:
-            obs = obs.view(-1, self.channels, 64, 64)
+            size = int((obs.shape[1] / self.channels) ** 0.5)
+            obs = obs.view(-1, self.channels, size, size)
         x = self.conv(obs)
         x = x.view(x.size(0), -1)
         return self.fc(x)
@@ -177,12 +178,14 @@ class PixelDQNTrainer:
     def __init__(self, action_dim: int, channels: int = 3,
                  capacity: int = 50000, batch_size: int = 32,
                  gamma: float = 0.99, lr: float = 1e-4,
-                 target_update: int = 500, epsilon_start: float = 1.0,
+                 target_update: int = 500, tau: float = 0.005,
+                 epsilon_start: float = 1.0,
                  epsilon_end: float = 0.02, epsilon_decay: int = 5000):
         self.action_dim = action_dim
         self.batch_size = batch_size
         self.gamma = gamma
         self.target_update = target_update
+        self.tau = tau
         self.epsilon_start = epsilon_start
         self.epsilon_end = epsilon_end
         self.epsilon_decay = epsilon_decay
@@ -254,9 +257,10 @@ class PixelDQNTrainer:
         torch.nn.utils.clip_grad_norm_(self.q_net.parameters(), 10.0)
         self.optimizer.step()
 
-        # Update target network
-        if self.total_steps % self.target_update == 0:
-            self.target_net.load_state_dict(self.q_net.state_dict())
+        # Soft target network update (Polyak averaging)
+        for p_target, p_online in zip(self.target_net.parameters(),
+                                       self.q_net.parameters()):
+            p_target.data.mul_(1 - self.tau).add_(p_online.data * self.tau)
 
         return loss.item()
 

@@ -155,12 +155,12 @@ class RagnarokAgent:
                 action_dim=env.action_dim,
                 channels=n_channels,
                 capacity=100000,
-                batch_size=64,
-                lr=5e-4,
-                target_update=1000,
+                batch_size=32,
+                lr=1e-4,
+                tau=0.001,
                 epsilon_start=1.0,
-                epsilon_end=0.02,
-                epsilon_decay=5000,
+                epsilon_end=0.05,
+                epsilon_decay=20000,
             )
 
         # Dream augmenter (trains direct policy on imagined experience)
@@ -369,8 +369,8 @@ class RagnarokAgent:
             dqn.total_steps += 1
             self.total_steps += 1
 
-            # Train every step once we have enough data
-            if dqn.size >= 500:
+            # Train every step once replay buffer has enough diverse data
+            if dqn.size >= 2000:
                 loss = dqn.train_step()
                 ep_losses.append(loss)
 
