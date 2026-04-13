@@ -154,9 +154,9 @@ class RagnarokAgent:
             self.pixel_dqn = PixelDQNTrainer(
                 action_dim=env.action_dim,
                 channels=n_channels,
-                capacity=100000,
+                capacity=200000,
                 batch_size=32,
-                lr=1e-4,
+                lr=5e-5,
                 tau=0.001,
                 epsilon_start=1.0,
                 epsilon_end=0.05,
