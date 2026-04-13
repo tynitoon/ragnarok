@@ -46,7 +46,7 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
 
     policy_params = sum(p.numel() for p in agent._active_policy.parameters())
     rssm_params = sum(p.numel() for p in agent.rssm.parameters())
-    algo = "SAC" if agent.sac_trainer else "A2C"
+    algo = "Dreamer" if spec.pixel_obs else ("SAC" if agent.sac_trainer else "A2C")
     print(f"[Ragnarok] Environment: {spec.gym_name}")
     print(f"[Ragnarok] Device: {DEVICE}")
     print(f"[Ragnarok] Algorithm: {algo}")
@@ -71,22 +71,30 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     best_reward = -float("inf")
     start_time = time.time()
 
+    is_pixel = spec.pixel_obs
+
     try:
         for episode in range(1, max_episodes + 1):
-            # === 1. Collect + train from real experience (A2C) ===
+            # === 1. Collect + train ===
+            # Pixel mode: _train_pixel() handles WM + dream inside
+            # Vector mode: A2C/SAC on raw observations
             ep_reward, real_metrics = agent.train_policy_real()
 
             metrics = {"episode_reward": ep_reward, "total_steps": agent.total_steps}
             metrics.update(real_metrics)
 
-            # === 2. Train world model periodically ===
-            if episode % wm_train_every == 0 and agent.replay_buffer.num_episodes >= 10:
+            # === 2. Train world model periodically (vector mode only) ===
+            # Pixel mode trains WM every episode inside _train_pixel()
+            if (not is_pixel and
+                    episode % wm_train_every == 0 and
+                    agent.replay_buffer.num_episodes >= 10):
                 wm_metrics = agent.train_world_model(steps=wm_train_steps)
                 for k, v in wm_metrics.items():
                     metrics[f"wm/{k}"] = v
 
-            # === 3. Dream augmentation (skip for SAC — already off-policy) ===
-            if (agent.sac_trainer is None and
+            # === 3. Dream augmentation (vector mode only, skip SAC) ===
+            if (not is_pixel and
+                    agent.sac_trainer is None and
                     episode % dream_train_every == 0 and
                     episode >= 50 and
                     agent.replay_buffer.num_episodes >= 20):
@@ -106,7 +114,9 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
 
             # === 5. Progress report ===
             if episode % 50 == 0:
-                if agent.sac_trainer:
+                if is_pixel:
+                    eval_mean = agent._evaluate_pixel(episodes=5)
+                elif agent.sac_trainer:
                     eval_mean = agent.sac_trainer.evaluate(env, episodes=5)
                 else:
                     eval_mean = agent.real_trainer.evaluate(env, episodes=5)

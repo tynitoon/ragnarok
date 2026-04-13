@@ -297,8 +297,12 @@ class RagnarokAgent:
         """Collect and train from real experience.
 
         Uses SAC for continuous envs, A2C for discrete.
+        For pixel envs, uses RSSM encoder + latent policy (Dreamer-style).
         Returns (episode_reward, metrics).
         """
+        if getattr(self.env, 'pixel_obs', False):
+            return self._train_pixel()
+
         if self.sac_trainer is not None:
             return self._train_sac()
 
@@ -312,6 +316,32 @@ class RagnarokAgent:
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        return reward, metrics
+
+    def _train_pixel(self) -> tuple[float, dict[str, float]]:
+        """Pixel training: collect with RSSM encoder + latent policy.
+
+        Dreamer-style: the policy never sees raw pixels, only latent states.
+        World model (CNN encoder) handles pixel → latent conversion.
+        """
+        # Exploration: high early, decay over time
+        explore = max(0.3 - self.total_episodes * 0.001, 0.05)
+        reward = self.collect_episode(explore_ratio=explore)
+
+        metrics = {"explore_ratio": explore}
+
+        # Train world model every episode (pixel = data-hungry)
+        if self.replay_buffer.num_episodes >= 5:
+            wm_metrics = self.train_world_model(steps=50)
+            for k, v in wm_metrics.items():
+                metrics[f"wm/{k}"] = v
+
+        # Dream training once world model has some data
+        if self.replay_buffer.num_episodes >= 20:
+            dream_metrics = self.train_policy(steps=30)
+            for k, v in dream_metrics.items():
+                metrics[f"dream/{k}"] = v
+
         return reward, metrics
 
     def _train_sac(self) -> tuple[float, dict[str, float]]:
@@ -346,7 +376,9 @@ class RagnarokAgent:
                 return None
 
         # Run actual evaluation (deterministic policy)
-        if self.sac_trainer is not None:
+        if getattr(self.env, 'pixel_obs', False):
+            eval_reward = self._evaluate_pixel(episodes=eval_episodes)
+        elif self.sac_trainer is not None:
             eval_reward = self.sac_trainer.evaluate(self.env, episodes=eval_episodes)
         else:
             eval_reward = self.real_trainer.evaluate(self.env, episodes=eval_episodes)
@@ -379,6 +411,31 @@ class RagnarokAgent:
             return skill
 
         return None
+
+    def _evaluate_pixel(self, episodes: int = 5) -> float:
+        """Evaluate latent policy on pixel env (deterministic)."""
+        rewards = []
+        for _ in range(episodes):
+            obs = self.env.reset()
+            h, z = self.rssm.initial_state(1, DEVICE)
+            prev_action = torch.zeros(1, self.env.action_dim, device=DEVICE)
+            total_reward = 0.0
+            done = False
+
+            while not done:
+                obs_t = torch.tensor(obs, device=DEVICE).unsqueeze(0)
+                with torch.no_grad():
+                    h, z = self.rssm.encode_observation(obs_t, h, z, prev_action)
+                    action_t = self.actor_critic.act(h, z, deterministic=True)
+                    action_np = to_numpy(action_t.squeeze(0))
+
+                obs, reward, terminated, truncated, _ = self.env.step(action_np)
+                done = terminated or truncated
+                total_reward += reward
+                prev_action = torch.tensor(action_np, device=DEVICE).unsqueeze(0)
+
+            rewards.append(total_reward)
+        return float(np.mean(rewards))
 
     def try_transfer(self) -> Skill | None:
         """Try to find and load a relevant skill for the current environment."""
