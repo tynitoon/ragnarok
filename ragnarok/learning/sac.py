@@ -194,6 +194,10 @@ class SACTrainer:
 
         Returns (episode_reward, metrics, episode_data).
         """
+        # Track episodes for latent curiosity readiness
+        if self.latent_curiosity is not None:
+            self.latent_curiosity._episodes_seen += 1
+
         obs = env.reset()
         done = False
         episode_reward = 0.0

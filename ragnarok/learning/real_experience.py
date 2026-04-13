@@ -564,14 +564,31 @@ class RealExperienceTrainer:
 
     def _compute_curiosity(self, obs_arr: np.ndarray, act_arr: np.ndarray,
                            next_arr: np.ndarray) -> np.ndarray | None:
-        """Compute intrinsic rewards using latent KL or forward prediction fallback."""
-        # Prefer latent curiosity when RSSM is ready
-        if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
-            return self.latent_curiosity.compute_batch_kl(obs_arr, act_arr)
-        # Fallback to forward prediction
+        """Compute intrinsic rewards using latent KL or forward prediction fallback.
+
+        When both latent and forward curiosity are available and latent is ready,
+        blends both signals (50/50) for smoother transition and complementary
+        exploration. Forward prediction alone is used until RSSM is ready.
+        """
+        # Track episodes for latent curiosity readiness
+        if self.latent_curiosity is not None:
+            self.latent_curiosity._episodes_seen += 1
+
+        forward_rewards = None
         if self.curiosity is not None:
-            return self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
-        return None
+            forward_rewards = self.curiosity.compute_intrinsic_rewards(
+                obs_arr, act_arr, next_arr)
+
+        latent_rewards = None
+        if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
+            latent_rewards = self.latent_curiosity.compute_batch_kl(obs_arr, act_arr)
+
+        # Blend both signals when available for smoother transition
+        if forward_rewards is not None and latent_rewards is not None:
+            return 0.5 * forward_rewards + 0.5 * latent_rewards
+        if latent_rewards is not None:
+            return latent_rewards
+        return forward_rewards
 
     def _build_episode_data(self, observations, actions, rewards):
         """Build episode data tuple for replay buffer."""

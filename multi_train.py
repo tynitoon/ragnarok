@@ -97,6 +97,11 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
     for iteration in range(1, max_episodes + 1):
         ep_reward, metrics = agent.train_policy_real()
 
+        # Train world model + dream policy after warmup (every 5 episodes)
+        if iteration >= 10 and iteration % 5 == 0 and agent.replay_buffer.num_episodes >= 5:
+            agent.train_world_model(steps=5)
+            agent.train_policy_dream(steps=3)
+
         # Check crystallization periodically (runs eval internally, so not every ep)
         skill = None
         if iteration % 10 == 0:
@@ -105,6 +110,12 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
             crystallized_at = agent.total_episodes
             fprint(f"  * CRYSTALLIZED at ep {crystallized_at} "
                   f"(reward: {skill.performance:.1f})")
+            # Crystallization eval counts for threshold tracking too
+            best_eval = max(best_eval, skill.performance)
+            if threshold_at is None and skill.performance >= threshold:
+                threshold_at = agent.total_episodes
+                fprint(f"  * THRESHOLD REACHED at ep {threshold_at} "
+                      f"(crystal eval: {skill.performance:.1f} >= {threshold:.1f})")
 
         # Progress report
         if iteration % report_interval == 0:
