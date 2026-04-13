@@ -390,6 +390,7 @@ class RealExperienceTrainer:
                  lr: float = 3e-4, grad_clip: float = 0.5,
                  reward_shaper=None,
                  curiosity=None,
+                 latent_curiosity=None,
                  action_low: np.ndarray | None = None,
                  action_high: np.ndarray | None = None):
         self.gamma = gamma
@@ -398,7 +399,8 @@ class RealExperienceTrainer:
         self.action_dim = action_dim
         self.discrete = discrete
         self.reward_shaper = reward_shaper
-        self.curiosity = curiosity  # CuriosityModule or None
+        self.curiosity = curiosity  # ForwardPredictor (fallback)
+        self.latent_curiosity = latent_curiosity  # LatentCuriosityModule or None
 
         if discrete:
             self.policy = DirectPolicyNet(obs_dim, action_dim).to(DEVICE)
@@ -462,14 +464,17 @@ class RealExperienceTrainer:
 
         # Add intrinsic curiosity rewards (batch computation)
         curiosity_loss = None
-        if self.curiosity is not None and len(observations) > 1:
+        if len(observations) > 1:
             obs_arr = np.array(observations)
             act_arr = np.array(actions)
             next_arr = np.array(next_observations)
-            intrinsic = self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
-            for i in range(len(rewards)):
-                rewards[i] += intrinsic[i]
-            curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
+            intrinsic = self._compute_curiosity(obs_arr, act_arr, next_arr)
+            if intrinsic is not None:
+                for i in range(len(rewards)):
+                    rewards[i] += intrinsic[i]
+            # Train forward predictor regardless (it's the fallback)
+            if self.curiosity is not None:
+                curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
 
         episode_data = self._build_episode_data(observations, actions, rewards)
 
@@ -531,14 +536,16 @@ class RealExperienceTrainer:
 
         # Add intrinsic curiosity rewards
         curiosity_loss = None
-        if self.curiosity is not None and len(observations) > 1:
+        if len(observations) > 1:
             obs_arr = np.array(observations)
             act_arr = np.array(actions)
             next_arr = np.array(next_observations)
-            intrinsic = self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
-            for i in range(len(rewards)):
-                rewards[i] += intrinsic[i]
-            curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
+            intrinsic = self._compute_curiosity(obs_arr, act_arr, next_arr)
+            if intrinsic is not None:
+                for i in range(len(rewards)):
+                    rewards[i] += intrinsic[i]
+            if self.curiosity is not None:
+                curiosity_loss = self.curiosity.train_on_transitions(obs_arr, act_arr, next_arr)
 
         episode_data = self._build_episode_data(observations, actions, rewards)
 
@@ -549,6 +556,17 @@ class RealExperienceTrainer:
         if curiosity_loss is not None:
             metrics["curiosity_loss"] = curiosity_loss
         return total_reward, metrics, episode_data
+
+    def _compute_curiosity(self, obs_arr: np.ndarray, act_arr: np.ndarray,
+                           next_arr: np.ndarray) -> np.ndarray | None:
+        """Compute intrinsic rewards using latent KL or forward prediction fallback."""
+        # Prefer latent curiosity when RSSM is ready
+        if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
+            return self.latent_curiosity.compute_batch_kl(obs_arr, act_arr)
+        # Fallback to forward prediction
+        if self.curiosity is not None:
+            return self.curiosity.compute_intrinsic_rewards(obs_arr, act_arr, next_arr)
+        return None
 
     def _build_episode_data(self, observations, actions, rewards):
         """Build episode data tuple for replay buffer."""

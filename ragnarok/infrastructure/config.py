@@ -42,6 +42,10 @@ class PolicyConfig:
     dream_lr_ratio: float = 0.3
     # Exploration
     explore_ratio: float = 0.1
+    # Adaptive imagination horizon
+    max_horizon: int = 50
+    horizon_ratio: float = 0.33   # horizon = min(max, int(avg_ep_len * ratio))
+    horizon_update_interval: int = 50  # Re-evaluate every N episodes
 
 
 @dataclass
@@ -72,6 +76,9 @@ class CuriosityConfig:
     lr: float = 1e-3          # Predictor learning rate
     hidden_dim: int = 64      # Predictor network hidden size
     grad_clip: float = 1.0
+    # Latent curiosity (KL from RSSM)
+    use_latent: bool = True   # Use KL-based latent curiosity when RSSM ready
+    min_rssm_episodes: int = 20  # Episodes before switching to latent curiosity
 
 
 @dataclass

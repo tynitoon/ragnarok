@@ -143,14 +143,16 @@ class SACTrainer:
                  batch_size: int = 256,
                  warmup_steps: int = 1000,
                  reward_shaper=None,
-                 curiosity=None):
+                 curiosity=None,
+                 latent_curiosity=None):
         self.gamma = gamma
         self.tau = tau
         self.batch_size = batch_size
         self.warmup_steps = warmup_steps
         self.action_dim = action_dim
         self.reward_shaper = reward_shaper
-        self.curiosity = curiosity  # CuriosityModule or None
+        self.curiosity = curiosity  # ForwardPredictor (fallback)
+        self.latent_curiosity = latent_curiosity  # LatentCuriosityModule or None
 
         # Policy
         self.policy = SACPolicy(
@@ -222,7 +224,12 @@ class SACTrainer:
 
             # Curiosity augments the shaped reward for replay buffer
             buffer_reward = shaped_reward
-            if self.curiosity is not None:
+            if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
+                intrinsic = self.latent_curiosity.compute_batch_kl(
+                    obs.reshape(1, -1), action.reshape(1, -1)
+                )
+                buffer_reward += intrinsic[0]
+            elif self.curiosity is not None:
                 intrinsic = self.curiosity.compute_intrinsic_rewards(
                     obs.reshape(1, -1), action.reshape(1, -1), next_obs.reshape(1, -1)
                 )

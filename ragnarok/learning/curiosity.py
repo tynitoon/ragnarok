@@ -145,3 +145,156 @@ class CuriosityModule:
         self._reward_mean = state["reward_mean"]
         self._reward_var = state["reward_var"]
         self._reward_count = state["reward_count"]
+
+
+class LatentCuriosityModule:
+    """Latent-space curiosity via RSSM Bayesian surprise.
+
+    Uses KL(posterior || prior) from the RSSM as intrinsic reward.
+    Novel states -> high KL (posterior deviates from prior prediction).
+    Familiar states -> low KL (world model predicts accurately).
+
+    Zero extra parameters: leverages the already-trained RSSM.
+    Falls back to ForwardPredictor when RSSM is undertrained.
+    """
+
+    def __init__(self, rssm, beta: float = 0.1,
+                 min_rssm_episodes: int = 20):
+        self.rssm = rssm
+        self.beta = beta
+        self.min_rssm_episodes = min_rssm_episodes
+        self._episodes_seen = 0
+
+        # RSSM state tracking (reset each episode)
+        self._h = None
+        self._z = None
+        self._prev_action = None
+
+        # Running normalization for KL rewards (Welford's)
+        self._reward_mean = 0.0
+        self._reward_var = 1.0
+        self._reward_count = 0
+
+    @property
+    def rssm_ready(self) -> bool:
+        """Whether RSSM has seen enough data for meaningful KL."""
+        return self._episodes_seen >= self.min_rssm_episodes
+
+    def reset_episode(self, action_dim: int):
+        """Reset RSSM state for a new episode."""
+        self._h, self._z = self.rssm.initial_state(1, DEVICE)
+        self._prev_action = torch.zeros(1, action_dim, device=DEVICE)
+        self._episodes_seen += 1
+
+    def compute_step_kl(self, obs: np.ndarray, action: np.ndarray) -> float:
+        """Compute KL surprise for a single step, updating RSSM state.
+
+        Args:
+            obs: current observation (obs_dim,)
+            action: action taken (action_dim,)
+
+        Returns:
+            Normalized, beta-scaled KL divergence (intrinsic reward).
+        """
+        if self._h is None:
+            return 0.0
+
+        with torch.no_grad():
+            obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            action_t = torch.tensor(action, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+
+            # Step the GRU with previous state
+            h_new = self.rssm.core.step(self._h, self._z, self._prev_action)
+
+            # Prior: what the model predicts
+            prior_mean, prior_logstd = self.rssm.core.forward_prior(h_new)
+
+            # Posterior: what actually happened (with observation)
+            features = self.rssm.encoder(obs_t)
+            post_mean, post_logstd = self.rssm.core.forward_posterior(h_new, features)
+
+            # KL(posterior || prior) per dimension, summed
+            prior = torch.distributions.Normal(prior_mean, prior_logstd.exp())
+            posterior = torch.distributions.Normal(post_mean, post_logstd.exp())
+            kl = torch.distributions.kl_divergence(posterior, prior)
+            kl_sum = kl.sum(dim=-1).item()
+
+            # Sample from posterior and update state
+            self._z = self.rssm.core.sample(post_mean, post_logstd)
+            self._h = h_new
+            self._prev_action = action_t
+
+        # Normalize
+        self._update_stats(kl_sum)
+        std = max(self._reward_var ** 0.5, 1e-8)
+        normalized = (kl_sum - self._reward_mean) / std
+        normalized = max(min(normalized, 5.0), 0.0)  # ReLU + clip
+
+        return self.beta * normalized
+
+    def compute_batch_kl(self, obs_seq: np.ndarray,
+                         action_seq: np.ndarray) -> np.ndarray:
+        """Compute KL surprise for a full episode (batch mode).
+
+        More efficient than per-step: runs RSSM observe() on the whole sequence.
+
+        Args:
+            obs_seq: (T, obs_dim)
+            action_seq: (T, action_dim)
+
+        Returns:
+            intrinsic_rewards: (T,) beta-scaled normalized KL values
+        """
+        T = obs_seq.shape[0]
+        if T < 2:
+            return np.zeros(T, dtype=np.float32)
+
+        with torch.no_grad():
+            obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE).unsqueeze(0)
+            outputs = self.rssm.observe(obs_t, act_t)
+
+            prior = torch.distributions.Normal(
+                outputs["prior_mean"], outputs["prior_logstd"].exp()
+            )
+            posterior = torch.distributions.Normal(
+                outputs["post_mean"], outputs["post_logstd"].exp()
+            )
+            kl = torch.distributions.kl_divergence(posterior, prior)
+            kl_per_step = kl.sum(dim=-1).squeeze(0).cpu().numpy()  # (T,)
+
+        # Normalize with running stats
+        for k in kl_per_step:
+            self._update_stats(float(k))
+
+        std = max(self._reward_var ** 0.5, 1e-8)
+        normalized = (kl_per_step - self._reward_mean) / std
+        normalized = np.clip(normalized, 0.0, 5.0)  # ReLU + clip
+
+        return (self.beta * normalized).astype(np.float32)
+
+    def _update_stats(self, value: float):
+        """Welford's online mean/variance."""
+        self._reward_count += 1
+        delta = value - self._reward_mean
+        self._reward_mean += delta / self._reward_count
+        delta2 = value - self._reward_mean
+        self._reward_var += (delta * delta2 - self._reward_var) / self._reward_count
+
+    @property
+    def params_count(self) -> int:
+        return 0  # No extra parameters
+
+    def state_dict(self) -> dict:
+        return {
+            "reward_mean": self._reward_mean,
+            "reward_var": self._reward_var,
+            "reward_count": self._reward_count,
+            "episodes_seen": self._episodes_seen,
+        }
+
+    def load_state_dict(self, state: dict):
+        self._reward_mean = state["reward_mean"]
+        self._reward_var = state["reward_var"]
+        self._reward_count = state["reward_count"]
+        self._episodes_seen = state.get("episodes_seen", 0)

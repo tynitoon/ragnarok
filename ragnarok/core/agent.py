@@ -29,7 +29,7 @@ from ragnarok.learning.real_experience import (
 )
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
-from ragnarok.learning.curiosity import CuriosityModule
+from ragnarok.learning.curiosity import CuriosityModule, LatentCuriosityModule
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE, to_numpy
@@ -121,10 +121,12 @@ class RagnarokAgent:
         reward_shaper = self._get_reward_shaper(env.env_name)
         entropy_coeff, lr = self._get_training_hparams(env.env_name)
 
-        # Intrinsic curiosity (forward prediction error as exploration bonus)
+        # Intrinsic curiosity: forward prediction (fallback) + latent KL (primary)
         self.curiosity: CuriosityModule | None = None
+        self.latent_curiosity: LatentCuriosityModule | None = None
         if config.curiosity.enabled and not getattr(env, 'pixel_obs', False):
             beta = self._get_curiosity_beta(env.env_name, config.curiosity.beta)
+            # Forward predictor as baseline / fallback
             self.curiosity = CuriosityModule(
                 obs_dim=env.obs_dim,
                 action_dim=env.action_dim,
@@ -133,6 +135,13 @@ class RagnarokAgent:
                 beta=beta,
                 grad_clip=config.curiosity.grad_clip,
             )
+            # Latent curiosity: KL(posterior||prior) from RSSM
+            if config.curiosity.use_latent:
+                self.latent_curiosity = LatentCuriosityModule(
+                    rssm=self.rssm,
+                    beta=beta,
+                    min_rssm_episodes=config.curiosity.min_rssm_episodes,
+                )
 
         # Use SAC for continuous envs, A2C/PPO for discrete
         self.sac_trainer: SACTrainer | None = None
@@ -150,6 +159,7 @@ class RagnarokAgent:
                 gamma=config.policy.gamma,
                 reward_shaper=reward_shaper,
                 curiosity=self.curiosity,
+                latent_curiosity=self.latent_curiosity,
             )
 
         self.real_trainer = RealExperienceTrainer(
@@ -162,6 +172,7 @@ class RagnarokAgent:
             grad_clip=0.5,
             reward_shaper=reward_shaper,
             curiosity=self.curiosity,
+            latent_curiosity=self.latent_curiosity,
             action_low=env.action_low,
             action_high=env.action_high,
         )
@@ -201,6 +212,7 @@ class RagnarokAgent:
 
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
+        self.episode_lengths: deque[int] = deque(maxlen=50)  # For adaptive horizon
         self.recent_episodes: deque = deque(maxlen=10)  # Recent episodes for real-experience training
         self.total_episodes = 0
         self.total_steps = 0
@@ -356,6 +368,19 @@ class RagnarokAgent:
         """Train the direct policy on imagined experience (dream augmentation)."""
         return self.dream_augmenter.train(steps)
 
+    def _update_adaptive_horizon(self):
+        """Adapt imagination horizon based on average episode length."""
+        cfg = self.config.policy
+        if (self.total_episodes % cfg.horizon_update_interval != 0
+                or len(self.episode_lengths) < 5):
+            return
+        avg_len = float(np.mean(list(self.episode_lengths)))
+        new_horizon = min(cfg.max_horizon,
+                          max(5, int(avg_len * cfg.horizon_ratio)))
+        if new_horizon != self.dream_trainer.horizon:
+            self.dream_trainer.horizon = new_horizon
+            self.dream_augmenter.horizon = new_horizon
+
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
         """Collect and train from real experience.
 
@@ -375,10 +400,12 @@ class RagnarokAgent:
             obs, acts, rews, dones = episode_data
             self.replay_buffer.add_episode(obs, acts, rews, dones)
             self.recent_episodes.append(episode_data)
+            self.episode_lengths.append(len(rews))
             self.total_steps += len(rews)
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        self._update_adaptive_horizon()
         return reward, metrics
 
     def _train_pixel(self) -> tuple[float, dict[str, float]]:
@@ -419,10 +446,12 @@ class RagnarokAgent:
             obs, acts, rews, dones = episode_data
             self.replay_buffer.add_episode(obs, acts, rews, dones)
             self.recent_episodes.append(episode_data)
+            self.episode_lengths.append(len(rews))
             self.total_steps += len(rews)
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        self._update_adaptive_horizon()
         return reward, metrics
 
     def check_crystallization(self, eval_episodes: int = 5) -> Skill | None:
