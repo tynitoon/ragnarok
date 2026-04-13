@@ -25,8 +25,7 @@ from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.dreamer import DreamTrainer
 from ragnarok.learning.real_experience import (
-    RealExperienceTrainer, PixelDQN, PixelDQNTrainer,
-    PixelPPONet, PixelPPOTrainer,
+    RealExperienceTrainer, PixelPPOTrainer,
 )
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
@@ -151,7 +150,6 @@ class RagnarokAgent:
         )
 
         # Pixel policy — PPO with CNN (on-policy, no Q-divergence)
-        self.pixel_dqn: PixelDQNTrainer | None = None  # Keep for compatibility
         self.pixel_ppo: PixelPPOTrainer | None = None
         if getattr(env, 'pixel_obs', False):
             n_channels = getattr(env, 'n_channels', 3)
@@ -400,11 +398,13 @@ class RagnarokAgent:
         if self.total_episodes < self.config.skill.min_episodes:
             return None
 
-        # Don't re-crystallize if we already have a skill for this env
+        # Don't re-crystallize if we already have a skill for this env+mode
+        is_pixel = getattr(self.env, 'pixel_obs', False)
+        skill_env_name = f"{self.env.env_name}_pixels" if is_pixel else self.env.env_name
         existing = self.skill_library.list_skills()
         for name in existing:
             skill = self.skill_library.load_skill(name)
-            if skill and skill.env_name == self.env.env_name:
+            if skill and skill.env_name == skill_env_name:
                 return None
 
         # Run actual evaluation (deterministic policy)
@@ -433,14 +433,12 @@ class RagnarokAgent:
             # Use PPO/DQN network state dict for pixel envs
             if self.pixel_ppo is not None:
                 policy_sd = {k: v.cpu() for k, v in self.pixel_ppo.net.state_dict().items()}
-            elif self.pixel_dqn is not None:
-                policy_sd = {k: v.cpu() for k, v in self.pixel_dqn.q_net.state_dict().items()}
             else:
                 policy_sd = {k: v.cpu() for k, v in self._active_policy.state_dict().items()}
 
             skill = Skill(
-                name=f"{self.env.env_name}_{self.total_episodes}ep",
-                env_name=self.env.env_name,
+                name=f"{skill_env_name}_{self.total_episodes}ep",
+                env_name=skill_env_name,
                 policy_state_dict=policy_sd,
                 latent_centroid=centroid,
                 performance=eval_reward,
@@ -454,14 +452,12 @@ class RagnarokAgent:
 
     def _evaluate_pixel(self, episodes: int = 5) -> float:
         """Evaluate pixel policy (greedy, no exploration)."""
-        if self.pixel_ppo is not None:
-            return self.pixel_ppo.evaluate(self.env, episodes=episodes)
-        return self.pixel_dqn.evaluate(self.env, episodes=episodes)
+        return self.pixel_ppo.evaluate(self.env, episodes=episodes)
 
     def try_transfer(self) -> Skill | None:
         """Try to find and load a relevant skill for the current environment."""
         # Pixel envs use different architecture from vector skills
-        if self.pixel_ppo is not None or self.pixel_dqn is not None:
+        if self.pixel_ppo is not None:
             return None
         skill = self.skill_selector.select(self.env)
         if skill is not None:

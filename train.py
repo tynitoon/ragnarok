@@ -47,9 +47,6 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
     if agent.pixel_ppo is not None:
         policy_params = sum(p.numel() for p in agent.pixel_ppo.net.parameters())
         algo = "PPO"
-    elif agent.pixel_dqn is not None:
-        policy_params = sum(p.numel() for p in agent.pixel_dqn.q_net.parameters())
-        algo = "DQN"
     else:
         policy_params = sum(p.numel() for p in agent._active_policy.parameters())
         algo = "SAC" if agent.sac_trainer else "A2C"
@@ -83,20 +80,23 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
 
     is_pixel = spec.pixel_obs
 
+    # For pixel PPO, each iteration collects 512 steps (~25 episodes).
+    # max_episodes = number of iterations for pixel, episodes for vector.
+    max_iterations = max_episodes
+    report_interval = 20 if is_pixel else 50
+    checkpoint_interval = 100 if is_pixel else 200
+
     try:
-        for episode in range(1, max_episodes + 1):
+        for iteration in range(1, max_iterations + 1):
             # === 1. Collect + train ===
-            # Pixel mode: _train_pixel() handles WM + dream inside
-            # Vector mode: A2C/SAC on raw observations
             ep_reward, real_metrics = agent.train_policy_real()
 
             metrics = {"episode_reward": ep_reward, "total_steps": agent.total_steps}
             metrics.update(real_metrics)
 
             # === 2. Train world model periodically (vector mode only) ===
-            # Pixel mode trains WM every episode inside _train_pixel()
             if (not is_pixel and
-                    episode % wm_train_every == 0 and
+                    iteration % wm_train_every == 0 and
                     agent.replay_buffer.num_episodes >= 10):
                 wm_metrics = agent.train_world_model(steps=wm_train_steps)
                 for k, v in wm_metrics.items():
@@ -105,14 +105,14 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
             # === 3. Dream augmentation (vector mode only, skip SAC) ===
             if (not is_pixel and
                     agent.sac_trainer is None and
-                    episode % dream_train_every == 0 and
-                    episode >= 50 and
+                    iteration % dream_train_every == 0 and
+                    iteration >= 50 and
                     agent.replay_buffer.num_episodes >= 20):
                 dream_metrics = agent.train_policy_dream(steps=dream_train_steps)
                 for k, v in dream_metrics.items():
                     metrics[k] = v
 
-            logger.log(episode, metrics)
+            logger.log(iteration, metrics)
 
             # === 4. Check skill crystallization ===
             skill = agent.check_crystallization()
@@ -123,8 +123,7 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
                 best_reward = ep_reward
 
             # === 5. Progress report ===
-            report_interval = 100 if is_pixel else 50
-            if episode % report_interval == 0:
+            if iteration % report_interval == 0:
                 if is_pixel:
                     eval_mean = agent._evaluate_pixel(episodes=5)
                 elif agent.sac_trainer:
@@ -134,16 +133,17 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
                 elapsed = time.time() - start_time
                 total_ep = agent.total_episodes
                 eps_per_sec = total_ep / elapsed if elapsed > 0 else 0
-                print(f"[Ep {total_ep:4d}] reward: {ep_reward:7.1f} | "
+                iter_label = f"Iter {iteration:4d}" if is_pixel else f"Ep {total_ep:4d}"
+                print(f"[{iter_label}] reward: {ep_reward:7.1f} | "
                       f"eval: {eval_mean:7.1f} | best: {best_reward:7.1f} | "
                       f"steps: {agent.total_steps} | "
                       f"skills: {agent.skill_library.num_skills} | "
-                      f"replay: {agent.replay_buffer.num_episodes} ep | "
+                      f"episodes: {total_ep} | "
                       f"{eps_per_sec:.1f} ep/s")
 
             # Save checkpoint periodically
-            if episode % 200 == 0:
-                ckpt_path = f"{checkpoint_dir}/{run_name}_ep{episode}.pt"
+            if iteration % checkpoint_interval == 0:
+                ckpt_path = f"{checkpoint_dir}/{run_name}_iter{iteration}.pt"
                 agent.save(ckpt_path)
 
     except KeyboardInterrupt:
