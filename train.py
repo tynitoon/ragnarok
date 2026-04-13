@@ -114,8 +114,10 @@ def train(env_name: str, max_episodes: int = 500, seed: int = 42,
 
             logger.log(iteration, metrics)
 
-            # === 4. Check skill crystallization ===
-            skill = agent.check_crystallization()
+            # === 4. Check skill crystallization (every 10 iters to avoid eval overhead) ===
+            skill = None
+            if iteration % 10 == 0:
+                skill = agent.check_crystallization()
             if skill:
                 print(f"\n[Ragnarok] SKILL CRYSTALLIZED: {skill.name} (reward: {skill.performance:.1f})")
 

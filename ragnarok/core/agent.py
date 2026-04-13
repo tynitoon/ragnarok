@@ -455,10 +455,33 @@ class RagnarokAgent:
         return self.pixel_ppo.evaluate(self.env, episodes=episodes)
 
     def try_transfer(self) -> Skill | None:
-        """Try to find and load a relevant skill for the current environment."""
+        """Try to find and load a relevant skill for the current environment.
+
+        Strategy:
+        1. First try exact env_name match (guaranteed dimension compatibility)
+        2. Fall back to latent-space nearest-neighbor (cross-task transfer)
+        """
         # Pixel envs use different architecture from vector skills
         if self.pixel_ppo is not None:
             return None
+
+        # 1. Exact env_name match — most reliable transfer
+        env_name = self.env.env_name
+        for skill in self.skill_library._cache.values():
+            if skill.env_name == env_name:
+                try:
+                    self._active_policy.load_state_dict(
+                        {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
+                    )
+                    if skill.normalizer_state:
+                        self.env.normalizer = RunningNormalizer.from_state_dict(
+                            skill.normalizer_state
+                        )
+                    return skill
+                except RuntimeError:
+                    continue
+
+        # 2. Latent-space nearest neighbor (cross-task)
         skill = self.skill_selector.select(self.env)
         if skill is not None:
             try:
