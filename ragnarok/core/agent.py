@@ -116,10 +116,6 @@ class RagnarokAgent:
         # Use SAC for continuous envs, A2C/PPO for discrete
         self.sac_trainer: SACTrainer | None = None
         if not env.is_discrete:
-            # Disable observation normalization for off-policy SAC:
-            # RunningNormalizer shifts statistics over time, corrupting
-            # old transitions in the replay buffer.
-            env.normalize = False
             self.sac_trainer = SACTrainer(
                 obs_dim=env.obs_dim,
                 action_dim=env.action_dim,

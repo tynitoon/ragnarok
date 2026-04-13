@@ -18,12 +18,24 @@ class RunningNormalizer:
         self.mean = np.zeros(shape, dtype=np.float64)
         self.var = np.ones(shape, dtype=np.float64)
         self.count = 0
+        self.frozen = False
 
         # Welford accumulators
         self._m2 = np.zeros(shape, dtype=np.float64)
 
+    def freeze(self):
+        """Freeze statistics — update() becomes a no-op.
+
+        Use this for off-policy methods (SAC) to keep replay buffer
+        data consistent: collect warmup stats, then freeze.
+        """
+        self.frozen = True
+
     def update(self, x: np.ndarray):
         """Update running statistics with a new observation (or batch)."""
+        if self.frozen:
+            return
+
         if x.ndim == len(self.shape):
             # Single observation
             x = x[np.newaxis, ...]

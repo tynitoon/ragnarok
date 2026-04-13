@@ -199,6 +199,10 @@ class SACTrainer:
             if self.total_steps < self.warmup_steps:
                 action = env.sample_random_action()
             else:
+                # Freeze normalizer on first non-warmup step so replay
+                # buffer data stays consistent (off-policy requirement).
+                if hasattr(env, 'normalizer') and not env.normalizer.frozen:
+                    env.normalizer.freeze()
                 obs_t = torch.tensor(obs, dtype=torch.float32, device=DEVICE).unsqueeze(0)
                 action = self.policy.act(obs_t, deterministic=False)
 
