@@ -1,11 +1,14 @@
 """Unified environment wrapper for Gymnasium environments."""
 
+from collections import deque
 import numpy as np
 import gymnasium as gym
 from ragnarok.core.normalizer import RunningNormalizer
 
-# Image size for pixel observations (32x32 for fast training)
+# Image size for pixel observations
 PIXEL_SIZE = 32
+# Frame stacking: 4 consecutive grayscale frames for velocity info
+FRAME_STACK = 4
 
 
 class RagnarokEnv:
@@ -41,9 +44,10 @@ class RagnarokEnv:
 
         # Observation dimensions
         if pixel_obs:
-            self.n_channels = 1  # Grayscale frame
+            self.n_channels = FRAME_STACK  # 4 stacked grayscale frames
             self.obs_dim = self.n_channels * PIXEL_SIZE * PIXEL_SIZE
             self.vector_obs_dim = int(np.prod(self.env.observation_space.shape))
+            self._frame_stack: deque[np.ndarray] = deque(maxlen=FRAME_STACK)
         else:
             self.obs_dim = int(np.prod(self.env.observation_space.shape))
 
@@ -67,14 +71,17 @@ class RagnarokEnv:
             self._obs_scale = None
 
     def _render_single_frame(self) -> np.ndarray:
-        """Render current frame as 64x64 grayscale, CHW float32 / 255."""
+        """Render current frame as 32x32 grayscale float32 / 255."""
         frame = self.env.render()  # (H, W, 3) uint8
         from PIL import Image
         img = Image.fromarray(frame).resize(
             (PIXEL_SIZE, PIXEL_SIZE), Image.BILINEAR
         ).convert('L')  # Grayscale
-        pixels = np.array(img, dtype=np.float32) / 255.0  # (64, 64)
-        return pixels.reshape(1, PIXEL_SIZE, PIXEL_SIZE)  # (1, 64, 64)
+        return np.array(img, dtype=np.float32) / 255.0  # (32, 32)
+
+    def _get_stacked_obs(self) -> np.ndarray:
+        """Stack frames into (FRAME_STACK, H, W) and flatten."""
+        return np.array(self._frame_stack, dtype=np.float32).flatten()
 
     def reset(self) -> np.ndarray:
         """Reset environment and return observation."""
@@ -83,7 +90,11 @@ class RagnarokEnv:
         self.last_raw_obs = obs.copy()
 
         if self.pixel_obs:
-            return self._render_single_frame().flatten()
+            frame = self._render_single_frame()
+            self._frame_stack.clear()
+            for _ in range(FRAME_STACK):
+                self._frame_stack.append(frame.copy())
+            return self._get_stacked_obs()
 
         self.normalizer.update(obs)
         if self.normalize:
@@ -115,7 +126,9 @@ class RagnarokEnv:
         self.last_raw_obs = obs.copy()
 
         if self.pixel_obs:
-            return self._render_single_frame().flatten(), float(reward), terminated, truncated, info
+            frame = self._render_single_frame()
+            self._frame_stack.append(frame)
+            return self._get_stacked_obs(), float(reward), terminated, truncated, info
 
         self.normalizer.update(obs)
         if self.normalize:
