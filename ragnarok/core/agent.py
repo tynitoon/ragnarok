@@ -15,7 +15,6 @@ from collections import deque
 
 from ragnarok.core.rssm import RSSM
 from ragnarok.core.cnn import CNNEncoder, CNNDecoder
-from ragnarok.core.policy import ActorCritic
 from ragnarok.core.normalizer import RunningNormalizer
 from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.memory.episodic import EpisodicMemory
@@ -23,7 +22,6 @@ from ragnarok.skills.skill import Skill
 from ragnarok.skills.library import SkillLibrary
 from ragnarok.skills.selector import SkillSelector
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
-from ragnarok.learning.dreamer import DreamTrainer
 from ragnarok.learning.real_experience import (
     RealExperienceTrainer, PixelPPOTrainer,
 )
@@ -66,16 +64,6 @@ class RagnarokAgent:
             decoder=decoder,
         ).to(DEVICE)
 
-        # Policy — input = h + z (no memory context initially)
-        state_dim = self.rssm.state_dim
-        self.actor_critic = ActorCritic(
-            state_dim=state_dim,
-            action_dim=env.action_dim,
-            hidden=config.policy.hidden_dim,
-            mid=config.policy.mid_dim,
-            discrete=env.is_discrete,
-        ).to(DEVICE)
-
         # Memory
         self.replay_buffer = ReplayBuffer(capacity=config.memory.replay_capacity)
         self.episodic_memory = EpisodicMemory(
@@ -103,19 +91,6 @@ class RagnarokAgent:
             seq_length=wm_seq,
         )
         dream_batch = config.policy.pixel_dream_batch if is_pixel else config.policy.imagination_batch
-        self.dream_trainer = DreamTrainer(
-            rssm=self.rssm,
-            actor_critic=self.actor_critic,
-            replay_buffer=self.replay_buffer,
-            imagination_horizon=config.policy.imagination_horizon,
-            imagination_batch=dream_batch,
-            gamma=config.policy.gamma,
-            gae_lambda=config.policy.gae_lambda,
-            entropy_bonus=config.policy.entropy_bonus,
-            actor_lr=config.policy.actor_lr,
-            critic_lr=config.policy.critic_lr,
-            grad_clip=config.policy.grad_clip,
-        )
 
         # Real experience trainer
         reward_shaper = self._get_reward_shaper(env.env_name)
@@ -197,18 +172,21 @@ class RagnarokAgent:
                 minibatch_size=64,
             )
 
-        # Dream augmenter (trains direct policy on imagined experience)
+        # Dream augmenter (unified dream training: single policy, decoded obs)
         policy_for_dream = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
         self.dream_augmenter = DreamAugmenter(
             rssm=self.rssm,
             policy=policy_for_dream,
             replay_buffer=self.replay_buffer,
             horizon=config.policy.imagination_horizon,
-            dream_batch=config.policy.pixel_dream_batch,
+            dream_batch=dream_batch,
             gamma=config.policy.gamma,
+            gae_lambda=config.policy.gae_lambda,
             entropy_coeff=entropy_coeff,
             lr=lr * config.policy.dream_lr_ratio,
         )
+        # Alias for adaptive horizon (single dream training path)
+        self.dream_trainer = self.dream_augmenter
 
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
@@ -311,12 +289,16 @@ class RagnarokAgent:
                 # Encode current observation
                 h, z = self.rssm.encode_observation(obs_t, h, z, prev_action)
 
-                # Epsilon-greedy exploration
+                # Epsilon-greedy exploration using the direct policy
                 if np.random.random() < explore_ratio:
                     action_np = self.env.sample_random_action()
+                elif self.env.is_discrete:
+                    action_idx = self.real_trainer.policy.act(obs_t, deterministic=True)
+                    action_np = self.env.action_to_onehot(action_idx)
+                elif self.sac_trainer is not None:
+                    action_np = self.sac_trainer.policy.act(obs_t, deterministic=True)
                 else:
-                    action_t = self.actor_critic.act(h, z, deterministic=True)
-                    action_np = to_numpy(action_t.squeeze(0))
+                    action_np = self.real_trainer.policy.act(obs_t, deterministic=True)
 
             # Store h_t for centroid computation
             self.h_accum.append(to_numpy(h.squeeze(0)))
@@ -360,12 +342,12 @@ class RagnarokAgent:
         return self.wm_trainer.train(steps)
 
     def train_policy(self, steps: int | None = None) -> dict[str, float]:
-        """Train the policy via dream training (latent-space policy)."""
+        """Train the policy via dream training (imagined decoded observations)."""
         steps = steps or self.config.policy.train_steps
-        return self.dream_trainer.train(steps)
+        return self.dream_augmenter.train(steps)
 
     def train_policy_dream(self, steps: int = 10) -> dict[str, float]:
-        """Train the direct policy on imagined experience (dream augmentation)."""
+        """Train the direct policy on imagined experience."""
         return self.dream_augmenter.train(steps)
 
     def _update_adaptive_horizon(self):
@@ -377,8 +359,7 @@ class RagnarokAgent:
         avg_len = float(np.mean(list(self.episode_lengths)))
         new_horizon = min(cfg.max_horizon,
                           max(5, int(avg_len * cfg.horizon_ratio)))
-        if new_horizon != self.dream_trainer.horizon:
-            self.dream_trainer.horizon = new_horizon
+        if new_horizon != self.dream_augmenter.horizon:
             self.dream_augmenter.horizon = new_horizon
 
     def train_policy_real(self) -> tuple[float, dict[str, float]]:
@@ -568,7 +549,7 @@ class RagnarokAgent:
         save_checkpoint(
             path,
             rssm=self.rssm.state_dict(),
-            actor_critic=self.actor_critic.state_dict(),
+            policy=self._active_policy.state_dict(),
             normalizer=self.env.normalizer.state_dict(),
             episodic_memory=self.episodic_memory.state_dict(),
             total_episodes=self.total_episodes,
@@ -580,7 +561,13 @@ class RagnarokAgent:
         """Load agent state from checkpoint."""
         ckpt = load_checkpoint(path, device=DEVICE)
         self.rssm.load_state_dict(ckpt["rssm"])
-        self.actor_critic.load_state_dict(ckpt["actor_critic"])
+        # Load direct policy (backward compat: try 'policy' then 'actor_critic')
+        policy_sd = ckpt.get("policy", ckpt.get("actor_critic"))
+        if policy_sd is not None:
+            try:
+                self._active_policy.load_state_dict(policy_sd)
+            except RuntimeError:
+                pass  # Architecture mismatch (old checkpoint), skip
         self.env.normalizer = RunningNormalizer.from_state_dict(ckpt["normalizer"])
         self.episodic_memory = EpisodicMemory.from_state_dict(ckpt["episodic_memory"])
         self.total_episodes = ckpt["total_episodes"]

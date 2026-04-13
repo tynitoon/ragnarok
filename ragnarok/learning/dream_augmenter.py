@@ -7,8 +7,9 @@ policy (raw observations). Uses the RSSM to:
 3. Decode imagined states back to observation space
 4. Train the direct policy on this synthetic data
 
-This lets the agent "practice in its head" — the world model generates
-synthetic training episodes that the direct policy learns from.
+This is the unified dream training path - replaces the separate latent-space
+DreamTrainer by operating through decoded observations. The policy trained
+here is the same one used for real environment interaction.
 """
 
 import torch
@@ -22,17 +23,40 @@ from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.infrastructure.device import DEVICE
 
 
+def compute_lambda_returns(rewards: torch.Tensor, values: torch.Tensor,
+                           continues: torch.Tensor, gamma: float = 0.99,
+                           gae_lambda: float = 0.95) -> torch.Tensor:
+    """Compute lambda-returns with continue-weighted discounting.
+
+    V_lambda_t = r_t + gamma * c_t * ((1-lambda) * v_{t+1} + lambda * V_lambda_{t+1})
+    """
+    horizon = rewards.shape[1]
+    last = values[:, -1]
+
+    returns_list = []
+    for t in reversed(range(horizon)):
+        r = rewards[:, t]
+        c = continues[:, t]
+        v_next = values[:, t + 1]
+        last = r + gamma * c * ((1 - gae_lambda) * v_next + gae_lambda * last)
+        returns_list.append(last)
+
+    returns_list.reverse()
+    return torch.stack(returns_list, dim=1)
+
+
 class DreamAugmenter:
     """Generates synthetic training data by dreaming in the world model.
 
-    Unlike DreamTrainer (which trains a latent-space policy), this trains
-    the same DirectPolicyNet/ContinuousPolicyNet used for real experience
-    — but on imagined data. Supports both discrete and continuous actions.
+    Trains the same DirectPolicyNet/ContinuousPolicyNet/SACPolicy used for
+    real experience, but on imagined data decoded from RSSM latent space.
+    Uses lambda-returns for more accurate value estimation.
     """
 
     def __init__(self, rssm: RSSM, policy, replay_buffer: ReplayBuffer,
                  horizon: int = 15, dream_batch: int = 64,
-                 gamma: float = 0.99, entropy_coeff: float = 0.01,
+                 gamma: float = 0.99, gae_lambda: float = 0.95,
+                 entropy_coeff: float = 0.01,
                  lr: float = 1e-4, grad_clip: float = 0.5):
         self.rssm = rssm
         self.policy = policy
@@ -40,6 +64,7 @@ class DreamAugmenter:
         self.horizon = horizon
         self.dream_batch = dream_batch
         self.gamma = gamma
+        self.gae_lambda = gae_lambda
         self.entropy_coeff = entropy_coeff
         self.grad_clip = grad_clip
         self.discrete = isinstance(policy, DirectPolicyNet)
@@ -77,20 +102,16 @@ class DreamAugmenter:
         h, z = self._get_start_states()
 
         # 2. Imagine trajectory, using decoded observations for the direct policy
-        decoded_obs_list = []
-        actions_list = []
-        rewards_list = []
-        continues_list = []
         log_probs_list = []
         values_list = []
         entropies_list = []
+        rewards_list = []
+        continues_list = []
 
         for step in range(self.horizon):
             # Decode latent state to observation space
             with torch.no_grad():
                 decoded_obs = self.rssm.decoder(torch.cat([h, z], dim=-1))
-
-            decoded_obs_list.append(decoded_obs)
 
             if self.discrete:
                 # Discrete: Categorical policy
@@ -116,8 +137,6 @@ class DreamAugmenter:
                 # Rescale for RSSM (use raw env-scale action)
                 action_for_rssm = self.policy._rescale(squashed)
 
-            actions_list.append(action_for_rssm)
-
             # Step world model forward
             with torch.no_grad():
                 h = self.rssm.core.step(h, z, action_for_rssm)
@@ -131,30 +150,36 @@ class DreamAugmenter:
             rewards_list.append(reward)
             continues_list.append(continue_prob)
 
-        # 3. Compute discounted returns from imagined rewards
+        # Get bootstrap value for last state
+        with torch.no_grad():
+            last_decoded = self.rssm.decoder(torch.cat([h, z], dim=-1))
+            if self.discrete:
+                _, last_value = self.policy(last_decoded)
+            else:
+                _, _, last_value = self.policy(last_decoded)
+
+        # 3. Lambda returns (better quality than simple discounted returns)
         rewards = torch.stack(rewards_list, dim=1)  # (batch, horizon)
         continues = torch.stack(continues_list, dim=1)  # (batch, horizon)
+        values_t = torch.stack(values_list, dim=1)  # (batch, horizon)
 
-        # Compute returns with continue-weighted discounting
-        returns = []
-        R = torch.zeros(self.dream_batch, device=DEVICE)
-        for t in reversed(range(self.horizon)):
-            R = rewards[:, t] + self.gamma * continues[:, t] * R
-            returns.insert(0, R)
-        returns = torch.stack(returns, dim=1)  # (batch, horizon)
+        # Build full value sequence for lambda returns: (batch, horizon+1)
+        all_values = torch.cat([values_t, last_value.unsqueeze(1)], dim=1)
+        returns = compute_lambda_returns(
+            rewards, all_values.detach(), continues,
+            self.gamma, self.gae_lambda,
+        )
 
-        # Normalize returns
-        returns_flat = returns.reshape(-1)
-        returns_flat = (returns_flat - returns_flat.mean()) / (returns_flat.std() + 1e-8)
-
-        # 4. A2C loss on synthetic data
+        # 4. Policy update with clipped advantages
         log_probs = torch.stack(log_probs_list, dim=1).reshape(-1)
-        values = torch.stack(values_list, dim=1).reshape(-1)
+        values_flat = values_t.reshape(-1)
         entropies = torch.stack(entropies_list, dim=1).reshape(-1)
-        advantages = returns_flat - values.detach()
+        returns_flat = returns.reshape(-1)
+        advantages = (returns_flat - values_flat.detach())
+        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
 
         actor_loss = -(log_probs * advantages).mean()
-        critic_loss = F.mse_loss(values, returns_flat)
+        critic_loss = F.mse_loss(values_flat, returns_flat.detach())
         entropy_loss = -entropies.mean()
 
         loss = actor_loss + 0.5 * critic_loss + self.entropy_coeff * entropy_loss
