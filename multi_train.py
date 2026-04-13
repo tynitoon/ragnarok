@@ -55,8 +55,14 @@ def fprint(*args, **kwargs):
 
 
 def train_single_env(env_name: str, max_episodes: int, seed: int,
-                     transfer: bool, skills_dir: str) -> dict:
-    """Train one environment, return results."""
+                     transfer: bool, skills_dir: str,
+                     num_envs: int = 1) -> dict:
+    """Train one environment, return results.
+
+    Args:
+        num_envs: Number of parallel envs for vectorized collection.
+                  >1 uses batched GPU inference for faster data collection.
+    """
     spec = get_env_spec(env_name)
     config = RagnarokConfig(seed=seed, checkpoint_dir="checkpoints")
     config.skill.skills_dir = skills_dir
@@ -65,6 +71,17 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
 
     env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
     agent = RagnarokAgent(config, env)
+
+    # Create vectorized env for parallel collection (A2C discrete only)
+    vec_env = None
+    use_vec = (num_envs > 1 and not spec.pixel_obs
+               and agent.sac_trainer is None)
+    if use_vec:
+        from ragnarok.environments.vec_wrapper import VecRagnarokEnv
+        vec_env = VecRagnarokEnv(
+            spec.gym_name, num_envs=num_envs, seed=seed,
+            normalizer=env.normalizer, normalize=env.normalize,
+        )
 
     # Determine algorithm
     if agent.pixel_ppo is not None:
@@ -78,10 +95,16 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
     transferred = None
     if transfer:
         transferred = agent.try_transfer()
+        # Update vec_env normalizer if transfer loaded one
+        if vec_env is not None:
+            vec_env.normalizer = env.normalizer
+            for v in vec_env.envs:
+                v.normalizer = env.normalizer
 
+    vec_str = f" x{num_envs}" if use_vec else ""
     transfer_str = f"<- {transferred.name}" if transferred else "from scratch"
     fprint(f"\n{'='*60}")
-    fprint(f"  {spec.gym_name} ({algo}) | {transfer_str}")
+    fprint(f"  {spec.gym_name} ({algo}{vec_str}) | {transfer_str}")
     fprint(f"{'='*60}")
 
     # Training
@@ -93,9 +116,17 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
 
     is_pixel = spec.pixel_obs
     report_interval = 20 if is_pixel else 50
+    # Iterations = training rounds. With vec, each round produces num_envs episodes.
+    eps_per_iter = num_envs if use_vec else 1
+    max_iters = max(1, max_episodes // eps_per_iter)
 
-    for iteration in range(1, max_episodes + 1):
-        ep_reward, metrics = agent.train_policy_real()
+    for iteration in range(1, max_iters + 1):
+        if use_vec:
+            results = agent.train_policy_real_vec(vec_env)
+            ep_reward = np.mean([r for r, _ in results])
+            metrics = results[-1][1] if results else {}
+        else:
+            ep_reward, metrics = agent.train_policy_real()
 
         # Train world model periodically (enables latent curiosity)
         # Light: every 10 eps, 2 steps. No dream training — it interferes
@@ -142,12 +173,16 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
                   f"steps: {agent.total_steps:6d} | {eps:.1f} ep/s")
 
         # Early stop on crystallization or sustained threshold performance
-        if crystallized_at and iteration > (crystallized_at + 50):
+        ep = agent.total_episodes
+        if crystallized_at and ep > (crystallized_at + 50):
             break
-        if threshold_at and iteration > (threshold_at + 100):
+        if threshold_at and ep > (threshold_at + 100):
             break
 
     elapsed = time.time() - start_time
+
+    if vec_env is not None:
+        vec_env.close()
 
     # Final eval (share normalizer so obs distribution matches training)
     env2 = RagnarokEnv(spec.gym_name, seed=seed + 1000, pixel_obs=spec.pixel_obs,
@@ -208,6 +243,8 @@ def main():
                         help="Specific environments to train (default: all)")
     parser.add_argument("--auto", action="store_true",
                         help="Automatic curriculum selection (agent chooses order)")
+    parser.add_argument("--vec", type=int, default=1,
+                        help="Number of parallel envs for vectorized collection (default: 1)")
     args = parser.parse_args()
 
     skills_dir = "skills_data"
@@ -259,6 +296,7 @@ def main():
             result = train_single_env(
                 env_name, max_eps, args.seed,
                 transfer=False, skills_dir=skills_dir,
+                num_envs=args.vec,
             )
             scratch_results.append(result)
 
@@ -274,6 +312,7 @@ def main():
             result = train_single_env(
                 env_name, max_eps, args.seed,
                 transfer=True, skills_dir=skills_dir,
+                num_envs=args.vec,
             )
             transfer_results.append(result)
 

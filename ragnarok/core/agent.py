@@ -400,6 +400,34 @@ class RagnarokAgent:
         self._update_adaptive_horizon()
         return reward, metrics
 
+    def train_policy_real_vec(self, vec_env) -> list[tuple[float, dict]]:
+        """Collect N episodes in parallel from vectorized env.
+
+        Returns list of (episode_reward, metrics) for each completed episode.
+        Only supports A2C (discrete) — SAC and pixel use single-env path.
+        """
+        alpha = self._trust_region_alpha()
+        self.real_trainer.trust_region_alpha = alpha
+        self.real_trainer.trust_region_ref = self._transfer_ref_policy
+
+        results = self.real_trainer.collect_and_train_vec(vec_env)
+
+        episode_results = []
+        for reward, metrics, episode_data in results:
+            if episode_data is not None:
+                obs, acts, rews, dones = episode_data
+                self.replay_buffer.add_episode(obs, acts, rews, dones)
+                self.recent_episodes.append(episode_data)
+                self.episode_lengths.append(len(rews))
+                self.total_steps += len(rews)
+
+            self.episode_rewards.append(reward)
+            self.total_episodes += 1
+            episode_results.append((reward, metrics))
+
+        self._update_adaptive_horizon()
+        return episode_results
+
     def _train_pixel(self) -> tuple[float, dict[str, float]]:
         """Pixel training: PPO with CNN and auxiliary state prediction.
 

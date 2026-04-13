@@ -54,7 +54,8 @@ class BenchmarkResult:
 # ── Training runners ────────────────────────────────────────────────
 
 def train_ragnarok(env_name: str, max_episodes: int, seed: int,
-                   transfer: bool, skills_dir: str = "skills_data") -> BenchmarkResult:
+                   transfer: bool, skills_dir: str = "skills_data",
+                   num_envs: int = 1) -> BenchmarkResult:
     """Train Ragnarok agent, return results."""
     torch.manual_seed(seed)
     np.random.seed(seed)
@@ -68,8 +69,23 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
     env = RagnarokEnv(spec.gym_name, seed=seed)
     agent = RagnarokAgent(config, env)
 
+    # Vectorized env for parallel collection (A2C discrete only)
+    vec_env = None
+    use_vec = (num_envs > 1 and not spec.pixel_obs
+               and agent.sac_trainer is None)
+    if use_vec:
+        from ragnarok.environments.vec_wrapper import VecRagnarokEnv
+        vec_env = VecRagnarokEnv(
+            spec.gym_name, num_envs=num_envs, seed=seed,
+            normalizer=env.normalizer, normalize=env.normalize,
+        )
+
     if transfer:
         agent.try_transfer()
+        if vec_env is not None:
+            vec_env.normalizer = env.normalizer
+            for v in vec_env.envs:
+                v.normalizer = env.normalizer
 
     threshold = spec.reward_threshold
     eval_curve = []
@@ -78,11 +94,17 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
     start = time.time()
 
     eval_interval = 25
+    eps_per_iter = num_envs if use_vec else 1
+    max_iters = max(1, max_episodes // eps_per_iter)
 
-    for ep in range(1, max_episodes + 1):
-        agent.train_policy_real()
+    for it in range(1, max_iters + 1):
+        if use_vec:
+            results = agent.train_policy_real_vec(vec_env)
+        else:
+            agent.train_policy_real()
 
-        if ep % eval_interval == 0:
+        ep = agent.total_episodes
+        if ep % eval_interval < eps_per_iter or it == max_iters:
             if agent.sac_trainer:
                 eval_r = agent.sac_trainer.evaluate(env, episodes=5)
             else:
@@ -93,11 +115,12 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
             if threshold_ep is None and eval_r >= threshold:
                 threshold_ep = ep
 
-            # Early stop after sustained threshold
             if threshold_ep and ep > threshold_ep + 75:
                 break
 
     elapsed = time.time() - start
+    if vec_env is not None:
+        vec_env.close()
     env.close()
 
     condition = "transfer" if transfer else "scratch"
@@ -108,7 +131,7 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
         condition=condition,
         threshold_ep=threshold_ep,
         final_eval=eval_curve[-1][1] if eval_curve else -float("inf"),
-        total_episodes=ep,
+        total_episodes=agent.total_episodes,
         elapsed_sec=elapsed,
         eval_curve=eval_curve,
     )
@@ -209,7 +232,8 @@ def wilcoxon_test(scratch: list, transfer: list) -> float:
 
 def run_benchmark(envs: list[tuple[str, int]], n_seeds: int = 10,
                   skills_dir: str = "skills_data",
-                  run_sb3: bool = True) -> list[BenchmarkResult]:
+                  run_sb3: bool = True,
+                  num_envs: int = 1) -> list[BenchmarkResult]:
     """Run full benchmark suite."""
     all_results = []
 
@@ -228,7 +252,8 @@ def run_benchmark(envs: list[tuple[str, int]], n_seeds: int = 10,
             # Scratch
             print(f"  [seed {actual_seed}] scratch...", end=" ", flush=True)
             r = train_ragnarok(env_name, max_eps, actual_seed,
-                               transfer=False, skills_dir=skills_dir)
+                               transfer=False, skills_dir=skills_dir,
+                               num_envs=num_envs)
             scratch_results.append(r)
             all_results.append(r)
             th = f"ep {r.threshold_ep}" if r.threshold_ep else "---"
@@ -237,7 +262,8 @@ def run_benchmark(envs: list[tuple[str, int]], n_seeds: int = 10,
             # Transfer
             print(f"  [seed {actual_seed}] transfer...", end=" ", flush=True)
             r = train_ragnarok(env_name, max_eps, actual_seed,
-                               transfer=True, skills_dir=skills_dir)
+                               transfer=True, skills_dir=skills_dir,
+                               num_envs=num_envs)
             transfer_results.append(r)
             all_results.append(r)
             th = f"ep {r.threshold_ep}" if r.threshold_ep else "---"
@@ -310,6 +336,8 @@ def main():
                         help="Quick mode: 3 seeds, 200 eps")
     parser.add_argument("--skills-dir", type=str, default="skills_data",
                         help="Skills directory for transfer")
+    parser.add_argument("--vec", type=int, default=1,
+                        help="Number of parallel envs for vectorized collection")
     args = parser.parse_args()
 
     if args.quick:
@@ -334,6 +362,7 @@ def main():
         n_seeds=args.seeds,
         skills_dir=args.skills_dir,
         run_sb3=not args.no_sb3,
+        num_envs=args.vec,
     )
 
     if args.export_csv:

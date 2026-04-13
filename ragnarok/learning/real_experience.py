@@ -424,6 +424,148 @@ class RealExperienceTrainer:
         else:
             return self._collect_continuous(env, deterministic)
 
+    def collect_and_train_vec(self, vec_env, num_episodes: int = None):
+        """Collect episodes from vectorized env with batched GPU inference.
+
+        Runs all envs simultaneously. When an env finishes, its episode
+        is stored and the env resets. After collection, each episode is
+        re-forward-passed through the current policy for A2C training
+        (avoids stale computation graph issues from batch collection).
+
+        Returns list of (total_reward, metrics, episode_data).
+        """
+        if num_episodes is None:
+            num_episodes = vec_env.num_envs
+
+        N = vec_env.num_envs
+        obs_batch = vec_env.reset()  # (N, obs_dim)
+
+        # Per-env accumulators (numpy only — no graph)
+        env_obs = [[] for _ in range(N)]
+        env_acts = [[] for _ in range(N)]
+        env_act_indices = [[] for _ in range(N)]  # For discrete: action indices
+        env_next_obs = [[] for _ in range(N)]
+        env_rewards = [[] for _ in range(N)]
+        env_total_reward = [0.0] * N
+
+        # Completed episodes: (reward, obs, acts, act_indices, next_obs, rewards)
+        completed = []
+
+        while len(completed) < num_episodes:
+            # Batched policy inference (no_grad — we recompute during training)
+            with torch.no_grad():
+                obs_t = torch.tensor(obs_batch, dtype=torch.float32, device=DEVICE)
+
+                if self.discrete:
+                    logits, _ = self.policy(obs_t)
+                    dist = torch.distributions.Categorical(logits=logits)
+                    action_indices = dist.sample().cpu().numpy()  # (N,)
+                    actions_np = np.zeros((N, self.action_dim), dtype=np.float32)
+                    for i, idx in enumerate(action_indices):
+                        actions_np[i, idx] = 1.0
+                else:
+                    mean, logstd, _ = self.policy(obs_t)
+                    dist = torch.distributions.Normal(mean, logstd.exp())
+                    raw_actions = dist.rsample()
+                    squashed = torch.tanh(raw_actions)
+                    actions_np = self.policy._rescale(squashed).cpu().numpy()
+                    action_indices = None
+
+            # Store per-env data
+            for i in range(N):
+                env_obs[i].append(obs_batch[i].copy())
+                env_acts[i].append(actions_np[i].copy())
+                if action_indices is not None:
+                    env_act_indices[i].append(int(action_indices[i]))
+
+            # Step all envs
+            next_obs_batch, rewards_batch, terminated, truncated, _ = vec_env.step(actions_np)
+            dones = terminated | truncated
+
+            for i in range(N):
+                train_reward = rewards_batch[i]
+                if self.reward_shaper is not None:
+                    raw_obs = getattr(vec_env.envs[i], 'last_raw_obs', next_obs_batch[i])
+                    train_reward = self.reward_shaper(obs_batch[i], rewards_batch[i], raw_obs)
+
+                env_rewards[i].append(train_reward)
+                env_next_obs[i].append(next_obs_batch[i].copy())
+                env_total_reward[i] += rewards_batch[i]
+
+                if dones[i]:
+                    completed.append((
+                        env_total_reward[i],
+                        env_obs[i], env_acts[i], env_act_indices[i],
+                        env_next_obs[i], env_rewards[i],
+                    ))
+                    env_obs[i] = []
+                    env_acts[i] = []
+                    env_act_indices[i] = []
+                    env_next_obs[i] = []
+                    env_rewards[i] = []
+                    env_total_reward[i] = 0.0
+                    next_obs_batch[i] = vec_env.reset_single(i)
+
+            obs_batch = next_obs_batch
+
+        # Train on completed episodes with fresh forward passes
+        results = []
+        for (total_reward, obs_list, act_list, act_idx_list,
+             next_list, rew_list) in completed[:num_episodes]:
+
+            # Curiosity
+            curiosity_loss = None
+            if len(obs_list) > 1:
+                obs_arr = np.array(obs_list)
+                act_arr = np.array(act_list)
+                next_arr = np.array(next_list)
+                intrinsic = self._compute_curiosity(obs_arr, act_arr, next_arr)
+                if intrinsic is not None:
+                    for j in range(len(rew_list)):
+                        rew_list[j] += intrinsic[j]
+                if self.curiosity is not None:
+                    curiosity_loss = self.curiosity.train_on_transitions(
+                        obs_arr, act_arr, next_arr)
+
+            episode_data = self._build_episode_data(obs_list, act_list, rew_list)
+
+            if len(rew_list) < 2:
+                results.append((total_reward, {}, episode_data))
+                continue
+
+            # Recompute log_probs/values/entropies with current policy
+            obs_t = torch.tensor(np.array(obs_list), dtype=torch.float32, device=DEVICE)
+
+            if self.discrete:
+                logits, values = self.policy(obs_t)
+                dist = torch.distributions.Categorical(logits=logits)
+                act_t = torch.tensor(act_idx_list, dtype=torch.long, device=DEVICE)
+                log_probs = [dist.log_prob(act_t)[i:i+1] for i in range(len(act_idx_list))]
+                vals = [values[i:i+1] for i in range(len(obs_list))]
+                ents = [dist.entropy()[i:i+1] for i in range(len(obs_list))]
+            else:
+                mean, logstd, values = self.policy(obs_t)
+                act_t = torch.tensor(np.array(act_list), dtype=torch.float32, device=DEVICE)
+                dist_new = torch.distributions.Normal(mean, logstd.exp())
+                # Inverse rescale to get raw action for log_prob
+                tanh_act = 2.0 * (act_t - self.policy.action_low) / (
+                    self.policy.action_high - self.policy.action_low) - 1.0
+                raw_act = torch.atanh(tanh_act.clamp(-0.999, 0.999))
+                lp = dist_new.log_prob(raw_act).sum(dim=-1)
+                lp -= torch.log(1 - tanh_act.pow(2) + 1e-6).sum(dim=-1)
+                log_probs = [lp[i:i+1] for i in range(len(obs_list))]
+                vals = [values[i:i+1] for i in range(len(obs_list))]
+                ents_t = self.policy.entropy(obs_t)
+                ents = [ents_t[i:i+1] for i in range(len(obs_list))]
+
+            metrics = self._train_a2c(log_probs, vals, ents, rew_list,
+                                      obs_list=obs_list)
+            if curiosity_loss is not None:
+                metrics["curiosity_loss"] = curiosity_loss
+            results.append((total_reward, metrics, episode_data))
+
+        return results
+
     def _collect_discrete(self, env, deterministic: bool = False):
         """Discrete action collection + training."""
         obs = env.reset()
