@@ -165,3 +165,42 @@ class TestAgentWiringHonorsFlags:
             assert agent.real_trainer.reward_shaper is None
         finally:
             env.close()
+
+    def test_default_sac_trainer_has_no_reward_shaper(self):
+        """H1-primary endpoint (CartPole -> MountainCarContinuous) goes
+        through SAC. If defaults secretly wired a shaper into sac_trainer,
+        the primary claim would be a shaped-reward comparison. This test
+        pins the contract for the continuous path.
+        """
+        spec = get_env_spec("mountaincar-continuous")
+        cfg = RagnarokConfig(seed=0)
+        cfg.world_model.obs_dim = spec.obs_dim
+        cfg.world_model.action_dim = spec.action_dim
+        cfg.curiosity.enabled = False
+        env = RagnarokEnv(spec.gym_name, seed=0)
+        try:
+            agent = RagnarokAgent(cfg, env)
+            assert agent.sac_trainer is not None, (
+                "Continuous env should instantiate sac_trainer"
+            )
+            assert agent.sac_trainer.reward_shaper is None, (
+                "sac_trainer.reward_shaper must default to None — shaping "
+                "must not contaminate the H1 primary endpoint"
+            )
+        finally:
+            env.close()
+
+    def test_pendulum_sac_trainer_has_no_reward_shaper(self):
+        """Second continuous target — same contract."""
+        spec = get_env_spec("pendulum")
+        cfg = RagnarokConfig(seed=0)
+        cfg.world_model.obs_dim = spec.obs_dim
+        cfg.world_model.action_dim = spec.action_dim
+        cfg.curiosity.enabled = False
+        env = RagnarokEnv(spec.gym_name, seed=0)
+        try:
+            agent = RagnarokAgent(cfg, env)
+            assert agent.sac_trainer is not None
+            assert agent.sac_trainer.reward_shaper is None
+        finally:
+            env.close()

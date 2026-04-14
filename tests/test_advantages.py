@@ -51,6 +51,23 @@ class TestComputeGAE:
         # At t=1 with dones=1: delta = r - v = 1 - 10 = -9; gae = -9 (no future)
         assert adv[1] == np.float32(-9.0)
 
+    def test_multiple_dones_within_rollout(self):
+        """Realistic rollout with two episode boundaries — the backward
+        recursion must reset GAE to zero at each done, not just the first one.
+        """
+        # Episode A: t=0..1 (done at t=1). Episode B: t=2..3 (done at t=3).
+        # Rollout continues to t=4..5 (episode C, no terminal within window).
+        r = np.array([1.0, 1.0, 2.0, 2.0, 3.0, 3.0], dtype=np.float32)
+        v = np.zeros(6, dtype=np.float32)
+        d = np.array([0.0, 1.0, 0.0, 1.0, 0.0, 0.0], dtype=np.float32)
+        adv, _ = compute_gae(r, v, d, last_value=0.0, gamma=1.0, lam=1.0)
+        # Each sub-episode is a Monte-Carlo sum bounded by its own done.
+        # A: adv[0] = r[0]+r[1] = 2.0 ; adv[1] = r[1] = 1.0
+        # B: adv[2] = r[2]+r[3] = 4.0 ; adv[3] = r[3] = 2.0
+        # C: adv[4] = r[4]+r[5]+last = 6.0 ; adv[5] = r[5]+last = 3.0
+        expected = np.array([2.0, 1.0, 4.0, 2.0, 6.0, 3.0], dtype=np.float32)
+        np.testing.assert_allclose(adv, expected, rtol=1e-5)
+
     def test_single_step_episode_delta_exact(self):
         """n=1: advantage = r + gamma*last_value - v."""
         r = np.array([2.0], dtype=np.float32)
@@ -139,16 +156,28 @@ class TestComputeLambdaReturns:
         torch.testing.assert_close(returns, expected, atol=1e-5, rtol=1e-5)
 
     def test_gradient_flows_through_rewards_and_continues(self):
-        """Gradients must propagate through r and continues (Dreamer v2)."""
-        rewards = torch.ones(1, 3, requires_grad=True)
-        values = torch.zeros(1, 4).detach()
-        continues = torch.full((1, 3), 0.9, requires_grad=True)
+        """Gradients must propagate through r and continues at EVERY step
+        (Dreamer v2). Prior version used values=zeros which zeroed the
+        last-step continues gradient — a buggy last-step recursion would
+        have still passed the any(...) assertion.
+        """
+        H = 3
+        rewards = torch.ones(1, H, requires_grad=True)
+        # Non-zero values so the last-step bootstrap gradient is observable.
+        values = torch.full((1, H + 1), 2.0).detach()
+        continues = torch.full((1, H), 0.9, requires_grad=True)
         returns = compute_lambda_returns(rewards, values, continues)
         returns.sum().backward()
+        # Every step contributes to the loss — every gradient must be non-zero.
         assert rewards.grad is not None
-        assert (rewards.grad != 0).any()
+        assert (rewards.grad.abs() > 0).all(), (
+            f"rewards.grad has zero entries: {rewards.grad}"
+        )
         assert continues.grad is not None
-        assert (continues.grad != 0).any()
+        assert (continues.grad.abs() > 0).all(), (
+            f"continues.grad has zero entries: {continues.grad} — "
+            "last-step bootstrap recursion may be broken"
+        )
 
 
 class TestCallSitesUseCanonical:

@@ -237,12 +237,22 @@ class TestAgentIntegration:
         env.close()
 
     def test_crystallization_saves_trunk(self):
-        """Skill crystallization should include latent trunk state dict."""
+        """Skill crystallization must include latent trunk state dict.
+
+        The check_crystallization() contract: given an above-threshold eval
+        reward and enough episodes, return a Skill whose latent_trunk_state_dict
+        is populated. Before the review, this test wrote to a nonexistent
+        _crystallization_rewards attribute, then guarded with `if skill is not
+        None:` — so a broken crystallizer that never fired would silently pass.
+
+        This version monkey-patches the evaluator to report a qualifying reward
+        and asserts unconditionally that crystallization occurred AND carried
+        the trunk payload.
+        """
         from ragnarok.infrastructure.config import RagnarokConfig
         from ragnarok.environments.wrapper import RagnarokEnv
         from ragnarok.environments.registry import get_env_spec
         from ragnarok.core.agent import RagnarokAgent
-        from ragnarok.skills.skill import Skill
         import tempfile
 
         spec = get_env_spec("cartpole")
@@ -255,14 +265,22 @@ class TestAgentIntegration:
             env = RagnarokEnv(spec.gym_name, seed=42)
             agent = RagnarokAgent(config, env)
 
-            # Force crystallization
-            agent._crystallization_rewards = [500.0] * 20
-            agent.total_episodes = 100
+            # Satisfy the min-episodes gate
+            agent.total_episodes = config.skill.min_episodes + 1
+            # Force eval to return an above-threshold reward (CartPole: 450)
+            threshold = config.skill.thresholds["CartPole-v1"]
+            agent.real_trainer.evaluate = lambda _env, episodes=5: threshold + 1.0
+
             skill = agent.check_crystallization()
 
-            if skill is not None:
-                assert hasattr(skill, "latent_trunk_state_dict")
-                assert len(skill.latent_trunk_state_dict) > 0
+            assert skill is not None, (
+                "check_crystallization returned None with eval=threshold+1 and "
+                "total_episodes above min — crystallization path is broken"
+            )
+            assert hasattr(skill, "latent_trunk_state_dict")
+            assert len(skill.latent_trunk_state_dict) > 0
+            # Must contain shared-trunk keys (what transfers cross-env)
+            assert any(k.startswith("shared.") for k in skill.latent_trunk_state_dict)
             env.close()
 
 
@@ -305,6 +323,42 @@ class TestActingPath:
         a = head_c.act(latent, deterministic=True)
         assert isinstance(a, np.ndarray)
         assert a.shape == (2,)
+
+    def test_continuous_act_respects_env_bounds(self):
+        """H1-primary endpoint is MountainCarContinuous (bounds [-1, 1]).
+
+        LatentPolicyHead.act() must apply tanh+rescale so emitted actions
+        satisfy env.action_space. A Gaussian sample without squash/rescale
+        would silently fail every continuous-target transfer run.
+        """
+        low = np.array([-1.0], dtype=np.float32)
+        high = np.array([1.0], dtype=np.float32)
+        head = LatentPolicyHead(latent_dim=160, action_dim=1, discrete=False,
+                                action_low=low, action_high=high).to(DEVICE)
+
+        # Stress: run many acts with a large latent to push the Gaussian tails,
+        # then verify every emitted action is in-bounds in both modes.
+        torch.manual_seed(0)
+        for _ in range(64):
+            latent = torch.randn(1, 160, device=DEVICE) * 10.0
+            a_det = head.act(latent, deterministic=True)
+            a_sto = head.act(latent, deterministic=False)
+            assert (a_det >= low).all() and (a_det <= high).all(), a_det
+            assert (a_sto >= low).all() and (a_sto <= high).all(), a_sto
+
+    def test_continuous_act_asymmetric_bounds(self):
+        """Pendulum-style bounds [-2, 2] (or arbitrary asymmetry) must rescale
+        correctly from tanh's [-1, 1] output range.
+        """
+        low = np.array([-2.0, 0.0], dtype=np.float32)
+        high = np.array([2.0, 5.0], dtype=np.float32)
+        head = LatentPolicyHead(latent_dim=160, action_dim=2, discrete=False,
+                                action_low=low, action_high=high).to(DEVICE)
+        torch.manual_seed(0)
+        for _ in range(32):
+            latent = torch.randn(1, 160, device=DEVICE) * 10.0
+            a = head.act(latent, deterministic=True)
+            assert (a >= low).all() and (a <= high).all(), a
 
     def test_collect_episode_uses_latent_when_mode_is_latent(self):
         """When acting_policy_mode == 'latent', latent_policy.forward is called

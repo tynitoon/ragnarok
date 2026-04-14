@@ -168,12 +168,19 @@ class TestShuffleActuallyTrains:
         """Control check: training with shuffle produces different loss
         values than without, demonstrating the flag is actually affecting
         the loss computation (not a dead branch).
+
+        The original `any(...)` check could theoretically pass by chance if
+        np.random.permutation returned identity on all sampled timesteps
+        (astronomically unlikely, but not impossible). This version asserts
+        a sum-magnitude lower bound so the divergence is quantitative.
         """
         t_noshuf = _make_wm_trainer(shuffle=False, seed=42)
         t_shuf = _make_wm_trainer(shuffle=True, seed=42)
         # Run a few steps to accumulate divergence
         loss_noshuf = [t_noshuf.train_step()["total_loss"] for _ in range(3)]
         loss_shuf = [t_shuf.train_step()["total_loss"] for _ in range(3)]
-        # At least one step should differ (seeding makes the buffer-sample
-        # reproducible; the shuffle itself uses its own RNG path)
-        assert any(abs(a - b) > 1e-6 for a, b in zip(loss_noshuf, loss_shuf))
+        total_diff = sum(abs(a - b) for a, b in zip(loss_noshuf, loss_shuf))
+        assert total_diff > 1e-3, (
+            f"shuffle flag produced near-identical loss trajectories "
+            f"(sum |diff| = {total_diff:.2e}) — branch may be dead"
+        )

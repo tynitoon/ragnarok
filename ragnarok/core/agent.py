@@ -261,6 +261,8 @@ class RagnarokAgent:
             action_dim=env.action_dim,
             hidden=config.policy.hidden_dim,
             discrete=env.is_discrete,
+            action_low=env.action_low,
+            action_high=env.action_high,
         ).to(DEVICE)
 
     @property

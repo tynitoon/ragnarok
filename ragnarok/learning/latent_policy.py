@@ -29,7 +29,9 @@ class LatentPolicyHead(nn.Module):
     """
 
     def __init__(self, latent_dim: int, action_dim: int,
-                 hidden: int = 128, discrete: bool = True):
+                 hidden: int = 128, discrete: bool = True,
+                 action_low: np.ndarray | None = None,
+                 action_high: np.ndarray | None = None):
         super().__init__()
         self.latent_dim = latent_dim
         self.action_dim = action_dim
@@ -49,6 +51,23 @@ class LatentPolicyHead(nn.Module):
             self.mean_head = nn.Linear(hidden, action_dim)
             self.logstd_head = nn.Linear(hidden, action_dim)
             nn.init.constant_(self.logstd_head.bias, -0.5)
+            # Action bounds for tanh-squash + rescale (mirrors SACPolicy).
+            # Without this, `act()` emits raw Gaussian samples that violate
+            # env.action_space on every continuous target — silent failure.
+            if action_low is not None and action_high is not None:
+                self.register_buffer(
+                    "action_low",
+                    torch.as_tensor(action_low, dtype=torch.float32))
+                self.register_buffer(
+                    "action_high",
+                    torch.as_tensor(action_high, dtype=torch.float32))
+            else:
+                self.register_buffer("action_low", -torch.ones(action_dim))
+                self.register_buffer("action_high", torch.ones(action_dim))
+
+    def _rescale(self, tanh_action: torch.Tensor) -> torch.Tensor:
+        return self.action_low + (tanh_action + 1.0) * 0.5 * (
+            self.action_high - self.action_low)
 
     def forward(self, latent: torch.Tensor):
         """Forward pass on cat(h, z).
@@ -88,10 +107,12 @@ class LatentPolicyHead(nn.Module):
 
         mean, logstd, _ = self.forward(latent)
         if deterministic:
-            return mean.squeeze(0).cpu().numpy()
-        std = logstd.exp()
-        sample = torch.distributions.Normal(mean, std).sample()
-        return sample.squeeze(0).cpu().numpy()
+            action = self._rescale(torch.tanh(mean))
+        else:
+            std = logstd.exp()
+            raw = torch.distributions.Normal(mean, std).sample()
+            action = self._rescale(torch.tanh(raw))
+        return action.squeeze(0).cpu().numpy()
 
     def get_trunk_state_dict(self) -> dict:
         """Get only the shared trunk + critic weights (transferable)."""
