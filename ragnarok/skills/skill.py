@@ -23,3 +23,4 @@ class Skill:
     created_at: str = field(default_factory=lambda: time.strftime("%Y-%m-%d_%H:%M:%S"))
     episodes_trained: int = 0
     metadata: dict = field(default_factory=dict)
+    latent_trunk_state_dict: dict = field(default_factory=dict)  # Transferable trunk weights

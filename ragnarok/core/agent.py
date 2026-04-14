@@ -28,6 +28,7 @@ from ragnarok.learning.real_experience import (
 from ragnarok.learning.sac import SACTrainer
 from ragnarok.learning.dream_augmenter import DreamAugmenter
 from ragnarok.learning.curiosity import CuriosityModule, LatentCuriosityModule
+from ragnarok.learning.latent_policy import LatentPolicyHead
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE, to_numpy
@@ -57,6 +58,10 @@ class RagnarokAgent:
             self._build_policy_trainers(config, env))
         self.dream_augmenter = self._build_dream_augmenter(config, env)
         self.dream_trainer = self.dream_augmenter
+
+        # Latent policy for cross-environment transfer
+        # Operates on cat(h, z) which is constant-dim across all envs
+        self.latent_policy = self._build_latent_policy(config, env)
 
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
@@ -227,6 +232,22 @@ class RagnarokAgent:
             optimizer=shared_optimizer,
             dream_grad_scale=config.policy.dream_lr_ratio,
         )
+
+    @staticmethod
+    def _build_latent_policy(config: RagnarokConfig, env: RagnarokEnv
+                             ) -> LatentPolicyHead:
+        """Build latent-space policy head on cat(h, z).
+
+        Fixed input dim (hidden + stoch) across all envs, enabling cross-task
+        transfer. Only the actor head varies by action_dim.
+        """
+        latent_dim = config.world_model.hidden_dim + config.world_model.stoch_dim
+        return LatentPolicyHead(
+            latent_dim=latent_dim,
+            action_dim=env.action_dim,
+            hidden=config.policy.hidden_dim,
+            discrete=env.is_discrete,
+        ).to(DEVICE)
 
     @property
     def _active_policy(self):
@@ -579,6 +600,10 @@ class RagnarokAgent:
             else:
                 policy_sd = {k: v.cpu() for k, v in self._active_policy.state_dict().items()}
 
+            # Save latent policy trunk for cross-task transfer
+            latent_trunk_sd = {k: v.cpu() for k, v in
+                               self.latent_policy.get_trunk_state_dict().items()}
+
             skill = Skill(
                 name=f"{skill_env_name}_{self.total_episodes}ep",
                 env_name=skill_env_name,
@@ -587,6 +612,7 @@ class RagnarokAgent:
                 performance=eval_reward,
                 normalizer_state=self.env.normalizer.state_dict(),
                 episodes_trained=self.total_episodes,
+                latent_trunk_state_dict=latent_trunk_sd,
             )
             self.skill_library.save_skill(skill)
             return skill
@@ -638,13 +664,20 @@ class RagnarokAgent:
                     self._active_policy.load_state_dict(
                         {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
                     )
-                    if skill.normalizer_state:
-                        self.env.normalizer = RunningNormalizer.from_state_dict(
-                            skill.normalizer_state
-                        )
                     loaded_skill = skill
                 except RuntimeError:
-                    return None
+                    # Obs-policy dims don't match — use latent trunk transfer
+                    if skill.latent_trunk_state_dict:
+                        self.latent_policy.load_trunk_state_dict(
+                            {k: v.to(DEVICE) for k, v in skill.latent_trunk_state_dict.items()}
+                        )
+                        loaded_skill = skill
+                    else:
+                        return None
+                if loaded_skill is not None and skill.normalizer_state:
+                    self.env.normalizer = RunningNormalizer.from_state_dict(
+                        skill.normalizer_state
+                    )
 
         # Activate trust region for cross-task transfer only.
         # Same-env transfer loads an already-optimized policy — KL penalty
