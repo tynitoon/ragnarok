@@ -811,10 +811,16 @@ class RagnarokAgent:
         alpha = self.config.transfer.trust_region_alpha
         return alpha * (1.0 - episodes_since / max_episodes)
 
+    # Schema version bumped whenever the set of required checkpoint keys
+    # changes. `load()` refuses to open older schemas — run
+    # `scripts/migrate_checkpoints.py` to upgrade them once, then resume.
+    CHECKPOINT_SCHEMA_VERSION = 2
+
     def save(self, path: str):
         """Save full agent state to checkpoint."""
         save_checkpoint(
             path,
+            schema_version=self.CHECKPOINT_SCHEMA_VERSION,
             rssm=self.rssm.state_dict(),
             policy=self._active_policy.state_dict(),
             latent_policy=self.latent_policy.state_dict(),
@@ -827,23 +833,38 @@ class RagnarokAgent:
         )
 
     def load(self, path: str):
-        """Load agent state from checkpoint."""
+        """Load agent state from checkpoint (strict schema, v2).
+
+        Required keys: schema_version, rssm, policy, latent_policy,
+        acting_policy_mode, normalizer, episodic_memory, total_episodes,
+        total_steps, episode_rewards.
+
+        Pre-Phase-5.3 checkpoints (with `actor_critic` instead of `policy`,
+        or no `acting_policy_mode`) are rejected loudly — run
+        `scripts/migrate_checkpoints.py` to upgrade them.
+        """
         ckpt = load_checkpoint(path, device=DEVICE)
+        version = ckpt.get("schema_version")
+        if version != self.CHECKPOINT_SCHEMA_VERSION:
+            raise ValueError(
+                f"Checkpoint {path} has schema_version={version!r}, "
+                f"expected {self.CHECKPOINT_SCHEMA_VERSION}. "
+                f"Run `python -m scripts.migrate_checkpoints {path}` "
+                f"to upgrade pre-Phase-5.3 ckpts, or delete and re-train."
+            )
+        required = {"rssm", "policy", "latent_policy", "acting_policy_mode",
+                    "normalizer", "episodic_memory", "total_episodes",
+                    "total_steps", "episode_rewards"}
+        missing = required - ckpt.keys()
+        if missing:
+            raise ValueError(
+                f"Checkpoint {path} is missing required keys: {sorted(missing)}"
+            )
+
         self.rssm.load_state_dict(ckpt["rssm"])
-        # Load direct policy (backward compat: try 'policy' then 'actor_critic')
-        policy_sd = ckpt.get("policy", ckpt.get("actor_critic"))
-        if policy_sd is not None:
-            try:
-                self._active_policy.load_state_dict(policy_sd)
-            except RuntimeError:
-                pass  # Architecture mismatch (old checkpoint), skip
-        latent_sd = ckpt.get("latent_policy")
-        if latent_sd is not None:
-            try:
-                self.latent_policy.load_state_dict(latent_sd)
-            except RuntimeError:
-                pass  # Dim mismatch from different env — skip
-        self.acting_policy_mode = ckpt.get("acting_policy_mode", "obs")
+        self._active_policy.load_state_dict(ckpt["policy"])
+        self.latent_policy.load_state_dict(ckpt["latent_policy"])
+        self.acting_policy_mode = ckpt["acting_policy_mode"]
         self.env.normalizer = RunningNormalizer.from_state_dict(ckpt["normalizer"])
         self.episodic_memory = EpisodicMemory.from_state_dict(ckpt["episodic_memory"])
         self.total_episodes = ckpt["total_episodes"]
