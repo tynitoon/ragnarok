@@ -273,6 +273,22 @@ def _build_agent(env_name: str, seed: int, skills_dir: str) -> tuple[RagnarokAge
 
     env = make_env(env_name, seed=seed)
     agent = RagnarokAgent(config, env)
+
+    # Devil's-advocate review (Phase 3 pre-launch, smoke #2):
+    # SkillSelector's distance-threshold gate (default 50.0 in
+    # skills/selector.py) is designed for continual-learning use
+    # cases where "is this skill relevant enough?" is an open
+    # question. Pilot pairs PIN source→target explicitly; every
+    # transfer arm is *meant* to attempt transfer. The default gate
+    # silently rejects the legitimate skill because source centroids
+    # (trained-RSSM latent) and target-env warmup encodings
+    # (fresh-RSSM latent) live in uncorrelated latent spaces, so the
+    # distance is essentially noise. Without this override, smoke #2
+    # saw BOTH transfer arms load `null` skill → acting_policy_mode
+    # stayed "obs" → the §8 mechanism gate would trivially fail for
+    # every transfer run. Bypass the gate for pilot arms.
+    agent.skill_selector.distance_threshold = float("inf")
+
     return agent, env
 
 
@@ -668,7 +684,14 @@ def run_pilot(
 
         for s in range(seeds):
             seed = base_seed + s
-            per_seed_skills = skills_root / f"{alias}_seed{seed}"
+            # Devil's-advocate review (Phase 3 pre-launch, smoke #2):
+            # Key the source-skills dir by (src_env, seed), NOT by
+            # (pair, seed). Without this, `src_key` dedup correctly
+            # avoids redundant source training when pair 2 shares the
+            # same src_env as pair 1 — but pair 2's per-pair skills
+            # dir stays EMPTY, and its transfer arm loads nothing.
+            # Share the dir across pairs with matching src_env+seed.
+            per_seed_skills = skills_root / f"source_{src_env}_seed{seed}"
 
             # --- 1. Source pre-training (for transfer arm only) ---
             src_key = (src_env, seed, "source")

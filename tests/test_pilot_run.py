@@ -461,3 +461,241 @@ class TestCLIInterface:
         assert captured["source_max_env_steps"] == 10_000
         # --smoke forces pair filter to the primary so the CI doesn't hit DMC
         assert captured["pair_filter"] == ["cartpole_mcc"]
+
+
+# ── Phase 3 pre-launch regression: Bug A (SkillSelector threshold) ──
+#
+# smoke #2 of the pilot revealed that BOTH transfer arms silently
+# failed to load the committed source skill — both `transfer_skill_name`
+# fields came back null, and `acting_policy_mode` stayed at "obs"
+# instead of flipping to "latent". Root cause: SkillSelector enforces a
+# `distance_threshold=50.0` gate between the warmup-latent centroid and
+# the candidate skill's centroid. That gate is designed for continual-
+# learning "is this skill relevant?" semantics; it's actively hostile
+# to pilot arms that PIN source→target per preregistration §8. The
+# warmup encoding uses a fresh (untrained) RSSM while the source
+# centroid was stored from a trained RSSM — distances are essentially
+# noise and exceed the threshold trivially.
+#
+# Fix in pilot_run._build_agent: override the threshold to +inf so the
+# selector always returns the nearest skill when one is present.
+
+class TestBuildAgentOverridesSkillSelectorThreshold:
+    """Bug A regression: every agent the pilot builds must disable the
+    distance-threshold gate. Without this, the §8 mechanism check
+    (acting_policy_mode == 'latent' on cross-dim transfer arms) would
+    fail trivially and cost the full 8-hour pilot wall-clock."""
+
+    def test_distance_threshold_is_infinite(self, tmp_path):
+        from scripts.pilot_run import _build_agent
+        agent, env = _build_agent(
+            env_name="cartpole",
+            seed=0,
+            skills_dir=str(tmp_path / "skills"),
+        )
+        assert agent.skill_selector.distance_threshold == float("inf"), (
+            "Bug A regression: _build_agent must override the default "
+            "distance_threshold (50.0) to +inf so the pre-registered "
+            "source→target pair's transfer arm can load its skill."
+        )
+
+    def test_default_skillselector_threshold_is_finite(self):
+        """Sentinel: if the upstream default flips to inf on its own,
+        the override above becomes a no-op — which is fine but worth
+        knowing. This test documents the gap the pilot override closes."""
+        from ragnarok.skills.library import SkillLibrary
+        from ragnarok.skills.selector import SkillSelector
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lib = SkillLibrary(skills_dir=tmpdir)
+            # Needs something that quacks like an RSSM but we only touch
+            # the threshold attribute — a bare selector is fine.
+            class _FakeRSSM:
+                pass
+            selector = SkillSelector(_FakeRSSM(), lib)
+            assert selector.distance_threshold < float("inf"), (
+                "upstream SkillSelector default is now inf — the pilot "
+                "override is no longer strictly necessary but still "
+                "documents intent"
+            )
+
+
+# ── Phase 3 pre-launch regression: Bug B (shared source-skills dir) ─
+#
+# smoke #2 also revealed that when two pairs share the same src_env
+# (cartpole_mcc and cartpole_acrobot both have src=cartpole), the
+# source-training dedup (keyed by (src_env, seed)) correctly avoids
+# retraining — but the skills_dir path was keyed by the pair *alias*.
+# Pair 2's per_seed_skills was a DIFFERENT directory from pair 1's, so
+# pair 2's transfer arm read from an empty dir and loaded nothing.
+#
+# Fix in run_pilot: key the dir by (src_env, seed), not (alias, seed).
+
+class TestSharedSourceSkillsDir:
+    """Bug B regression: pairs sharing src_env+seed must share the
+    skills_dir they use for source storage + transfer loading."""
+
+    def test_two_pairs_same_src_share_dir(self, monkeypatch, tmp_path):
+        """Run a minimized pilot with two pairs that share src_env
+        (cartpole_mcc + cartpole_acrobot, both src=cartpole). Capture
+        every skills_dir passed to the transfer arm. Both transfer
+        arms must see the SAME directory — otherwise pair 2's
+        try_transfer() loads nothing (Bug B symptom)."""
+        from scripts import pilot_run
+
+        # Stub out the two training entrypoints with synthetic results
+        # so we only exercise the orchestration logic.
+        source_calls: list[dict] = []
+        target_calls: list[dict] = []
+
+        def _fake_pretrain_source(**kwargs):
+            source_calls.append(kwargs)
+            # Create the skill file so pair-2's transfer would really
+            # find it if the dir sharing works.
+            Path(kwargs["skills_dir"]).mkdir(parents=True, exist_ok=True)
+            (Path(kwargs["skills_dir"]) / "CartPole-v1_fake.pt").write_bytes(b"")
+            return PilotRun(
+                pair_alias="",
+                pair_role="",
+                src_env=kwargs["src_env"],
+                tgt_env=kwargs["src_env"],
+                seed=kwargs["seed"],
+                arm="source",
+                mastery_threshold=kwargs["mastery_threshold"],
+                max_env_steps=kwargs["max_env_steps"],
+                total_env_steps=1000,
+                total_episodes=10,
+                final_eval_return=500.0,
+                best_eval_return=500.0,
+                steps_to_mastery=1000,
+                source_crystallized=True,
+            )
+
+        def _fake_train_to_step_budget(**kwargs):
+            target_calls.append(kwargs)
+            return PilotRun(
+                pair_alias=kwargs.get("pair_alias") or "",
+                pair_role=kwargs.get("pair_role") or "",
+                src_env=kwargs.get("src_env") or "",
+                tgt_env=kwargs["env_name"],
+                seed=kwargs["seed"],
+                arm=kwargs["arm"],
+                mastery_threshold=kwargs["mastery_threshold"],
+                max_env_steps=kwargs["max_env_steps"],
+                total_env_steps=100,
+                total_episodes=1,
+                final_eval_return=0.0,
+                best_eval_return=0.0,
+                steps_to_mastery=None,
+            )
+
+        monkeypatch.setattr(pilot_run, "_pretrain_source", _fake_pretrain_source)
+        monkeypatch.setattr(pilot_run, "_train_to_step_budget",
+                            _fake_train_to_step_budget)
+
+        out_path = tmp_path / "out.json"
+        skills_root = tmp_path / "skills"
+        pilot_run.run_pilot(
+            seeds=1,
+            max_env_steps=1,
+            source_max_env_steps=1,
+            eval_every_steps=1,
+            eval_episodes=1,
+            skills_root=skills_root,
+            output_path=out_path,
+            pair_filter=["cartpole_mcc", "cartpole_acrobot"],
+            base_seed=42,
+        )
+
+        # Source trained exactly ONCE (shared src_env=cartpole + seed=42)
+        assert len(source_calls) == 1, (
+            f"expected 1 source call (shared cartpole+42); got "
+            f"{len(source_calls)}"
+        )
+
+        # Both transfer arms share the SAME skills_dir
+        transfer_calls = [c for c in target_calls if c["arm"] == "transfer"]
+        assert len(transfer_calls) == 2, (
+            f"expected 2 transfer calls (mcc + acrobot); got "
+            f"{len(transfer_calls)}"
+        )
+        transfer_dirs = {c["skills_dir"] for c in transfer_calls}
+        assert len(transfer_dirs) == 1, (
+            f"Bug B regression: transfer arms for pairs sharing src_env "
+            f"must receive the same skills_dir. Got: {transfer_dirs}"
+        )
+
+        # And the shared dir is the one the source wrote into.
+        (shared,) = transfer_dirs
+        assert shared == source_calls[0]["skills_dir"], (
+            f"transfer dir {shared!r} must equal source dir "
+            f"{source_calls[0]['skills_dir']!r}"
+        )
+
+        # Scratch arms get their own (empty) dirs — NOT shared across pairs.
+        scratch_calls = [c for c in target_calls if c["arm"] == "scratch"]
+        scratch_dirs = {c["skills_dir"] for c in scratch_calls}
+        assert len(scratch_dirs) == 2, (
+            "scratch arms must each get their own isolated empty dir "
+            "(never share — scratch must never see a source skill)"
+        )
+        for d in scratch_dirs:
+            assert d != shared, (
+                "scratch dir must differ from the transfer-arm shared "
+                "source dir, else scratch sees the source skill"
+            )
+
+    def test_dir_name_pattern_is_src_env_keyed(self, monkeypatch, tmp_path):
+        """Documenting: the per-seed skills dir naming scheme uses
+        src_env in the path, not alias. This keeps the semantic clear:
+        'source_{src_env}_seed{seed}' lives ONCE per (src_env, seed),
+        regardless of how many pairs name it as their source."""
+        from scripts import pilot_run
+
+        captured = []
+
+        def _capture(**kwargs):
+            captured.append(kwargs["skills_dir"])
+            Path(kwargs["skills_dir"]).mkdir(parents=True, exist_ok=True)
+            return PilotRun(
+                pair_alias="", pair_role="", src_env=kwargs["src_env"],
+                tgt_env=kwargs["src_env"], seed=kwargs["seed"], arm="source",
+                mastery_threshold=kwargs["mastery_threshold"],
+                max_env_steps=kwargs["max_env_steps"],
+                total_env_steps=1, total_episodes=1,
+                final_eval_return=0.0, best_eval_return=0.0,
+                steps_to_mastery=1, source_crystallized=True,
+            )
+
+        monkeypatch.setattr(pilot_run, "_pretrain_source", _capture)
+        monkeypatch.setattr(
+            pilot_run, "_train_to_step_budget",
+            lambda **k: PilotRun(
+                pair_alias=k.get("pair_alias") or "",
+                pair_role=k.get("pair_role") or "",
+                src_env=k.get("src_env") or "", tgt_env=k["env_name"],
+                seed=k["seed"], arm=k["arm"],
+                mastery_threshold=k["mastery_threshold"],
+                max_env_steps=k["max_env_steps"], total_env_steps=1,
+                total_episodes=1, final_eval_return=0.0,
+                best_eval_return=0.0, steps_to_mastery=None,
+            ),
+        )
+
+        pilot_run.run_pilot(
+            seeds=1, max_env_steps=1, source_max_env_steps=1,
+            eval_every_steps=1, eval_episodes=1,
+            skills_root=tmp_path / "skills",
+            output_path=tmp_path / "out.json",
+            pair_filter=["cartpole_mcc"], base_seed=42,
+        )
+        assert len(captured) == 1
+        skills_path = Path(captured[0])
+        # Contract: the dir name must contain the src_env (cartpole) and
+        # seed (42) but NOT the pair alias (cartpole_mcc).
+        assert "cartpole" in skills_path.name
+        assert "42" in skills_path.name
+        assert "mcc" not in skills_path.name, (
+            "pair alias leaked into source-skills dir name; pair 2 "
+            "with a different alias would get a different dir."
+        )
