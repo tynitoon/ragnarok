@@ -726,12 +726,14 @@ class RealExperienceTrainer:
         if self.latent_curiosity is not None and self.latent_curiosity.rssm_ready:
             latent_rewards = self.latent_curiosity.compute_batch_kl(obs_arr, act_arr)
 
-        # Ramp up latent weight gradually (0 -> 0.5 over 50 episodes after ready)
+        # Ramp up latent weight gradually (0 -> 1.0 over 50 episodes after ready).
+        # When RSSM is mature, latent KL fully replaces forward prediction —
+        # it's more principled (Bayesian surprise) and zero-cost (no extra network).
         if forward_rewards is not None and latent_rewards is not None:
             ramp_episodes = 50
             eps_since_ready = (self.latent_curiosity._episodes_seen
                                - self.latent_curiosity.min_rssm_episodes)
-            latent_weight = min(0.5, 0.5 * eps_since_ready / ramp_episodes)
+            latent_weight = min(1.0, eps_since_ready / ramp_episodes)
             return (1 - latent_weight) * forward_rewards + latent_weight * latent_rewards
         if latent_rewards is not None:
             return latent_rewards
