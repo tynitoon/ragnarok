@@ -24,7 +24,7 @@ import torch
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.wrapper import RagnarokEnv
-from ragnarok.environments.registry import get_env_spec, REGISTRY
+from ragnarok.environments.registry import get_env_spec, make_env, REGISTRY
 from ragnarok.core.agent import RagnarokAgent
 
 
@@ -66,7 +66,7 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
     config.world_model.obs_dim = spec.obs_dim
     config.world_model.action_dim = spec.action_dim
 
-    env = RagnarokEnv(spec.gym_name, seed=seed)
+    env = make_env(env_name, seed=seed)
     agent = RagnarokAgent(config, env)
 
     # Vectorized env for parallel collection (A2C discrete only)

@@ -29,7 +29,7 @@ import numpy as np
 from ragnarok.infrastructure.config import RagnarokConfig
 from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.wrapper import RagnarokEnv
-from ragnarok.environments.registry import get_env_spec
+from ragnarok.environments.registry import get_env_spec, make_env
 from ragnarok.core.agent import RagnarokAgent
 from ragnarok.skills.curriculum import CurriculumSelector
 from ragnarok.skills.library import SkillLibrary
@@ -69,7 +69,7 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
     config.world_model.obs_dim = spec.obs_dim
     config.world_model.action_dim = spec.action_dim
 
-    env = RagnarokEnv(spec.gym_name, seed=seed, pixel_obs=spec.pixel_obs)
+    env = make_env(env_name, seed=seed)
     agent = RagnarokAgent(config, env)
 
     # Create vectorized env for parallel collection (A2C discrete only)
@@ -193,8 +193,8 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
         vec_env.close()
 
     # Final eval (share normalizer so obs distribution matches training)
-    env2 = RagnarokEnv(spec.gym_name, seed=seed + 1000, pixel_obs=spec.pixel_obs,
-                       normalizer=env.normalizer, normalize=env.normalize)
+    env2 = make_env(env_name, seed=seed + 1000, normalize=env.normalize)
+    env2.normalizer = env.normalizer
     if is_pixel:
         final_eval = agent.pixel_ppo.evaluate(env2, episodes=10)
     elif agent.sac_trainer:
