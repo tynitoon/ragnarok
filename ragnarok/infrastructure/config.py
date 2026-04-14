@@ -106,6 +106,30 @@ class NormalizerConfig:
 
 
 @dataclass
+class RewardShapingConfig:
+    """Opt-in reward shaping (preregistration §6.1 fix #3).
+
+    Default OFF so benchmark numbers are reported on raw env rewards. Runs
+    that use shaping must be explicitly marked `+shape` in reporting and
+    cannot be used for the H1 primary endpoint comparison.
+    """
+    enabled: bool = False
+
+
+@dataclass
+class EnvOverridesConfig:
+    """Opt-in env-name hyperparameter overrides.
+
+    When `enabled=False` (default), `_get_training_hparams` and
+    `_get_curiosity_beta` return generic defaults regardless of env name.
+    The env-name branching path existed before the preregistration and
+    contaminates cross-method comparisons — keep it gated so benchmark
+    runs are reproducible and untuned.
+    """
+    enabled: bool = False
+
+
+@dataclass
 class RagnarokConfig:
     world_model: WorldModelConfig = field(default_factory=WorldModelConfig)
     policy: PolicyConfig = field(default_factory=PolicyConfig)
@@ -114,6 +138,8 @@ class RagnarokConfig:
     normalizer: NormalizerConfig = field(default_factory=NormalizerConfig)
     curiosity: CuriosityConfig = field(default_factory=CuriosityConfig)
     transfer: TransferConfig = field(default_factory=TransferConfig)
+    reward_shaping: RewardShapingConfig = field(default_factory=RewardShapingConfig)
+    env_overrides: EnvOverridesConfig = field(default_factory=EnvOverridesConfig)
     seed: int = 42
     log_dir: str = "logs"
     checkpoint_dir: str = "checkpoints"

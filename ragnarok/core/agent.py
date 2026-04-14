@@ -269,64 +269,68 @@ class RagnarokAgent:
             return self.sac_trainer.policy
         return self.real_trainer.policy
 
-    @staticmethod
-    def _get_training_hparams(env_name: str) -> tuple[float, float]:
-        """Environment-specific hyperparameters (entropy_coeff, lr)."""
+    def _get_training_hparams(self, env_name: str) -> tuple[float, float]:
+        """Environment-specific hyperparameters (entropy_coeff, lr).
+
+        Returns generic defaults unless `config.env_overrides.enabled=True`.
+        Per preregistration §6.1 fix #3, benchmark runs must use untuned
+        defaults so cross-method comparisons are reproducible.
+        """
+        if not self.config.env_overrides.enabled:
+            return 0.01, 3e-4
         if "MountainCar" in env_name:
-            return 0.02, 1e-3  # More exploration, faster learning
+            return 0.02, 1e-3
         if "Acrobot" in env_name:
-            return 0.05, 1e-3  # High exploration for swing-up discovery
+            return 0.05, 1e-3
         if "Pendulum" in env_name:
-            return 0.02, 3e-4  # Continuous: moderate entropy, stable LR
+            return 0.02, 3e-4
         if "MountainCarContinuous" in env_name:
             return 0.01, 1e-3
-        return 0.01, 3e-4  # Default (works for CartPole)
+        return 0.01, 3e-4
 
-    @staticmethod
-    def _get_curiosity_beta(env_name: str, default: float) -> float:
+    def _get_curiosity_beta(self, env_name: str, default: float) -> float:
         """Environment-specific curiosity strength.
 
-        Exploration-hard envs (sparse/negative reward) need strong curiosity.
-        Dense-reward envs need minimal curiosity to avoid signal pollution.
+        Returns `default` unless `config.env_overrides.enabled=True`.
         """
+        if not self.config.env_overrides.enabled:
+            return default
         if "MountainCar" in env_name and "Continuous" not in env_name:
-            return 0.3   # Moderate: -1 reward, but 1.0 drowned extrinsic signal
+            return 0.3
         if "Acrobot" in env_name:
-            return 0.3   # Moderate: sparse but less extreme
+            return 0.3
         if "CartPole" in env_name:
-            return 0.01  # Minimal: dense +1 reward, curiosity noise hurts
+            return 0.01
         if "Pendulum" in env_name:
-            return 0.05  # Low: continuous cost signal, don't overwhelm
+            return 0.05
         return default
 
-    @staticmethod
-    def _get_reward_shaper(env_name: str):
-        """Get environment-specific reward shaping function."""
+    def _get_reward_shaper(self, env_name: str):
+        """Get environment-specific reward shaping function.
+
+        Returns None unless `config.reward_shaping.enabled=True`. Per
+        preregistration §6.1 fix #3, H1 primary results are reported on raw
+        env rewards; shaped runs must be explicitly marked `+shape`.
+        """
+        if not self.config.reward_shaping.enabled:
+            return None
         if "MountainCar" in env_name:
-            # MountainCar: encourage reaching higher positions
-            # obs[0] = position (range: -1.2 to 0.6), obs[1] = velocity
-            # Goal at position >= 0.5
             def shaper(obs, reward, next_obs):
-                # Potential-based shaping (position + abs(velocity))
-                height_bonus = (next_obs[0] + 1.2) / 1.8  # Normalize to [0, 1]
-                velocity_bonus = abs(next_obs[1]) * 10  # Encourage movement
+                height_bonus = (next_obs[0] + 1.2) / 1.8
+                velocity_bonus = abs(next_obs[1]) * 10
                 return reward + 0.1 * height_bonus + 0.05 * velocity_bonus
             return shaper
         if "Acrobot" in env_name:
-            # Acrobot: encourage the tip to reach higher
-            # Raw obs = [cos(t1), sin(t1), cos(t2), sin(t2), thetaDot1, thetaDot2]
-            # Tip height = -cos(t1) - cos(t1 + t2), range [-2, 2], goal > 1
-            # Note: next_obs here is raw (via env.last_raw_obs)
             def shaper(obs, reward, next_obs):
                 cos1, sin1 = next_obs[0], next_obs[1]
                 cos2, sin2 = next_obs[2], next_obs[3]
                 cos12 = cos1 * cos2 - sin1 * sin2
                 tip_height = -cos1 - cos12
-                height_bonus = (tip_height + 2) / 4  # Normalize to [0, 1]
+                height_bonus = (tip_height + 2) / 4
                 angular_velocity = abs(next_obs[4]) + abs(next_obs[5])
                 return reward + 0.5 * height_bonus + 0.1 * angular_velocity
             return shaper
-        return None  # No shaping for other environments
+        return None
 
     def collect_episode(self, explore_ratio: float | None = None) -> float:
         """Run one episode, collecting data into buffers.
