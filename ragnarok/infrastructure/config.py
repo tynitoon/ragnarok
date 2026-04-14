@@ -40,6 +40,10 @@ class PolicyConfig:
     pixel_dream_batch: int = 64
     # Dream augmenter learning rate ratio (relative to env-specific lr)
     dream_lr_ratio: float = 0.3
+    # Batched PPO for discrete envs (more sample-efficient than single-ep A2C)
+    ppo_batch_episodes: int = 8    # Episodes collected before PPO update
+    ppo_epochs: int = 4            # PPO epochs per batch
+    ppo_clip_eps: float = 0.2      # PPO clipping epsilon
     # Exploration
     explore_ratio: float = 0.1
     # Adaptive imagination horizon

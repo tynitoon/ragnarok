@@ -116,8 +116,16 @@ def train_single_env(env_name: str, max_episodes: int, seed: int,
 
     is_pixel = spec.pixel_obs
     report_interval = 20 if is_pixel else 50
-    # Iterations = training rounds. With vec, each round produces num_envs episodes.
-    eps_per_iter = num_envs if use_vec else 1
+    # Iterations = training rounds. Each round produces multiple episodes:
+    # - Vectorized: num_envs episodes per iter
+    # - Discrete PPO: ppo_batch_episodes per iter
+    # - Continuous (SAC) or pixel: 1 episode per iter
+    if use_vec:
+        eps_per_iter = num_envs
+    elif spec.is_discrete and not is_pixel:
+        eps_per_iter = config.policy.ppo_batch_episodes
+    else:
+        eps_per_iter = 1
     max_iters = max(1, max_episodes // eps_per_iter)
 
     for iteration in range(1, max_iters + 1):

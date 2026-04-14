@@ -834,15 +834,17 @@ class RealExperienceTrainer:
 
     def collect_batch_and_train(self, env, batch_episodes: int = 4,
                                 ppo_epochs: int = 4, clip_eps: float = 0.2):
-        """Collect episodes, then train with PPO clipping for stability.
+        """Collect batch of episodes, then train with PPO clipping.
 
-        Multi-epoch PPO is much more sample-efficient and stable for
-        continuous control than single-pass A2C.
-        Returns (mean_reward, metrics, last_episode_data).
+        Multi-epoch PPO is much more sample-efficient than single-pass A2C:
+        the same data is reused across epochs with importance weighting.
+        Includes curiosity rewards and trust region support.
+
+        Returns list of (episode_reward, metrics, episode_data) per episode.
         """
         all_obs, all_raw_actions, all_rewards = [], [], []
-        total_rewards = []
-        last_episode_data = None
+        episode_results = []  # (reward, episode_data) per ep
+        curiosity_loss = None
 
         for _ in range(batch_episodes):
             if self.discrete:
@@ -851,20 +853,48 @@ class RealExperienceTrainer:
                 ep_data = self._collect_with_storage_continuous(env)
 
             ep_reward, obs_list, raw_act_list, rewards, episode_data = ep_data
-            total_rewards.append(ep_reward)
+
+            # Add curiosity intrinsic rewards per episode
+            if len(obs_list) > 1:
+                obs_arr = np.array(obs_list)
+                act_arr = np.array([a for a in episode_data[1]])  # from episode_data actions
+                next_arr = np.concatenate([obs_arr[1:], obs_arr[-1:]], axis=0)
+                intrinsic = self._compute_curiosity(obs_arr, act_arr, next_arr)
+                if intrinsic is not None:
+                    for j in range(len(rewards)):
+                        rewards[j] += intrinsic[j]
+                if self.curiosity is not None:
+                    curiosity_loss = self.curiosity.train_on_transitions(
+                        obs_arr, act_arr, next_arr)
+
             all_obs.extend(obs_list)
             all_raw_actions.extend(raw_act_list)
             all_rewards.extend(rewards)
-            last_episode_data = episode_data
+            episode_results.append((ep_reward, episode_data))
 
         if len(all_rewards) < 2:
-            return float(np.mean(total_rewards)), {}, last_episode_data
+            return [(r, {}, ed) for r, ed in episode_results]
 
         metrics = self._train_ppo(
             all_obs, all_raw_actions, all_rewards,
             epochs=ppo_epochs, clip_eps=clip_eps,
         )
-        return float(np.mean(total_rewards)), metrics, last_episode_data
+
+        # Trust region KL penalty (applied as a fine-tuning step)
+        if self.trust_region_ref is not None and self.trust_region_alpha > 0:
+            kl_penalty = self._compute_trust_kl(all_obs)
+            trust_loss = self.trust_region_alpha * kl_penalty
+            self.optimizer.zero_grad()
+            trust_loss.backward()
+            nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
+            self.optimizer.step()
+            metrics["real/trust_kl"] = kl_penalty.item()
+
+        if curiosity_loss is not None:
+            metrics["curiosity_loss"] = curiosity_loss
+
+        # Return per-episode results with shared metrics
+        return [(r, metrics, ed) for r, ed in episode_results]
 
     def _collect_with_storage_continuous(self, env):
         """Collect one continuous episode, storing obs + raw actions for PPO."""

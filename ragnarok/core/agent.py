@@ -256,7 +256,7 @@ class RagnarokAgent:
         Dense-reward envs need minimal curiosity to avoid signal pollution.
         """
         if "MountainCar" in env_name and "Continuous" not in env_name:
-            return 1.0   # Very strong: -1 reward every step, needs big bonus
+            return 0.3   # Moderate: -1 reward, but 1.0 drowned extrinsic signal
         if "Acrobot" in env_name:
             return 0.3   # Moderate: sparse but less extreme
         if "CartPole" in env_name:
@@ -412,6 +412,11 @@ class RagnarokAgent:
         if self.sac_trainer is not None:
             return self._train_sac()
 
+        # Batched PPO for discrete envs (8 episodes → 4 PPO epochs)
+        # Much more sample-efficient than single-episode A2C.
+        if self.real_trainer.discrete:
+            return self._train_batched_ppo()
+
         reward, metrics, episode_data = self.real_trainer.collect_and_train(self.env)
 
         if episode_data is not None:
@@ -425,6 +430,32 @@ class RagnarokAgent:
         self.total_episodes += 1
         self._update_adaptive_horizon()
         return reward, metrics
+
+    def _train_batched_ppo(self) -> tuple[float, dict]:
+        """Collect batch of episodes, train with PPO. Returns last ep reward."""
+        cfg = self.config.policy
+        results = self.real_trainer.collect_batch_and_train(
+            self.env,
+            batch_episodes=cfg.ppo_batch_episodes,
+            ppo_epochs=cfg.ppo_epochs,
+            clip_eps=cfg.ppo_clip_eps,
+        )
+
+        all_rewards = []
+        for reward, metrics, episode_data in results:
+            if episode_data is not None:
+                obs, acts, rews, dones = episode_data
+                self.replay_buffer.add_episode(obs, acts, rews, dones)
+                self.recent_episodes.append(episode_data)
+                self.episode_lengths.append(len(rews))
+                self.total_steps += len(rews)
+            self.episode_rewards.append(reward)
+            self.total_episodes += 1
+            all_rewards.append(reward)
+
+        self._update_adaptive_horizon()
+        last_metrics = results[-1][1] if results else {}
+        return float(np.mean(all_rewards)), last_metrics
 
     def train_policy_real_vec(self, vec_env) -> list[tuple[float, dict]]:
         """Collect N episodes in parallel from vectorized env.

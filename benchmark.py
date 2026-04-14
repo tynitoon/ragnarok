@@ -94,7 +94,12 @@ def train_ragnarok(env_name: str, max_episodes: int, seed: int,
     start = time.time()
 
     eval_interval = 25
-    eps_per_iter = num_envs if use_vec else 1
+    if use_vec:
+        eps_per_iter = num_envs
+    elif spec.is_discrete and not spec.pixel_obs:
+        eps_per_iter = config.policy.ppo_batch_episodes
+    else:
+        eps_per_iter = 1
     max_iters = max(1, max_episodes // eps_per_iter)
 
     for it in range(1, max_iters + 1):
