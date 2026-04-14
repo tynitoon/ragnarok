@@ -5,6 +5,7 @@ import torch
 import pytest
 import tempfile
 import os
+from pathlib import Path
 from ragnarok.skills.skill import Skill
 from ragnarok.skills.library import SkillLibrary
 
@@ -61,3 +62,107 @@ class TestSkillLibrary:
             # Query close to skill_b (centroid [10, 10, 10])
             nearest, dist = lib.find_nearest(np.array([11.0, 11.0, 11.0]))
             assert nearest.name == "skill_b"
+
+
+# ── Phase 3 pre-launch regression: committed source skills ─────────
+#
+# skills_data/*.pt are the CRITICAL artifacts for Phase 3's transfer arm.
+# If the Skill dataclass schema silently changes (or Phase 2.3's SAC
+# rewrite touched anything that a skill checkpoint indirectly depends on),
+# these files become unloadable and the transfer arm silently falls back
+# to scratch — which would be a measured "null result" on a broken
+# pipeline. These tests load the committed .pt files directly and verify
+# the `try_transfer` contract still reads them.
+
+SKILLS_DIR = Path(__file__).resolve().parents[1] / "skills_data"
+CARTPOLE_SKILL = SKILLS_DIR / "CartPole-v1_280ep.pt"
+MOUNTAINCAR_SKILL = SKILLS_DIR / "MountainCar-v0_560ep.pt"
+
+
+class TestCommittedSkillsLoadable:
+    """Phase 3 pre-launch: every skill checkpoint committed to git must be
+    loadable via the current Skill dataclass + SkillLibrary API. Guards
+    against silent schema drift."""
+
+    @pytest.mark.skipif(not CARTPOLE_SKILL.exists(),
+                        reason="CartPole skill checkpoint not present on this worktree")
+    def test_cartpole_skill_torch_load(self):
+        """Raw torch.load path — the same call SkillLibrary makes at
+        construction time (library.py:28). If this raises, the Phase 3
+        pilot's cartpole_mcc + cartpole_acrobot pairs are both broken."""
+        data = torch.load(CARTPOLE_SKILL, weights_only=False)
+        assert isinstance(data, dict), "skill file must pickle to a dict"
+        # Required keys per Skill.__init__ signature
+        for key in ("name", "env_name", "policy_state_dict",
+                    "latent_centroid", "performance", "normalizer_state"):
+            assert key in data, f"missing required key: {key}"
+
+    @pytest.mark.skipif(not CARTPOLE_SKILL.exists(),
+                        reason="CartPole skill checkpoint not present on this worktree")
+    def test_cartpole_skill_construct_skill_dataclass(self):
+        """Round-trip: raw dict must construct a valid Skill. This catches
+        the case where the dataclass gained a non-defaulted field that
+        older checkpoints don't carry."""
+        data = torch.load(CARTPOLE_SKILL, weights_only=False)
+        skill = Skill(**data)
+        assert skill.env_name == "CartPole-v1"
+        assert isinstance(skill.policy_state_dict, dict)
+        assert len(skill.policy_state_dict) > 0, (
+            "empty policy_state_dict → try_transfer would load nothing")
+        # Every value must be a torch.Tensor (or tensor-like). try_transfer
+        # does `v.to(DEVICE)` in the dict comprehension, which requires
+        # tensor-like semantics.
+        for k, v in skill.policy_state_dict.items():
+            assert hasattr(v, "to"), (
+                f"policy_state_dict[{k!r}] not tensor-like (type={type(v)})")
+        assert isinstance(skill.latent_centroid, np.ndarray)
+        assert skill.latent_centroid.ndim == 1
+        assert isinstance(skill.normalizer_state, dict)
+
+    @pytest.mark.skipif(not MOUNTAINCAR_SKILL.exists(),
+                        reason="MountainCar skill checkpoint not present on this worktree")
+    def test_mountaincar_skill_construct_skill_dataclass(self):
+        """Same contract for MountainCar-v0 source skill (discrete, used as
+        a sanity-check for same-dim transfer paths)."""
+        data = torch.load(MOUNTAINCAR_SKILL, weights_only=False)
+        skill = Skill(**data)
+        assert skill.env_name == "MountainCar-v0"
+        assert isinstance(skill.policy_state_dict, dict)
+        assert len(skill.policy_state_dict) > 0
+
+    @pytest.mark.skipif(not CARTPOLE_SKILL.exists() or not MOUNTAINCAR_SKILL.exists(),
+                        reason="skill checkpoints not present on this worktree")
+    def test_skill_library_discovers_committed_skills(self):
+        """SkillLibrary constructed on the actual skills_data/ directory
+        must find both committed .pt files with no warnings. This is the
+        exact call pilot_run.py makes before launching a transfer arm."""
+        import io
+        import contextlib
+        stderr = io.StringIO()
+        with contextlib.redirect_stderr(stderr), \
+                contextlib.redirect_stdout(stderr):
+            lib = SkillLibrary(skills_dir=str(SKILLS_DIR))
+        names = lib.list_skills()
+        assert len(names) >= 2, (
+            f"SkillLibrary found {len(names)} skills; expected ≥2. "
+            f"stderr: {stderr.getvalue()!r}")
+        assert "CartPole-v1_280ep" in names
+        assert "MountainCar-v0_560ep" in names
+        # And no "Warning: failed to load skill ..." output was emitted.
+        assert "failed to load skill" not in stderr.getvalue(), (
+            f"SkillLibrary silently skipped a skill: {stderr.getvalue()}")
+
+    @pytest.mark.skipif(not CARTPOLE_SKILL.exists(),
+                        reason="CartPole skill checkpoint not present on this worktree")
+    def test_cartpole_skill_moves_to_device(self):
+        """try_transfer does `{k: v.to(DEVICE) for k, v ...}` (agent.py:742).
+        If any tensor lives on a device the pilot host can't reach (e.g. an
+        MPS checkpoint on a CUDA host), that call raises. Exercise it."""
+        from ragnarok.infrastructure.device import DEVICE
+        data = torch.load(CARTPOLE_SKILL, weights_only=False)
+        skill = Skill(**data)
+        moved = {k: v.to(DEVICE) for k, v in skill.policy_state_dict.items()}
+        # Every tensor must now be on DEVICE (smoke-check one).
+        first_tensor = next(iter(moved.values()))
+        assert first_tensor.device.type == DEVICE.type, (
+            f"expected {DEVICE.type}, got {first_tensor.device.type}")

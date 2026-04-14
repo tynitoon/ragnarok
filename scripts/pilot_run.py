@@ -315,6 +315,27 @@ def _train_to_step_budget(
         loaded = agent.try_transfer()
         if loaded is not None:
             transfer_skill_name = loaded.name
+
+            # Devil's-advocate review (Phase 3 pre-launch): the §8 mechanism
+            # gate requires acting_policy_mode == "latent" for every
+            # cross-dim transfer run. agent.try_transfer() is expected to
+            # flip the mode when a latent-trunk load happens, but nothing
+            # in the pilot path verifies it. A silent regression in the
+            # SAC rewrite (Phase 2.3) could leave the mode on "obs" and
+            # turn every transfer run into a trivial mechanism failure at
+            # analysis time — detecting it 8h later instead of immediately.
+            # Assert the invariant here; fail the run loudly if it breaks.
+            if src_env is not None and _cross_dim(src_env, env_name):
+                if agent.acting_policy_mode != "latent":
+                    raise RuntimeError(
+                        f"Phase 3 mechanism regression: cross-dim transfer "
+                        f"({src_env} -> {env_name}, seed={seed}) loaded skill "
+                        f"{loaded.name!r} but acting_policy_mode="
+                        f"{agent.acting_policy_mode!r} (expected 'latent'). "
+                        f"This is a silent correctness bug -- check "
+                        f"agent.try_transfer / latent_policy trunk load."
+                    )
+
             if vec_env is not None:
                 vec_env.normalizer = env.normalizer
                 for v in vec_env.envs:
@@ -580,10 +601,22 @@ def run_pilot(
             print(f"[pilot] Resumed: {len(all_runs)} runs already in "
                   f"{output_path}", flush=True)
         except Exception as e:
-            print(f"[pilot] WARN: could not resume from {output_path}: {e}. "
-                  f"Starting fresh.", flush=True)
-            all_runs = []
-            completed_keys = set()
+            # Engineering-architect review (Phase 3 pre-launch): if the
+            # results file is corrupt (truncated write, power-loss, manual
+            # edit), silently wiping all_runs and starting fresh would cause
+            # the very next _flush() to overwrite the .bak with the empty
+            # state — losing hours of completed runs. Abort loudly instead
+            # and force manual recovery from the .bak sibling.
+            bak = output_path.with_suffix(output_path.suffix + ".bak")
+            hint = (f" A .bak sibling exists at {bak} — inspect it manually "
+                    f"and if it looks good, copy it over {output_path.name} "
+                    f"before re-running.") if bak.exists() else ""
+            raise SystemExit(
+                f"[pilot] ABORT: could not resume from {output_path}: {e}."
+                f"{hint}\n"
+                f"Fix the file (or delete it to start fresh) and re-run. "
+                f"The pilot will NOT auto-wipe to prevent silent data loss."
+            )
 
     def _already_done(key: tuple[str, int, str]) -> bool:
         return key in completed_keys

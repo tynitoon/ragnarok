@@ -45,6 +45,15 @@ ANTI_TRANSFER_RATIO_MAX = 0.9  # any pair with ratio < this fails
 
 PRIMARY_ALIAS = "cartpole_mcc"
 
+# INCONCLUSIVE regime (devil's-advocate review, Phase 3 pre-commit).
+# When the primary pair's scratch OR transfer arm has ≥80% runs censored
+# at τ, the sample is too thin on observed events to pick a direction or
+# a ratio with any confidence. In that regime we report INCONCLUSIVE
+# (distinct from FAIL) so the pilot does NOT trigger Plan B — Plan B is
+# for a measured null/anti-transfer, not for "we didn't observe enough
+# events to tell." Caller should expand seeds before re-running analysis.
+HIGH_CENSORING_THRESHOLD = 0.8
+
 
 # ── Data model ──────────────────────────────────────────────────────
 
@@ -79,9 +88,12 @@ class PairVerdict:
 
 @dataclass
 class PilotVerdict:
-    overall_pass: bool
+    overall_pass: bool          # True only for a clean PASS
     pair_verdicts: list[PairVerdict]
     failures: list[str]         # human-readable list of failed criteria
+    inconclusive: bool = False  # True → primary has high-censoring regime;
+                                # do NOT invoke Plan B, expand sample first
+    inconclusive_reason: str = ""
 
 
 # ── Helpers ─────────────────────────────────────────────────────────
@@ -213,9 +225,22 @@ def _logrank_one_sided(scratch: ArmSurvival, transfer: ArmSurvival,
     )
     p_two_sided = float(res.p_value)
 
+    # Low-event-regime guard (devil's-advocate review, Phase 3 pre-commit).
+    # When both arms mostly censor, O-E collapses to near-zero and the
+    # direction calculation is dominated by tied events at the truncation
+    # horizon. At N=5 per arm on MCC, regimes with <2 observed events per
+    # arm are routine under the prereg's own 40% censoring model — and
+    # picking a direction from 0 or 1 observed event is essentially noise.
+    # In that regime, report the non-directional two-sided p (i.e. a "can't
+    # decide direction" outcome rather than a false confident flip). The
+    # primary-pair gate at §8 (p < 0.10 one-sided) therefore can't trigger
+    # off tied-event coincidence.
+    oe = _logrank_signed_direction(scratch, transfer)
+    if abs(oe) < 1e-9 or scratch.n_events < 2 or transfer.n_events < 2:
+        return p_two_sided  # non-directional fallback; caller treats as no H_A support
+
     # H_A direction: transfer faster ↔ scratch has FEWER observed events
     # than expected ↔ signed (O_scratch - E_scratch) < 0.
-    oe = _logrank_signed_direction(scratch, transfer)
     if oe < 0:
         return p_two_sided / 2.0
     return 1.0 - (p_two_sided / 2.0)
@@ -391,10 +416,39 @@ def analyze(payload: dict) -> PilotVerdict:
     if pair_verdicts and not all(v.mechanism_check_passed for v in pair_verdicts):
         overall = False  # mechanism-fail messages already appended
 
+    # High-censoring-regime check (devil's-advocate review, Phase 3 pre-commit).
+    # Must run BEFORE returning: if the primary pair has ≥80% censoring on
+    # either arm, re-label the verdict as INCONCLUSIVE so the caller does
+    # NOT activate Plan B on what is effectively a measurement-limit
+    # artifact. Overall pass is already False in this regime (ratio/p
+    # criteria would have failed anyway), but the failure-vs-inconclusive
+    # distinction is load-bearing for the §10 decision tree.
+    inconclusive = False
+    inconclusive_reason = ""
+    if primary_verdict is not None and primary_verdict.scratch.n > 0 \
+            and primary_verdict.transfer.n > 0:
+        scratch_cens = primary_verdict.scratch.n_censored / primary_verdict.scratch.n
+        transfer_cens = primary_verdict.transfer.n_censored / primary_verdict.transfer.n
+        if (scratch_cens >= HIGH_CENSORING_THRESHOLD
+                or transfer_cens >= HIGH_CENSORING_THRESHOLD):
+            inconclusive = True
+            inconclusive_reason = (
+                f"PRIMARY {primary_verdict.alias}: high-censoring regime — "
+                f"scratch censored {primary_verdict.scratch.n_censored}/"
+                f"{primary_verdict.scratch.n} ({scratch_cens:.0%}), "
+                f"transfer censored {primary_verdict.transfer.n_censored}/"
+                f"{primary_verdict.transfer.n} ({transfer_cens:.0%}); "
+                f"threshold {HIGH_CENSORING_THRESHOLD:.0%}. Expand sample "
+                f"size before invoking Plan B (§10)."
+            )
+            overall = False  # INCONCLUSIVE is never a PASS
+
     return PilotVerdict(
         overall_pass=overall,
         pair_verdicts=pair_verdicts,
         failures=failures,
+        inconclusive=inconclusive,
+        inconclusive_reason=inconclusive_reason,
     )
 
 
@@ -437,6 +491,17 @@ def render_text(verdict: PilotVerdict) -> str:
     lines.append("\n" + "-" * 70)
     if verdict.overall_pass:
         lines.append("  OVERALL: PASS — proceed to Phase 4 / G2 review gate")
+    elif verdict.inconclusive:
+        # INCONCLUSIVE is NOT a FAIL — do NOT invoke Plan B on a measurement
+        # artifact. Print the underlying failures for transparency but
+        # re-label the final verdict so the caller knows to expand sample.
+        lines.append(
+            "  OVERALL: INCONCLUSIVE — expand sample size before §10 decision")
+        lines.append(f"  Reason: {verdict.inconclusive_reason}")
+        if verdict.failures:
+            lines.append("  Underlying criterion evaluation (FYI — do NOT act on these):")
+            for f in verdict.failures:
+                lines.append(f"    - {f}")
     else:
         lines.append("  OVERALL: FAIL — activate Plan B per §10")
         lines.append("  Failures:")
@@ -465,6 +530,8 @@ def _verdict_to_dict(v: PilotVerdict) -> dict:
 
     return {
         "overall_pass": v.overall_pass,
+        "inconclusive": v.inconclusive,
+        "inconclusive_reason": v.inconclusive_reason,
         "failures": v.failures,
         "pair_verdicts": pair_dicts,
     }
@@ -492,7 +559,15 @@ def main(argv: list[str] | None = None) -> int:
             json.dumps(_verdict_to_dict(verdict), indent=2))
         print(f"\nWrote verdict JSON to {args.json_output}")
 
-    return 0 if verdict.overall_pass else 2  # 2 = fail, distinct from CLI error
+    # Exit code triage so shell callers can branch without parsing text:
+    #   0  PASS            → proceed to Phase 4 / G2
+    #   2  FAIL            → activate Plan B (§10)
+    #   3  INCONCLUSIVE    → expand sample, re-run before §10 decision
+    if verdict.overall_pass:
+        return 0
+    if verdict.inconclusive:
+        return 3
+    return 2
 
 
 if __name__ == "__main__":

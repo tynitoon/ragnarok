@@ -14,6 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.pilot_analysis import (  # noqa: E402
     ANTI_TRANSFER_RATIO_MAX,
+    HIGH_CENSORING_THRESHOLD,
     PRIMARY_ALIAS,
     PRIMARY_LOGRANK_P_MAX,
     PRIMARY_RMST_RATIO_MIN,
@@ -622,6 +623,163 @@ class TestLogRankDirectionUnderCrossingHazards:
         s_arm = _fit_arm(scratch, "scratch", tau=200_000)
         t_arm = _fit_arm(transfer, "transfer", tau=200_000)
         assert _logrank_signed_direction(s_arm, t_arm) == 0.0
+
+
+# ── Reviewer-fix coverage: INCONCLUSIVE under high censoring ──────
+
+class TestInconclusiveUnderHighCensoring:
+    """Devil's-advocate review (Phase 3 pre-commit): at N=5 per arm, a pilot
+    where the primary pair has ≥80% censoring on either arm can't be read
+    as FAIL — the lack of events is a measurement-limit artifact, not a
+    measured null. Re-label as INCONCLUSIVE so Plan B (§10) does NOT fire
+    on under-observed data; the operator must expand sample and re-run."""
+
+    def test_high_censoring_on_scratch_triggers_inconclusive(self):
+        """4/5 scratch censored + 0/5 transfer censored → 80% scratch censoring
+        even though transfer is clearly winning. Still INCONCLUSIVE because
+        the scratch arm doesn't have enough events to pin a baseline."""
+        runs = []
+        # Scratch: 1 observed at 150k, 4 censored at τ
+        runs.append(_mkrun("cartpole_mcc", 0, "scratch", stm=150_000))
+        for s in range(1, 5):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=None))
+        # Transfer: all 5 reach mastery fast
+        for s in range(5):
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=30_000))
+        # Filler secondary (complete) so we don't trip incompleteness
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        assert verdict.inconclusive, (
+            "80% scratch censoring must flip to INCONCLUSIVE")
+        assert not verdict.overall_pass, (
+            "INCONCLUSIVE is never a PASS")
+        assert "high-censoring" in verdict.inconclusive_reason.lower()
+        assert "cartpole_mcc" in verdict.inconclusive_reason
+
+    def test_high_censoring_on_transfer_triggers_inconclusive(self):
+        """5/5 transfer censored: transfer completely fails to reach mastery.
+        Even though this looks like anti-transfer, at N=5 we don't have the
+        power to claim that — INCONCLUSIVE, not FAIL."""
+        runs = []
+        for s in range(5):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=60_000))
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=None))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        assert verdict.inconclusive
+        assert not verdict.overall_pass
+        assert "transfer" in verdict.inconclusive_reason.lower()
+
+    def test_below_threshold_censoring_does_not_trigger(self):
+        """At 60% censoring (3/5 censored), still below 80%. Analysis proceeds
+        to normal pass/fail composition — no INCONCLUSIVE label."""
+        runs = []
+        # 2 observed + 3 censored = 60% censoring
+        runs.append(_mkrun("cartpole_mcc", 0, "scratch", stm=150_000))
+        runs.append(_mkrun("cartpole_mcc", 1, "scratch", stm=160_000))
+        for s in range(2, 5):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=None))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=30_000))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        assert not verdict.inconclusive, (
+            "60% censoring is below the 80% threshold — must not flip")
+
+    def test_clean_pass_stays_pass(self):
+        """Sanity: a clean PASS scenario must not be mis-labeled INCONCLUSIVE."""
+        runs = []
+        for s in range(10):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=150_000))
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=30_000))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+        for s in range(5):
+            runs.append(_mkrun("pendulum_dmc_cartpole", s, "scratch",
+                               stm=None, role="secondary",
+                               src="pendulum", tgt="cartpole-swingup"))
+            runs.append(_mkrun("pendulum_dmc_cartpole", s, "transfer",
+                               stm=140_000, role="secondary",
+                               src="pendulum", tgt="cartpole-swingup"))
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        # The pendulum_dmc_cartpole scratch arm has 100% censoring, but that
+        # pair is SECONDARY — only primary-pair censoring gates inconclusive.
+        assert verdict.overall_pass
+        assert not verdict.inconclusive
+
+    def test_render_text_shows_inconclusive_banner(self):
+        """INCONCLUSIVE banner must NOT contain 'Plan B' in the header (the
+        whole point of the verdict is to NOT trigger §10). FAIL banner does."""
+        runs = []
+        for s in range(5):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=None))
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=30_000))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        text = render_text(verdict)
+        assert "INCONCLUSIVE" in text
+        # INCONCLUSIVE header line must NOT route the operator to Plan B.
+        # (The failure list may still mention activation text elsewhere in
+        # the output, but the overall-verdict line itself must point to
+        # sample expansion, not Plan B.)
+        header_line = [ln for ln in text.split("\n")
+                       if ln.strip().startswith("OVERALL:")][0]
+        assert "INCONCLUSIVE" in header_line
+        assert "Plan B" not in header_line
+
+    def test_inconclusive_serializes_in_json(self):
+        """_verdict_to_dict round-trip includes the new fields."""
+        runs = []
+        for s in range(5):
+            runs.append(_mkrun("cartpole_mcc", s, "scratch", stm=None))
+            runs.append(_mkrun("cartpole_mcc", s, "transfer", stm=30_000))
+        for s in range(5):
+            runs.append(_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                               role="secondary", tgt="acrobot"))
+            runs.append(_mkrun("cartpole_acrobot", s, "transfer", stm=40_000,
+                               role="secondary", tgt="acrobot"))
+
+        payload = _make_payload(runs)
+        verdict = analyze(payload)
+        d = _verdict_to_dict(verdict)
+        s = json.dumps(d)
+        d2 = json.loads(s)
+        assert d2["inconclusive"] is True
+        assert d2["inconclusive_reason"]
+        assert d2["overall_pass"] is False
+
+    def test_threshold_constant_matches_design(self):
+        """§ prereg pre-commit: threshold pinned at 0.8 so reviewers can
+        audit the contract. If this moves, the prereg addendum must move."""
+        assert HIGH_CENSORING_THRESHOLD == 0.8
 
 
 # ── Constant invariants (must match §8) ────────────────────────────
