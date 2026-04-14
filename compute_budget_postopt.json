@@ -1,0 +1,71 @@
+{
+  "hardware": {
+    "device": "cuda",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "cuda_capability": "(8, 9)"
+  },
+  "runs": [
+    {
+      "env": "pendulum",
+      "seed": 42,
+      "steps": 20000,
+      "wall_clock_sec": 443.21830129623413,
+      "steps_per_sec": 45.12449044073337,
+      "episodes_completed": 100
+    },
+    {
+      "env": "pendulum",
+      "seed": 43,
+      "steps": 20000,
+      "wall_clock_sec": 428.80634355545044,
+      "steps_per_sec": 46.64110104848235,
+      "episodes_completed": 100
+    },
+    {
+      "env": "pendulum",
+      "seed": 44,
+      "steps": 20000,
+      "wall_clock_sec": 464.51915669441223,
+      "steps_per_sec": 43.05527492627643,
+      "episodes_completed": 100
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 42,
+      "steps": 20041,
+      "wall_clock_sec": 480.7125241756439,
+      "steps_per_sec": 41.69019734688121,
+      "episodes_completed": 146
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 43,
+      "steps": 20055,
+      "wall_clock_sec": 443.18782567977905,
+      "steps_per_sec": 45.25169428839532,
+      "episodes_completed": 157
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 44,
+      "steps": 20015,
+      "wall_clock_sec": 452.391300201416,
+      "steps_per_sec": 44.242672197915425,
+      "episodes_completed": 140
+    }
+  ],
+  "summary": {
+    "pendulum": {
+      "mean_steps_per_sec": 44.94028880516405,
+      "std_steps_per_sec": 1.4696904269456175,
+      "n_seeds": 3
+    },
+    "mountaincar-continuous": {
+      "mean_steps_per_sec": 43.72818794439732,
+      "std_steps_per_sec": 1.4987963284898869,
+      "n_seeds": 3
+    }
+  }
+}

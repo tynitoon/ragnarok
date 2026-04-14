@@ -1,0 +1,70 @@
+{
+  "hardware": {
+    "device": "cuda",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "cuda_capability": "(8, 9)"
+  },
+  "legs": [
+    {
+      "name": "Primary (MCC) -- 5 baselines x 20 seeds",
+      "env": "mountaincar-continuous [measured]",
+      "env_key": "mountaincar-continuous",
+      "n_runs": 100,
+      "steps_per_run": 500000,
+      "total_steps": 50000000,
+      "throughput_steps_per_sec": 43.72818794439732,
+      "wall_seconds": 1143427.2113808517,
+      "wall_hours": 317.61866982801433,
+      "wall_days": 13.234111242833931
+    },
+    {
+      "name": "Secondary (acrobot) -- 5 baselines x 10 seeds",
+      "env": "acrobot [measured]",
+      "env_key": "acrobot",
+      "n_runs": 50,
+      "steps_per_run": 500000,
+      "total_steps": 25000000,
+      "throughput_steps_per_sec": 245.56007413017946,
+      "wall_seconds": 101808.08133632783,
+      "wall_hours": 28.2800225934244,
+      "wall_days": 1.1783342747260166
+    },
+    {
+      "name": "Secondary (cartpole-swingup) -- 5 baselines x 10 seeds",
+      "env": "cartpole-swingup [fallback=slowest-measured(mountaincar-continuous)]",
+      "env_key": "cartpole-swingup",
+      "n_runs": 50,
+      "steps_per_run": 500000,
+      "total_steps": 25000000,
+      "throughput_steps_per_sec": 43.72818794439732,
+      "wall_seconds": 571713.6056904258,
+      "wall_hours": 158.80933491400717,
+      "wall_days": 6.617055621416966
+    },
+    {
+      "name": "Ablations A1-A9 on MCC -- 11 x 5 seeds (A5 sweep counted 3x)",
+      "env": "mountaincar-continuous [measured]",
+      "env_key": "mountaincar-continuous",
+      "n_runs": 55,
+      "steps_per_run": 500000,
+      "total_steps": 27500000,
+      "throughput_steps_per_sec": 43.72818794439732,
+      "wall_seconds": 628884.9662594683,
+      "wall_hours": 174.69026840540786,
+      "wall_days": 7.278761183558661
+    }
+  ],
+  "phase5_total_seconds": 2445833.864667074,
+  "phase5_total_hours": 679.3982957408539,
+  "phase5_total_days_100pct_duty": 28.308262322535576,
+  "phase5_calendar_days_at_90pct_duty": 31.45362480281731,
+  "phase4_continual_dreamer_source_hours": 75,
+  "wall_budget_days_90pct": 28,
+  "wall_budget_seconds": 2177280.0,
+  "fits_budget": false,
+  "margin_seconds": -268553.8646670738,
+  "margin_hours": -74.59829574085384,
+  "cut_tier_needed": "cut#1 -- drop DMC secondary endpoint"
+}

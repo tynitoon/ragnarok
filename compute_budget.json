@@ -82,50 +82,50 @@
     {
       "env": "pendulum",
       "seed": 42,
-      "steps": 50000,
-      "wall_clock_sec": 1353.096242427826,
-      "steps_per_sec": 36.95228649093451,
-      "episodes_completed": 250
+      "steps": 20000,
+      "wall_clock_sec": 443.21830129623413,
+      "steps_per_sec": 45.12449044073337,
+      "episodes_completed": 100
     },
     {
       "env": "pendulum",
       "seed": 43,
-      "steps": 50000,
-      "wall_clock_sec": 1351.2531626224518,
-      "steps_per_sec": 37.00268860275023,
-      "episodes_completed": 250
+      "steps": 20000,
+      "wall_clock_sec": 428.80634355545044,
+      "steps_per_sec": 46.64110104848235,
+      "episodes_completed": 100
     },
     {
       "env": "pendulum",
       "seed": 44,
-      "steps": 50000,
-      "wall_clock_sec": 1298.5413553714752,
-      "steps_per_sec": 38.50474210403291,
-      "episodes_completed": 250
+      "steps": 20000,
+      "wall_clock_sec": 464.51915669441223,
+      "steps_per_sec": 43.05527492627643,
+      "episodes_completed": 100
     },
     {
       "env": "mountaincar-continuous",
       "seed": 42,
-      "steps": 50069,
-      "wall_clock_sec": 1402.9673583507538,
-      "steps_per_sec": 35.68792937482037,
-      "episodes_completed": 533
+      "steps": 20041,
+      "wall_clock_sec": 480.7125241756439,
+      "steps_per_sec": 41.69019734688121,
+      "episodes_completed": 146
     },
     {
       "env": "mountaincar-continuous",
       "seed": 43,
-      "steps": 50065,
-      "wall_clock_sec": 1425.9898357391357,
-      "steps_per_sec": 35.10894590216326,
-      "episodes_completed": 594
+      "steps": 20055,
+      "wall_clock_sec": 443.18782567977905,
+      "steps_per_sec": 45.25169428839532,
+      "episodes_completed": 157
     },
     {
       "env": "mountaincar-continuous",
       "seed": 44,
-      "steps": 50013,
-      "wall_clock_sec": 1513.6640243530273,
-      "steps_per_sec": 33.04101781858536,
-      "episodes_completed": 524
+      "steps": 20015,
+      "wall_clock_sec": 452.391300201416,
+      "steps_per_sec": 44.242672197915425,
+      "episodes_completed": 140
     }
   ],
   "summary": {
@@ -145,14 +145,20 @@
       "n_seeds": 3
     },
     "pendulum": {
-      "mean_steps_per_sec": 37.486572399239215,
-      "std_steps_per_sec": 0.7202486857739361,
+      "mean_steps_per_sec": 44.94028880516405,
+      "std_steps_per_sec": 1.4696904269456175,
       "n_seeds": 3
     },
     "mountaincar-continuous": {
-      "mean_steps_per_sec": 34.61263103185633,
-      "std_steps_per_sec": 1.1361577163106809,
+      "mean_steps_per_sec": 43.72818794439732,
+      "std_steps_per_sec": 1.4987963284898869,
       "n_seeds": 3
     }
+  },
+  "provenance": {
+    "discrete_envs_source": "compute_budget_preopt.json (PPO, Phase 2.3 N/A)",
+    "continuous_envs_source": "compute_budget_postopt.json (SAC, post-Phase 2.3 optim)",
+    "phase_23_commit": "69a2b17",
+    "optim_summary": "SAC twin-Q fused backward + GPU-resident replay + foreach Polyak; 1.17-1.20x real speedup"
   }
 }
