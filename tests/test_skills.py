@@ -166,3 +166,144 @@ class TestCommittedSkillsLoadable:
         first_tensor = next(iter(moved.values()))
         assert first_tensor.device.type == DEVICE.type, (
             f"expected {DEVICE.type}, got {first_tensor.device.type}")
+
+
+# ── Phase 3 pre-launch regression: Bug C (save_skill dropped trunk) ─
+#
+# Smoke #3 exposed that SkillLibrary.save_skill serialized only a
+# hard-coded subset of Skill fields, OMITTING latent_trunk_state_dict.
+# Effect: the in-memory Skill produced by check_crystallization had a
+# populated trunk, but the on-disk .pt stripped it. The very next
+# process (the pilot's transfer arm, which loads via SkillLibrary)
+# saw an empty trunk → the RuntimeError branch in try_transfer
+# (agent.py:764) returned None → acting_policy_mode stayed "obs" →
+# the §8 mechanism check trivially fails on every cross-dim run.
+#
+# These tests lock the save/load contract: EVERY Skill field must
+# survive a disk round-trip.
+
+class TestSaveSkillPreservesTrunk:
+    """Bug C regression: save_skill must serialize
+    latent_trunk_state_dict so that cross-dim transfer works."""
+
+    def test_trunk_survives_save_load_roundtrip(self):
+        """Direct round-trip: Skill with trunk → save → load from
+        fresh library → trunk must still be populated."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lib = SkillLibrary(skills_dir=tmpdir)
+            trunk = {
+                "shared.0.weight": torch.randn(64, 4),
+                "shared.0.bias": torch.randn(64),
+                "shared.2.weight": torch.randn(64, 64),
+                "shared.2.bias": torch.randn(64),
+            }
+            skill = Skill(
+                name="trunk_test",
+                env_name="CartPole-v1",
+                policy_state_dict={"w": torch.tensor([1.0])},
+                latent_centroid=np.zeros(128),
+                performance=500.0,
+                normalizer_state={},
+                latent_trunk_state_dict=trunk,
+            )
+            lib.save_skill(skill)
+
+            # Fresh library reads from disk — this is the pilot's pattern
+            # (source process saves; transfer process loads).
+            lib2 = SkillLibrary(skills_dir=tmpdir)
+            loaded = lib2.load_skill("trunk_test")
+            assert loaded is not None
+            assert len(loaded.latent_trunk_state_dict) == len(trunk), (
+                "Bug C regression: latent_trunk_state_dict was dropped "
+                "during save. save_skill must serialize every Skill "
+                "field, not a hand-curated subset."
+            )
+            for k, v in trunk.items():
+                assert k in loaded.latent_trunk_state_dict
+                assert torch.allclose(loaded.latent_trunk_state_dict[k], v)
+
+    def test_trunk_survives_when_empty(self):
+        """Default (empty-dict) trunk must also round-trip cleanly —
+        otherwise older skills without a trunk would fail to load."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lib = SkillLibrary(skills_dir=tmpdir)
+            skill = Skill(
+                name="no_trunk",
+                env_name="CartPole-v1",
+                policy_state_dict={"w": torch.tensor([1.0])},
+                latent_centroid=np.zeros(128),
+                performance=500.0,
+                normalizer_state={},
+                # latent_trunk_state_dict defaults to {}
+            )
+            lib.save_skill(skill)
+
+            lib2 = SkillLibrary(skills_dir=tmpdir)
+            loaded = lib2.load_skill("no_trunk")
+            assert loaded is not None
+            assert loaded.latent_trunk_state_dict == {}
+
+    def test_serialized_data_has_trunk_key(self):
+        """Byte-level contract: the .pt file on disk must contain the
+        `latent_trunk_state_dict` key. Guards against a future
+        save_skill rewrite that rearranges fields without preserving
+        this one."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lib = SkillLibrary(skills_dir=tmpdir)
+            skill = Skill(
+                name="byte_check",
+                env_name="CartPole-v1",
+                policy_state_dict={"w": torch.tensor([1.0])},
+                latent_centroid=np.zeros(128),
+                performance=500.0,
+                normalizer_state={},
+                latent_trunk_state_dict={"shared.0.weight": torch.zeros(3, 3)},
+            )
+            lib.save_skill(skill)
+
+            # Load raw bytes (bypass SkillLibrary) and inspect keys.
+            raw = torch.load(Path(tmpdir) / "byte_check.pt",
+                             weights_only=False)
+            assert "latent_trunk_state_dict" in raw, (
+                "Bug C regression: serialized .pt is missing the "
+                "latent_trunk_state_dict key. Cross-dim transfer will "
+                "silently fail."
+            )
+            assert len(raw["latent_trunk_state_dict"]) == 1
+
+    def test_every_skill_dataclass_field_is_serialized(self):
+        """Meta-test: save_skill must serialize every field declared
+        on the Skill dataclass. This catches future fields being added
+        to the dataclass without also being added to save_skill's
+        hand-curated dict — which is exactly how Bug C went unnoticed."""
+        import dataclasses
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmpdir:
+            lib = SkillLibrary(skills_dir=tmpdir)
+            skill = Skill(
+                name="all_fields",
+                env_name="CartPole-v1",
+                policy_state_dict={"w": torch.tensor([1.0])},
+                latent_centroid=np.zeros(128),
+                performance=500.0,
+                normalizer_state={},
+                episodes_trained=42,
+                metadata={"note": "hi"},
+                latent_trunk_state_dict={"k": torch.zeros(2, 2)},
+            )
+            lib.save_skill(skill)
+
+            raw = torch.load(Path(tmpdir) / "all_fields.pt",
+                             weights_only=False)
+            expected_fields = {f.name for f in
+                               dataclasses.fields(Skill)}
+            # Every dataclass field must land in the serialized blob.
+            missing = expected_fields - set(raw.keys())
+            assert not missing, (
+                f"save_skill is silently dropping fields: {missing}. "
+                f"Add them to the serialized dict so cross-process "
+                f"transfer doesn't lose state."
+            )

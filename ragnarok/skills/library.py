@@ -32,7 +32,18 @@ class SkillLibrary:
                 print(f"Warning: failed to load skill {path.name}: {e}")
 
     def save_skill(self, skill: Skill):
-        """Save a skill to disk."""
+        """Save a skill to disk.
+
+        NOTE (Phase 3 pre-launch, smoke #3): the serialized dict must
+        include EVERY field the Skill dataclass carries — in
+        particular `latent_trunk_state_dict`, which is what enables
+        heterogeneous-dim (cross-env) transfer. Without it, the
+        check_crystallization → save → load round-trip drops the
+        trunk silently, `try_transfer()` hits the
+        `if skill.latent_trunk_state_dict:` gate at agent.py:764 and
+        returns None, and the §8 mechanism check fails because
+        acting_policy_mode never flips to "latent".
+        """
         data = {
             "name": skill.name,
             "env_name": skill.env_name,
@@ -43,6 +54,7 @@ class SkillLibrary:
             "created_at": skill.created_at,
             "episodes_trained": skill.episodes_trained,
             "metadata": skill.metadata,
+            "latent_trunk_state_dict": skill.latent_trunk_state_dict,
         }
         path = self.skills_dir / f"{skill.name}.pt"
         torch.save(data, path)
