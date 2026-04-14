@@ -11,6 +11,7 @@ import torch.nn.functional as F
 import numpy as np
 
 from ragnarok.infrastructure.device import DEVICE
+from ragnarok.learning.advantages import compute_gae
 
 
 class DirectPolicyNet(nn.Module):
@@ -287,26 +288,12 @@ class PixelPPOTrainer:
             "last_value": last_val,
         }
 
-    def _compute_gae(self, rewards, values, dones, last_value):
-        """Compute Generalized Advantage Estimation."""
-        n = len(rewards)
-        advantages = np.zeros(n, dtype=np.float32)
-        returns = np.zeros(n, dtype=np.float32)
-        gae = 0.0
-        for t in reversed(range(n)):
-            next_val = last_value if t == n - 1 else values[t + 1]
-            next_nonterminal = 1.0 - dones[t]
-            delta = rewards[t] + self.gamma * next_val * next_nonterminal - values[t]
-            gae = delta + self.gamma * self.gae_lambda * next_nonterminal * gae
-            advantages[t] = gae
-            returns[t] = advantages[t] + values[t]
-        return advantages, returns
-
     def train_on_rollout(self, rollout: dict) -> dict[str, float]:
         """Run PPO epochs on collected rollout."""
-        advantages, returns = self._compute_gae(
+        advantages, returns = compute_gae(
             rollout["rewards"], rollout["values"],
-            rollout["dones"], rollout["last_value"]
+            rollout["dones"], rollout["last_value"],
+            gamma=self.gamma, lam=self.gae_lambda,
         )
 
         obs_t = torch.tensor(rollout["obs"], dtype=torch.float32, device=DEVICE)

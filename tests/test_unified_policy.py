@@ -74,12 +74,12 @@ class TestUnifiedDreamTraining:
 
     def test_dream_augmenter_has_lambda_returns(self):
         """DreamAugmenter should use lambda returns."""
-        from ragnarok.learning.dream_augmenter import compute_lambda_returns
+        from ragnarok.learning.advantages import compute_lambda_returns
         # Simple test: constant rewards, no done, gamma=1 -> returns = cumsum
         rewards = torch.ones(2, 5)
         values = torch.zeros(2, 6)
         continues = torch.ones(2, 5)
-        returns = compute_lambda_returns(rewards, values, continues, gamma=1.0, gae_lambda=1.0)
+        returns = compute_lambda_returns(rewards, values, continues, gamma=1.0, lam=1.0)
         assert returns.shape == (2, 5)
         # With gamma=1 and lambda=1, returns should be cumulative from end
         # R_4 = 1, R_3 = 1 + 1 = 2, ..., R_0 = 5

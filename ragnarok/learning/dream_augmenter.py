@@ -23,26 +23,7 @@ from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.infrastructure.device import DEVICE
 
 
-def compute_lambda_returns(rewards: torch.Tensor, values: torch.Tensor,
-                           continues: torch.Tensor, gamma: float = 0.99,
-                           gae_lambda: float = 0.95) -> torch.Tensor:
-    """Compute lambda-returns with continue-weighted discounting.
-
-    V_lambda_t = r_t + gamma * c_t * ((1-lambda) * v_{t+1} + lambda * V_lambda_{t+1})
-    """
-    horizon = rewards.shape[1]
-    last = values[:, -1]
-
-    returns_list = []
-    for t in reversed(range(horizon)):
-        r = rewards[:, t]
-        c = continues[:, t]
-        v_next = values[:, t + 1]
-        last = r + gamma * c * ((1 - gae_lambda) * v_next + gae_lambda * last)
-        returns_list.append(last)
-
-    returns_list.reverse()
-    return torch.stack(returns_list, dim=1)
+from ragnarok.learning.advantages import compute_lambda_returns
 
 
 class DreamAugmenter:
