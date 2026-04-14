@@ -62,6 +62,17 @@ import time
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
+# Force UTF-8 stdio so §/τ/≥/— in progress-print strings don't crash on
+# Windows cp1252 (preflight smoke crashed exactly this way on first run).
+# The preregistration document uses these glyphs in §8 language; keeping
+# the code aligned beats scrubbing every print site — `.reconfigure()`
+# is a standard Python ≥3.7 idiom and no-ops cleanly if stdio was already
+# UTF-8 (e.g. linux terminal, piped output with PYTHONIOENCODING set).
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 import numpy as np
 import torch
 

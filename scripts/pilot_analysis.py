@@ -35,6 +35,15 @@ from pathlib import Path
 
 import numpy as np
 
+# Force UTF-8 stdio (see pilot_run.py for rationale). The verdict renderer
+# uses §, τ, ≥, — glyphs that match the preregistration language; without
+# this, render_text() would crash on Windows cp1252 the moment a verdict
+# line contains one of them.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
 
 # ── §8 pass-criteria thresholds (pinned) ───────────────────────────
 
