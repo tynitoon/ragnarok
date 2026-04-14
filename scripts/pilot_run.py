@@ -1,0 +1,854 @@
+"""Phase 3 pilot experiment runner (preregistration §8).
+
+Runs the small-N rehearsal of the H1 headline test:
+
+  5 seeds x 3 source->target pairs x {scratch, transfer} = 30 target-env runs
+  + 15 source pre-training runs (one per pair/seed) to crystallize skills
+
+| Pair                                  | Role                            |
+|---------------------------------------|---------------------------------|
+| CartPole -> MountainCarContinuous     | Primary-endpoint rehearsal      |
+| CartPole -> Acrobot                   | Secondary-endpoint rehearsal    |
+| Pendulum -> DMC-cartpole-swingup      | Secondary-endpoint rehearsal    |
+
+Per run: up to `--max-steps` env-steps (default 200k per §8); eval every
+`--eval-every` env-steps (default 5000 per §4.5); 10 eval episodes per
+checkpoint.
+
+Output JSON schema (see PilotRun.to_dict) carries everything needed for
+downstream RMST analysis via `scripts/pilot_analysis.py`:
+  - eval_curve: [{"step": int, "return": float}, ...]
+  - steps_to_mastery: int | None  (None = censored at truncation horizon)
+  - mastery_threshold: float  (env.spec default or --mastery-thresholds file)
+  - acting_policy_mode: "obs" | "latent"  (mechanism check, §8)
+  - transfer_skill_name: str | None
+  - source_crystallized: bool  (source runs only; lets the analyzer flag
+    transfer arms whose source never produced a real skill)
+
+Top-level JSON also carries `provenance` (git SHA, ragnarok version,
+python/torch/cuda/gpu/lifelines, hostname) so a reviewer can replay.
+
+Pass criteria are checked offline; this script only produces the data.
+
+**τ sensitivity scope (§4.6)**: the pilot's truncation horizon is
+`--max-steps`. Downstream sensitivity sweeps at τ' <= max_env_steps are
+supported from the eval_curve. Upward sweeps (τ' > max_env_steps) are
+*not* supported by pilot data — training stops at max_env_steps. Phase 5
+headline runs (which go to 500k) are where the full §4.6 sweep
+{300k, 500k, 750k, 1M} applies.
+
+Usage:
+    # Main env (Python 3.14) — pairs 1 & 2 only (no DMC)
+    python -m scripts.pilot_run --pairs cartpole_mcc cartpole_acrobot
+
+    # venv310 (Python 3.10) — all 3 pairs including DMC
+    venv310/Scripts/python -m scripts.pilot_run
+
+    # Quick smoke (1 seed, 20k steps, for test dev)
+    python -m scripts.pilot_run --seeds 1 --max-steps 20000 --smoke
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import platform
+import random
+import shutil
+import subprocess
+import sys
+import time
+from dataclasses import dataclass, field, asdict
+from pathlib import Path
+
+import numpy as np
+import torch
+
+from ragnarok.infrastructure.config import RagnarokConfig
+from ragnarok.infrastructure.device import DEVICE
+from ragnarok.environments.registry import get_env_spec, make_env
+from ragnarok.core.agent import RagnarokAgent
+
+
+# ── Pilot matrix ────────────────────────────────────────────────────
+
+# Pre-declared per preregistration §8. Deviation requires a §13 amendment.
+PILOT_PAIRS = [
+    # (alias, source env, target env, role)
+    ("cartpole_mcc", "cartpole", "mountaincar-continuous", "primary"),
+    ("cartpole_acrobot", "cartpole", "acrobot", "secondary"),
+    ("pendulum_dmc_cartpole", "pendulum", "cartpole-swingup", "secondary"),
+]
+
+PILOT_SEEDS_DEFAULT = 5           # §8: 5 seeds × 3 pairs × 2 arms = 30
+MAX_ENV_STEPS_DEFAULT = 200_000   # §8: 200k env-steps per run
+EVAL_EVERY_STEPS_DEFAULT = 5_000  # §4.5: eval every 5000 env-steps
+EVAL_EPISODES_DEFAULT = 10        # §4.5: 10 deterministic eval episodes
+
+# Source pre-training cap. Source only needs to be "good enough" to produce a
+# transferable skill; we don't need to exhaust the same 200k budget there.
+# Cartpole @ ~144 steps/s -> 100k steps = ~12 min; pendulum (SAC) slower.
+SOURCE_MAX_ENV_STEPS_DEFAULT = 100_000
+
+
+# ── Result dataclass ────────────────────────────────────────────────
+
+@dataclass
+class EvalPoint:
+    step: int
+    eval_return: float
+
+
+@dataclass
+class PilotRun:
+    """One pilot run: (pair, seed, arm). Serializes to JSON."""
+    pair_alias: str
+    pair_role: str                    # "primary" | "secondary"
+    src_env: str
+    tgt_env: str
+    seed: int
+    arm: str                          # "scratch" | "transfer"
+    mastery_threshold: float
+    max_env_steps: int
+    total_env_steps: int
+    total_episodes: int
+    final_eval_return: float
+    best_eval_return: float
+    steps_to_mastery: int | None      # None == right-censored at max_env_steps
+    eval_curve: list[EvalPoint] = field(default_factory=list)
+    acting_policy_mode: str = "obs"   # Must be "latent" for cross-dim transfer
+    transfer_skill_name: str | None = None
+    wall_clock_sec: float = 0.0
+    # Source-only flag: True iff the source pre-training produced a
+    # crystallized skill. Transfer arms whose (pair, seed) source did NOT
+    # crystallize should be treated as "scratch-masquerading-as-transfer"
+    # by the analyzer — a silent degradation that bit us in review.
+    source_crystallized: bool | None = None
+    # Vec flag actually exercised (may differ from --vec requested because
+    # vectorized collection is only supported for discrete A2C paths).
+    used_vec: bool = False
+
+    def to_dict(self) -> dict:
+        return {
+            "pair_alias": self.pair_alias,
+            "pair_role": self.pair_role,
+            "src_env": self.src_env,
+            "tgt_env": self.tgt_env,
+            "seed": self.seed,
+            "arm": self.arm,
+            "mastery_threshold": self.mastery_threshold,
+            "max_env_steps": self.max_env_steps,
+            "total_env_steps": self.total_env_steps,
+            "total_episodes": self.total_episodes,
+            "final_eval_return": self.final_eval_return,
+            "best_eval_return": self.best_eval_return,
+            "steps_to_mastery": self.steps_to_mastery,
+            "censored": self.steps_to_mastery is None,
+            "eval_curve": [asdict(p) for p in self.eval_curve],
+            "acting_policy_mode": self.acting_policy_mode,
+            "transfer_skill_name": self.transfer_skill_name,
+            "source_crystallized": self.source_crystallized,
+            "used_vec": self.used_vec,
+            "wall_clock_sec": self.wall_clock_sec,
+        }
+
+
+# ── Helpers ─────────────────────────────────────────────────────────
+
+def _seed_everything(seed: int) -> None:
+    """Seed torch (cpu+cuda), numpy, AND stdlib random.
+
+    Prior version missed stdlib `random` and `torch.cuda.manual_seed_all`,
+    which let residual RNG state leak across seeds (devil's-advocate
+    review, Phase 3 pre-commit audit). For the pilot's 5-seed N the
+    difference is small but reviewers will flag it.
+    """
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+
+
+def _atomic_write_json(path: Path, payload: dict) -> None:
+    """Atomic write so a Ctrl-C mid-flush cannot corrupt pilot_results.json.
+
+    Without this, a crash during the 8-hour pilot corrupts the output and
+    the resume logic's `except Exception` fall-through silently starts
+    fresh — wiping up to 8 hours of completed work. Devil's-advocate
+    review flagged this as the single highest-severity risk.
+
+    Strategy: write to <path>.tmp, fsync, then os.replace (atomic on
+    both POSIX and Windows per Python docs). Keep a single .bak of the
+    last good file so even a bizarre two-way corruption leaves one
+    recoverable snapshot.
+
+    fsync() upgrades the guarantee from "Ctrl-C safe" to "power-loss
+    safe": without it, the .tmp replace can land empty content if the
+    machine loses power between write() and replace() (the write was
+    buffered, not on disk).
+    """
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w") as f:
+        json.dump(payload, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    if path.exists():
+        bak = path.with_suffix(path.suffix + ".bak")
+        try:
+            if bak.exists():
+                bak.unlink()
+            os.replace(path, bak)
+        except OSError:
+            # Non-fatal: the new file still lands via the replace below.
+            pass
+    os.replace(tmp, path)
+
+
+def _collect_provenance() -> dict:
+    """Collect reviewer-replay metadata. Every field is best-effort —
+    missing values (e.g. no git, no GPU) become nulls rather than crashing
+    the pilot launch."""
+    prov: dict = {
+        "python": sys.version.split()[0],
+        "platform": platform.platform(),
+        "hostname": platform.node(),
+        "torch": torch.__version__,
+        "device": str(DEVICE),
+    }
+    try:
+        import lifelines
+        prov["lifelines"] = lifelines.__version__
+    except Exception:
+        prov["lifelines"] = None
+    if torch.cuda.is_available():
+        prov["gpu_name"] = torch.cuda.get_device_name(0)
+        prov["cuda_capability"] = str(torch.cuda.get_device_capability(0))
+        prov["cuda_runtime"] = getattr(torch.version, "cuda", None)
+    else:
+        prov["gpu_name"] = None
+
+    # Git SHA — only read, no writes.
+    try:
+        sha = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=Path(__file__).resolve().parent.parent,
+            capture_output=True, text=True, timeout=5, check=False,
+        )
+        prov["git_sha"] = sha.stdout.strip() if sha.returncode == 0 else None
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain"],
+            cwd=Path(__file__).resolve().parent.parent,
+            capture_output=True, text=True, timeout=5, check=False,
+        )
+        prov["git_dirty"] = bool(dirty.stdout.strip()) if dirty.returncode == 0 else None
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        prov["git_sha"] = None
+        prov["git_dirty"] = None
+    return prov
+
+
+def _build_agent(env_name: str, seed: int, skills_dir: str) -> tuple[RagnarokAgent, object]:
+    """Build an agent + env pair for training. Returns (agent, env)."""
+    spec = get_env_spec(env_name)
+    config = RagnarokConfig(seed=seed, checkpoint_dir="checkpoints")
+    config.skill.skills_dir = skills_dir
+    config.world_model.obs_dim = spec.obs_dim
+    config.world_model.action_dim = spec.action_dim
+    # Pilot runs must reflect the default (benchmark-clean) code path —
+    # no env_overrides, no reward shaping (preregistration §6.1 fix #3).
+    config.reward_shaping.enabled = False
+    config.env_overrides.enabled = False
+
+    env = make_env(env_name, seed=seed)
+    agent = RagnarokAgent(config, env)
+    return agent, env
+
+
+def _evaluate(agent: RagnarokAgent, env, episodes: int) -> float:
+    """Unified eval dispatch (SAC vs A2C vs pixel)."""
+    if agent.pixel_ppo is not None:
+        return agent._evaluate_pixel(episodes=episodes)
+    if agent.sac_trainer is not None:
+        return agent.sac_trainer.evaluate(env, episodes=episodes)
+    return agent.real_trainer.evaluate(env, episodes=episodes)
+
+
+def _has_vec_path(agent: RagnarokAgent, spec) -> bool:
+    """Vectorized collection only supported for discrete, vector-obs A2C."""
+    return (not spec.pixel_obs) and (agent.sac_trainer is None)
+
+
+def _train_to_step_budget(
+    env_name: str,
+    seed: int,
+    arm: str,
+    skills_dir: str,
+    max_env_steps: int,
+    eval_every_steps: int,
+    eval_episodes: int,
+    mastery_threshold: float,
+    pair_alias: str | None = None,
+    pair_role: str | None = None,
+    src_env: str | None = None,
+    num_envs: int = 1,
+) -> PilotRun:
+    """Train one (env, seed, arm) combination to a step budget; return a PilotRun."""
+    _seed_everything(seed)
+    spec = get_env_spec(env_name)
+    agent, env = _build_agent(env_name, seed, skills_dir)
+
+    # Vec env path for discrete A2C; skipped for SAC and pixel envs.
+    vec_env = None
+    use_vec = (num_envs > 1) and _has_vec_path(agent, spec)
+    if use_vec:
+        from ragnarok.environments.vec_wrapper import VecRagnarokEnv
+        vec_env = VecRagnarokEnv(
+            spec.gym_name, num_envs=num_envs, seed=seed,
+            normalizer=env.normalizer, normalize=env.normalize,
+        )
+
+    # Transfer attempt (runs before the first training iter so it can alter
+    # acting_policy_mode that propagates into the very first action).
+    transfer_skill_name: str | None = None
+    if arm == "transfer":
+        loaded = agent.try_transfer()
+        if loaded is not None:
+            transfer_skill_name = loaded.name
+            if vec_env is not None:
+                vec_env.normalizer = env.normalizer
+                for v in vec_env.envs:
+                    v.normalizer = env.normalizer
+        else:
+            # D1 failure mode (devil's-advocate review): for cross-dim pairs
+            # the transfer arm is supposed to load a latent-trunk skill. If
+            # `try_transfer()` returns None here, the "transfer" arm is
+            # silently degraded to "scratch-on-a-hot-library" — which would
+            # bias the RMST ratio toward 1.0 and mask true transfer effects.
+            # We surface it loudly so the operator sees it in real time AND
+            # the downstream analyzer can flag it from transfer_skill_name.
+            if src_env is not None and _cross_dim(src_env, env_name):
+                print(
+                    f"  [WARN] cross-dim transfer arm "
+                    f"({src_env} -> {env_name}, seed={seed}) loaded NO skill. "
+                    f"Check source crystallization for this (pair, seed).",
+                    flush=True,
+                )
+
+    # Main training loop — step-budget gated.
+    eval_curve: list[EvalPoint] = []
+    steps_to_mastery: int | None = None
+    last_eval_step = 0
+    best_eval = -float("inf")
+    iteration = 0
+
+    start_time = time.time()
+    while agent.total_steps < max_env_steps:
+        iteration += 1
+        # 1. Policy + replay collection
+        if use_vec:
+            agent.train_policy_real_vec(vec_env)
+        else:
+            agent.train_policy_real()
+
+        # 2. World model training — same cadence as smoke_benchmark so the
+        #    per-env throughput projection transfers cleanly.
+        if (iteration % 10 == 0
+                and agent.replay_buffer.num_episodes >= 10):
+            agent.train_world_model(steps=2)
+
+        # 3. Eval checkpoint — first time we cross an `eval_every_steps`
+        #    boundary AND at the final step.
+        if (agent.total_steps - last_eval_step) >= eval_every_steps:
+            eval_r = _evaluate(agent, env, episodes=eval_episodes)
+            eval_curve.append(EvalPoint(step=agent.total_steps,
+                                        eval_return=eval_r))
+            last_eval_step = agent.total_steps
+            best_eval = max(best_eval, eval_r)
+            if (steps_to_mastery is None) and (eval_r >= mastery_threshold):
+                steps_to_mastery = agent.total_steps
+
+    # Final eval at the truncation horizon so every run has a last point.
+    final_eval = _evaluate(agent, env, episodes=eval_episodes)
+    if not eval_curve or eval_curve[-1].step < agent.total_steps:
+        eval_curve.append(EvalPoint(step=agent.total_steps,
+                                    eval_return=final_eval))
+    best_eval = max(best_eval, final_eval)
+    if (steps_to_mastery is None) and (final_eval >= mastery_threshold):
+        steps_to_mastery = agent.total_steps
+
+    wall = time.time() - start_time
+
+    if vec_env is not None:
+        vec_env.close()
+    env.close()
+
+    return PilotRun(
+        pair_alias=pair_alias or "",
+        pair_role=pair_role or "",
+        src_env=src_env or "",
+        tgt_env=env_name,
+        seed=seed,
+        arm=arm,
+        mastery_threshold=mastery_threshold,
+        max_env_steps=max_env_steps,
+        total_env_steps=agent.total_steps,
+        total_episodes=agent.total_episodes,
+        final_eval_return=final_eval,
+        best_eval_return=best_eval,
+        steps_to_mastery=steps_to_mastery,
+        eval_curve=eval_curve,
+        acting_policy_mode=agent.acting_policy_mode,
+        transfer_skill_name=transfer_skill_name,
+        wall_clock_sec=wall,
+        used_vec=use_vec,
+    )
+
+
+def _pretrain_source(
+    src_env: str,
+    seed: int,
+    skills_dir: str,
+    max_env_steps: int,
+    eval_every_steps: int,
+    eval_episodes: int,
+    mastery_threshold: float,
+) -> PilotRun:
+    """Pre-train source task and force crystallization.
+
+    Source runs are recorded as PilotRun (arm="source") so they're auditable
+    alongside the pilot arms but excluded from RMST analysis.
+    """
+    _seed_everything(seed)
+    spec = get_env_spec(src_env)
+    agent, env = _build_agent(src_env, seed, skills_dir)
+
+    # Source lowers the crystallization threshold so the skill lands in the
+    # library even if the source doesn't fully master the env — the pilot
+    # cares about *having* a transferable skill, not about source mastery.
+    agent.config.skill.thresholds[env.env_name] = mastery_threshold
+
+    eval_curve: list[EvalPoint] = []
+    steps_to_mastery: int | None = None
+    last_eval_step = 0
+    best_eval = -float("inf")
+    iteration = 0
+    crystallized = False
+
+    start_time = time.time()
+    while agent.total_steps < max_env_steps:
+        iteration += 1
+        agent.train_policy_real()
+
+        if (iteration % 10 == 0
+                and agent.replay_buffer.num_episodes >= 10):
+            agent.train_world_model(steps=2)
+
+        # Try crystallization every 10 iters
+        if iteration % 10 == 0 and not crystallized:
+            skill = agent.check_crystallization()
+            if skill is not None:
+                crystallized = True
+                break  # Source done — skill is saved to skills_dir
+
+        if (agent.total_steps - last_eval_step) >= eval_every_steps:
+            eval_r = _evaluate(agent, env, episodes=eval_episodes)
+            eval_curve.append(EvalPoint(step=agent.total_steps,
+                                        eval_return=eval_r))
+            last_eval_step = agent.total_steps
+            best_eval = max(best_eval, eval_r)
+            if (steps_to_mastery is None) and (eval_r >= mastery_threshold):
+                steps_to_mastery = agent.total_steps
+
+    # Always emit a final eval — whether we crystallized early or hit the cap.
+    # This lets reviewers compare crystallized-source quality vs capped-source
+    # quality on identical axes.
+    final_eval = _evaluate(agent, env, episodes=eval_episodes)
+    if not eval_curve or eval_curve[-1].step < agent.total_steps:
+        eval_curve.append(EvalPoint(step=agent.total_steps,
+                                    eval_return=final_eval))
+    best_eval = max(best_eval, final_eval)
+    if (steps_to_mastery is None) and (final_eval >= mastery_threshold):
+        steps_to_mastery = agent.total_steps
+    wall = time.time() - start_time
+    env.close()
+
+    return PilotRun(
+        pair_alias="",
+        pair_role="",
+        src_env=src_env,
+        tgt_env=src_env,
+        seed=seed,
+        arm="source",
+        mastery_threshold=mastery_threshold,
+        max_env_steps=max_env_steps,
+        total_env_steps=agent.total_steps,
+        total_episodes=agent.total_episodes,
+        final_eval_return=final_eval,
+        best_eval_return=best_eval,
+        steps_to_mastery=steps_to_mastery,
+        eval_curve=eval_curve,
+        acting_policy_mode=agent.acting_policy_mode,
+        transfer_skill_name=None,
+        source_crystallized=crystallized,
+        wall_clock_sec=wall,
+    )
+
+
+# ── Threshold resolution ────────────────────────────────────────────
+
+def resolve_mastery_thresholds(overrides_path: Path | None) -> dict[str, float]:
+    """Resolve mastery thresholds for pilot target envs.
+
+    Priority:
+      1. --mastery-thresholds JSON override (e.g. SB3-derived 80% values)
+      2. env registry reward_threshold (Gymnasium default)
+
+    Returns a dict keyed by env registry name. Every pair target env MUST
+    have a resolved threshold; otherwise we fail loudly rather than silently
+    using a bogus proxy.
+    """
+    thresholds: dict[str, float] = {}
+    tgt_envs = {tgt for (_, _, tgt, _) in PILOT_PAIRS}
+    src_envs = {src for (_, src, _, _) in PILOT_PAIRS}
+
+    if overrides_path is not None and overrides_path.exists():
+        data = json.loads(overrides_path.read_text())
+        overrides = data.get("pilot_mastery_thresholds", data)  # flexible schema
+    else:
+        overrides = {}
+
+    for env_name in tgt_envs | src_envs:
+        if env_name in overrides:
+            thresholds[env_name] = float(overrides[env_name])
+            continue
+        spec = get_env_spec(env_name)
+        thresholds[env_name] = float(spec.reward_threshold)
+
+    return thresholds
+
+
+# ── Pilot orchestration ─────────────────────────────────────────────
+
+def run_pilot(
+    seeds: int = PILOT_SEEDS_DEFAULT,
+    max_env_steps: int = MAX_ENV_STEPS_DEFAULT,
+    source_max_env_steps: int = SOURCE_MAX_ENV_STEPS_DEFAULT,
+    eval_every_steps: int = EVAL_EVERY_STEPS_DEFAULT,
+    eval_episodes: int = EVAL_EPISODES_DEFAULT,
+    skills_root: Path = Path("pilot_skills"),
+    output_path: Path = Path("pilot_results.json"),
+    pair_filter: list[str] | None = None,
+    mastery_thresholds: dict[str, float] | None = None,
+    base_seed: int = 42,
+    num_envs: int = 1,
+) -> list[PilotRun]:
+    """Run the Phase 3 pilot matrix. Writes output_path incrementally."""
+    if mastery_thresholds is None:
+        mastery_thresholds = resolve_mastery_thresholds(None)
+
+    pairs = PILOT_PAIRS
+    if pair_filter:
+        pairs = [p for p in PILOT_PAIRS if p[0] in set(pair_filter)]
+        if not pairs:
+            raise ValueError(
+                f"--pairs filter {pair_filter!r} matched no pilot pairs. "
+                f"Available aliases: {[p[0] for p in PILOT_PAIRS]}"
+            )
+
+    # Skills root per-pilot. Each (pair, seed) gets its own subdir so transfer
+    # arms only see the source skill from the matching seed — eliminates
+    # cross-seed leakage that would make "transfer" look artificially good.
+    skills_root.mkdir(parents=True, exist_ok=True)
+
+    all_runs: list[PilotRun] = []
+
+    # Resume support: if output_path exists, load prior runs and skip any
+    # (pair, seed, arm) triple already present. Useful when pilot is
+    # interrupted at ~hour N of an 8-hour run.
+    completed_keys: set[tuple[str, int, str]] = set()
+    if output_path.exists():
+        try:
+            existing = json.loads(output_path.read_text())
+            for r in existing.get("runs", []):
+                key = (r.get("pair_alias", ""), r.get("seed", -1), r.get("arm", ""))
+                # "source" runs are keyed by (src_env, seed, "source")
+                if r.get("arm") == "source":
+                    key = (r.get("src_env", ""), r.get("seed", -1), "source")
+                completed_keys.add(key)
+                all_runs.append(_run_from_dict(r))
+            print(f"[pilot] Resumed: {len(all_runs)} runs already in "
+                  f"{output_path}", flush=True)
+        except Exception as e:
+            print(f"[pilot] WARN: could not resume from {output_path}: {e}. "
+                  f"Starting fresh.", flush=True)
+            all_runs = []
+            completed_keys = set()
+
+    def _already_done(key: tuple[str, int, str]) -> bool:
+        return key in completed_keys
+
+    # Provenance collected once at launch so reviewer-replay metadata doesn't
+    # churn across incremental flushes (a dirty-git flip mid-pilot would
+    # otherwise look alarming in the output).
+    provenance = _collect_provenance()
+
+    def _flush() -> None:
+        payload = {
+            "prereg_section": "§8 (pilot)",
+            "pairs": [
+                {"alias": a, "src": s, "tgt": t, "role": r}
+                for (a, s, t, r) in PILOT_PAIRS
+            ],
+            "seeds_N": seeds,
+            "base_seed": base_seed,
+            "max_env_steps": max_env_steps,
+            "source_max_env_steps": source_max_env_steps,
+            "eval_every_steps": eval_every_steps,
+            "eval_episodes": eval_episodes,
+            "mastery_thresholds": mastery_thresholds,
+            "provenance": provenance,
+            "runs": [r.to_dict() for r in all_runs],
+        }
+        _atomic_write_json(output_path, payload)
+
+    t_outer = time.time()
+    for (alias, src_env, tgt_env, role) in pairs:
+        print(f"\n{'#'*70}", flush=True)
+        print(f"  PAIR: {alias}  ({src_env} -> {tgt_env}, role={role})",
+              flush=True)
+        print(f"{'#'*70}", flush=True)
+
+        tgt_threshold = mastery_thresholds[tgt_env]
+        src_threshold = mastery_thresholds[src_env]
+
+        for s in range(seeds):
+            seed = base_seed + s
+            per_seed_skills = skills_root / f"{alias}_seed{seed}"
+
+            # --- 1. Source pre-training (for transfer arm only) ---
+            src_key = (src_env, seed, "source")
+            if not _already_done(src_key):
+                # Clean per-seed skills dir to guarantee isolation
+                if per_seed_skills.exists():
+                    shutil.rmtree(per_seed_skills)
+                per_seed_skills.mkdir(parents=True)
+
+                print(f"  [source seed={seed}] {src_env} (cap "
+                      f"{source_max_env_steps:,} steps)...", flush=True)
+                src_run = _pretrain_source(
+                    src_env=src_env,
+                    seed=seed,
+                    skills_dir=str(per_seed_skills),
+                    max_env_steps=source_max_env_steps,
+                    eval_every_steps=eval_every_steps,
+                    eval_episodes=eval_episodes,
+                    mastery_threshold=src_threshold,
+                )
+                all_runs.append(src_run)
+                completed_keys.add(src_key)
+                status = ("crystallized" if src_run.total_env_steps < source_max_env_steps
+                          else "reached cap without crystallizing")
+                print(f"    -> {status}, eval={src_run.final_eval_return:.1f}, "
+                      f"{src_run.wall_clock_sec:.0f}s", flush=True)
+                _flush()
+            else:
+                print(f"  [source seed={seed}] {src_env}: already done (skip)",
+                      flush=True)
+
+            # --- 2. Scratch arm — isolated skills dir (empty subdir so
+            #        try_transfer is even structurally unable to find a skill)
+            scratch_key = (alias, seed, "scratch")
+            if not _already_done(scratch_key):
+                empty_skills = skills_root / f"{alias}_seed{seed}_empty"
+                if empty_skills.exists():
+                    shutil.rmtree(empty_skills)
+                empty_skills.mkdir(parents=True)
+
+                print(f"  [seed={seed}] scratch {tgt_env} ({max_env_steps:,} "
+                      f"steps, τ={tgt_threshold:.1f})...", flush=True)
+                r = _train_to_step_budget(
+                    env_name=tgt_env,
+                    seed=seed,
+                    arm="scratch",
+                    skills_dir=str(empty_skills),
+                    max_env_steps=max_env_steps,
+                    eval_every_steps=eval_every_steps,
+                    eval_episodes=eval_episodes,
+                    mastery_threshold=tgt_threshold,
+                    pair_alias=alias,
+                    pair_role=role,
+                    src_env=src_env,
+                    num_envs=num_envs,
+                )
+                all_runs.append(r)
+                completed_keys.add(scratch_key)
+                mastery_str = (f"{r.steps_to_mastery:,}" if r.steps_to_mastery
+                               else "censored")
+                print(f"    -> final={r.final_eval_return:.1f}, best="
+                      f"{r.best_eval_return:.1f}, mastery@{mastery_str}, "
+                      f"{r.wall_clock_sec:.0f}s", flush=True)
+                _flush()
+            else:
+                print(f"  [seed={seed}] scratch {tgt_env}: already done (skip)",
+                      flush=True)
+
+            # --- 3. Transfer arm — uses per-seed skills dir with source skill
+            transfer_key = (alias, seed, "transfer")
+            if not _already_done(transfer_key):
+                print(f"  [seed={seed}] transfer {tgt_env} ({max_env_steps:,} "
+                      f"steps, τ={tgt_threshold:.1f})...", flush=True)
+                r = _train_to_step_budget(
+                    env_name=tgt_env,
+                    seed=seed,
+                    arm="transfer",
+                    skills_dir=str(per_seed_skills),
+                    max_env_steps=max_env_steps,
+                    eval_every_steps=eval_every_steps,
+                    eval_episodes=eval_episodes,
+                    mastery_threshold=tgt_threshold,
+                    pair_alias=alias,
+                    pair_role=role,
+                    src_env=src_env,
+                    num_envs=num_envs,
+                )
+                all_runs.append(r)
+                completed_keys.add(transfer_key)
+                mastery_str = (f"{r.steps_to_mastery:,}" if r.steps_to_mastery
+                               else "censored")
+                src_str = r.transfer_skill_name or "NO SKILL LOADED"
+                print(f"    -> final={r.final_eval_return:.1f}, best="
+                      f"{r.best_eval_return:.1f}, mastery@{mastery_str}, "
+                      f"mode={r.acting_policy_mode}, src={src_str}, "
+                      f"{r.wall_clock_sec:.0f}s", flush=True)
+                _flush()
+            else:
+                print(f"  [seed={seed}] transfer {tgt_env}: already done (skip)",
+                      flush=True)
+
+    total_wall = time.time() - t_outer
+    print(f"\n{'='*70}", flush=True)
+    print(f"  PILOT COMPLETE: {len(all_runs)} runs, "
+          f"{total_wall/3600:.2f} GPU-hr wall", flush=True)
+    print(f"{'='*70}", flush=True)
+    print(f"  Results written to: {output_path}", flush=True)
+
+    return all_runs
+
+
+def _run_from_dict(d: dict) -> PilotRun:
+    """Reconstruct a PilotRun from its serialized dict (for resume)."""
+    curve = [EvalPoint(step=p["step"], eval_return=p["eval_return"])
+             for p in d.get("eval_curve", [])]
+    return PilotRun(
+        pair_alias=d.get("pair_alias", ""),
+        pair_role=d.get("pair_role", ""),
+        src_env=d.get("src_env", ""),
+        tgt_env=d.get("tgt_env", ""),
+        seed=d.get("seed", -1),
+        arm=d.get("arm", ""),
+        mastery_threshold=float(d.get("mastery_threshold", 0.0)),
+        max_env_steps=int(d.get("max_env_steps", 0)),
+        total_env_steps=int(d.get("total_env_steps", 0)),
+        total_episodes=int(d.get("total_episodes", 0)),
+        final_eval_return=float(d.get("final_eval_return", 0.0)),
+        best_eval_return=float(d.get("best_eval_return", 0.0)),
+        steps_to_mastery=d.get("steps_to_mastery"),
+        eval_curve=curve,
+        acting_policy_mode=d.get("acting_policy_mode", "obs"),
+        transfer_skill_name=d.get("transfer_skill_name"),
+        source_crystallized=d.get("source_crystallized"),
+        used_vec=bool(d.get("used_vec", False)),
+        wall_clock_sec=float(d.get("wall_clock_sec", 0.0)),
+    )
+
+
+def _cross_dim(src_env: str, tgt_env: str) -> bool:
+    """Return True iff the (src, tgt) pair requires the latent-policy path.
+
+    Shared predicate between pilot_run (asserts loudly at transfer time)
+    and pilot_analysis (expects mode=='latent' for cross-dim). Keeping one
+    canonical definition prevents drift.
+    """
+    src_spec = get_env_spec(src_env)
+    tgt_spec = get_env_spec(tgt_env)
+    return (src_spec.obs_dim != tgt_spec.obs_dim
+            or src_spec.action_dim != tgt_spec.action_dim
+            or src_spec.is_discrete != tgt_spec.is_discrete)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--seeds", type=int, default=PILOT_SEEDS_DEFAULT,
+                        help=f"Seeds per (pair, arm) (default {PILOT_SEEDS_DEFAULT})")
+    parser.add_argument("--max-steps", type=int, default=MAX_ENV_STEPS_DEFAULT,
+                        help=f"Env-steps per target run (default "
+                             f"{MAX_ENV_STEPS_DEFAULT:,}, per §8)")
+    parser.add_argument("--source-max-steps", type=int,
+                        default=SOURCE_MAX_ENV_STEPS_DEFAULT,
+                        help=f"Env-steps cap for source pre-training "
+                             f"(default {SOURCE_MAX_ENV_STEPS_DEFAULT:,})")
+    parser.add_argument("--eval-every", type=int,
+                        default=EVAL_EVERY_STEPS_DEFAULT,
+                        help=f"Eval frequency in env-steps (default "
+                             f"{EVAL_EVERY_STEPS_DEFAULT}, per §4.5)")
+    parser.add_argument("--eval-episodes", type=int,
+                        default=EVAL_EPISODES_DEFAULT,
+                        help=f"Eval episodes per checkpoint (default "
+                             f"{EVAL_EPISODES_DEFAULT}, per §4.5)")
+    parser.add_argument("--skills-root", type=Path, default=Path("pilot_skills"),
+                        help="Root for per-(pair,seed) skill dirs")
+    parser.add_argument("--output", type=Path, default=Path("pilot_results.json"),
+                        help="Output JSON path (incrementally updated)")
+    parser.add_argument("--pairs", type=str, nargs="+", default=None,
+                        help="Filter to specific pair aliases "
+                             "(e.g. --pairs cartpole_mcc)")
+    parser.add_argument("--mastery-thresholds", type=Path, default=None,
+                        help="Optional JSON with per-env mastery thresholds "
+                             "(overrides registry defaults)")
+    parser.add_argument("--base-seed", type=int, default=42,
+                        help="First seed; runs use base_seed..base_seed+N-1")
+    parser.add_argument("--vec", type=int, default=1,
+                        help="Parallel envs for A2C collection (discrete only)")
+    parser.add_argument("--smoke", action="store_true",
+                        help="Quick-smoke mode: seeds=1, max-steps=20k, "
+                             "source-max=10k, pairs limited to cartpole_mcc")
+    args = parser.parse_args(argv)
+
+    if args.smoke:
+        args.seeds = 1
+        args.max_steps = 20_000
+        args.source_max_steps = 10_000
+        args.eval_every = min(args.eval_every, 5_000)
+        if args.pairs is None:
+            args.pairs = ["cartpole_mcc"]
+
+    mastery = resolve_mastery_thresholds(args.mastery_thresholds)
+
+    print(f"[pilot] device={DEVICE} seeds={args.seeds} "
+          f"max_steps={args.max_steps:,} "
+          f"source_cap={args.source_max_steps:,}", flush=True)
+    print(f"[pilot] mastery thresholds: {mastery}", flush=True)
+    if args.pairs:
+        print(f"[pilot] pair filter: {args.pairs}", flush=True)
+
+    run_pilot(
+        seeds=args.seeds,
+        max_env_steps=args.max_steps,
+        source_max_env_steps=args.source_max_steps,
+        eval_every_steps=args.eval_every,
+        eval_episodes=args.eval_episodes,
+        skills_root=args.skills_root,
+        output_path=args.output,
+        pair_filter=args.pairs,
+        mastery_thresholds=mastery,
+        base_seed=args.base_seed,
+        num_envs=args.vec,
+    )
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
