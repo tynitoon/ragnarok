@@ -8,10 +8,16 @@ build/
 
 logs/
 checkpoints/
-skills_data/
+
+# skills_data/ holds crystallized skill checkpoints -- small (~50 KB
+# total) and required for transfer-arm runs, so we track the .pt files
+# there explicitly. Everything else under skills_data/ stays ignored.
+skills_data/*
+!skills_data/*.pt
 
 *.pt
 !ragnarok/**/*.py
+!skills_data/*.pt
 
 .env
 .venv/

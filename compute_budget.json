@@ -1,0 +1,158 @@
+{
+  "hardware": {
+    "device": "cuda",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "cuda_capability": "(8, 9)"
+  },
+  "runs": [
+    {
+      "env": "cartpole",
+      "seed": 42,
+      "steps": 51448,
+      "wall_clock_sec": 356.09498953819275,
+      "steps_per_sec": 144.47830357490042,
+      "episodes_completed": 864
+    },
+    {
+      "env": "cartpole",
+      "seed": 43,
+      "steps": 50033,
+      "wall_clock_sec": 448.0150911808014,
+      "steps_per_sec": 111.6770416552969,
+      "episodes_completed": 1272
+    },
+    {
+      "env": "cartpole",
+      "seed": 44,
+      "steps": 51635,
+      "wall_clock_sec": 356.0722224712372,
+      "steps_per_sec": 145.0127157957989,
+      "episodes_completed": 944
+    },
+    {
+      "env": "mountaincar",
+      "seed": 42,
+      "steps": 51200,
+      "wall_clock_sec": 241.7093162536621,
+      "steps_per_sec": 211.82468592260673,
+      "episodes_completed": 256
+    },
+    {
+      "env": "mountaincar",
+      "seed": 43,
+      "steps": 51179,
+      "wall_clock_sec": 239.60830926895142,
+      "steps_per_sec": 213.59442899183216,
+      "episodes_completed": 256
+    },
+    {
+      "env": "mountaincar",
+      "seed": 44,
+      "steps": 51200,
+      "wall_clock_sec": 249.66858744621277,
+      "steps_per_sec": 205.07185354677526,
+      "episodes_completed": 256
+    },
+    {
+      "env": "acrobot",
+      "seed": 42,
+      "steps": 51786,
+      "wall_clock_sec": 222.39098811149597,
+      "steps_per_sec": 232.86015516976357,
+      "episodes_completed": 104
+    },
+    {
+      "env": "acrobot",
+      "seed": 43,
+      "steps": 52729,
+      "wall_clock_sec": 226.65154767036438,
+      "steps_per_sec": 232.6434588335023,
+      "episodes_completed": 112
+    },
+    {
+      "env": "acrobot",
+      "seed": 44,
+      "steps": 51530,
+      "wall_clock_sec": 190.02376461029053,
+      "steps_per_sec": 271.1766083872725,
+      "episodes_completed": 104
+    },
+    {
+      "env": "pendulum",
+      "seed": 42,
+      "steps": 50000,
+      "wall_clock_sec": 1353.096242427826,
+      "steps_per_sec": 36.95228649093451,
+      "episodes_completed": 250
+    },
+    {
+      "env": "pendulum",
+      "seed": 43,
+      "steps": 50000,
+      "wall_clock_sec": 1351.2531626224518,
+      "steps_per_sec": 37.00268860275023,
+      "episodes_completed": 250
+    },
+    {
+      "env": "pendulum",
+      "seed": 44,
+      "steps": 50000,
+      "wall_clock_sec": 1298.5413553714752,
+      "steps_per_sec": 38.50474210403291,
+      "episodes_completed": 250
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 42,
+      "steps": 50069,
+      "wall_clock_sec": 1402.9673583507538,
+      "steps_per_sec": 35.68792937482037,
+      "episodes_completed": 533
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 43,
+      "steps": 50065,
+      "wall_clock_sec": 1425.9898357391357,
+      "steps_per_sec": 35.10894590216326,
+      "episodes_completed": 594
+    },
+    {
+      "env": "mountaincar-continuous",
+      "seed": 44,
+      "steps": 50013,
+      "wall_clock_sec": 1513.6640243530273,
+      "steps_per_sec": 33.04101781858536,
+      "episodes_completed": 524
+    }
+  ],
+  "summary": {
+    "cartpole": {
+      "mean_steps_per_sec": 133.72268700866542,
+      "std_steps_per_sec": 15.590151985368523,
+      "n_seeds": 3
+    },
+    "mountaincar": {
+      "mean_steps_per_sec": 210.16365615373806,
+      "std_steps_per_sec": 3.6722234839374606,
+      "n_seeds": 3
+    },
+    "acrobot": {
+      "mean_steps_per_sec": 245.56007413017946,
+      "std_steps_per_sec": 18.11384111361904,
+      "n_seeds": 3
+    },
+    "pendulum": {
+      "mean_steps_per_sec": 37.486572399239215,
+      "std_steps_per_sec": 0.7202486857739361,
+      "n_seeds": 3
+    },
+    "mountaincar-continuous": {
+      "mean_steps_per_sec": 34.61263103185633,
+      "std_steps_per_sec": 1.1361577163106809,
+      "n_seeds": 3
+    }
+  }
+}
