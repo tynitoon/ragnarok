@@ -6,7 +6,7 @@
 **Target reviewer score:** 7.5–8.0/10 (workshop tier, not main track)
 **Timeline:** 14–16 weeks from commit date (revised up from 11–12)
 **Primary author:** Jérémie (solo dev), Claude Code in the loop
-**Compute:** 1× RTX 5090; investor compute optional if pilot warrants
+**Compute:** 1× RTX 4080; investor compute optional if pilot warrants
 
 This document is a commitment. Changes to hypotheses, envs, baselines, or metrics
 after a pilot run require a dated amendment in §13.
@@ -360,10 +360,13 @@ Total: ~13–14 weeks compute+work, ~16 weeks with slack. Slippage log in §13.
 
 ### 12.5 Compute budget gating
 
-Phase 1 produces a measured wall-clock per (method, env) on the actual 5090
+Phase 1 produces a measured wall-clock per (method, env) on the actual 4080
 via a 3-seed × 50k-step smoke run. The smoke-bench numbers are committed to
 `compute_budget.json` and Phase 5 only proceeds if extrapolation fits in 28
-days at 90% GPU duty cycle.
+days at 90% GPU duty cycle. The 28-day wall-budget is compute-device-
+independent; the throughput-derived projection from the 4080 smoke
+determines whether the claim budget fits. If it does not, §12.5 cut order
+applies.
 
 If extrapolation exceeds budget, **pre-declared cuts apply in this priority
 order** (no on-the-fly negotiation):
@@ -441,4 +444,12 @@ in Phase 4 baselines, not Phase 5.
   - §12: Phase 1 now produces measured wall-clock smoke-bench
     (`compute_budget.json`); §12.5 pre-declares cut order if compute overruns;
     Continual-Dreamer source-training compute explicitly budgeted in Phase 4.
+- **2026-04-14 (v3.1 hardware correction):** §header and §12.5 referenced
+  "RTX 5090" as the compute device. Corrected to RTX 4080 (the actual
+  hardware). No methodology change — the 28-day wall-budget is
+  device-independent, and the §12.5 cut order is keyed off measured
+  throughput from `compute_budget.json` rather than the device name.
+  Smoke-bench ground truth on RTX 4080 is the load-bearing number; device
+  name in prose is cosmetic.
+
 - (Subsequent amendments timestamped here before execution.)
