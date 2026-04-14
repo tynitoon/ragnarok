@@ -489,4 +489,40 @@ in Phase 4 baselines, not Phase 5.
   Phase 2 so the paper's "week-1 lit review" narrative is verifiable
   against git history.
 
+- **2026-04-14 (v3.3 Python 3.11 → 3.10 substitution, operational):**
+  §6.2 specified a **Python 3.11** venv for DMControl. On the target
+  workstation the only installable minor versions from
+  python.org/releases that are available are 3.14 (main) and 3.10;
+  3.11 is not available and installing it would require an unrelated
+  system change. Python 3.10 is substituted because:
+  - `ragnarok/pyproject.toml` declares `requires-python = ">=3.10"`,
+    so the project officially supports 3.10.
+  - `dm_control==1.0.38` supports Python 3.8–3.12; 3.10 is inside
+    that range.
+  - `mujoco==3.7.0` and `lifelines==0.30.0` both install cleanly on 3.10.
+  - No ragnarok module uses 3.11-only syntax (verified by static grep:
+    no `match` statements, no `except*`, no `tomllib` imports, no PEP
+    695 generic syntax).
+
+  **Venv directory renamed:** `venv311/` → `venv310/`. References in
+  §6.2 prose and §12 timeline entry remain correct in spirit (isolated
+  venv for DMC deps); only the minor version differs. Tests that run
+  in this venv are identical.
+
+  **No methodology change.** DMC envs only enter H1-secondary (Acrobot,
+  DMC-cartpole-swingup) and H2 (exploratory). Primary H1 endpoint
+  (CartPole → MountainCarContinuous) runs entirely in the main 3.14 env
+  and is unaffected. Amendment timestamped pre-execution of Phase 2
+  smoke on DMC.
+
+  Operational artifacts produced by this amendment:
+  - `venv310/` with torch+cu126, dm_control 1.0.38, mujoco 3.7.0,
+    lifelines 0.30.0, ragnarok (editable)
+  - `pyproject.toml` build-backend corrected from legacy placeholder
+    to `setuptools.build_meta`; `[tool.setuptools.packages.find]`
+    pinned to `ragnarok*` (setuptools would otherwise pick up
+    `logs/`, `checkpoints/`, `skills_data/`, `venv310/` as top-level
+    packages and refuse to build)
+  - `SETUP.md` with reproducible install steps for both envs
+
 - (Subsequent amendments timestamped here before execution.)

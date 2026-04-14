@@ -16,3 +16,6 @@ skills_data/
 .env
 .venv/
 venv/
+venv310/
+venv311/
+.pytest_cache/
