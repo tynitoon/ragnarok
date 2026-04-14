@@ -1,0 +1,69 @@
+{
+  "_doc": "Companion to preregistration.md §4.5. Pinned analyst degrees of freedom. Values marked TBD-Phase4 are filled in once SB3 baselines run; the procedure for filling them is fixed at commit time.",
+  "_committed": "2026-04-14",
+  "_preregistration_version": "v3",
+
+  "primary_endpoint": "MountainCarContinuous-v0 (sourced from CartPole-v1)",
+  "secondary_endpoints": ["Acrobot-v1 (sourced from CartPole-v1)", "DMC-cartpole-swingup (sourced from Pendulum-v1)"],
+
+  "truncation_horizon_env_steps": 500000,
+  "censoring_tau_sweep_env_steps": [300000, 500000, 750000, 1000000],
+  "eval_frequency_env_steps": 5000,
+  "eval_episodes_per_checkpoint": 10,
+  "convergence_window_eps": 50,
+  "convergence_tolerance_pct": 5,
+  "rng_seed_schedule": "{42, 43, ..., 42 + N - 1}",
+
+  "primary_seeds_N": 20,
+  "secondary_seeds_N": 10,
+  "ablation_seeds_N": 5,
+  "ablation_borderline_rerun_N": 10,
+  "borderline_p_range": [0.01, 0.05],
+  "ablation_rerun_policy": "replace (not pool)",
+
+  "fwer_correction": "none on primary endpoint (single-hypothesis); Holm-Bonferroni across 2 secondary envs only",
+  "primary_test": "one-sided log-rank, alpha=0.05",
+  "secondary_test": "one-sided log-rank, Holm-Bonferroni adjusted alpha=0.05 across 2 envs",
+  "ci_method": "Stratified bootstrap (10000 resamples), stratification key = env",
+  "censoring": "Kaplan-Meier (lifelines.KaplanMeierFitter); RMST as headline metric, log-rank for per-env tests",
+
+  "prospective_power_assumption": {
+    "model": "exponential survival, hazard ratio 1.5, alpha=0.05 one-sided log-rank, censoring rate 0.40, N=20 per arm",
+    "computed_power": 0.72,
+    "monte_carlo_simulation_required_before_phase5": true,
+    "monte_carlo_spec": "Weibull survival with shape parameter from Phase 4 SB3 fit, immortal stratum mass = observed Phase 4 unsolved-seed fraction. If MC power < 0.65, amend section 5 with revised N or report underpowered framing."
+  },
+
+  "max_return_per_env": {
+    "Acrobot-v1": -80,
+    "MountainCarContinuous-v0": 95,
+    "DMC-cartpole-swingup": 1000,
+    "_appendix_DMC-cheetah-run": 1000
+  },
+
+  "mastery_threshold_per_env_TBD_Phase4": {
+    "_procedure": "Run SB3 PPO (discrete) or SAC (continuous) for 10 seeds, 500k env-steps each. Take median final return across seeds (final = mean of last 50 eval episodes per seed). Multiply by 0.8. Commit to this same JSON file under mastery_threshold_per_env. Do this BEFORE any Ragnarok or DreamerV3 headline run begins.",
+    "Acrobot-v1": null,
+    "MountainCarContinuous-v0": null,
+    "DMC-cartpole-swingup": null,
+    "_appendix_DMC-cheetah-run": null
+  },
+
+  "ablations": {
+    "A1": "Frozen trunk",
+    "A2": "Randomly-initialized trunk",
+    "A3": "Source-task reward shuffle",
+    "A4": "ObsEncoder-only transfer",
+    "A5": "Latent-dim sweep {64, 160, 512}",
+    "A5b": "H2 confirmatory (deferred to separate prereg)",
+    "A6": "No-retrieval (fixed skill)",
+    "A7": "Random-retrieval control",
+    "A8": "Equal-FLOP-source Continual-Dreamer",
+    "A9": {
+      "name": "Shuffled-dynamics RSSM",
+      "shuffle_spec": "cross-trajectory shuffle of next-state targets within source replay buffer (breaks marginal transition statistics, not just within-trajectory order). Pinned at v3 commit time to prevent post-hoc choice between within- and cross-trajectory shuffles."
+    }
+  },
+
+  "_pilot_envs_inherit_thresholds_from": "Same procedure applied to pilot pairs (CartPole, Pendulum) before pilot run begins."
+}
