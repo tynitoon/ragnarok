@@ -264,3 +264,158 @@ class TestAgentIntegration:
                 assert hasattr(skill, "latent_trunk_state_dict")
                 assert len(skill.latent_trunk_state_dict) > 0
             env.close()
+
+
+class TestActingPath:
+    """Cross-dim transfer requires latent_policy to actually drive actions.
+
+    Until preregistration v3 §6.1 fix #1, latent_policy was trained but the
+    rollout loop never called it. These tests pin the wiring so a regression
+    can't silently re-break the publication-blocking bug.
+    """
+
+    def test_default_acting_mode_is_obs(self):
+        """Fresh agent acts via obs policy until try_transfer flips the mode."""
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+        assert agent.acting_policy_mode == "obs"
+        env.close()
+
+    def test_latent_act_returns_correct_shape(self):
+        """LatentPolicyHead.act should return env-compatible action."""
+        # Discrete
+        head_d = LatentPolicyHead(latent_dim=160, action_dim=3, discrete=True)
+        latent = torch.randn(1, 160)
+        a = head_d.act(latent, deterministic=True)
+        assert isinstance(a, int)
+        assert 0 <= a < 3
+
+        # Continuous
+        head_c = LatentPolicyHead(latent_dim=160, action_dim=2, discrete=False)
+        a = head_c.act(latent, deterministic=True)
+        assert isinstance(a, np.ndarray)
+        assert a.shape == (2,)
+
+    def test_collect_episode_uses_latent_when_mode_is_latent(self):
+        """When acting_policy_mode == 'latent', latent_policy.forward is called
+        on every env step (proves the wiring is live, not just the mode flag).
+        """
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+        config.policy.explore_ratio = 0.0  # disable epsilon-greedy bypass
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+        agent.acting_policy_mode = "latent"
+
+        call_count = {"n": 0}
+        original_forward = agent.latent_policy.forward
+
+        def counting_forward(*args, **kwargs):
+            call_count["n"] += 1
+            return original_forward(*args, **kwargs)
+
+        agent.latent_policy.forward = counting_forward
+
+        agent.collect_episode(explore_ratio=0.0)
+
+        # Latent policy must have been called at least once per env-step
+        # (a CartPole episode is at least 8 steps even with random policy).
+        assert call_count["n"] >= 1, (
+            "latent_policy.forward never called during collect_episode "
+            "with acting_policy_mode='latent' — the wiring is dead"
+        )
+        env.close()
+
+    def test_try_transfer_flips_mode_on_latent_trunk_load(self):
+        """Cross-env transfer that falls back to latent-trunk load must set
+        acting_policy_mode='latent'; otherwise the loaded trunk never acts.
+        """
+        from unittest.mock import MagicMock
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+        from ragnarok.skills.skill import Skill
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+        assert agent.acting_policy_mode == "obs"
+
+        # Fabricate a foreign-env skill whose obs-policy state_dict will fail
+        # to load (mismatched shapes), forcing the latent-trunk fallback.
+        trunk_sd = agent.latent_policy.get_trunk_state_dict()
+        bad_obs_policy_sd = {
+            "fc.weight": torch.zeros(1, 999),  # nonsense shape -> RuntimeError
+            "fc.bias": torch.zeros(1),
+        }
+        skill = MagicMock(spec=Skill)
+        skill.env_name = "FakeForeignEnv"
+        skill.policy_state_dict = bad_obs_policy_sd
+        skill.latent_trunk_state_dict = trunk_sd
+        skill.normalizer_state = None
+
+        agent.skill_selector = MagicMock()
+        agent.skill_selector.select.return_value = skill
+        agent.skill_library._cache = {}  # skip exact-match path
+
+        loaded = agent.try_transfer()
+        assert loaded is skill
+        assert agent.acting_policy_mode == "latent", (
+            "try_transfer flipped to latent-trunk fallback but did NOT "
+            "set acting_policy_mode='latent' — transfer is acting-time-invisible"
+        )
+        env.close()
+
+    def test_acting_policy_mode_survives_save_load(self):
+        """Checkpoint round-trip must preserve acting_policy_mode so a
+        post-transfer agent reloaded from disk keeps acting from latent.
+        """
+        import tempfile, os
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+        agent.acting_policy_mode = "latent"
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ckpt_path = os.path.join(tmpdir, "ckpt.pt")
+            agent.save(ckpt_path)
+
+            env2 = RagnarokEnv(spec.gym_name, seed=42)
+            agent2 = RagnarokAgent(config, env2)
+            assert agent2.acting_policy_mode == "obs"  # default
+            agent2.load(ckpt_path)
+            assert agent2.acting_policy_mode == "latent"
+            env2.close()
+        env.close()

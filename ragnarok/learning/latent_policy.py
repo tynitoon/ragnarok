@@ -68,6 +68,31 @@ class LatentPolicyHead(nn.Module):
             logstd = self.logstd_head(features).clamp(-5.0, 2.0)
             return mean, logstd, value
 
+    @torch.no_grad()
+    def act(self, latent: torch.Tensor, deterministic: bool = True):
+        """Select an action from cat(h, z) suitable for env.step().
+
+        Discrete: returns int action index.
+        Continuous: returns numpy array of shape (action_dim,).
+
+        Mirrors the interface of `real_trainer.policy.act` (discrete: int)
+        and `sac_trainer.policy.act` (continuous: ndarray) so the caller in
+        `collect_episode` can swap policies without further branching.
+        """
+        if self.discrete:
+            logits, _ = self.forward(latent)
+            if deterministic:
+                return int(logits.argmax(dim=-1).item())
+            probs = torch.softmax(logits, dim=-1)
+            return int(torch.distributions.Categorical(probs).sample().item())
+
+        mean, logstd, _ = self.forward(latent)
+        if deterministic:
+            return mean.squeeze(0).cpu().numpy()
+        std = logstd.exp()
+        sample = torch.distributions.Normal(mean, std).sample()
+        return sample.squeeze(0).cpu().numpy()
+
     def get_trunk_state_dict(self) -> dict:
         """Get only the shared trunk + critic weights (transferable)."""
         trunk_keys = set()

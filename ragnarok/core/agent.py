@@ -68,6 +68,14 @@ class RagnarokAgent:
             lr=config.policy.latent_lr,
         )
 
+        # Acting-path mode. "obs" = use real_trainer/sac_trainer policy on raw
+        # observations (default). "latent" = use latent_policy on cat(h, z),
+        # set automatically when try_transfer loads a cross-env trunk so the
+        # transferred features actually drive behavior. Without this branch,
+        # latent_policy would train but never act — making cross-dim transfer
+        # numbers meaningless (preregistration §6.1 fix #1).
+        self.acting_policy_mode: str = "obs"
+
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
         self.episode_lengths: deque[int] = deque(maxlen=50)
@@ -347,9 +355,16 @@ class RagnarokAgent:
                 # Encode current observation
                 h, z = self.rssm.encode_observation(obs_t, h, z, prev_action)
 
-                # Epsilon-greedy exploration using the direct policy
+                # Epsilon-greedy exploration using the active policy
                 if np.random.random() < explore_ratio:
                     action_np = self.env.sample_random_action()
+                elif self.acting_policy_mode == "latent":
+                    latent = torch.cat([h, z], dim=-1)
+                    if self.env.is_discrete:
+                        action_idx = self.latent_policy.act(latent, deterministic=True)
+                        action_np = self.env.action_to_onehot(action_idx)
+                    else:
+                        action_np = self.latent_policy.act(latent, deterministic=True)
                 elif self.env.is_discrete:
                     action_idx = self.real_trainer.policy.act(obs_t, deterministic=True)
                     action_np = self.env.action_to_onehot(action_idx)
@@ -750,6 +765,13 @@ class RagnarokAgent:
                         self.latent_policy.load_trunk_state_dict(
                             {k: v.to(DEVICE) for k, v in skill.latent_trunk_state_dict.items()}
                         )
+                        # Switch the acting path to latent: the obs policy is
+                        # now mismatched and useless, but the loaded trunk
+                        # carries transferable features that should drive
+                        # behavior. Without this flip, the agent would fall
+                        # back to a randomly-initialized obs policy and the
+                        # transfer would be invisible at acting time.
+                        self.acting_policy_mode = "latent"
                         loaded_skill = skill
                     else:
                         return None
@@ -792,6 +814,7 @@ class RagnarokAgent:
             rssm=self.rssm.state_dict(),
             policy=self._active_policy.state_dict(),
             latent_policy=self.latent_policy.state_dict(),
+            acting_policy_mode=self.acting_policy_mode,
             normalizer=self.env.normalizer.state_dict(),
             episodic_memory=self.episodic_memory.state_dict(),
             total_episodes=self.total_episodes,
@@ -816,6 +839,7 @@ class RagnarokAgent:
                 self.latent_policy.load_state_dict(latent_sd)
             except RuntimeError:
                 pass  # Dim mismatch from different env — skip
+        self.acting_policy_mode = ckpt.get("acting_policy_mode", "obs")
         self.env.normalizer = RunningNormalizer.from_state_dict(ckpt["normalizer"])
         self.episodic_memory = EpisodicMemory.from_state_dict(ckpt["episodic_memory"])
         self.total_episodes = ckpt["total_episodes"]
