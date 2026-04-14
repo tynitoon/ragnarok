@@ -56,7 +56,25 @@ class SmokeRun:
     episodes_completed: int
 
 
-def _run_one(env_name: str, seed: int, target_steps: int) -> SmokeRun:
+def _run_one(env_name: str, seed: int, target_steps: int,
+             wm_train_every: int = 10, wm_train_steps: int = 50,
+             dream_train_every: int = 20, dream_train_steps: int = 20,
+             ) -> SmokeRun:
+    """Run one smoke iteration that mirrors the canonical train.py loop.
+
+    An earlier version used `collect_episode + train_world_model(5) +
+    train_policy_dream(2)` which bypassed `train_policy_real` — the actual
+    training entry point that routes into _train_batched_ppo (discrete) or
+    _train_sac (continuous). Throughput measured that way systematically
+    over-estimated the full loop by ~3-5x on discrete envs (batched-PPO
+    with 4 epochs is the bottleneck) and was simply wrong for continuous
+    (never exercised the SAC Q-network updates at all).
+
+    This version calls the same `train_policy_real` that `train.py` calls,
+    with the same wm/dream cadences, so `steps_per_sec` extrapolates
+    honestly to the full H1 compute envelope (500k steps × 20 seeds × 2
+    arms for the primary endpoint).
+    """
     torch.manual_seed(seed)
     np.random.seed(seed)
 
@@ -73,13 +91,23 @@ def _run_one(env_name: str, seed: int, target_steps: int) -> SmokeRun:
     agent = RagnarokAgent(config, env)
 
     start = time.time()
+    iteration = 0
     while agent.total_steps < target_steps:
-        agent.collect_episode()
-        # Train on a small schedule matching real training loops
-        if agent.total_episodes % 10 == 0 and agent.replay_buffer.num_episodes >= 5:
-            agent.train_world_model(steps=5)
-        if agent.replay_buffer.num_episodes >= 5:
-            agent.train_policy_dream(steps=2)
+        iteration += 1
+        # === 1. Collect + train (the real work) ===
+        agent.train_policy_real()
+
+        # === 2. Train world model periodically ===
+        if (iteration % wm_train_every == 0
+                and agent.replay_buffer.num_episodes >= 10):
+            agent.train_world_model(steps=wm_train_steps)
+
+        # === 3. Dream augmentation (discrete only, skip SAC) ===
+        if (agent.sac_trainer is None
+                and iteration % dream_train_every == 0
+                and iteration >= 50
+                and agent.replay_buffer.num_episodes >= 20):
+            agent.train_policy_dream(steps=dream_train_steps)
     elapsed = time.time() - start
 
     steps = agent.total_steps
