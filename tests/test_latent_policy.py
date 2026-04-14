@@ -491,6 +491,146 @@ class TestActingPath:
         )
         env.close()
 
+    def test_try_transfer_does_not_corrupt_normalizer_on_cross_dim(self):
+        """Phase 3 pre-launch, smoke #4 (Bug D) regression:
+
+        When try_transfer takes the latent-trunk fallback path
+        (cross-dim source → target), it MUST NOT overwrite the target
+        env's normalizer with the source skill's normalizer_state.
+        The source's running mean/var are shaped (src_obs_dim,) while
+        the target env emits (tgt_obs_dim,)-shaped observations —
+        env.reset() → normalizer.update() then raises
+        ``operands could not be broadcast together with shapes (2,) (4,)``.
+
+        Observed in smoke #4: CartPole (obs_dim=4) source → MCC
+        (obs_dim=2) target crashed the pilot's transfer arm the very
+        first step after mode flipped to 'latent'.
+        """
+        from unittest.mock import MagicMock
+        import numpy as np
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+        from ragnarok.skills.skill import Skill
+
+        # Target env: 2-dim (MountainCarContinuous).
+        spec = get_env_spec("mountaincar-continuous")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+
+        # Snapshot the target's fresh normalizer shape so we can assert
+        # it's unchanged after try_transfer.
+        target_shape_before = agent.env.normalizer.shape
+        assert target_shape_before == (spec.obs_dim,)
+
+        # Fabricate a foreign (4-dim) skill with a 4-shape normalizer
+        # — mirroring a crystallized CartPole source skill.
+        trunk_sd = agent.latent_policy.get_trunk_state_dict()
+        bad_obs_policy_sd = {
+            "fc.weight": torch.zeros(1, 999),  # force RuntimeError
+            "fc.bias": torch.zeros(1),
+        }
+        cartpole_normalizer_state = {
+            "mean": np.zeros(4, dtype=np.float64),
+            "var": np.ones(4, dtype=np.float64),
+            "count": 1000,
+            "m2": np.ones(4, dtype=np.float64),
+            "shape": (4,),
+            "clip": 5.0,
+            "warmup_steps": 1000,
+        }
+        skill = MagicMock(spec=Skill)
+        skill.env_name = "CartPole-v1"
+        skill.policy_state_dict = bad_obs_policy_sd
+        skill.latent_trunk_state_dict = trunk_sd
+        skill.normalizer_state = cartpole_normalizer_state
+
+        agent.skill_selector = MagicMock()
+        agent.skill_selector.select.return_value = skill
+        agent.skill_library._cache = {}
+
+        loaded = agent.try_transfer()
+        assert loaded is skill
+        assert agent.acting_policy_mode == "latent"
+
+        # Critical assertion: normalizer must NOT have been corrupted.
+        assert agent.env.normalizer.shape == target_shape_before, (
+            f"Bug D regression: try_transfer on cross-dim trunk "
+            f"fallback overwrote target normalizer with source "
+            f"({skill.normalizer_state['shape']}) → target "
+            f"(expected {target_shape_before}, got "
+            f"{agent.env.normalizer.shape}). env.reset() will raise "
+            f"a broadcast error on the first step."
+        )
+
+        # And the env must still be able to reset without crashing.
+        obs = agent.env.reset()
+        assert obs.shape == target_shape_before
+
+        env.close()
+
+    def test_try_transfer_copies_normalizer_on_same_dim(self):
+        """Complement to Bug D: when source and target HAVE the same
+        obs dim (same-env or coincidentally-matching), the normalizer
+        SHOULD be copied — transferring warmed-up stats speeds up the
+        target's own normalization."""
+        from unittest.mock import MagicMock
+        import numpy as np
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+        from ragnarok.skills.skill import Skill
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+
+        # Prepare a matched-shape (4,) normalizer state with distinct
+        # mean/var so we can observe the copy happened.
+        source_norm_state = {
+            "mean": np.array([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+            "var": np.array([0.1, 0.2, 0.3, 0.4], dtype=np.float64),
+            "count": 5000,
+            "m2": np.ones(4, dtype=np.float64),
+            "shape": (4,),
+            "clip": 5.0,
+            "warmup_steps": 1000,
+        }
+        trunk_sd = agent.latent_policy.get_trunk_state_dict()
+        bad_obs_policy_sd = {
+            "fc.weight": torch.zeros(1, 999),
+            "fc.bias": torch.zeros(1),
+        }
+        skill = MagicMock(spec=Skill)
+        skill.env_name = "SomeOtherEnv"
+        skill.policy_state_dict = bad_obs_policy_sd
+        skill.latent_trunk_state_dict = trunk_sd
+        skill.normalizer_state = source_norm_state
+
+        agent.skill_selector = MagicMock()
+        agent.skill_selector.select.return_value = skill
+        agent.skill_library._cache = {}
+
+        _ = agent.try_transfer()
+        assert agent.acting_policy_mode == "latent"
+
+        # When shapes match, the normalizer IS copied — target's mean
+        # should now equal the source's.
+        assert np.allclose(agent.env.normalizer.mean,
+                           source_norm_state["mean"])
+        assert agent.env.normalizer.count == source_norm_state["count"]
+        env.close()
+
     def test_acting_policy_mode_survives_save_load(self):
         """Checkpoint round-trip must preserve acting_policy_mode so a
         post-transfer agent reloaded from disk keeps acting from latent.

@@ -776,9 +776,26 @@ class RagnarokAgent:
                     else:
                         return None
                 if loaded_skill is not None and skill.normalizer_state:
-                    self.env.normalizer = RunningNormalizer.from_state_dict(
-                        skill.normalizer_state
-                    )
+                    # Phase 3 pre-launch, smoke #4 (Bug D):
+                    # Only copy the normalizer when its shape matches the
+                    # target env. On the latent-trunk cross-dim fallback
+                    # branch above, obs dims differ BY DEFINITION — that's
+                    # why load_state_dict raised RuntimeError. Copying the
+                    # source (4,)-shape normalizer onto an MCC env that
+                    # hands out (2,)-shape observations makes env.reset()
+                    # → normalizer.update() raise
+                    # ``operands could not be broadcast together``.
+                    source_shape = tuple(
+                        skill.normalizer_state.get("shape", ()))
+                    target_shape = self.env.normalizer.shape
+                    if source_shape == target_shape:
+                        self.env.normalizer = RunningNormalizer.from_state_dict(
+                            skill.normalizer_state
+                        )
+                    # else: keep the target's fresh normalizer — the
+                    # trunk-based transfer operates in latent space, so
+                    # obs-space statistics don't transfer meaningfully
+                    # anyway.
 
         # Activate trust region for cross-task transfer only.
         # Same-env transfer loads an already-optimized policy — KL penalty
