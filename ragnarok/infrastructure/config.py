@@ -21,6 +21,10 @@ class WorldModelConfig:
     # Pixel-specific overrides (smaller to fit GPU memory)
     pixel_batch_size: int = 8
     pixel_sequence_length: int = 15
+    # A9 mechanism-isolation ablation: shuffles next-state obs targets
+    # across trajectories per time step, breaking the learned dynamics.
+    # Default OFF — only enabled for the A9 ablation run.
+    shuffle_transitions: bool = False
 
 
 @dataclass

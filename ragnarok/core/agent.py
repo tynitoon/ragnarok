@@ -152,6 +152,7 @@ class RagnarokAgent:
             free_nats=config.world_model.free_nats,
             batch_size=config.world_model.pixel_batch_size if is_pixel else config.world_model.batch_size,
             seq_length=config.world_model.pixel_sequence_length if is_pixel else config.world_model.sequence_length,
+            shuffle_transitions=config.world_model.shuffle_transitions,
         )
 
     def _build_policy_trainers(self, config: RagnarokConfig, env: RagnarokEnv
