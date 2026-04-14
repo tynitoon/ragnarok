@@ -452,4 +452,41 @@ in Phase 4 baselines, not Phase 5.
   Smoke-bench ground truth on RTX 4080 is the load-bearing number; device
   name in prose is cosmetic.
 
+- **2026-04-14 (v3.2 week-1 lit-review result):** §11 kill criterion
+  discharged. Independent lit-review agent searched ICLR/NeurIPS/ICML/RLC
+  proceedings 2021–2026, arXiv cs.LG/cs.AI, and Google Scholar for works
+  conjoining all three of §1.5's (a) RSSM cat(h,z) trunk, (b)
+  nearest-centroid skill retrieval on encoded obs, (c) discrete→continuous
+  action-space transfer. **Result: 0 works satisfy all three.** Ten
+  candidates examined; closest partial matches:
+  - **LEGION (Nature MI 2025):** DPMM-clustered skill memory — partial on
+    (b), but SAC backbone (not RSSM) and continuous throughout. Closest
+    single prior; cite prominently in related work.
+  - **SRSA (NVlabs 2025):** skill-retrieval-for-assembly library with
+    learned success predictor — partial on (b), both (a) and (c) absent.
+  - **XSkill (CoRL 2023):** prototype-clustered skill embeddings —
+    partial on (b), both (a) and (c) absent.
+  - **Cross-Embodiment Latent Space Alignment (arXiv 2406.01968):**
+    continuous↔continuous dim-mismatch, not action-type change.
+  - **TrajWorld (ICML 2025):** transformer heterogeneous-env world
+    model — no RSSM, no skill library, no action-type change.
+  - **Dreamer 4 (arXiv 2509.24527, 2025):** moves away from RSSM toward
+    transformer dynamics; confirms RSSM-centric claim is still the
+    minority branch in late 2025–early 2026.
+
+  **Novelty-delta clarification to §1.5** (to be reflected in paper
+  related-work prose, does NOT change hypothesis): the discriminating
+  axis for H1 is **action-space type change** (Discrete → Box), not
+  **dim mismatch** (Box_n → Box_m). The latter is a crowded subfield in
+  2025 (hypernetwork policies, latent alignment, unified action spaces);
+  the former remains unoccupied in the conjunction with (a)+(b). Paper
+  must keep this distinction sharp so reviewers don't conflate H1 with
+  the dim-mismatch line.
+
+  **No hypothesis change. No endpoint change. No power recalculation.**
+  Project proceeds with H1 as preregistered; new references added to
+  related-work bibliography. Amendment timestamped pre-execution of
+  Phase 2 so the paper's "week-1 lit review" narrative is verifiable
+  against git history.
+
 - (Subsequent amendments timestamped here before execution.)
