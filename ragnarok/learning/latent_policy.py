@@ -50,7 +50,10 @@ class LatentPolicyHead(nn.Module):
         else:
             self.mean_head = nn.Linear(hidden, action_dim)
             self.logstd_head = nn.Linear(hidden, action_dim)
-            nn.init.constant_(self.logstd_head.bias, -0.5)
+            # Match SACPolicy (-1.0) so latent/obs continuous trainers start
+            # from the same exploration scale and H1 comparisons aren't
+            # confounded by an inherited -0.5 divergence.
+            nn.init.constant_(self.logstd_head.bias, -1.0)
             # Action bounds for tanh-squash + rescale (mirrors SACPolicy).
             # Without this, `act()` emits raw Gaussian samples that violate
             # env.action_space on every continuous target — silent failure.
@@ -68,6 +71,11 @@ class LatentPolicyHead(nn.Module):
     def _rescale(self, tanh_action: torch.Tensor) -> torch.Tensor:
         return self.action_low + (tanh_action + 1.0) * 0.5 * (
             self.action_high - self.action_low)
+
+    def _inverse_rescale(self, env_action: torch.Tensor) -> torch.Tensor:
+        """Inverse of `_rescale` — env-space action back to tanh range (-1, 1)."""
+        return 2.0 * (env_action - self.action_low) / (
+            self.action_high - self.action_low) - 1.0
 
     def forward(self, latent: torch.Tensor):
         """Forward pass on cat(h, z).
@@ -113,6 +121,43 @@ class LatentPolicyHead(nn.Module):
             raw = torch.distributions.Normal(mean, std).sample()
             action = self._rescale(torch.tanh(raw))
         return action.squeeze(0).cpu().numpy()
+
+    def evaluate_action(self, latent: torch.Tensor, action: torch.Tensor):
+        """Compute (log_prob, entropy, value) for an already-taken action.
+
+        For continuous, the stored `action` is env-space (post-tanh+rescale
+        from `act()`). Naively evaluating log_prob of the raw Gaussian on
+        that action would be a train/inference distribution mismatch — the
+        policy would train on the wrong density. This method inverts the
+        squash and adds the tanh log-det correction (cf. SACPolicy.sample
+        L82-85), so the log-prob reflects the *actual* distribution the
+        policy sampled from.
+
+        The affine `_rescale` Jacobian is a constant w.r.t. policy params
+        and cancels in the gradient, so we drop it — mirrors SAC.
+
+        Returns:
+            (log_prob[B], entropy[scalar], value[B])
+        """
+        if self.discrete:
+            logits, value = self.forward(latent)
+            dist = torch.distributions.Categorical(logits=logits)
+            idx = action.argmax(dim=-1) if action.dim() == 2 else action.long()
+            return dist.log_prob(idx), dist.entropy().mean(), value
+
+        mean, logstd, value = self.forward(latent)
+        std = logstd.exp()
+        dist = torch.distributions.Normal(mean, std)
+        # Invert rescale+tanh to recover the pre-squash sample point.
+        tanh_a = self._inverse_rescale(action).clamp(-1.0 + 1e-6, 1.0 - 1e-6)
+        raw = torch.atanh(tanh_a)
+        log_prob = dist.log_prob(raw).sum(dim=-1)
+        # Tanh log-det correction: log|d/dx tanh(x)| = log(1 - tanh(x)^2)
+        log_prob = log_prob - torch.log(1.0 - tanh_a.pow(2) + 1e-6).sum(dim=-1)
+        # Gaussian entropy as exploration bonus proxy (standard in squashed-
+        # Gaussian actors — the exact squashed entropy has no closed form).
+        entropy = dist.entropy().sum(dim=-1).mean()
+        return log_prob, entropy, value
 
     def get_trunk_state_dict(self) -> dict:
         """Get only the shared trunk + critic weights (transferable)."""

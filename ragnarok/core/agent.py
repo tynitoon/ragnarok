@@ -462,17 +462,10 @@ class RagnarokAgent:
             G = rew_t[t] + cfg.gamma * G * (1.0 - done_t[t])
             returns[t] = G
 
-        if self.env.is_discrete:
-            logits, values = self.latent_policy(latent)
-            action_idx = act_t.squeeze(0).argmax(dim=-1)
-            dist = torch.distributions.Categorical(logits=logits)
-            log_probs = dist.log_prob(action_idx)
-            entropy = dist.entropy().mean()
-        else:
-            means, logstds, values = self.latent_policy(latent)
-            dist = torch.distributions.Normal(means, logstds.exp())
-            log_probs = dist.log_prob(act_t.squeeze(0)).sum(dim=-1)
-            entropy = dist.entropy().sum(dim=-1).mean()
+        # evaluate_action handles tanh+rescale inversion for continuous so
+        # the log-prob matches the distribution act() actually samples from.
+        log_probs, entropy, values = self.latent_policy.evaluate_action(
+            latent, act_t.squeeze(0))
 
         advantages = (returns - values.detach())
         if advantages.std() > 1e-6:

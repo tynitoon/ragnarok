@@ -346,6 +346,54 @@ class TestActingPath:
             assert (a_det >= low).all() and (a_det <= high).all(), a_det
             assert (a_sto >= low).all() and (a_sto <= high).all(), a_sto
 
+    def test_evaluate_action_matches_sampling_distribution(self):
+        """The log-prob from evaluate_action(a) must correspond to the density
+        the policy ACTUALLY samples from (tanh+rescale squashed Gaussian),
+        not the raw Gaussian on the rescaled action.
+
+        Concretely: if we take many samples from act() and feed each back
+        through evaluate_action(), the empirical log-prob distribution must
+        have finite mean. A naive raw-Gaussian log_prob on rescaled samples
+        would produce log-probs that are systematically off by the missing
+        tanh log-det correction.
+
+        This test pins the correction: build an explicit squashed sample,
+        verify that the log-prob includes the `-log(1 - tanh(raw)^2)` term.
+        """
+        low = np.array([-2.0, -2.0], dtype=np.float32)
+        high = np.array([2.0, 2.0], dtype=np.float32)
+        head = LatentPolicyHead(latent_dim=160, action_dim=2, discrete=False,
+                                action_low=low, action_high=high).to(DEVICE)
+        latent = torch.randn(4, 160, device=DEVICE)
+
+        # Forward to get mean, logstd, and construct a known raw point
+        mean, logstd, _ = head(latent)
+        std = logstd.exp()
+        raw = mean.detach()  # arbitrary pre-squash point
+        tanh_a = torch.tanh(raw)
+        env_action = head._rescale(tanh_a)
+
+        log_prob, entropy, value = head.evaluate_action(latent, env_action)
+        # Expected: normal log_prob at raw, minus tanh log-det correction
+        dist = torch.distributions.Normal(mean.detach(), std.detach())
+        expected = dist.log_prob(raw).sum(dim=-1) - torch.log(
+            1.0 - tanh_a.pow(2) + 1e-6).sum(dim=-1)
+        torch.testing.assert_close(log_prob, expected, atol=1e-4, rtol=1e-4)
+
+    def test_evaluate_action_discrete_matches_categorical(self):
+        """Discrete path: evaluate_action on a one-hot must match Categorical."""
+        head = LatentPolicyHead(latent_dim=160, action_dim=3, discrete=True).to(DEVICE)
+        latent = torch.randn(4, 160, device=DEVICE)
+        # One-hot of class 1 for every batch row
+        onehot = torch.zeros(4, 3, device=DEVICE)
+        onehot[:, 1] = 1.0
+
+        log_prob, entropy, value = head.evaluate_action(latent, onehot)
+        logits, _ = head(latent)
+        expected = torch.distributions.Categorical(logits=logits).log_prob(
+            torch.tensor([1, 1, 1, 1], device=DEVICE))
+        torch.testing.assert_close(log_prob, expected, atol=1e-5, rtol=1e-5)
+
     def test_continuous_act_asymmetric_bounds(self):
         """Pendulum-style bounds [-2, 2] (or arbitrary asymmetry) must rescale
         correctly from tanh's [-1, 1] output range.
