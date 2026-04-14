@@ -14,12 +14,19 @@ from ragnarok.infrastructure.device import DEVICE
 
 
 class DirectPolicyNet(nn.Module):
-    """Simple actor-critic for discrete actions on raw observations."""
+    """Simple actor-critic for discrete actions.
 
-    def __init__(self, obs_dim: int, action_dim: int, hidden: int = 64):
+    With obs_encoder: obs -> encode -> shared -> heads (unified path).
+    Without: obs -> shared -> heads (backward-compatible direct path).
+    """
+
+    def __init__(self, obs_dim: int, action_dim: int, hidden: int = 64,
+                 obs_encoder: nn.Module | None = None):
         super().__init__()
+        self.obs_encoder = obs_encoder
+        input_dim = obs_encoder.embed_dim if obs_encoder else obs_dim
         self.shared = nn.Sequential(
-            nn.Linear(obs_dim, hidden),
+            nn.Linear(input_dim, hidden),
             nn.Tanh(),
             nn.Linear(hidden, hidden),
             nn.Tanh(),
@@ -29,6 +36,8 @@ class DirectPolicyNet(nn.Module):
 
     def forward(self, obs: torch.Tensor):
         """Returns (action_logits, value)."""
+        if self.obs_encoder is not None:
+            obs = self.obs_encoder(obs)
         features = self.shared(obs)
         logits = self.actor_head(features)
         value = self.critic_head(features).squeeze(-1)
@@ -47,16 +56,22 @@ class ContinuousPolicyNet(nn.Module):
 
     Outputs mean and log_std for each action dimension. Actions are
     squashed through tanh and rescaled to [action_low, action_high].
+
+    With obs_encoder: obs -> encode -> shared -> heads (unified path).
+    Without: obs -> shared -> heads (backward-compatible direct path).
     """
 
     def __init__(self, obs_dim: int, action_dim: int, hidden: int = 128,
                  action_low: np.ndarray | None = None,
-                 action_high: np.ndarray | None = None):
+                 action_high: np.ndarray | None = None,
+                 obs_encoder: nn.Module | None = None):
         super().__init__()
         self.action_dim = action_dim
+        self.obs_encoder = obs_encoder
+        input_dim = obs_encoder.embed_dim if obs_encoder else obs_dim
 
         self.shared = nn.Sequential(
-            nn.Linear(obs_dim, hidden),
+            nn.Linear(input_dim, hidden),
             nn.Tanh(),
             nn.Linear(hidden, hidden),
             nn.Tanh(),
@@ -76,9 +91,14 @@ class ContinuousPolicyNet(nn.Module):
         # Initialize log_std to a reasonable value
         nn.init.constant_(self.logstd_head.bias, -0.5)
 
+    def _encode(self, obs: torch.Tensor) -> torch.Tensor:
+        if self.obs_encoder is not None:
+            return self.obs_encoder(obs)
+        return obs
+
     def forward(self, obs: torch.Tensor):
         """Returns (mean, log_std, value)."""
-        features = self.shared(obs)
+        features = self.shared(self._encode(obs))
         mean = self.mean_head(features)
         logstd = self.logstd_head(features).clamp(-5.0, 2.0)
         value = self.critic_head(features).squeeze(-1)

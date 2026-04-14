@@ -201,12 +201,19 @@ class RagnarokAgent:
 
     def _build_dream_augmenter(self, config: RagnarokConfig, env: RagnarokEnv
                                ) -> DreamAugmenter:
-        """Build dream training augmenter (unified, single policy path)."""
+        """Build dream training augmenter with shared optimizer.
+
+        Uses the real trainer's optimizer for unified Adam moments.
+        Dream gradients are scaled by dream_lr_ratio to avoid
+        overwhelming real experience signal.
+        """
         is_pixel = getattr(env, 'pixel_obs', False)
-        _, lr = self._get_training_hparams(env.env_name)
         entropy_coeff, _ = self._get_training_hparams(env.env_name)
         dream_batch = config.policy.pixel_dream_batch if is_pixel else config.policy.imagination_batch
         policy = self.sac_trainer.policy if self.sac_trainer else self.real_trainer.policy
+        # Share the real trainer's optimizer for unified Adam moments
+        shared_optimizer = (self.sac_trainer.policy_optimizer if self.sac_trainer
+                            else self.real_trainer.optimizer)
         return DreamAugmenter(
             rssm=self.rssm,
             policy=policy,
@@ -216,8 +223,9 @@ class RagnarokAgent:
             gamma=config.policy.gamma,
             gae_lambda=config.policy.gae_lambda,
             entropy_coeff=entropy_coeff,
-            lr=lr * config.policy.dream_lr_ratio,
             disagreement_weight=config.transfer.disagreement_weight,
+            optimizer=shared_optimizer,
+            dream_grad_scale=config.policy.dream_lr_ratio,
         )
 
     @property

@@ -58,7 +58,8 @@ class DreamAugmenter:
                  gamma: float = 0.99, gae_lambda: float = 0.95,
                  entropy_coeff: float = 0.01,
                  lr: float = 1e-4, grad_clip: float = 0.5,
-                 disagreement_weight: float = 0.1):
+                 disagreement_weight: float = 0.1,
+                 optimizer=None, dream_grad_scale: float = 0.3):
         self.rssm = rssm
         self.policy = policy
         self.buffer = replay_buffer
@@ -71,8 +72,15 @@ class DreamAugmenter:
         self.discrete = isinstance(policy, DirectPolicyNet)
         self.disagreement_weight = disagreement_weight
 
-        # Separate optimizer for dream training (lower LR to avoid overriding real data)
-        self.optimizer = torch.optim.Adam(policy.parameters(), lr=lr)
+        # Single optimizer: share the real trainer's optimizer for unified
+        # Adam moments. Dream gradients are scaled down to avoid overwhelming
+        # real experience signal.
+        if optimizer is not None:
+            self.optimizer = optimizer
+            self.dream_grad_scale = dream_grad_scale
+        else:
+            self.optimizer = torch.optim.Adam(policy.parameters(), lr=lr)
+            self.dream_grad_scale = 1.0
 
     @torch.no_grad()
     def _get_start_states(self) -> tuple[torch.Tensor, torch.Tensor]:
@@ -200,6 +208,7 @@ class DreamAugmenter:
         entropy_loss = -entropies.mean()
 
         loss = actor_loss + 0.5 * critic_loss + self.entropy_coeff * entropy_loss
+        loss = loss * self.dream_grad_scale  # Scale dream gradients down
 
         self.optimizer.zero_grad()
         loss.backward()
