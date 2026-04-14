@@ -60,8 +60,13 @@ class RagnarokAgent:
         self.dream_trainer = self.dream_augmenter
 
         # Latent policy for cross-environment transfer
-        # Operates on cat(h, z) which is constant-dim across all envs
+        # Operates on cat(h, z) which is constant-dim across all envs.
+        # Trained on-policy via actor-critic on RSSM-encoded states.
         self.latent_policy = self._build_latent_policy(config, env)
+        self.latent_optim = torch.optim.Adam(
+            self.latent_policy.parameters(),
+            lr=config.policy.latent_lr,
+        )
 
         # Tracking
         self.episode_rewards: deque[float] = deque(maxlen=config.skill.crystallization_window)
@@ -403,6 +408,74 @@ class RagnarokAgent:
         """Train the direct policy on imagined experience."""
         return self.dream_augmenter.train(steps)
 
+    def _train_latent_policy(self, episode_data: tuple) -> dict[str, float]:
+        """Train latent_policy via actor-critic on RSSM-encoded states.
+
+        Pipeline: episode (obs, acts) -> RSSM.observe -> cat(h,z) ->
+        latent_policy -> A2C loss against Monte-Carlo returns.
+
+        The shared trunk learns features from real experience, giving
+        cross-task transfer something meaningful to reuse.
+        """
+        obs, acts, rews, dones = episode_data
+        if len(obs) < 2:
+            return {}
+
+        cfg = self.config.policy
+        obs_t = torch.tensor(obs, device=DEVICE, dtype=torch.float32).unsqueeze(0)
+        act_t = torch.tensor(acts, device=DEVICE, dtype=torch.float32).unsqueeze(0)
+        rew_t = torch.tensor(rews, device=DEVICE, dtype=torch.float32)
+        done_t = torch.tensor(dones, device=DEVICE, dtype=torch.float32)
+
+        with torch.no_grad():
+            outputs = self.rssm.observe(obs_t, act_t)
+            h_seq = outputs["h"].squeeze(0)
+            z_seq = outputs["z"].squeeze(0)
+        latent = torch.cat([h_seq, z_seq], dim=-1)
+
+        T = len(rew_t)
+        returns = torch.zeros(T, device=DEVICE)
+        G = 0.0
+        for t in reversed(range(T)):
+            G = rew_t[t] + cfg.gamma * G * (1.0 - done_t[t])
+            returns[t] = G
+
+        if self.env.is_discrete:
+            logits, values = self.latent_policy(latent)
+            action_idx = act_t.squeeze(0).argmax(dim=-1)
+            dist = torch.distributions.Categorical(logits=logits)
+            log_probs = dist.log_prob(action_idx)
+            entropy = dist.entropy().mean()
+        else:
+            means, logstds, values = self.latent_policy(latent)
+            dist = torch.distributions.Normal(means, logstds.exp())
+            log_probs = dist.log_prob(act_t.squeeze(0)).sum(dim=-1)
+            entropy = dist.entropy().sum(dim=-1).mean()
+
+        advantages = (returns - values.detach())
+        if advantages.std() > 1e-6:
+            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+
+        actor_loss = -(advantages * log_probs).mean()
+        value_loss = ((returns - values) ** 2).mean()
+        loss = (actor_loss
+                + cfg.latent_value_coeff * value_loss
+                - cfg.latent_entropy_coeff * entropy)
+
+        self.latent_optim.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(
+            self.latent_policy.parameters(), cfg.latent_grad_clip
+        )
+        self.latent_optim.step()
+
+        return {
+            "latent/actor_loss": float(actor_loss.item()),
+            "latent/value_loss": float(value_loss.item()),
+            "latent/entropy": float(entropy.item()),
+            "latent/return_mean": float(returns.mean().item()),
+        }
+
     def _update_adaptive_horizon(self):
         """Adapt imagination horizon based on average episode length."""
         cfg = self.config.policy
@@ -446,6 +519,7 @@ class RagnarokAgent:
             self.recent_episodes.append(episode_data)
             self.episode_lengths.append(len(rews))
             self.total_steps += len(rews)
+            metrics.update(self._train_latent_policy(episode_data))
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
@@ -463,6 +537,7 @@ class RagnarokAgent:
         )
 
         all_rewards = []
+        last_latent_metrics: dict[str, float] = {}
         for reward, metrics, episode_data in results:
             if episode_data is not None:
                 obs, acts, rews, dones = episode_data
@@ -470,12 +545,14 @@ class RagnarokAgent:
                 self.recent_episodes.append(episode_data)
                 self.episode_lengths.append(len(rews))
                 self.total_steps += len(rews)
+                last_latent_metrics = self._train_latent_policy(episode_data)
             self.episode_rewards.append(reward)
             self.total_episodes += 1
             all_rewards.append(reward)
 
         self._update_adaptive_horizon()
         last_metrics = results[-1][1] if results else {}
+        last_metrics.update(last_latent_metrics)
         return float(np.mean(all_rewards)), last_metrics
 
     def train_policy_real_vec(self, vec_env) -> list[tuple[float, dict]]:
@@ -498,6 +575,7 @@ class RagnarokAgent:
                 self.recent_episodes.append(episode_data)
                 self.episode_lengths.append(len(rews))
                 self.total_steps += len(rews)
+                metrics.update(self._train_latent_policy(episode_data))
 
             self.episode_rewards.append(reward)
             self.total_episodes += 1
@@ -546,6 +624,7 @@ class RagnarokAgent:
             self.recent_episodes.append(episode_data)
             self.episode_lengths.append(len(rews))
             self.total_steps += len(rews)
+            metrics.update(self._train_latent_policy(episode_data))
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
@@ -712,6 +791,7 @@ class RagnarokAgent:
             path,
             rssm=self.rssm.state_dict(),
             policy=self._active_policy.state_dict(),
+            latent_policy=self.latent_policy.state_dict(),
             normalizer=self.env.normalizer.state_dict(),
             episodic_memory=self.episodic_memory.state_dict(),
             total_episodes=self.total_episodes,
@@ -730,6 +810,12 @@ class RagnarokAgent:
                 self._active_policy.load_state_dict(policy_sd)
             except RuntimeError:
                 pass  # Architecture mismatch (old checkpoint), skip
+        latent_sd = ckpt.get("latent_policy")
+        if latent_sd is not None:
+            try:
+                self.latent_policy.load_state_dict(latent_sd)
+            except RuntimeError:
+                pass  # Dim mismatch from different env — skip
         self.env.normalizer = RunningNormalizer.from_state_dict(ckpt["normalizer"])
         self.episodic_memory = EpisodicMemory.from_state_dict(ckpt["episodic_memory"])
         self.total_episodes = ckpt["total_episodes"]

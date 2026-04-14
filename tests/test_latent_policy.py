@@ -149,6 +149,93 @@ class TestAgentIntegration:
         assert agent.latent_policy.latent_dim == expected_dim
         env.close()
 
+    def test_agent_has_latent_optim(self):
+        """Agent should create an optimizer for latent_policy."""
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+        assert isinstance(agent.latent_optim, torch.optim.Adam)
+        # Optimizer should contain latent_policy params
+        optim_params = {id(p) for group in agent.latent_optim.param_groups
+                        for p in group["params"]}
+        latent_params = {id(p) for p in agent.latent_policy.parameters()}
+        assert optim_params == latent_params
+        env.close()
+
+    def test_train_latent_policy_updates_weights(self):
+        """_train_latent_policy should change latent_policy weights."""
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+
+        T = 20
+        obs = np.random.randn(T, spec.obs_dim).astype(np.float32)
+        acts = np.zeros((T, spec.action_dim), dtype=np.float32)
+        acts[np.arange(T), np.random.randint(0, spec.action_dim, T)] = 1.0
+        rews = np.random.randn(T).astype(np.float32)
+        dones = np.zeros(T, dtype=np.float32)
+        dones[-1] = 1.0
+
+        before = {k: v.clone() for k, v in
+                  agent.latent_policy.state_dict().items()}
+        metrics = agent._train_latent_policy((obs, acts, rews, dones))
+        after = agent.latent_policy.state_dict()
+
+        # At least the shared trunk should have changed
+        changed = any(not torch.equal(before[k], after[k])
+                      for k in before if k.startswith("shared."))
+        assert changed, "Shared trunk weights should change after training"
+        assert "latent/actor_loss" in metrics
+        assert "latent/value_loss" in metrics
+        env.close()
+
+    def test_latent_training_runs_in_train_policy_real(self):
+        """train_policy_real should produce latent training metrics."""
+        from ragnarok.infrastructure.config import RagnarokConfig
+        from ragnarok.environments.wrapper import RagnarokEnv
+        from ragnarok.environments.registry import get_env_spec
+        from ragnarok.core.agent import RagnarokAgent
+
+        spec = get_env_spec("cartpole")
+        config = RagnarokConfig()
+        config.world_model.obs_dim = spec.obs_dim
+        config.world_model.action_dim = spec.action_dim
+        config.policy.ppo_batch_episodes = 2  # Speed up test
+
+        env = RagnarokEnv(spec.gym_name, seed=42)
+        agent = RagnarokAgent(config, env)
+
+        before = {k: v.clone() for k, v in
+                  agent.latent_policy.state_dict().items()}
+        reward, metrics = agent.train_policy_real()
+        after = agent.latent_policy.state_dict()
+
+        # Shared trunk should have been updated
+        changed = any(not torch.equal(before[k], after[k])
+                      for k in before if k.startswith("shared."))
+        assert changed
+        # Metrics should include latent losses
+        assert any(k.startswith("latent/") for k in metrics)
+        env.close()
+
     def test_crystallization_saves_trunk(self):
         """Skill crystallization should include latent trunk state dict."""
         from ragnarok.infrastructure.config import RagnarokConfig

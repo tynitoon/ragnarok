@@ -50,6 +50,11 @@ class PolicyConfig:
     max_horizon: int = 50
     horizon_ratio: float = 0.33   # horizon = min(max, int(avg_ep_len * ratio))
     horizon_update_interval: int = 50  # Re-evaluate every N episodes
+    # Latent policy (cat(h,z) actor-critic — trunk transfers cross-task)
+    latent_lr: float = 3e-4
+    latent_entropy_coeff: float = 0.01
+    latent_value_coeff: float = 0.5
+    latent_grad_clip: float = 0.5
 
 
 @dataclass
