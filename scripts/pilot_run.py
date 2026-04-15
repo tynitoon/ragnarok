@@ -99,8 +99,25 @@ EVAL_EPISODES_DEFAULT = 10        # §4.5: 10 deterministic eval episodes
 
 # Source pre-training cap. Source only needs to be "good enough" to produce a
 # transferable skill; we don't need to exhaust the same 200k budget there.
-# Cartpole @ ~144 steps/s -> 100k steps = ~12 min; pendulum (SAC) slower.
-SOURCE_MAX_ENV_STEPS_DEFAULT = 100_000
+# Cartpole @ ~144 steps/s -> 150k steps = ~17 min; pendulum (SAC) slower.
+#
+# v5.2 (post devil's-advocate v5 review): bumped 100k -> 150k to add ~1σ
+# safety margin on top of the observed cartpole crystallization
+# distribution (mean ≈ 44k, std ≈ 14k from n=3 prior runs at seeds
+# 42/43/44 — mean+4σ ≈ 100k, i.e. the previous default left near-zero
+# headroom). Pilot #2 introduces seeds 44/45/46 that have NOT been
+# observed on this codepath; if any of them sits in the heavy right
+# tail of cartpole's training-time distribution, hitting the cap
+# without crystallizing degrades that pair's transfer arm to scratch
+# (one wasted data point out of 30). The 150k cap eats ~50% more
+# wall-clock (negligible vs the 200k pilot-arm budget) in exchange
+# for a more robust mean+5σ safety margin.
+#
+# `--smoke` overrides this default to 100k (see args.source_max_steps
+# in main()) — smoke validates seeds 42/43 which we've already observed
+# crystallize at <60k, so the smoke cap doesn't need the extra margin
+# and we save ~2 min × 2 seeds in smoke iteration time.
+SOURCE_MAX_ENV_STEPS_DEFAULT = 150_000
 
 
 # Sentinel string written to `kl_probe_error` when the replay buffer is empty

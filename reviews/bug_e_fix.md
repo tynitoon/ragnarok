@@ -637,3 +637,81 @@ called for:
 - **Pilot #2 unblocked** once the v5 smoke (re-run on this commit's
   pilot_run.py) passes `python -m scripts.smoke_verdict
   smoke_bug_e_v5.json` with exit code 0.
+
+## Bug E v5 → v5.2 — fifth round of review (devil's advocate, post-v5)
+
+Devil's advocate v5 review (LAUNCH-WITH-MODIFIED-CRITERION):
+the v5 changeset has no code BLOCKER and the EITHER-seed
+semantics + sentinel-sharing concerns were already discharged
+(v5 introduced `TELEMETRY_BUFFER_EMPTY_SENTINEL` as a shared
+constant; the "duplicated literal" worry in the prompt was
+stale — described the v4 state, not v5). v5.1 separately
+landed the architecture-review polish (sentinel hoist + grouped-
+pairs fallback documentation).
+
+The reviewer surfaced **one MAJOR with empirical teeth**:
+
+**MAJOR — `SOURCE_MAX_ENV_STEPS_DEFAULT = 100k` has thin margin
+for unseen pilot-#2 seeds.** Observed cartpole crystallization
+across n=3 prior runs (seeds 42/43/44 in
+`pilot_results.json.broken_trunk` and `smoke_bug_e_v2.json`):
+32k / 40k / 60k env steps. Sample mean ≈ 44k, std ≈ 14k.
+Mean+4σ lands right at 100k — the previous default left near-
+zero headroom for the right tail of cartpole's training-time
+distribution. Pilot #2 introduces seeds 44, 45, 46; if any of
+them sits in the heavy tail (RL training-time distributions
+are NOT gaussian, they're heavy-tailed), the source run hits
+the cap without crystallizing and the matching transfer arm
+degrades to scratch — one wasted data point out of 30. The
+harness fail-closes on this case (`SeedVerdict.pass_` returns
+False when `source_crystallized is False`), so the analyzer
+correctly flags it. But each lost arm is 3.3% of statistical
+power.
+
+**ACTIONED in v5.2:** raised `SOURCE_MAX_ENV_STEPS_DEFAULT`
+100k → 150k. Math: this gives mean+5σ headroom on the existing
+cartpole sample (still tail-bounded for the heavy-tail risk),
+adds ~5 GPU-min per source-arm in pilot #2 (~50 min total
+across 9 source arms — negligible vs the 200k pilot-arm
+budget). **`--smoke` is unchanged** — it explicitly overrides
+to 100k because we've already observed seeds 42/43 crystallize
+at <60k, the smoke cap doesn't need the extra margin, and the
+saved ~2-min × 2-seed iteration time matters for smoke
+turnaround. Test `test_source_cap_is_below_target_budget`
+relaxed from `<= MAX_ENV_STEPS_DEFAULT // 2` (an ad-hoc
+invariant) to `< MAX_ENV_STEPS_DEFAULT` (the meaningful
+invariant: source cap stays below the pilot-arm budget so
+source can never out-spend the arm itself).
+
+The reviewer's two MINORs:
+- *Strict-greater check at threshold (drift > 0.50)*: matches
+  prereg language at line 919 ("drift > 0.50"). No off-by-one.
+  Accept.
+- *2-seed smoke can't validate seeds 44/45/46*: the LR-warmup
+  mechanism is not seed-dependent (same `reset_transferable_
+  optimizer_state()` call path, same warmup scheduler), so the
+  mechanism probe transfers across seeds. The empirical source-
+  cap risk is the only seed-specific concern, and v5.2
+  addresses it. Accept with operational note: monitor source
+  crystallization in real time during pilot #2.
+
+**Operator-facing addition (no code change yet):** during pilot
+#2 launch, the operator should grep the live log for
+`source_crystallized=False` after each source arm completes;
+if observed, pause and bump `SOURCE_MAX_ENV_STEPS_DEFAULT`
+again (200k as the second relief valve) before resuming the
+affected seeds. Pre-registered as "Bug E v6" remedy if needed.
+
+## Aggregate v5.2 disposition
+
+- **Code/test/prereg:** v5.1 (constant hoist + doc) + v5.2
+  (source-cap raise + test relaxation) committed atomically
+  on top of v5. Test count unchanged at 372 passed / 15
+  skipped.
+- **Decision rules unchanged at primary §8 threshold.** v5.2
+  is purely an operational margin bump on a non-prereg
+  constant (no preregistration amendment needed).
+- **Pilot #2 unblocked** once the v5 smoke (re-run on this
+  commit's `pilot_run.py`) passes
+  `python -m scripts.smoke_verdict smoke_bug_e_v5.json`
+  with exit code 0.

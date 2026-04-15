@@ -86,9 +86,17 @@ class TestPilotBudgetConstants:
         assert EVAL_EPISODES_DEFAULT == 10
 
     def test_source_cap_is_below_target_budget(self):
-        # Source is a prerequisite, not a pilot arm. It should cap well under
-        # the 200k target budget to bound total wall-clock.
-        assert SOURCE_MAX_ENV_STEPS_DEFAULT <= MAX_ENV_STEPS_DEFAULT // 2
+        # Source is a prerequisite, not a pilot arm — it must cap strictly
+        # below the target budget so source work is bounded relative to the
+        # pilot arm. v5.2 raised this from 100k to 150k after devil's
+        # advocate v5 surfaced that observed cartpole crystallization
+        # (mean ≈ 44k, std ≈ 14k, n=3) put mean+4σ right at 100k, leaving
+        # near-zero headroom for unseen pilot #2 seeds 44/45/46. The
+        # `<=//2` invariant was pinned ad-hoc; the meaningful invariant
+        # is "source cap stays below pilot-arm budget" (so a seed needing
+        # huge source training never out-spends what the pilot arm
+        # itself is allowed).
+        assert SOURCE_MAX_ENV_STEPS_DEFAULT < MAX_ENV_STEPS_DEFAULT
 
     def test_total_target_arms_is_30(self):
         total = PILOT_SEEDS_DEFAULT * len(PILOT_PAIRS) * 2  # scratch + transfer
