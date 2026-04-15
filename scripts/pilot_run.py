@@ -627,16 +627,29 @@ def _train_to_step_budget(
                 # Real-time alert: print loudly the FIRST time drift
                 # exceeds the prereg's 50% smoke-abort threshold so the
                 # operator sees it without scraping JSON.
+                #
+                # v5.3: gated on episode <= 100 (the actual prereg abort
+                # window). Without this gate, the alert fires spuriously
+                # at late episodes (e.g. ep 1218 on a seed 42 MCC transfer
+                # run) where drift > 50% is expected post-warmup and is
+                # NOT an abort signal. The latching flag then burns for
+                # the run, silencing any *real* early-window warning on
+                # later drift re-spikes. Live-detected during pilot #2
+                # (seed 42 emitted an alarming "ABORT smoke" message at
+                # ep 1218 step 95,912, alarmingly framed as if it were
+                # a real abort; the smoke_verdict tool is the authoritative
+                # enforcer and it correctly ignores post-warmup drift).
                 if (not drift_alert_emitted
-                        and tele["transferable_drift_max"] > 0.50):
+                        and tele["transferable_drift_max"] > 0.50
+                        and tele["episode"] <= 100):
                     drift_alert_emitted = True
                     print(
                         f"  [TELEMETRY ALERT] transferable ||Δθ||/||θ_init||"
                         f" = {tele['transferable_drift_max']:.2%} at "
-                        f"ep {tele['episode']} (step {tele['step']:,}). "
-                        f"Prereg amendment 'Bug E v2' commits to ABORT "
-                        f"smoke + investigate before pilot launch when "
-                        f"drift > 50% by ep 100.",
+                        f"ep {tele['episode']} (step {tele['step']:,}) — "
+                        f"IN THE ABORT WINDOW (ep<=100). Per prereg "
+                        f"amendment 'Bug E v2', this should have been "
+                        f"caught by the smoke pre-check. Investigate.",
                         flush=True,
                     )
 
