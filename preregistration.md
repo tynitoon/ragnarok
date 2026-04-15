@@ -15,6 +15,25 @@ after a pilot run require a dated amendment in §13.
 
 ## 1. Research claim
 
+### 1.0 Elevator pitch (one paragraph for reviewers / abstract seed)
+
+> Existing skill-transfer methods (PEARL, MAML, Continual-Dreamer,
+> Choreographer, LEGION) require **homogeneous action spaces** or
+> **task-specific adapter networks** (hypernetworks, per-task heads,
+> meta-training). Ragnarok demonstrates that a shared RSSM latent trunk
+> over `cat(h, z)` plus nearest-centroid skill retrieval enables positive
+> forward transfer **across a discrete→continuous action-space change**
+> on the same obs dimensionality class, without per-task hypernetworks
+> or meta-training. The load-bearing novelty is the *action-space type
+> change* (Discrete → Box), not the *dim mismatch* (Box_n → Box_m) that
+> hypernetwork and latent-alignment work already addresses. The primary
+> confirmatory test is CartPole-v1 → MountainCarContinuous-v0 (§8 / §5);
+> two secondary pairs (CartPole→Acrobot, Pendulum→DMC-cartpole-swingup)
+> and one adversarial-negative pair (Pendulum→Reacher, §7 A10) test
+> generality and falsification.
+
+### 1.1 Formal hypotheses
+
 > **H1-primary (confirmatory):** A shared RSSM latent policy trunk over
 > `cat(h, z)`, combined with nearest-centroid skill retrieval, enables positive
 > forward transfer from a discrete-action source to a continuous-action target
@@ -317,6 +336,84 @@ infrastructure and uses the runs already produced. B1 demoted because the
 sequential-training harness + forgetting-metrics infrastructure does not
 exist; building it inside ~10 weeks after a week-4 pilot fail is high risk.
 
+**v3.5 adds Plan B0** between the §8 PASS path and Plan B1 so a modest
+but statistically reliable transfer effect does not fall into the §8
+binary's null gap. Previously the decision tree was
+`PASS | Band B rescue | Plan B1/B2/B3`; a 1.15–1.30× ratio at p < 0.10
+that survives the Band B single-cell HP sweep without clearing 1.30×
+would have collapsed into B1, which framing-wise overclaims the failure.
+Plan B0 pre-declares the "modest but reliable" framing so the paper
+narrative matches the evidence.
+
+- **B0: "Modest but reliable cross-action-space transfer" companion
+  paper (new in v3.5).**
+
+  *Trigger:* activates if and only if all of the following hold after
+  the Band B HP sweep (per Bug E v4 amendment):
+    1. Primary-pair RMST ratio ∈ [1.15, 1.30) at one-sided log-rank
+       `p < 0.10` AND permutation `p < 0.10` (both — v3.5 analyzer
+       upgrade; asymptotic log-rank alone is untrustworthy at N=5)
+    2. No anti-transfer on any pair (ratio ≥ 0.9 on all 3)
+    3. Mechanism check passes: `acting_policy_mode == "latent"` on
+       all cross-dim transfer runs AND the §7 A11 GRU-shuffled
+       ablation (v3.5) shows a ≥ 0.10 ratio gap vs real transfer
+       on the primary pair. A11 is the load-bearing mechanism
+       filter for B0: if shuffled ≈ real, B0 is NOT available —
+       fall through to B1.
+    4. Sign-test 4/5 seed-direction filter passes (Bug E v2
+       amendment — unchanged).
+
+  *Framing (preregistered, not post-hoc):* paper title and abstract
+  frame the result as "a reliable but modest forward-transfer
+  effect from discrete to continuous action spaces via shared RSSM
+  latent trunk", NOT as "strong transfer" or "significant speedup".
+  The honest-magnitude constraint is load-bearing: the paper MUST
+  report the observed ratio as the headline number, NOT the Band B
+  lower edge, NOT a rescued cell's ratio, NOT an AUC derivative.
+  RMST ratio and permutation-p remain the §4 headline metrics.
+
+  *Mandatory companion analyses (pre-committed, all required):*
+    - Early-step descriptive panels (v3.5 §4 secondary): mean
+      return at 2k / 5k / 10k env-steps with bootstrap 95% CIs on
+      both arms; AUC over [0, 50k] env-steps. These are where a
+      modest effect is more visible; reporting them is not
+      cherry-picking, because §4 pre-committed them as descriptive
+      secondaries regardless of outcome.
+    - Per-seed scatter (all seeds, no selection) on primary-metric
+      steps-to-mastery.
+    - §7 A10 (adversarial-negative pair Pendulum→Reacher) and A11
+      (GRU-shuffled) results REPORTED in the headline table, not
+      appendix. The scope-bounding honesty of "look, it fails here
+      and here" is what lets B0 survive review at workshop tier.
+    - Explicit "Why we don't claim more" section: the ratio is
+      reliably positive but modest; the mechanism check passed; we
+      don't know whether a larger-N study would lift the ratio or
+      the Band B HP sweep already caught the optimum.
+
+  *Why B0 is not a back-door around §8:* B0 does NOT replace the
+  §8 headline test. If the pilot lands in Band A, §8 PASS proceeds
+  to Phase 5 headline N=20 and a strong-claim paper. B0 is only
+  available **after** the Band B single-cell rescue fails AND the
+  mechanism filters (4) pass. A reviewer can verify chronology via
+  git history: B0 was committed pre-data (v3.5, before pilot #2
+  unblinding), and the §8 threshold did not move. B0 is a
+  *framing-honesty* mechanism, not a *pass-bar-relaxation* one.
+
+  *Why B0 is not "Band B success renamed":* Band B runs a single
+  warmup-LR HP cell at N=3 to see if the first-cut HP was wrong.
+  Band B success (ratio ≥ 1.20 at p < 0.10 in the rescue cell)
+  means "HP rescue found — rerun Phase 5 headline at the rescued
+  HP". B0 activates when **no HP cell rescued the signal** but the
+  original pilot still shows a reliable modest effect. Band B says
+  "try harder"; B0 says "this is the real effect size, just smaller
+  than we'd hoped". Different claims, different remedies.
+
+  *Falsification surface:* if, during the B0 companion analyses,
+  any of (A10 shows transfer parity / A11 shows shuffled ≈ real /
+  per-seed 4-of-5 direction filter fails) emerges, the paper
+  converts to Plan B1 (negative-result) — B0 is *conditional* on
+  the mechanism filters holding, not a guaranteed fallback.
+
 - **B1: "When does world-model transfer fail" negative-result paper
   (formerly B2).** Re-uses every benchmark run already produced. Honest
   workshop fit; these get accepted if the failure analysis is rigorous and
@@ -336,7 +433,7 @@ exist; building it inside ~10 weeks after a week-4 pilot fail is high risk.
 | Week | Trigger                                                     | Action            |
 |-----:|-------------------------------------------------------------|-------------------|
 |    1 | Lit review finds ≥3 direct prior works conjoining (a)+(b)+(c) of §1.5 | Reformulate claim (moved up from week 2 in v2; threshold tightened from ≥10 to ≥3 — even one direct overlap is publication-fatal) |
-|    4 | Pilot (§8) fails any pass criterion                         | Switch to Plan B  |
+|    4 | Pilot (§8) fails any pass criterion                         | Switch to Plan B (B0 if modest-reliable effect + mechanism filters hold; else B1) |
 |    8 | Full benchmark: primary endpoint shows < 1.3× RMST ratio OR `p > 0.05` after censoring sensitivity sweep | Write B1 negative-result paper |
 
 ## 12. Phases & timeline
@@ -931,5 +1028,100 @@ in Phase 4 baselines, not Phase 5.
   and replaces a structurally-broken KL probe with a raw KL
   probe — all strictly tightening filters or fixing instrumentation
   bugs. None weaken any pass criterion.
+
+- **2026-04-15 (v3.5 mid-pilot #2 review — 4-agent review landed 6
+  decisions on the running pilot):** While pilot #2 was running on
+  the Bug E v5.3 pipeline (8/30 runs complete at review time), a
+  4-agent review (RL-methodology, code-review, strategy, architecture)
+  was commissioned and independently surfaced six convergent concerns.
+  All six actions were approved ("tu peux faire du 1 2 3 4 5 6") and
+  are being executed DURING pilot #2 because four are analysis-only
+  (§1, §10, analyzer code, analyzer metrics) and two consume ~20 new
+  GPU-h that runs in parallel. None changes the §8 / §11 headline
+  decision rule; all only add explanatory text, explicit side-rails,
+  or additional falsification surface.
+
+  *Narrative edits (no methodology change):*
+  - **§1.0 elevator pitch added** (all 4 reviewers independently:
+    "lead with action-space mismatch, not 'skill transfer'"). Framing
+    the load-bearing axis as Discrete→Box (action-type change), not
+    Box_n→Box_m (dim mismatch), which is already a crowded subfield
+    per the v3.2 lit review. §1.0 is prose; §1.1 formal hypotheses
+    unchanged.
+
+  *Decision-rule additions (do NOT weaken §8; only disambiguate the
+  middle zone and add a falsification lever):*
+  - **§10 Plan B0 added** — pre-declares the modest-but-reliable
+    transfer outcome path. See §10 for the exact ratio / p band, the
+    required honest framing, and the mandatory "why we don't claim
+    more" companion analyses. Plan B0 sits BETWEEN §8 PASS and Plan
+    B1 negative-result in the decision tree. Adding Plan B0 does NOT
+    move the §8 threshold; it only replaces the old implicit "small
+    positive → crash into B1" fallthrough with an explicit preregistered
+    framing so the reader can verify we didn't post-hoc invent a third
+    claim tier after seeing the numbers.
+
+  *Analyzer upgrades (same atomic commit series):*
+  - **Permutation test** added to `scripts.pilot_analysis` alongside
+    the asymptotic log-rank. At N=5 per arm the lifelines log-rank is
+    an asymptotic chi-sq approximation whose coverage is known to
+    drift under small-sample + heavy-censoring. The permutation test
+    (10k label shuffles preserving per-arm sample sizes, computing the
+    signed O-E numerator on each shuffle, one-sided p from the empirical
+    tail) is exact under exchangeability and adds <1s to analyzer wall
+    time. The asymptotic log-rank remains the §8-declared primary
+    p-value; the permutation p is reported alongside as a robustness
+    check. If they disagree by more than 0.05 at the headline N=20
+    scale, the robustness disagreement itself is reported in the paper
+    and the more conservative of the two is used for any post-hoc
+    inference.
+  - **Early-step return descriptors + AUC** added to the analyzer.
+    §4 primary metric remains samples-to-mastery RMST. But the review
+    raised a real concern: mastery threshold on MCC (~90/100) is
+    plateau territory; the real transfer signal shows up in the first
+    2–5k steps when the transferred prior is still load-bearing and
+    the target trunk hasn't adapted out of distribution. New descriptive
+    secondaries (bootstrap 95% CI, NOT §8-gating): (a) mean return at
+    2k, 5k, 10k env-steps; (b) AUC(return, [0, 50k env-steps]). These
+    are reported in the paper panel alongside RMST regardless of §8
+    outcome. They are NOT post-hoc primary endpoints; the §8 gate is
+    still RMST+log-rank.
+
+  *Falsification / mechanism (more GPU, parallel to pilot #2):*
+  - **§7 A10 adversarial-negative pair added** (Pendulum → Reacher):
+    continuous→continuous, different physics class (pendular→robotic
+    arm, no gravity-well dynamics). Predicted outcome: no transfer or
+    anti-transfer. Reported regardless of direction. If A10 shows
+    transfer parity with the primary pair, the "pendular physics
+    cherry-pick" critique is real and the paper must reframe the
+    claim scope. +15–20 GPU-h; runs as a separate `pilot_adversarial_
+    run.json` during pilot #2 wind-down.
+  - **§7 A11 GRU-shuffled ablation added** (2 seeds on primary pair):
+    shuffles the transferred RSSM GRU weights before transfer, preserving
+    spectral norm and total parameter mass but destroying the learned
+    recurrent structure. If shuffled-GRU ≈ real-GRU on the primary
+    metric, the "learned dynamics transfer" mechanism claim dies and
+    the paper reduces to "transferring *any* initialization with the
+    right spectral properties works." +5 GPU-h; runs atomically with
+    A10.
+
+  *What is explicitly NOT changed in v3.5:* §8 primary (RMST ≥ 1.3,
+  p < 0.10, no anti-transfer pair, latent mode); §11 kill criteria
+  at weeks 1/4/8; §5 Holm-Bonferroni on secondaries; §6 RSSM
+  transferable-subset design; Band A/B/C post-pilot decision rule
+  from Bug E v2/v3/v4. All review actions either clarify narrative
+  or add falsification levers in directions the paper is already
+  committed to report honestly.
+
+  *Post-pilot backlog committed (NOT executed now, tracked to
+  completion):* The 4-agent review also surfaced 5 items that are
+  deferred until after pilot #2 completes but are committed work,
+  not drop-ons. They live at `reviews/post_pilot_backlog.md` (POST-001
+  through POST-006) with source-review attribution, blocking-phase
+  gate, and effort estimate per item. The backlog file is the single
+  source of truth for deferred post-pilot work; losing track of any
+  entry there is a preregistration-integrity defect. Each item must
+  complete, re-triage, or retire-with-rationale before the phase it
+  gates begins.
 
 - (Subsequent amendments timestamped here before execution.)
