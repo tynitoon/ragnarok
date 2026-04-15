@@ -24,3 +24,11 @@ class Skill:
     episodes_trained: int = 0
     metadata: dict = field(default_factory=dict)
     latent_trunk_state_dict: dict = field(default_factory=dict)  # Transferable trunk weights
+    # Env-agnostic RSSM subset: core.gru, core.prior, core.posterior.
+    # See RSSM.transferable_state_dict() for rationale. Without this,
+    # the transferred policy trunk consumes fresh-random RSSM features
+    # on the target env and cross-dim transfer is structurally
+    # indistinguishable from scratch (the Phase 3 Bug E observation).
+    # default_factory=dict so old .pt files missing this field still
+    # deserialize (Skill(**data) succeeds with empty dict).
+    rssm_core_state_dict: dict = field(default_factory=dict)

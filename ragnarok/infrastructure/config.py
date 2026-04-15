@@ -100,6 +100,13 @@ class TransferConfig:
     trust_region_alpha: float = 0.2   # Initial KL penalty weight
     ensemble_cores: int = 2           # Number of RSSM GRU cores
     disagreement_weight: float = 0.1  # Dream reward penalty for ensemble disagreement
+    # Bug E Phase 5 fix (cross-dim latent transfer). After a successful
+    # `try_transfer` on the latent-trunk + RSSM-core path, the
+    # transferable RSSM subset (gru, prior, posterior) is warm-started
+    # from the source skill. Scale its LR for N episodes so Adam
+    # doesn't wipe the source priors before the per-env IO catches up.
+    rssm_transfer_lr_scale: float = 0.1       # transferable LR multiplier during warmup
+    rssm_transfer_warmup_episodes: int = 200  # episodes of reduced LR post-transfer
 
 
 @dataclass

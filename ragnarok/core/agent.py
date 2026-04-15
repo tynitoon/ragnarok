@@ -413,6 +413,9 @@ class RagnarokAgent:
 
         self.episode_rewards.append(total_reward)
         self.total_episodes += 1
+        # Bug E Phase 5 fix: decrement the transferable-RSSM LR warmup counter
+        # on every episode end. No-op when no transfer warmup is active.
+        self.wm_trainer.step_episode()
 
         return total_reward
 
@@ -538,6 +541,7 @@ class RagnarokAgent:
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        self.wm_trainer.step_episode()  # Bug E Phase 5 fix: LR-warmup decrement
         self._update_adaptive_horizon()
         return reward, metrics
 
@@ -563,6 +567,7 @@ class RagnarokAgent:
                 last_latent_metrics = self._train_latent_policy(episode_data)
             self.episode_rewards.append(reward)
             self.total_episodes += 1
+            self.wm_trainer.step_episode()  # Bug E Phase 5 fix: LR-warmup decrement
             all_rewards.append(reward)
 
         self._update_adaptive_horizon()
@@ -594,6 +599,7 @@ class RagnarokAgent:
 
             self.episode_rewards.append(reward)
             self.total_episodes += 1
+            self.wm_trainer.step_episode()  # Bug E Phase 5 fix: LR-warmup decrement
             episode_results.append((reward, metrics))
 
         self._update_adaptive_horizon()
@@ -616,6 +622,11 @@ class RagnarokAgent:
         self.total_steps = ppo.total_steps
         n_eps = train_metrics["n_episodes"]
         self.total_episodes += max(n_eps, 1)
+        # Bug E Phase 5 fix: one step_episode() per completed episode. PPO
+        # rollouts can span multiple episodes, so we replay the counter
+        # n_eps times (at least once, matching the total_episodes increment).
+        for _ in range(max(n_eps, 1)):
+            self.wm_trainer.step_episode()
         ep_reward = train_metrics["mean_reward"]
         self.episode_rewards.append(ep_reward)
 
@@ -643,6 +654,7 @@ class RagnarokAgent:
 
         self.episode_rewards.append(reward)
         self.total_episodes += 1
+        self.wm_trainer.step_episode()  # Bug E Phase 5 fix: LR-warmup decrement
         self._update_adaptive_horizon()
         return reward, metrics
 
@@ -697,6 +709,15 @@ class RagnarokAgent:
             # Save latent policy trunk for cross-task transfer
             latent_trunk_sd = {k: v.cpu() for k, v in
                                self.latent_policy.get_trunk_state_dict().items()}
+            # Also save the env-agnostic RSSM subset (core.gru, core.prior,
+            # core.posterior). The latent policy trunk consumes cat(h, z)
+            # features produced by the RSSM — without the trained core
+            # shipped alongside the trunk, the target env's fresh-random
+            # core feeds noise into the trunk and the transfer is invisible
+            # (Phase 3 Bug E). See RSSM.transferable_state_dict() for the
+            # partition rationale.
+            rssm_core_sd = {k: v.cpu() for k, v in
+                            self.rssm.transferable_state_dict().items()}
 
             skill = Skill(
                 name=f"{skill_env_name}_{self.total_episodes}ep",
@@ -707,6 +728,7 @@ class RagnarokAgent:
                 normalizer_state=self.env.normalizer.state_dict(),
                 episodes_trained=self.total_episodes,
                 latent_trunk_state_dict=latent_trunk_sd,
+                rssm_core_state_dict=rssm_core_sd,
             )
             self.skill_library.save_skill(skill)
             return skill
@@ -760,19 +782,68 @@ class RagnarokAgent:
                     )
                     loaded_skill = skill
                 except RuntimeError:
-                    # Obs-policy dims don't match — use latent trunk transfer
-                    if skill.latent_trunk_state_dict:
-                        self.latent_policy.load_trunk_state_dict(
-                            {k: v.to(DEVICE) for k, v in skill.latent_trunk_state_dict.items()}
-                        )
-                        # Switch the acting path to latent: the obs policy is
-                        # now mismatched and useless, but the loaded trunk
-                        # carries transferable features that should drive
-                        # behavior. Without this flip, the agent would fall
-                        # back to a randomly-initialized obs policy and the
-                        # transfer would be invisible at acting time.
-                        self.acting_policy_mode = "latent"
-                        loaded_skill = skill
+                    # Obs-policy dims don't match — use latent trunk transfer.
+                    #
+                    # Phase 3 Bug E fix: BOTH the RSSM env-agnostic core
+                    # AND the latent policy trunk must be co-transferred.
+                    # The trunk consumes cat(h, z) features produced by
+                    # the RSSM; transferring the trunk alone leaves it
+                    # reading fresh-random features on the target env,
+                    # which destroys all source-task structure in
+                    # practice (observed 0.98 ratio on pilot #1, N=2).
+                    #
+                    # Require BOTH fields to be populated. Old skills
+                    # crystallized before the Bug E fix carry an empty
+                    # rssm_core_state_dict (thanks to default_factory),
+                    # so we gate on it explicitly rather than hoping the
+                    # strict load will fail loudly — returning None here
+                    # forces the caller to fall back to scratch cleanly,
+                    # instead of pretending transfer succeeded.
+                    if (skill.latent_trunk_state_dict
+                            and skill.rssm_core_state_dict):
+                        try:
+                            # 1. Env-agnostic RSSM subset FIRST — the
+                            #    trunk's features depend on these weights
+                            #    producing consistent (h, z) outputs.
+                            self.rssm.load_transferable_state_dict(
+                                {k: v.to(DEVICE)
+                                 for k, v in skill.rssm_core_state_dict.items()},
+                                strict=True,
+                            )
+                            # 2. Latent policy trunk that consumes
+                            #    core features.
+                            self.latent_policy.load_trunk_state_dict(
+                                {k: v.to(DEVICE)
+                                 for k, v in skill.latent_trunk_state_dict.items()}
+                            )
+                            # 3. Switch the acting path to latent: the
+                            #    obs policy is now mismatched and useless,
+                            #    but the loaded trunk+core carry
+                            #    transferable features that should drive
+                            #    behavior. Without this flip, the agent
+                            #    would fall back to a randomly-initialized
+                            #    obs policy and the transfer would be
+                            #    invisible at acting time.
+                            self.acting_policy_mode = "latent"
+                            loaded_skill = skill
+                            # 4. Slow-start the transferable RSSM subset
+                            #    to prevent Adam from wiping the source
+                            #    priors while the per-env IO catches up.
+                            if self.wm_trainer is not None:
+                                self.wm_trainer.set_transferable_lr_scale(
+                                    self.config.transfer.rssm_transfer_lr_scale,
+                                    warmup_episodes=(
+                                        self.config.transfer
+                                        .rssm_transfer_warmup_episodes),
+                                )
+                        except (RuntimeError, ValueError) as e:
+                            # Architectural incompatibility between
+                            # source and target RSSMs (e.g. different
+                            # hidden_dim). Fall back to scratch cleanly;
+                            # don't pretend transfer succeeded.
+                            print(f"Warning: cross-dim RSSM transfer "
+                                  f"failed on skill {skill.name!r}: {e}")
+                            return None
                     else:
                         return None
                 if loaded_skill is not None and skill.normalizer_state:
@@ -800,8 +871,19 @@ class RagnarokAgent:
         # Activate trust region for cross-task transfer only.
         # Same-env transfer loads an already-optimized policy — KL penalty
         # would only slow down fine-tuning.
+        #
+        # Bug E follow-up: when the cross-dim (latent-mode) branch fired,
+        # self._active_policy was NOT loaded — it's still target-env
+        # random init. Deepcopying it here captures garbage, and the
+        # KL penalty that real_trainer applies would pull the current
+        # obs-policy toward random init, which is both wrong and
+        # irrelevant (the obs-policy isn't driving behavior in latent
+        # mode). Gate on acting_policy_mode == "obs" so the trust region
+        # only activates when the obs-policy was actually loaded from
+        # the source skill.
         is_cross_task = (loaded_skill is not None
-                         and loaded_skill.env_name != self.env.env_name)
+                         and loaded_skill.env_name != self.env.env_name
+                         and self.acting_policy_mode == "obs")
         if is_cross_task:
             import copy
             self._transfer_ref_policy = copy.deepcopy(self._active_policy)

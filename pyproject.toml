@@ -23,3 +23,6 @@ exclude = ["logs*", "checkpoints*", "skills_data*", "skills_wiring_test*", "venv
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (run manually with `-m slow`; skipped by default)",
+]

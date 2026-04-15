@@ -473,10 +473,17 @@ class TestActingPath:
             "fc.weight": torch.zeros(1, 999),  # nonsense shape -> RuntimeError
             "fc.bias": torch.zeros(1),
         }
+        # Bug E Phase 5 fix: the cross-dim branch now requires BOTH
+        # latent_trunk_state_dict AND rssm_core_state_dict to be
+        # populated. Without the core, the trunk reads noise on the
+        # target env and transfer is invisible (pilot #1 failure mode).
+        rssm_core_sd = {k: v.cpu() for k, v in
+                        agent.rssm.transferable_state_dict().items()}
         skill = MagicMock(spec=Skill)
         skill.env_name = "FakeForeignEnv"
         skill.policy_state_dict = bad_obs_policy_sd
         skill.latent_trunk_state_dict = trunk_sd
+        skill.rssm_core_state_dict = rssm_core_sd
         skill.normalizer_state = None
 
         agent.skill_selector = MagicMock()
@@ -544,10 +551,14 @@ class TestActingPath:
             "clip": 5.0,
             "warmup_steps": 1000,
         }
+        # Bug E Phase 5 fix: cross-dim branch requires rssm_core_state_dict.
+        rssm_core_sd = {k: v.cpu() for k, v in
+                        agent.rssm.transferable_state_dict().items()}
         skill = MagicMock(spec=Skill)
         skill.env_name = "CartPole-v1"
         skill.policy_state_dict = bad_obs_policy_sd
         skill.latent_trunk_state_dict = trunk_sd
+        skill.rssm_core_state_dict = rssm_core_sd
         skill.normalizer_state = cartpole_normalizer_state
 
         agent.skill_selector = MagicMock()
@@ -611,10 +622,14 @@ class TestActingPath:
             "fc.weight": torch.zeros(1, 999),
             "fc.bias": torch.zeros(1),
         }
+        # Bug E Phase 5 fix: cross-dim branch requires rssm_core_state_dict.
+        rssm_core_sd = {k: v.cpu() for k, v in
+                        agent.rssm.transferable_state_dict().items()}
         skill = MagicMock(spec=Skill)
         skill.env_name = "SomeOtherEnv"
         skill.policy_state_dict = bad_obs_policy_sd
         skill.latent_trunk_state_dict = trunk_sd
+        skill.rssm_core_state_dict = rssm_core_sd
         skill.normalizer_state = source_norm_state
 
         agent.skill_selector = MagicMock()

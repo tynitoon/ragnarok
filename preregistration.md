@@ -525,4 +525,113 @@ in Phase 4 baselines, not Phase 5.
     packages and refuse to build)
   - `SETUP.md` with reproducible install steps for both envs
 
+- **2026-04-14 (v3.4 — Bug E discovered mid-pilot; pilot #1 killed; co-transferred RSSM core + LR warmup):**
+  Phase 3 pilot #1 was launched per §8 (5 seeds × 3 pairs × {scratch, transfer}).
+  At N=2 of the primary-endpoint rehearsal (CartPole→MCC) the transfer
+  arm produced an RMST ratio of ~0.98 — well below the 1.3× pass
+  criterion and indistinguishable from no-transfer despite
+  `acting_policy_mode == "latent"` being confirmed in logs and the
+  expected source skill being loaded. A devil's-advocate review agent
+  pointed at the `try_transfer` cross-dim branch and asked what
+  exactly was being transferred. Investigation found:
+  - **Bug E (architectural, not plumbing).** The "transferable trunk"
+    saved with each Skill consisted only of the latent policy MLP
+    weights (`shared.*` + `critic_head.*`). The RSSM that produces
+    the `(h, z)` features the trunk consumes was NOT serialized and
+    NOT loaded on the target env. The cross-dim transfer therefore
+    moved a policy that reads `cat(h, z)` features but left the
+    target env with a fresh-random RSSM that emits noise. The trunk
+    saw garbage and the §8 mechanism check trivially failed even
+    though `acting_policy_mode == "latent"` was structurally true.
+    This is consistent with the observed 0.98 ratio: random features
+    in, random behaviour out.
+
+  **Pilot #1 killed at N=2/5 on the primary pair.** Artifacts
+  preserved at `pilot_results.json.broken_trunk` and
+  `pilot_run.log.broken_trunk` for the post-mortem section of the
+  paper, but excluded from any §4 metric. Killing mid-pilot is not a
+  garden-of-forking-paths violation — Bug E was a code defect, not a
+  result the run produced; the §8 pass criteria were never evaluated
+  on the broken pipeline.
+
+  **Fix scope (one atomic commit, all Phase A–F below).**
+  - Phase A (RSSM API): split RSSM into env-agnostic transferable
+    subset (`core.gru`, `core.prior`, `core.posterior`) vs per-env
+    IO (encoder, `core.pre_gru`, decoder, reward + continue
+    predictors). New methods `transferable_state_dict()`,
+    `load_transferable_state_dict(strict=True)`,
+    `transferable_params()`, `non_transferable_params()`. Strict
+    load raises on shape mismatch — silent acceptance would have
+    re-introduced Bug E.
+  - Phase B (Skill schema): added `rssm_core_state_dict` field
+    (`default_factory=dict` for backward-compat with pre-Bug-E
+    skills); `SkillLibrary.save_skill` serializes it; the existing
+    meta-test `test_every_skill_dataclass_field_is_serialized`
+    catches any future omission.
+  - Phase C (optimizer): `WorldModelTrainer` now uses two named Adam
+    param groups (`transferable`, `io`) so the transferable subset's
+    LR can be scaled independently of the per-env IO that needs full
+    LR to learn the target's obs/action layout. New methods
+    `set_transferable_lr_scale(scale, warmup_episodes)`,
+    `step_episode()`, `get_transferable_lr()`. Defaults pinned in
+    `RagnarokConfig.transfer`: `rssm_transfer_lr_scale = 0.1`,
+    `rssm_transfer_warmup_episodes = 200`.
+  - Phase D (agent wiring): crystallization saves the RSSM core;
+    `try_transfer` cross-dim branch loads the core BEFORE the trunk
+    (the trunk's behaviour depends on the core producing consistent
+    features), flips `acting_policy_mode = "latent"`, and applies
+    the LR warmup. Failure during cross-dim load (shape mismatch on
+    `hidden_dim` / `stoch_dim` / `encoder_hidden`) returns `None`
+    cleanly rather than pretending transfer succeeded. Trust region
+    is now gated on `acting_policy_mode == "obs"` — capturing the
+    obs policy as a KL reference in latent mode would pull a
+    randomly-initialized policy toward random init, which is wrong
+    and irrelevant. `wm_trainer.step_episode()` wired at all 6
+    episode-end sites.
+  - Phase E (regression suite, `tests/test_rssm_transfer.py`,
+    24 tests): partition correctness; cross-env load preserves IO
+    layers; strict-vs-nonstrict shape-mismatch behaviour; skill
+    serialization round-trip including empty-default backward-compat;
+    LR-scaling param-group disjointness + countdown semantics;
+    end-to-end cross-dim transfer flips acting mode; skipped when
+    `rssm_core_state_dict` is empty (pre-Bug-E artifact); trust
+    region not activated in latent mode. One behavioural smoke marked
+    `@pytest.mark.slow`, run manually before pilot relaunch. Plus 3
+    updates to `tests/test_latent_policy.py` mock skills to set the
+    new `rssm_core_state_dict` attribute.
+  - Phase F (this amendment): timestamped pre-relaunch.
+
+  **Decision rule UNCHANGED.** Pilot #2 will run on the fixed pipeline
+  with the same configuration as pilot #1: §8 pass criteria
+  (RMST ratio ≥ 1.3 on primary, p < 0.10, no anti-transfer pair,
+  `acting_policy_mode == "latent"` confirmed in logs) and §11 week-4
+  kill criterion still apply unchanged. Number of seeds (5), number of
+  pairs (3), and pair identities (`cartpole_mcc` primary,
+  `cartpole_acrobot` and `pendulum_dmc_cartpole` secondary) all
+  unchanged. No metric, threshold, or analysis pipeline was modified.
+  This amendment documents an implementation defect and its fix; it
+  does not relax any criterion that the broken pipeline would have
+  failed.
+
+  **Pre-relaunch checklist (gating pilot #2 launch):**
+  1. `pytest tests/` green (achieved: 338 passed, 15 skipped).
+  2. Multi-agent code review on the Bug E fix (G1.5 review — extends
+     standing G1 gate per §9). At minimum: an architecture agent on
+     RSSM partition correctness + a testing agent on regression-suite
+     coverage. Verdicts committed to `reviews/bug_e_fix.md` (NEW)
+     before launch.
+  3. Behavioural smoke (1 seed, CartPole → MCC, ~1h) confirms
+     `acting_policy_mode` flips to `"latent"` AND the loaded RSSM
+     core weights survive the first 100 episodes of training (i.e.
+     the LR warmup is doing its job — Adam doesn't wipe the source
+     priors before the per-env IO catches up).
+  4. Pilot #2 launch only after items 1–3 pass.
+
+  Rationale for not weakening the pass criteria: the pilot is the
+  gate that lets the project proceed to Phase 5. If the architectural
+  fix doesn't deliver ≥ 1.3× ratio at p < 0.10 on N=5, the
+  hypothesis is empirically dead at that scale and Plan B (§10)
+  activates regardless. Loosening the criterion to make a fragile
+  pilot pass would propagate weakness into the headline run.
+
 - (Subsequent amendments timestamped here before execution.)

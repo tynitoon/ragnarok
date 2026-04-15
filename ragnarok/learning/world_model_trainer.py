@@ -31,7 +31,23 @@ class WorldModelTrainer:
         # from the learned-dynamics contribution.
         self.shuffle_transitions = shuffle_transitions
 
-        self.optimizer = torch.optim.Adam(rssm.parameters(), lr=lr, eps=1e-5)
+        # Split the optimizer into two param groups so a cross-dim transfer
+        # can scale the LR on the env-agnostic subset (core.gru / prior /
+        # posterior) independently of the per-env IO (encoder, pre_gru,
+        # decoder, reward/continue predictors). After a transfer, the
+        # transferable subset is warm-started from source weights we want
+        # to preserve; the per-env IO is fresh-random and needs full LR
+        # to catch up. A flat Adam would burn through the transferred
+        # priors in ~hundreds of steps (Bug E smoke observation).
+        self._base_lr = lr
+        self._transferable_lr_scale = 1.0
+        self._warmup_episodes_remaining = 0
+        self.optimizer = torch.optim.Adam([
+            {"params": list(rssm.transferable_params()),
+             "lr": lr, "name": "transferable"},
+            {"params": list(rssm.non_transferable_params()),
+             "lr": lr, "name": "io"},
+        ], eps=1e-5)
 
     def _shuffle_next_state_targets(self, obs: np.ndarray) -> np.ndarray:
         """Cross-trajectory shuffle of next-state targets (A9 ablation).
@@ -102,3 +118,54 @@ class WorldModelTrainer:
         if count == 0:
             return {}
         return {k: v / count for k, v in totals.items()}
+
+    # ── Transferable-subset LR scaling (Bug E Phase 5 fix) ────────────
+    #
+    # When ``RagnarokAgent.try_transfer`` performs a cross-dim load it
+    # warm-starts the transferable RSSM subset from a source skill but
+    # leaves the per-env IO fresh-random. The IO needs full LR to learn
+    # the new obs/action layout, but the transferable subset's source
+    # weights would be wiped out in a few hundred Adam steps if it ran
+    # at the same rate. We therefore drop the transferable group's LR
+    # for `warmup_episodes` and let the IO catch up first.
+
+    def set_transferable_lr_scale(self, scale: float, warmup_episodes: int):
+        """Scale the LR on the env-agnostic RSSM param group.
+
+        Called by RagnarokAgent immediately after a successful cross-dim
+        transfer. The scale applies for ``warmup_episodes`` calls to
+        ``step_episode()``, then snaps back to 1.0.
+
+        Args:
+            scale: multiplier applied to the base LR for the
+                transferable group. Typically 0.1.
+            warmup_episodes: number of episodes during which the scale
+                stays in effect. After the counter expires the LR
+                snaps back to ``self._base_lr``.
+        """
+        self._transferable_lr_scale = scale
+        self._warmup_episodes_remaining = warmup_episodes
+        for g in self.optimizer.param_groups:
+            if g["name"] == "transferable":
+                g["lr"] = self._base_lr * scale
+
+    def step_episode(self):
+        """Decrement the warmup counter and restore LR when it expires.
+
+        Call exactly once per episode end. RagnarokAgent does this
+        unconditionally — when no warmup is active the call is a no-op.
+        """
+        if self._warmup_episodes_remaining > 0:
+            self._warmup_episodes_remaining -= 1
+            if self._warmup_episodes_remaining == 0:
+                self._transferable_lr_scale = 1.0
+                for g in self.optimizer.param_groups:
+                    if g["name"] == "transferable":
+                        g["lr"] = self._base_lr
+
+    def get_transferable_lr(self) -> float:
+        """Current LR on the transferable param group (for tests + logging)."""
+        for g in self.optimizer.param_groups:
+            if g["name"] == "transferable":
+                return float(g["lr"])
+        raise RuntimeError("transferable param group missing")

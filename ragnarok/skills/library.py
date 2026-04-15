@@ -55,6 +55,7 @@ class SkillLibrary:
             "episodes_trained": skill.episodes_trained,
             "metadata": skill.metadata,
             "latent_trunk_state_dict": skill.latent_trunk_state_dict,
+            "rssm_core_state_dict": skill.rssm_core_state_dict,
         }
         path = self.skills_dir / f"{skill.name}.pt"
         torch.save(data, path)

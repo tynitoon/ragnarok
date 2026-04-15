@@ -453,3 +453,121 @@ class RSSM(nn.Module):
         post_mean, post_logstd = self.core.forward_posterior(h, features)
         z = self.core.sample(post_mean, post_logstd)
         return h, z
+
+    # ── Cross-dim transfer: split the RSSM into env-agnostic vs per-env ──
+    #
+    # Phase 3 pre-launch, Bug E: the original skill serialization stored
+    # only the `LatentPolicyHead.shared` MLP + `critic_head` weights. But
+    # that MLP consumes `cat(h, z)` — features produced by the RSSM. If
+    # the target env's RSSM is fresh-random at transfer time, those
+    # features are noise, and the transferred policy trunk cannot
+    # exploit any source-task structure. Result: null transfer.
+    #
+    # The correct fix is to co-transfer the env-agnostic subset of the
+    # RSSM: the GRU core, the prior MLP, and the posterior MLP — all of
+    # which operate purely on fixed-dim (hidden_dim, stoch_dim,
+    # encoder_hidden) tensors. The per-env components (encoder,
+    # core.pre_gru, decoder, reward_predictor, continue_predictor) stay
+    # fresh-random on the target, which is correct — they have to learn
+    # the new obs/action dims and the new reward/termination structure.
+    #
+    # Rationale per layer:
+    #   - encoder:            obs_dim → hidden  — depends on obs_dim
+    #   - core.pre_gru:       (stoch_dim + action_dim) → hidden_dim — depends on action_dim
+    #   - core.gru:           hidden_dim → hidden_dim — SHAREABLE
+    #   - core.prior:         hidden_dim → stoch_dim*2 — SHAREABLE
+    #   - core.posterior:     (hidden_dim + encoder_hidden) → stoch_dim*2 — SHAREABLE
+    #   - decoder:            (hidden+stoch) → obs_dim — depends on obs_dim
+    #   - reward_predictor:   env-specific reward scale/structure
+    #   - continue_predictor: env-specific episode termination structure
+
+    _TRANSFERABLE_PREFIXES = (
+        "core.gru.",
+        "core.prior.",
+        "core.posterior.",
+    )
+
+    def transferable_state_dict(self) -> dict:
+        """Return only the env-agnostic subset of the RSSM state_dict.
+
+        Transferable keys are prefixed with one of ``core.gru.``,
+        ``core.prior.``, or ``core.posterior.``. Everything else is
+        excluded because it either depends on obs_dim / action_dim
+        (encoder, pre_gru, decoder) or on env-specific semantics
+        (reward, continue predictors).
+
+        This is the slice that ``save_skill`` serializes and that
+        ``try_transfer`` loads when the target env has different obs or
+        action dimensions from the source.
+        """
+        sd = self.state_dict()
+        return {k: v for k, v in sd.items()
+                if k.startswith(self._TRANSFERABLE_PREFIXES)}
+
+    def load_transferable_state_dict(self, sd: dict, strict: bool = True):
+        """Load only the env-agnostic subset of the state_dict.
+
+        Preserves the per-env components (encoder, decoder, pre_gru,
+        reward/continue predictors) untouched — they retain whatever
+        random initialization the target-env RSSM was built with and
+        will be trained up from there.
+
+        Args:
+            sd: state dict produced by ``transferable_state_dict()``.
+            strict: if True, raise ValueError on non-transferable keys,
+                missing target keys, or shape mismatches. Non-strict
+                mode silently skips incompatible entries — used only
+                by old checkpoint migration.
+        """
+        current = self.state_dict()
+        unknown_keys = [k for k in sd
+                        if not k.startswith(self._TRANSFERABLE_PREFIXES)]
+        if unknown_keys and strict:
+            raise ValueError(
+                f"load_transferable_state_dict received non-transferable "
+                f"keys: {unknown_keys}. Only {self._TRANSFERABLE_PREFIXES} "
+                f"are allowed."
+            )
+        for k, v in sd.items():
+            if not k.startswith(self._TRANSFERABLE_PREFIXES):
+                continue
+            if k not in current:
+                if strict:
+                    raise ValueError(
+                        f"Key {k!r} in transferable state_dict does not "
+                        f"exist on target RSSM.")
+                continue
+            if current[k].shape != v.shape:
+                if strict:
+                    raise ValueError(
+                        f"Shape mismatch on {k!r}: target expects "
+                        f"{tuple(current[k].shape)}, got {tuple(v.shape)}. "
+                        f"Transferable subset should be env-agnostic — "
+                        f"if shapes differ, the RSSM hidden_dim/stoch_dim "
+                        f"was changed between source and target.")
+                continue
+            current[k] = v
+        self.load_state_dict(current)
+
+    def transferable_params(self):
+        """Iterate parameters in the env-agnostic transferable subset.
+
+        Used by WorldModelTrainer to put these params in a separate
+        optimizer group so the learning rate can be scaled independently
+        during post-transfer warmup (Bug E Phase 5 fix).
+        """
+        yield from self.core.gru.parameters()
+        yield from self.core.prior.parameters()
+        yield from self.core.posterior.parameters()
+
+    def non_transferable_params(self):
+        """Iterate parameters NOT in the transferable subset.
+
+        Complement of ``transferable_params()``. Partition is exact:
+        every ``self.parameters()`` lands in one or the other with no
+        overlap (see test_rssm_transfer.py).
+        """
+        transferable_ids = {id(p) for p in self.transferable_params()}
+        for p in self.parameters():
+            if id(p) not in transferable_ids:
+                yield p
