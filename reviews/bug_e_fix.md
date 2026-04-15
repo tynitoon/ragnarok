@@ -284,3 +284,178 @@ cost in the analyzer is non-trivial.
   abort criterion can be evaluated programmatically post-smoke.
 - **Pilot #2 unblocked** once the v3 smoke (re-run on the new
   pilot_run.py) returns telemetry with no abort triggered.
+
+---
+
+# Bug E v3 → v4 — third round of review
+
+**Date:** 2026-04-15
+**Reviewed commit:** `e24832c` (Bug E v3 hardenings)
+**Reviewers:** 3 parallel agents (architecture / testing / devil's
+advocate)
+**Verdict bundle:** 1 architecture MAJOR + 2 testing MAJORs + 1
+devil's-advocate BLOCKER + 3 devil's-advocate MAJORs all resolved
+in atomic v4 commit; pilot #2 launch unblocked subject to v4 smoke
+re-run on the now-correct (2-seed, 40k-step, telemetry-emitting)
+pilot_run.py.
+
+## Reviewer 1 — Architecture (3rd round)
+
+**Verdict:** FIX-ONE-MAJOR.
+
+The v3 implementation of `_capture_telemetry` calls
+`rssm.loss(obs, actions)["kl_loss"]` to populate the
+`kl_posterior_prior` probe. That field is the **free-nats-clamped
+training objective**, computed as
+`torch.clamp(kl, min=free_nats/stoch_dim).sum(-1).mean()` (default
+`free_nats=1.0`, `stoch_dim ∈ {8, 16, 32}` per env). The clamp
+floor IS the expected raw KL value during the first hundreds of
+episodes — so the probe is structurally **incapable** of detecting
+the very failure mode the v3 amendment claimed it would detect
+("prior crushed by posterior"). A flat-prior, flat-posterior
+configuration would yield raw KL ≈ 0 but the probe would report
+≥ 0.25 — the floor.
+
+**ACTIONED in v4:** the telemetry function calls `rssm.observe(obs,
+actions)` directly and computes
+`kl_divergence(Normal(post_m, post_s.exp()),
+Normal(prior_m, prior_s.exp())).sum(-1).mean()` — no clamping, no
+weight, no per-dim averaging that would obscure low values. New
+test `test_kl_probe_is_unclamped_raw_kl` constructs identical
+post/prior Normals and asserts the probe reports ~0 (would fail at
+~0.25 if the clamped path regressed). All other architecture
+review findings: LAUNCH-READY.
+
+## Reviewer 2 — Testing (3rd round)
+
+**Verdict:** INSUFFICIENT-WITHOUT-FIX (2 MAJORs).
+
+- **MAJOR #1: Telemetry function has zero unit-test coverage.**
+  The v3 implementation lives as a closure inside
+  `_train_to_step_budget`, so it can't be imported and tested in
+  isolation. A regression in the closure (e.g. swapping the KL
+  probe for a clamped one — see architecture MAJOR above) would
+  only surface during a smoke run, not during PR-time tests.
+  **ACTIONED in v4:** `_compute_transfer_telemetry` extracted to
+  module level. Seven new unit tests in `TestComputeTransferTelemetry`:
+  baseline=None handling (×2), drift math (×2), step/episode pass-
+  through, raw-KL guarantee, exception swallowing, kl_probe_error
+  semantics on success / empty-buffer / crash (×3 — last 2 added
+  alongside the v4 MINOR fix below).
+
+- **MAJOR #2: `test_hidden_dim_only_mismatch_does_not_mention_
+  encoder_hidden` sidesteps reality.** The v3 test filters the
+  source state_dict to non-posterior keys only, controlling which
+  key raises first. In production usage the user passes the FULL
+  `transferable_state_dict()`, and iteration order over the dict
+  determines which key raises — if posterior happens to iterate
+  first under hidden_dim mismatch, the encoder_hidden hint fires
+  and misdirects the user. **ACTIONED in v4:** new test
+  `test_hidden_dim_mismatch_unfiltered_dict_no_encoder_hint`
+  exercises the realistic full-dict call path and asserts the
+  message does NOT mention encoder_hidden. The test's docstring
+  documents the iteration-order dependence (`gru → prior →
+  posterior`) and warns that any future refactor changing prefix
+  order would correctly fail this test.
+
+## Reviewer 3 — Devil's advocate (3rd round)
+
+**Verdict:** LAUNCH-WITH-MODIFIED-CRITERION (1 BLOCKER + 3 MAJORs).
+
+**BLOCKER #1 — `--smoke` flag still hardcodes seeds=1.** The v2
+prereg amendment commits to a 2-seed smoke pre-check, and the v3
+amendment doubles down on it (with the abort criterion enforceable
+via the new telemetry). But `scripts/pilot_run.py:--smoke` was
+never updated and still sets `args.seeds = 1`. Any operator
+running the CLI smoke per the prereg-documented invocation produces
+a single-seed smoke that **violates the prereg**. The whole
+2-seed-with-||Δθ||-aggregation discipline is dead code if the flag
+that's supposed to enable it doesn't.
+
+**ACTIONED in v4:** `--smoke` now sets `args.seeds = 2` and
+`args.max_steps = 40_000`. (40k bumped from 20k because the
+ep-100 abort criterion would land in the no-margin zone for slow
+mastery curves at the v3 default.) Help text and usage docstring
+updated. Test
+`test_smoke_flag_sets_reduced_budget` updated to assert the new
+values, and the assertions explain WHY they changed (citing the
+prereg amendment numbers) so a future reverter has to look at the
+prereg before flipping the test back.
+
+**MAJOR #1 — Band B sweep statistically dead.** Power analysis on
+the v3 Bonferroni-corrected design at α = 0.0333, df = 2,
+ratio = 1.5, σ = 0.25 yields **power ≈ 7.4%**. A 3-cell sweep
+where each cell has 7% chance of correctly identifying a real 1.5×
+effect is not a rescue mechanism, it's a coin toss. The original
+intent of Band B was "if the §8 primary is null but the mechanism
+is alive at a different HP, find that HP" — but the cell that
+contains the right HP only fires 7% of the time even when right.
+
+**ACTIONED in v4:** Band B collapsed from 3 cells to 1 cell at
+warmup_episodes=200 (the only cell with prior architectural
+justification). With 1 cell, no multiplicity correction is needed,
+α reverts to 0.10 (matches §8 primary), and at N=5 the same
+ratio/σ assumption gives power ≈ 50%. If pilot #2 lands in Band B,
+a follow-up sweep with proper N can refine; if it lands in Band C,
+Plan B is the answer, not a wider exploratory net.
+
+**MAJOR #2 — Band B lower edge 1.15 still in noise floor.** At
+σ = 0.25 (upper of the v3-estimated 0.15–0.25 RMST noise range),
+the null p-value for a 1.15 ratio is ≈ 0.17 — above the 10% bar
+that §8 primary uses. So a Band B "rescue winner" at ratio = 1.15
+has worse statistical evidence than the §8 primary requires.
+
+**ACTIONED in v4:** Band B lower edge raised 1.15 → 1.20 (null
+p ≈ 0.10 at σ = 0.25, matches §8 α exactly). Effective Band B
+window after v4: ratio ∈ [1.20, 1.30) at p < 0.10 OR ratio ≥ 1.30
+at p ∈ [0.10, 0.20).
+
+**MAJOR #3 — 2-seed smoke aggregation rule undefined.** The v2
+amendment commits to 2-seed smoke with telemetry abort criterion
+"||Δθ|| > 50% by ep 100", but doesn't specify how to combine the
+two seeds: abort if EITHER seed triggers, or only if BOTH? The
+default reading would be "mean across seeds" which masks
+catastrophic single-seed failures.
+
+**ACTIONED in v4:** prereg pre-declares "EITHER seed triggers
+abort" (pessimistic — a single broken seed is sufficient evidence
+to hold the 20-GPU-h pilot launch). Coded into the smoke output
+via per-seed telemetry series; analyzer aggregation rule pre-
+declared so post-hoc cherry-picking is impossible.
+
+**Other concerns from this round:**
+- **MINOR — silent kl_probe failures lose diagnostic info.** v3
+  has `except Exception: kl_probe = None`. The bare swallow means
+  a permanently-broken probe is indistinguishable from a working
+  probe that never gets called (e.g. if the buffer happens to be
+  empty at every checkpoint). **ACTIONED:** added
+  `kl_probe_error: str | None` field to the telemetry record,
+  populated with `repr(e)[:200]` on exception or with an explicit
+  "buffer empty" string when num_episodes < 1. Two new tests
+  pin the contract:
+  `test_kl_probe_error_is_none_on_success` and
+  `test_kl_probe_error_distinguishes_empty_buffer_from_crash`.
+
+## Aggregate v4 disposition
+
+- **Code/test/prereg:** 1 BLOCKER + 5 MAJORs + 1 MINOR all landed
+  in the same atomic v4 commit. Test count: 356 passed / 15
+  skipped on Python 3.14 main env (the 14-test DMC delta vs the
+  v3 baseline of 360/1 is environment, not regression — DMC tests
+  run only on venv310). v4 added 4 new tests on top of the v3
+  baseline:
+  - `test_hidden_dim_mismatch_unfiltered_dict_no_encoder_hint`
+  - `test_kl_probe_error_is_none_on_success`
+  - `test_kl_probe_error_distinguishes_empty_buffer_from_crash`
+  - 2 new assertions extending `test_telemetry_swallows_buffer_exception`
+- **Decision rules:** Band B further tightened (1-cell vs 3-cell;
+  1.20 lower edge vs 1.15; per-cell α back to 0.10 since
+  multiplicity correction no longer needed); 2-seed aggregation
+  pre-declared (EITHER seed > 50% triggers abort). §8 primary
+  unchanged at headline N=20.
+- **Smoke flag now actually executes the prereg-committed
+  protocol:** seeds=2, max_steps=40k, telemetry emitted to
+  pilot_results.json, kl_probe_error field present.
+- **Pilot #2 unblocked** once v4 smoke (re-run on this commit's
+  pilot_run.py) returns clean telemetry with no abort triggered
+  on either seed.

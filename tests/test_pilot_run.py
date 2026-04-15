@@ -26,6 +26,7 @@ from scripts.pilot_run import (  # noqa: E402
     SOURCE_MAX_ENV_STEPS_DEFAULT,
     EvalPoint,
     PilotRun,
+    _compute_transfer_telemetry,
     _run_from_dict,
     resolve_mastery_thresholds,
 )
@@ -438,7 +439,13 @@ class TestSourceCrystallizedField:
 class TestCLIInterface:
     def test_smoke_flag_sets_reduced_budget(self, monkeypatch, tmp_path):
         """--smoke should reduce seeds/steps so the CLI is safe to invoke
-        in CI without accidentally spawning a multi-hour run."""
+        in CI without accidentally spawning a multi-hour run.
+
+        v4 update (devil's-advocate v3 BLOCKER): seeds bumped 1→2 to
+        match the prereg v2 amendment (2-seed smoke pre-check) and
+        max-steps bumped 20k→40k to give headroom past the ep-100
+        drift abort criterion.
+        """
         # We don't actually execute run_pilot (that would start training).
         # Instead, import main and verify the argparse transform.
         from scripts.pilot_run import main as pilot_main
@@ -456,8 +463,13 @@ class TestCLIInterface:
             "--skills-root", str(tmp_path / "skills"),
         ])
         assert rc == 0
-        assert captured["seeds"] == 1
-        assert captured["max_env_steps"] == 20_000
+        # v4: 2 seeds matches prereg v2 "Bug E v2" amendment (2-seed
+        # smoke pre-check); 1 was a code/prereg drift that the v3
+        # devil's-advocate review surfaced as a BLOCKER.
+        assert captured["seeds"] == 2
+        # v4: 40k gives headroom past the ep-100 drift abort criterion;
+        # 20k was tight on slow MCC mastery curves.
+        assert captured["max_env_steps"] == 40_000
         assert captured["source_max_env_steps"] == 10_000
         # --smoke forces pair filter to the primary so the CI doesn't hit DMC
         assert captured["pair_filter"] == ["cartpole_mcc"]
@@ -699,3 +711,287 @@ class TestSharedSourceSkillsDir:
             "pair alias leaked into source-skills dir name; pair 2 "
             "with a different alias would get a different dir."
         )
+
+
+# ── Telemetry capture (Bug E v4: testing review v3 MAJOR concern #5) ─
+
+class TestComputeTransferTelemetry:
+    """Unit tests for `_compute_transfer_telemetry` (Bug E v4).
+
+    Devil's-advocate v3 testing review flagged that the original
+    `_capture_telemetry` was a closure inside `_train_to_step_budget`
+    with zero unit-test coverage — a regression there would silently
+    break the prereg's "abort if drift > 50% by ep 100" criterion and
+    only surface during a 20-min smoke run. v4 extracts the function
+    to module level so it's testable in isolation; these tests pin the
+    contract so the regression-detection loop is fast.
+    """
+
+    def _make_stub_agent(self, drift_factor: float = 0.0):
+        """Build a minimal cuda-free agent stub that exposes the API
+        `_compute_transfer_telemetry` reads from:
+          - agent.wm_trainer.rssm.transferable_state_dict()
+          - agent.wm_trainer.rssm.observe()
+          - agent.wm_trainer.{batch_size, seq_length}
+          - agent.replay_buffer.{num_episodes, sample_sequences()}
+          - agent.total_steps, agent.total_episodes
+
+        The stub returns synthetic transferable params perturbed by
+        `drift_factor` from the baseline, so the test can verify the
+        drift formula `||v_now - v0||/||v0||` end-to-end.
+        """
+        import numpy as np
+        import torch
+        from types import SimpleNamespace
+
+        torch.manual_seed(0)
+
+        baseline_w = torch.randn(8, 4)  # one transferable param
+        # v_now = baseline + drift_factor * baseline (so drift / norm
+        # = drift_factor exactly).
+        current_w = baseline_w + drift_factor * baseline_w
+        sd_now = {"core.gru.weight_ih_l0": current_w.clone()}
+
+        class _RSSM:
+            def transferable_state_dict(self):
+                return {k: v.clone() for k, v in sd_now.items()}
+
+            def observe(self, obs_t, act_t):
+                # Return synthetic post/prior with a known KL: post~N(0,1),
+                # prior~N(0,1) gives KL ≈ 0; offset post mean by 1.0 to
+                # produce KL ≈ 0.5 (per dim, summed over 4 dims = 2.0).
+                B, T = obs_t.shape[:2]
+                return {
+                    "post_mean":   torch.ones(B, T, 4),
+                    "post_logstd": torch.zeros(B, T, 4),
+                    "prior_mean":  torch.zeros(B, T, 4),
+                    "prior_logstd": torch.zeros(B, T, 4),
+                }
+
+        class _Buf:
+            num_episodes = 4
+
+            def sample_sequences(self, bs, sl):
+                obs = np.zeros((bs, sl, 2), dtype=np.float32)
+                act = np.zeros((bs, sl, 1), dtype=np.float32)
+                rew = np.zeros((bs, sl), dtype=np.float32)
+                done = np.zeros((bs, sl), dtype=np.float32)
+                return obs, act, rew, done
+
+        wm_trainer = SimpleNamespace(
+            rssm=_RSSM(), batch_size=50, seq_length=50,
+            kl_weight=0.1, free_nats=1.0)
+        agent = SimpleNamespace(
+            wm_trainer=wm_trainer, replay_buffer=_Buf(),
+            total_steps=12_345, total_episodes=87)
+
+        baseline = {"core.gru.weight_ih_l0": baseline_w.clone()}
+        baseline_norms = {"core.gru.weight_ih_l0":
+                          float(baseline_w.norm().item())}
+        return agent, baseline, baseline_norms
+
+    def test_returns_none_when_baseline_is_none(self):
+        """Non-transfer arms (and transfer arms where try_transfer
+        returned None) must produce no telemetry record."""
+        agent, _, _ = self._make_stub_agent(drift_factor=0.0)
+        result = _compute_transfer_telemetry(agent, None, None)
+        assert result is None
+
+    def test_returns_none_when_baseline_norms_missing(self):
+        """Defensive: if baseline_norms got out of sync with baseline
+        (impossible by construction in pilot_run, but the function
+        contract is `both or neither`), bail out."""
+        agent, baseline, _ = self._make_stub_agent(drift_factor=0.0)
+        result = _compute_transfer_telemetry(agent, baseline, None)
+        assert result is None
+
+    def test_drift_zero_when_weights_unchanged(self):
+        """drift_factor=0 → current weights == baseline → drift is 0."""
+        agent, baseline, baseline_norms = self._make_stub_agent(drift_factor=0.0)
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        assert result["transferable_drift_max"] == pytest.approx(0.0, abs=1e-6)
+
+    def test_drift_matches_factor_when_weights_perturbed(self):
+        """drift_factor=0.3 → current = 1.3 * baseline → ||v_now -
+        v0||/||v0|| = 0.3 exactly. This is the load-bearing math
+        for the prereg's "abort > 50% by ep 100" criterion."""
+        agent, baseline, baseline_norms = self._make_stub_agent(drift_factor=0.3)
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        assert result["transferable_drift_max"] == pytest.approx(0.3, rel=1e-5)
+        assert result["transferable_drift_per_param"][
+            "core.gru.weight_ih_l0"] == pytest.approx(0.3, rel=1e-5)
+
+    def test_record_includes_step_and_episode(self):
+        """The downstream analyzer keys telemetry by (step, episode)
+        pairs — both must appear in every record."""
+        agent, baseline, baseline_norms = self._make_stub_agent(drift_factor=0.1)
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result["step"] == 12_345
+        assert result["episode"] == 87
+
+    def test_kl_probe_is_unclamped_raw_kl(self):
+        """Architecture review v3 BLOCKER: the KL probe MUST be raw
+        kl_divergence(post, prior).sum(-1).mean() — NOT the
+        free-nats-clamped training loss field. The stub `observe()`
+        returns post~N(1,1) and prior~N(0,1) over 4 dims:
+        analytical KL per dim = 0.5; sum over 4 dims = 2.0; mean over
+        (B, T) = 2.0. The probe must report ~2.0, NOT the clamped
+        training value (which would be max(2.0, free_nats=1.0) = 2.0
+        in this case but for *flat* prior + posterior would clamp
+        at 1.0/4 per dim and silently report the floor).
+
+        Concretely: replace the stub `observe()` to return identical
+        post and prior (KL=0). The clamped `kl_loss` field would
+        return 1.0/stoch_dim = 0.25 (the floor), but the raw KL is
+        0. The probe must report ~0, proving it's NOT calling the
+        clamped loss path.
+        """
+        import torch
+        from types import SimpleNamespace
+        import numpy as np
+
+        torch.manual_seed(0)
+
+        class _RSSMIdenticalDist:
+            def transferable_state_dict(self):
+                return {"k": torch.zeros(2, 2)}
+
+            def observe(self, obs_t, act_t):
+                B, T = obs_t.shape[:2]
+                # post == prior → analytical KL is exactly zero.
+                return {
+                    "post_mean": torch.zeros(B, T, 4),
+                    "post_logstd": torch.zeros(B, T, 4),
+                    "prior_mean": torch.zeros(B, T, 4),
+                    "prior_logstd": torch.zeros(B, T, 4),
+                }
+
+        class _Buf:
+            num_episodes = 4
+
+            def sample_sequences(self, bs, sl):
+                return (np.zeros((bs, sl, 2), dtype=np.float32),
+                        np.zeros((bs, sl, 1), dtype=np.float32),
+                        np.zeros((bs, sl), dtype=np.float32),
+                        np.zeros((bs, sl), dtype=np.float32))
+
+        agent = SimpleNamespace(
+            wm_trainer=SimpleNamespace(
+                rssm=_RSSMIdenticalDist(),
+                batch_size=4, seq_length=4,
+                kl_weight=0.1, free_nats=1.0),
+            replay_buffer=_Buf(),
+            total_steps=0, total_episodes=0)
+
+        baseline = {"k": torch.zeros(2, 2)}
+        baseline_norms = {"k": 1.0}
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        # Raw KL of identical Normals is 0. Clamped (free-nats) KL
+        # would report ≥ free_nats/stoch_dim = 0.25. If we see ≥ 0.20
+        # the function is calling the clamped path and the BLOCKER
+        # has regressed.
+        assert result["kl_posterior_prior"] == pytest.approx(0.0, abs=1e-5), (
+            f"kl_posterior_prior = {result['kl_posterior_prior']!r} for "
+            f"identical post/prior Normals — expected ~0 (raw KL). If you "
+            f"see ~0.25, the probe regressed to calling the free-nats-"
+            f"clamped training loss field instead of raw kl_divergence "
+            f"(architecture review v3 BLOCKER).")
+
+    def test_telemetry_swallows_buffer_exception(self):
+        """The KL probe wraps in try/except to never crash the pilot.
+        Verify a buggy sample_sequences doesn't propagate, AND that
+        the failure is recorded in `kl_probe_error` (testing review v3
+        MINOR — silent-swallow without diagnostics is indistinguishable
+        from a probe that never gets called)."""
+        import torch
+        from types import SimpleNamespace
+
+        class _RSSMOK:
+            def transferable_state_dict(self):
+                return {"k": torch.zeros(2, 2)}
+
+            def observe(self, obs_t, act_t):
+                raise RuntimeError("test: should not be reached")
+
+        class _BrokenBuf:
+            num_episodes = 4
+
+            def sample_sequences(self, bs, sl):
+                raise RuntimeError("test: replay buffer is broken")
+
+        agent = SimpleNamespace(
+            wm_trainer=SimpleNamespace(
+                rssm=_RSSMOK(), batch_size=4, seq_length=4,
+                kl_weight=0.1, free_nats=1.0),
+            replay_buffer=_BrokenBuf(),
+            total_steps=0, total_episodes=0)
+
+        baseline = {"k": torch.zeros(2, 2)}
+        baseline_norms = {"k": 1.0}
+        # Must NOT raise. drift is still computed; kl_probe falls to None
+        # but kl_probe_error captures the repr.
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        assert result["transferable_drift_max"] == 0.0
+        assert result["kl_posterior_prior"] is None
+        assert result["kl_probe_error"] is not None
+        assert "test: replay buffer is broken" in result["kl_probe_error"], (
+            f"kl_probe_error should contain the actual exception repr, "
+            f"got {result['kl_probe_error']!r}")
+
+    def test_kl_probe_error_is_none_on_success(self):
+        """When the probe runs cleanly, kl_probe_error must be None
+        (the analyzer uses `error is None and kl is not None` as the
+        success predicate)."""
+        agent, baseline, baseline_norms = self._make_stub_agent(drift_factor=0.0)
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        assert result["kl_posterior_prior"] is not None, (
+            "stub returns a finite KL — sanity check on test fixture")
+        assert result["kl_probe_error"] is None, (
+            f"Expected kl_probe_error=None on successful probe, "
+            f"got {result['kl_probe_error']!r}")
+
+    def test_kl_probe_error_distinguishes_empty_buffer_from_crash(self):
+        """Testing review v3 MINOR: the analyzer needs to tell apart
+        'probe never ran (no data yet)' from 'probe crashed' from
+        'probe succeeded'. An empty buffer must produce kl_probe=None
+        with a kl_probe_error string that explicitly names the empty
+        condition (NOT a generic exception repr that could be confused
+        with a real failure)."""
+        import torch
+        from types import SimpleNamespace
+
+        class _RSSMOK:
+            def transferable_state_dict(self):
+                return {"k": torch.zeros(2, 2)}
+
+            def observe(self, obs_t, act_t):
+                # Should never be called when buffer is empty.
+                raise RuntimeError("observe called on empty-buffer path")
+
+        class _EmptyBuf:
+            num_episodes = 0
+
+            def sample_sequences(self, bs, sl):
+                raise RuntimeError("should not sample from empty buffer")
+
+        agent = SimpleNamespace(
+            wm_trainer=SimpleNamespace(
+                rssm=_RSSMOK(), batch_size=4, seq_length=4,
+                kl_weight=0.1, free_nats=1.0),
+            replay_buffer=_EmptyBuf(),
+            total_steps=0, total_episodes=0)
+        baseline = {"k": torch.zeros(2, 2)}
+        baseline_norms = {"k": 1.0}
+        result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
+        assert result is not None
+        assert result["kl_posterior_prior"] is None
+        assert result["kl_probe_error"] is not None
+        assert "empty" in result["kl_probe_error"].lower(), (
+            f"Empty-buffer kl_probe_error should explicitly name the "
+            f"empty condition (not a generic exception). Got "
+            f"{result['kl_probe_error']!r}")

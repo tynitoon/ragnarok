@@ -44,8 +44,8 @@ Usage:
     # venv310 (Python 3.10) — all 3 pairs including DMC
     venv310/Scripts/python -m scripts.pilot_run
 
-    # Quick smoke (1 seed, 20k steps, for test dev)
-    python -m scripts.pilot_run --seeds 1 --max-steps 20000 --smoke
+    # Quick smoke (2 seeds, 40k steps, telemetry enforceable per prereg v3)
+    python -m scripts.pilot_run --smoke
 """
 
 from __future__ import annotations
@@ -140,11 +140,13 @@ class PilotRun:
     # vectorized collection is only supported for discrete A2C paths).
     used_vec: bool = False
     # Per-checkpoint diagnostic series for the transfer arm only (Bug E v3,
-    # 2026-04-15, devil's-advocate review #2 BLOCKER). Each entry:
+    # 2026-04-15, devil's-advocate review #2 BLOCKER; v4 adds kl_probe_error
+    # per testing review MINOR). Each entry:
     #   {"step": int, "episode": int,
     #    "transferable_drift_max":         float in [0, ∞),
     #    "transferable_drift_per_param":  {param_name: float},
-    #    "kl_posterior_prior":             float | None}
+    #    "kl_posterior_prior":             float | None,
+    #    "kl_probe_error":                 str | None}
     # The prereg amendment "Bug E v2" commits to logging these for the
     # smoke pre-check abort criterion (||Δθ|| > 50% by ep 100 → abort).
     # Without a side-car series in the run output, the prereg commitment
@@ -319,6 +321,128 @@ def _has_vec_path(agent: RagnarokAgent, spec) -> bool:
     return (not spec.pixel_obs) and (agent.sac_trainer is None)
 
 
+def _compute_transfer_telemetry(
+    agent: RagnarokAgent,
+    baseline: dict[str, torch.Tensor] | None,
+    baseline_norms: dict[str, float] | None,
+) -> dict | None:
+    """Compute one telemetry record for a transfer-arm pilot run.
+
+    Module-level (not a closure inside `_train_to_step_budget`) so the
+    function is unit-testable in isolation — devil's-advocate v3 testing
+    review pointed out that a closure-only implementation has zero
+    regression coverage and the very BLOCKER #1 fix it implements
+    (telemetry actually being emitted) could silently regress without
+    any unit-test signal.
+
+    Args:
+        agent: live RagnarokAgent. We read
+            `agent.wm_trainer.rssm.transferable_state_dict()` and probe
+            KL on a small batch from `agent.replay_buffer`.
+        baseline: snapshot of the transferable state_dict captured
+            immediately after `agent.try_transfer()` returned a non-None
+            skill. Tensors must already be on CPU. None for non-transfer
+            arms or transfer arms where try_transfer returned None.
+        baseline_norms: per-key Frobenius norm of `baseline` values
+            (precomputed once at snapshot time so we don't re-compute on
+            every checkpoint).
+
+    Returns:
+        dict | None: telemetry record with keys
+            {step, episode, transferable_drift_max,
+             transferable_drift_per_param, kl_posterior_prior,
+             kl_probe_error},
+        or None if `baseline` is None (signals "no telemetry for this
+        run", consumed by the caller and skipped from the series).
+        `kl_probe_error` is None on success or a short repr of the
+        exception when the KL probe failed (silent-swallow protection
+        per testing review v3 MINOR — a probe that always returns None
+        without diagnostics is indistinguishable from a probe that
+        works on data we never collect).
+    """
+    if baseline is None or baseline_norms is None:
+        return None
+    sd = agent.wm_trainer.rssm.transferable_state_dict()
+    drift_per_param: dict[str, float] = {}
+    drift_max = 0.0
+    for k, v0 in baseline.items():
+        v_now = sd[k].detach().cpu()
+        denom = baseline_norms[k] or 1.0
+        d = float((v_now - v0).norm().item()) / denom
+        drift_per_param[k] = d
+        drift_max = max(drift_max, d)
+
+    # KL(posterior‖prior) probe — single small batch from replay buffer,
+    # no_grad, ~few-ms cost. Reports whether the loaded prior is actually
+    # being used or has been crushed by the posterior.
+    #
+    # CRITICAL (architecture review v3, 2026-04-15, MAJOR concern):
+    # this CANNOT use `rssm.loss(...)["kl_loss"]` — that field is
+    # `clamp(min=free_nats/stoch_dim).sum(-1).mean()`, i.e. the
+    # free-nats-CLAMPED training objective, floored at 1.0/stoch_dim
+    # per latent dim. Default `free_nats=1.0` plus stoch_dim ∈ {8,16,32}
+    # means the floor IS the expected value early in training — so the
+    # probe would be *unable* to detect the very failure mode the comment
+    # claims to detect (prior crushed by posterior). We compute raw KL
+    # directly via `observe()` + `kl_divergence(Normal, Normal)` with NO
+    # clamping. This gives the actual KL(post‖prior) per step, summed
+    # over latent dim, averaged over batch & time — the diagnostic
+    # signal we need.
+    kl_probe: float | None = None
+    kl_probe_error: str | None = None
+    try:
+        buf = agent.replay_buffer
+        if buf.num_episodes >= 1:
+            trainer = agent.wm_trainer
+            bs = min(8, trainer.batch_size)
+            sl = min(50, trainer.seq_length)
+            obs, actions, rewards, dones = buf.sample_sequences(bs, sl)
+            with torch.no_grad():
+                obs_t = torch.tensor(obs, device=DEVICE)
+                act_t = torch.tensor(actions, device=DEVICE)
+                outputs = trainer.rssm.observe(obs_t, act_t)
+                from torch.distributions import Normal, kl_divergence
+                post = Normal(outputs["post_mean"],
+                              outputs["post_logstd"].exp())
+                prior = Normal(outputs["prior_mean"],
+                               outputs["prior_logstd"].exp())
+                # Raw KL — NO clamp, NO weight. Sum over latent dim,
+                # mean over (batch, time).
+                raw_kl = kl_divergence(post, prior).sum(dim=-1).mean()
+                kl_probe = float(raw_kl.item())
+        else:
+            # Empty buffer — not an error, just no data yet. Distinguish
+            # from a real failure so the analyzer can tell apart "probe
+            # never ran" from "probe ran and crashed".
+            kl_probe_error = "buffer empty (num_episodes=0)"
+    except Exception as e:
+        # Telemetry must never break training — buffer might be
+        # mid-mutation, batch might be malformed in edge cases. Drop
+        # to None and continue; the analyzer treats None as "not
+        # measured at this checkpoint" rather than as a real signal.
+        # NOTE: silently swallowing exceptions here is a calculated
+        # trade-off — we never want telemetry to crash a 20-GPU-hour
+        # pilot. The unit test in test_pilot_telemetry.py catches the
+        # common cases at PR time so we don't rely on smoke runs to
+        # detect telemetry bugs.
+        #
+        # Capture the repr (truncated) so post-hoc debugging knows WHY
+        # the probe was None — testing review v3 MINOR: a permanently-
+        # silent probe is indistinguishable from a working probe that
+        # never gets called.
+        kl_probe = None
+        kl_probe_error = repr(e)[:200]
+
+    return {
+        "step": agent.total_steps,
+        "episode": agent.total_episodes,
+        "transferable_drift_max": drift_max,
+        "transferable_drift_per_param": drift_per_param,
+        "kl_posterior_prior": kl_probe,
+        "kl_probe_error": kl_probe_error,
+    }
+
+
 def _train_to_step_budget(
     env_name: str,
     seed: int,
@@ -434,64 +558,14 @@ def _train_to_step_budget(
     drift_alert_emitted = False  # Print the >50% drift alert at most once
 
     def _capture_telemetry() -> dict | None:
-        """Compute one telemetry record for the transfer arm.
+        """Thin wrapper: delegate to module-level _compute_transfer_telemetry.
 
-        Returns None for non-transfer arms or when baseline capture failed.
-        Bug E v3 (devil's-advocate review #2 BLOCKER): the prereg's
-        smoke-abort criterion (||Δθ|| > 50% of initial norm by ep 100)
-        is unenforceable without a per-checkpoint series. This function
-        produces it.
+        Kept as a closure so the eval-checkpoint call site stays terse;
+        the actual logic lives at module level so it's unit-testable
+        (Bug E v4, testing review v3 MAJOR concern #5).
         """
-        if transferable_baseline is None:
-            return None
-        sd = agent.wm_trainer.rssm.transferable_state_dict()
-        drift_per_param: dict[str, float] = {}
-        drift_max = 0.0
-        for k, v0 in transferable_baseline.items():
-            v_now = sd[k].detach().cpu()
-            denom = transferable_baseline_norms[k] or 1.0
-            d = float((v_now - v0).norm().item()) / denom
-            drift_per_param[k] = d
-            drift_max = max(drift_max, d)
-
-        # KL(posterior‖prior) probe — single small batch from replay,
-        # no_grad, ~few-ms cost. Reports whether the loaded prior is
-        # actually being used or has been crushed by the posterior.
-        # Devil's-advocate concern #2 (mechanism reporting): the
-        # transferred prior may degenerate into a marginal regularizer
-        # rather than a dynamics carrier. Flat KL over training is the
-        # observable signal of this failure mode.
-        kl_probe: float | None = None
-        try:
-            buf = agent.replay_buffer
-            if buf.num_episodes >= 1:
-                trainer = agent.wm_trainer
-                bs = min(8, trainer.batch_size)
-                sl = min(50, trainer.seq_length)
-                obs, actions, rewards, dones = buf.sample_sequences(bs, sl)
-                with torch.no_grad():
-                    obs_t = torch.tensor(obs, device=DEVICE)
-                    act_t = torch.tensor(actions, device=DEVICE)
-                    rew_t = torch.tensor(rewards, device=DEVICE)
-                    done_t = torch.tensor(dones, device=DEVICE)
-                    losses = trainer.rssm.loss(obs_t, act_t, rew_t, done_t,
-                                               trainer.kl_weight,
-                                               trainer.free_nats)
-                    kl_probe = float(losses["kl_loss"].item())
-        except Exception:
-            # Telemetry must never break training — buffer might be
-            # mid-mutation, batch might be malformed in edge cases. Drop
-            # to None and continue; the analyzer treats None as "not
-            # measured at this checkpoint" rather than as a real signal.
-            kl_probe = None
-
-        return {
-            "step": agent.total_steps,
-            "episode": agent.total_episodes,
-            "transferable_drift_max": drift_max,
-            "transferable_drift_per_param": drift_per_param,
-            "kl_posterior_prior": kl_probe,
-        }
+        return _compute_transfer_telemetry(
+            agent, transferable_baseline, transferable_baseline_norms)
 
     start_time = time.time()
     while agent.total_steps < max_env_steps:
@@ -1014,13 +1088,20 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--vec", type=int, default=1,
                         help="Parallel envs for A2C collection (discrete only)")
     parser.add_argument("--smoke", action="store_true",
-                        help="Quick-smoke mode: seeds=1, max-steps=20k, "
-                             "source-max=10k, pairs limited to cartpole_mcc")
+                        help="Quick-smoke mode (prereg v3): seeds=2, "
+                             "max-steps=40k, source-max=10k, pairs limited "
+                             "to cartpole_mcc. 2 seeds satisfy the v2 prereg "
+                             "amendment; 40k gives headroom past the ep-100 "
+                             "drift abort criterion.")
     args = parser.parse_args(argv)
 
     if args.smoke:
-        args.seeds = 1
-        args.max_steps = 20_000
+        # Prereg v3 commits to 2-seed smoke with telemetry enforceable
+        # at ep 100 (||Δθ|| > 50% triggers abort). Bumping max_steps to
+        # 40k ensures both seeds clear ep 100 with margin even on slow
+        # mastery curves; eval_every=5k gives 8 telemetry checkpoints.
+        args.seeds = 2
+        args.max_steps = 40_000
         args.source_max_steps = 10_000
         args.eval_every = min(args.eval_every, 5_000)
         if args.pairs is None:

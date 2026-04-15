@@ -345,6 +345,57 @@ class TestRSSMTransferableSubset:
             f"the cause when the failing key is non-posterior. The hint "
             f"is gated on core.posterior keys only. Message: {msg!r}")
 
+    def test_hidden_dim_mismatch_unfiltered_dict_no_encoder_hint(self):
+        """Testing review v3 (2026-04-15, MAJOR): the
+        ``test_hidden_dim_only_mismatch_does_not_mention_encoder_hidden``
+        test above filters the source state_dict to non-posterior keys
+        only, which sidesteps a real-world question: in production
+        usage the user passes the FULL ``transferable_state_dict()``,
+        and the iteration order over its keys determines which key
+        raises first. If posterior happens to iterate first under
+        hidden_dim mismatch, the encoder_hidden hint fires and
+        misdirects.
+
+        This test exercises the realistic call path with the unfiltered
+        source dict and asserts the message does NOT mention
+        encoder_hidden. It depends on iteration order
+        (``_TRANSFERABLE_PREFIXES`` is ordered ``gru → prior →
+        posterior``, so a hidden_dim mismatch raises on the first gru
+        key before reaching posterior). If a future refactor changes
+        the prefix order or how ``state_dict()`` orders modules, this
+        test fails — and that failure IS the right signal: someone
+        needs to confirm the message logic still aims at the actual
+        root cause."""
+        # Same encoder_hidden + stoch_dim + obs/action dims, DIFFERENT
+        # hidden_dim. Use the full unfiltered transferable state_dict
+        # — exactly the call path try_transfer takes in production.
+        src = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=16, stoch_dim=8,
+                   encoder_hidden=16).to(DEVICE)
+        dst = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=32, stoch_dim=8,
+                   encoder_hidden=16).to(DEVICE)
+        full_sd = src.transferable_state_dict()
+        # Sanity: dict actually contains posterior keys (otherwise this
+        # test would degenerate into the filtered variant above).
+        assert any(k.startswith("core.posterior.") for k in full_sd), (
+            "test setup: full transferable_state_dict missing posterior "
+            "keys — iteration-order assumption invalid")
+        with pytest.raises(ValueError) as exc_info:
+            dst.load_transferable_state_dict(full_sd, strict=True)
+        msg = str(exc_info.value)
+        assert "hidden_dim" in msg or "stoch_dim" in msg, (
+            f"Shape-mismatch error did not name the actual root cause "
+            f"(hidden_dim/stoch_dim) under realistic call. Message: "
+            f"{msg!r}")
+        assert "encoder_hidden" not in msg, (
+            f"Shape-mismatch error wrongly suggested encoder_hidden as "
+            f"the cause under the realistic full-dict call path. "
+            f"Either the prefix iteration order changed (so posterior "
+            f"now raises first under hidden_dim mismatch), or the "
+            f"posterior-only gating in load_transferable_state_dict "
+            f"regressed. Message: {msg!r}")
+
 
 # ── Skill carries the RSSM core ─────────────────────────────────────
 

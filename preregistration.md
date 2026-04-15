@@ -836,4 +836,100 @@ in Phase 4 baselines, not Phase 5.
   rescue-cell (Band B) and smoke-precheck side-rails. None
   weaken any pass criterion.
 
+- **2026-04-15 (v3.4 amendment "Bug E v4" — 3rd-round 3-agent code
+  review on the v3 hardenings; review-driven hardening, supersedes
+  the relevant v3 clauses below):**
+  After the v3 hardenings landed (commit `e24832c`), a 3rd-round
+  G1.5 review was run on the v3 changeset (architecture / testing /
+  devil's advocate). Verdicts: architecture FIX-ONE-MAJOR (raw KL
+  vs free-nats clamped KL — fixed before any further review),
+  testing INSUFFICIENT-WITHOUT-FIX (closure-extracted telemetry had
+  zero unit-test coverage — fixed with 7 new tests in
+  `TestComputeTransferTelemetry`), devil's advocate
+  LAUNCH-WITH-MODIFIED-CRITERION (1 BLOCKER, 3 MAJORs on Band B
+  power, smoke flag, lower edge). Verdicts and dispositions
+  appended to `reviews/bug_e_fix.md`. Five changes follow, all
+  landed before pilot #2 launch:
+
+  *Decision-rule edits — these SUPERSEDE the v3 clauses they refer
+  to (Band B sweep design + lower edge):*
+  - **Band B sweep collapsed: 3 cells → 1 cell at warmup_episodes=200,
+    N=5** (devil's advocate v3 BLOCKER). Power analysis on the v3
+    Bonferroni-corrected design at α = 0.0333, df = 2, ratio = 1.5,
+    σ = 0.25 yields power ≈ 7.4% — Band B was statistically dead.
+    The single-cell rescue at the same warmup_episodes=200 anchor
+    used by the §8 primary recovers per-cell α = 0.10 (no
+    multiplicity correction needed for a 1-cell test) and lifts
+    power on the same ratio/σ to ≈ 50%. Rationale for keeping
+    warmup_episodes=200 specifically (not the v3 grid {50, 200, 500}):
+    it's the only cell with prior architectural justification (the
+    LR warmup horizon argued for in the v2 amendment); the others
+    were exploratory. If pilot #2 lands in Band B at warmup=200, a
+    follow-up sweep with proper N can refine; if it lands in Band C,
+    the prereg's Plan B is the answer, not a wider sweep.
+
+    **Effective Band B (supersedes v3):** single-cell rescue with
+    `rssm_transfer_warmup_episodes = 200`, N = 5, ratio ≥ 1.20 at
+    p < 0.10 (ratio threshold raised — see next bullet).
+
+  - **Band B lower edge raised: 1.15 → 1.20** (devil's advocate v3
+    MAJOR). Even at the v3-tightened 1.15 edge, with σ = 0.25
+    (upper of the 0.15–0.25 noise range estimated in v3) the null
+    p-value for a 1.15 ratio is ≈ 0.17 — above the 10% bar that
+    §8 primary uses. Raising to 1.20 yields a null p ≈ 0.10 at the
+    same σ, matching the §8 α exactly and pushing the noise floor
+    out of Band B. The §8 primary 1.30 cutoff is unchanged; Band B
+    only loses its bottom slice.
+
+    **Effective Band B (final, supersedes both v2 and v3):** single
+    cell at `rssm_transfer_warmup_episodes = 200`, N = 5, ratio ∈
+    [1.20, 1.30) at p < 0.10 OR ratio ≥ 1.30 at p ∈ [0.10, 0.20).
+
+  *Code edits (committed atomically with this amendment):*
+  - **Smoke flag now matches the prereg-committed 2-seed protocol**
+    (devil's advocate v3 BLOCKER). The v2 amendment committed to a
+    2-seed smoke pre-check, but `scripts/pilot_run.py:--smoke` was
+    still hardcoding `args.seeds = 1`, silently producing
+    single-seed smokes that violated the prereg. **Fixed:**
+    `--smoke` now sets `args.seeds = 2` and `args.max_steps =
+    40_000` (the v2 default of 20k didn't leave headroom past the
+    `||Δθ|| > 50% by ep 100` abort criterion when an episode runs
+    long). Help text and usage docstring updated accordingly.
+
+  - **Raw KL probe (no free-nats clamping)** (architecture v3
+    MAJOR — fixed pre-amendment, redocumented here for the record).
+    The v3 telemetry implementation initially called
+    `rssm.loss(...)["kl_loss"]` to get the KL probe, but that path
+    applies free-nats clamping (`max(kl, free_nats/stoch_dim)`) and
+    averages over stoch dims — the floor exactly matches the
+    expected value early in training, so the probe was structurally
+    incapable of detecting the "prior crushed" failure mode it
+    claimed to monitor. **Fixed:** the probe now calls
+    `rssm.observe(obs, actions)` and computes
+    `kl_divergence(Normal(post_m, post_s.exp()),
+    Normal(prior_m, prior_s.exp())).sum(-1).mean()` directly. The
+    telemetry function was extracted from a `_train_to_step_budget`
+    closure to module level so it can be unit-tested
+    (`TestComputeTransferTelemetry`, 7 tests including the
+    load-bearing `test_kl_probe_is_unclamped_raw_kl`).
+
+  *Smoke aggregation rule (pre-declared, not in code):*
+  - **2-seed smoke abort logic.** With `seeds = 2` per the BLOCKER
+    fix above, the prereg pre-declares: smoke aborts (and pilot #2
+    is held) if EITHER seed shows `transferable_drift_max > 0.50`
+    at any telemetry checkpoint up to ep 100. The "either" rule
+    (not "both" or "mean") is intentionally pessimistic — a single
+    seed showing catastrophic drift is sufficient evidence that the
+    LR warmup is not doing its job; demanding both seeds confirm
+    the failure would risk launching a 20-GPU-h pilot with one
+    known-broken arm.
+
+  All v4 changes preserve the §8 / §11 primary decision rules
+  unchanged at the headline N=20. v4 collapses an underpowered
+  rescue sweep (Band B 3-cell → 1-cell), tightens its lower edge
+  (1.15 → 1.20), fixes a code/prereg drift on smoke seeds (1 → 2),
+  and replaces a structurally-broken KL probe with a raw KL
+  probe — all strictly tightening filters or fixing instrumentation
+  bugs. None weaken any pass criterion.
+
 - (Subsequent amendments timestamped here before execution.)
