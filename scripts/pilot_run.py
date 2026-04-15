@@ -1088,11 +1088,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--vec", type=int, default=1,
                         help="Parallel envs for A2C collection (discrete only)")
     parser.add_argument("--smoke", action="store_true",
-                        help="Quick-smoke mode (prereg v3): seeds=2, "
-                             "max-steps=40k, source-max=10k, pairs limited "
-                             "to cartpole_mcc. 2 seeds satisfy the v2 prereg "
-                             "amendment; 40k gives headroom past the ep-100 "
-                             "drift abort criterion.")
+                        help="Quick-smoke mode (prereg v3, v5 source-cap "
+                             "fix): seeds=2, max-steps=40k, "
+                             "source-max=100k, pairs limited to "
+                             "cartpole_mcc. 100k source cap matches the "
+                             "v2 smoke that successfully crystallized "
+                             "(354s + 256s on the two seeds). The earlier "
+                             "10k value was too short for cartpole to "
+                             "crystallize (eval=19/500), causing the "
+                             "transfer arm to silently fall back to "
+                             "scratch and emit zero telemetry.")
     args = parser.parse_args(argv)
 
     if args.smoke:
@@ -1100,9 +1105,16 @@ def main(argv: list[str] | None = None) -> int:
         # at ep 100 (||Δθ|| > 50% triggers abort). Bumping max_steps to
         # 40k ensures both seeds clear ep 100 with margin even on slow
         # mastery curves; eval_every=5k gives 8 telemetry checkpoints.
+        #
+        # source_max_steps=100k (v5 fix): the v4 default of 10k was too
+        # short for cartpole to crystallize. Without crystallization, the
+        # transfer arm falls back to scratch and the smoke's whole point
+        # (validating the telemetry-emitting transfer code path) is
+        # defeated. 100k matches the v2 smoke that successfully
+        # crystallized both seeds.
         args.seeds = 2
         args.max_steps = 40_000
-        args.source_max_steps = 10_000
+        args.source_max_steps = 100_000
         args.eval_every = min(args.eval_every, 5_000)
         if args.pairs is None:
             args.pairs = ["cartpole_mcc"]

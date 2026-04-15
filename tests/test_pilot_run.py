@@ -470,7 +470,13 @@ class TestCLIInterface:
         # v4: 40k gives headroom past the ep-100 drift abort criterion;
         # 20k was tight on slow MCC mastery curves.
         assert captured["max_env_steps"] == 40_000
-        assert captured["source_max_env_steps"] == 10_000
+        # v5 fix: 100k matches v2 smoke that crystallized cartpole; the
+        # earlier 10k cap left cartpole at eval=19 (threshold 450),
+        # transfer arm silently scratch-fell-back, telemetry was never
+        # exercised. Live-detected during the v4 smoke run, not by any
+        # of the 4 review rounds (because no reviewer ran the smoke
+        # end-to-end against a fresh skills directory).
+        assert captured["source_max_env_steps"] == 100_000
         # --smoke forces pair filter to the primary so the CI doesn't hit DMC
         assert captured["pair_filter"] == ["cartpole_mcc"]
 
@@ -834,19 +840,24 @@ class TestComputeTransferTelemetry:
     def test_kl_probe_is_unclamped_raw_kl(self):
         """Architecture review v3 BLOCKER: the KL probe MUST be raw
         kl_divergence(post, prior).sum(-1).mean() — NOT the
-        free-nats-clamped training loss field. The stub `observe()`
-        returns post~N(1,1) and prior~N(0,1) over 4 dims:
-        analytical KL per dim = 0.5; sum over 4 dims = 2.0; mean over
-        (B, T) = 2.0. The probe must report ~2.0, NOT the clamped
-        training value (which would be max(2.0, free_nats=1.0) = 2.0
-        in this case but for *flat* prior + posterior would clamp
-        at 1.0/4 per dim and silently report the floor).
+        free-nats-clamped training loss field at
+        ``rssm.loss(...)["kl_loss"]``, which is implemented as
+        ``torch.clamp(kl, min=free_nats/stoch_dim).sum(-1).mean()``
+        — i.e. the clamp is applied PER LATENT DIM before the sum.
 
-        Concretely: replace the stub `observe()` to return identical
-        post and prior (KL=0). The clamped `kl_loss` field would
-        return 1.0/stoch_dim = 0.25 (the floor), but the raw KL is
-        0. The probe must report ~0, proving it's NOT calling the
-        clamped loss path.
+        Concretely: this test replaces `observe()` to return identical
+        post and prior (raw KL = 0 exactly, per dim and summed). For
+        the v4 stub config (free_nats=1.0, stoch_dim=4), the clamped
+        path would return floor × stoch_dim = (1.0/4) × 4 = 1.0
+        (NOT 0.25 — the docstring originally said 0.25 because the
+        author forgot the post-clamp `.sum(-1)`; testing review v4
+        caught this). The raw KL is 0; the probe must report ~0.
+
+        The assertion `approx(0.0, abs=1e-5)` would fail at the
+        clamped value of 1.0 by 100,000× the tolerance — so the
+        regression is detected regardless of the docstring math
+        details. The arithmetic above is documentary; the assertion
+        below is load-bearing.
         """
         import torch
         from types import SimpleNamespace
@@ -890,9 +901,10 @@ class TestComputeTransferTelemetry:
         result = _compute_transfer_telemetry(agent, baseline, baseline_norms)
         assert result is not None
         # Raw KL of identical Normals is 0. Clamped (free-nats) KL
-        # would report ≥ free_nats/stoch_dim = 0.25. If we see ≥ 0.20
-        # the function is calling the clamped path and the BLOCKER
-        # has regressed.
+        # would report free_nats × (stoch_dim/stoch_dim) = 1.0 here
+        # (clamp is per-dim BEFORE sum — see rssm.loss kl_loss line).
+        # The 1e-5 tolerance below would catch a regression by 5
+        # orders of magnitude.
         assert result["kl_posterior_prior"] == pytest.approx(0.0, abs=1e-5), (
             f"kl_posterior_prior = {result['kl_posterior_prior']!r} for "
             f"identical post/prior Normals — expected ~0 (raw KL). If you "

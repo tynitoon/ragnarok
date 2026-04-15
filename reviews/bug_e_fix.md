@@ -459,3 +459,181 @@ declared so post-hoc cherry-picking is impossible.
 - **Pilot #2 unblocked** once v4 smoke (re-run on this commit's
   pilot_run.py) returns clean telemetry with no abort triggered
   on either seed.
+
+---
+
+# Bug E v4 → v5 — fourth round of review
+
+**Date:** 2026-04-15
+**Reviewed commit:** `b73bc0e` (Bug E v4 hardenings)
+**Reviewers:** 3 parallel agents (architecture / testing / devil's
+advocate)
+**Verdict bundle:** Architecture LAUNCH-READY; Testing
+SUFFICIENT-BUT-PILOTABLE (1 MINOR — docstring math); Devil's
+advocate LAUNCH-WITH-MODIFIED-CRITERION (no code blocker, but
+explicit operational gate: v4 smoke must complete with non-empty
+telemetry + drift < 50% on BOTH seeds at ep 100). PLUS one v5
+BLOCKER discovered live during the v4 smoke run that no review
+caught (because no review actually ran the smoke end-to-end on
+a fresh skills directory).
+
+## Reviewer 1 — Architecture (4th round)
+
+**Verdict:** LAUNCH-READY.
+
+All 4 v4 changes architecturally correct:
+1. `_compute_transfer_telemetry` extraction + raw-KL rewrite —
+   verified clamp-floor math (free_nats=1.0, stoch_dim ∈ {8,16,32}
+   → floor 0.03–0.125; clamped path returns floor × stoch_dim
+   = free_nats = 1.0). Closure capture pattern verified safe at
+   pilot_run.py:560-568 (baseline tensors `.detach().clone().cpu()`,
+   no grad leak, agent ref by reference is correct since the probe
+   reads current state).
+2. `--smoke` flag fix verified with corresponding test update.
+3. `kl_probe_error` field — JSON-roundtrip verified (str | None
+   are native JSON types); no downstream consumer breakage (analyzer
+   doesn't read telemetry yet, so trivially compatible).
+4. Band B 1-cell collapse — pushed back on the "warmup=200 is the
+   only justified cell" claim with a 3-failure-mode analysis
+   (effect at warmup=50, at warmup=500, U-shaped non-monotone).
+   Concluded the only topology the 1-cell rescue actually misses
+   is non-monotone, which has no architectural justification
+   (LR-warmup mechanism is monotone in horizon length). Verdict:
+   1-cell collapse is not hiding signal.
+
+Two non-blocking observations: probe batch/seq caps (`min(8,bs)`,
+`min(50,sl)`) not asserted in tests; and `kl_probe_error` is
+write-only (no analyzer reads it). The latter is addressed in v5
+by `scripts/smoke_verdict.py`.
+
+## Reviewer 2 — Testing (4th round)
+
+**Verdict:** SUFFICIENT-BUT-PILOTABLE.
+
+All 5 v4 testing changes pin the contracts they claim. Two real
+gaps named (both non-blocking):
+- No integration test for telemetry end-to-end (snapshot baseline
+  → train → emit → JSON → roundtrip). All 9 unit tests use stubs.
+  A mutant that breaks JSON-serializability of the record dict
+  passes every unit test and fails at first write during a pilot.
+  Worth adding post-pilot; for launch, the smoke run serves as
+  de-facto integration test.
+- No test of the `transferable_baseline_norms` snapshot path at
+  pilot_run.py:498-500. A bug populating an empty dict would only
+  surface at first drift computation where the `or 1.0` fallback
+  silently returns meaningless drift.
+
+One MINOR (fixed in v5): docstring math error in
+`test_kl_probe_is_unclamped_raw_kl` — claimed clamped path returns
+0.25 (forgetting the post-clamp `.sum(-1)`); actually returns
+free_nats × stoch_dim/stoch_dim = 1.0. The test assertion
+(`approx(0.0, abs=1e-5)`) is correct and load-bearing — it would
+fail at the clamped value of 1.0 by 100,000× the tolerance — only
+the comment math was wrong.
+
+## Reviewer 3 — Devil's advocate (4th round)
+
+**Verdict:** LAUNCH-WITH-MODIFIED-CRITERION (no code blocker; one
+operational gate).
+
+**Refuted concerns** (the prompt deliberately included some that
+the reviewer should sanity-check):
+- **KL probe variance at bs=8, sl=50: REFUTED.** Empirical
+  CoV ~0.6% across batches (averaging over B×T=400 samples per
+  dim); the prompt's "30%+ sample variance" intuition was wrong
+  (`.sum(-1).mean()` averages over the grid, not over a single
+  triple). Probe SE is 3 orders of magnitude tighter than any
+  plausible signal range.
+- **σ=0.25 conservatism: REFUTED.** v2 smoke shows 0/4 censoring
+  at 20k env steps — at the 200k pilot budget MCC censoring will
+  be < 20%, not 30-50%. So σ ≈ 0.15-0.20 is more likely than the
+  v3-cited 0.25, making 1.20 conservative, not aggressive.
+- **Mastery extrapolation from v2 smoke: PARTIALLY ACCEPTED.**
+  v2 smoke ratios 1.025× / 0.99× are statistically zero — but
+  this is expected at 20k where both arms hit mastery in ~5k
+  steps and RMST saturates. The N=5 distribution at the pilot
+  budget is the actual statistical signal, not per-seed
+  extrapolation.
+
+**Mild dissent (not a blocker):** Band B should arguably have
+been at warmup=50 rather than warmup=200 given the v2 smoke shows
+transfer mastering in 127/135 episodes (warmup=200 exceeds the
+mastery horizon). v4's "200 is the only architecturally-justified
+cell" argument is a ceiling, not a calibrated estimate. Disposition:
+keep warmup=200 since Band B is secondary; if pilot #2 lands in
+Band C, a follow-up sweep can refine.
+
+**Operational gate (the actual launch criterion):** "Launch pilot
+#2 iff (a) `smoke_bug_e_v4.json` contains non-empty `telemetry`
+arrays with `kl_posterior_prior` values and `kl_probe_error: null`
+for both transfer seeds, and (b) max drift < 0.50 at every
+checkpoint <= ep 100 on both seeds." Currently no script enforces
+this — addressed in v5 by `scripts/smoke_verdict.py`.
+
+## v5 BLOCKER discovered live (not by any reviewer)
+
+While the 4th-round reviews ran, I launched the v4 smoke. The
+source-cartpole arm reached the v4 default `--smoke` source cap
+of 10k steps without crystallizing (eval=19, threshold=450). With
+no crystallized source skill, the transfer arm would fall back
+to scratch and the smoke's whole point — validating the
+telemetry-emitting transfer code path — would be defeated.
+
+Root cause: the v4 commit bumped seeds (1→2) and max_steps
+(20k→40k) but left source_max_steps at the v3 value of 10k. The
+v2 smoke that "worked" (cartpole crystallized at 354s + 256s)
+had source_max=100k, but that was set via manual CLI override,
+not the `--smoke` default. So the `--smoke` flag has been
+nominally broken on the source-crystallization side since v3;
+the v2 smoke result was an accident of operator override.
+
+Why no reviewer caught it: all 4 review rounds were code-level;
+none of them ran the smoke against a fresh (no-skills-on-disk)
+checkout. The v2 smoke output that reviewers cited
+(`mode=latent` on both seeds) was from a manually-invoked run
+with custom flags. Operational testing exposed a class of bug
+that code review structurally cannot.
+
+**ACTIONED in v5:** `--smoke` source_max_steps bumped 10k→100k
+to match the known-good v2 smoke. Help text and usage docstring
+expanded to call out the previous failure mode explicitly so
+future operators don't re-introduce the bug. Test
+`test_smoke_flag_sets_reduced_budget` updated to assert the new
+100k value with a citation to the live-discovery in this review
+section.
+
+## v5 additions
+
+Beyond the BLOCKER fix and the testing MINOR (docstring), v5 also
+lands the operational-gate enforcement the devil's-advocate review
+called for:
+- **`scripts/smoke_verdict.py`** — CLI tool that consumes a
+  smoke `pilot_results.json`, applies the prereg's EITHER-seed
+  drift abort rule, validates `kl_probe_error` is None or the
+  expected buffer-empty sentinel, and exits 0 (PROCEED) or 1
+  (ABORT). Replaces "operator reads JSON manually" with an
+  enforceable shell-pipeable verdict.
+- **`tests/test_smoke_verdict.py`** — 16 unit tests pinning the
+  contract: drift at threshold doesn't abort (strict-greater);
+  drift > threshold within ep 100 aborts; drift > threshold
+  outside window does NOT abort; EITHER-seed rule (clean +
+  bad → ABORT); empty telemetry on crystallized source → FAIL
+  (pipeline regression); empty telemetry on uncrystallized
+  source → FAIL (transfer fell back to scratch); buffer-empty
+  probe error doesn't fail; real probe exception fails;
+  schema-compatibility for both flat-runs and grouped-pairs JSON;
+  CLI exit codes (0/1/2).
+
+## Aggregate v5 disposition
+
+- **Code/test/prereg:** 1 live-discovered BLOCKER + 1 testing
+  MINOR + the operational-gate enforcement tool all landed in
+  the same atomic v5 commit. New test count: ~373 passed (356
+  v4 baseline + 16 smoke_verdict + 1 docstring update doesn't
+  add tests).
+- **Decision rules unchanged at primary §8 threshold.** v5 only
+  fixes one bug (smoke source cap) and adds enforcement
+  infrastructure.
+- **Pilot #2 unblocked** once the v5 smoke (re-run on this commit's
+  pilot_run.py) passes `python -m scripts.smoke_verdict
+  smoke_bug_e_v5.json` with exit code 0.
