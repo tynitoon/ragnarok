@@ -103,6 +103,13 @@ EVAL_EPISODES_DEFAULT = 10        # §4.5: 10 deterministic eval episodes
 SOURCE_MAX_ENV_STEPS_DEFAULT = 100_000
 
 
+# Sentinel string written to `kl_probe_error` when the replay buffer is empty
+# (no episodes yet). Public constant so `scripts/smoke_verdict.py` can import
+# it instead of duplicating the literal — v5 architecture review caught the
+# brittle silent-drift coupling between producer and consumer.
+TELEMETRY_BUFFER_EMPTY_SENTINEL = "buffer empty (num_episodes=0)"
+
+
 # ── Result dataclass ────────────────────────────────────────────────
 
 @dataclass
@@ -414,7 +421,7 @@ def _compute_transfer_telemetry(
             # Empty buffer — not an error, just no data yet. Distinguish
             # from a real failure so the analyzer can tell apart "probe
             # never ran" from "probe ran and crashed".
-            kl_probe_error = "buffer empty (num_episodes=0)"
+            kl_probe_error = TELEMETRY_BUFFER_EMPTY_SENTINEL
     except Exception as e:
         # Telemetry must never break training — buffer might be
         # mid-mutation, batch might be malformed in edge cases. Drop

@@ -40,10 +40,20 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+# Import the buffer-empty sentinel from the producer module rather than
+# duplicating the literal — v5 architecture review caught the brittle
+# silent-drift coupling: if the producer changed the string without
+# updating the consumer, the analyzer would treat real probe errors as
+# the expected buffer-empty case (false PROCEED).
+from scripts.pilot_run import TELEMETRY_BUFFER_EMPTY_SENTINEL
+
 # Prereg-committed thresholds (v3.4 amendment "Bug E v2" / v4):
 DRIFT_ABORT_THRESHOLD = 0.50  # ||Δθ|| > 50% of initial norm
 DRIFT_ABORT_EPISODE_GATE = 100  # checked at episode <= this
-EXPECTED_BUFFER_EMPTY_MSG = "buffer empty (num_episodes=0)"
+
+# Re-exported for tests that originally imported from this module
+# (kept to avoid churn; canonical source is scripts.pilot_run).
+EXPECTED_BUFFER_EMPTY_MSG = TELEMETRY_BUFFER_EMPTY_SENTINEL
 
 
 @dataclass
@@ -166,12 +176,21 @@ def _evaluate_run(run: dict) -> SeedVerdict:
 
 
 def evaluate(payload: dict) -> SmokeVerdict:
-    """Apply the smoke gate to a pilot_results.json payload."""
-    # Accept either schema: top-level "runs" list, OR per-pair "pairs"
-    # block with nested run lists. Older smokes used grouped; current
-    # writes a flat "runs" list. Always prefer the flat list when present.
+    """Apply the smoke gate to a pilot_results.json payload.
+
+    Schema notes (v5 architecture review): the current `pilot_run.py`
+    always writes a flat top-level ``"runs"`` list (see
+    ``pilot_run._flush``). The grouped ``"pairs"`` fallback below is
+    NOT a path that any current writer produces — it's kept as a
+    backward-compat shim for hand-edited test fixtures and for the
+    case where a future analyzer might emit per-pair grouping. The
+    ``test_grouped_pairs_schema`` test pins this shim's contract so
+    a future refactor that "cleans up" the fallback breaks a test
+    instead of silently dropping support.
+    """
     runs = payload.get("runs")
     if not runs:
+        # Backward-compat / forward-compat shim — see docstring.
         runs = []
         for pair_block in payload.get("pairs", []):
             for arm_key in ("source_runs", "scratch_runs",
