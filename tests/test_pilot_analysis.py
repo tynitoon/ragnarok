@@ -14,18 +14,29 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.pilot_analysis import (  # noqa: E402
     ANTI_TRANSFER_RATIO_MAX,
+    AUC_WINDOW,
+    BOOTSTRAP_N_RESAMPLES,
+    EARLY_STEP_QUERIES,
     HIGH_CENSORING_THRESHOLD,
+    PERMUTATION_N_SHUFFLES,
+    PERMUTATION_RNG_SEED,
     PRIMARY_ALIAS,
     PRIMARY_LOGRANK_P_MAX,
     PRIMARY_RMST_RATIO_MIN,
     SECONDARY_RMST_RATIO_MIN,
     _check_mechanism,
+    _compute_arm_descriptives,
+    _compute_signed_oe,
     _extract_duration_event,
     _fit_arm,
     _logrank_one_sided,
+    _logrank_permutation_one_sided,
     _verdict_to_dict,
     analyze,
+    auc_return,
+    bootstrap_ci_mean,
     render_text,
+    return_at_step,
 )
 
 
@@ -36,7 +47,8 @@ def _mkrun(alias: str, seed: int, arm: str, stm: int | None,
            skill_name: str | None = "src_skill_100ep",
            role: str = "primary",
            src: str = "cartpole",
-           tgt: str = "mountaincar-continuous") -> dict:
+           tgt: str = "mountaincar-continuous",
+           eval_curve: list[dict] | None = None) -> dict:
     return {
         "pair_alias": alias,
         "pair_role": role,
@@ -52,11 +64,16 @@ def _mkrun(alias: str, seed: int, arm: str, stm: int | None,
         "best_eval_return": 92.0 if stm else 40.0,
         "steps_to_mastery": stm,
         "censored": stm is None,
-        "eval_curve": [],
+        "eval_curve": eval_curve if eval_curve is not None else [],
         "acting_policy_mode": acting if arm == "transfer" else "obs",
         "transfer_skill_name": skill_name if arm == "transfer" else None,
         "wall_clock_sec": 500.0,
     }
+
+
+def _mkcurve(points: list[tuple[int, float]]) -> list[dict]:
+    """Build an eval_curve in the format the pilot emits."""
+    return [{"step": s, "eval_return": r} for s, r in points]
 
 
 def _make_payload(runs: list[dict], tau: int = 200_000) -> dict:
@@ -184,6 +201,226 @@ class TestRMSTRatioAndLogRank:
         t_arm = _fit_arm(transfer, "transfer", tau=200_000)
         p = _logrank_one_sided(s_arm, t_arm, tau=200_000)
         assert p > 0.5, f"wrong-direction effect must not reject; got p={p}"
+
+
+# ── v3.5 permutation test (small-N robustness check) ───────────────
+
+class TestLogRankPermutation:
+    """Contract: permutation p and asymptotic p answer the same question
+    (one-sided H_A: transfer reaches mastery faster than scratch) via
+    different null-distribution approximations. The permutation value is
+    the exact one under exchangeability; the asymptotic is the chi-sq
+    approximation that the preregistration declares the §8 headline.
+
+    These tests pin the permutation-p behaviour and assert that at large
+    N with clean signal the two p-values agree (same regime where the
+    asymptotic is defensible). At small N and heavy censoring the two
+    can disagree — the analyzer flags that but does not fail.
+    """
+
+    def test_permutation_p_small_when_transfer_much_faster(self):
+        """Strong signal → both p-values below α = 0.10."""
+        scratch = [_mkrun("p", s, "scratch", stm=180_000) for s in range(10)]
+        transfer = [_mkrun("p", s, "transfer", stm=30_000) for s in range(10)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        # Use a cheaper shuffle count for unit tests (still enough for
+        # tail-resolution at the α we care about).
+        p_perm = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=2000, rng_seed=0,
+        )
+        p_asymp = _logrank_one_sided(s_arm, t_arm, tau=200_000)
+        assert p_perm < 0.05, f"strong signal should reject; got {p_perm}"
+        assert p_asymp < 0.05
+        # At N=10 per arm with clean uncensored data, the asymptotic is
+        # defensible and the two should be within 0.03 of each other.
+        assert abs(p_perm - p_asymp) < 0.03, (
+            f"asymp={p_asymp:.4f} perm={p_perm:.4f} disagree"
+        )
+
+    def test_permutation_p_large_when_wrong_direction(self):
+        """Transfer slower than scratch → one-sided p ≥ 0.5 (null side
+        of the distribution; the directional test cannot reject)."""
+        scratch = [_mkrun("p", s, "scratch", stm=30_000) for s in range(10)]
+        transfer = [_mkrun("p", s, "transfer", stm=180_000) for s in range(10)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        p_perm = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=2000, rng_seed=0,
+        )
+        assert p_perm >= 0.5, f"wrong direction must not reject; got {p_perm}"
+
+    def test_permutation_p_exactly_half_under_identical_arms(self):
+        """If both arms have IDENTICAL duration patterns, the observed
+        signed O-E is exactly 0 under symmetric breakdown of ties, and
+        the one-sided p is ≈ 0.5.
+
+        This is the sharpest possible null: not "drawn from same
+        distribution" (one sample draw can land anywhere in [0, 1]),
+        but "bit-identical samples". The permutation null should be
+        symmetric around 0 and our observed statistic is 0 → p ≈ 0.5.
+        """
+        pattern = [50_000, 75_000, 100_000, 150_000, 175_000]  # 5 per arm
+        scratch_runs = [_mkrun("p", i, "scratch", stm=d)
+                        for i, d in enumerate(pattern)]
+        transfer_runs = [_mkrun("p", i + 100, "transfer", stm=d)
+                         for i, d in enumerate(pattern)]
+        s_arm = _fit_arm(scratch_runs, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer_runs, "transfer", tau=200_000)
+        p_perm = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=2000, rng_seed=0,
+        )
+        assert 0.35 < p_perm < 0.65, (
+            f"identical arms → p should be near 0.5; got {p_perm}"
+        )
+
+    def test_permutation_p_distribution_under_null_is_uniform(self):
+        """Aggregate null test: across many independent null samples,
+        the permutation p-values should be approximately uniform on
+        [0, 1]. Check the median lands near 0.5 and the extreme tails
+        don't cluster.
+
+        Runs 30 null datasets, each drawn from the SAME mixed
+        distribution on both arms. Exact uniform coverage needs
+        thousands of draws, but 30 is enough to catch a systematically
+        biased p-value distribution.
+        """
+        p_values = []
+        for trial_seed in range(30):
+            rng = np.random.default_rng(1000 + trial_seed)
+            durations_all = [int(rng.choice([50_000, 100_000, 150_000]))
+                             for _ in range(20)]
+            s_runs = [_mkrun("p", i, "scratch", stm=d)
+                      for i, d in enumerate(durations_all[:10])]
+            t_runs = [_mkrun("p", i + 100, "transfer", stm=d)
+                      for i, d in enumerate(durations_all[10:])]
+            s_arm = _fit_arm(s_runs, "scratch", tau=200_000)
+            t_arm = _fit_arm(t_runs, "transfer", tau=200_000)
+            p_values.append(_logrank_permutation_one_sided(
+                s_arm, t_arm, n_shuffles=500, rng_seed=trial_seed,
+            ))
+        # Median should land in the central third of [0, 1].
+        med = float(np.median(p_values))
+        assert 0.25 < med < 0.75, (
+            f"null p-values biased (median {med:.3f}); expected ≈ 0.5"
+        )
+        # Type-I error at α = 0.10: expect ≤ 2-3 out of 30 below 0.10
+        # under the null. Reject if > 6 (unrealistic under exchangeable
+        # H_0).
+        n_reject = sum(1 for p in p_values if p < 0.10)
+        assert n_reject <= 6, (
+            f"permutation test rejects {n_reject}/30 null draws at α=0.10; "
+            f"inflated Type-I"
+        )
+
+    def test_permutation_p_is_deterministic_under_fixed_seed(self):
+        """Two calls with the same seed return identical p-values.
+
+        This matters because the pilot analyzer writes the p-value to
+        the verdict JSON and a reviewer must be able to re-run and get
+        the same number.
+        """
+        scratch = [_mkrun("p", s, "scratch", stm=150_000) for s in range(5)]
+        transfer = [_mkrun("p", s, "transfer", stm=50_000) for s in range(5)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        p1 = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=500, rng_seed=777,
+        )
+        p2 = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=500, rng_seed=777,
+        )
+        assert p1 == p2
+
+    def test_permutation_p_nan_when_no_events(self):
+        """If both arms are fully censored there are no events → no
+        information → NaN. Must not crash and must not silently emit 0.
+        """
+        # stm=None → censored at τ
+        scratch = [_mkrun("p", s, "scratch", stm=None) for s in range(5)]
+        transfer = [_mkrun("p", s, "transfer", stm=None) for s in range(5)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        p_perm = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=500, rng_seed=0,
+        )
+        assert math.isnan(p_perm)
+
+    def test_permutation_p_strictly_positive_via_add_one_correction(self):
+        """Even when no shuffle reaches the observed O-E tail, the
+        add-one correction (count + 1) / (n + 1) guarantees p > 0.
+        """
+        # Extreme signal so few-to-no shuffles will exceed observed.
+        scratch = [_mkrun("p", s, "scratch", stm=195_000) for s in range(8)]
+        transfer = [_mkrun("p", s, "transfer", stm=5_000) for s in range(8)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        p_perm = _logrank_permutation_one_sided(
+            s_arm, t_arm, n_shuffles=100, rng_seed=0,
+        )
+        assert p_perm > 0
+        # Lower bound from add-one correction: (0+1)/(100+1) ≈ 0.0099.
+        assert p_perm >= 1.0 / 101
+
+    def test_compute_signed_oe_matches_legacy(self):
+        """`_compute_signed_oe` extracted from `_logrank_signed_direction`;
+        pass through an ArmSurvival and assert identical numerics."""
+        from scripts.pilot_analysis import _logrank_signed_direction
+        scratch = [_mkrun("p", s, "scratch", stm=150_000) for s in range(5)]
+        transfer = [_mkrun("p", s, "transfer", stm=50_000) for s in range(5)]
+        s_arm = _fit_arm(scratch, "scratch", tau=200_000)
+        t_arm = _fit_arm(transfer, "transfer", tau=200_000)
+        legacy = _logrank_signed_direction(s_arm, t_arm)
+        extracted = _compute_signed_oe(
+            s_arm.durations, s_arm.events,
+            t_arm.durations, t_arm.events,
+        )
+        assert legacy == pytest.approx(extracted, rel=1e-9)
+
+    def test_permutation_p_reported_in_verdict_and_json(self):
+        """End-to-end: analyze() populates `logrank_permutation_p_value`
+        on every PairVerdict and `_verdict_to_dict()` serializes it."""
+        scratch = [_mkrun("cartpole_mcc", s, "scratch", stm=180_000)
+                   for s in range(5)]
+        transfer = [_mkrun("cartpole_mcc", s, "transfer", stm=30_000)
+                    for s in range(5)]
+        acrobot_s = [_mkrun("cartpole_acrobot", s, "scratch", stm=150_000,
+                            role="secondary", src="cartpole", tgt="acrobot")
+                     for s in range(3)]
+        acrobot_t = [_mkrun("cartpole_acrobot", s, "transfer", stm=50_000,
+                            role="secondary", src="cartpole", tgt="acrobot")
+                     for s in range(3)]
+        dmc_s = [_mkrun("pendulum_dmc_cartpole", s, "scratch", stm=150_000,
+                        role="secondary", src="pendulum",
+                        tgt="cartpole-swingup")
+                 for s in range(3)]
+        dmc_t = [_mkrun("pendulum_dmc_cartpole", s, "transfer", stm=50_000,
+                        role="secondary", src="pendulum",
+                        tgt="cartpole-swingup")
+                 for s in range(3)]
+        payload = _make_payload(
+            scratch + transfer + acrobot_s + acrobot_t + dmc_s + dmc_t
+        )
+        verdict = analyze(payload)
+        for pv in verdict.pair_verdicts:
+            assert math.isfinite(pv.logrank_permutation_p_value), (
+                f"permutation p must be finite for {pv.alias}, "
+                f"got {pv.logrank_permutation_p_value}"
+            )
+            assert 0 < pv.logrank_permutation_p_value < 1
+        # JSON round-trip preserves the field.
+        d = _verdict_to_dict(verdict)
+        for pd in d["pair_verdicts"]:
+            assert "logrank_permutation_p_value" in pd
+
+    def test_permutation_n_shuffles_default_matches_prereg(self):
+        """The prereg v3.5 amendment names 10,000 shuffles."""
+        assert PERMUTATION_N_SHUFFLES == 10_000
+
+    def test_permutation_rng_seed_is_pinned(self):
+        """The rng seed must be a module-level constant so verdicts are
+        reproducible across repeat analyses of the same JSON."""
+        assert isinstance(PERMUTATION_RNG_SEED, int)
 
 
 # ── Mechanism check ────────────────────────────────────────────────
@@ -800,3 +1037,213 @@ class TestPassCriteriaConstants:
 
     def test_primary_alias_matches_prereg(self):
         assert PRIMARY_ALIAS == "cartpole_mcc"
+
+
+# ── v3.5 descriptive secondaries (early-step return + AUC) ─────────
+
+class TestReturnAtStep:
+    """Contract for linear-interp early-step return extraction."""
+
+    def test_empty_curve_returns_nan(self):
+        assert math.isnan(return_at_step([], 5000))
+
+    def test_at_first_checkpoint_returns_first_value(self):
+        curve = _mkcurve([(5000, 80.0), (10000, 95.0)])
+        assert return_at_step(curve, 5000) == pytest.approx(80.0)
+
+    def test_pre_first_checkpoint_linear_from_zero(self):
+        """Pre-first-checkpoint convention: linear from (0, 0.0) to
+        (first_step, first_return). At step = first_step / 2, the
+        value is first_return / 2.
+        """
+        curve = _mkcurve([(5000, 80.0), (10000, 95.0)])
+        # At step 2500 (halfway to 5000), expect 40.0.
+        assert return_at_step(curve, 2500) == pytest.approx(40.0)
+        # At step 0, expect 0.
+        assert return_at_step(curve, 0) == 0.0
+
+    def test_between_checkpoints_linear(self):
+        curve = _mkcurve([(5000, 0.0), (10000, 100.0)])
+        # Halfway between 5000 and 10000 → 50.
+        assert return_at_step(curve, 7500) == pytest.approx(50.0)
+
+    def test_past_last_checkpoint_clamps(self):
+        """Late-training queries return the last plateau value."""
+        curve = _mkcurve([(5000, 80.0), (10000, 95.0)])
+        assert return_at_step(curve, 50000) == pytest.approx(95.0)
+
+    def test_negative_step_treated_as_zero(self):
+        curve = _mkcurve([(5000, 80.0)])
+        assert return_at_step(curve, -100) == 0.0
+
+
+class TestAucReturn:
+    """Contract for trapezoidal AUC over a step window."""
+
+    def test_empty_curve_nan(self):
+        assert math.isnan(auc_return([], 0, 50_000))
+
+    def test_inverted_window_nan(self):
+        curve = _mkcurve([(5000, 50.0), (10000, 80.0)])
+        assert math.isnan(auc_return(curve, 10_000, 5_000))
+
+    def test_constant_return_equals_value(self):
+        """A flat plateau at 50 over the whole window → AUC / window = 50."""
+        curve = _mkcurve([(1000, 50.0), (50_000, 50.0)])
+        # At step 0 → linearly interp from (0, 0) to (1000, 50) → 0.
+        # The lead-in segment drops the mean.
+        auc = auc_return(curve, 0, 50_000)
+        # Lead-in (0→1k ramp) + plateau 1k→50k at 50.
+        expected_area = 0.5 * 1000 * 50 + 49_000 * 50  # 25_000 + 2_450_000
+        expected_mean = expected_area / 50_000  # ≈ 49.5
+        assert auc == pytest.approx(expected_mean, rel=1e-6)
+
+    def test_zero_everywhere_returns_zero(self):
+        curve = _mkcurve([(5000, 0.0), (50_000, 0.0)])
+        assert auc_return(curve, 0, 50_000) == pytest.approx(0.0)
+
+    def test_transfer_faster_gets_higher_auc(self):
+        """Transfer hits 95 plateau by 5k; scratch hits it at 40k.
+        Over [0, 50k], transfer's AUC should be much higher.
+        """
+        fast = _mkcurve([(5000, 95.0), (50_000, 95.0)])
+        slow = _mkcurve([(5000, 20.0), (40_000, 95.0), (50_000, 95.0)])
+        auc_fast = auc_return(fast, 0, 50_000)
+        auc_slow = auc_return(slow, 0, 50_000)
+        assert auc_fast > auc_slow
+        # And the gap should be meaningful (≥ 10 mean-return units).
+        assert auc_fast - auc_slow > 10
+
+    def test_window_beyond_curve_clamps_last_value(self):
+        """Integration over [0, 100k] on a curve ending at 30k plateaus."""
+        curve = _mkcurve([(5000, 90.0), (30_000, 90.0)])
+        auc = auc_return(curve, 0, 100_000)
+        # Lead-in (0→5k ramp 0→90) + 5k→100k at 90.
+        expected_area = 0.5 * 5000 * 90 + 95_000 * 90
+        expected_mean = expected_area / 100_000
+        assert auc == pytest.approx(expected_mean, rel=1e-3)
+
+
+class TestBootstrapCIMean:
+    """Contract for percentile bootstrap of the mean."""
+
+    def test_empty_values_returns_nan(self):
+        m, lo, hi = bootstrap_ci_mean([], n_resamples=100, rng_seed=0)
+        assert math.isnan(m) and math.isnan(lo) and math.isnan(hi)
+
+    def test_single_value_has_zero_width_ci(self):
+        m, lo, hi = bootstrap_ci_mean([5.0], n_resamples=100, rng_seed=0)
+        assert m == 5.0
+        # Single value → every bootstrap resample equals 5.0 → CI = 5.
+        assert lo == pytest.approx(5.0)
+        assert hi == pytest.approx(5.0)
+
+    def test_identical_values_zero_width_ci(self):
+        m, lo, hi = bootstrap_ci_mean([7.0] * 5, n_resamples=500, rng_seed=0)
+        assert m == 7.0
+        assert lo == pytest.approx(7.0)
+        assert hi == pytest.approx(7.0)
+
+    def test_mean_matches_np_mean(self):
+        vals = [1.0, 2.0, 3.0, 4.0, 5.0]
+        m, _, _ = bootstrap_ci_mean(vals, n_resamples=1000, rng_seed=0)
+        assert m == pytest.approx(np.mean(vals))
+
+    def test_ci_contains_mean(self):
+        vals = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+        m, lo, hi = bootstrap_ci_mean(vals, n_resamples=2000, rng_seed=0)
+        assert lo <= m <= hi
+
+    def test_determinism_under_fixed_seed(self):
+        vals = [1.0, 2.5, 3.7, 4.1, 5.9]
+        r1 = bootstrap_ci_mean(vals, n_resamples=500, rng_seed=42)
+        r2 = bootstrap_ci_mean(vals, n_resamples=500, rng_seed=42)
+        assert r1 == r2
+
+
+class TestArmDescriptives:
+    """End-to-end: descriptives populated on PairVerdict + JSON export."""
+
+    def test_descriptives_populated_on_verdict(self):
+        """Each verdict has scratch_descriptives + transfer_descriptives
+        populated from the runs' eval_curves."""
+        # Transfer hits 95 plateau at 5k; scratch at 40k.
+        t_curve = _mkcurve([(5000, 95.0), (50_000, 95.0),
+                            (100_000, 95.0)])
+        s_curve = _mkcurve([(5000, 20.0), (10_000, 50.0),
+                            (40_000, 95.0), (100_000, 95.0)])
+        scratch = [_mkrun("cartpole_mcc", s, "scratch",
+                          stm=40_000, eval_curve=s_curve)
+                   for s in range(5)]
+        transfer = [_mkrun("cartpole_mcc", s, "transfer",
+                           stm=5000, eval_curve=t_curve)
+                    for s in range(5)]
+        payload = _make_payload(scratch + transfer)
+        verdict = analyze(payload)
+        primary = next(v for v in verdict.pair_verdicts
+                       if v.role == "primary")
+        assert primary.scratch_descriptives is not None
+        assert primary.transfer_descriptives is not None
+        assert primary.scratch_descriptives.n == 5
+        # Return at 5k: transfer should be ~95, scratch ~20.
+        t_m, _, _ = primary.transfer_descriptives.returns_at_step[5000]
+        s_m, _, _ = primary.scratch_descriptives.returns_at_step[5000]
+        assert t_m > s_m + 50, (
+            f"transfer@5k should lead scratch@5k by >50 points, "
+            f"got t={t_m:.1f} s={s_m:.1f}"
+        )
+        # AUC over [0, 50k]: transfer lead should be large.
+        assert (primary.transfer_descriptives.auc_mean
+                > primary.scratch_descriptives.auc_mean + 20)
+
+    def test_descriptives_handle_empty_curves(self):
+        """If every run has an empty eval_curve (backward-compat with
+        pre-v3.5 JSONs), descriptives should be NaN-filled rather than
+        crashing."""
+        scratch = [_mkrun("cartpole_mcc", s, "scratch", stm=150_000)
+                   for s in range(5)]
+        transfer = [_mkrun("cartpole_mcc", s, "transfer", stm=50_000)
+                    for s in range(5)]
+        payload = _make_payload(scratch + transfer)
+        verdict = analyze(payload)
+        primary = next(v for v in verdict.pair_verdicts
+                       if v.role == "primary")
+        # NaN-filled but present.
+        assert primary.scratch_descriptives is not None
+        m_5k, _, _ = primary.scratch_descriptives.returns_at_step[5000]
+        assert math.isnan(m_5k)
+        assert math.isnan(primary.scratch_descriptives.auc_mean)
+
+    def test_descriptives_json_serializable(self):
+        """_verdict_to_dict emits descriptives with string-keyed step dict."""
+        curve = _mkcurve([(5000, 90.0), (50_000, 95.0)])
+        scratch = [_mkrun("cartpole_mcc", s, "scratch",
+                          stm=150_000, eval_curve=curve)
+                   for s in range(3)]
+        transfer = [_mkrun("cartpole_mcc", s, "transfer",
+                           stm=50_000, eval_curve=curve)
+                    for s in range(3)]
+        payload = _make_payload(scratch + transfer)
+        verdict = analyze(payload)
+        d = _verdict_to_dict(verdict)
+        primary_dict = next(p for p in d["pair_verdicts"]
+                            if p["role"] == "primary")
+        assert "scratch_descriptives" in primary_dict
+        sd = primary_dict["scratch_descriptives"]
+        assert sd is not None
+        # JSON dict keys must be strings.
+        assert "5000" in sd["returns_at_step"]
+        assert all(isinstance(k, str) for k in sd["returns_at_step"].keys())
+        # Roundtrip survives json.dumps/loads.
+        round_trip = json.loads(json.dumps(d))
+        assert (round_trip["pair_verdicts"][0]["scratch_descriptives"]
+                ["returns_at_step"]["5000"]["mean"] == pytest.approx(
+                    sd["returns_at_step"]["5000"]["mean"]))
+
+    def test_early_step_queries_match_prereg(self):
+        """§4 v3.5 descriptor panel commits to {2k, 5k, 10k}."""
+        assert EARLY_STEP_QUERIES == (2_000, 5_000, 10_000)
+
+    def test_auc_window_matches_prereg(self):
+        """§4 v3.5 AUC window is [0, 50k] env-steps."""
+        assert AUC_WINDOW == (0, 50_000)

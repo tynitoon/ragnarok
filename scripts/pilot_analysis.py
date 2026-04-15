@@ -87,12 +87,24 @@ class PairVerdict:
     transfer: ArmSurvival
     rmst_ratio: float           # scratch / transfer  (ratio > 1 = transfer faster)
     logrank_p_value: float
+    # v3.5 — permutation-based one-sided p (exact under exchangeability).
+    # Reported alongside the asymptotic log-rank as a small-sample
+    # robustness check. At N=5 per arm, the lifelines chi-sq asymptotic
+    # is known to drift; the permutation p from 10k label shuffles is
+    # exact. §8 headline p is still the asymptotic value — this field
+    # is a robustness-of-conclusion probe, not a replacement.
+    logrank_permutation_p_value: float
     anti_transfer: bool         # ratio < 0.9
     mechanism_check_passed: bool
     mechanism_details: str
     pass_primary_criterion: bool
     pass_secondary_criterion: bool
     tau: int                    # truncation horizon (env-steps)
+    # v3.5 descriptive secondaries (non-gating; see §4 + §10 B0).
+    # Populated only from runs that include an `eval_curve` field;
+    # paper reports these alongside RMST with bootstrap 95 % CIs.
+    scratch_descriptives: "ArmDescriptives | None" = None
+    transfer_descriptives: "ArmDescriptives | None" = None
 
 
 @dataclass
@@ -255,6 +267,315 @@ def _logrank_one_sided(scratch: ArmSurvival, transfer: ArmSurvival,
     return 1.0 - (p_two_sided / 2.0)
 
 
+# ── v3.5 permutation test (small-N robustness check) ───────────────
+#
+# The lifelines log-rank test returns a p-value from a chi-sq asymptotic.
+# That asymptotic is known to drift at small N with heavy censoring: the
+# chi-sq reference distribution assumes the O-E numerator is approximately
+# normal under H_0, which requires enough event times to average out. At
+# N=5 per arm on MCC with ~30-40% censoring, we routinely see 3-4 observed
+# events per arm — well below the regime where the asymptotic is
+# defensible.
+#
+# The permutation test is *exact* under exchangeability (the null
+# hypothesis): shuffle the arm labels across the pooled sample while
+# preserving the per-arm sample sizes, recompute the signed O-E on each
+# shuffle, and read p off the empirical tail. No distributional assumption
+# beyond "arms are exchangeable under H_0", which is what the log-rank
+# asserts anyway.
+#
+# We use the same signed O-E numerator as the asymptotic path, so the two
+# p-values answer literally the same question — the difference is only
+# how the null distribution is obtained.
+#
+# Cost: O(n_shuffles × n_event_times × n) per pair. At pilot scale (n=10,
+# event times ≤10), 10k shuffles costs ~100 ms. No vectorization needed.
+
+PERMUTATION_N_SHUFFLES = 10_000
+PERMUTATION_RNG_SEED = 20260415  # pinned for reproducibility; see §5
+
+
+def _compute_signed_oe(durations_s: list[int], events_s: list[int],
+                       durations_t: list[int],
+                       events_t: list[int]) -> float:
+    """Signed O-E numerator. Pulled out of `_logrank_signed_direction`
+    so the permutation loop can call it on arbitrary arm assignments
+    without round-tripping through `ArmSurvival`.
+    """
+    event_times = sorted({
+        d for d, e in zip(durations_s + durations_t,
+                          events_s + events_t)
+        if e == 1
+    })
+    if not event_times:
+        return 0.0
+
+    oe = 0.0
+    for t in event_times:
+        n_s = sum(1 for d in durations_s if d >= t)
+        n_t = sum(1 for d in durations_t if d >= t)
+        n = n_s + n_t
+        if n == 0:
+            continue
+        d_s = sum(1 for d, e in zip(durations_s, events_s)
+                  if d == t and e == 1)
+        d_t = sum(1 for d, e in zip(durations_t, events_t)
+                  if d == t and e == 1)
+        d = d_s + d_t
+        e_s = d * (n_s / n)
+        oe += (d_s - e_s)
+    return oe
+
+
+def _logrank_permutation_one_sided(
+    scratch: ArmSurvival,
+    transfer: ArmSurvival,
+    n_shuffles: int = PERMUTATION_N_SHUFFLES,
+    rng_seed: int = PERMUTATION_RNG_SEED,
+) -> float:
+    """One-sided permutation p-value for H_A: transfer reaches mastery
+    faster than scratch (signed O-E observed < 0 direction).
+
+    Returns a Monte Carlo estimate of
+        P_{H_0}(signed_OE_shuffled ≤ signed_OE_observed)
+    using `n_shuffles` random label permutations that preserve the
+    per-arm sample sizes. The "add 1" numerator/denominator correction
+    guarantees p > 0 even if no shuffle reaches the tail (standard for
+    permutation p).
+
+    Direction convention matches `_logrank_one_sided`: lower one-sided
+    p means *more* evidence for transfer-faster. If the observed O-E is
+    in the H_A-wrong direction (> 0), the one-sided p is ≥ 0.5 (the
+    permutation distribution cannot support a directional alternative
+    when the point estimate itself is on the wrong side).
+    """
+    if scratch.n == 0 or transfer.n == 0:
+        return float("nan")
+    n_s = scratch.n
+    n_t = transfer.n
+    pooled_durs = list(scratch.durations) + list(transfer.durations)
+    pooled_events = list(scratch.events) + list(transfer.events)
+    n = n_s + n_t
+
+    # Observed statistic.
+    observed_oe = _compute_signed_oe(
+        scratch.durations, scratch.events,
+        transfer.durations, transfer.events,
+    )
+    # If there are no events at all on either arm, the statistic is
+    # identically zero under all permutations — punt to NaN (no
+    # information). This is consistent with the asymptotic fallback
+    # that already reports the two-sided p in this regime.
+    if _no_events_either_arm(scratch, transfer):
+        return float("nan")
+
+    rng = np.random.default_rng(rng_seed)
+    # Count shuffles at least as extreme as observed in the H_A
+    # direction (observed < 0 → shuffled ≤ observed).
+    # We always count using the same ≤ direction; if observed > 0
+    # (wrong direction), the tail count trends toward the upper half
+    # of the null and p ≥ 0.5 naturally.
+    count_le = 0
+    indices = np.arange(n)
+    for _ in range(n_shuffles):
+        rng.shuffle(indices)
+        s_idx = indices[:n_s]
+        t_idx = indices[n_s:]
+        durs_s = [pooled_durs[i] for i in s_idx]
+        evts_s = [pooled_events[i] for i in s_idx]
+        durs_t = [pooled_durs[i] for i in t_idx]
+        evts_t = [pooled_events[i] for i in t_idx]
+        shuffled_oe = _compute_signed_oe(durs_s, evts_s, durs_t, evts_t)
+        if shuffled_oe <= observed_oe:
+            count_le += 1
+
+    # Standard "add 1" permutation-p correction: ensures p > 0 and
+    # matches the one-sided testing convention when no shuffle is as
+    # extreme as the observed.
+    return float((count_le + 1) / (n_shuffles + 1))
+
+
+def _no_events_either_arm(scratch: ArmSurvival,
+                          transfer: ArmSurvival) -> bool:
+    return (scratch.n_events == 0 and transfer.n_events == 0)
+
+
+# ── v3.5 descriptive secondaries (early-step return + AUC) ─────────
+#
+# The prereg §4 headline metric remains samples-to-mastery RMST. But the
+# mastery threshold on MCC (~90/100) is plateau territory — the real
+# transfer signal is expected in the first 2-10k env-steps when the
+# transferred prior is still load-bearing. §8 does NOT gate on these
+# values (they are descriptive, not inferential); but the paper WILL
+# report them with bootstrap 95 % CIs in the same panel as the RMST
+# headline, and §10 Plan B0 uses them as companion analyses.
+#
+# Contract:
+#   - return_at_step(eval_curve, step)  → float
+#     Linear interp; pre-first-eval queries anchored at (0, 0.0)
+#     (conservative — assumes random-policy-bad baseline).
+#   - auc_return(eval_curve, lo, hi)    → float
+#     Trapezoidal AUC over [lo, hi] env-steps; same interp convention.
+#     Normalized by (hi - lo) so the value has units of "mean return".
+#   - bootstrap_ci_mean(values, n, seed) → (mean, lo95, hi95)
+#     Percentile bootstrap over seed-level values.
+#
+# The 0-anchor convention is the load-bearing choice: all 3 envs in
+# scope (MCC, Acrobot, DMC-cartpole-swingup) start at near-0 or
+# negative random-policy return, so a linear ramp from (0, 0) to the
+# first eval is a defensible lower bound on early-phase performance.
+# A pair where the agent starts above 0 is not in scope for the v3.5
+# secondaries; it would need a per-env baseline column in the payload.
+
+EARLY_STEP_QUERIES = (2_000, 5_000, 10_000)    # env-steps
+AUC_WINDOW = (0, 50_000)                        # env-steps
+BOOTSTRAP_N_RESAMPLES = 10_000
+BOOTSTRAP_RNG_SEED = 20260415                   # reproducibility
+
+
+def return_at_step(eval_curve: list[dict], step: int) -> float:
+    """Linear-interpolate the eval return at `step` env-steps.
+
+    Convention:
+      - Before the first eval checkpoint: linear from (0, 0.0) to
+        (first_step, first_return). "0.0" assumes random-policy ≈ 0,
+        which is true for MCC / Acrobot / DMC-cartpole-swingup.
+      - After the last eval checkpoint: clamp to last_return (the
+        agent's late-training plateau value).
+      - Between checkpoints: standard linear interp.
+
+    Returns NaN if the curve is empty.
+    """
+    if not eval_curve:
+        return float("nan")
+    steps = [float(e["step"]) for e in eval_curve]
+    rets = [float(e["eval_return"]) for e in eval_curve]
+    if step <= 0:
+        return 0.0
+    if step < steps[0]:
+        # Pre-first-checkpoint ramp from (0, 0).
+        frac = step / steps[0]
+        return frac * rets[0]
+    if step >= steps[-1]:
+        return rets[-1]
+    # Binary-ish linear scan (curves are ≤ 100 points; no need for
+    # bisect here).
+    for i in range(len(steps) - 1):
+        if steps[i] <= step <= steps[i + 1]:
+            if steps[i + 1] == steps[i]:
+                return rets[i]
+            frac = (step - steps[i]) / (steps[i + 1] - steps[i])
+            return rets[i] + frac * (rets[i + 1] - rets[i])
+    # Should be unreachable given the clamps above.
+    return rets[-1]
+
+
+def auc_return(eval_curve: list[dict], lo: int, hi: int) -> float:
+    """Trapezoidal AUC of eval_return over [lo, hi] env-steps, divided
+    by (hi - lo) so the output has units of "mean return over window".
+
+    The same 0-anchor / last-clamp convention from `return_at_step`
+    applies so a run that mastered at 5k env-steps and held plateau
+    return gets a much higher AUC than a run that took 40k to climb.
+    """
+    if not eval_curve or hi <= lo:
+        return float("nan")
+    # Build the integration grid: endpoints + all eval points strictly
+    # inside [lo, hi]. Ensures the integral is exact on the piecewise
+    # linear curve we're interpolating.
+    inner = [float(e["step"]) for e in eval_curve
+             if lo < float(e["step"]) < hi]
+    grid = [float(lo)] + inner + [float(hi)]
+    # Remove duplicates while preserving order.
+    seen = set()
+    grid_unique: list[float] = []
+    for s in grid:
+        if s not in seen:
+            seen.add(s)
+            grid_unique.append(s)
+    grid_unique.sort()
+
+    values = [return_at_step(eval_curve, int(s)) for s in grid_unique]
+    area = 0.0
+    for i in range(len(grid_unique) - 1):
+        dx = grid_unique[i + 1] - grid_unique[i]
+        area += 0.5 * (values[i] + values[i + 1]) * dx
+    return area / (hi - lo)
+
+
+def bootstrap_ci_mean(values: list[float], n_resamples: int,
+                      rng_seed: int, alpha: float = 0.05
+                      ) -> tuple[float, float, float]:
+    """Percentile bootstrap of the mean. Returns (mean, lo95, hi95)."""
+    arr = np.asarray([v for v in values if np.isfinite(v)], dtype=float)
+    if arr.size == 0:
+        return (float("nan"), float("nan"), float("nan"))
+    mean = float(arr.mean())
+    rng = np.random.default_rng(rng_seed)
+    n = arr.size
+    # Single vectorized resample step for speed.
+    idx = rng.integers(0, n, size=(n_resamples, n))
+    resample_means = arr[idx].mean(axis=1)
+    lo = float(np.quantile(resample_means, alpha / 2))
+    hi = float(np.quantile(resample_means, 1 - alpha / 2))
+    return (mean, lo, hi)
+
+
+@dataclass
+class ArmDescriptives:
+    """v3.5 descriptive secondaries per arm (not §8-gating).
+
+    Populated from `runs`' `eval_curve`s. Each entry has the mean +
+    bootstrap 95 % CI across seeds.
+    """
+    arm: str
+    n: int
+    returns_at_step: dict[int, tuple[float, float, float]]
+    # key: step (e.g. 2000, 5000, 10000); value: (mean, lo95, hi95)
+    auc_window_lo: int
+    auc_window_hi: int
+    auc_mean: float
+    auc_lo95: float
+    auc_hi95: float
+
+
+def _compute_arm_descriptives(runs: list[dict], arm: str) -> ArmDescriptives:
+    """Extract early-step returns + AUC from each run's eval_curve."""
+    arm_runs = [r for r in runs if r.get("arm") == arm]
+    n = len(arm_runs)
+
+    returns_at_step: dict[int, tuple[float, float, float]] = {}
+    for q in EARLY_STEP_QUERIES:
+        per_seed = [return_at_step(r.get("eval_curve", []), q)
+                    for r in arm_runs]
+        m, lo, hi = bootstrap_ci_mean(
+            per_seed,
+            n_resamples=BOOTSTRAP_N_RESAMPLES,
+            rng_seed=BOOTSTRAP_RNG_SEED + q,  # different seed per query
+        )
+        returns_at_step[q] = (m, lo, hi)
+
+    auc_per_seed = [
+        auc_return(r.get("eval_curve", []), AUC_WINDOW[0], AUC_WINDOW[1])
+        for r in arm_runs
+    ]
+    m_auc, lo_auc, hi_auc = bootstrap_ci_mean(
+        auc_per_seed,
+        n_resamples=BOOTSTRAP_N_RESAMPLES,
+        rng_seed=BOOTSTRAP_RNG_SEED - 1,
+    )
+    return ArmDescriptives(
+        arm=arm,
+        n=n,
+        returns_at_step=returns_at_step,
+        auc_window_lo=AUC_WINDOW[0],
+        auc_window_hi=AUC_WINDOW[1],
+        auc_mean=m_auc,
+        auc_lo95=lo_auc,
+        auc_hi95=hi_auc,
+    )
+
+
 def _check_mechanism(transfer_runs: list[dict], src_env: str,
                      tgt_env: str) -> tuple[bool, str]:
     """Per §8: acting_policy_mode == 'latent' for every transfer run in
@@ -344,6 +665,12 @@ def analyze(payload: dict) -> PilotVerdict:
             ratio = float("nan")
 
         p_logrank = _logrank_one_sided(scratch, transfer, tau)
+        # v3.5 robustness: exact permutation p alongside the asymptotic.
+        # §8 headline uses the asymptotic (backward-compat with prereg);
+        # the permutation value is reported for robustness and gates
+        # §10 Plan B0 (which requires BOTH p<0.10 per the prereg v3.5
+        # amendment).
+        p_perm = _logrank_permutation_one_sided(scratch, transfer)
         mech_ok, mech_msg = _check_mechanism(transfer_runs, src_env, tgt_env)
 
         anti = (np.isfinite(ratio) and ratio < ANTI_TRANSFER_RATIO_MAX)
@@ -374,17 +701,27 @@ def analyze(payload: dict) -> PilotVerdict:
         if not mech_ok:
             failures.append(f"{alias}: MECHANISM CHECK FAILED — {mech_msg}")
 
+        # v3.5 descriptive secondaries (non-gating, paper panel + B0
+        # companion). Best-effort: if eval_curve is empty/missing on
+        # every run in an arm we still construct an ArmDescriptives
+        # with NaN values rather than failing the analysis.
+        scratch_desc = _compute_arm_descriptives(scratch_runs, "scratch")
+        transfer_desc = _compute_arm_descriptives(transfer_runs, "transfer")
+
         v = PairVerdict(
             alias=alias, role=role,
             scratch=scratch, transfer=transfer,
             rmst_ratio=float(ratio),
             logrank_p_value=float(p_logrank),
+            logrank_permutation_p_value=float(p_perm),
             anti_transfer=bool(anti),
             mechanism_check_passed=bool(mech_ok),
             mechanism_details=mech_msg,
             pass_primary_criterion=bool(pass_primary),
             pass_secondary_criterion=bool(pass_secondary),
             tau=tau,
+            scratch_descriptives=scratch_desc,
+            transfer_descriptives=transfer_desc,
         )
         if role == "primary":
             primary_verdict = v
@@ -483,6 +820,20 @@ def render_text(verdict: PilotVerdict) -> str:
         )
         lines.append(f"  RMST ratio (scratch/transfer): {v.rmst_ratio:.3f}")
         lines.append(f"  Log-rank p (one-sided): {v.logrank_p_value:.4f}")
+        # v3.5 robustness probe: permutation p alongside asymptotic.
+        # Large disagreement (> 0.05) is itself a reportable finding.
+        perm_p = v.logrank_permutation_p_value
+        if np.isfinite(perm_p):
+            disagree = abs(perm_p - v.logrank_p_value)
+            flag = "  [⚠ asymp/perm disagree > 0.05]" if disagree > 0.05 else ""
+            lines.append(
+                f"  Log-rank p (permutation, "
+                f"N={PERMUTATION_N_SHUFFLES:,}): {perm_p:.4f}{flag}"
+            )
+        else:
+            lines.append(
+                "  Log-rank p (permutation): n/a (no events observed)"
+            )
         status = []
         if v.role == "primary":
             status.append("PRIMARY PASS" if v.pass_primary_criterion
@@ -496,6 +847,31 @@ def render_text(verdict: PilotVerdict) -> str:
                       else "MECHANISM FAIL")
         lines.append(f"  Status: {'  |  '.join(status)}")
         lines.append(f"  Mechanism: {v.mechanism_details}")
+
+        # v3.5 descriptive secondaries (non-gating, paper panel + §10 B0).
+        if v.scratch_descriptives and v.transfer_descriptives:
+            lines.append(
+                "  Descriptive secondaries (non-gating; bootstrap "
+                "95 % CI over seeds):"
+            )
+            for step in EARLY_STEP_QUERIES:
+                s_m, s_lo, s_hi = v.scratch_descriptives.returns_at_step[step]
+                t_m, t_lo, t_hi = v.transfer_descriptives.returns_at_step[step]
+                lines.append(
+                    f"    return@{step:>5,}  steps:  "
+                    f"scratch={s_m:>7.2f} [{s_lo:>6.2f}, {s_hi:>6.2f}]  "
+                    f"transfer={t_m:>7.2f} [{t_lo:>6.2f}, {t_hi:>6.2f}]"
+                )
+            sd = v.scratch_descriptives
+            td = v.transfer_descriptives
+            lines.append(
+                f"    AUC [{sd.auc_window_lo:,}, "
+                f"{sd.auc_window_hi:,}]:   "
+                f"scratch={sd.auc_mean:>7.2f} [{sd.auc_lo95:>6.2f}, "
+                f"{sd.auc_hi95:>6.2f}]  "
+                f"transfer={td.auc_mean:>7.2f} [{td.auc_lo95:>6.2f}, "
+                f"{td.auc_hi95:>6.2f}]"
+            )
 
     lines.append("\n" + "-" * 70)
     if verdict.overall_pass:
@@ -530,11 +906,33 @@ def _verdict_to_dict(v: PilotVerdict) -> dict:
             "durations": a.durations, "events": a.events,
         }
 
+    def desc_dict(a: "ArmDescriptives | None") -> dict | None:
+        if a is None:
+            return None
+        return {
+            "arm": a.arm,
+            "n": a.n,
+            # JSON keys must be strings; cast step -> str here.
+            "returns_at_step": {
+                str(step): {"mean": m, "lo95": lo, "hi95": hi}
+                for step, (m, lo, hi) in a.returns_at_step.items()
+            },
+            "auc_window_lo": a.auc_window_lo,
+            "auc_window_hi": a.auc_window_hi,
+            "auc_mean": a.auc_mean,
+            "auc_lo95": a.auc_lo95,
+            "auc_hi95": a.auc_hi95,
+        }
+
     pair_dicts = []
     for p in v.pair_verdicts:
         d = asdict(p)
         d["scratch"] = arm_dict(p.scratch)
         d["transfer"] = arm_dict(p.transfer)
+        # Override with the keyed-str desc layout so downstream
+        # consumers get JSON-safe int keys.
+        d["scratch_descriptives"] = desc_dict(p.scratch_descriptives)
+        d["transfer_descriptives"] = desc_dict(p.transfer_descriptives)
         pair_dicts.append(d)
 
     return {
