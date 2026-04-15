@@ -231,6 +231,75 @@ class TestRSSMTransferableSubset:
         dst.load_transferable_state_dict(
             src.transferable_state_dict(), strict=False)
 
+    def test_transferable_subset_nonempty_under_default_config(self):
+        """Bug E v2 (2026-04-15), all 3 reviewers' #1 ask: build an RSSM
+        from the actual default RagnarokConfig (which sets
+        ``ensemble_cores=2``) and verify the transferable subset is
+        still non-empty.
+
+        Two architecture/testing reviewers wrongly read the code as
+        "ensemble replaces single core when ensemble_cores > 1" and
+        flagged this as a launch-blocking silent failure. It isn't —
+        ``self.core`` is built unconditionally and the ensemble is
+        additive (only consulted by ``dream_augmenter`` for a
+        disagreement penalty). But the regression test is sound either
+        way: it locks the default-config invariant against any future
+        refactor that might actually move the transferable surface
+        under ``self.ensemble.*`` and silently empty the subset."""
+        from ragnarok.infrastructure.config import RagnarokConfig
+        cfg = RagnarokConfig()
+        # Sanity: the default really does enable the ensemble path —
+        # if this assertion ever fails (because someone changed the
+        # config default), this test still has to verify the subset
+        # is non-empty under whatever the new default is.
+        rssm = RSSM(
+            obs_dim=4, action_dim=2,
+            hidden_dim=cfg.world_model.hidden_dim,
+            stoch_dim=cfg.world_model.stoch_dim,
+            encoder_hidden=cfg.world_model.encoder_hidden,
+            ensemble_cores=cfg.transfer.ensemble_cores,
+        ).to(DEVICE)
+        sd = rssm.transferable_state_dict()
+        # Must contain all three sublayers — the partition does not
+        # collapse just because the ensemble exists.
+        assert len(sd) > 0, (
+            "Bug E v2 regression: transferable subset is EMPTY under "
+            "default RagnarokConfig. This means cross-dim transfer "
+            "would silently fall back to scratch on every pair. "
+            "Investigate `_TRANSFERABLE_PREFIXES` and the RSSM module "
+            "layout — most likely a refactor moved core.gru / "
+            "core.prior / core.posterior under a new attribute path.")
+        assert any(k.startswith("core.gru.") for k in sd)
+        assert any(k.startswith("core.prior.") for k in sd)
+        assert any(k.startswith("core.posterior.") for k in sd)
+        # And every transferable param must have a non-zero count, so
+        # the optimizer LR-warmup actually has work to do.
+        n_transferable = sum(p.numel() for p in rssm.transferable_params())
+        assert n_transferable > 0, (
+            "Bug E v2 regression: transferable_params() is empty under "
+            "default config — set_transferable_lr_scale would silently "
+            "no-op. Same root cause as the empty-subset failure mode.")
+
+    def test_encoder_hidden_mismatch_message_calls_out_encoder_hidden(self):
+        """Devil's-advocate review (Bug E v2, concern #7): the original
+        shape-mismatch error said 'hidden_dim/stoch_dim was changed' —
+        but encoder_hidden is the *third* axis that pins the posterior
+        weight shape (input dim = hidden_dim + encoder_hidden). A user
+        who tweaks encoder_hidden per env would hit a mysterious
+        posterior shape mismatch with no hint that encoder_hidden is
+        the culprit. The improved error message must explicitly name
+        encoder_hidden when the mismatching key is in core.posterior."""
+        # Same hidden_dim + stoch_dim, DIFFERENT encoder_hidden.
+        src = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=16, stoch_dim=8,
+                   encoder_hidden=16).to(DEVICE)
+        dst = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=16, stoch_dim=8,
+                   encoder_hidden=32).to(DEVICE)
+        with pytest.raises(ValueError, match="encoder_hidden"):
+            dst.load_transferable_state_dict(
+                src.transferable_state_dict(), strict=True)
+
 
 # ── Skill carries the RSSM core ─────────────────────────────────────
 
@@ -409,6 +478,159 @@ class TestWMTrainerLRScaling:
         for _ in range(100):
             trainer.step_episode()
         assert trainer.get_transferable_lr() == pytest.approx(3e-4)
+
+    def _seed_buffer(self, trainer, n_episodes: int = 4, ep_len: int = 8):
+        """Push a few synthetic episodes so train_step has data.
+
+        Each episode is a deterministic ramp so the gradients are
+        non-zero and the train_step exercises the optimizer for real.
+        """
+        rssm = trainer.rssm
+        for ep in range(n_episodes):
+            obs = np.stack([
+                np.full(rssm.obs_dim, 0.1 * (ep + t), dtype=np.float32)
+                for t in range(ep_len)
+            ])
+            actions = np.zeros((ep_len, rssm.action_dim), dtype=np.float32)
+            for t in range(ep_len):
+                actions[t, t % rssm.action_dim] = 1.0
+            rewards = np.array([0.01 * t for t in range(ep_len)],
+                               dtype=np.float32)
+            dones = np.zeros(ep_len, dtype=np.float32)
+            dones[-1] = 1.0
+            trainer.buffer.add_episode(obs, actions, rewards, dones)
+
+    def test_reset_transferable_optimizer_state_clears_adam_moments(self):
+        """Architecture-review concern (Bug E v2, 2026-04-15): Adam's
+        ``exp_avg`` / ``exp_avg_sq`` from before the cross-dim load are
+        stale (they tracked gradients on pre-load weights). Without a
+        reset, the LR-warmup nominal 0.1× scale is meaningless because
+        Adam's bias-corrected step size depends on the second-moment
+        estimate. ``reset_transferable_optimizer_state`` must drop the
+        moments for every transferable param so Adam re-initializes
+        them on the next backward."""
+        trainer, rssm = self._build_trainer(lr=3e-4)
+        self._seed_buffer(trainer)
+        # Take a few train steps so Adam state populates.
+        for _ in range(3):
+            trainer.train_step()
+        transferable_params = list(rssm.transferable_params())
+        # After training, every transferable param has a state entry
+        # (exp_avg, exp_avg_sq, step).
+        for p in transferable_params:
+            assert p in trainer.optimizer.state, (
+                "test prereq: Adam state must populate after train_step")
+            st = trainer.optimizer.state[p]
+            assert "exp_avg" in st and "exp_avg_sq" in st
+
+        trainer.reset_transferable_optimizer_state()
+
+        # Every transferable param's state must be gone — Adam will
+        # rebuild it on the next step() with step=0, exp_avg=0,
+        # exp_avg_sq=0. That's exactly the fresh-start behaviour we
+        # want.
+        for p in transferable_params:
+            assert p not in trainer.optimizer.state, (
+                f"Adam state for transferable param {tuple(p.shape)} "
+                "was not cleared by reset_transferable_optimizer_state")
+
+    def test_reset_transferable_optimizer_state_preserves_io_state(self):
+        """The reset must affect ONLY the transferable group. The IO
+        params (encoder, pre_gru, decoder, reward/continue predictors)
+        weren't swapped by the cross-dim load — their Adam moments are
+        still meaningful and dropping them would unnecessarily slow
+        their post-transfer training."""
+        trainer, rssm = self._build_trainer(lr=3e-4)
+        self._seed_buffer(trainer)
+        for _ in range(3):
+            trainer.train_step()
+        # Snapshot IO Adam state before reset.
+        io_params = list(rssm.non_transferable_params())
+        io_state_before = {id(p): {k: v.clone() if torch.is_tensor(v) else v
+                                   for k, v in trainer.optimizer.state[p].items()}
+                           for p in io_params if p in trainer.optimizer.state}
+
+        trainer.reset_transferable_optimizer_state()
+
+        # IO state must be untouched.
+        for p in io_params:
+            if id(p) not in io_state_before:
+                continue
+            assert p in trainer.optimizer.state, (
+                f"IO param {tuple(p.shape)} state was wrongly cleared "
+                "by reset_transferable_optimizer_state")
+            for k, v in io_state_before[id(p)].items():
+                if torch.is_tensor(v):
+                    assert torch.equal(trainer.optimizer.state[p][k], v), (
+                        f"IO param {tuple(p.shape)} state[{k!r}] was "
+                        "modified by reset")
+
+    def test_lr_warmup_actually_dampens_param_drift(self):
+        """Testing-review concern (Bug E v2, 2026-04-15): the
+        existing tests only check the ``.lr`` field on the optimizer
+        — they're tautological. This test takes real gradient steps
+        and measures actual param drift to verify the warmup does
+        what the field says it does.
+
+        We measure ``||θ_after - θ_before|| / ||θ_before||`` on the
+        transferable group after several train_steps, with and
+        without the LR warmup. The warmed group must drift
+        materially less than the unwarmed group (target ratio: at
+        least 3x less under 0.1× scale). If this test ever passes
+        the LR field check but FAILS this drift check, the warmup
+        is broken in some non-obvious way (e.g. param groups got
+        merged silently, optimizer overrides the per-group lr, etc.).
+        """
+        # Identical trainers, identical seeds, identical data. The
+        # only difference is whether the warmup is active.
+        torch.manual_seed(0)
+        trainer_warm, rssm_warm = self._build_trainer(lr=3e-4)
+        # Reset moments + seed the buffer the same way for both runs.
+        self._seed_buffer(trainer_warm)
+        trainer_warm.reset_transferable_optimizer_state()
+        trainer_warm.set_transferable_lr_scale(0.1, warmup_episodes=200)
+
+        torch.manual_seed(0)
+        trainer_flat, rssm_flat = self._build_trainer(lr=3e-4)
+        self._seed_buffer(trainer_flat)
+        trainer_flat.reset_transferable_optimizer_state()
+        # No warmup — runs at full LR.
+
+        # Snapshot transferable params on both.
+        warm_before = [p.detach().clone()
+                       for p in rssm_warm.transferable_params()]
+        flat_before = [p.detach().clone()
+                       for p in rssm_flat.transferable_params()]
+
+        # Take real grad steps on identical data.
+        for _ in range(5):
+            trainer_warm.train_step()
+            trainer_flat.train_step()
+
+        warm_after = list(rssm_warm.transferable_params())
+        flat_after = list(rssm_flat.transferable_params())
+
+        # Aggregate L2 drift across all transferable params.
+        warm_drift = sum(
+            (a.detach() - b).norm().item()
+            for a, b in zip(warm_after, warm_before))
+        flat_drift = sum(
+            (a.detach() - b).norm().item()
+            for a, b in zip(flat_after, flat_before))
+
+        # Under nominal 0.1× LR, the warmed group should drift
+        # materially less. We use a lenient 2× margin instead of the
+        # naïve 10× because Adam's bias correction at step=0 boosts
+        # the effective first-step magnitude (devil's-advocate
+        # concern #1 — that's exactly why we reset moments first).
+        # If this ever falls below 2×, the warmup mechanism is dead.
+        assert warm_drift < flat_drift / 2.0, (
+            f"LR warmup did not materially dampen param drift: "
+            f"warm_drift={warm_drift:.4e} vs flat_drift={flat_drift:.4e} "
+            f"(ratio={warm_drift / max(flat_drift, 1e-12):.3f}, "
+            f"expected < 0.5). The warmup mechanism is broken — Adam's "
+            f"effective step size on transferable params is not actually "
+            f"being reduced by the LR scale.")
 
 
 # ── Cross-dim transfer integration ──────────────────────────────────

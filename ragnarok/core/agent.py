@@ -829,7 +829,17 @@ class RagnarokAgent:
                             # 4. Slow-start the transferable RSSM subset
                             #    to prevent Adam from wiping the source
                             #    priors while the per-env IO catches up.
+                            #    Architecture-review concern (Bug E v2):
+                            #    the LR scale is meaningless if Adam's
+                            #    `exp_avg_sq` from before the load is
+                            #    stale (it was tracking gradients on the
+                            #    pre-load weights), so we drop the
+                            #    moments for the transferable group too.
+                            #    Adam re-initializes them on the next
+                            #    backward pass — see
+                            #    WorldModelTrainer.reset_transferable_optimizer_state.
                             if self.wm_trainer is not None:
+                                self.wm_trainer.reset_transferable_optimizer_state()
                                 self.wm_trainer.set_transferable_lr_scale(
                                     self.config.transfer.rssm_transfer_lr_scale,
                                     warmup_episodes=(

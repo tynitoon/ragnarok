@@ -480,6 +480,18 @@ class RSSM(nn.Module):
     #   - decoder:            (hidden+stoch) → obs_dim — depends on obs_dim
     #   - reward_predictor:   env-specific reward scale/structure
     #   - continue_predictor: env-specific episode termination structure
+    #
+    # Ensemble exclusion (Bug E v2 review, 2026-04-15):
+    #   `EnsembleRSSMCore` (under `self.ensemble`) is intentionally NOT in
+    #   the transferable subset. Its disagreement signal only has meaning
+    #   when its cores are independently trained from different inits —
+    #   transferring identical source weights into all N slots would
+    #   collapse the disagreement to ~0 and disable the dream-reward
+    #   uncertainty penalty. Cross-dim runs therefore start with fresh
+    #   ensemble cores and re-build a meaningful disagreement signal
+    #   alongside the per-env IO. The single `self.core` (always built,
+    #   regardless of `ensemble_cores`) carries the real transferable
+    #   structure — see test_transferable_subset_nonempty_under_default_config.
 
     _TRANSFERABLE_PREFIXES = (
         "core.gru.",
@@ -539,12 +551,33 @@ class RSSM(nn.Module):
                 continue
             if current[k].shape != v.shape:
                 if strict:
+                    # Devil's-advocate review (Bug E v2, 2026-04-15,
+                    # concern #7): the posterior input is
+                    # `cat(h, encoder_features)` of dim
+                    # `hidden_dim + encoder_hidden`. If the source's
+                    # `encoder_hidden` differs from the target's, the
+                    # posterior weight shape mismatches even though
+                    # `hidden_dim` and `stoch_dim` agree — and the user
+                    # would rightly be confused by the generic message.
+                    # Detect that case and call it out explicitly.
+                    extra = ""
+                    if k.startswith("core.posterior."):
+                        extra = (
+                            "  This usually means `encoder_hidden` differs "
+                            "between the source skill and the target agent. "
+                            "Cross-task transfer treats `encoder_hidden` as "
+                            "a project-wide invariant — the encoder is "
+                            "per-env (different obs_dim) but its OUTPUT "
+                            "dimension must match across envs so the shared "
+                            "posterior MLP keeps fixed input shape. Pin "
+                            "`config.world_model.encoder_hidden` to the "
+                            "same value across the curriculum.")
                     raise ValueError(
                         f"Shape mismatch on {k!r}: target expects "
                         f"{tuple(current[k].shape)}, got {tuple(v.shape)}. "
                         f"Transferable subset should be env-agnostic — "
                         f"if shapes differ, the RSSM hidden_dim/stoch_dim "
-                        f"was changed between source and target.")
+                        f"was changed between source and target." + extra)
                 continue
             current[k] = v
         self.load_state_dict(current)

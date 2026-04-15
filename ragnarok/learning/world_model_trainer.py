@@ -149,6 +149,41 @@ class WorldModelTrainer:
             if g["name"] == "transferable":
                 g["lr"] = self._base_lr * scale
 
+    def reset_transferable_optimizer_state(self):
+        """Drop Adam moment estimates for the transferable param group.
+
+        Architecture-review concern (Bug E v2, 2026-04-15): after a
+        cross-dim ``load_transferable_state_dict``, the Adam moments
+        ``exp_avg`` / ``exp_avg_sq`` for those params still reflect the
+        gradient statistics of whatever target-env training had happened
+        before the load (typically very little — most transfers happen
+        early). More importantly, the loaded weights are now from the
+        SOURCE task; their gradients on the target task have a different
+        scale, so any pre-load second-moment estimate is stale.
+
+        Without a reset, Adam's first few updates after the load are
+        either (a) under-damped (if pre-load v_t was tiny → effective
+        step size is much larger than the nominal `lr * scale`) or
+        (b) over-damped (if pre-load v_t was huge from random-init
+        gradients → updates barely move). Either way, the LR-warmup
+        knob's nominal 0.1× scale is a misleading lower bound on the
+        actual update magnitude.
+
+        Resetting clears `exp_avg`, `exp_avg_sq`, and `step` for every
+        param in the ``transferable`` group. The next backward pass
+        re-initializes them via Adam's normal first-step path. The IO
+        group is left untouched — it never had its weights swapped.
+        """
+        for g in self.optimizer.param_groups:
+            if g.get("name") != "transferable":
+                continue
+            for p in g["params"]:
+                if p in self.optimizer.state:
+                    # Drop the entry entirely; Adam will re-create it on
+                    # the next ``step()`` with step=0, exp_avg=zeros,
+                    # exp_avg_sq=zeros — exactly the fresh-start state.
+                    del self.optimizer.state[p]
+
     def step_episode(self):
         """Decrement the warmup counter and restore LR when it expires.
 
