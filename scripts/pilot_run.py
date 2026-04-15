@@ -92,6 +92,40 @@ PILOT_PAIRS = [
     ("pendulum_dmc_cartpole", "pendulum", "cartpole-swingup", "secondary"),
 ]
 
+# §7 A10 adversarial-negative pair (v3.5 amendment). Same action-type
+# change as the primary (Discrete → Box) but non-pendular physics class
+# on the target (DMC finger-spin is rotational-forced; no gravity well).
+# Predicted under H1: no transfer or anti-transfer. Run separately via
+# `--run-adversarial` so it doesn't bloat the main pilot_results.json;
+# consumed by the paper's headline table regardless of direction.
+#
+# Not in `PILOT_PAIRS` because:
+#   (a) different default output path (`pilot_adversarial_results.json`),
+#   (b) different DEFAULT_N (5 adversarial seeds, same as pilot seeds),
+#   (c) DMC target needs the venv310 env.
+ADVERSARIAL_PAIRS = [
+    # (alias, source env, target env, role)
+    ("cartpole_fingerspin", "cartpole", "finger-spin", "adversarial"),
+]
+
+# §7 A11 GRU-shuffled ablation (v3.5 amendment). Runs the primary pair
+# with a modified transfer path: after `try_transfer()` loads the
+# transferable RSSM subset, the GRU weight tensors are row-column
+# permuted (preserves singular-value spectrum and Frobenius norm, destroys
+# learned temporal structure). If A11 ≈ real transfer, the "learned GRU
+# dynamics transfer" claim dies.
+#
+# Supported ablations (map of name -> help text for --ablation):
+SUPPORTED_ABLATIONS = {
+    "none": "No ablation (stock transfer); default.",
+    "shuffled-gru": (
+        "A11: row-column-permute transferable GRU weights after "
+        "try_transfer(). Preserves spectral norm and parameter count, "
+        "destroys learned recurrent structure. 2 seeds on cartpole_mcc "
+        "per prereg v3.5 §7."
+    ),
+}
+
 PILOT_SEEDS_DEFAULT = 5           # §8: 5 seeds × 3 pairs × 2 arms = 30
 MAX_ENV_STEPS_DEFAULT = 200_000   # §8: 200k env-steps per run
 EVAL_EVERY_STEPS_DEFAULT = 5_000  # §4.5: eval every 5000 env-steps
@@ -177,6 +211,13 @@ class PilotRun:
     # is unenforceable. Empty list for scratch / source / non-transfer arms
     # and for transfer arms where try_transfer returned None.
     telemetry: list[dict] = field(default_factory=list)
+    # v3.5 §7 A11: ablation tag + permutation metadata. For runs with
+    # `ablation == "none"` this is the stable default; when an A11
+    # shuffled-gru run is executed, `ablation_info` records the
+    # permutation sizes applied so the paper can verify the ablation
+    # was structurally complete and not a partial shuffle.
+    ablation: str = "none"
+    ablation_info: dict | None = None
 
     def to_dict(self) -> dict:
         return {
@@ -201,6 +242,12 @@ class PilotRun:
             "used_vec": self.used_vec,
             "wall_clock_sec": self.wall_clock_sec,
             "telemetry": self.telemetry,
+            # v3.5 §7 A11 ablation tag. "none" for all pre-v3.5 runs (the
+            # reader defaults this on deserialize so old pilot_results.json
+            # still loads cleanly). `ablation_info` carries the permutation
+            # sizes when shuffled-gru is applied, and is None otherwise.
+            "ablation": self.ablation,
+            "ablation_info": self.ablation_info,
         }
 
 
@@ -467,6 +514,106 @@ def _compute_transfer_telemetry(
     }
 
 
+def _apply_gru_shuffle(rssm, rng_seed: int) -> dict[str, int]:
+    """§7 A11: row-column-permute the GRU weight tensors in the RSSM
+    transferable subset, in-place.
+
+    PyTorch `nn.GRU` layout (single layer, no bidir):
+      - `weight_ih_l0` : (3 * hidden_size, input_size)
+      - `weight_hh_l0` : (3 * hidden_size, hidden_size)
+      - `bias_ih_l0`   : (3 * hidden_size,)
+      - `bias_hh_l0`   : (3 * hidden_size,)
+
+    The 3-way row split corresponds to the [reset, update, new] gates.
+    We use the SAME row permutation for all 4 tensors so the gate
+    association is preserved (permuting reset/update/new independently
+    would inject a different mutilation — the A11 claim is "destroy the
+    learned structure *within* each gate", not "scramble gate roles").
+    We use DIFFERENT column permutations for weight_ih and weight_hh
+    because their columns index disjoint spaces (input vs. hidden).
+
+    Preserved:
+      - Frobenius norm (row-column perm is an orthogonal transformation
+        composed on each side)
+      - Full singular-value spectrum (same reason)
+      - Total parameter count
+      - Per-tensor weight-magnitude distribution (just reshuffled)
+    Destroyed:
+      - Learned correlations between specific input dims and gate
+        activations
+      - Learned recurrent patterns (the column permutation on weight_hh
+        breaks the identity-mapping-diagonal structure Xavier init
+        would have given)
+
+    Returns a dict with the permutation sizes applied, for the record
+    payload.
+    """
+    # gru may live in different attribute paths depending on RSSMCore
+    # implementation. Probe common ones.
+    gru = None
+    for path in ("core.gru", "gru"):
+        obj = rssm
+        ok = True
+        for attr in path.split("."):
+            if not hasattr(obj, attr):
+                ok = False
+                break
+            obj = getattr(obj, attr)
+        if ok:
+            gru = obj
+            break
+    if gru is None:
+        raise RuntimeError(
+            "A11 shuffle: could not locate GRU on RSSM "
+            "(probed core.gru, gru)"
+        )
+    if not hasattr(gru, "weight_ih_l0") or not hasattr(gru, "weight_hh_l0"):
+        raise RuntimeError(
+            "A11 shuffle: GRU does not expose "
+            "weight_ih_l0/weight_hh_l0 — is it a multi-layer or "
+            "bidirectional GRU? Only single-layer unidir supported."
+        )
+
+    # Deterministic: derive from the caller's seed so two runs of the
+    # same pilot with the same seed produce the same shuffle.
+    g = torch.Generator(device="cpu").manual_seed(rng_seed)
+
+    with torch.no_grad():
+        w_ih = gru.weight_ih_l0
+        w_hh = gru.weight_hh_l0
+        rows = w_ih.shape[0]            # 3 * hidden_size
+        in_dim = w_ih.shape[1]          # input_size
+        hidden_size = w_hh.shape[1]
+
+        row_perm = torch.randperm(rows, generator=g)
+        col_ih_perm = torch.randperm(in_dim, generator=g)
+        col_hh_perm = torch.randperm(hidden_size, generator=g)
+
+        # Apply permutations in-place via index_copy through a fresh
+        # tensor (can't do it fully in-place safely because index_copy
+        # on a self-overlapping view is UB).
+        new_w_ih = w_ih.detach().clone()
+        new_w_ih = new_w_ih[row_perm][:, col_ih_perm]
+        w_ih.copy_(new_w_ih)
+
+        new_w_hh = w_hh.detach().clone()
+        new_w_hh = new_w_hh[row_perm][:, col_hh_perm]
+        w_hh.copy_(new_w_hh)
+
+        # Biases: apply the same row permutation.
+        for bname in ("bias_ih_l0", "bias_hh_l0"):
+            if hasattr(gru, bname):
+                b = getattr(gru, bname)
+                new_b = b.detach().clone()[row_perm]
+                b.copy_(new_b)
+
+    return {
+        "rows_permuted": int(rows),
+        "ih_cols_permuted": int(in_dim),
+        "hh_cols_permuted": int(hidden_size),
+    }
+
+
 def _train_to_step_budget(
     env_name: str,
     seed: int,
@@ -480,6 +627,7 @@ def _train_to_step_budget(
     pair_role: str | None = None,
     src_env: str | None = None,
     num_envs: int = 1,
+    ablation: str = "none",
 ) -> PilotRun:
     """Train one (env, seed, arm) combination to a step budget; return a PilotRun."""
     _seed_everything(seed)
@@ -501,10 +649,51 @@ def _train_to_step_budget(
     transfer_skill_name: str | None = None
     transferable_baseline: dict | None = None  # {param_name: cpu tensor}
     transferable_baseline_norms: dict | None = None  # {param_name: float}
+    ablation_info: dict | None = None  # Non-None only if A11 shuffle applied.
     if arm == "transfer":
         loaded = agent.try_transfer()
         if loaded is not None:
             transfer_skill_name = loaded.name
+
+            # §7 A11 GRU-shuffle ablation (v3.5, post-load mutation).
+            # Apply BEFORE capturing the baseline so ||Δθ|| on the
+            # transferable params is measured relative to the shuffled
+            # init — otherwise the first delta would measure "shuffle
+            # distance" and mask actual training drift. Only applies to
+            # transfer arms with a loaded skill; scratch arms and
+            # no-skill transfers silently pass through with ablation="none".
+            if ablation == "shuffled-gru":
+                try:
+                    ablation_info = _apply_gru_shuffle(
+                        agent.wm_trainer.rssm, rng_seed=seed,
+                    )
+                    # Annotate the skill name so the analyzer can
+                    # distinguish shuffled from real transfer at a
+                    # glance. Suffix style: "<name>__ablation=shuffled-gru".
+                    transfer_skill_name = (
+                        f"{loaded.name}__ablation=shuffled-gru"
+                    )
+                    print(
+                        f"  [ablation=shuffled-gru] GRU permuted: "
+                        f"{ablation_info}",
+                        flush=True,
+                    )
+                except Exception as e:
+                    # Shuffle failure must not silently pass — the whole
+                    # point of A11 is to compare to real transfer. A
+                    # failed shuffle would produce a result indistinguishable
+                    # from real transfer and invalidate the ablation.
+                    raise RuntimeError(
+                        f"A11 shuffle failed (seed={seed}, "
+                        f"env={env_name}): {e!r}. Abort run; the "
+                        f"ablation would be invalid with a partial "
+                        f"or skipped shuffle."
+                    ) from e
+            elif ablation != "none":
+                raise ValueError(
+                    f"Unknown ablation {ablation!r}; supported: "
+                    f"{list(SUPPORTED_ABLATIONS.keys())}"
+                )
 
             # Bug E v3 (2026-04-15, devil's-advocate review #2 BLOCKER):
             # snapshot transferable subset RIGHT AFTER load so the smoke can
@@ -513,6 +702,9 @@ def _train_to_step_budget(
             # captured here, that criterion is unenforceable. Cloning to CPU
             # avoids holding a duplicate of the GPU weights for a 200k-step
             # run — this is single-shot, ~100 KB total.
+            # v3.5 note: when A11 is active, the baseline reflects the
+            # shuffled state, so drift measures "shuffled→final" not
+            # "real-init→final". That's the honest baseline for A11.
             try:
                 _baseline_sd = agent.wm_trainer.rssm.transferable_state_dict()
                 transferable_baseline = {
@@ -695,6 +887,8 @@ def _train_to_step_budget(
         wall_clock_sec=wall,
         used_vec=use_vec,
         telemetry=telemetry,
+        ablation=ablation,
+        ablation_info=ablation_info,
     )
 
 
@@ -790,20 +984,29 @@ def _pretrain_source(
 
 # ── Threshold resolution ────────────────────────────────────────────
 
-def resolve_mastery_thresholds(overrides_path: Path | None) -> dict[str, float]:
+def resolve_mastery_thresholds(
+    overrides_path: Path | None,
+    pairs: list[tuple[str, str, str, str]] | None = None,
+) -> dict[str, float]:
     """Resolve mastery thresholds for pilot target envs.
 
     Priority:
       1. --mastery-thresholds JSON override (e.g. SB3-derived 80% values)
       2. env registry reward_threshold (Gymnasium default)
 
+    `pairs`: which matrix to resolve envs from. Defaults to `PILOT_PAIRS`
+    for backward-compat with all existing callers; `--run-adversarial`
+    passes `ADVERSARIAL_PAIRS` so `finger-spin` resolves instead of
+    `mountaincar-continuous` / `acrobot` / `cartpole-swingup`.
+
     Returns a dict keyed by env registry name. Every pair target env MUST
     have a resolved threshold; otherwise we fail loudly rather than silently
     using a bogus proxy.
     """
     thresholds: dict[str, float] = {}
-    tgt_envs = {tgt for (_, _, tgt, _) in PILOT_PAIRS}
-    src_envs = {src for (_, src, _, _) in PILOT_PAIRS}
+    pair_list = pairs if pairs is not None else PILOT_PAIRS
+    tgt_envs = {tgt for (_, _, tgt, _) in pair_list}
+    src_envs = {src for (_, src, _, _) in pair_list}
 
     if overrides_path is not None and overrides_path.exists():
         data = json.loads(overrides_path.read_text())
@@ -835,18 +1038,36 @@ def run_pilot(
     mastery_thresholds: dict[str, float] | None = None,
     base_seed: int = 42,
     num_envs: int = 1,
+    ablation: str = "none",
+    pairs_override: list[tuple[str, str, str, str]] | None = None,
 ) -> list[PilotRun]:
-    """Run the Phase 3 pilot matrix. Writes output_path incrementally."""
+    """Run the Phase 3 pilot matrix. Writes output_path incrementally.
+
+    `pairs_override`: when provided, replaces `PILOT_PAIRS` as the source
+    matrix. Used by `--run-adversarial` to run the A10 adversarial-negative
+    pair (cartpole → finger-spin) into a separate results file without
+    polluting the primary pilot JSON. `pair_filter` still applies on top.
+
+    `ablation`: routed through to `_train_to_step_budget` for the transfer
+    arm only. Supported: "none" (default) | "shuffled-gru" (A11).
+    """
+    if ablation not in SUPPORTED_ABLATIONS:
+        raise ValueError(
+            f"Unknown ablation {ablation!r}; supported: "
+            f"{list(SUPPORTED_ABLATIONS.keys())}"
+        )
+
     if mastery_thresholds is None:
         mastery_thresholds = resolve_mastery_thresholds(None)
 
-    pairs = PILOT_PAIRS
+    base_pairs = pairs_override if pairs_override is not None else PILOT_PAIRS
+    pairs = base_pairs
     if pair_filter:
-        pairs = [p for p in PILOT_PAIRS if p[0] in set(pair_filter)]
+        pairs = [p for p in base_pairs if p[0] in set(pair_filter)]
         if not pairs:
             raise ValueError(
                 f"--pairs filter {pair_filter!r} matched no pilot pairs. "
-                f"Available aliases: {[p[0] for p in PILOT_PAIRS]}"
+                f"Available aliases: {[p[0] for p in base_pairs]}"
             )
 
     # Skills root per-pilot. Each (pair, seed) gets its own subdir so transfer
@@ -901,9 +1122,13 @@ def run_pilot(
     def _flush() -> None:
         payload = {
             "prereg_section": "§8 (pilot)",
+            # Report the actual pair matrix executed — previously this was
+            # hard-coded to PILOT_PAIRS, which gave the adversarial results
+            # file a misleading "pairs" header. Now reviewers see exactly
+            # which matrix produced the runs in this file.
             "pairs": [
                 {"alias": a, "src": s, "tgt": t, "role": r}
-                for (a, s, t, r) in PILOT_PAIRS
+                for (a, s, t, r) in pairs
             ],
             "seeds_N": seeds,
             "base_seed": base_seed,
@@ -912,6 +1137,11 @@ def run_pilot(
             "eval_every_steps": eval_every_steps,
             "eval_episodes": eval_episodes,
             "mastery_thresholds": mastery_thresholds,
+            # v3.5 §7 A11: top-level ablation tag so downstream consumers
+            # (pilot_analysis.py, manual inspection) can distinguish A11
+            # result files from stock pilot files without scanning every
+            # run. Per-run `ablation` still carries the ground truth.
+            "ablation": ablation,
             "provenance": provenance,
             "runs": [r.to_dict() for r in all_runs],
         }
@@ -1008,8 +1238,11 @@ def run_pilot(
             # --- 3. Transfer arm — uses per-seed skills dir with source skill
             transfer_key = (alias, seed, "transfer")
             if not _already_done(transfer_key):
+                ablation_note = (f" [ablation={ablation}]"
+                                 if ablation != "none" else "")
                 print(f"  [seed={seed}] transfer {tgt_env} ({max_env_steps:,} "
-                      f"steps, τ={tgt_threshold:.1f})...", flush=True)
+                      f"steps, τ={tgt_threshold:.1f}){ablation_note}...",
+                      flush=True)
                 r = _train_to_step_budget(
                     env_name=tgt_env,
                     seed=seed,
@@ -1023,6 +1256,7 @@ def run_pilot(
                     pair_role=role,
                     src_env=src_env,
                     num_envs=num_envs,
+                    ablation=ablation,
                 )
                 all_runs.append(r)
                 completed_keys.add(transfer_key)
@@ -1073,6 +1307,12 @@ def _run_from_dict(d: dict) -> PilotRun:
         used_vec=bool(d.get("used_vec", False)),
         wall_clock_sec=float(d.get("wall_clock_sec", 0.0)),
         telemetry=list(d.get("telemetry", [])),
+        # v3.5 §7 A11 ablation metadata. Pre-v3.5 pilot_results.json
+        # files don't carry these keys; default to "none"/None so the
+        # resume path stays backward-compatible with pilot #2 runs that
+        # landed before this amendment.
+        ablation=d.get("ablation", "none"),
+        ablation_info=d.get("ablation_info"),
     )
 
 
@@ -1135,6 +1375,25 @@ def main(argv: list[str] | None = None) -> int:
                              "crystallize (eval=19/500), causing the "
                              "transfer arm to silently fall back to "
                              "scratch and emit zero telemetry.")
+    # v3.5 §7 A11: GRU-shuffle ablation on the transfer path. "none" keeps
+    # stock behavior; "shuffled-gru" row-column-permutes the transferable
+    # GRU weights after try_transfer() loads the skill. Intended for a
+    # small companion run (2 seeds on cartpole_mcc) that falsifies the
+    # "learned recurrent dynamics transfer" claim if A11 ≈ real transfer.
+    parser.add_argument("--ablation", type=str, default="none",
+                        choices=list(SUPPORTED_ABLATIONS.keys()),
+                        help="Ablation to apply on the transfer arm "
+                             "(default 'none'). See SUPPORTED_ABLATIONS "
+                             "for semantics; 'shuffled-gru' is A11.")
+    # v3.5 §7 A10: adversarial-negative pair (cartpole → DMC finger-spin).
+    # Swaps PILOT_PAIRS for ADVERSARIAL_PAIRS and changes the default
+    # output path so the adversarial results sit in their own JSON file
+    # (the primary pilot_results.json stays clean).
+    parser.add_argument("--run-adversarial", action="store_true",
+                        help="Run the A10 adversarial-negative pair "
+                             "(cartpole → finger-spin) instead of "
+                             "PILOT_PAIRS. Requires venv310 (DMC). "
+                             "Default output: pilot_adversarial_results.json.")
     args = parser.parse_args(argv)
 
     if args.smoke:
@@ -1156,7 +1415,25 @@ def main(argv: list[str] | None = None) -> int:
         if args.pairs is None:
             args.pairs = ["cartpole_mcc"]
 
-    mastery = resolve_mastery_thresholds(args.mastery_thresholds)
+    # §7 A10: adversarial pair gets its own default output path so the
+    # primary pilot_results.json stays untouched. If the user explicitly
+    # passed --output, respect it (detected via the parser-default
+    # sentinel); otherwise, swap in the adversarial default.
+    pairs_override: list[tuple[str, str, str, str]] | None = None
+    if args.run_adversarial:
+        pairs_override = ADVERSARIAL_PAIRS
+        # Only override --output if the user left it at the default. A
+        # literal-equality check against the default Path() avoids
+        # stomping on an explicit override.
+        if args.output == Path("pilot_results.json"):
+            args.output = Path("pilot_adversarial_results.json")
+        print(f"[pilot] A10 adversarial pair mode: "
+              f"pairs={[p[0] for p in ADVERSARIAL_PAIRS]}", flush=True)
+
+    mastery = resolve_mastery_thresholds(
+        args.mastery_thresholds,
+        pairs=pairs_override if pairs_override is not None else PILOT_PAIRS,
+    )
 
     print(f"[pilot] device={DEVICE} seeds={args.seeds} "
           f"max_steps={args.max_steps:,} "
@@ -1164,6 +1441,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"[pilot] mastery thresholds: {mastery}", flush=True)
     if args.pairs:
         print(f"[pilot] pair filter: {args.pairs}", flush=True)
+    if args.ablation != "none":
+        print(f"[pilot] A11 ablation mode: {args.ablation}", flush=True)
 
     run_pilot(
         seeds=args.seeds,
@@ -1177,6 +1456,8 @@ def main(argv: list[str] | None = None) -> int:
         mastery_thresholds=mastery,
         base_seed=args.base_seed,
         num_envs=args.vec,
+        ablation=args.ablation,
+        pairs_override=pairs_override,
     )
 
     return 0

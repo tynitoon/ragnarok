@@ -18,14 +18,17 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.pilot_run import (  # noqa: E402
+    ADVERSARIAL_PAIRS,
     EVAL_EPISODES_DEFAULT,
     EVAL_EVERY_STEPS_DEFAULT,
     MAX_ENV_STEPS_DEFAULT,
     PILOT_PAIRS,
     PILOT_SEEDS_DEFAULT,
     SOURCE_MAX_ENV_STEPS_DEFAULT,
+    SUPPORTED_ABLATIONS,
     EvalPoint,
     PilotRun,
+    _apply_gru_shuffle,
     _compute_transfer_telemetry,
     _run_from_dict,
     resolve_mastery_thresholds,
@@ -1015,3 +1018,364 @@ class TestComputeTransferTelemetry:
             f"Empty-buffer kl_probe_error should explicitly name the "
             f"empty condition (not a generic exception). Got "
             f"{result['kl_probe_error']!r}")
+
+
+# ── §7 A11: GRU-shuffle ablation (v3.5 amendment) ─────────────────────
+
+class TestSupportedAblations:
+    """SUPPORTED_ABLATIONS is the single source of truth for the --ablation
+    choices. Drift between this dict and the CLI / run_pilot validator
+    (all three should reference the same set) is a silent-failure class."""
+
+    def test_none_is_the_stock_default(self):
+        # Omitting the ablation is indistinguishable from ablation="none";
+        # removing this key would silently break PilotRun(ablation="none")
+        # defaulting and the pre-v3.5 JSON resume path (which defaults
+        # deserialized `ablation` to "none").
+        assert "none" in SUPPORTED_ABLATIONS
+
+    def test_shuffled_gru_is_registered(self):
+        # A11 is the prereg-committed ablation; the registry must list it.
+        assert "shuffled-gru" in SUPPORTED_ABLATIONS
+
+    def test_all_entries_have_nonempty_help_text(self):
+        # Help text appears in `--help`; empty strings silently hide the
+        # ablation semantics from reviewers reading the CLI.
+        for name, help_text in SUPPORTED_ABLATIONS.items():
+            assert isinstance(help_text, str) and help_text.strip(), (
+                f"SUPPORTED_ABLATIONS[{name!r}] has empty help text"
+            )
+
+
+class TestAdversarialPairs:
+    """ADVERSARIAL_PAIRS is the §7 A10 negative-control matrix. Separate
+    from PILOT_PAIRS so the adversarial results land in their own JSON
+    file (reviewer-readable, doesn't pollute pilot_results.json)."""
+
+    def test_adversarial_pair_is_cartpole_to_finger_spin(self):
+        # A10 as pinned in prereg v3.5: discrete->continuous action change
+        # (same as the primary pair's dim shift) but non-pendular target
+        # physics (finger-spin is rotational-forced, no gravity well).
+        assert len(ADVERSARIAL_PAIRS) == 1
+        alias, src, tgt, role = ADVERSARIAL_PAIRS[0]
+        assert src == "cartpole"
+        assert tgt == "finger-spin"
+        assert role == "adversarial"
+
+    def test_finger_spin_resolves_in_registry(self):
+        # `resolve_mastery_thresholds(pairs=ADVERSARIAL_PAIRS)` must not
+        # KeyError. The DMC registry entry for finger-spin is shared with
+        # the other DMC tasks — regression guard for accidental removal.
+        from ragnarok.environments.registry import get_env_spec
+        spec = get_env_spec("finger-spin")
+        assert spec.reward_threshold > 0.0
+
+    def test_adversarial_alias_does_not_collide_with_primary(self):
+        # Alias namespaces must be disjoint so `--pairs` doesn't accidentally
+        # straddle matrices; also guards against accidental copy-paste of
+        # the adversarial alias into PILOT_PAIRS.
+        primary_aliases = {p[0] for p in PILOT_PAIRS}
+        adversarial_aliases = {p[0] for p in ADVERSARIAL_PAIRS}
+        assert primary_aliases.isdisjoint(adversarial_aliases)
+
+
+class _FakeGRU:
+    """Stand-in for nn.GRU(input_size, hidden_size, num_layers=1) with the
+    attributes _apply_gru_shuffle probes. Lets us exercise the shuffle
+    without importing the real RSSM (which needs CUDA + full config)."""
+
+    def __init__(self, input_size: int, hidden_size: int, seed: int = 0):
+        import torch
+        gen = torch.Generator(device="cpu").manual_seed(seed)
+        self.weight_ih_l0 = torch.nn.Parameter(
+            torch.randn(3 * hidden_size, input_size, generator=gen))
+        self.weight_hh_l0 = torch.nn.Parameter(
+            torch.randn(3 * hidden_size, hidden_size, generator=gen))
+        self.bias_ih_l0 = torch.nn.Parameter(
+            torch.randn(3 * hidden_size, generator=gen))
+        self.bias_hh_l0 = torch.nn.Parameter(
+            torch.randn(3 * hidden_size, generator=gen))
+
+
+class _FakeRSSM:
+    """Matches the `rssm.core.gru` path probed by `_apply_gru_shuffle`."""
+
+    def __init__(self, input_size: int = 8, hidden_size: int = 16, seed: int = 0):
+        self.core = _FakeGRUHolder(input_size, hidden_size, seed)
+
+
+class _FakeGRUHolder:
+    def __init__(self, input_size: int, hidden_size: int, seed: int):
+        self.gru = _FakeGRU(input_size, hidden_size, seed)
+
+
+class TestApplyGruShuffle:
+    """§7 A11: row-column permutation on the transferable GRU weights
+    must preserve Frobenius norm + full singular spectrum (so the
+    "parameter magnitude preserved, learned structure destroyed" claim
+    holds), and must raise loudly on unsupported layouts rather than
+    silently no-op."""
+
+    def test_shuffle_returns_permutation_sizes(self):
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        info = _apply_gru_shuffle(rssm, rng_seed=42)
+        # 3 gates × 16 hidden = 48 rows
+        assert info["rows_permuted"] == 48
+        assert info["ih_cols_permuted"] == 8
+        assert info["hh_cols_permuted"] == 16
+
+    def test_frobenius_norm_preserved_on_ih(self):
+        import torch
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        before = rssm.core.gru.weight_ih_l0.detach().clone()
+        _apply_gru_shuffle(rssm, rng_seed=42)
+        after = rssm.core.gru.weight_ih_l0.detach()
+        assert torch.allclose(
+            before.norm(), after.norm(), atol=1e-6
+        ), "Row-column perm must preserve Frobenius norm (orthogonal op)"
+
+    def test_frobenius_norm_preserved_on_hh(self):
+        import torch
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        before = rssm.core.gru.weight_hh_l0.detach().clone()
+        _apply_gru_shuffle(rssm, rng_seed=42)
+        after = rssm.core.gru.weight_hh_l0.detach()
+        assert torch.allclose(before.norm(), after.norm(), atol=1e-6)
+
+    def test_singular_spectrum_preserved_on_ih(self):
+        import torch
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        before_svd = torch.linalg.svdvals(
+            rssm.core.gru.weight_ih_l0.detach().clone())
+        _apply_gru_shuffle(rssm, rng_seed=42)
+        after_svd = torch.linalg.svdvals(
+            rssm.core.gru.weight_ih_l0.detach())
+        # Sorted singular values must match bit-for-bit up to float tol;
+        # row/col permutations are orthogonal transforms that don't touch
+        # the spectrum.
+        assert torch.allclose(before_svd, after_svd, atol=1e-5), (
+            "Singular-value spectrum must be preserved — this is the "
+            "claim that makes A11 a fair spectral-norm-matched control."
+        )
+
+    def test_singular_spectrum_preserved_on_hh(self):
+        import torch
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        before_svd = torch.linalg.svdvals(
+            rssm.core.gru.weight_hh_l0.detach().clone())
+        _apply_gru_shuffle(rssm, rng_seed=42)
+        after_svd = torch.linalg.svdvals(
+            rssm.core.gru.weight_hh_l0.detach())
+        assert torch.allclose(before_svd, after_svd, atol=1e-5)
+
+    def test_weights_actually_change(self):
+        """A no-op "shuffle" (identity permutation) would invalidate the
+        ablation. Verify that weights actually move."""
+        import torch
+        rssm = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        before = rssm.core.gru.weight_ih_l0.detach().clone()
+        _apply_gru_shuffle(rssm, rng_seed=42)
+        after = rssm.core.gru.weight_ih_l0.detach()
+        # Probability of a uniform random 48-row perm being identity is
+        # 1/48! — effectively zero. If this asserts, the perm is broken.
+        assert not torch.allclose(before, after, atol=1e-6), (
+            "Shuffle produced an identity-equivalent result; permutation "
+            "is broken"
+        )
+
+    def test_deterministic_under_same_seed(self):
+        """Re-running A11 with the same seed must produce the same shuffle
+        — otherwise paired (scratch, transfer) results at seed=N have a
+        second axis of randomness that confounds the RMST test."""
+        import torch
+        rssm_a = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        rssm_b = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        _apply_gru_shuffle(rssm_a, rng_seed=42)
+        _apply_gru_shuffle(rssm_b, rng_seed=42)
+        assert torch.allclose(
+            rssm_a.core.gru.weight_ih_l0, rssm_b.core.gru.weight_ih_l0
+        )
+        assert torch.allclose(
+            rssm_a.core.gru.weight_hh_l0, rssm_b.core.gru.weight_hh_l0
+        )
+
+    def test_different_seeds_produce_different_shuffles(self):
+        import torch
+        rssm_a = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        rssm_b = _FakeRSSM(input_size=8, hidden_size=16, seed=0)
+        _apply_gru_shuffle(rssm_a, rng_seed=42)
+        _apply_gru_shuffle(rssm_b, rng_seed=43)
+        assert not torch.allclose(
+            rssm_a.core.gru.weight_ih_l0, rssm_b.core.gru.weight_ih_l0
+        )
+
+    def test_row_perm_same_across_ih_hh_and_biases(self):
+        """The prereg claim is 'within-gate shuffle', not 'across-gate'.
+        Same row permutation on ih, hh, bias_ih, and bias_hh means each
+        gate-block's row index maps consistently across all four tensors;
+        independent row perms would scramble gate roles and change the
+        ablation's semantics. Test with ROW-IDENTIFIABLE values so we
+        can extract the row perm from each tensor and check it matches."""
+        import torch
+        rssm = _FakeRSSM(input_size=4, hidden_size=8, seed=0)
+        rows = 3 * 8  # 24
+        # Overwrite every tensor with a row-identifiable pattern: row i
+        # of weight_ih_l0 is all-i; same for weight_hh_l0 and the biases.
+        # Row identity is now extractable from any tensor via a single
+        # element lookup.
+        with torch.no_grad():
+            for i in range(rows):
+                rssm.core.gru.weight_ih_l0[i, :] = float(i)
+                rssm.core.gru.weight_hh_l0[i, :] = float(i + 1000)
+                rssm.core.gru.bias_ih_l0[i] = float(i + 2000)
+                rssm.core.gru.bias_hh_l0[i] = float(i + 3000)
+
+        _apply_gru_shuffle(rssm, rng_seed=42)
+
+        # After shuffle, extract the row perm inferred from each tensor:
+        # row i of ih must still be constant across its columns (column
+        # perm scrambles column order but keeps per-row value identical),
+        # and that constant value is the PRE-shuffle row index.
+        ih_perm = [int(rssm.core.gru.weight_ih_l0[i, 0].item()) for i in range(rows)]
+        hh_perm = [int(rssm.core.gru.weight_hh_l0[i, 0].item()) - 1000 for i in range(rows)]
+        b_ih_perm = [int(rssm.core.gru.bias_ih_l0[i].item()) - 2000 for i in range(rows)]
+        b_hh_perm = [int(rssm.core.gru.bias_hh_l0[i].item()) - 3000 for i in range(rows)]
+
+        # All four inferred row permutations must be IDENTICAL.
+        assert ih_perm == hh_perm, (
+            "ih and hh must share the row permutation (gate-association "
+            "invariant); observed ih={} vs hh={}".format(ih_perm, hh_perm)
+        )
+        assert ih_perm == b_ih_perm
+        assert ih_perm == b_hh_perm
+        # And it must actually be a permutation (no duplicates, covers all rows).
+        assert sorted(ih_perm) == list(range(rows))
+
+    def test_raises_if_gru_missing(self):
+        """Helper defensively probes two attribute paths; if both miss,
+        it must raise rather than silently pass (a silent pass would
+        degrade A11 to real transfer and invalidate the ablation)."""
+        class _NoGRU:
+            pass
+
+        with pytest.raises(RuntimeError, match=r"could not locate GRU"):
+            _apply_gru_shuffle(_NoGRU(), rng_seed=42)
+
+    def test_raises_on_multi_layer_gru(self):
+        """The layout math assumes num_layers=1, unidirectional. A
+        multi-layer GRU has weight_ih_l1, weight_hh_l1, etc. — silently
+        shuffling only l0 would leave a partial ablation."""
+        class _PartialGRU:
+            # Has bias but no weight_ih_l0 (simulating a layout this
+            # helper doesn't understand).
+            bias_ih_l0 = None
+
+        class _RSSM:
+            gru = _PartialGRU()
+
+        with pytest.raises(RuntimeError, match=r"weight_ih_l0"):
+            _apply_gru_shuffle(_RSSM(), rng_seed=42)
+
+
+class TestPilotRunAblationSerialization:
+    """Round-trip ablation / ablation_info through to_dict / _run_from_dict,
+    and verify pre-v3.5 JSONs (missing both keys) still deserialize."""
+
+    def _make(self, **overrides) -> PilotRun:
+        defaults = dict(
+            pair_alias="cartpole_mcc",
+            pair_role="primary",
+            src_env="cartpole",
+            tgt_env="mountaincar-continuous",
+            seed=42,
+            arm="transfer",
+            mastery_threshold=90.0,
+            max_env_steps=200_000,
+            total_env_steps=150_000,
+            total_episodes=850,
+            final_eval_return=88.2,
+            best_eval_return=91.0,
+            steps_to_mastery=125_000,
+        )
+        defaults.update(overrides)
+        return PilotRun(**defaults)
+
+    def test_default_ablation_is_none(self):
+        r = self._make()
+        assert r.ablation == "none"
+        assert r.ablation_info is None
+
+    def test_to_dict_emits_ablation_fields(self):
+        r = self._make(
+            ablation="shuffled-gru",
+            ablation_info={"rows_permuted": 48,
+                           "ih_cols_permuted": 8,
+                           "hh_cols_permuted": 16},
+        )
+        d = r.to_dict()
+        assert d["ablation"] == "shuffled-gru"
+        assert d["ablation_info"]["rows_permuted"] == 48
+
+    def test_from_dict_reads_ablation_fields(self):
+        r = self._make(
+            ablation="shuffled-gru",
+            ablation_info={"rows_permuted": 48,
+                           "ih_cols_permuted": 8,
+                           "hh_cols_permuted": 16},
+        )
+        d = r.to_dict()
+        r2 = _run_from_dict(d)
+        assert r2.ablation == "shuffled-gru"
+        assert r2.ablation_info is not None
+        assert r2.ablation_info["rows_permuted"] == 48
+
+    def test_pre_v35_json_defaults_ablation_to_none(self):
+        """Pre-v3.5 pilot_results.json files (pilot #2 partial results)
+        have no ablation keys. The reader must default to 'none'/None
+        so the resume path works — otherwise the pilot can't continue
+        from an existing file without a manual migration step."""
+        legacy_dict = {
+            "pair_alias": "cartpole_mcc",
+            "pair_role": "primary",
+            "src_env": "cartpole",
+            "tgt_env": "mountaincar-continuous",
+            "seed": 42,
+            "arm": "transfer",
+            "mastery_threshold": 90.0,
+            "max_env_steps": 200_000,
+            "total_env_steps": 150_000,
+            "total_episodes": 850,
+            "final_eval_return": 88.2,
+            "best_eval_return": 91.0,
+            "steps_to_mastery": 125_000,
+            "eval_curve": [],
+            # Deliberately no "ablation" / "ablation_info" keys — this
+            # is what pre-v3.5 JSONs look like.
+        }
+        r = _run_from_dict(legacy_dict)
+        assert r.ablation == "none"
+        assert r.ablation_info is None
+
+
+class TestResolveMasteryThresholdsWithPairsOverride:
+    """resolve_mastery_thresholds accepts a `pairs` arg so --run-adversarial
+    can resolve finger-spin instead of the PILOT_PAIRS targets."""
+
+    def test_pairs_default_still_pilot_pairs(self):
+        thr = resolve_mastery_thresholds(None)
+        # Backward-compat: no `pairs` kwarg == resolve for PILOT_PAIRS.
+        for (_, src, tgt, _) in PILOT_PAIRS:
+            assert src in thr
+            assert tgt in thr
+
+    def test_adversarial_pairs_resolve_finger_spin(self):
+        thr = resolve_mastery_thresholds(None, pairs=ADVERSARIAL_PAIRS)
+        assert "finger-spin" in thr
+        assert thr["finger-spin"] > 0.0
+
+    def test_adversarial_pairs_also_resolve_source(self):
+        # Source env (cartpole) must still appear so the pretrain path
+        # can index into the threshold dict.
+        thr = resolve_mastery_thresholds(None, pairs=ADVERSARIAL_PAIRS)
+        assert "cartpole" in thr
+        assert thr["cartpole"] == 450.0

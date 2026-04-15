@@ -266,6 +266,8 @@ allows (§12).
 | A7: Random-retrieval control        | Centroid retrieval beats random-skill pick     |
 | A8: Equal-FLOP-source Continual-Dreamer | Source-training compute, not architecture, drives result |
 | **A9: Shuffled-dynamics RSSM**      | RSSM features generalize, not just init        |
+| **A10: Adversarial-negative pair**  | Effect is not "transfer succeeds on any target"; pendular-physics cherry-pick |
+| **A11: GRU-shuffled transferable trunk** | Learned GRU dynamics, not just spectral-norm initialization |
 
 A9 (added in v3) is the mechanism-isolation test: retrain the RSSM on a
 permuted-transition version of the source env (same observations,
@@ -279,6 +281,32 @@ load-bearing mechanism, not weight-init alone. This is the single ablation a
 hostile reviewer is most likely to demand. **Executability flagged for G1
 review:** the trainer must accept a transition-shuffling wrapper; if it does
 not, A9 wiring is part of Phase 1's must-do fixes (§6.1).
+
+A10 (v3.5): CartPole-v1 → DMC finger-spin. Same action-space type change as
+the primary pair (Discrete → Box; isolates the H1 axis), but non-pendular
+physics class on the target (rotational-forced finger, no gravity well).
+Predicted outcome under H1: no transfer or anti-transfer. Reported in the
+headline table regardless of direction; if A10 shows transfer parity with
+the primary pair, the paper must reframe the claim scope as "transfer works
+on any cross-action-type pair, not only on pendular-class physics". N=5
+seeds per arm, ~15-20 GPU-h total. Runs via
+`scripts.pilot_run --run-adversarial`.
+
+A11 (v3.5): GRU-shuffled transferable trunk. After `try_transfer()` loads
+the RSSM-core subset (`core.gru.*` + prior/posterior), permute rows and
+columns of `core.gru.weight_ih_l0` / `weight_hh_l0` and reshuffle the
+corresponding bias entries. Row-column permutation preserves the full
+singular-value spectrum (Frobenius + spectral norm unchanged), total
+parameter count, and the weight-magnitude distribution — but destroys any
+learned temporal correlation. If A11 ≈ real transfer on the primary metric,
+the "learned recurrent dynamics transfer" mechanism claim dies and the
+paper reduces to "transferring *any* initialization with the right spectral
+properties works." N=2 seeds on the primary pair (cartpole_mcc), ~5 GPU-h.
+A11 is lighter than A9 (A11 permutes already-trained GRU weights, A9
+re-trains the RSSM on shuffled trajectories) and complementary — A9 tests
+"RSSM features generalize", A11 tests "the specific GRU recurrent structure
+matters, not just init properties". Runs via
+`scripts.pilot_run --ablation shuffled-gru`.
 
 A8 (revised in v3 from "equal-parameter" to "equal-FLOP-source"): control on
 *source-training compute*, not just parameter count, so the "Ragnarok had
