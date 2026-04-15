@@ -300,6 +300,51 @@ class TestRSSMTransferableSubset:
             dst.load_transferable_state_dict(
                 src.transferable_state_dict(), strict=True)
 
+    def test_hidden_dim_only_mismatch_does_not_mention_encoder_hidden(self):
+        """Devil's-advocate review #2 (2026-04-15, testing concern):
+        the encoder_hidden hint is gated on
+        ``k.startswith("core.posterior.")`` so it should NOT fire when
+        the shape mismatch is due to a different root cause (e.g.
+        ``hidden_dim`` differs, which mismatches ``core.gru.*`` and
+        ``core.prior.*`` weights — and may also touch posterior, but
+        the FIRST raised key will typically be a non-posterior one).
+
+        This test prevents the helpful guidance from misleading the
+        user: if hidden_dim changed and the user reads "fix
+        encoder_hidden", they'll waste an afternoon. The error must
+        only mention encoder_hidden when posterior is the FIRST
+        mismatching key. We verify that by raising on a hidden_dim
+        mismatch and asserting the message does NOT contain
+        'encoder_hidden' when the failing key is core.gru/core.prior.
+        """
+        # Same encoder_hidden + stoch_dim + obs/action dims, DIFFERENT
+        # hidden_dim. Both core.gru.* and core.prior.* weights mismatch.
+        src = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=16, stoch_dim=8,
+                   encoder_hidden=16).to(DEVICE)
+        dst = RSSM(obs_dim=4, action_dim=2,
+                   hidden_dim=32, stoch_dim=8,
+                   encoder_hidden=16).to(DEVICE)
+        # Find a non-posterior transferable key and feed only that one
+        # so we control which key triggers the raise.
+        sd = src.transferable_state_dict()
+        non_posterior_sd = {k: v for k, v in sd.items()
+                            if not k.startswith("core.posterior.")}
+        assert non_posterior_sd, (
+            "test setup: no non-posterior transferable keys to raise on")
+        with pytest.raises(ValueError) as exc_info:
+            dst.load_transferable_state_dict(non_posterior_sd, strict=True)
+        msg = str(exc_info.value)
+        # Must mention hidden_dim/stoch_dim (the actual root cause).
+        assert "hidden_dim" in msg or "stoch_dim" in msg, (
+            f"Shape-mismatch error did not name the actual root cause "
+            f"(hidden_dim/stoch_dim). Message: {msg!r}")
+        # Must NOT mention encoder_hidden (would misdirect the user).
+        assert "encoder_hidden" not in msg, (
+            f"Shape-mismatch error wrongly suggested encoder_hidden as "
+            f"the cause when the failing key is non-posterior. The hint "
+            f"is gated on core.posterior keys only. Message: {msg!r}")
+
 
 # ── Skill carries the RSSM core ─────────────────────────────────────
 
@@ -565,6 +610,57 @@ class TestWMTrainerLRScaling:
                         f"IO param {tuple(p.shape)} state[{k!r}] was "
                         "modified by reset")
 
+    def test_reset_then_step_lazy_init_repopulates_state(self):
+        """Devil's-advocate review #2 (2026-04-15, testing concern):
+        ``test_reset_transferable_optimizer_state_clears_adam_moments``
+        only checks that ``optimizer.state[p]`` is empty after the
+        reset. It does NOT verify that Adam actually re-initializes
+        the moments correctly on the next ``step()`` — a subtle bug
+        in the reset (e.g. clearing ``state[p]`` but leaving a stale
+        ``param_groups`` entry that points at orphaned tensors) would
+        pass the clear-check but fail at first use.
+
+        This test closes that gap: reset, take one real train_step,
+        then assert that every transferable param has fresh
+        ``exp_avg`` (zeros initially, non-zero after one update),
+        ``exp_avg_sq`` (zeros initially, positive after one update),
+        and ``step == 1``. This proves Adam's lazy-init path is
+        actually exercised post-reset."""
+        trainer, rssm = self._build_trainer(lr=3e-4)
+        self._seed_buffer(trainer)
+        # Populate state with a few steps so the reset has something
+        # to clear (parallel to the clear-state test).
+        for _ in range(3):
+            trainer.train_step()
+
+        trainer.reset_transferable_optimizer_state()
+        # One real backward + step — exercises Adam's lazy-init path.
+        trainer.train_step()
+
+        for p in rssm.transferable_params():
+            assert p in trainer.optimizer.state, (
+                f"Adam did NOT re-create state for transferable param "
+                f"{tuple(p.shape)} on the post-reset step. Lazy-init is "
+                "broken — reset_transferable_optimizer_state cleared "
+                "more than it should have, or param_groups is corrupted.")
+            st = trainer.optimizer.state[p]
+            assert "exp_avg" in st and "exp_avg_sq" in st, (
+                f"Post-reset Adam state for transferable param "
+                f"{tuple(p.shape)} is missing exp_avg / exp_avg_sq.")
+            # After exactly one step, Adam reports step == 1 (either
+            # int or 0-d tensor). exp_avg_sq must be non-zero somewhere
+            # because the sample minibatch has non-zero gradients.
+            step_val = st.get("step")
+            if torch.is_tensor(step_val):
+                step_val = step_val.item()
+            assert step_val == 1, (
+                f"Post-reset Adam step counter is {step_val}, expected 1. "
+                "Reset left a stale step count that biases bias-correction.")
+            assert st["exp_avg_sq"].abs().sum().item() > 0, (
+                f"Post-reset+step exp_avg_sq is all-zero for transferable "
+                f"param {tuple(p.shape)} — gradients did not propagate or "
+                "the moment accumulator was not actually re-initialized.")
+
     def test_lr_warmup_actually_dampens_param_drift(self):
         """Testing-review concern (Bug E v2, 2026-04-15): the
         existing tests only check the ``.lr`` field on the optimizer
@@ -619,16 +715,22 @@ class TestWMTrainerLRScaling:
             for a, b in zip(flat_after, flat_before))
 
         # Under nominal 0.1× LR, the warmed group should drift
-        # materially less. We use a lenient 2× margin instead of the
-        # naïve 10× because Adam's bias correction at step=0 boosts
-        # the effective first-step magnitude (devil's-advocate
-        # concern #1 — that's exactly why we reset moments first).
-        # If this ever falls below 2×, the warmup mechanism is dead.
-        assert warm_drift < flat_drift / 2.0, (
+        # materially less. We use a 4× margin instead of the naïve
+        # 10× because Adam's bias correction at step=0 boosts the
+        # effective first-step magnitude (devil's-advocate concern
+        # #1 — that's exactly why we reset moments first), but a 2×
+        # margin (Bug E v2 original) was too lenient — a half-broken
+        # warmup that drops LR by only 50% would pass it. 4× rejects
+        # those mutants while staying safely above the natural variance
+        # of identical-seed Adam runs (devil's-advocate review #2,
+        # 2026-04-15, testing concern: tighten threshold).
+        # If this ever falls below 4×, the warmup mechanism is dead
+        # or only partially active.
+        assert warm_drift < flat_drift / 4.0, (
             f"LR warmup did not materially dampen param drift: "
             f"warm_drift={warm_drift:.4e} vs flat_drift={flat_drift:.4e} "
             f"(ratio={warm_drift / max(flat_drift, 1e-12):.3f}, "
-            f"expected < 0.5). The warmup mechanism is broken — Adam's "
+            f"expected < 0.25). The warmup mechanism is broken — Adam's "
             f"effective step size on transferable params is not actually "
             f"being reduced by the LR scale.")
 
@@ -779,6 +881,106 @@ class TestCrossDimTransferIntegration:
                     "transferable LR was not scaled down post-transfer — "
                     "Adam will wipe the source priors in a few hundred "
                     "steps (see Phase C rationale).")
+            finally:
+                env.close()
+
+    def test_try_transfer_calls_reset_before_set_lr_scale(self):
+        """Devil's-advocate review #2 (2026-04-15, testing concern):
+        the call ordering ``reset_transferable_optimizer_state`` →
+        ``set_transferable_lr_scale`` is load-bearing. If a future
+        refactor reverses them, set_transferable_lr_scale would set
+        the per-group lr correctly, then reset_transferable_optimizer_
+        state would drop ALL Adam state for the group — including
+        the per-group lr metadata that was just set? No, lr lives on
+        ``param_groups[i]['lr']``, not in ``optimizer.state[p]``,
+        so the reverse order would still arithmetically work. BUT
+        the reset's purpose is to make Adam's first post-load step
+        respect the nominal 0.1× scale; if the LR scale is set
+        BEFORE reset, the warmup window's first step uses the new
+        LR with stale moments, and the bias-corrected first-step
+        magnitude is whatever the stale ``exp_avg_sq`` says it is —
+        defeating the whole point.
+
+        This test pins the ordering as an invariant by monkeypatching
+        both methods to record their call order, then asserting
+        reset[0] < set_lr_scale[0] in the call log.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            from ragnarok.core.agent import RagnarokAgent
+            from ragnarok.environments.registry import get_env_spec
+            from ragnarok.environments.wrapper import RagnarokEnv
+            from ragnarok.infrastructure.config import RagnarokConfig
+
+            spec = get_env_spec("mountaincar-continuous")
+            config = RagnarokConfig(seed=0)
+            config.world_model.obs_dim = spec.obs_dim
+            config.world_model.action_dim = spec.action_dim
+            config.world_model.hidden_dim = 32
+            config.world_model.stoch_dim = 8
+            config.world_model.encoder_hidden = 32
+            config.curiosity.enabled = False
+            config.skill.skills_dir = tmpdir
+            config.transfer.rssm_transfer_lr_scale = 0.1
+            config.transfer.rssm_transfer_warmup_episodes = 50
+
+            env = RagnarokEnv(spec.gym_name, seed=0)
+            try:
+                agent = RagnarokAgent(config, env)
+                # Build a CartPole-dim source skill so the cross-dim
+                # branch fires.
+                source_rssm = RSSM(obs_dim=4, action_dim=2,
+                                   hidden_dim=32, stoch_dim=8,
+                                   encoder_hidden=32).to(DEVICE)
+                source_core = {k: v.cpu() for k, v in
+                               source_rssm.transferable_state_dict().items()}
+                trunk_sd = {k: v.cpu() for k, v in
+                            agent.latent_policy.get_trunk_state_dict().items()}
+                skill = Skill(
+                    name="CartPole-v1_src_ordering",
+                    env_name="CartPole-v1",
+                    policy_state_dict={"actor.weight": torch.zeros(2, 4)},
+                    latent_centroid=np.zeros(agent.rssm.hidden_dim),
+                    performance=500.0,
+                    normalizer_state={},
+                    latent_trunk_state_dict=trunk_sd,
+                    rssm_core_state_dict=source_core,
+                )
+                agent.skill_library.save_skill(skill)
+
+                # Wrap the two methods so we record (name, sequence_idx).
+                call_log: list[str] = []
+                orig_reset = agent.wm_trainer.reset_transferable_optimizer_state
+                orig_set = agent.wm_trainer.set_transferable_lr_scale
+
+                def _wrapped_reset():
+                    call_log.append("reset")
+                    return orig_reset()
+
+                def _wrapped_set(scale, warmup_episodes):
+                    call_log.append("set_lr_scale")
+                    return orig_set(scale, warmup_episodes)
+
+                agent.wm_trainer.reset_transferable_optimizer_state = _wrapped_reset
+                agent.wm_trainer.set_transferable_lr_scale = _wrapped_set
+
+                loaded = agent.try_transfer()
+                assert loaded is not None, (
+                    "test setup: cross-dim transfer did not fire; "
+                    "ordering check is moot.")
+
+                # Both methods must have been called exactly once and
+                # reset must precede set_lr_scale.
+                assert "reset" in call_log and "set_lr_scale" in call_log, (
+                    f"try_transfer cross-dim path did not call both "
+                    f"hooks. call_log={call_log!r}. The Adam-reset hardening "
+                    f"(Bug E v2) was not wired into the agent.")
+                assert call_log.index("reset") < call_log.index("set_lr_scale"), (
+                    f"Call order is wrong: {call_log!r}. Reset MUST run "
+                    f"BEFORE set_transferable_lr_scale — otherwise Adam's "
+                    f"first post-load step uses stale exp_avg_sq under the "
+                    f"new (0.1×) lr, and the bias-corrected magnitude is "
+                    f"whatever the stale moments say it is. The whole point "
+                    f"of the warmup is defeated.")
             finally:
                 env.close()
 

@@ -735,4 +735,105 @@ in Phase 4 baselines, not Phase 5.
   All review-driven changes preserve the §8 / §11 decision rules
   and only add stricter filters. None weaken the pass criterion.
 
+- **2026-04-15 (v3.4 amendment "Bug E v3" — 2nd-round 3-agent code
+  review on the v2 hardenings; review-driven hardening, supersedes
+  the relevant v2 clauses below):**
+  After the v3.4 "Bug E v2" hardenings landed (commit `88dbe8c`), a
+  2nd-round G1.5 review was run on the v2 changeset (architecture /
+  testing / devil's advocate). Verdicts: architecture
+  LAUNCH-READY, testing SUFFICIENT, devil's advocate
+  LAUNCH-WITH-MODIFIED-CRITERION (2 blockers). Verdicts and
+  dispositions appended to `reviews/bug_e_fix.md`. Three changes
+  follow, all landed before pilot #2 launch:
+
+  *Decision-rule edits — these SUPERSEDE the v2 clauses they refer
+  to (Band B band edges + Band B winner-promotion rule):*
+  - **Band B lower edge raised: 1.05 → 1.15** (architecture review,
+    devil's-advocate concern reinforcing). Rationale: at N=5 with the
+    expected 30–40% MCC censoring, RMST sampling SE is on the order
+    of 0.15–0.25; a 1.05 lower edge is below the noise floor and
+    triggers a Band-B HP sweep on null-noise outcomes. Raising to
+    1.15 keeps Band B as "weak but real-looking signal" and pushes
+    pure noise into Band C (Plan B). The upper Band B condition
+    (ratio ≥ 1.30 at p ∈ [0.10, 0.20)) is unchanged because the
+    1.30 cutoff is the §8 primary; only the noise-floor edge moves.
+
+    **Effective Band B (supersedes v2):** ratio ∈ [1.15, 1.30) at
+    any p, OR ratio ≥ 1.30 at p ∈ [0.10, 0.20).
+
+  - **Bonferroni correction on the Band B HP sweep** (devil's-
+    advocate review #2, BLOCKER). The v2 amendment specified a
+    3-cell sweep (`rssm_transfer_warmup_episodes ∈ {50, 200, 500}`
+    at N=3 each) with the original §8 per-cell α = 0.10. Under the
+    null this gives FWER ≈ 1 − (1 − 0.10)³ ≈ 27%: a 1-in-4 chance
+    that a "Band B rescue" cell hits Band A by chance alone with
+    zero true effect. That's not a rescue, that's regression to the
+    mean dressed up as a result.
+
+    **Per-cell criterion (supersedes v2):** each Band B cell must
+    clear ratio ≥ 1.30 AND p < 0.0333 (= 0.10 / 3, Bonferroni FWER
+    bound at α = 0.10 across the 3 cells) to qualify as a Band B
+    rescue winner. The §8 primary threshold (ratio ≥ 1.30, p < 0.10)
+    is unchanged for the headline N=20 run; only the underpowered
+    N=3 rescue-cell test gets the multiplicity correction. The
+    headline N=20 (Phase 5) confirms any Band B winner at the §8
+    bar — Bonferroni only protects the *promotion* decision, not
+    the eventual claim.
+
+    **Why Bonferroni and not Holm-Bonferroni** (which the rest of
+    §5 uses for paired secondary envs): Holm requires sorted
+    p-values across the family and is more powerful, but with
+    only 3 cells and N=3 per cell the power gain is marginal,
+    while the implementation footprint (sorted-p tracking across
+    cells in the analyzer) is non-trivial. Plain Bonferroni is
+    conservative in the right direction.
+
+  *Code edits (committed atomically with this amendment):*
+  - **Smoke telemetry now actually logged** (devil's-advocate
+    review #2, BLOCKER). The v2 amendment committed to logging
+    `||Δθ||` on transferable params, `||Δθ||` on the latent trunk,
+    and `KL(posterior‖prior)` trajectory during the smoke pre-check
+    — but no code in `scripts/pilot_run.py` actually emitted them,
+    making the prereg's "abort if drift > 50% by ep 100" criterion
+    unenforceable from the smoke output. **Fixed:**
+    `_train_to_step_budget` now snapshots the transferable subset
+    immediately after `try_transfer()` succeeds and captures a
+    telemetry record at every eval checkpoint with
+    `transferable_drift_max`, `transferable_drift_per_param`, and a
+    `kl_posterior_prior` probe (single-batch, no-grad,
+    ~few-ms cost). The series is serialized as
+    `PilotRun.telemetry` in the output JSON. A real-time
+    `[TELEMETRY ALERT]` line is printed the first time
+    transferable drift crosses 50% so the operator sees it without
+    scraping JSON. **Trunk drift logging deferred** to a follow-up
+    commit if pilot #2 needs it; the v2 amendment's deferred
+    "trunk LR warmup" decision (concern #8) hinges on trunk drift,
+    so this is not strictly required for the pilot launch decision.
+
+  *Testing edits (same atomic commit):*
+  - LR-drift threshold tightened from 2× to 4×: the v2
+    `test_lr_warmup_actually_dampens_param_drift` only required the
+    warmed group to drift half as much as the unwarmed baseline. The
+    nominal LR scale is 0.1× (10× expected dampening), so 2× passes
+    a "half-broken warmup" mutant. The 4× threshold rejects the
+    obvious mutants while staying safely above the natural variance
+    of identical-seed Adam runs.
+  - Reset-state lazy-init verification: a new assertion runs one
+    `train_step` after `reset_transferable_optimizer_state()` and
+    confirms that Adam re-creates `exp_avg`/`exp_avg_sq` on the
+    next step (closes the gap between "state was deleted" and
+    "Adam actually re-initializes correctly").
+  - `encoder_hidden`-only mismatch test extended to the
+    `hidden_dim`-only confusion case so the error-message guidance
+    doesn't accidentally fire on the wrong root cause.
+  - `try_transfer` integration test that asserts the call ordering
+    `reset_transferable_optimizer_state → set_transferable_lr_scale`
+    (reset must precede scale; reverse order is silently wrong but
+    type-checks fine).
+
+  All v3 changes preserve the §8 / §11 primary decision rules
+  unchanged at the headline N=20. v3 only tightens v2's
+  rescue-cell (Band B) and smoke-precheck side-rails. None
+  weaken any pass criterion.
+
 - (Subsequent amendments timestamped here before execution.)

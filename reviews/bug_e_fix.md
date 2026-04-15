@@ -165,3 +165,122 @@ committing 20 GPU-h to pilot #2.
   guardrails, never weaken them.
 - **Pilot #2 unblocked** once the upgraded smoke pre-check
   (checklist item #3) returns clean signals.
+
+---
+
+# Bug E v2 → v3 — second round of review
+
+**Date:** 2026-04-15
+**Reviewed commit:** `88dbe8c` (Bug E v2 review-driven hardenings)
+**Reviewers:** 3 parallel agents (architecture / testing / devil's advocate)
+**Verdict bundle:** 2 devil's-advocate BLOCKERS resolved in atomic
+v3 commit; pilot #2 still gated on the upgraded smoke (now actually
+producing the ||Δθ|| / KL telemetry the v2 prereg committed to).
+
+## Reviewer 1 — Architecture (`a2dd6a522f3788134`)
+
+**Verdict:** LAUNCH-READY.
+
+`reset_transferable_optimizer_state` implementation verified
+correct (clears `optimizer.state[p]` for the whole transferable
+group; Adam's lazy-init path will re-create on next `step()`).
+Two prereg-only edits recommended:
+
+- **Raise Band B lower edge 1.05 → 1.15.** RMST sampling SE at N=5
+  with 30–40% MCC censoring is in the 0.15–0.25 range; 1.05 is
+  below the noise floor and triggers HP sweeps on null-noise
+  outcomes. **ACTIONED in v3 prereg amendment.**
+- **Add ensemble-disagreement telemetry to smoke.** Devil's-advocate
+  concern: dream-reward disagreement penalty on fresh-random
+  ensemble cores may systematically suppress dream rewards during
+  the warmup window. **DEFERRED:** dream training is throttled in
+  the smoke window (only kicks in after enough replay), so the
+  effect is bounded; the v3 telemetry already covers the dominant
+  failure modes. Will add `disagr` series if pilot #2 trends
+  ambiguous.
+
+## Reviewer 2 — Testing (`a60d74fcf20c8cae5`)
+
+**Verdict:** SUFFICIENT (3 weaknesses, all non-blocking but worth
+tightening).
+
+- **2× LR-drift threshold too lenient.** A half-broken warmup that
+  drops LR by only 50% would pass it. **ACTIONED:** raised to 4×
+  (`test_lr_warmup_actually_dampens_param_drift`, comment expanded).
+- **Reset-state test doesn't verify post-step lazy-init behavior.**
+  The clear-check passes if state is empty, but a subtle bug could
+  leave param_groups pointing at orphaned tensors and break Adam's
+  re-init silently. **ACTIONED:** added
+  `test_reset_then_step_lazy_init_repopulates_state` — runs one
+  train_step after reset and asserts state is repopulated with
+  step==1, exp_avg_sq>0.
+- **encoder_hidden test misses hidden_dim-only confusion case.**
+  The hint is gated on `core.posterior` — but a hidden_dim
+  mismatch can also raise on a posterior key (hidden_dim feeds
+  posterior input dim too) and would wrongly suggest the user fix
+  encoder_hidden. **ACTIONED:** added
+  `test_hidden_dim_only_mismatch_does_not_mention_encoder_hidden`,
+  feeds only non-posterior keys to control which key raises and
+  asserts encoder_hidden is NOT in the message.
+- **No integration test for try_transfer call ordering.**
+  reset → set_lr_scale ordering is load-bearing but only enforced
+  by code review. **ACTIONED:**
+  `test_try_transfer_calls_reset_before_set_lr_scale` monkeypatches
+  both methods to record call order; asserts reset precedes
+  set_lr_scale. A future refactor that reverses them now breaks a
+  fast unit test instead of silently degrading the warmup.
+
+## Reviewer 3 — Devil's advocate (`a4017fa9b49149821`)
+
+**Verdict:** LAUNCH-WITH-MODIFIED-CRITERION (2 BLOCKERS).
+
+**BLOCKER #1 — Smoke telemetry committed in prereg, not in code.**
+The v2 prereg amendment commits to logging `||Δθ||` on transferable
+params, `||Δθ||` on the latent trunk, and `KL(posterior‖prior)`
+trajectory during the smoke pre-check, with an abort criterion at
+`||Δθ|| > 50% of initial norm by ep 100`. But `scripts/pilot_run.py`
+does not actually emit any of these series — making the abort
+criterion unenforceable from the smoke output.
+
+**ACTIONED:** `_train_to_step_budget` now snapshots the transferable
+subset right after `try_transfer()` succeeds and captures a telemetry
+record at every eval checkpoint with `transferable_drift_max`,
+`transferable_drift_per_param`, and a `kl_posterior_prior` probe
+(single-batch, no-grad, ~few-ms cost). Series serialized as
+`PilotRun.telemetry`. A real-time `[TELEMETRY ALERT]` line prints
+the first time drift exceeds 50%. Trunk drift logging deferred per
+v2 amendment (concern #8 was already deferred).
+
+**BLOCKER #2 — Band-B FPR ~27% under null without Bonferroni.**
+The 3-cell HP sweep (warmup_episodes ∈ {50, 200, 500}) at α=0.10
+per cell yields FWER ≈ 1 − (1 − 0.10)³ ≈ 27%. "Any cell hits Band A
+→ proceed" is the wrong quantifier when the test is run 3 times.
+A 1-in-4 chance that pure noise produces a "Band B rescue winner"
+is not a rescue.
+
+**ACTIONED:** Bonferroni correction applied — each Band B cell must
+clear ratio ≥ 1.30 AND p < 0.0333 (= 0.10 / 3) to qualify as a
+rescue winner. The §8 primary at N=20 confirms unchanged. Why
+plain Bonferroni and not Holm: with 3 cells × N=3 each, the power
+gain from sorted-p tracking is marginal and the implementation
+cost in the analyzer is non-trivial.
+
+**Other concerns from this round:**
+- **Band B lower edge below RMST noise floor at N=5 + censoring.**
+  Raised to 1.15 (overlap with architecture review).
+- **Disagreement-penalty suppression of dream rewards during warmup.**
+  Deferred (architecture review same disposition).
+
+## Aggregate v3 disposition
+
+- **Code/test/prereg:** all 2 BLOCKERS + 4 testing concerns landed
+  in the same atomic v3 commit. Test count: 360 passed / 1 skipped
+  (was 357 / 1 at v2 commit).
+- **Decision rules:** Band B effective range tightened
+  (1.15–1.30 vs 1.05–1.30); Band B per-cell α tightened (0.0333 vs
+  0.10). §8 primary unchanged at headline N=20.
+- **Smoke pre-check now actually enforceable:** ||Δθ|| series and
+  KL probe are emitted to `pilot_results.json` so the prereg's
+  abort criterion can be evaluated programmatically post-smoke.
+- **Pilot #2 unblocked** once the v3 smoke (re-run on the new
+  pilot_run.py) returns telemetry with no abort triggered.

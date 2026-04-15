@@ -139,6 +139,18 @@ class PilotRun:
     # Vec flag actually exercised (may differ from --vec requested because
     # vectorized collection is only supported for discrete A2C paths).
     used_vec: bool = False
+    # Per-checkpoint diagnostic series for the transfer arm only (Bug E v3,
+    # 2026-04-15, devil's-advocate review #2 BLOCKER). Each entry:
+    #   {"step": int, "episode": int,
+    #    "transferable_drift_max":         float in [0, ∞),
+    #    "transferable_drift_per_param":  {param_name: float},
+    #    "kl_posterior_prior":             float | None}
+    # The prereg amendment "Bug E v2" commits to logging these for the
+    # smoke pre-check abort criterion (||Δθ|| > 50% by ep 100 → abort).
+    # Without a side-car series in the run output, the prereg commitment
+    # is unenforceable. Empty list for scratch / source / non-transfer arms
+    # and for transfer arms where try_transfer returned None.
+    telemetry: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
@@ -162,6 +174,7 @@ class PilotRun:
             "source_crystallized": self.source_crystallized,
             "used_vec": self.used_vec,
             "wall_clock_sec": self.wall_clock_sec,
+            "telemetry": self.telemetry,
         }
 
 
@@ -338,10 +351,38 @@ def _train_to_step_budget(
     # Transfer attempt (runs before the first training iter so it can alter
     # acting_policy_mode that propagates into the very first action).
     transfer_skill_name: str | None = None
+    transferable_baseline: dict | None = None  # {param_name: cpu tensor}
+    transferable_baseline_norms: dict | None = None  # {param_name: float}
     if arm == "transfer":
         loaded = agent.try_transfer()
         if loaded is not None:
             transfer_skill_name = loaded.name
+
+            # Bug E v3 (2026-04-15, devil's-advocate review #2 BLOCKER):
+            # snapshot transferable subset RIGHT AFTER load so the smoke can
+            # measure ||θ_t - θ_loaded|| over training. The prereg amendment
+            # commits to "abort if drift > 50% by ep 100"; without a baseline
+            # captured here, that criterion is unenforceable. Cloning to CPU
+            # avoids holding a duplicate of the GPU weights for a 200k-step
+            # run — this is single-shot, ~100 KB total.
+            try:
+                _baseline_sd = agent.wm_trainer.rssm.transferable_state_dict()
+                transferable_baseline = {
+                    k: v.detach().clone().cpu()
+                    for k, v in _baseline_sd.items()
+                }
+                transferable_baseline_norms = {
+                    k: float(v.norm().item())
+                    for k, v in transferable_baseline.items()
+                }
+            except Exception as e:
+                # Defensive: if rssm/transferable_state_dict ever changes
+                # signature, telemetry should degrade to empty rather than
+                # crashing the pilot. Real failures will surface in tests.
+                print(f"  [WARN] telemetry baseline capture failed: {e}",
+                      flush=True)
+                transferable_baseline = None
+                transferable_baseline_norms = None
 
             # Devil's-advocate review (Phase 3 pre-launch): the §8 mechanism
             # gate requires acting_policy_mode == "latent" for every
@@ -385,10 +426,72 @@ def _train_to_step_budget(
 
     # Main training loop — step-budget gated.
     eval_curve: list[EvalPoint] = []
+    telemetry: list[dict] = []
     steps_to_mastery: int | None = None
     last_eval_step = 0
     best_eval = -float("inf")
     iteration = 0
+    drift_alert_emitted = False  # Print the >50% drift alert at most once
+
+    def _capture_telemetry() -> dict | None:
+        """Compute one telemetry record for the transfer arm.
+
+        Returns None for non-transfer arms or when baseline capture failed.
+        Bug E v3 (devil's-advocate review #2 BLOCKER): the prereg's
+        smoke-abort criterion (||Δθ|| > 50% of initial norm by ep 100)
+        is unenforceable without a per-checkpoint series. This function
+        produces it.
+        """
+        if transferable_baseline is None:
+            return None
+        sd = agent.wm_trainer.rssm.transferable_state_dict()
+        drift_per_param: dict[str, float] = {}
+        drift_max = 0.0
+        for k, v0 in transferable_baseline.items():
+            v_now = sd[k].detach().cpu()
+            denom = transferable_baseline_norms[k] or 1.0
+            d = float((v_now - v0).norm().item()) / denom
+            drift_per_param[k] = d
+            drift_max = max(drift_max, d)
+
+        # KL(posterior‖prior) probe — single small batch from replay,
+        # no_grad, ~few-ms cost. Reports whether the loaded prior is
+        # actually being used or has been crushed by the posterior.
+        # Devil's-advocate concern #2 (mechanism reporting): the
+        # transferred prior may degenerate into a marginal regularizer
+        # rather than a dynamics carrier. Flat KL over training is the
+        # observable signal of this failure mode.
+        kl_probe: float | None = None
+        try:
+            buf = agent.replay_buffer
+            if buf.num_episodes >= 1:
+                trainer = agent.wm_trainer
+                bs = min(8, trainer.batch_size)
+                sl = min(50, trainer.seq_length)
+                obs, actions, rewards, dones = buf.sample_sequences(bs, sl)
+                with torch.no_grad():
+                    obs_t = torch.tensor(obs, device=DEVICE)
+                    act_t = torch.tensor(actions, device=DEVICE)
+                    rew_t = torch.tensor(rewards, device=DEVICE)
+                    done_t = torch.tensor(dones, device=DEVICE)
+                    losses = trainer.rssm.loss(obs_t, act_t, rew_t, done_t,
+                                               trainer.kl_weight,
+                                               trainer.free_nats)
+                    kl_probe = float(losses["kl_loss"].item())
+        except Exception:
+            # Telemetry must never break training — buffer might be
+            # mid-mutation, batch might be malformed in edge cases. Drop
+            # to None and continue; the analyzer treats None as "not
+            # measured at this checkpoint" rather than as a real signal.
+            kl_probe = None
+
+        return {
+            "step": agent.total_steps,
+            "episode": agent.total_episodes,
+            "transferable_drift_max": drift_max,
+            "transferable_drift_per_param": drift_per_param,
+            "kl_posterior_prior": kl_probe,
+        }
 
     start_time = time.time()
     while agent.total_steps < max_env_steps:
@@ -416,6 +519,29 @@ def _train_to_step_budget(
             if (steps_to_mastery is None) and (eval_r >= mastery_threshold):
                 steps_to_mastery = agent.total_steps
 
+            # Capture telemetry at the same cadence as eval. For 5k-step
+            # eval intervals on CartPole/MCC (~50-200 steps/ep), this
+            # gives 25-100 episodes between checkpoints — fine resolution
+            # to bracket the prereg's "by ep 100" abort threshold.
+            tele = _capture_telemetry()
+            if tele is not None:
+                telemetry.append(tele)
+                # Real-time alert: print loudly the FIRST time drift
+                # exceeds the prereg's 50% smoke-abort threshold so the
+                # operator sees it without scraping JSON.
+                if (not drift_alert_emitted
+                        and tele["transferable_drift_max"] > 0.50):
+                    drift_alert_emitted = True
+                    print(
+                        f"  [TELEMETRY ALERT] transferable ||Δθ||/||θ_init||"
+                        f" = {tele['transferable_drift_max']:.2%} at "
+                        f"ep {tele['episode']} (step {tele['step']:,}). "
+                        f"Prereg amendment 'Bug E v2' commits to ABORT "
+                        f"smoke + investigate before pilot launch when "
+                        f"drift > 50% by ep 100.",
+                        flush=True,
+                    )
+
     # Final eval at the truncation horizon so every run has a last point.
     final_eval = _evaluate(agent, env, episodes=eval_episodes)
     if not eval_curve or eval_curve[-1].step < agent.total_steps:
@@ -430,6 +556,13 @@ def _train_to_step_budget(
     if vec_env is not None:
         vec_env.close()
     env.close()
+
+    # One last telemetry capture at the truncation horizon so the analyzer
+    # has a final reading even if the last eval checkpoint landed earlier.
+    final_tele = _capture_telemetry()
+    if final_tele is not None and (not telemetry
+                                   or telemetry[-1]["step"] != final_tele["step"]):
+        telemetry.append(final_tele)
 
     return PilotRun(
         pair_alias=pair_alias or "",
@@ -450,6 +583,7 @@ def _train_to_step_budget(
         transfer_skill_name=transfer_skill_name,
         wall_clock_sec=wall,
         used_vec=use_vec,
+        telemetry=telemetry,
     )
 
 
@@ -827,6 +961,7 @@ def _run_from_dict(d: dict) -> PilotRun:
         source_crystallized=d.get("source_crystallized"),
         used_vec=bool(d.get("used_vec", False)),
         wall_clock_sec=float(d.get("wall_clock_sec", 0.0)),
+        telemetry=list(d.get("telemetry", [])),
     )
 
 
