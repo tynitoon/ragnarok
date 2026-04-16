@@ -423,8 +423,20 @@ narrative matches the evidence.
   to Phase 5 headline N=20 and a strong-claim paper. B0 is only
   available **after** the Band B single-cell rescue fails AND the
   mechanism filters (4) pass. A reviewer can verify chronology via
-  git history: B0 was committed pre-data (v3.5, before pilot #2
-  unblinding), and the §8 threshold did not move. B0 is a
+  git history: B0 was committed at `4f8bb11` on 2026-04-15 13:28,
+  **while pilot #2 was in progress** — 2 of 5 primary seeds (42, 43)
+  had completed showing a partial ratio of ~1.10, and seeds 44-46 had
+  not yet produced data (see `reviews/chronology_audit.md` for the
+  full reconstruction). The B0 band edges `[1.15, 1.30)` were committed
+  unchanged from the v3.4 Bug E v3 amendment (commit `e24832c`,
+  2026-04-15 03:28, **pre-pilot**); they were NOT tuned to the partial
+  observed signal, which sat below the band's floor at the time of B0
+  commit. The §8 primary threshold `1.30` remained fully pre-pilot
+  (v3, 2026-04-14) and did not move. B0 is therefore *pre-outcome*
+  (before the N=5 ratio could be computed) but NOT *pre-pilot*; the
+  integrity claim is that no N=5 RMST ratio existed anywhere in the
+  project when B0's band was committed, which is the load-bearing
+  unblinding event for the §8 primary decision. B0 is a
   *framing-honesty* mechanism, not a *pass-bar-relaxation* one.
 
   *Why B0 is not "Band B success renamed":* Band B runs a single
@@ -1151,5 +1163,78 @@ in Phase 4 baselines, not Phase 5.
   entry there is a preregistration-integrity defect. Each item must
   complete, re-triage, or retire-with-rationale before the phase it
   gates begins.
+
+- **2026-04-16 (v3.6 — post-pilot #2 chronology correction; self-audit
+  triggered by devil's-advocate review):**
+  Pilot #2 completed 2026-04-16 (40 runs: 3 pairs × 5 seeds × 2 arms +
+  source pre-trainings). Post-completion review by 3 parallel reviewer
+  agents (RL-methodology, devil's-advocate, paper-strategy) surfaced
+  one integrity defect in the v3.5 preregistration text that must be
+  corrected before any paper submission. This amendment resolves that
+  defect. No pass-bar changes.
+
+  *Defect:* The v3.5 §10 B0 clause "Why B0 is not a back-door around
+  §8" contained the sentence: *"A reviewer can verify chronology via
+  git history: B0 was committed pre-data (v3.5, before pilot #2
+  unblinding), and the §8 threshold did not move."* The phrase
+  "pre-data, before pilot #2 unblinding" is factually inaccurate. B0
+  was committed at `4f8bb11` on 2026-04-15 13:28, approximately 6
+  hours after pilot #2 launched (pilot log reconstructs start at
+  07:34 the same day). At B0 commit time, the primary pair had 2 of
+  5 seeds complete (42, 43) with a partial observed ratio of ~1.10;
+  seeds 44, 45, 46 had not yet produced data. The seed that drives
+  the final 1.238 ratio per leave-one-out analysis (46, LOO drop =
+  1.049) was run ~5 hours after B0 commit.
+
+  *Correction:* §10 B0 sentence has been rewritten to accurately
+  reflect the chronology and the distinction between *pre-pilot*
+  (§8 primary threshold, v3 on 2026-04-14, unchanged) and
+  *pre-outcome* (B0 band edges committed before the N=5 RMST ratio
+  was computable from 5 complete seeds). See `reviews/chronology_audit.md`
+  for the full timeline reconstruction and adjudication.
+
+  *Why this does NOT invalidate B0:* The B0 band edges [1.15, 1.30)
+  were not tuned to the partial observed signal — at commit time the
+  observed partial ratio was ~1.10, **below** the band's floor. The
+  1.15 floor comes from commit `e24832c` (2026-04-15 03:28, before
+  pilot launch) per the v3.4 Bug E v3 architecture review, based on
+  noise-floor reasoning (RMST sampling SE at N=5 with MCC censoring,
+  independent of observed data). The chronology breach is one of
+  *phrasing integrity*, not of *data-driven band fitting*. The
+  correction above makes the weaker-but-accurate integrity claim
+  explicit.
+
+  *Why §8 is unaffected:* §8's primary `ratio ≥ 1.30 AND p < 0.10`
+  threshold was committed in v3 on 2026-04-14 (commit `28603ce`) —
+  one day before pilot #2 launched, with no seed-level data of any
+  kind in existence. The §8 threshold's pre-pilot status is
+  intact. Only B0's fallback framing was committed mid-pilot.
+
+  *v3.6 changes to preregistration content:*
+  1. §10 B0 "Why B0 is not a back-door around §8" paragraph updated
+     with accurate chronology and the pre-pilot-vs-pre-outcome
+     distinction.
+  2. This v3.6 amendment entry added to §13.
+  3. New file `reviews/chronology_audit.md` committed with the full
+     timeline reconstruction, intended for the paper's supplementary
+     materials.
+
+  *What is explicitly NOT changed in v3.6:*
+  - §8 primary threshold (1.30 ratio, p < 0.10) — unchanged.
+  - §10 B0 trigger clauses 1-4 — unchanged.
+  - §10 B0 band edges [1.15, 1.30) — unchanged (the ∆ vs v3.5 is the
+    paragraph's integrity phrasing, not the bands themselves).
+  - Post-pilot backlog POST-001..POST-007 — unchanged.
+  - §11 kill criteria — unchanged.
+
+  *Corrective actions for paper submission* (now committed):
+  - Include `reviews/chronology_audit.md` in supplementary materials.
+  - If a reviewer raises the chronology: acknowledge directly, cite
+    the audit, do not defend the old "pre-data" phrasing.
+  - Surface the pre-outcome claim (not pre-pilot) in the methods
+    section honestly.
+
+  *Amendment trigger:* devil's-advocate agent review 2026-04-16;
+  findings adjudicated in `reviews/chronology_audit.md`.
 
 - (Subsequent amendments timestamped here before execution.)

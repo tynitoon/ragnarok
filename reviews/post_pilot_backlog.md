@@ -161,3 +161,60 @@ Two review items were triaged as "not worth preregistering":
 
 Append new items below with timestamp and source-review reference. Do not
 delete; retire in-place with "status: retired" + rationale reference.
+
+---
+
+### POST-007 — Multi-skill composition for new-task learning
+
+- **Status:** open (design-space item; no implementation chosen yet)
+- **Source:** user question during pilot #2 execution (2026-04-16). Jeremie
+  asked "est-ce possible pour notre IA d'utiliser plusieurs skills cristallisés
+  pour en apprendre un nouveau ?" after seeing paire 3 partial results.
+  Explicitly deferred: "on en reparlera quand on y sera et on fera challengé
+  les différentes implémentations à des agents avant de sélectionner la piste
+  qu'on explorera."
+- **Blocking-phase:** Post-1 (scale horizontal, 5–10 new tasks per
+  `project_research_plan`) — NOT workshop paper. With only 3 skills in the
+  library, multi-skill composition has no empirical traction; the probability
+  of 2+ relevant skills existing for a new task is too low. Becomes interesting
+  at ~10 skills and load-bearing at ~20+.
+- **Rationale:** Current `try_transfer()` (`agent.py:742`) loads exactly one
+  skill per new task: either exact env_name match, or latent-nearest neighbor
+  via `skill_selector.select()`. `MultiSkillAgent` (`skills/multi_agent.py`)
+  exists but is an **execution-time** router (dynamic skill switching during
+  an episode), not a **learning-time** composer. The workshop paper's causal
+  claim is cleanest with one-skill transfer, so single-skill init is the right
+  choice for the headline experiment. Post-workshop, the library will grow
+  and the question "can N skills accelerate learning more than the best 1
+  skill?" becomes a legitimate research direction worth multi-agent debate
+  before commitment.
+- **Design space (to be challenged by agents at decision time):**
+  1. **Ensemble init** — weighted average of top-k skills' transferable
+     state_dicts (weights ∝ 1/latent_distance). Low dev cost (~1–2 days),
+     risk of mode-cancellation when averaging weights encoding different
+     behaviors. Works because transferable subset shape is identical across
+     skills.
+  2. **Mixture of Experts RSSM** — load k RSSM cores in parallel, learn a
+     gating net that mixes their (h, z) outputs per step. Each skill keeps
+     integrity, no cancellation. Cost: k× memory, k× forward pass, gate
+     training. 2–3 weeks dev.
+  3. **Progressive Networks** (Rusu et al. 2016) — freeze all prior skills,
+     add new network with lateral connections to each frozen skill. Zero
+     catastrophic forgetting, but parameter count grows linearly with skill
+     library size. ~1 month dev; doesn't scale past ~10 skills.
+  4. **Seed-buffer hybrid** — keep mono-skill weight init (current), but
+     populate replay buffer with trajectories from top-k skills before
+     training starts. Init unchanged; exploration enriched. Compatible with
+     SAC off-policy. 3–5 days dev.
+  5. **Multi-teacher distillation** — top-k skills act as teachers; student
+     imitates confidence-weighted consensus, then fine-tunes on new task.
+     ~2 weeks dev.
+- **Decision protocol when we arrive at Post-1:** spawn 3–4 reviewer agents
+  (RL-methodology, architecture, strategy, devil's-advocate) with this
+  design-space list + current library state (expected ~10 skills post-Post-1
+  start). Collect dissent on which option(s) to test first. Prefer cheap
+  empirical answers (options 1 + 4) before committing to expensive
+  infrastructure (options 2 + 3 + 5). Re-triage here with decision record.
+- **Effort:** TBD at decision time. Each option's dev estimate above;
+  compute cost depends on how many options we race empirically vs. pick
+  upfront.
