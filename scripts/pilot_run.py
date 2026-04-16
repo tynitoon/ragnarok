@@ -1238,6 +1238,24 @@ def run_pilot(
             # --- 3. Transfer arm — uses per-seed skills dir with source skill
             transfer_key = (alias, seed, "transfer")
             if not _already_done(transfer_key):
+                # Source-crystallization guard. If _pretrain_source failed to
+                # produce a .pt skill file in per_seed_skills (e.g. SAC
+                # divergence on Pendulum seeds 44/46 of pilot #2), the
+                # transfer arm below would load NO skill and run as
+                # scratch-in-disguise. Such records bias RMST toward 1.0,
+                # mask true transfer effects, and require post-hoc removal
+                # (see pilot #2 cleanup commit a094e4c). Skip explicitly and
+                # let the analyzer treat the seed as N-1 effective for this
+                # pair. Added 2026-04-16 after pilot #2 chronology audit.
+                if not any(per_seed_skills.glob("*.pt")):
+                    print(f"  [seed={seed}] transfer {tgt_env}: SKIPPED "
+                          f"(source {src_env} did not crystallize — "
+                          f"no .pt in {per_seed_skills.name}). "
+                          f"Pair is N-1 effective for this seed.",
+                          flush=True)
+                    _flush()
+                    continue  # next seed in outer for-loop
+
                 ablation_note = (f" [ablation={ablation}]"
                                  if ablation != "none" else "")
                 print(f"  [seed={seed}] transfer {tgt_env} ({max_env_steps:,} "
