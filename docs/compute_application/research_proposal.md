@@ -138,7 +138,17 @@ These are deferred to Month 3+ if TRC compute and results permit.
 
 ## 6. Principal investigator
 
-**Jérémie Mortier** — independent researcher based in France. MSc in IT Engineering from Epitech (French engineering school with international campuses in San Francisco, Los Angeles, Berlin, Strasbourg). Three years of contract engineering at **Stormshield**, a French cybersecurity vendor subsidiary of Airbus Defence and Space — a context that demands the kind of engineering rigor reflected in the Ragnarok methodology.
+**Jérémie Mortier** — independent researcher based in France. Seven years of professional software engineering since graduating with an MSc in IT Engineering from Epitech. Entered Epitech without prior programming background and advanced on the accelerated track (year 1 → year 2 early entry), completing the normally 5-year curriculum in 4 years. Spent the fourth year abroad at Epitech's Daegu (South Korea) campus, specializing in game development. Hired by Epitech as a teaching assistant during studies.
+
+Engineering track record relevant to this application:
+
+- **Lead developer at Piepacker / Jam.gg** (French gaming startup, 2020–2022) — architected the studio's title "Arsène Bomber" (currently available on Steam) and wrote a significant portion of its codebase. Lead architect responsibility on a shipped commercial product.
+- **Indie mobile game self-publishing** (pre-2020) — shipped a mobile game that reached 50,000+ organic installs with under €200 paid acquisition, two-person team. Established the self-directed shipping pattern now applied to Ragnarok.
+- **Three years of contract engineering at Stormshield** (Airbus Defence and Space subsidiary, French cybersecurity, 2023–present) — current paid engagement, providing both financial self-sufficiency for unfunded research and the engineering-rigor context reflected in Ragnarok's preregistration-grade methodology.
+
+Gaming background is worth surfacing explicitly for a reinforcement-learning research application: games are the canonical RL environment, DeepMind built its reputation on Atari → Go → StarCraft, and the trajectory from shipping games to studying agent transfer learning is a coherent one, not a pivot.
+
+What this background establishes for a compute-grant reviewer: (a) a seven-year track record of shipping complex systems solo or in small teams, (b) comfort with architecture decisions at scale, and (c) a pattern of self-directed work that succeeds without institutional backing — which is precisely the mode of research Ragnarok represents.
 
 No current academic affiliation; no publication track record yet. What exists as of this application:
 
