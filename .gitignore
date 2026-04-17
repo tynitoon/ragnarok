@@ -25,3 +25,24 @@ venv/
 venv310/
 venv311/
 .pytest_cache/
+
+# Pilot transient artifacts (logs, rolling backups, crash snapshots).
+# The primary result JSONs (pilot_results.json, pilot_bandb_results.json,
+# pilot_bandc_results.json) ARE tracked for audit trail and
+# reproducibility; transient artifacts below are not.
+*.log
+*.log.broken_trunk
+*.json.bak
+*.json.broken_trunk
+*.json.pre_rerun.bak
+*.json.smoke*
+# Dev artifacts not part of research outputs
+compute_budget*.json
+extrapolation_*.json
+smoke_*.json
+smoke_preflight*
+# Analyzer verdict (regenerable from pilot_analysis.py)
+bandb_verdict.json
+# Pilot runtime working dirs (rebuildable)
+pilot_skills/
+skills_wiring_test/

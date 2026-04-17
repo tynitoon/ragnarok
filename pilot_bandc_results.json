@@ -1,0 +1,102 @@
+{
+  "prereg_section": "\u00a78 (pilot)",
+  "pairs": [
+    {
+      "alias": "cartpole_mcc",
+      "src": "cartpole",
+      "tgt": "mountaincar-continuous",
+      "role": "primary"
+    }
+  ],
+  "seeds_N": 5,
+  "base_seed": 52,
+  "max_env_steps": 200000,
+  "source_max_env_steps": 150000,
+  "eval_every_steps": 5000,
+  "eval_episodes": 10,
+  "mastery_thresholds": {
+    "cartpole-swingup": 800.0,
+    "mountaincar-continuous": 90.0,
+    "pendulum": -200.0,
+    "acrobot": -100.0,
+    "cartpole": 450.0
+  },
+  "ablation": "none",
+  "provenance": {
+    "python": "3.10.6",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "hostname": "JEREMIE-PC",
+    "torch": "2.11.0+cu126",
+    "device": "cuda",
+    "lifelines": "0.30.0",
+    "gpu_name": "NVIDIA GeForce RTX 4080",
+    "cuda_capability": "(8, 9)",
+    "cuda_runtime": "12.6",
+    "git_sha": "a0c11409462644e626f0b149eb081f0af35b6385",
+    "git_dirty": true
+  },
+  "runs": [
+    {
+      "pair_alias": "",
+      "pair_role": "",
+      "src_env": "cartpole",
+      "tgt_env": "cartpole",
+      "seed": 52,
+      "arm": "source",
+      "mastery_threshold": 450.0,
+      "max_env_steps": 150000,
+      "total_env_steps": 45416,
+      "total_episodes": 960,
+      "final_eval_return": 500.0,
+      "best_eval_return": 500.0,
+      "steps_to_mastery": 31248,
+      "censored": false,
+      "eval_curve": [
+        {
+          "step": 5096,
+          "eval_return": 10.0
+        },
+        {
+          "step": 10203,
+          "eval_return": 32.0
+        },
+        {
+          "step": 15477,
+          "eval_return": 49.0
+        },
+        {
+          "step": 20511,
+          "eval_return": 130.9
+        },
+        {
+          "step": 25686,
+          "eval_return": 175.7
+        },
+        {
+          "step": 31248,
+          "eval_return": 500.0
+        },
+        {
+          "step": 36451,
+          "eval_return": 374.6
+        },
+        {
+          "step": 41979,
+          "eval_return": 500.0
+        },
+        {
+          "step": 45416,
+          "eval_return": 500.0
+        }
+      ],
+      "acting_policy_mode": "obs",
+      "transfer_skill_name": null,
+      "source_crystallized": true,
+      "used_vec": false,
+      "wall_clock_sec": 281.03271865844727,
+      "telemetry": [],
+      "ablation": "none",
+      "ablation_info": null
+    }
+  ]
+}
