@@ -14,7 +14,7 @@ The codebase is a solo-dev research prototype run with preregistration-grade met
 
 ## Status
 
-**As of 2026-04-17**, the project is in Phase 3 (pilot #2 validation) with a preregistered extension to N=10 on the primary pair in progress.
+**As of 2026-04-18**, the preregistered primary hypothesis has been **falsified at N=10**. The project has activated branch C of its pre-committed decision tree and pivoted from hypothesis-confirmation to a broader research program exploring three open questions (Q1/Q2/Q3, see `reviews/research_directions.md`).
 
 | Milestone | State |
 |---|---|
@@ -22,18 +22,26 @@ The codebase is a solo-dev research prototype run with preregistration-grade met
 | Phase 2 (single-skill learning) | ✅ Complete |
 | Phase 3 pilot #2 (3 pairs × 5 seeds) | ✅ Complete (40 runs, 12.65 GPU-hr) |
 | Band B rescue (5 seeds on primary) | ✅ Complete (2026-04-17) |
-| Band C N=10 extension (5 additional seeds) | 🟡 In progress |
-| Phase 3 analysis + decision (workshop paper vs pivot) | ⏳ Pending Band C |
-| Phase 5 (post-workshop scale, Post-1 horizontal) | ⏳ Planned |
+| Band C N=10 extension (seeds 47–56 pooled) | ✅ Complete (2026-04-18) |
+| Phase 3 analysis + decision | ✅ **Branch C activated** — workshop paper via primary pair abandoned per pre-registered kill clause |
+| Phase 4+ — research program (Q1/Q2/Q3 exploration) | 🟡 Beginning |
 
-**Current primary-pair result** (seeds 47–51, Band B rescue, cartpole→mountaincar-continuous):
+**Primary-pair final result** (N=10 pooled, seeds 47–56, cartpole→mountaincar-continuous):
 
-- RMST ratio (scratch/transfer) = **1.605**
-- Log-rank p (one-sided, permutation N=10k) = 0.259
-- Leave-one-out minimum ratio = 1.435 (robust, not outlier-driven)
-- Mechanism: 5/5 transfer runs on `latent` acting mode, 5/5 loaded a crystallized skill
+- RMST ratio (scratch/transfer) = **1.036**
+- Log-rank p (one-sided) = **0.510** asymptotic / **0.516** permutation N=10,000
+- Leave-one-out minimum ratio = **0.871** (dropping seed 51)
+- Mechanism: 10/10 transfer runs on `latent` acting mode, 10/10 loaded a crystallized skill ✅
+- Per-seed ratios: 4 positive (seeds 48, 49, 51, 54), 5 neutral (47, 50, 52, 53, 56), **1 actively anti-transfer** (seed 55, ratio 0.33 — transfer arm 3× slower than scratch)
 
-The ratio is above the Band A threshold (1.30) but p-value is underpowered at N=5. Band C (N=10 pre-registered) is running to stabilize statistical significance.
+**All three pre-registered Band C kill criteria triggered** (thresholds committed at SHA `a0c1140`, 2026-04-17, before seeds 52–56 launched):
+- Ratio < 1.20 → observed 1.036 ✅ triggered
+- Log-rank p ≥ 0.20 → observed 0.510 ✅ triggered
+- LOO minimum < 1.00 → observed 0.871 ✅ triggered
+
+**Scientific reading:** the specific mechanism tested — shape-checked transferable-subset loading of a Dreamer-RSSM's dynamics modules across the discrete↔continuous action-space-type boundary with the policy switched to latent mode — does not produce a reliable transfer benefit on the primary pair at N=10. Band B's N=5 signal (ratio 1.605) was high-variance seed lottery. The hypothesis is falsified on the most favorable pair in the preregistered matrix (both pendular-class, similar obs dim, action semantics close), which strengthens rather than weakens the motivation for the Q1/Q2/Q3 research program that now takes over.
+
+For full details see `preregistration.md` §13 v3.8 (kill amendment) and `reviews/research_directions.md` §6 (branch C operational roadmap).
 
 ---
 

@@ -1464,4 +1464,137 @@ in Phase 4 baselines, not Phase 5.
   verdict matches v3.7 kill specification; decision follows the
   pre-committed branch-C clause without deviation.
 
+- **2026-04-18 (v3.9 — preregister Q1/Q2/Q3 operational thresholds
+  before any TPU-hour is spent on branch-C exploration).**
+
+  *Context:* v3.8 activated branch C (Q1/Q2/Q3 exploration program
+  per `reviews/research_directions.md` §6). A 4-agent adversarial
+  review on 2026-04-18 before TRC submission flagged that Q1/Q2/Q3
+  exist as prose in `reviews/` but not as pre-registered experiments
+  with numerical thresholds — a legitimate critique. This amendment
+  promotes the Q1/Q2/Q3 thresholds from `reviews/research_directions.md`
+  §6 prose to official preregistration status, *before* any
+  TRC-allocated TPU compute is spent on them.
+
+  **Q1-C (contrastive RSSM + disagreement-weighted ensemble) — Sprint 1.**
+  - Setup: replace reconstruction loss with contrastive latent prediction
+    (InfoNCE or BYOL-style, decoder weight ≤ 0.1) on existing
+    `EnsembleRSSMCore`. Re-run primary pair CartPole→MountainCar-
+    Continuous at N=5.
+  - Pass: RMST ratio ≥ **1.20** AND log-rank one-sided p < **0.20**
+    AND LOO min ≥ **1.05**. Interpretation: contrastive RSSM produces
+    a detectable improvement over the falsified Band C baseline
+    (ratio 1.036).
+  - Kill: RMST ratio ≤ **1.05** OR LOO min < **0.95**. Interpretation:
+    contrastive objective does not help; Q1-C is rejected as a path
+    and the next sprint pivots to Q1-B (Hamiltonian) or Q3.
+  - Intermediate (ratio ∈ (1.05, 1.20) or p ∈ (0.20, 0.40)):
+    requires multi-agent review before deciding whether to extend
+    to N=10 or abandon.
+  - Budget: ~15 TPU-hours (Month 1 allocation).
+
+  **Q3-B (EWC-protected RSSM subset loading) — Sprint 2.**
+  - Setup: repair the broken API of `ragnarok/learning/ewc.py`
+    (currently un-imported, signature misaligned with RSSM trainer);
+    compute Fisher diagonal on crystallized skill; apply EWC penalty
+    during target-task RSSM subset training. Re-run primary pair at
+    N=5 with EWC-protected transfer.
+  - Pre-check (Day 1 of sprint): Fisher max/median on crystallized
+    cartpole skill ≥ **10**. If Fisher is flat (max/median < 10),
+    EWC cannot distinguish important weights; **skip** this sprint
+    and reallocate budget to Q1-B or horizontal scale.
+  - Pass: RMST ratio ≥ **1.20** AND log-rank p < **0.20** AND LOO
+    min ≥ **1.05** over the falsified Band C baseline.
+  - Kill: RMST ratio ≤ **1.05** OR LOO min < **0.95**.
+  - Budget: ~15 TPU-hours (Month 1-2 allocation).
+
+  **Q2 horizontal scale (Post-1 skill-library extension) — Sprints 3-4.**
+  - Setup: add 7 source-target pairs spanning DMControl (cheetah,
+    walker, hopper, quadruped) and MetaWorld (reach, pick-place,
+    button-press). Each pair run at N=5 scratch + N=5 transfer with
+    nearest-centroid skill selector from expanded library.
+  - Pass condition for "cross-action-type transfer works": **at
+    least 3 of 7 new pairs** must exhibit RMST ratio ≥ **1.15**
+    directionally (log-rank p < 0.30 at N=5).
+  - Kill condition for the entire research thesis: **0 or 1 of 7**
+    new pairs exhibit ratio ≥ 1.10. In that case, "skill reuse via
+    shared RSSM trunk" is considered empirically unsupported as a
+    family of approaches, not just on the primary pair. Project
+    then either (a) pivots to a completely different skill-
+    representation paradigm, or (b) enters wind-down.
+  - Intermediate: 2 of 7 positive — extend to N=10 on those 2 pairs
+    before decision; requires multi-agent review.
+  - Budget: ~40 TPU-hours (Months 2-3 allocation).
+
+  **Q2 contextual selection (PEARL-style encoder) — Sprint 5, conditional.**
+  - Runs **only if** Q2 horizontal scale yields ≥ 3 positive pairs
+    (providing a non-trivial skill library to select from).
+  - Setup: compare nearest-centroid skill selection (current
+    baseline) against a PEARL-style context encoder trained
+    post-hoc on the pooled pilot data.
+  - Pass: context encoder reduces episodes-to-mastery by ≥ **15%**
+    averaged over the positive pairs, at N=5 per pair.
+  - Kill: context encoder performs within ±5% of centroid baseline.
+  - Budget: ~10 TPU-hours (Month 3 allocation, conditional).
+
+  **Q3-A kickstarting (decaying-coefficient distillation) — Sprint 6,
+  conditional.**
+  - Runs **only if** Q3-B EWC sprint shows directional signal
+    (ratio ≥ 1.10) or if horizontal scale yields positive pairs to
+    test kickstarting on.
+  - Thresholds identical to Q3-B structure but with kickstarting
+    coefficient schedule as the intervention.
+  - Budget: ~10 TPU-hours (Month 3+, conditional).
+
+  **Multi-skill composition (POST-007) — deferred.**
+  - Requires ≥ 10 skills in library to be empirically tractable.
+  - Runs only if Sprints 3-4 deliver at least 7 additional skills.
+  - Full specification deferred to a future v3.10 or v3.11
+    amendment written before the sprint launches. Listed here only
+    to document the intended research trajectory.
+
+  **Meta-kill criterion for the entire Ragnarok research thesis.**
+  If, after Sprints 1-4 complete (Q1-C + Q3-B + horizontal scale),
+  **none** of the three paths produces directional signal per the
+  thresholds above, the thesis that "skills can be transferred
+  across tasks via shared neural modules in the Dreamer-RSSM family"
+  is considered not-supported by the empirical evidence. Decision
+  at that gate:
+  - (a) pivot to a radically different skill-representation
+    paradigm (e.g. program synthesis, language-grounded skills,
+    foundation-model-based agents) via a new preregistration
+    amendment that declares the prior framing dead; OR
+  - (b) enter project wind-down and publish a comprehensive
+    negative-results report without continuing compute use.
+  The multi-agent review at this gate must explicitly ask "are we
+  ignoring data?" and "are we persisting out of sunk cost?". A
+  minimum of 2 of 4 reviewers must vote for option (b) or the
+  decision defaults to continuation via (a).
+
+  *Chronology assertion (critical for integrity):*
+  This amendment is committed **before** any TRC TPU-hour has been
+  spent and **before** any of the Q1/Q2/Q3 sprints launch. The
+  thresholds above are therefore pre-outcome for every Sprint
+  whose kill/pass they govern. The commit SHA of v3.9 will be
+  cited in every future sprint-result amendment as "thresholds
+  pre-registered at SHA X".
+
+  *What is NOT changed in v3.9:*
+  - §8 primary threshold — remains as originally committed; the
+    primary-pair hypothesis is already falsified at N=10.
+  - §10 B0 / B1 — B0 is moot (ratio observed was above the band);
+    B1 (negative-results framing) remains available for any
+    publication mentioning the primary pair.
+  - §11 kill criteria — not changed; the meta-kill above is a
+    *program-level* kill, layered on top of §11's project-level
+    kill.
+  - v3.8 branch-C activation — not changed; v3.9 preregisters the
+    operational details of the already-activated branch C.
+
+  *Amendment trigger:* 4-agent pre-TRC-submit review 2026-04-18
+  (`reviews/pre_trc_submit_4agent_review_2026-04-18.md`) explicitly
+  flagged the absence of preregistered Q1/Q2/Q3 thresholds as a
+  credibility gap. This amendment addresses the gap before
+  submission and before compute is spent.
+
 - (Subsequent amendments timestamped here before execution.)
