@@ -159,28 +159,55 @@ Légende impact : workshop (aide paper actuel), post-workshop (booster Post-1 sc
 
 ---
 
-## §6 — Roadmap proposée
+## §6 — Roadmap (mise à jour 2026-04-18)
 
-Dépend du résultat overnight. Trois branches comme dans la décision workshop :
+**Résultat Band C N=10 : ratio 1.036, p=0.510, LOO min 0.871. Les 3 kill criteria v3.7 sont triggered. La hypothesis primary-pair est falsifiée.** Cf. `preregistration.md` §13 v3.8.
 
-### Branche A — Band B ≥ 1.30 OU paire 3 clean 5/5 (résultat positif modeste)
+→ **Branche C est maintenant la roadmap active.** Les branches A et B sont préservées dans les sections suivantes à titre d'archive des décisions préenregistrées avant le verdict, mais elles ne sont plus opérationnelles.
 
-1. **Sprint 1 (2 semaines)** — Q3-A Kickstarting sur paire 1 (N=5 seeds, same action space). **Kill si RMST < 1.15 sur 3/5 seeds.** Si ≥1.40, écrire le paper B0 en y intégrant Kickstarting comme contribution méthodologique secondaire.
-2. **Sprint 2 (2 semaines, en parallèle)** — Q3-B EWC branché (réparation ewc.py incluse). Cible paire 2 (cross-action). **Kill si Fisher max/median < 10** (test cheap en Day 1).
-3. **Sprint 3 (post-paper)** — Q1-C contrastive+ensemble, nouveau pilot 3-paires avec N=5. Benchmark OOD distractor comme claim secondaire.
-4. **Post-paper** — Q2-A PEARL encoder pendant Post-1 scale (nouveaux skills qui le nécessitent).
+### Branche C (ACTIVE) — plan opérationnel post-falsification
 
-### Branche B — Band B ∈ [1.20, 1.30) p<0.10 + A11 pass (modeste)
+**Principe directeur** : la hypothèse naïve (`load_state_dict` subset transfer) est morte sur la paire la plus favorable. Les trois questions Q1/Q2/Q3 restent ouvertes et sont *renforcées* par ce résultat négatif, qui donne une baseline rigoureuse contre laquelle mesurer toute amélioration.
 
-Identique à branche A mais avec **Q3-A en avant du paper** (pas en secondaire). Si Kickstarting fait passer paire 1 de 1.24 à 1.40+, on peut re-raconter le paper comme "skill transfer + kickstarting distillation = robust cross-action transfer". Narratif plus fort que B0 pur.
+**Sprint 1 (2 semaines) — Q1-C contrastive RSSM + disagreement-weighted ensemble.**
+- Motivation renforcée par la falsification : la reconstruction-based RSSM ne capture pas la dynamique causale nécessaire au transfert cross-action. Tester si le contrastive latent + ensemble disagreement amélioré fait mieux.
+- Sur quoi : pair CartPole→MCC en N=5, comparé au baseline Band C (ratio 1.036).
+- **Kill** : ratio ≤ 1.05 (i.e. pas d'amélioration détectable vs baseline falsifié). Pas d'amélioration = on élimine Q1-C comme voie.
+- **Threshold de continuer** : ratio ≥ 1.20 au seuil d'au moins N=5, avec LOO min ≥ 1.05.
+- Budget : ~25 GPU-hours RTX 4080, ou ~12 TPU-hours si TRC accordé.
 
-### Branche C — Rien ne passe (pilot effondre)
+**Sprint 2 (2 semaines, en parallèle si compute permet) — Q3-B EWC branché.**
+- Réparation de l'API cassée de `ragnarok/learning/ewc.py` (~2j).
+- Branchement sur le subset RSSM transférable + re-run Band C protocol avec EWC penalty actif.
+- **Kill day-1** : Fisher max/median < 10 sur skill existant → EWC ne distinguera rien, skip.
+- **Kill sprint-end** : ratio ≤ 1.05 vs baseline Band C (pas d'amélioration détectable).
+- Budget : ~25 GPU-hours / 12 TPU-hours.
 
-Pas de paper workshop immédiat (aligné avec ton intuition). Pivot :
-1. **Sprint 1 (2 semaines)** — Q3-B EWC seul (cheap, S-M). Si Fisher plat, skip.
-2. **Sprint 2 (2 semaines)** — Q1-C contrastive+ensemble. Re-run paires avec nouveau world model.
-3. **Sprint 3+ (Post-1 horizontal scale, 5-10 nouvelles tâches)** avec Q2-A au fur et à mesure.
-4. Paper main-track 3-6 mois plus tard, beaucoup plus fort que B1 pur-négatif.
+**Sprint 3 (4-6 semaines) — Post-1 horizontal scale + Q2-A préparation.**
+- Extension de la skill library de 3 à ~10 skills via 7 paires supplémentaires (DMControl + MetaWorld).
+- Q2 (PEARL context encoder) devient évaluable à ce N de skills. Mono-skill baseline à comparer avec context-based selection.
+- **Kill criteria** : au moins 3 des 7 nouvelles paires doivent donner un résultat directionnel positif (ratio > 1.1 à N=5) pour justifier la continuation de l'exploration "cross-action transfer" comme thème. Sinon la famille entière est abandonnée comme voie de recherche.
+- Budget : ~80 GPU-hours / 40 TPU-hours.
+
+**Sprint 4+ (conditionnel) — Q3-A Kickstarting, multi-skill composition (POST-007).**
+- Seulement si au moins un des Sprints 1-3 a donné un résultat directionnel positif.
+- Multi-skill composition (POST-007) devient empiriquement tractable avec la library à 10 skills.
+
+### Critère méta : quand accepter que l'ensemble Ragnarok est une voie morte
+
+Si après les Sprints 1+2+3 **aucun** des trois (contrastive, EWC, horizontal scale sur nouvelles paires) ne donne un signal directionnel positif, alors la thèse opérationnelle ("skill reuse via shared neural modules") doit être considérée comme non-supportée par les données. Décision à ce gate : pivot vers une autre famille de questions (par exemple program synthesis pour skill representation, ou retour complet à foundation-model-based agents) ou fin du projet. Le multi-agent review à ce gate doit explicitement poser la question "est-ce qu'on s'entête ?".
+
+### Publications envisagées sous branche C
+
+- **Blog post méthodologie** (inconditionnel, week-end post-verdict) : *"Preregistering against yourself: how an RL research project's kill criteria actually fired"*. Publishable comme artefact autonome indépendamment des suites.
+- **Workshop negative-results paper** (conditionnel, ~2 mois) : *"What a rigorous N=10 falsification of shared-RSSM-trunk cross-action-type transfer tells us"* — si le pivot vers Q1/Q2/Q3 produit quelque chose, le negative result primary-pair devient la motivation du paper positif. Si rien, le negative result seul peut viser un workshop negative-results track.
+- **Main-track paper** (conditionnel, 6+ mois) : si Sprints 1-3 convergent sur une méthode qui *fait* mieux que le baseline falsifié, paper main-track avec negative baseline + amélioration proposée.
+
+### Branches A et B (archives préenregistrées, non-opérationnelles)
+
+Les branches A (Band A pass + paper modeste positif) et B (Band B intermediate + pivot modeste) étaient préenregistrées comme chemins de décision alternatifs en cas de résultat positif au Band C. Elles sont préservées dans le git pour traçabilité mais sont sans objet depuis le verdict du 2026-04-18.
+
+*Version archivée (pre-verdict) des branches A/B disponible au commit `680dfe6`.*
 
 ### Critères d'arrêt communs (toutes branches)
 

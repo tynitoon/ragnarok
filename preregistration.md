@@ -1361,4 +1361,107 @@ in Phase 4 baselines, not Phase 5.
   or abandoning paper. See `reviews/research_directions.md` §6 for
   full branch A/B/C decision tree.
 
+- **2026-04-18 (v3.8 — Band C KILL: all three kill criteria triggered;
+  primary-pair workshop path officially abandoned; branch C pivot to
+  Post-1 exploration program activated per §10 / §11 / `reviews/
+  research_directions.md` §6).**
+
+  *Context:* Band C N=10 extension (seeds 47–56 pooled on primary pair
+  cartpole→mcc) completed 2026-04-18 ~00:10. Results, from merged
+  `pilot_bandc_n10_merged.json` via `scripts/pilot_analysis.py`:
+
+  - RMST ratio (scratch/transfer, N=10 pooled) = **1.036**
+  - Log-rank p (one-sided, asymptotic) = **0.510**
+  - Log-rank p (permutation, N=10,000) = **0.516**
+  - Mechanism: 10/10 transfer runs on `latent` mode, 10/10 loaded
+    a crystallized skill. Mechanism check PASS.
+  - Leave-one-out minimum ratio = **0.871** (dropping seed 51).
+  - Per-seed ratios: seed 47 = 0.979, 48 = 1.503, 49 = 3.285,
+    50 = 0.970, 51 = 1.573, 52 = 1.020, 53 = 1.000, 54 = 1.913,
+    **55 = 0.328 (anti-transfer)**, 56 = 0.995. Distribution:
+    4 positive / 5 neutral / 1 strongly negative.
+
+  *Verdict against v3.7 pre-registered criteria:* all three Band C
+  kill criteria are satisfied simultaneously:
+
+  | Kill criterion | Threshold | Observed | Triggered |
+  |---|---|---|---|
+  | Ratio < 1.20 | < 1.20 | 1.036 | YES |
+  | Log-rank p ≥ 0.20 (both tests) | ≥ 0.20 | 0.510 / 0.516 | YES |
+  | LOO minimum ratio < 1.00 | < 1.00 | 0.871 | YES |
+
+  *Decision per v3.7 pre-registered clause:* "If any kill triggers →
+  accept that the primary pair cannot support the workshop claim.
+  Pivot to Post-1 horizontal scale (5–10 new tasks, §14
+  research_plan.md) and abandon the workshop submission." All three
+  triggered, therefore: **workshop-paper-on-primary-pair path is
+  officially abandoned as of this commit.** Branch C of the decision
+  tree (`reviews/research_directions.md` §6) is activated.
+
+  *Scientific reading.* The specific mechanism tested — shape-checked
+  transferable-subset loading of a Dreamer-RSSM's dynamics modules
+  across the discrete↔continuous action-space-type boundary, with
+  the policy switched to `acting_policy_mode=latent` — does not
+  produce a reliable transfer benefit on the primary pair at N=10.
+  Band B's N=5 signal (ratio 1.605) was high-variance seed lottery,
+  exactly the failure mode documented in Henderson et al. 2018 and
+  Agarwal et al. 2021. **The hypothesis is falsified at N=10 on the
+  most favorable pair in the preregistered matrix.** The primary
+  pair (CartPole→MountainCar-Continuous) shares physics class,
+  observation dim, and action semantics more closely than any other
+  pair imaginable within gym classic-control + MCC; the null result
+  here is strong evidence that naive subset loading is insufficient,
+  not merely that adversarial pairs are harder.
+
+  *What remains scientifically valuable.*
+  - **The negative result itself** is publishable as a rigorous
+    falsification in a negative-results report or workshop negative-
+    results track.
+  - **The research program (Q1/Q2/Q3)** of `reviews/
+    research_directions.md` is not invalidated; if anything, it is
+    strengthened. Q1 (physics-grounded world models via contrastive /
+    disagreement-weighted objectives) becomes higher-priority because
+    the reconstruction-based RSSM has now empirically failed the
+    cross-action-type transfer test. Q2 (contextual skill selection)
+    and Q3 (transfer acceleration beyond `load_state_dict`) remain
+    open and are justified by this null baseline.
+  - **The methodology** (preregistration + amendment chronology +
+    multi-agent reviews + chronology audit + tests) is a publishable
+    contribution independent of scientific outcome, per the
+    unconditional blog-post commitment in `docs/compute_application/
+    research_proposal.md` §5.
+
+  *What is NOT changed in v3.8:*
+  - §8 primary threshold (1.30 / p<0.10) — not changed, it was
+    simply not met.
+  - §10 B0 / B1 fallback paths — B0 was above the observed ratio
+    anyway; B1 (negative-results framing) is now the active path
+    for any publication mentioning the primary pair.
+  - §11 kill criteria — not changed; v3.7 Band C kill triggers are
+    a refinement, not a relaxation, of §11.
+  - Post-pilot backlog POST-001..POST-007 — unchanged; some items
+    (notably POST-005 A7/A9/A10/A11 ablations) are now deferred
+    rather than workshop-blocking, because no workshop is being
+    written on the primary pair.
+
+  *Next steps committed as of v3.8 amendment:*
+  1. `docs/compute_application/research_proposal.md` §2 updated
+     with N=10 final numbers and branch-C-active narrative
+     (same commit batch as this amendment).
+  2. `reviews/research_directions.md` updated: branch C active,
+     Q1/Q2/Q3 exploration becomes the program's operational path.
+  3. TRC application submitted in the honest-pivot framing: the
+     compute is requested not to prove the falsified hypothesis
+     but to explore the three-question research program with the
+     larger skill library, architectural variants, and ablations
+     that this negative result makes scientifically necessary.
+  4. Blog post "Preregistering against yourself" drafted within
+     two weeks, now with the added concrete case study of a
+     preregistered kill criterion actually triggering and being
+     honored.
+
+  *Amendment trigger:* Band C N=10 analysis 2026-04-18 ~00:30;
+  verdict matches v3.7 kill specification; decision follows the
+  pre-committed branch-C clause without deviation.
+
 - (Subsequent amendments timestamped here before execution.)
