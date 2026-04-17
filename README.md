@@ -6,6 +6,10 @@ Ragnarok is a research project exploring whether an RL agent can crystallize a l
 
 The codebase is a solo-dev research prototype run with preregistration-grade methodology: every hypothesis, threshold, and analysis choice is committed to `preregistration.md` **before** data is collected, with a public chronology audit for any amendments.
 
+**Repositories:**
+- Primary (source of truth): [gitlab.com/mortier.jeremie/ragnarok](https://gitlab.com/mortier.jeremie/ragnarok)
+- Mirror (auto-synced from GitLab, ~30 min delay): [github.com/tynitoon/ragnarok](https://github.com/tynitoon/ragnarok)
+
 ---
 
 ## Status
@@ -124,6 +128,29 @@ Ragnarok is developed under a **preregistration-grade protocol**. This means:
 4. **Falsifiable kill criteria at every decision gate.** `preregistration.md` §11 lists conditions under which the project is explicitly abandoned, no redefinition.
 
 This methodology is arguably the most valuable artifact of the project even before considering the scientific results — it is the blueprint for how solo-dev RL research can be made reviewable at the rigor level of academic preregistration.
+
+---
+
+## Repository history
+
+This Git repository was originally initialized in January 2023 for an unrelated game-development project (multiplayer C/C++ with raylib, networking, SQLite persistence). That project was archived in March 2025 and the repository remained dormant for 13 months.
+
+On **2026-04-12**, the repository was repurposed from scratch for the Ragnarok RL research project via commit [`3cf847d`](https://gitlab.com/mortier.jeremie/ragnarok/-/commit/3cf847d) ("new projet"). The tag [`rl-project-start`](https://gitlab.com/mortier.jeremie/ragnarok/-/tags/rl-project-start) marks this pivot so reviewers can isolate the RL-era commits:
+
+```bash
+# Show only the RL research commits (April 2026 onward):
+git log rl-project-start..HEAD
+```
+
+The older game-era commits are preserved unchanged for transparency — rewriting history to hide them would be inconsistent with this project's stated methodological rigor.
+
+---
+
+## LLM-assisted development
+
+Ragnarok is developed using LLM-assisted workflows with Anthropic's Claude (code generation, documentation drafting, and the multi-agent reviews). This is declared openly.
+
+**All scientific decisions** — the research question, hypothesis choices, preregistration thresholds, kill criteria, result interpretation, chronology audit initiation, and final arbitration — **are made and validated by the human author, who retains sole scientific and ethical responsibility** for the work. The multi-agent reviews are a tool for approximating peer review at solo-dev scale, not a substitute for external human peer review (which workshop submission itself will provide).
 
 ---
 
