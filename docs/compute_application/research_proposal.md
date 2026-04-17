@@ -10,21 +10,36 @@
 
 ## 1. Project summary
 
-Ragnarok is an open-science reinforcement-learning (RL) research project investigating a specific, published-gap question: **can an RL agent crystallize a learned skill from one task and transfer its latent trunk to a new task with a *different action space type* (discrete ↔ continuous), and learn measurably faster than from scratch?**
+Ragnarok investigates a bottleneck in embodied-agent skill reuse: **real-world agents need libraries of both discrete-choice primitives (mode switches, gripper open/close, tool selection) and continuous-control primitives (joint torques, wheel velocities) — yet existing RL transfer methods almost all assume a fixed action-space type within a given skill library.** If a robot's "stabilize a cart" skill is discrete but its new task requires continuous control, the skill is wasted.
 
-The claim matters because the mainstream RL transfer-learning literature (Progressive Networks, Modular RL Policies, Soft Modularization, SPiRL, Options-Critic) almost exclusively studies transfer within a fixed action-space type. Cross-action-type transfer with a shared latent trunk — a mechanism-level question about what part of a Dreamer-style world-model truly generalizes — is a gap I have not been able to find resolved in the published record.
+Ragnarok tests whether the **latent trunk of a Dreamer-style RSSM world model** — specifically, the GRU core, prior, and posterior distributions, loaded via shape-checked `load_state_dict` without the task-specific encoder or action head — can carry *dynamics knowledge* across this action-type boundary. The research question:
 
-The project is conducted with **preregistration-grade methodology**: every hypothesis, threshold, and analytic choice is committed to a public `preregistration.md` document **before** the data it evaluates exists, with git-history-verified chronology and timestamped amendments for any revision. A solo-initiated chronology audit (`reviews/chronology_audit.md`) already corrected one integrity defect in the preregistration before external review — a level of self-scrutiny uncommon in solo-dev research.
+> **Given a skill crystallized on task A (one action-space type) and a new task B (different action-space type), does loading the RSSM transferable subset and switching the agent to act on latent features yield measurably faster mastery than training from scratch?**
+
+This is narrower than "cross-embodiment transfer" (Gato 2022, RT-X 2024) which uses single-model tokenization, and narrower than "skill priors" (SPiRL 2020) which assume homogeneous action spaces. Progressive Networks (Rusu 2016) and Options-Critic (Bacon 2017) handle one action-space type at a time. **The specific gap Ragnarok tests is: shape-checked subset transfer across action-type boundary in the Dreamer-RSSM family.**
+
+The project is conducted with **preregistration-grade methodology**: every hypothesis, threshold, and analytic choice is committed to a public `preregistration.md` document **before** the data it evaluates exists, with git-history-verified chronology and timestamped amendments for any revision. A solo-initiated chronology audit (`reviews/chronology_audit.md`) corrected one integrity defect in the preregistration before external review — this level of self-scrutiny is the project's methodological signature.
 
 ## 2. Scientific contribution
 
-**The architecture.** Ragnarok uses a Recurrent State-Space Model (RSSM) world model in the Dreamer family. Ragnarok identifies a *transferable subset* — GRU core + prior distribution + posterior distribution — that is shape-compatible across tasks with different observation and action dimensions, because it operates on `cat(h, z)` latent features upstream of task-specific input encoders and action decoders. At transfer time, the agent loads this subset via `load_state_dict` with strict shape checking on the transferable subset only, then switches its policy to operate on latent features (`acting_policy_mode = latent`) rather than raw observations.
+**The architecture.** Ragnarok uses a Recurrent State-Space Model (RSSM) world model in the Dreamer family (Hafner et al., 2019–2023). The transferable subset — GRU core + prior + posterior distributions — is shape-compatible across tasks with different observation and action dimensions because it operates on `cat(h, z)` latent features, upstream of task-specific encoders and downstream of task-specific action heads. At transfer time, the agent loads this subset via `load_state_dict` with strict shape checking on the transferable subset only, then switches its policy to operate on latent features (`acting_policy_mode = latent`) rather than raw observations.
 
-**The preregistered hypothesis (§8 of `preregistration.md`).** On the primary pair CartPole-v1 → MountainCar-Continuous-v0, the project predicted a restricted mean survival time (RMST) ratio ≥ 1.30 with log-rank one-sided p < 0.10, conditional on passing a mechanism check (acting policy must be on latent mode with a crystallized skill loaded).
+**Explicit positioning relative to adjacent literature:**
+- **Gato (Reed et al., 2022)** — single-transformer multi-task policy handling mixed action spaces via tokenization. Differs from Ragnarok in that Gato is *one model* trained on many tasks, not a shape-checked subset transferred from one skill into a new-task agent.
+- **RT-X / Open X-Embodiment (2024)** — cross-embodiment transfer via shared transformer backbone across robot morphologies. Shares the spirit of cross-platform transfer but operates at the scale of 1M+ episodes and uses a unified transformer, not a subset-of-RSSM transfer.
+- **SPiRL (Pertsch et al., 2020)** — skill priors from offline data, KL-regularized during downstream RL. Assumes homogeneous action space across source and target.
+- **Options-Critic (Bacon et al., 2017)** — options framework with learned terminations. Discrete-only action spaces.
+- **Progressive Networks (Rusu et al., 2016)** — lateral connections across task columns. Fixed action space, parameters scale O(n) with skill count.
 
-**Current empirical state (2026-04-17).** Pilot #2 (N=5 seeds) showed RMST ratio 1.238 fragile under leave-one-out (dropping seed 46 collapses the ratio to 1.049). Band B rescue (N=5 fresh seeds on primary with corrected warmup parameter) yielded ratio **1.605**, **robust under leave-one-out** (minimum LOO ratio = 1.435, well above the Band A threshold of 1.30). However, p-value at N=5 is 0.259 — directionally consistent but statistically underpowered.
+The specific mechanism Ragnarok tests — *shape-checked transferable-subset loading of Dreamer-RSSM's dynamics modules across discrete↔continuous action-type boundary, with the policy switched to latent mode* — is not resolved in the published record to the best of my search.
 
-A pre-registered **Band C extension** (N=10 pooled, seeds 47–56) is currently running and will complete ~2026-04-17 evening. The extension is specified **before** seeds 52–56 are launched, with kill criteria (ratio < 1.20, p ≥ 0.20, or LOO min < 1.00 triggers project pivot) and pass criteria (ratio ≥ 1.30, p < 0.10 in both asymptotic and permutation tests, LOO min ≥ 1.15 triggers §8 full pass).
+**The preregistered hypothesis (§8 of `preregistration.md`, committed 2026-04-14, pre-pilot).** On the primary pair CartPole-v1 → MountainCar-Continuous-v0, the project predicted a restricted mean survival time (RMST) ratio ≥ 1.30 (scratch/transfer) with log-rank one-sided p < 0.10, conditional on a mechanism check: acting policy on latent mode, crystallized skill loaded into the RSSM subset.
+
+**Current empirical state (2026-04-17).** Pilot #2 (N=5 seeds, 3 pairs × 2 arms) showed primary-pair RMST ratio 1.238, fragile under leave-one-out (dropping seed 46 → 1.049). Band B rescue (N=5 fresh seeds on primary with a corrected warmup parameter) yielded ratio **1.605** (robust under leave-one-out, minimum LOO ratio = 1.435, above the §8 Band A threshold of 1.30). However, log-rank p-value at N=5 is 0.259 — directionally consistent with the hypothesis but statistically underpowered.
+
+A pre-registered **Band C N=10 extension** (seeds 47–56 pooled) is running at the time of writing and will complete ~2026-04-17 evening (Band C pre-spec committed at SHA `a0c1140`, before seeds 52–56 launched). Pass, intermediate, and kill criteria are defined numerically; see `preregistration.md` §13 v3.7 for details.
+
+**Honest positioning:** the primary pair (CartPole→MountainCar-Continuous) is, the author now acknowledges after adversarial review, the most favorable cross-action-type pair imaginable — both pendular-class systems, both ~4D observations, with CartPole's discrete action semantically close to a discretized MountainCar-Continuous force. The preregistration's secondary pairs (acrobot→cartpole-swingup, pendulum→cartpole-swingup) and the preregistered A10 adversarial pair (Pendulum→DMC-finger-spin, non-pendular target) are intended to test generality; A10 has not yet been executed and is explicitly a blocking deliverable for any workshop submission making a generality claim. Full honesty on this limitation is surfaced both in the paper's eventual methods section and in §10 B0 (the modest-but-reliable fallback path) of the preregistration.
 
 ## 3. Methodology as rigor signal
 
@@ -43,45 +58,69 @@ This methodology is, to my knowledge, more rigorous than most single-author work
 
 ## 4. Proposed use of TPU compute
 
-### 4.1 Immediate needs (Month 1, ~60 TPU-hours)
+### 4.0 Compute scaling rationale
 
-- **Replicate Band C verdict on TPU** to establish confidence that the GPU-to-TPU pipeline produces consistent results. ~15 TPU-hours (1 paired primary-pair sweep).
-- **Run the A10 adversarial pair ablation** (CartPole → DMC-finger-spin) already pre-registered in §12.5 but not yet executed due to GPU-hour budget. ~10 TPU-hours.
-- **Run the A11 GRU-shuffled weights ablation** confirming mechanism (§10 B0 clause 3). ~5 TPU-hours.
-- **Buffer/debug budget**. ~30 TPU-hours.
+The full pilot #2 + Band B + Band C sequence consumed **35 GPU-hours** on a single RTX 4080 (observed wall-clock, recorded in `pilot_results.json` provenance fields). The RSSM training step is the dominant cost; at batch size 16, sequence length 50, latent 32, GRU width 200, the step is arithmetically near the RTX 4080's peak for fp16. A TPU v3-8 delivers 2–3× the RTX 4080's effective throughput on RSSM-class workloads per published benchmarks (JAX-XLA comparison, comparable fp16 batches). Thus:
 
-### 4.2 Scale-up phase (Months 2–3, ~100 TPU-hours)
+- 1 primary-pair N=5 run ≈ 7 GPU-hours (RTX 4080) ≈ **3 TPU v3-8 hours**
+- 1 full 3-pair × 5-seed pilot ≈ 35 GPU-hours ≈ **15 TPU v3-8 hours**
+- Post-1 horizontal scale (7 new pairs × N=5) ≈ 49 GPU-hours ≈ **20 TPU v3-8 hours**
 
-- **Post-1 horizontal scale**: extend the skill library from 3 skills to 10 skills via 7 additional source-target pairs across DMControl and MetaWorld. This is the empirical backbone of any follow-up main-track paper. ~60 TPU-hours.
-- **Q1-C contrastive RSSM** experiment (replace reconstruction loss with disagreement-weighted contrastive loss on the existing `EnsembleRSSMCore`). Ablation with on/off switch and OOD distractor benchmark. ~30 TPU-hours. (See `reviews/research_directions.md` §2 for full rationale.)
-- **Q3-A kickstarting and Q3-B EWC** transfer-acceleration experiments (see `reviews/transfer_acceleration_review.md`). ~10 TPU-hours for initial screening.
+These are conservative upper bounds; with JAX/XLA tuning they should shrink further. A calibration run in Month 1 (§4.1) will produce actual GPU-hr → TPU-hr conversion benchmarks and be reported in the first monthly update.
 
-### 4.3 Publication & dissemination (Month 4, negligible compute)
+### 4.1 Month 1 (~40 TPU-hours) — validate + execute preregistered ablations
 
-- Final N=20 seeds analysis for workshop submission (primary pair + 1–2 scaled secondaries).
-- Paper draft, code release, seed-level data release, blog post.
+- **Replicate Band C verdict on TPU** to validate the GPU→TPU pipeline and produce the calibration benchmark. ~10 TPU-hours.
+- **A10 adversarial pair** (CartPole → DMC-finger-spin, non-pendular target) — preregistered in §12.5 and **blocking any cross-action-type generality claim in the paper**. N=5. ~10 TPU-hours.
+- **A11 GRU-shuffled weights ablation** — preregistered mechanism filter for §10 B0 path. N=5. ~5 TPU-hours.
+- **Buffer / debug / unexpected rerun budget.** ~15 TPU-hours.
 
-**Total requested for initial 30-day allocation: 1 TPU v3-8 on-demand + preemptible overflow, renewable on production of the Month-1 deliverables.**
+### 4.2 Months 2–3 (~60 TPU-hours, stretch) — Post-1 horizontal scale
+
+- **Post-1 horizontal scale**: extend the skill library from 3 to ~10 skills via 7 additional source-target pairs across DMControl (cheetah, walker, hopper) and selected MetaWorld tasks. This is the empirical backbone of a future main-track submission and the only item truly compute-bounded (vs. idea-bounded) today. ~40 TPU-hours.
+- **Buffer + analysis compute**. ~20 TPU-hours.
+
+### 4.3 Month 4 (negligible compute) — dissemination
+
+- Final analysis, paper draft (if Band C + A10 + A11 pass the pre-registered thresholds), code release, seed-level data release, blog post publication.
+
+**Initial ask: 1 TPU v3-8 on-demand + preemptible overflow for 30 days (~40 TPU-hours),** renewable monthly on production of Month-1 deliverables. This is intentionally sober — smaller first allocation, renewed with evidence, per TRC's standard workflow. A post-workshop re-application would expand the ask for a main-track paper's compute budget.
 
 ## 5. Deliverables committed
 
-Per TRC's participation norm ("expected to share research through peer-reviewed publications, open source code, blog posts, or other means"):
+Three hard commitments, regardless of Band C outcome:
 
-1. **All code remains open source under Apache License 2.0** on the public repository (GitLab primary, GitHub mirror), with seed-level JSON result artifacts tracked in git for audit-level reproducibility.
-2. **Workshop paper submission** to RLC 2026 workshop track or NeurIPS 2026 RL workshop, conditional on Band C outcome (full pass → §8 PASS paper; intermediate → B0 modest paper; kill → pivot to Post-1 and submit main-track instead).
-3. **Blog post / technical write-up** on preregistration-grade methodology as a blueprint for solo-dev research rigor. This stands even if the scientific result is negative — the methodology itself is a publishable artifact.
-4. **Reproducibility bundle** (POST-006 in `reviews/post_pilot_backlog.md`): `scripts/reproduce_headline.py` that reads seed-level JSONs and regenerates the paper's headline table and figures.
-5. **Monthly progress reports** to TRC summarizing TPU-hours spent, experiments completed, and deliverables produced, enabling renewal decisions with full information.
+1. **Open-source code and data under Apache License 2.0.** All code, preregistration, seed-level JSON result artifacts, and amendment history remain in the public repository (GitLab primary, GitHub mirror). Reproducibility script (`scripts/reproduce_headline.py`) reads seed-level JSONs and regenerates the paper's headline table and figures, runnable on a single CPU in under 2 minutes.
+2. **Monthly TRC progress report** — TPU-hours spent, experiments completed, outcomes against the preregistered kill/pass criteria, next-month plan. Supports TRC's renewal decisions with full information.
+3. **Blog post on preregistration-grade methodology** for solo-dev RL — a reusable blueprint independent of the scientific result. Published within 2 weeks of Band C verdict.
+
+One conditional commitment:
+
+4. **Workshop paper submission** to RLC 2026 or NeurIPS 2026 workshop — *only if* Band C passes pre-registered thresholds AND A10 + A11 ablations support the mechanism claim. If these conditions are not met, the workshop submission is explicitly skipped in favor of a stronger main-track submission 3–6 months later from Post-1 horizontal-scale data.
+
+Stretch items (explicitly not committed, listed only to describe the research roadmap):
+- Q1-C contrastive RSSM experiment (see `reviews/research_directions.md` §2)
+- Q3-A kickstarting transfer acceleration (see `reviews/transfer_acceleration_review.md`)
+- POST-007 multi-skill composition (see `reviews/post_pilot_backlog.md`)
+
+These are deferred to Month 3+ if TRC compute and results permit.
 
 ## 6. Principal investigator
 
 **Jérémie Mortier** — independent researcher based in France. MSc in IT Engineering from Epitech (French engineering school with international campuses in San Francisco, Los Angeles, Berlin, Strasbourg). Three years of contract engineering at **Stormshield**, a French cybersecurity vendor subsidiary of Airbus Defence and Space — a context that demands the kind of engineering rigor reflected in the Ragnarok methodology.
 
-No academic affiliation; no publication track record yet. Ragnarok is a **5-day-old intensive project** as an RL research effort: the pivot commit `3cf847d` ("new projet") is dated 2026-04-12, verifiable via `git log 3cf847d`. For full transparency: the underlying Git repository dates back to 2023 as an unrelated game-development project (multiplayer C/C++, archived March 2025 and dormant for 13 months before the April 2026 pivot). A tag `rl-project-start` marks the pivot commit so reviewers can isolate the RL-era history with `git log rl-project-start..HEAD`.
+No current academic affiliation; no publication track record yet. What exists as of this application:
 
-The short RL-era timeline is not a qualifier; it is a signal. Reaching preregistered-pilot stage with full chronology audit, multi-agent review, 444 passing tests, and three complete pilot pairs (40 runs + Band B rescue + Band C N=10 extension in progress) in five days required sustained focus, long evening sessions, and heavy use of LLM-assisted development under ongoing human supervision. The research question — whether a skill's latent trunk transfers across action-space types — is the PI's own; the LLM writes the implementation under direction, and the PI arbitrates every scientific decision. See the disclosure paragraph at the end of §3 for the full workflow declaration.
+- **Full preregistered pilot** (40-run primary dataset + Band B rescue N=5 + Band C N=10 extension in flight), all seed-level data tracked in git for reviewer inspection.
+- **11 timestamped preregistration amendments**, every one with commit SHA, rationale, and — critically — a solo-initiated chronology audit that identified and corrected one integrity defect (v3.5 → v3.6) before any external reviewer saw it.
+- **444 passing tests** covering RSSM transferable subset, skill crystallization, SAC policy, curiosity, world-model trainer, pilot pipeline.
+- **Four adversarial multi-agent reviews at pre-submission gates** (`reviews/pre_trc_4agent_review_2026-04-17.md`), with all critical corrections integrated before submission.
 
-The work is self-funded, pursued alongside paid contract engagements at Stormshield. The preregistration, chronology audit, and multi-agent review processes were adopted specifically to compensate for the lack of institutional peer review available to solo researchers — and they proved effective at catching one integrity defect (the B0 chronology phrasing in v3.5, corrected in v3.6) before any external reviewer saw it.
+**Transparency on repository provenance.** The Git repository was initialized in January 2023 for an unrelated game-development project (multiplayer C/C++, archived March 2025 and dormant for 13 months before the April 2026 repurposing). The tag `rl-project-start` marks commit `3cf847d` on 2026-04-12, which begins the RL research era and wipes the prior codebase clean; reviewers can isolate the RL-era history with `git log rl-project-start..HEAD`. The old commits are preserved rather than deleted because rewriting history to hide them would be inconsistent with the project's stated integrity norms.
+
+**Transparency on LLM-assisted workflow.** Implementation (code and documentation drafting) and multi-agent reviews are executed with Anthropic's Claude under sustained human review. The research question, hypothesis choices, preregistration thresholds, kill criteria, result interpretation, and arbitration of every factual claim are the PI's work; the multi-agent reviews approximate peer review at solo-dev scale but do not substitute for the external peer review that workshop submission will provide. This disclosure is present once, here, and once in §3 of this proposal, and once in the README — three places, because that kind of workflow deserves transparency at each entry point into the project.
+
+**Funding and time commitment.** The project is self-funded, pursued alongside paid contract engagements at Stormshield (Airbus Defence and Space subsidiary, French cybersecurity sector). No external research grants, no institutional backing.
 
 ## 7. Why now, why TPU compute
 
