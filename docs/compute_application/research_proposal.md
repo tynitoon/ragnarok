@@ -10,15 +10,21 @@
 
 ## 1. Project summary
 
-Ragnarok investigates a bottleneck in embodied-agent skill reuse: **real-world agents need libraries of both discrete-choice primitives (mode switches, gripper open/close, tool selection) and continuous-control primitives (joint torques, wheel velocities) — yet existing RL transfer methods almost all assume a fixed action-space type within a given skill library.** If a robot's "stabilize a cart" skill is discrete but its new task requires continuous control, the skill is wasted.
+Ragnarok is a **research program on modular skill learning in RL agents**, not a single-hypothesis study. The program addresses three open questions about *how skills should actually be represented and reused*, each with concrete falsifiable tests planned (detailed in `reviews/research_directions.md`):
 
-Ragnarok tests whether the **latent trunk of a Dreamer-style RSSM world model** — specifically, the GRU core, prior, and posterior distributions, loaded via shape-checked `load_state_dict` without the task-specific encoder or action head — can carry *dynamics knowledge* across this action-type boundary. The research question:
+- **Q1 — Pure skill learning.** Can an agent learn the *physics and causal interactions* of an environment rather than just predicting the next pixel? This addresses a documented limitation of Dreamer-family world models (Zhang 2021, DBC; Robine 2023, TWM): reconstruction-loss-based world models learn statistical patterns, not causal dynamics.
+- **Q2 — Contextual skill selection.** Given a library of crystallized skills, which one (or which combination) should an agent use in a new situation? Current skill-selection methods are static nearest-neighbor on learned embeddings. This touches MoE, options frameworks, PEARL-style context encoders, and multi-skill composition.
+- **Q3 — Transfer acceleration.** How can an agent use prior skills to learn faster on new tasks, beyond simple `load_state_dict` initialization? Kickstarting (Schmitt 2018), EWC-protected backbones (Kirkpatrick 2017), imagination-priming — all open engineering and empirical questions.
 
-> **Given a skill crystallized on task A (one action-space type) and a new task B (different action-space type), does loading the RSSM transferable subset and switching the agent to act on latent features yield measurably faster mastery than training from scratch?**
+The **first falsifiable test** in this program is a narrow concrete claim that anchors the broader work:
 
-This is narrower than "cross-embodiment transfer" (Gato 2022, RT-X 2024) which uses single-model tokenization, and narrower than "skill priors" (SPiRL 2020) which assume homogeneous action spaces. Progressive Networks (Rusu 2016) and Options-Critic (Bacon 2017) handle one action-space type at a time. **The specific gap Ragnarok tests is: shape-checked subset transfer across action-type boundary in the Dreamer-RSSM family.**
+> **Can a Dreamer-style RSSM's latent trunk (GRU core + prior + posterior distributions) transfer across an action-space-type boundary (discrete ↔ continuous) via shape-checked `load_state_dict`, and measurably accelerate learning on the target task?**
 
-The project is conducted with **preregistration-grade methodology**: every hypothesis, threshold, and analytic choice is committed to a public `preregistration.md` document **before** the data it evaluates exists, with git-history-verified chronology and timestamped amendments for any revision. A solo-initiated chronology audit (`reviews/chronology_audit.md`) corrected one integrity defect in the preregistration before external review — this level of self-scrutiny is the project's methodological signature.
+This first test matters because it concerns embodied-agent skill libraries that must span discrete-choice primitives (mode switches, grippers, tool selection) and continuous-control primitives (joint torques, wheel velocities). Progressive Networks (Rusu 2016), Options-Critic (Bacon 2017), SPiRL (Pertsch 2020), Gato (Reed 2022), RT-X (2024) each address related questions but are distinct from this specific mechanism. See §2 for full positioning.
+
+**Why TRC compute for exploration, not just a single study.** The first test (cross-action-type transfer) is mostly complete at the time of writing — Band B rescue gave ratio 1.605 with underpowered p=0.259 at N=5, and Band C N=10 is running. The next six months' value will come from *exploring Q1, Q2, and Q3* across a larger skill library (~10 skills instead of 3) and multiple architectural variants, not from rerunning the first test. The compute enables breadth, not just statistical power.
+
+**Preregistration-grade methodology.** Every hypothesis, threshold, and analytic choice is committed to a public `preregistration.md` document **before** the data it evaluates exists, with git-history-verified chronology and timestamped amendments for any revision. A solo-initiated chronology audit (`reviews/chronology_audit.md`) corrected one integrity defect in the preregistration before external review — this level of self-scrutiny is the project's methodological signature, and it applies to every future experiment under the TRC allocation.
 
 ## 2. Scientific contribution
 
@@ -75,16 +81,28 @@ These are conservative upper bounds; with JAX/XLA tuning they should shrink furt
 - **A11 GRU-shuffled weights ablation** — preregistered mechanism filter for §10 B0 path. N=5. ~5 TPU-hours.
 - **Buffer / debug / unexpected rerun budget.** ~15 TPU-hours.
 
-### 4.2 Months 2–3 (~60 TPU-hours, stretch) — Post-1 horizontal scale
+### 4.2 Months 2–3 (~60 TPU-hours) — research program exploration
 
-- **Post-1 horizontal scale**: extend the skill library from 3 to ~10 skills via 7 additional source-target pairs across DMControl (cheetah, walker, hopper) and selected MetaWorld tasks. This is the empirical backbone of a future main-track submission and the only item truly compute-bounded (vs. idea-bounded) today. ~40 TPU-hours.
-- **Buffer + analysis compute**. ~20 TPU-hours.
+**Priority order and allocation subject to Month-1 verdicts.** The research program's three questions (Q1/Q2/Q3 in §1) are explored in parallel, with compute allocated based on which thread shows the strongest signal. The plan below represents an upper-bound commitment; actual allocation is adjusted each month in the monthly TRC report.
 
-### 4.3 Month 4 (negligible compute) — dissemination
+- **Post-1 horizontal skill-library scale** (~30 TPU-hours) — extend the skill library from ~3 skills to ~10 skills via 7 additional source-target pairs spanning DMControl (cheetah, walker, hopper, quadruped) and MetaWorld (pick-place, reach, button-press). This is the empirical substrate required to make Q2 (skill selection) and Q3 (multi-skill composition) *testable*: with only 3 skills, statistical power for these questions is insufficient.
 
-- Final analysis, paper draft (if Band C + A10 + A11 pass the pre-registered thresholds), code release, seed-level data release, blog post publication.
+- **Q1 exploration — contrastive RSSM + ensemble disagreement** (~15 TPU-hours) — replace reconstruction loss with disagreement-weighted contrastive loss on the existing `EnsembleRSSMCore` (see `reviews/research_directions.md` §2 for full mechanism and pre-registered success metric). Tests whether physics-grounded latent representations transfer better than pixel-prediction-grounded ones, both within-task-type and cross-action-type.
 
-**Initial ask: 1 TPU v3-8 on-demand + preemptible overflow for 30 days (~40 TPU-hours),** renewable monthly on production of Month-1 deliverables. This is intentionally sober — smaller first allocation, renewed with evidence, per TRC's standard workflow. A post-workshop re-application would expand the ask for a main-track paper's compute budget.
+- **Q3 exploration — transfer acceleration** (~15 TPU-hours) — initial screening of Kickstarting (distillation with decaying coefficient) and EWC-protected backbone loading against the current `load_state_dict` baseline. Both methods are well-motivated but unvalidated in the specific context of RSSM subset transfer. See `reviews/transfer_acceleration_review.md` for full design space.
+
+**Q2 exploration** (skill selection) is deferred to Months 3+ because it requires the 10-skill library from Post-1 to be empirically tractable.
+
+### 4.3 Month 4+ (compute-tapered) — dissemination
+
+Publication decisions depend on discovery quality, not on a predetermined schedule. The author commits to:
+
+- **Public release of all seed-level data, code, preregistration, and amendment history** under Apache 2.0 regardless of discovery outcome.
+- **A methodology blog post** within 2 weeks of Band C verdict (unconditional commitment).
+- **Workshop or conference submission** *only if* one or more of the three questions produces a result that is (a) robust under adversarial review, (b) rare enough in the published literature to warrant attention, and (c) falsifiable against its own null.
+- **A public exploratory report** documenting negative and null results from the program, with enough detail to save future researchers from rediscovering the same dead ends.
+
+**Initial ask: 1 TPU v3-8 on-demand + preemptible overflow for 30 days (~40 TPU-hours),** renewable monthly on production of Month-1 deliverables. This is intentionally sober — smaller first allocation, renewed with evidence, per TRC's standard workflow. Renewal decisions will be driven by which of Q1/Q2/Q3 are showing empirical traction, not by a predetermined publication pipeline.
 
 ## 5. Deliverables committed
 
@@ -124,11 +142,26 @@ No current academic affiliation; no publication track record yet. What exists as
 
 ## 7. Why now, why TPU compute
 
-The Band C N=10 extension currently running will, by end of 2026-04-17, give a clean verdict: either §8 primary passes and I write a solid workshop paper with a confirmed novel contribution, or I pivot to Post-1 horizontal scale and aim for a stronger main-track submission 3–6 months later. **Either path is compute-bounded, not idea-bounded.**
+The Band C N=10 extension currently running will, by end of 2026-04-17, give a clean first-test verdict. That verdict conditions the *framing* of the follow-up work but does not change the TRC ask: regardless of outcome, the next six months' value comes from exploring Q1/Q2/Q3 across a larger skill library and multiple architectural variants.
 
-Current hardware is a single RTX 4080 GPU in a home workstation. Pilot #2 + Band B + Band C consumes approximately 35 GPU-hours end-to-end. Post-1 horizontal scale alone is estimated at 120+ GPU-hours of N=5 runs across 7–10 new pairs, before considering Q1-C, Q3-A/B, or any follow-up. The GPU is a hard bottleneck.
+Current hardware is a single RTX 4080 GPU in a home workstation. Pilot #2 + Band B + Band C consumes approximately 35 GPU-hours end-to-end. Post-1 horizontal scale alone is estimated at 120+ GPU-hours of N=5 runs across 7–10 new pairs, before considering Q1 contrastive world models, Q3 transfer acceleration, or Q2 skill selection. The GPU is the hard bottleneck between ideas and verdicts.
 
-TPU access would **not** accelerate the scientific thinking (that's what preregistration forces to the front) — it would directly remove the execution bottleneck between ideas and empirical verdicts, at the exact moment (first publishable result landing within weeks) when the marginal value of compute is highest.
+TPU access would **not** accelerate the scientific thinking (that's what preregistration forces to the front) — it would directly remove the execution bottleneck, at the exact moment when the research program's design space has been mapped and the priority question is *which of these threads yields a discovery worth pursuing further*.
+
+---
+
+## 8. Research philosophy and output contract
+
+**The primary output of this project is scientific discovery, not a specific publication.** A workshop or conference paper is a natural byproduct *if* discoveries warrant it — but the deliverable pitched to TRC is the exploration itself, not the production of a paper against a submission deadline.
+
+Concretely, this means:
+
+- **Publication decisions are discovery-driven, not schedule-driven.** If one of Q1/Q2/Q3 yields a robust, falsifiable, and genuinely new result, that result drives the paper timing and venue choice (possibly including venues higher than workshop tier). If no thread yields a publishable positive result, the program publishes a thorough negative-and-null-results report rather than forcing a marginal paper.
+- **Transparent methodology is non-negotiable, always.** Regardless of which thread produces results, the preregistration amendments, seed-level data, multi-agent reviews, chronology audits, and reproducibility artifacts are committed to public git in real time, not staged for a submission bundle.
+- **Open-source exploration, with the option to keep a specific trained artifact reserved.** All code, experimental logs, and methodology documents are open under Apache 2.0. If a specific combination of methods yields a trained model (e.g., a multi-skill library with demonstrably useful transfer properties), the *artifact itself* may be reserved for further development into a product or platform — but the reasoning, methodology, and underlying algorithms enabling it are always published openly, so the community can reproduce the science even if not the exact artifact.
+- **The author chooses honesty over narrative convenience.** When a result is fragile, it is reported as fragile (as with Band B's p=0.259). When a claim needs to be narrowed after adversarial review, it is narrowed (as with §2's positioning against Gato, RT-X, SPiRL). When a preregistration defect is detected, it is corrected transparently (as with v3.5 → v3.6 chronology audit).
+
+**Why this framing is appropriate for TRC specifically.** TRC's mission statement explicitly values sharing research "through peer-reviewed publications, open source code, blog posts, or other means." The "other means" is load-bearing here: a thorough exploratory program with reproducible methodology and public negative results has independent scientific value, even absent a specific paper. The author commits to the full spectrum of TRC's valued output modes — not just paper-and-done.
 
 ---
 
