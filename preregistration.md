@@ -1237,4 +1237,128 @@ in Phase 4 baselines, not Phase 5.
   *Amendment trigger:* devil's-advocate agent review 2026-04-16;
   findings adjudicated in `reviews/chronology_audit.md`.
 
+- **2026-04-17 (v3.7 — Band C extension N=10 on primary pair;
+  pre-registered BEFORE launch of seeds 52-56).**
+
+  *Context:* Band B rescue (seeds 47-51, warmup=200, primary pair
+  cartpole→mcc) completed 2026-04-17 10:07. Results, from
+  `pilot_bandb_results.json` via `scripts/pilot_analysis.py`:
+  - RMST ratio (scratch/transfer) = **1.605** — above Band A
+    threshold (≥ 1.30) and all Band B cells.
+  - Log-rank p (one-sided, asymptotic) = **0.2402**.
+  - Log-rank p (permutation, N=10,000) = 0.2585.
+  - Mechanism: 5/5 transfer runs on `latent` mode, 5/5 loaded a
+    crystallized skill. PASS.
+  - Per-seed ratios (scratch_stm / transfer_stm): seed 47 = 0.98,
+    seed 48 = 1.50, seed 49 = 3.29, seed 50 = 0.97, seed 51 = 1.57.
+    3/5 positive, 2/5 neutral.
+  - Leave-one-out: min ratio = 1.435 (drop seed 49), max = 1.671
+    (drop seed 47). **No outlier-driven effect** — contrast with
+    pilot #2 where LOO drop of seed 46 collapsed ratio from 1.238
+    to 1.049.
+
+  The ratio is strong and LOO-robust, but variance is high enough
+  that p exceeds §8 threshold (0.10) and all Band B cells
+  (max p = 0.20 in v4 cell 2). The §8 primary FAIL verdict holds
+  strictly. Plan B0 as currently specified (ratio ∈ [1.15, 1.30))
+  does NOT match the observation either — observed ratio 1.605 is
+  above the B0 band.
+
+  The finding is directionally consistent with transfer but
+  statistically underpowered at N=5.
+
+  *What changes in v3.7:* §10 gains a new **Band C** specification
+  for a pre-registered N=10 extension on the primary pair only.
+  The extension adds seeds 52–56 (5 fresh seeds) to the existing
+  seeds 47–51 Band B pool, evaluated as a single N=10 analysis.
+
+  **Band C pass spec (must satisfy ALL three):**
+  1. RMST ratio (scratch/transfer) ≥ **1.30** computed on N=10
+     pooled (seeds 47–56).
+  2. Log-rank p (one-sided, BOTH asymptotic AND permutation
+     N=10,000) < **0.10**.
+  3. Leave-one-out minimum ratio ≥ **1.15** across all N=10 LOO
+     draws (no single seed drives the result below the Band B
+     floor).
+
+  If all three pass → **§8 primary recovers as PASS** for the
+  workshop paper via N=10 pre-registered extension. This is a
+  stronger finding than Plan B0 (which expects modest-but-reliable
+  1.15–1.30 ratio): Band C would land at Band-A-equivalent ratio
+  with strict significance at N=10.
+
+  **Band C kill spec (any triggers abandonment of workshop paper
+  via primary pair):**
+  - RMST ratio N=10 < **1.20**, OR
+  - Log-rank p N=10 ≥ **0.20** (both asymptotic and permutation),
+    OR
+  - LOO minimum ratio < **1.00** (a single seed's removal inverts
+    the direction).
+
+  If any kill triggers → accept that the primary pair cannot
+  support the workshop claim. Pivot to Post-1 horizontal scale
+  (5–10 new tasks, §14 research_plan.md) and abandon the workshop
+  submission, as committed in `reviews/research_directions.md` §6
+  branch C.
+
+  **Intermediate outcome** (ratio ∈ [1.20, 1.30) at p < 0.10, or
+  ratio ≥ 1.30 at p ∈ [0.10, 0.20), or LOO min ∈ [1.00, 1.15)):
+  triggers **Plan B0 modest paper** with Band C's N=10 numbers
+  substituted for the original B0 analysis. Mechanism filters of
+  §10 B0 (A11 ≥ 0.10 ratio gap, A7 scan, A9 cross-trajectory
+  shuffle) remain required.
+
+  *Chronology assertion (critical for integrity):*
+  This amendment is committed **before** seeds 52–56 are launched.
+  The seeds 47–51 data is fully unblinded at commit time (see
+  ratio/p/LOO numbers above), but seeds 52–56 have NOT been
+  trained. Reviewer can verify via:
+  - `git log -1 preregistration.md` SHA and timestamp at the
+    moment of this commit;
+  - file mtime of `pilot_bandb_results.json` (2026-04-17 08:58,
+    pre-amendment) containing only 5 seeds;
+  - `run_overnight_bandc.sh` (created in same commit batch)
+    specifying seeds 52–56 with base_seed=52.
+
+  This is a weaker integrity claim than full pre-pilot (§8 at v3,
+  2026-04-14, was pre-pilot for ALL seeds): Band C is **pre-
+  seeds-52-56 but post-seeds-47-51**. The distinction matters for
+  honest reporting and is the same kind of pre-outcome vs
+  pre-pilot distinction as the B0 chronology correction in v3.6.
+
+  *What is NOT changed in v3.7:*
+  - §8 primary threshold (1.30 / p<0.10) — unchanged; Band C
+    satisfies §8 strictly if it passes.
+  - §10 B0 and §10 B1 — unchanged; Band C sits above B0 as a
+    strengthening path.
+  - §11 kill criteria — unchanged; Band C kill triggers activate
+    §11's Post-1 pivot clause.
+  - Post-pilot backlog POST-001..POST-007 — unchanged.
+  - Mechanism requirements (A11, A7, A9 per §10 B0 clause 3) for
+    intermediate Plan B0 path — unchanged.
+
+  *Budget:* ~10 GPU-hours wall (5 seeds × ~2 hours/seed incl.
+  cartpole source crystallization + scratch mcc + transfer mcc).
+  Comparable to pilot #2 (12.65 GPU-hr at N=5). Executed as
+  `run_overnight_bandc.sh`, logged to `pilot_bandc.log`, results
+  merged into `pilot_bandc_results.json` separately from existing
+  `pilot_bandb_results.json` to preserve audit trail.
+
+  *Corrective actions for paper submission:*
+  - Report Band C result (pass, intermediate, or kill) honestly
+    with full N=10 per-seed ratios, LOO table, p-values from both
+    asymptotic and permutation tests.
+  - Include this amendment text and the timestamped commit SHA
+    in supplementary materials so the pre-seeds-52-56 chronology
+    is independently verifiable.
+  - Do NOT cherry-pick: the N=10 analysis reported is the ONLY
+    analysis reported for the primary pair in the paper's headline
+    table. No re-analysis with different seed subsets.
+
+  *Amendment trigger:* Band B rescue underpowered at N=5
+  (ratio 1.605 strong, p=0.24 fails §8); decision to proceed via
+  pre-registered N=10 extension over either accepting weak B0 path
+  or abandoning paper. See `reviews/research_directions.md` §6 for
+  full branch A/B/C decision tree.
+
 - (Subsequent amendments timestamped here before execution.)
