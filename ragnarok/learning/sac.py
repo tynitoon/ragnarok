@@ -14,7 +14,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 class QNetwork(nn.Module):
@@ -383,6 +383,8 @@ class SACTrainer:
         with torch.no_grad():
             torch._foreach_mul_(self._q_target_params, 1 - self.tau)
             torch._foreach_add_(self._q_target_params, self._q_params, alpha=self.tau)
+
+        mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         # Batch .item() conversions in a single CUDA sync at the end of the
         # update step, instead of 5 separate syncs interleaved with ops.

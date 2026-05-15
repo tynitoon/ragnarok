@@ -17,7 +17,7 @@ import torch.nn as nn
 from ragnarok.core.rssm import RSSM
 from ragnarok.core.policy import ActorCritic
 from ragnarok.memory.replay_buffer import ReplayBuffer
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 from ragnarok.learning.advantages import compute_lambda_returns
@@ -146,6 +146,7 @@ class DreamTrainer:
         critic_loss.backward()
         torch.nn.utils.clip_grad_norm_(self.ac.critic.parameters(), self.grad_clip)
         self.critic_optimizer.step()
+        mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         return {
             "actor_loss": actor_loss.item(),

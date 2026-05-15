@@ -20,7 +20,7 @@ import numpy as np
 from ragnarok.core.rssm import RSSM
 from ragnarok.learning.real_experience import DirectPolicyNet, ContinuousPolicyNet
 from ragnarok.memory.replay_buffer import ReplayBuffer
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 from ragnarok.learning.advantages import compute_lambda_returns
@@ -195,6 +195,7 @@ class DreamAugmenter:
         loss.backward()
         nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
         self.optimizer.step()
+        mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         return {
             "dream_aug/actor_loss": actor_loss.item(),

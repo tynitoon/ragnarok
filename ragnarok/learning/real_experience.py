@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 from ragnarok.learning.advantages import compute_gae
 
 
@@ -342,6 +342,7 @@ class PixelPPOTrainer:
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.net.parameters(), self.grad_clip)
                 self.optimizer.step()
+                mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
                 total_pg += pg_loss.item()
                 total_vf += vf_loss.item()
@@ -789,6 +790,7 @@ class RealExperienceTrainer:
         loss.backward()
         nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
         self.optimizer.step()
+        mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         metrics = {
             "real/actor_loss": actor_loss.item(),
@@ -1021,6 +1023,7 @@ class RealExperienceTrainer:
             loss.backward()
             nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
             self.optimizer.step()
+            mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         return {
             "real/actor_loss": actor_loss.item(),

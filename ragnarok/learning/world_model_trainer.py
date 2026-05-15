@@ -4,7 +4,7 @@ import numpy as np
 import torch
 from ragnarok.core.rssm import RSSM
 from ragnarok.memory.replay_buffer import ReplayBuffer
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 class WorldModelTrainer:
@@ -97,6 +97,7 @@ class WorldModelTrainer:
         losses["total_loss"].backward()
         torch.nn.utils.clip_grad_norm_(self.rssm.parameters(), self.grad_clip)
         self.optimizer.step()
+        mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
         return {k: v.item() for k, v in losses.items()}
 

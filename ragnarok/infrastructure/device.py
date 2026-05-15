@@ -1,10 +1,41 @@
-"""Device detection and tensor utilities."""
+"""Device detection and tensor utilities.
+
+Supports three backends, auto-detected at import time with priority
+TPU (XLA) > CUDA > CPU:
+
+- **TPU / XLA**: used when `torch_xla` is importable and an XLA device is
+  reachable (i.e. running on a Cloud TPU VM). PyTorch/XLA evaluates lazily —
+  ops accumulate into a graph that only executes on `mark_step()`. Training
+  loops must call `mark_step()` once per `optimizer.step()`.
+- **CUDA**: used on a machine with an NVIDIA GPU and no torch_xla.
+- **CPU**: fallback.
+
+The same codebase runs unchanged on a local CUDA workstation and on a Cloud
+TPU VM — `torch_xla` is an optional import, absent on the CUDA machine.
+"""
 
 import torch
 
+# Optional XLA import. Absent on CUDA/CPU machines; present on TPU VMs.
+try:  # pragma: no cover - import path depends on host
+    import torch_xla
+    import torch_xla.core.xla_model as xm
+    _XLA_AVAILABLE = True
+except ImportError:
+    _XLA_AVAILABLE = False
+
 
 def get_device() -> torch.device:
-    """Auto-detect best available device."""
+    """Auto-detect the best available device.
+
+    Priority: TPU (XLA) > CUDA > CPU.
+    """
+    if _XLA_AVAILABLE:
+        try:  # pragma: no cover - only runs on a TPU VM
+            return torch_xla.device()
+        except Exception:
+            # torch_xla importable but no XLA device reachable — fall through.
+            pass
     if torch.cuda.is_available():
         return torch.device("cuda")
     return torch.device("cpu")
@@ -13,6 +44,9 @@ def get_device() -> torch.device:
 DEVICE = get_device()
 DTYPE = torch.float32
 
+# True when the active device is an XLA (TPU) device. Drives mark_step().
+IS_XLA = str(DEVICE).startswith("xla")
+
 
 def to_device(tensor: torch.Tensor) -> torch.Tensor:
     """Move tensor to the default device."""
@@ -20,5 +54,20 @@ def to_device(tensor: torch.Tensor) -> torch.Tensor:
 
 
 def to_numpy(tensor: torch.Tensor):
-    """Convert tensor to numpy array."""
+    """Convert tensor to numpy array.
+
+    On XLA this forces a synchronous graph execution + device->host transfer.
+    Avoid calling it inside hot per-step loops where possible.
+    """
     return tensor.detach().cpu().numpy()
+
+
+def mark_step() -> None:
+    """Flush the XLA lazy-evaluation graph (execute accumulated ops).
+
+    No-op on CUDA/CPU. On XLA, call this once per ``optimizer.step()`` in
+    training loops: without it the lazy graph grows unbounded and never
+    executes; with it the graph is materialized at a controlled cadence.
+    """
+    if IS_XLA:
+        xm.mark_step()
