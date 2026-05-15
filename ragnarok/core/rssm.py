@@ -403,33 +403,44 @@ class RSSM(nn.Module):
         """
         outputs = self.observe(obs_seq, action_seq)
 
-        # Reconstruction loss
-        recon_loss = F.mse_loss(outputs["recon_obs"], obs_seq)
+        # Padding mask. Replay-buffer sequences are zero-padded to a fixed
+        # length (required for XLA — see ReplayBuffer.sample_sequences).
+        # Padded steps must not contribute to the loss, or the world model
+        # trains to predict padding. Padding sets done=1.0, so the cumulative
+        # sum of done identifies real steps: every step up to and including
+        # the first done has cumsum <= 1; padding has cumsum >= 2.
+        # valid_mask is (batch, seq_len): 1.0 = real step, 0.0 = padding.
+        # A mid-episode subsequence has no done at all -> mask is all-ones,
+        # so this is a no-op when there is no padding.
+        valid_mask = (torch.cumsum(done_seq.float(), dim=1) <= 1.0).float()
+        n_valid = valid_mask.sum().clamp(min=1.0)
 
-        # Reward prediction loss
-        reward_loss = F.mse_loss(outputs["reward_pred"], reward_seq)
+        # Reconstruction loss (masked mean over real steps)
+        recon_per_step = ((outputs["recon_obs"] - obs_seq) ** 2).mean(dim=-1)
+        recon_loss = (recon_per_step * valid_mask).sum() / n_valid
 
-        # Continue prediction loss (class-weighted binary cross-entropy)
+        # Reward prediction loss (masked mean over real steps)
+        reward_per_step = (outputs["reward_pred"] - reward_seq) ** 2
+        reward_loss = (reward_per_step * valid_mask).sum() / n_valid
+
+        # Continue prediction loss (class-weighted binary cross-entropy, masked)
         # Done examples are rare (~5%), so we upweight them heavily
         continue_target = 1.0 - done_seq.float()
-        # Weight: done steps (target=0) get 10x weight
-        pos_weight = torch.ones_like(continue_target)
         done_mask = done_seq.float() > 0.5
-        pos_weight[done_mask] = 0.1  # Lower pos_weight for done=True (target=0)
-        # Use per-element weighting
         continue_loss_raw = F.binary_cross_entropy_with_logits(
             outputs["continue_pred"], continue_target, reduction="none"
         )
         # Weight the done examples 10x more
         weights = torch.where(done_mask, 10.0, 1.0)
-        continue_loss = (continue_loss_raw * weights).mean()
+        continue_loss = (continue_loss_raw * weights * valid_mask).sum() / n_valid
 
-        # KL divergence between posterior and prior
+        # KL divergence between posterior and prior (masked)
         posterior = Normal(outputs["post_mean"], outputs["post_logstd"].exp())
         prior = Normal(outputs["prior_mean"], outputs["prior_logstd"].exp())
         kl = kl_divergence(posterior, prior)
         # Free nats: ignore KL below threshold (per dimension)
-        kl = torch.clamp(kl, min=free_nats / self.stoch_dim).sum(dim=-1).mean()
+        kl_per_step = torch.clamp(kl, min=free_nats / self.stoch_dim).sum(dim=-1)
+        kl = (kl_per_step * valid_mask).sum() / n_valid
 
         total_loss = recon_loss + reward_loss + continue_loss + kl_weight * kl
 

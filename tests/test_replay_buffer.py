@@ -45,7 +45,15 @@ class TestReplayBuffer:
 
         assert len(buf) <= 50
 
-    def test_adaptive_sequence_length(self):
+    def test_short_episodes_padded_to_fixed_length(self):
+        """sample_sequences always returns exactly seq_length steps.
+
+        Episodes shorter than seq_length are zero-padded (dones padded with
+        1.0). A FIXED output shape is required for PyTorch/XLA — a varying
+        length recompiles the XLA graph on every training step. The padded
+        steps are masked out of the RSSM loss (see RSSM.loss), so the world
+        model never trains on padding.
+        """
         buf = ReplayBuffer(capacity=1000)
         # Add short episodes (5 steps each)
         for _ in range(5):
@@ -55,6 +63,14 @@ class TestReplayBuffer:
             dones = np.zeros(5, dtype=np.float32)
             buf.add_episode(obs, acts, rews, dones)
 
-        # Request seq_length=50, but max episode is 5
-        obs, _, _, _ = buf.sample_sequences(2, 50)
-        assert obs.shape[1] == 5  # Capped to max episode length
+        # Request seq_length=50; episodes are only 5 steps -> padded to 50,
+        # NOT capped to 5 (the pre-XLA-fix behavior).
+        obs, acts, rews, dones = buf.sample_sequences(2, 50)
+        assert obs.shape == (2, 50, 4)
+        assert acts.shape == (2, 50, 2)
+        assert rews.shape == (2, 50)
+        assert dones.shape == (2, 50)
+        # Padded steps (indices 5:) are zero for obs, and dones==1.0 so the
+        # RSSM loss mask (cumsum-of-done) excludes them.
+        assert np.all(obs[:, 5:] == 0.0)
+        assert np.all(dones[:, 5:] == 1.0)

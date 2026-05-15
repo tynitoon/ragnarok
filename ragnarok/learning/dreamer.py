@@ -63,8 +63,10 @@ class DreamTrainer:
 
     def _get_initial_states(self) -> tuple[torch.Tensor, torch.Tensor]:
         """Sample initial latent states from the replay buffer."""
-        seq_len = min(10, self.buffer.max_episode_length)
-        seq_len = max(seq_len, 2)
+        # Fixed length — a varying seq_len recompiles the XLA graph every
+        # call (sample_sequences pads shorter episodes; padding is masked
+        # out of the RSSM loss).
+        seq_len = 10
         obs, actions, _, _ = self.buffer.sample_sequences(
             self.imag_batch, seq_len
         )

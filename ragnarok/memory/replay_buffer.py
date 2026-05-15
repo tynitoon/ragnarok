@@ -59,20 +59,29 @@ class ReplayBuffer:
 
     def sample_sequences(self, batch_size: int, seq_length: int
                          ) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Sample random subsequences from stored episodes.
+        """Sample random subsequences of FIXED length seq_length.
 
-        Automatically caps seq_length to the longest available episode
-        to avoid excessive padding.
+        Every returned sequence has exactly seq_length timesteps. Episodes
+        shorter than seq_length are zero-padded (dones padded with 1.0); the
+        padded steps are masked out of the RSSM loss (see RSSM.loss), so the
+        world model never trains on padding.
+
+        A fixed output shape is required for PyTorch/XLA: a varying sequence
+        length triggers a full XLA graph recompilation on every training
+        step, which saturates the TPU host CPU. On CUDA/CPU a fixed length
+        is harmless. (Earlier versions capped seq_length to the longest
+        episode in the buffer — convenient on GPU, pathological on TPU.)
 
         Returns:
-            obs:     (batch, actual_seq_length, obs_dim)
-            actions: (batch, actual_seq_length, action_dim)
-            rewards: (batch, actual_seq_length)
-            dones:   (batch, actual_seq_length)
+            obs:     (batch, seq_length, obs_dim)
+            actions: (batch, seq_length, action_dim)
+            rewards: (batch, seq_length)
+            dones:   (batch, seq_length)
         """
-        # Cap sequence length to what's actually available
-        effective_seq_length = min(seq_length, self.max_episode_length)
-        seq_length = max(effective_seq_length, 2)  # Need at least 2 steps
+        # Fixed output length — episodes shorter than seq_length are padded
+        # below, and padded steps are masked from the RSSM loss. A constant
+        # output shape is required for XLA (see docstring).
+        seq_length = max(seq_length, 2)  # need at least 2 steps
 
         # Filter episodes long enough
         valid_episodes = [ep for ep in self.episodes if ep.length >= seq_length]
