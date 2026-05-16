@@ -333,11 +333,18 @@ class LatentCuriosityModule:
                     outputs["post_mean"], outputs["post_logstd"].exp())
                 kl = torch.distributions.kl_divergence(posterior, prior)
                 kl_c = kl.sum(dim=-1).squeeze(0)              # (CHUNK,)
-                kl_parts.append(kl_c[:n].cpu().numpy())       # drop padding
+                # Transfer the full fixed-size chunk, then slice the real part
+                # on the host: a variable-length on-device slice (kl_c[:n])
+                # recompiles the graph for every distinct last-chunk length.
+                kl_parts.append(kl_c.cpu().numpy()[:n])       # drop padding
 
-                # Thread GRU state + boundary action into the next chunk.
-                state = (outputs["h"][:, n - 1], outputs["z"][:, n - 1])
-                prev_action = act_c[n - 1].unsqueeze(0)
+                # Thread GRU state + boundary action into the next chunk. A
+                # non-last chunk is always full (n == CHUNK), so the last real
+                # step is the fixed index CHUNK-1 — indexing at the variable
+                # n-1 recompiles per distinct last-chunk length. For the final
+                # chunk these are computed but unused (the loop then ends).
+                state = (outputs["h"][:, CHUNK - 1], outputs["z"][:, CHUNK - 1])
+                prev_action = act_c[CHUNK - 1].unsqueeze(0)
                 mark_step()  # XLA: cut the graph at the chunk boundary
 
             kl_per_step = np.concatenate(kl_parts)  # (T,)
