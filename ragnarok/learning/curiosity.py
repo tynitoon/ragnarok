@@ -76,15 +76,36 @@ class CuriosityModule:
 
         Returns:
             intrinsic_rewards: (T,) - beta-scaled normalized prediction errors
-        """
-        with torch.no_grad():
-            obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE)
-            act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE)
-            next_t = torch.tensor(next_obs_seq, dtype=torch.float32, device=DEVICE)
 
-            pred = self.predictor(obs_t, act_t)
-            # Per-step MSE (not reduced across batch)
-            errors = (pred - next_t).pow(2).mean(dim=-1).cpu().numpy()
+        XLA: the predictor is an MLP, so a whole variable-length episode
+        recompiles its forward graph per distinct length. Processed in
+        fixed-size chunks (last tile-padded, padding sliced off the output)
+        so the graph compiles once. Harmless on CUDA/CPU.
+        """
+        T = len(obs_seq)
+        if T < 1:
+            return np.zeros(0, dtype=np.float32)
+
+        CHUNK = 256
+        n_ch = (T + CHUNK - 1) // CHUNK
+        order = np.arange(n_ch * CHUNK) % T
+        obs_np = np.asarray(obs_seq, dtype=np.float32)[order]
+        act_np = np.asarray(action_seq, dtype=np.float32)[order]
+        next_np = np.asarray(next_obs_seq, dtype=np.float32)[order]
+
+        err_parts = []
+        with torch.no_grad():
+            for k in range(n_ch):
+                sl = slice(k * CHUNK, (k + 1) * CHUNK)
+                pred = self.predictor(
+                    torch.tensor(obs_np[sl], device=DEVICE),
+                    torch.tensor(act_np[sl], device=DEVICE))
+                next_t = torch.tensor(next_np[sl], device=DEVICE)
+                # Per-step MSE (not reduced across batch)
+                err_parts.append(
+                    (pred - next_t).pow(2).mean(dim=-1).cpu().numpy())
+                mark_step()  # XLA: cut the graph at the chunk boundary
+        errors = np.concatenate(err_parts)[:T]  # drop tiled padding
 
         # Update running stats and normalize
         for e in errors:
@@ -105,20 +126,47 @@ class CuriosityModule:
         """Update predictor on observed transitions.
 
         Returns mean prediction loss.
+
+        XLA: the predictor is an MLP, so feeding it a whole variable-length
+        episode recompiles its forward/backward graph per distinct episode
+        length. The episode is processed in fixed-size chunks (the last
+        tile-padded and masked out of the loss) so the graph compiles once.
+        Harmless on CUDA/CPU.
         """
-        obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE)
-        act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE)
-        next_t = torch.tensor(next_obs_seq, dtype=torch.float32, device=DEVICE)
+        obs_np = np.asarray(obs_seq, dtype=np.float32)
+        act_np = np.asarray(action_seq, dtype=np.float32)
+        next_np = np.asarray(next_obs_seq, dtype=np.float32)
+        T = len(obs_np)
+        if T < 1:
+            return 0.0
 
-        pred = self.predictor(obs_t, act_t)
-        loss = F.mse_loss(pred, next_t)
+        CHUNK = 256
+        n_ch = (T + CHUNK - 1) // CHUNK
+        order = np.arange(n_ch * CHUNK) % T
+        mask_np = (np.arange(n_ch * CHUNK) < T).astype(np.float32)
 
-        self.optimizer.zero_grad()
-        loss.backward()
-        nn.utils.clip_grad_norm_(self.predictor.parameters(), self.grad_clip)
-        self.optimizer.step()
+        obs_t = torch.tensor(obs_np[order], device=DEVICE)
+        act_t = torch.tensor(act_np[order], device=DEVICE)
+        next_t = torch.tensor(next_np[order], device=DEVICE)
+        mask_t = torch.tensor(mask_np, device=DEVICE)
 
-        return loss.item()
+        loss_sum = 0.0
+        for k in range(n_ch):
+            sl = slice(k * CHUNK, (k + 1) * CHUNK)
+            m = mask_t[sl]
+            denom = m.sum().clamp(min=1.0)
+            pred = self.predictor(obs_t[sl], act_t[sl])
+            err = ((pred - next_t[sl]) ** 2).mean(dim=-1)  # (CHUNK,)
+            loss = (err * m).sum() / denom
+
+            self.optimizer.zero_grad()
+            loss.backward()
+            nn.utils.clip_grad_norm_(self.predictor.parameters(), self.grad_clip)
+            self.optimizer.step()
+            mark_step()  # XLA: cut the graph at the chunk boundary
+            loss_sum += loss.item() * float(denom.item())
+
+        return loss_sum / T
 
     def _update_stats(self, value: float):
         """Online mean/variance (Welford's algorithm)."""

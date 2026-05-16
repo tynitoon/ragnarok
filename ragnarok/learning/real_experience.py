@@ -965,72 +965,110 @@ class RealExperienceTrainer:
 
         Re-evaluates the policy multiple times on stored data for
         more stable and sample-efficient continuous control learning.
-        """
-        obs_t = torch.tensor(np.array(obs_list), dtype=torch.float32, device=DEVICE)
-        act_t = torch.tensor(np.array(action_list), dtype=torch.float32, device=DEVICE)
 
-        # Compute returns
+        XLA: the collected batch has N = total transitions across the
+        episodes, which varies every call — feeding (N, obs_dim) straight
+        into the policy recompiles the forward/backward graph each time
+        (the bug that saturates the TPU host CPU and bloats the XLA
+        executable cache). The batch is instead split into fixed-size
+        minibatches; the last is tile-padded up to the minibatch size
+        (with real rows, so the forward never sees garbage) and the
+        padding is masked out of every loss term. This is the canonical
+        minibatched-PPO formulation and is harmless on CUDA/CPU.
+        """
+        obs_np = np.asarray(obs_list, dtype=np.float32)
+        act_np = np.asarray(action_list, dtype=np.float32)
+        N = len(obs_np)
+        if N < 2:
+            return {}
+
+        # Discounted, normalized returns over the real N transitions.
         returns = []
         R = 0.0
         for r in reversed(rewards):
             R = r + self.gamma * R
             returns.insert(0, R)
-        returns_t = torch.tensor(returns, dtype=torch.float32, device=DEVICE)
-        returns_t = (returns_t - returns_t.mean()) / (returns_t.std() + 1e-8)
+        returns_np = np.asarray(returns, dtype=np.float32)
+        returns_np = (returns_np - returns_np.mean()) / (returns_np.std() + 1e-8)
 
-        # Compute old log_probs (frozen)
+        # Fixed-size minibatches: tile real rows into the padding so the
+        # forward stays finite, mask the padding out of the loss.
+        B = 256
+        n_mb = (N + B - 1) // B
+        order = np.arange(n_mb * B) % N
+        mask_np = (np.arange(n_mb * B) < N).astype(np.float32)
+
+        obs_t = torch.tensor(obs_np[order], device=DEVICE)
+        act_t = torch.tensor(act_np[order], device=DEVICE)
+        returns_t = torch.tensor(returns_np[order], device=DEVICE)
+        mask_t = torch.tensor(mask_np, device=DEVICE)
+
+        # Old (frozen) log-probs, per minibatch.
+        old_logp = torch.zeros(n_mb * B, device=DEVICE)
         with torch.no_grad():
-            if self.discrete:
-                logits, old_values = self.policy(obs_t)
-                dist = torch.distributions.Categorical(logits=logits)
-                old_log_probs = dist.log_prob(act_t.squeeze(-1).long())
-            else:
-                mean, logstd, old_values = self.policy(obs_t)
-                dist = torch.distributions.Normal(mean, logstd.exp())
-                old_log_probs = dist.log_prob(act_t).sum(dim=-1)
-                squashed = torch.tanh(act_t)
-                old_log_probs -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+            for k in range(n_mb):
+                sl = slice(k * B, (k + 1) * B)
+                o, a = obs_t[sl], act_t[sl]
+                if self.discrete:
+                    logits, _ = self.policy(o)
+                    dist = torch.distributions.Categorical(logits=logits)
+                    old_logp[sl] = dist.log_prob(a.squeeze(-1).long())
+                else:
+                    mean, logstd, _ = self.policy(o)
+                    dist = torch.distributions.Normal(mean, logstd.exp())
+                    lp = dist.log_prob(a).sum(dim=-1)
+                    squashed = torch.tanh(a)
+                    lp = lp - torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+                    old_logp[sl] = lp
+                mark_step()
 
-        total_metrics = {}
-        for epoch in range(epochs):
-            if self.discrete:
-                logits, values = self.policy(obs_t)
-                dist = torch.distributions.Categorical(logits=logits)
-                new_log_probs = dist.log_prob(act_t.squeeze(-1).long())
-                entropy = dist.entropy()
-            else:
-                mean, logstd, values = self.policy(obs_t)
-                dist = torch.distributions.Normal(mean, logstd.exp())
-                new_log_probs = dist.log_prob(act_t).sum(dim=-1)
-                squashed = torch.tanh(act_t)
-                new_log_probs -= torch.log(1 - squashed.pow(2) + 1e-6).sum(dim=-1)
-                entropy = self.policy.entropy(obs_t)
+        metrics: dict[str, float] = {}
+        for _ in range(epochs):
+            for k in range(n_mb):
+                sl = slice(k * B, (k + 1) * B)
+                o, a, m = obs_t[sl], act_t[sl], mask_t[sl]
+                ret, old_lp = returns_t[sl], old_logp[sl]
+                denom = m.sum().clamp(min=1.0)
 
-            # PPO clipped ratio
-            ratio = torch.exp(new_log_probs - old_log_probs)
-            advantages = returns_t - values.detach()
+                if self.discrete:
+                    logits, values = self.policy(o)
+                    dist = torch.distributions.Categorical(logits=logits)
+                    new_log_probs = dist.log_prob(a.squeeze(-1).long())
+                    entropy = dist.entropy()
+                else:
+                    mean, logstd, values = self.policy(o)
+                    dist = torch.distributions.Normal(mean, logstd.exp())
+                    new_log_probs = dist.log_prob(a).sum(dim=-1)
+                    squashed = torch.tanh(a)
+                    new_log_probs = new_log_probs - torch.log(
+                        1 - squashed.pow(2) + 1e-6).sum(dim=-1)
+                    entropy = self.policy.entropy(o)
 
-            surr1 = ratio * advantages
-            surr2 = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps) * advantages
-            actor_loss = -torch.min(surr1, surr2).mean()
+                # PPO clipped ratio — masked so padding contributes nothing.
+                ratio = torch.exp(new_log_probs - old_lp)
+                advantages = ret - values.detach()
+                surr1 = ratio * advantages
+                surr2 = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps) * advantages
+                actor_loss = -(torch.min(surr1, surr2) * m).sum() / denom
+                critic_loss = (((values - ret) ** 2) * m).sum() / denom
+                entropy_loss = -(entropy * m).sum() / denom
 
-            critic_loss = F.mse_loss(values, returns_t)
-            entropy_loss = -entropy.mean()
+                loss = (actor_loss + 0.5 * critic_loss
+                        + self.entropy_coeff * entropy_loss)
 
-            loss = actor_loss + 0.5 * critic_loss + self.entropy_coeff * entropy_loss
+                self.optimizer.zero_grad()
+                loss.backward()
+                nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
+                self.optimizer.step()
+                mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
 
-            self.optimizer.zero_grad()
-            loss.backward()
-            nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
-            self.optimizer.step()
-            mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
-
-        return {
-            "real/actor_loss": actor_loss.item(),
-            "real/critic_loss": critic_loss.item(),
-            "real/entropy": entropy.mean().item(),
-            "real/mean_return": returns_t.mean().item(),
-        }
+                metrics = {
+                    "real/actor_loss": actor_loss.item(),
+                    "real/critic_loss": critic_loss.item(),
+                    "real/entropy": (entropy * m).sum().item() / denom.item(),
+                    "real/mean_return": float(returns_np.mean()),
+                }
+        return metrics
 
     def _collect_continuous_data(self, env):
         """Collect one continuous episode without training. Returns components."""

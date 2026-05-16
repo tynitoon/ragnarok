@@ -47,6 +47,16 @@ DTYPE = torch.float32
 # True when the active device is an XLA (TPU) device. Drives mark_step().
 IS_XLA = str(DEVICE).startswith("xla")
 
+# XLA: torch.distributions validates constructor args by default, and every
+# check ends in a `.all()` — a tensor->host sync. On XLA each such sync forces
+# a graph execution, and the per-distribution-shape `.all()` graphs bloat the
+# executable cache (a Normal/Categorical is built per RSSM step, per policy
+# eval — thousands of times). Validation only decides whether *invalid* args
+# raise; it never changes numerical results, so disabling it on TPU is safe.
+# Left ON for CUDA/CPU so local dev still catches bad distribution args.
+if IS_XLA:  # pragma: no cover - only runs on a TPU VM
+    torch.distributions.Distribution.set_default_validate_args(False)
+
 
 def to_device(tensor: torch.Tensor) -> torch.Tensor:
     """Move tensor to the default device."""
