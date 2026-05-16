@@ -971,10 +971,14 @@ class RealExperienceTrainer:
         into the policy recompiles the forward/backward graph each time
         (the bug that saturates the TPU host CPU and bloats the XLA
         executable cache). The batch is instead split into fixed-size
-        minibatches; the last is tile-padded up to the minibatch size
-        (with real rows, so the forward never sees garbage) and the
-        padding is masked out of every loss term. This is the canonical
-        minibatched-PPO formulation and is harmless on CUDA/CPU.
+        minibatches; the last is tile-padded with real rows (so the
+        forward never sees garbage) and the padding is masked out. The
+        per-minibatch gradients are ACCUMULATED and a single optimizer
+        step is taken per epoch: with every loss term divided by the
+        total real count N, the summed minibatch gradients equal the
+        full-batch gradient exactly — so this stays mathematically
+        identical to the original full-batch PPO update (same update
+        cadence), only with fixed tensor shapes. Harmless on CUDA/CPU.
         """
         obs_np = np.asarray(obs_list, dtype=np.float32)
         act_np = np.asarray(action_list, dtype=np.float32)
@@ -1024,11 +1028,19 @@ class RealExperienceTrainer:
 
         metrics: dict[str, float] = {}
         for _ in range(epochs):
+            # Gradient accumulation: zero once, accumulate every minibatch's
+            # gradient, step once. Each loss term is divided by the TOTAL real
+            # count N, so the summed minibatch gradients equal the full-batch
+            # gradient exactly — one optimizer step per epoch, identical to
+            # the original full-batch PPO update cadence.
+            self.optimizer.zero_grad()
+            ep_actor = torch.zeros((), device=DEVICE)
+            ep_critic = torch.zeros((), device=DEVICE)
+            ep_entropy = torch.zeros((), device=DEVICE)
             for k in range(n_mb):
                 sl = slice(k * B, (k + 1) * B)
                 o, a, m = obs_t[sl], act_t[sl], mask_t[sl]
                 ret, old_lp = returns_t[sl], old_logp[sl]
-                denom = m.sum().clamp(min=1.0)
 
                 if self.discrete:
                     logits, values = self.policy(o)
@@ -1044,30 +1056,36 @@ class RealExperienceTrainer:
                         1 - squashed.pow(2) + 1e-6).sum(dim=-1)
                     entropy = self.policy.entropy(o)
 
-                # PPO clipped ratio — masked so padding contributes nothing.
+                # PPO clipped surrogate. Dividing by the total N (not the
+                # minibatch count) makes the minibatch losses sum to the
+                # full-batch mean, so accumulated grads = full-batch grad.
                 ratio = torch.exp(new_log_probs - old_lp)
                 advantages = ret - values.detach()
                 surr1 = ratio * advantages
                 surr2 = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps) * advantages
-                actor_loss = -(torch.min(surr1, surr2) * m).sum() / denom
-                critic_loss = (((values - ret) ** 2) * m).sum() / denom
-                entropy_loss = -(entropy * m).sum() / denom
+                actor_loss = -(torch.min(surr1, surr2) * m).sum() / N
+                critic_loss = (((values - ret) ** 2) * m).sum() / N
+                entropy_loss = -(entropy * m).sum() / N
 
                 loss = (actor_loss + 0.5 * critic_loss
                         + self.entropy_coeff * entropy_loss)
+                loss.backward()  # accumulates into .grad across minibatches
+                mark_step()      # XLA: cut the graph; .grad survives the cut
 
-                self.optimizer.zero_grad()
-                loss.backward()
-                nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
-                self.optimizer.step()
-                mark_step()  # XLA: materialize the lazy graph (no-op on CUDA/CPU)
+                ep_actor = ep_actor + actor_loss.detach()
+                ep_critic = ep_critic + critic_loss.detach()
+                ep_entropy = ep_entropy - entropy_loss.detach()
 
-                metrics = {
-                    "real/actor_loss": actor_loss.item(),
-                    "real/critic_loss": critic_loss.item(),
-                    "real/entropy": (entropy * m).sum().item() / denom.item(),
-                    "real/mean_return": float(returns_np.mean()),
-                }
+            nn.utils.clip_grad_norm_(self.policy.parameters(), self.grad_clip)
+            self.optimizer.step()
+            mark_step()  # XLA: materialize the optimizer update
+
+            metrics = {
+                "real/actor_loss": ep_actor.item(),
+                "real/critic_loss": ep_critic.item(),
+                "real/entropy": ep_entropy.item(),
+                "real/mean_return": float(returns_np.mean()),
+            }
         return metrics
 
     def _collect_continuous_data(self, env):
