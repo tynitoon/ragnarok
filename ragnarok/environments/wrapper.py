@@ -4,6 +4,7 @@ from collections import deque
 import numpy as np
 import gymnasium as gym
 from ragnarok.core.normalizer import RunningNormalizer
+from ragnarok.infrastructure.device import mark_step
 
 # Image size for pixel observations (84x84 = standard DQN size, enough
 # spatial resolution to see pole angle and cart position)
@@ -126,6 +127,13 @@ class RagnarokEnv:
 
         Action should be one-hot for discrete environments.
         """
+        # XLA: close the lazy graph built by the policy forward pass that
+        # produced `action`. Episode-collection loops call env.step() once
+        # per step; without this mark_step the XLA graph accumulates across
+        # steps and recompiles on every .item() (saturating the TPU host
+        # CPU — the bug the smoke test exposed). No-op on CUDA/CPU.
+        mark_step()
+
         if self.is_discrete:
             env_action = int(np.argmax(action))
         else:

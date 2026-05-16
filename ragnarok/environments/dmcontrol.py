@@ -9,6 +9,7 @@ Falls back gracefully if dm_control is not installed.
 """
 
 import numpy as np
+from ragnarok.infrastructure.device import mark_step
 
 DMC_AVAILABLE = False
 try:
@@ -152,6 +153,10 @@ class DMControlEnv:
         Action is expected as a flat numpy array. DMC actions are bounded
         by action_spec, so we clip to be safe.
         """
+        # XLA: close the lazy graph from the policy forward pass (see
+        # RagnarokEnv.step for the full rationale). No-op on CUDA/CPU.
+        mark_step()
+
         action = np.clip(action.flatten(), self.action_low, self.action_high)
         time_step = self.env.step(action)
         self._step_count += 1
