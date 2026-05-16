@@ -101,17 +101,20 @@ class SACPolicy(nn.Module):
 
 
 class SACReplayBuffer:
-    """GPU-resident ring buffer for off-policy SAC.
+    """Host-resident ring buffer for off-policy SAC.
 
-    Pre-allocates five (capacity × dim) tensors on DEVICE at first add().
-    Each add() writes directly into the ring buffer in-place, and sample()
-    returns device-side slices — no CPU↔GPU copy on the hot path.
+    The five ring arrays live in numpy on the host; sample() draws a batch
+    and moves only that fixed-size (batch_size × dim) batch to DEVICE.
 
-    Prior implementation used a collections.deque + per-sample
-    torch.tensor(np.array(list), device=cuda) conversion, which dominated
-    MountainCarContinuous throughput (kernel-launch-bound path, ~250k
-    tiny H2D copies per seed). Moving the buffer to DEVICE up front is a
-    first-pass SAC-perf fix that ~15-25% speedup on continuous envs.
+    A device-resident buffer (the prior design) is faster on CUDA but fatal
+    on XLA/TPU: add() writes at an ever-changing ring index (self._obs[i]=)
+    and sample() draws torch.randint(0, self.size, ...) with an ever-growing
+    bound — both bake a value that changes every step into the XLA graph, so
+    it recompiles on every single step until the executable cache exhausts
+    TPU memory (the SAC-phase OOM the smoke hit). Keeping the buffer on the
+    host means every device-side tensor sample() produces is a fixed
+    (batch_size, dim) shape — compiled once, reused. On CUDA the per-sample
+    H2D copy of a small classic-control batch is negligible.
 
     API compatibility: the constructor signature is preserved (capacity
     only) so existing callers and tests (test_sac.py) keep working;
@@ -122,58 +125,51 @@ class SACReplayBuffer:
         self.capacity = capacity
         self.ptr = 0
         self.size = 0
-        # Tensors allocated lazily on first add().
-        self._obs: torch.Tensor | None = None
-        self._act: torch.Tensor | None = None
-        self._rew: torch.Tensor | None = None
-        self._next_obs: torch.Tensor | None = None
-        self._done: torch.Tensor | None = None
+        # numpy arrays allocated lazily on first add().
+        self._obs: np.ndarray | None = None
+        self._act: np.ndarray | None = None
+        self._rew: np.ndarray | None = None
+        self._next_obs: np.ndarray | None = None
+        self._done: np.ndarray | None = None
 
     def _ensure_allocated(self, obs, action):
         if self._obs is not None:
             return
-        obs_arr = np.asarray(obs, dtype=np.float32).reshape(-1)
-        act_arr = np.asarray(action, dtype=np.float32).reshape(-1)
-        self._obs_dim = obs_arr.shape[0]
-        self._act_dim = act_arr.shape[0]
-        self._obs = torch.zeros(
-            (self.capacity, self._obs_dim), dtype=torch.float32, device=DEVICE)
-        self._act = torch.zeros(
-            (self.capacity, self._act_dim), dtype=torch.float32, device=DEVICE)
-        self._rew = torch.zeros(
-            (self.capacity,), dtype=torch.float32, device=DEVICE)
-        self._next_obs = torch.zeros(
-            (self.capacity, self._obs_dim), dtype=torch.float32, device=DEVICE)
-        self._done = torch.zeros(
-            (self.capacity,), dtype=torch.float32, device=DEVICE)
+        obs_dim = np.asarray(obs, dtype=np.float32).reshape(-1).shape[0]
+        act_dim = np.asarray(action, dtype=np.float32).reshape(-1).shape[0]
+        self._obs = np.zeros((self.capacity, obs_dim), dtype=np.float32)
+        self._act = np.zeros((self.capacity, act_dim), dtype=np.float32)
+        self._rew = np.zeros((self.capacity,), dtype=np.float32)
+        self._next_obs = np.zeros((self.capacity, obs_dim), dtype=np.float32)
+        self._done = np.zeros((self.capacity,), dtype=np.float32)
 
     def add(self, obs, action, reward, next_obs, done):
         self._ensure_allocated(obs, action)
         i = self.ptr
-        # Use numpy -> tensor conversion once on add, then direct slot write.
-        # (One H2D copy per step for 2 × obs_dim + action_dim + 2 scalars —
-        # vs the old path's 5 × full-batch H2D copy per sample().)
-        self._obs[i] = torch.from_numpy(
-            np.asarray(obs, dtype=np.float32).reshape(-1))
-        self._act[i] = torch.from_numpy(
-            np.asarray(action, dtype=np.float32).reshape(-1))
+        # Pure host-side writes — no XLA op, so the ever-changing index i
+        # never enters a graph.
+        self._obs[i] = np.asarray(obs, dtype=np.float32).reshape(-1)
+        self._act[i] = np.asarray(action, dtype=np.float32).reshape(-1)
         self._rew[i] = float(reward)
-        self._next_obs[i] = torch.from_numpy(
-            np.asarray(next_obs, dtype=np.float32).reshape(-1))
+        self._next_obs[i] = np.asarray(next_obs, dtype=np.float32).reshape(-1)
         self._done[i] = float(done)
         self.ptr = (self.ptr + 1) % self.capacity
         self.size = min(self.size + 1, self.capacity)
 
     def sample(self, batch_size: int):
-        """Uniform sample without replacement from the live portion."""
+        """Uniform sample (with replacement) from the live portion.
+
+        Indices are drawn on the host; only the gathered fixed-size batch
+        crosses to DEVICE, so the XLA graph sees one constant shape.
+        """
         n = min(batch_size, self.size)
-        idx = torch.randint(0, self.size, (n,), device=DEVICE)
+        idx = np.random.randint(0, self.size, size=n)
         return (
-            self._obs.index_select(0, idx),
-            self._act.index_select(0, idx),
-            self._rew.index_select(0, idx),
-            self._next_obs.index_select(0, idx),
-            self._done.index_select(0, idx),
+            torch.tensor(self._obs[idx], device=DEVICE),
+            torch.tensor(self._act[idx], device=DEVICE),
+            torch.tensor(self._rew[idx], device=DEVICE),
+            torch.tensor(self._next_obs[idx], device=DEVICE),
+            torch.tensor(self._done[idx], device=DEVICE),
         )
 
     def __len__(self):
