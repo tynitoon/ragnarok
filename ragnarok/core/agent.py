@@ -443,14 +443,52 @@ class RagnarokAgent:
         cross-task transfer something meaningful to reuse.
         """
         obs, acts, rews, dones = episode_data
-        if len(obs) < 2:
+        cfg = self.config.policy
+
+        # XLA: RSSM.observe() unrolls its GRU per timestep, so a variable
+        # sequence length recompiles the whole graph on every episode
+        # (episodes range ~15-500 steps -> a recompile per call, which
+        # saturates the TPU host CPU). Train the latent policy on a
+        # FIXED-length window so observe() has one shape, compiled once.
+        # Episodes longer than the window contribute a random slice;
+        # shorter episodes are zero-padded and the padding is masked out
+        # of the A2C loss -- same convention as ReplayBuffer.sample_
+        # sequences + RSSM.loss. Padding (rather than skipping short
+        # episodes) matters: early cartpole episodes are ~15-30 steps, so
+        # a skip-if-short rule would starve the latent policy of training
+        # signal exactly when it needs it most. Harmless on CUDA/CPU.
+        LATENT_TRAIN_LEN = 64
+        obs = np.asarray(obs, dtype=np.float32)
+        acts = np.asarray(acts, dtype=np.float32)
+        rews = np.asarray(rews, dtype=np.float32)
+        dones = np.asarray(dones, dtype=np.float32)
+        T_full = len(obs)
+        if T_full < 1:
             return {}
 
-        cfg = self.config.policy
+        if T_full >= LATENT_TRAIN_LEN:
+            start = int(np.random.randint(0, T_full - LATENT_TRAIN_LEN + 1))
+            sl = slice(start, start + LATENT_TRAIN_LEN)
+            obs, acts, rews, dones = obs[sl], acts[sl], rews[sl], dones[sl]
+            valid_np = np.ones(LATENT_TRAIN_LEN, dtype=np.float32)
+        else:
+            pad = LATENT_TRAIN_LEN - T_full
+            valid_np = np.concatenate(
+                [np.ones(T_full, np.float32), np.zeros(pad, np.float32)])
+            obs = np.concatenate(
+                [obs, np.zeros((pad,) + obs.shape[1:], np.float32)])
+            acts = np.concatenate(
+                [acts, np.zeros((pad,) + acts.shape[1:], np.float32)])
+            rews = np.concatenate([rews, np.zeros(pad, np.float32)])
+            # done=1 on the padding so the return recursion zeroes the
+            # padded tail and never bootstraps across the real/pad seam.
+            dones = np.concatenate([dones, np.ones(pad, np.float32)])
+
         obs_t = torch.tensor(obs, device=DEVICE, dtype=torch.float32).unsqueeze(0)
         act_t = torch.tensor(acts, device=DEVICE, dtype=torch.float32).unsqueeze(0)
         rew_t = torch.tensor(rews, device=DEVICE, dtype=torch.float32)
         done_t = torch.tensor(dones, device=DEVICE, dtype=torch.float32)
+        valid = torch.tensor(valid_np, device=DEVICE, dtype=torch.float32)
 
         with torch.no_grad():
             outputs = self.rssm.observe(obs_t, act_t)
@@ -458,7 +496,7 @@ class RagnarokAgent:
             z_seq = outputs["z"].squeeze(0)
         latent = torch.cat([h_seq, z_seq], dim=-1)
 
-        T = len(rew_t)
+        T = LATENT_TRAIN_LEN
         returns = torch.zeros(T, device=DEVICE)
         G = 0.0
         for t in reversed(range(T)):
@@ -467,15 +505,24 @@ class RagnarokAgent:
 
         # evaluate_action handles tanh+rescale inversion for continuous so
         # the log-prob matches the distribution act() actually samples from.
+        # It returns per-step (log_prob, entropy, value); the padded steps
+        # are masked out of every term below via `valid`.
         log_probs, entropy, values = self.latent_policy.evaluate_action(
             latent, act_t.squeeze(0))
 
-        advantages = (returns - values.detach())
-        if advantages.std() > 1e-6:
-            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+        # Masked A2C: every reduction is a sum-over-valid / count-of-valid
+        # so zero-padded steps contribute nothing to loss or gradient.
+        n_valid = valid.sum().clamp(min=1.0)
+        advantages = returns - values.detach()
+        adv_mean = (advantages * valid).sum() / n_valid
+        adv_std = (((advantages - adv_mean) ** 2) * valid).sum() / n_valid
+        adv_std = adv_std.clamp(min=0.0).sqrt()
+        if adv_std > 1e-6:
+            advantages = (advantages - adv_mean) / (adv_std + 1e-8)
 
-        actor_loss = -(advantages * log_probs).mean()
-        value_loss = ((returns - values) ** 2).mean()
+        actor_loss = -((advantages * log_probs) * valid).sum() / n_valid
+        value_loss = (((returns - values) ** 2) * valid).sum() / n_valid
+        entropy = (entropy * valid).sum() / n_valid
         loss = (actor_loss
                 + cfg.latent_value_coeff * value_loss
                 - cfg.latent_entropy_coeff * entropy)
@@ -491,7 +538,7 @@ class RagnarokAgent:
             "latent/actor_loss": float(actor_loss.item()),
             "latent/value_loss": float(value_loss.item()),
             "latent/entropy": float(entropy.item()),
-            "latent/return_mean": float(returns.mean().item()),
+            "latent/return_mean": float(((returns * valid).sum() / n_valid).item()),
         }
 
     def _update_adaptive_horizon(self):

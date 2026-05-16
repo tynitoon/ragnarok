@@ -677,6 +677,14 @@ class TestWMTrainerLRScaling:
         ``exp_avg_sq`` (zeros initially, positive after one update),
         and ``step == 1``. This proves Adam's lazy-init path is
         actually exercised post-reset."""
+        # Hermetic seed: _build_trainer's RSSM init draws from the torch
+        # RNG and train_step's sample_sequences draws from the numpy RNG.
+        # Without a fixed seed this test depends on whatever ambient RNG
+        # state earlier tests happen to leave, which can land on a
+        # minibatch that gives some transferable param a zero gradient —
+        # exp_avg_sq then stays 0 and the assertion below fails spuriously.
+        torch.manual_seed(0)
+        np.random.seed(0)
         trainer, rssm = self._build_trainer(lr=3e-4)
         self._seed_buffer(trainer)
         # Populate state with a few steps so the reset has something

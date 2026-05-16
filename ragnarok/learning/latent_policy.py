@@ -137,13 +137,16 @@ class LatentPolicyHead(nn.Module):
         and cancels in the gradient, so we drop it — mirrors SAC.
 
         Returns:
-            (log_prob[B], entropy[scalar], value[B])
+            (log_prob[B], entropy[B], value[B])
+
+        Entropy is returned per-step (not reduced) so callers training on
+        padded sequences can mask the padding out of the entropy bonus.
         """
         if self.discrete:
             logits, value = self.forward(latent)
             dist = torch.distributions.Categorical(logits=logits)
             idx = action.argmax(dim=-1) if action.dim() == 2 else action.long()
-            return dist.log_prob(idx), dist.entropy().mean(), value
+            return dist.log_prob(idx), dist.entropy(), value
 
         mean, logstd, value = self.forward(latent)
         std = logstd.exp()
@@ -156,7 +159,7 @@ class LatentPolicyHead(nn.Module):
         log_prob = log_prob - torch.log(1.0 - tanh_a.pow(2) + 1e-6).sum(dim=-1)
         # Gaussian entropy as exploration bonus proxy (standard in squashed-
         # Gaussian actors — the exact squashed entropy has no closed form).
-        entropy = dist.entropy().sum(dim=-1).mean()
+        entropy = dist.entropy().sum(dim=-1)
         return log_prob, entropy, value
 
     def get_trunk_state_dict(self) -> dict:
