@@ -31,7 +31,7 @@ from ragnarok.learning.curiosity import CuriosityModule, LatentCuriosityModule
 from ragnarok.learning.latent_policy import LatentPolicyHead
 from ragnarok.environments.wrapper import RagnarokEnv
 from ragnarok.infrastructure.config import RagnarokConfig
-from ragnarok.infrastructure.device import DEVICE, to_numpy
+from ragnarok.infrastructure.device import DEVICE, to_numpy, mark_step
 from ragnarok.infrastructure.checkpoint import save_checkpoint, load_checkpoint
 
 
@@ -533,6 +533,13 @@ class RagnarokAgent:
             self.latent_policy.parameters(), cfg.latent_grad_clip
         )
         self.latent_optim.step()
+        # XLA: materialize the optimizer update and close the graph. Without
+        # this, _train_latent_policy's lazy param-update ops accumulate every
+        # call (8x per batched-PPO iteration) — the graph balloons unbounded,
+        # leaking host memory until OOM. Every other trainer marks its step;
+        # this one was missed by the original PyTorch/XLA port. No-op on
+        # CUDA/CPU.
+        mark_step()
 
         return {
             "latent/actor_loss": float(actor_loss.item()),
