@@ -305,26 +305,33 @@ class LatentCuriosityModule:
             return np.zeros(T, dtype=np.float32)
 
         CHUNK = 64
+        # The raw episode has a variable length T. Build each chunk on the
+        # HOST (numpy) and move it to the device only at the fixed
+        # (1, CHUNK, ...) shape: any on-device slice or cat of a variable-T
+        # tensor recompiles the XLA graph for every distinct episode length —
+        # the leak that filled the TPU executable cache until OOM.
+        obs_np = np.asarray(obs_seq, dtype=np.float32)
+        act_np = np.asarray(action_seq, dtype=np.float32)
         with torch.no_grad():
-            obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE)
-            act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE)
-
             kl_parts: list[np.ndarray] = []
             state = None        # threaded (h, z) across chunk boundaries
             prev_action = None  # action preceding the chunk's first obs
             for start in range(0, T, CHUNK):
                 n = min(CHUNK, T - start)
-                obs_c = obs_t[start:start + n]
-                act_c = act_t[start:start + n]
+                obs_c = obs_np[start:start + n]
+                act_c = act_np[start:start + n]
                 if n < CHUNK:
                     pad = CHUNK - n
-                    obs_c = torch.cat(
-                        [obs_c, obs_c.new_zeros((pad,) + obs_c.shape[1:])], 0)
-                    act_c = torch.cat(
-                        [act_c, act_c.new_zeros((pad,) + act_c.shape[1:])], 0)
+                    obs_c = np.concatenate(
+                        [obs_c, np.zeros((pad,) + obs_c.shape[1:], np.float32)], 0)
+                    act_c = np.concatenate(
+                        [act_c, np.zeros((pad,) + act_c.shape[1:], np.float32)], 0)
+                # Fixed (1, CHUNK, ...) device tensors — observe() compiles once.
+                obs_ct = torch.tensor(obs_c, device=DEVICE).unsqueeze(0)
+                act_ct = torch.tensor(act_c, device=DEVICE).unsqueeze(0)
 
                 outputs = self.rssm.observe(
-                    obs_c.unsqueeze(0), act_c.unsqueeze(0),
+                    obs_ct, act_ct,
                     init_state=state, init_action=prev_action)
 
                 prior = torch.distributions.Normal(
@@ -333,18 +340,14 @@ class LatentCuriosityModule:
                     outputs["post_mean"], outputs["post_logstd"].exp())
                 kl = torch.distributions.kl_divergence(posterior, prior)
                 kl_c = kl.sum(dim=-1).squeeze(0)              # (CHUNK,)
-                # Transfer the full fixed-size chunk, then slice the real part
-                # on the host: a variable-length on-device slice (kl_c[:n])
-                # recompiles the graph for every distinct last-chunk length.
-                kl_parts.append(kl_c.cpu().numpy()[:n])       # drop padding
+                kl_parts.append(kl_c.cpu().numpy()[:n])       # host-side slice
 
                 # Thread GRU state + boundary action into the next chunk. A
-                # non-last chunk is always full (n == CHUNK), so the last real
-                # step is the fixed index CHUNK-1 — indexing at the variable
-                # n-1 recompiles per distinct last-chunk length. For the final
-                # chunk these are computed but unused (the loop then ends).
+                # non-last chunk is always full (n == CHUNK), so CHUNK-1 is the
+                # last real step (fixed index). For the final chunk these are
+                # computed but unused (the loop then ends).
                 state = (outputs["h"][:, CHUNK - 1], outputs["z"][:, CHUNK - 1])
-                prev_action = act_c[CHUNK - 1].unsqueeze(0)
+                prev_action = act_ct[:, CHUNK - 1]
                 mark_step()  # XLA: cut the graph at the chunk boundary
 
             kl_per_step = np.concatenate(kl_parts)  # (T,)
