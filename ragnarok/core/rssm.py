@@ -272,12 +272,21 @@ class RSSM(nn.Module):
         return self.core.initial_state(batch_size, device)
 
     def observe(self, obs_seq: torch.Tensor, action_seq: torch.Tensor,
+                init_state: tuple[torch.Tensor, torch.Tensor] | None = None,
+                init_action: torch.Tensor | None = None,
                 ) -> dict[str, torch.Tensor]:
         """Process a sequence of real observations.
 
         Args:
             obs_seq: (batch, time, obs_dim) - real observations
             action_seq: (batch, time, action_dim) - actions taken (one-hot for discrete)
+            init_state: optional (h, z) to start the recurrence from. Defaults
+                to the zero initial state. Lets a long episode be processed in
+                fixed-length chunks — a fixed seq_len compiles the XLA graph
+                once — while preserving GRU state across chunk boundaries.
+            init_action: optional (batch, action_dim) action preceding the
+                first observation (the previous chunk's last action). Defaults
+                to zeros, which is correct at the true start of an episode.
 
         Returns:
             Dict with keys: h, z, prior_mean, prior_logstd,
@@ -286,7 +295,10 @@ class RSSM(nn.Module):
         batch_size, seq_len, _ = obs_seq.shape
         device = obs_seq.device
 
-        h, z = self.initial_state(batch_size, device)
+        if init_state is None:
+            h, z = self.initial_state(batch_size, device)
+        else:
+            h, z = init_state
 
         # Pre-encode all observations
         obs_flat = obs_seq.reshape(batch_size * seq_len, -1)
@@ -299,9 +311,15 @@ class RSSM(nn.Module):
         post_means, post_logstds = [], []
 
         for t in range(seq_len):
-            # Action at t-1 (zero for first step)
+            # Action leading into step t: action_seq[t-1] for t>0; for t==0
+            # it's init_action (the previous chunk's last action) or zeros at
+            # the true start of an episode.
             if t == 0:
-                prev_action = torch.zeros(batch_size, self.action_dim, device=device)
+                if init_action is None:
+                    prev_action = torch.zeros(
+                        batch_size, self.action_dim, device=device)
+                else:
+                    prev_action = init_action
             else:
                 prev_action = action_seq[:, t - 1]
 

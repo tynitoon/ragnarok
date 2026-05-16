@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 class ForwardPredictor(nn.Module):
@@ -236,32 +236,63 @@ class LatentCuriosityModule:
                          action_seq: np.ndarray) -> np.ndarray:
         """Compute KL surprise for a full episode (batch mode).
 
-        More efficient than per-step: runs RSSM observe() on the whole sequence.
-
         Args:
             obs_seq: (T, obs_dim)
             action_seq: (T, action_dim)
 
         Returns:
             intrinsic_rewards: (T,) beta-scaled normalized KL values
+
+        XLA: RSSM.observe() unrolls its GRU per timestep, so calling it on a
+        whole variable-length episode recompiles the graph for every distinct
+        episode length (the bug that saturated the TPU host CPU). The episode
+        is instead processed in fixed-length chunks — observe() then sees one
+        shape, compiled once. The (h, z) state and the boundary action are
+        threaded across chunks, so the per-step KL is identical to a single
+        full-sequence observe(). The last chunk is zero-padded and the padding
+        sliced back off. Harmless on CUDA/CPU.
         """
         T = obs_seq.shape[0]
         if T < 2:
             return np.zeros(T, dtype=np.float32)
 
+        CHUNK = 64
         with torch.no_grad():
-            obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE).unsqueeze(0)
-            act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE).unsqueeze(0)
-            outputs = self.rssm.observe(obs_t, act_t)
+            obs_t = torch.tensor(obs_seq, dtype=torch.float32, device=DEVICE)
+            act_t = torch.tensor(action_seq, dtype=torch.float32, device=DEVICE)
 
-            prior = torch.distributions.Normal(
-                outputs["prior_mean"], outputs["prior_logstd"].exp()
-            )
-            posterior = torch.distributions.Normal(
-                outputs["post_mean"], outputs["post_logstd"].exp()
-            )
-            kl = torch.distributions.kl_divergence(posterior, prior)
-            kl_per_step = kl.sum(dim=-1).squeeze(0).cpu().numpy()  # (T,)
+            kl_parts: list[np.ndarray] = []
+            state = None        # threaded (h, z) across chunk boundaries
+            prev_action = None  # action preceding the chunk's first obs
+            for start in range(0, T, CHUNK):
+                n = min(CHUNK, T - start)
+                obs_c = obs_t[start:start + n]
+                act_c = act_t[start:start + n]
+                if n < CHUNK:
+                    pad = CHUNK - n
+                    obs_c = torch.cat(
+                        [obs_c, obs_c.new_zeros((pad,) + obs_c.shape[1:])], 0)
+                    act_c = torch.cat(
+                        [act_c, act_c.new_zeros((pad,) + act_c.shape[1:])], 0)
+
+                outputs = self.rssm.observe(
+                    obs_c.unsqueeze(0), act_c.unsqueeze(0),
+                    init_state=state, init_action=prev_action)
+
+                prior = torch.distributions.Normal(
+                    outputs["prior_mean"], outputs["prior_logstd"].exp())
+                posterior = torch.distributions.Normal(
+                    outputs["post_mean"], outputs["post_logstd"].exp())
+                kl = torch.distributions.kl_divergence(posterior, prior)
+                kl_c = kl.sum(dim=-1).squeeze(0)              # (CHUNK,)
+                kl_parts.append(kl_c[:n].cpu().numpy())       # drop padding
+
+                # Thread GRU state + boundary action into the next chunk.
+                state = (outputs["h"][:, n - 1], outputs["z"][:, n - 1])
+                prev_action = act_c[n - 1].unsqueeze(0)
+                mark_step()  # XLA: cut the graph at the chunk boundary
+
+            kl_per_step = np.concatenate(kl_parts)  # (T,)
 
         # Normalize with running stats
         for k in kl_per_step:
