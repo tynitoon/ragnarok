@@ -145,3 +145,50 @@ class DeviceVecMountainCarContinuous:
         self.state = torch.where(done.unsqueeze(-1), fresh, new_state)
         self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
         return self.state, reward, terminated, truncated, done
+
+
+class DeviceRunningNormalizer:
+    """Device-resident running observation normalizer (batched Welford).
+
+    The device-env counterpart of ragnarok.core.normalizer.RunningNormalizer:
+    tracks running mean/variance, normalizes observations to ~unit scale
+    and clips. All state lives in device tensors and update() folds in a
+    whole batch — no host sync, fixed shapes, XLA-clean.
+
+    Collection-loop contract: the stats are read-only WHILE a rollout is
+    collected (so every step of one rollout sees a single consistent
+    scaling, and the obs the policy acts on == the obs it trains on);
+    update() is called once BETWEEN rollouts with that rollout's raw obs.
+
+    Unlike RunningNormalizer there is no 1000-step raw warmup: the device
+    path collects N*T >> 1000 obs in the first rollout, and at init
+    (mean=0, var=1) normalize() is already ~identity, so warmup is moot.
+    """
+
+    def __init__(self, obs_dim: int, clip: float = 5.0):
+        self.clip = clip
+        self.mean = torch.zeros(obs_dim, device=DEVICE)
+        self.var = torch.ones(obs_dim, device=DEVICE)
+        self._m2 = torch.zeros(obs_dim, device=DEVICE)
+        self.count = torch.zeros((), device=DEVICE)
+
+    @torch.no_grad()
+    def update(self, batch: torch.Tensor) -> None:
+        """Fold a batch of raw observations (M, obs_dim) into the stats.
+
+        Chan's parallel variance — equal to RunningNormalizer's sequential
+        Welford up to floating-point summation order.
+        """
+        m = batch.shape[0]
+        b_mean = batch.mean(dim=0)
+        b_m2 = ((batch - b_mean) ** 2).sum(dim=0)
+        delta = b_mean - self.mean
+        tot = self.count + m
+        self.mean = self.mean + delta * (m / tot)
+        self._m2 = self._m2 + b_m2 + delta ** 2 * (self.count * m / tot)
+        self.count = tot
+        self.var = (self._m2 / torch.clamp(tot - 1.0, min=1.0)).clamp(min=1e-6)
+
+    def normalize(self, obs: torch.Tensor) -> torch.Tensor:
+        """(obs - mean) / std, clipped to +-clip. ~identity at init."""
+        return ((obs - self.mean) / torch.sqrt(self.var)).clamp(-self.clip, self.clip)

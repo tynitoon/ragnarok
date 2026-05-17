@@ -71,6 +71,62 @@ def compute_gae(
     return advantages, returns
 
 
+def compute_gae_batched(
+    rewards: torch.Tensor,
+    values: torch.Tensor,
+    dones: torch.Tensor,
+    last_value: torch.Tensor,
+    gamma: float = 0.99,
+    lam: float = 0.95,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Batched GAE over (N, T) device tensors — the on-device twin of `compute_gae`.
+
+    Identical recursion and sign convention to `compute_gae`, but vectorized
+    across N parallel environments and kept on the accelerator (torch, no
+    numpy, no host sync). The reverse T-loop unrolls into the XLA graph (T is
+    a Python constant); the N dimension stays fully batched.
+
+    This is the advantage primitive for the device-resident rollout path
+    (`ragnarok/learning/rollout.py`). Each of the N env rows is an
+    independent length-T trajectory, and `dones` resets the recursion at
+    every episode boundary within a row — auto-reset envs cross several
+    episodes per rollout.
+
+    Sign convention (per row, per step t):
+      next_nonterminal = 1.0 - dones[:, t]
+      delta_t = r_t + gamma * V(s_{t+1}) * next_nonterminal - V(s_t)
+      A_t     = delta_t + gamma * lam * next_nonterminal * A_{t+1}
+
+    Args:
+      rewards:    (N, T)
+      values:     (N, T) — V(s_0), ..., V(s_{T-1}) per row
+      dones:      (N, T) — 1.0 at an episode boundary, else 0.0. With
+                  auto-reset envs, termination and truncation are both
+                  boundaries: the post-done observation belongs to a fresh
+                  episode, so neither bootstraps across the seam.
+      last_value: (N,) — V(s_T), the bootstrap target at each row's tail
+      gamma, lam: discount and GAE parameter
+
+    Returns:
+      advantages: (N, T)
+      returns:    (N, T) — advantages + values (the value-head target)
+
+    Does NOT normalize advantages — same contract as `compute_gae`.
+    """
+    horizon = rewards.shape[1]
+    adv_rev: list[torch.Tensor] = []
+    gae = torch.zeros_like(last_value)
+    for t in reversed(range(horizon)):
+        next_val = last_value if t == horizon - 1 else values[:, t + 1]
+        next_nonterminal = 1.0 - dones[:, t]
+        delta = rewards[:, t] + gamma * next_val * next_nonterminal - values[:, t]
+        gae = delta + gamma * lam * next_nonterminal * gae
+        adv_rev.append(gae)
+    advantages = torch.stack(adv_rev[::-1], dim=1)
+    returns = advantages + values
+    return advantages, returns
+
+
 def compute_lambda_returns(
     rewards: torch.Tensor,
     values: torch.Tensor,

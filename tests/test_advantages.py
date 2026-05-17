@@ -9,7 +9,8 @@ regression here would confound every cross-method benchmark comparison.
 import numpy as np
 import torch
 
-from ragnarok.learning.advantages import compute_gae, compute_lambda_returns
+from ragnarok.learning.advantages import (
+    compute_gae, compute_gae_batched, compute_lambda_returns)
 
 
 class TestComputeGAE:
@@ -96,6 +97,58 @@ class TestComputeGAE:
         d = np.zeros(3, dtype=np.float32)
         adv, _ = compute_gae(r, v, d, last_value=0.0, gamma=1.0, lam=1.0)
         assert adv.mean() > 5.0  # raw scale preserved
+
+
+class TestComputeGAEBatched:
+    """Batched device-twin of compute_gae — must match it row-for-row."""
+
+    def test_output_shapes(self):
+        N, T = 4, 7
+        adv, ret = compute_gae_batched(
+            torch.randn(N, T), torch.randn(N, T),
+            torch.zeros(N, T), torch.randn(N))
+        assert adv.shape == (N, T)
+        assert ret.shape == (N, T)
+
+    def test_matches_compute_gae_row_for_row(self):
+        """Each of the N rows must equal numpy compute_gae on that row — this
+        is the contract that keeps the device path numerically calibrated."""
+        torch.manual_seed(0)
+        N, T = 5, 12
+        rewards = torch.randn(N, T)
+        values = torch.randn(N, T)
+        dones = (torch.rand(N, T) < 0.15).float()  # sprinkle episode boundaries
+        last_value = torch.randn(N)
+        adv_b, ret_b = compute_gae_batched(rewards, values, dones, last_value,
+                                           gamma=0.99, lam=0.95)
+        for i in range(N):
+            adv_i, ret_i = compute_gae(
+                rewards[i].numpy(), values[i].numpy(), dones[i].numpy(),
+                last_value=float(last_value[i]), gamma=0.99, lam=0.95)
+            np.testing.assert_allclose(adv_b[i].numpy(), adv_i,
+                                       rtol=1e-5, atol=1e-5)
+            np.testing.assert_allclose(ret_b[i].numpy(), ret_i,
+                                       rtol=1e-5, atol=1e-5)
+
+    def test_returns_equal_advantages_plus_values(self):
+        N, T = 3, 6
+        values = torch.randn(N, T)
+        adv, ret = compute_gae_batched(
+            torch.randn(N, T), values, torch.zeros(N, T), torch.randn(N))
+        torch.testing.assert_close(ret, adv + values)
+
+    def test_done_resets_recursion_per_row(self):
+        """A done at step t blocks future advantage from leaking into A_t,
+        independently for each row."""
+        rewards = torch.ones(2, 4)
+        values = torch.zeros(2, 4)
+        dones = torch.tensor([[0., 1., 0., 0.],   # row 0: boundary at t=1
+                              [0., 0., 0., 0.]])  # row 1: no boundary
+        last_value = torch.zeros(2)
+        adv, _ = compute_gae_batched(rewards, values, dones, last_value,
+                                     gamma=1.0, lam=1.0)
+        torch.testing.assert_close(adv[0], torch.tensor([2., 1., 2., 1.]))
+        torch.testing.assert_close(adv[1], torch.tensor([4., 3., 2., 1.]))
 
 
 class TestComputeLambdaReturns:

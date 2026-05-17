@@ -23,17 +23,20 @@ from ragnarok.infrastructure.device import mark_step
 class RolloutBatch:
     """One fixed-shape rollout: N parallel envs x T steps, all device tensors.
 
-    ``obs``/``actions`` are the pre-step observation and the action taken;
-    ``rewards``/``dones`` are the step results; ``logp``/``values`` are the
-    collecting policy's (frozen, no-grad) outputs — used as PPO's old
-    log-probs and for GAE. ``last_obs``/``last_value`` carry the
+    ``obs`` is the normalized pre-step observation the policy acted on;
+    ``raw_obs`` is the same step's unnormalized env state — feed it to the
+    normalizer's ``update`` between rollouts. ``actions`` is the action
+    taken; ``rewards``/``dones`` are the step results; ``logp``/``values``
+    are the collecting policy's (frozen, no-grad) outputs — used as PPO's
+    old log-probs and for GAE. ``last_obs``/``last_value`` carry the
     post-rollout state for value bootstrapping.
 
-    actions shape is env-dependent: discrete -> (N, T) int indices;
-    continuous -> (N, T, action_dim) float.
+    With no normalizer ``obs == raw_obs``. actions shape is env-dependent:
+    discrete -> (N, T) int indices; continuous -> (N, T, action_dim) float.
     """
 
-    obs: torch.Tensor         # (N, T, obs_dim)
+    obs: torch.Tensor         # (N, T, obs_dim) normalized (policy acts/trains on this)
+    raw_obs: torch.Tensor     # (N, T, obs_dim) raw env state (for normalizer.update)
     actions: torch.Tensor     # (N, T) or (N, T, action_dim)
     rewards: torch.Tensor     # (N, T)
     dones: torch.Tensor       # (N, T) float 0/1
@@ -57,7 +60,7 @@ class RolloutBatch:
 
 
 @torch.no_grad()
-def collect_rollout(device_env, policy_fn, horizon: int) -> RolloutBatch:
+def collect_rollout(device_env, policy_fn, horizon: int, normalizer=None) -> RolloutBatch:
     """Collect a fixed ``horizon``-step rollout from a DeviceVec* env.
 
     Args:
@@ -71,36 +74,45 @@ def collect_rollout(device_env, policy_fn, horizon: int) -> RolloutBatch:
             (N,) device tensors. Must run under no-grad / be cheap.
         horizon: number of steps T — a Python int constant, so the rollout
             is a single fixed-shape XLA graph.
+        normalizer: optional ``DeviceRunningNormalizer``. If given, the
+            policy sees normalized obs (also stored as ``batch.obs``); its
+            stats stay READ-ONLY for the whole rollout — one consistent
+            scaling — so call ``normalizer.update(batch.raw_obs...)``
+            BETWEEN rollouts. If None, ``obs == raw_obs``.
 
     Returns:
         A ``RolloutBatch`` of device tensors. No ``.cpu()``/``.item()`` is
         called inside the loop, so the collection never leaves the device.
     """
-    obs = device_env.state
-    obs_l, act_l, rew_l, done_l, logp_l, val_l = [], [], [], [], [], []
+    raw = device_env.state
+    raw_l, obs_l, act_l, rew_l, done_l, logp_l, val_l = [], [], [], [], [], [], []
 
     for _ in range(horizon):
+        obs = normalizer.normalize(raw) if normalizer is not None else raw
         action, logp, value = policy_fn(obs)
-        next_obs, reward, _terminated, _truncated, done = device_env.step(action)
+        next_raw, reward, _terminated, _truncated, done = device_env.step(action)
+        raw_l.append(raw)
         obs_l.append(obs)
         act_l.append(action)
         rew_l.append(reward)
         done_l.append(done.float())
         logp_l.append(logp)
         val_l.append(value)
-        obs = next_obs
+        raw = next_raw
 
     # Bootstrap value for the post-rollout state (for GAE's final step).
-    _, _, last_value = policy_fn(obs)
+    last_obs = normalizer.normalize(raw) if normalizer is not None else raw
+    _, _, last_value = policy_fn(last_obs)
     mark_step()  # XLA: materialize the rollout graph (no-op on CUDA/CPU)
 
     return RolloutBatch(
         obs=torch.stack(obs_l, dim=1),
+        raw_obs=torch.stack(raw_l, dim=1),
         actions=torch.stack(act_l, dim=1),
         rewards=torch.stack(rew_l, dim=1),
         dones=torch.stack(done_l, dim=1),
         logp=torch.stack(logp_l, dim=1),
         values=torch.stack(val_l, dim=1),
-        last_obs=obs,
+        last_obs=last_obs,
         last_value=last_value,
     )

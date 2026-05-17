@@ -11,7 +11,7 @@ import torch.nn.functional as F
 import numpy as np
 
 from ragnarok.infrastructure.device import DEVICE, mark_step
-from ragnarok.learning.advantages import compute_gae
+from ragnarok.learning.advantages import compute_gae, compute_gae_batched
 
 
 class DirectPolicyNet(nn.Module):
@@ -1087,6 +1087,112 @@ class RealExperienceTrainer:
                 "real/mean_return": float(returns_np.mean()),
             }
         return metrics
+
+    # ------------------------------------------------------------------
+    # Device-resident path (Phase 2, TPU re-architecture).
+    #
+    # Every method above collects ONE variable-length gym episode on the
+    # host. The two below instead train from a RolloutBatch: a fixed-shape
+    # (N, T) batch of device tensors produced by
+    # ragnarok.learning.rollout.collect_rollout over a DeviceVec* env, so
+    # collection and the PPO update both stay on the accelerator.
+    # ------------------------------------------------------------------
+
+    @torch.no_grad()
+    def device_policy_fn(self, obs: torch.Tensor):
+        """``policy_fn`` for ``collect_rollout`` — batched discrete sampling.
+
+        Maps an (N, obs_dim) device tensor to ``(action, logp, value)``, each
+        an (N,) device tensor: a sampled action index, its log-prob under the
+        current policy, and the critic value. Discrete actions only.
+        """
+        logits, value = self.policy(obs)
+        dist = torch.distributions.Categorical(logits=logits)
+        action = dist.sample()
+        return action, dist.log_prob(action), value
+
+    def train_on_rollout(self, batch, epochs: int = 4, clip_eps: float = 0.2,
+                         n_minibatches: int = 8) -> dict:
+        """PPO update from a fixed-shape on-device ``RolloutBatch``.
+
+        The device-path twin of ``collect_batch_and_train`` -> ``_train_ppo``:
+        the same clipped-surrogate PPO objective and the same return-baseline
+        advantage, but fed the accelerator-resident (N, T) rollout instead of
+        host-concatenated gym episodes. Because N*T is a Python constant there
+        is no variable-length concat and no tile-padding.
+
+        Returns are the per-env-row discounted reward sum, reset at every
+        episode boundary and bootstrapped at the (truncated) rollout tail with
+        ``last_value`` — ``compute_gae_batched`` at lam=1.0 is exactly
+        ``R_t = r_t + gamma * (1 - done_t) * R_{t+1}``. They are normalized
+        before use: a unit-scale critic target keeps ``DirectPolicyNet``'s
+        SHARED actor/critic trunk balanced (an un-normalized ~80-scale
+        CartPole return makes the critic MSE swamp the policy gradient and
+        the policy collapses — the gym ``_train_ppo`` path relies on the same
+        normalization). The advantage is ``return - value`` against a fresh
+        critic pass, exactly as ``_train_ppo`` does.
+
+        Discrete actions only — Stage 2 is CartPole; continuous MountainCar
+        goes through SAC in Stage 4. No host sync until the metric reads.
+        """
+        assert self.discrete, (
+            "train_on_rollout is discrete-only; continuous control uses SAC")
+
+        # Per-row discounted returns: done-reset + tail bootstrap (lam=1.0).
+        _, returns = compute_gae_batched(
+            batch.rewards, batch.values, batch.dones, batch.last_value,
+            gamma=self.gamma, lam=1.0)
+
+        # Flatten (N, T) -> (M, ...): every transition is one training sample.
+        obs = batch.obs.reshape(-1, batch.obs.shape[-1])
+        actions = batch.actions.reshape(-1).long()
+        old_logp = batch.logp.reshape(-1)
+        ret = returns.reshape(-1)
+        # Unit-scale critic target keeps the shared actor/critic trunk stable.
+        ret = (ret - ret.mean()) / (ret.std() + 1e-8)
+
+        M = obs.shape[0]
+        mb = M // n_minibatches  # fixed minibatch size — XLA: one graph
+
+        actor_t = critic_t = entropy_t = torch.zeros((), device=DEVICE)
+        for _ in range(epochs):
+            perm = torch.randperm(M, device=DEVICE)
+            for k in range(n_minibatches):
+                idx = perm[k * mb:(k + 1) * mb]
+                ret_mb = ret[idx]
+                logits, values = self.policy(obs[idx])
+                dist = torch.distributions.Categorical(logits=logits)
+                new_logp = dist.log_prob(actions[idx])
+                entropy = dist.entropy().mean()
+
+                # Advantage = normalized return - value baseline (== _train_ppo).
+                advantages = ret_mb - values.detach()
+                ratio = torch.exp(new_logp - old_logp[idx])
+                surr1 = ratio * advantages
+                surr2 = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps) * advantages
+                actor_loss = -torch.min(surr1, surr2).mean()
+                critic_loss = F.mse_loss(values, ret_mb)
+                entropy_loss = -entropy
+
+                loss = (actor_loss + 0.5 * critic_loss
+                        + self.entropy_coeff * entropy_loss)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                nn.utils.clip_grad_norm_(self.policy.parameters(),
+                                         self.grad_clip)
+                self.optimizer.step()
+                mark_step()  # XLA: one graph per minibatch update
+
+                actor_t = actor_loss.detach()
+                critic_t = critic_loss.detach()
+                entropy_t = entropy.detach()
+
+        return {
+            "real/actor_loss": actor_t.item(),
+            "real/critic_loss": critic_t.item(),
+            "real/entropy": entropy_t.item(),
+        }
 
     def _collect_continuous_data(self, env):
         """Collect one continuous episode without training. Returns components."""
