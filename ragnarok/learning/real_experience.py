@@ -1115,22 +1115,26 @@ class RealExperienceTrainer:
                          n_minibatches: int = 8) -> dict:
         """PPO update from a fixed-shape on-device ``RolloutBatch``.
 
-        The device-path twin of ``collect_batch_and_train`` -> ``_train_ppo``:
-        the same clipped-surrogate PPO objective and the same return-baseline
-        advantage, but fed the accelerator-resident (N, T) rollout instead of
-        host-concatenated gym episodes. Because N*T is a Python constant there
-        is no variable-length concat and no tile-padding.
+        The device-path counterpart of ``collect_batch_and_train`` ->
+        ``_train_ppo``: the same clipped-surrogate PPO objective and
+        return-baseline advantage, but fed the accelerator-resident (N, T)
+        rollout instead of host-concatenated gym episodes. Because N*T is a
+        Python constant there is no variable-length concat and no
+        tile-padding.
 
-        Returns are the per-env-row discounted reward sum, reset at every
-        episode boundary and bootstrapped at the (truncated) rollout tail with
-        ``last_value`` — ``compute_gae_batched`` at lam=1.0 is exactly
-        ``R_t = r_t + gamma * (1 - done_t) * R_{t+1}``. They are normalized
-        before use: a unit-scale critic target keeps ``DirectPolicyNet``'s
-        SHARED actor/critic trunk balanced (an un-normalized ~80-scale
-        CartPole return makes the critic MSE swamp the policy gradient and
-        the policy collapses — the gym ``_train_ppo`` path relies on the same
-        normalization). The advantage is ``return - value`` against a fresh
-        critic pass, exactly as ``_train_ppo`` does.
+        Returns are per-env-row, reset at every episode boundary and
+        bootstrapped at the rollout tail with ``last_value``
+        (``compute_gae_batched`` at lam=1.0). This is standard fixed-horizon,
+        value-bootstrapped batched PPO — it DIFFERS from ``_train_ppo``'s
+        full-episode Monte-Carlo returns (the device path collects fixed
+        (N, T) windows, not whole episodes); equivalence to the calibrated
+        gym outcome is re-verified by the Phase 2 re-calibration, not assumed.
+
+        Returns are normalized before use: a unit-scale critic target keeps
+        ``DirectPolicyNet``'s SHARED actor/critic trunk balanced — an
+        un-normalized ~80-scale CartPole return makes the critic MSE swamp
+        the policy gradient and the policy collapses. Advantage is
+        ``return - value`` against a fresh critic pass.
 
         Discrete actions only — Stage 2 is CartPole; continuous MountainCar
         goes through SAC in Stage 4. No host sync until the metric reads.
@@ -1152,11 +1156,17 @@ class RealExperienceTrainer:
         ret = (ret - ret.mean()) / (ret.std() + 1e-8)
 
         M = obs.shape[0]
+        assert M % n_minibatches == 0, (
+            f"rollout size {M} (= N*T) must be divisible by n_minibatches "
+            f"{n_minibatches} — otherwise transitions are silently dropped")
         mb = M // n_minibatches  # fixed minibatch size — XLA: one graph
 
         actor_t = critic_t = entropy_t = torch.zeros((), device=DEVICE)
         for _ in range(epochs):
-            perm = torch.randperm(M, device=DEVICE)
+            # Shuffle minibatches. NOT torch.randperm: its RNG emits an int64
+            # (s64) HLO the TPU's X64-rewrite pass cannot lower. A float
+            # rand + argsort is the same uniform permutation, XLA-clean.
+            perm = torch.rand(M, device=DEVICE).argsort()
             for k in range(n_minibatches):
                 idx = perm[k * mb:(k + 1) * mb]
                 ret_mb = ret[idx]
