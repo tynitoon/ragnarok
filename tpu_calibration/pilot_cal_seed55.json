@@ -1,0 +1,1341 @@
+{
+  "prereg_section": "\u00a78 (pilot)",
+  "pairs": [
+    {
+      "alias": "cartpole_mcc",
+      "src": "cartpole",
+      "tgt": "mountaincar-continuous",
+      "role": "primary"
+    }
+  ],
+  "seeds_N": 1,
+  "base_seed": 55,
+  "max_env_steps": 200000,
+  "source_max_env_steps": 150000,
+  "eval_every_steps": 5000,
+  "eval_episodes": 10,
+  "mastery_thresholds": {
+    "mountaincar-continuous": 90.0,
+    "cartpole": 450.0,
+    "acrobot": -100.0,
+    "pendulum": -200.0,
+    "cartpole-swingup": 800.0
+  },
+  "ablation": "none",
+  "provenance": {
+    "python": "3.10.12",
+    "platform": "Linux-6.5.0-1013-gcp-x86_64-with-glibc2.35",
+    "hostname": "t1v-n-2ddfe268-w-0",
+    "torch": "2.9.0+cu128",
+    "device": "xla:0",
+    "lifelines": "0.30.0",
+    "gpu_name": null,
+    "git_sha": "b99adf49e347f9d38a14abf2a25e8ecd4856d186",
+    "git_dirty": true
+  },
+  "runs": [
+    {
+      "pair_alias": "",
+      "pair_role": "",
+      "src_env": "cartpole",
+      "tgt_env": "cartpole",
+      "seed": 55,
+      "arm": "source",
+      "mastery_threshold": 450.0,
+      "max_env_steps": 150000,
+      "total_env_steps": 82100,
+      "total_episodes": 1440,
+      "final_eval_return": 500.0,
+      "best_eval_return": 500.0,
+      "steps_to_mastery": 74095,
+      "censored": false,
+      "eval_curve": [
+        {
+          "step": 5145,
+          "eval_return": 10.0
+        },
+        {
+          "step": 10190,
+          "eval_return": 43.0
+        },
+        {
+          "step": 15230,
+          "eval_return": 63.0
+        },
+        {
+          "step": 20376,
+          "eval_return": 69.0
+        },
+        {
+          "step": 25543,
+          "eval_return": 79.0
+        },
+        {
+          "step": 31066,
+          "eval_return": 78.0
+        },
+        {
+          "step": 36267,
+          "eval_return": 88.9
+        },
+        {
+          "step": 41688,
+          "eval_return": 106.3
+        },
+        {
+          "step": 46960,
+          "eval_return": 169.0
+        },
+        {
+          "step": 52573,
+          "eval_return": 174.7
+        },
+        {
+          "step": 58123,
+          "eval_return": 251.1
+        },
+        {
+          "step": 63606,
+          "eval_return": 335.9
+        },
+        {
+          "step": 69026,
+          "eval_return": 411.1
+        },
+        {
+          "step": 74095,
+          "eval_return": 500.0
+        },
+        {
+          "step": 79388,
+          "eval_return": 500.0
+        },
+        {
+          "step": 82100,
+          "eval_return": 500.0
+        }
+      ],
+      "acting_policy_mode": "obs",
+      "transfer_skill_name": null,
+      "source_crystallized": true,
+      "used_vec": false,
+      "wall_clock_sec": 988.7434723377228,
+      "telemetry": [],
+      "ablation": "none",
+      "ablation_info": null
+    },
+    {
+      "pair_alias": "cartpole_mcc",
+      "pair_role": "primary",
+      "src_env": "cartpole",
+      "tgt_env": "mountaincar-continuous",
+      "seed": 55,
+      "arm": "scratch",
+      "mastery_threshold": 90.0,
+      "max_env_steps": 200000,
+      "total_env_steps": 200047,
+      "total_episodes": 2726,
+      "final_eval_return": 95.0518784764187,
+      "best_eval_return": 97.85811764490573,
+      "steps_to_mastery": 5141,
+      "censored": false,
+      "eval_curve": [
+        {
+          "step": 5141,
+          "eval_return": 97.85811764490573
+        },
+        {
+          "step": 10222,
+          "eval_return": 95.85903659210662
+        },
+        {
+          "step": 15222,
+          "eval_return": 95.12140391704996
+        },
+        {
+          "step": 20245,
+          "eval_return": 94.73723474543598
+        },
+        {
+          "step": 25304,
+          "eval_return": 94.79221165747903
+        },
+        {
+          "step": 30341,
+          "eval_return": 94.94200993790756
+        },
+        {
+          "step": 35372,
+          "eval_return": 95.12919427375195
+        },
+        {
+          "step": 40425,
+          "eval_return": 94.97348368894073
+        },
+        {
+          "step": 45491,
+          "eval_return": 94.96669198938034
+        },
+        {
+          "step": 50540,
+          "eval_return": 94.80028681725119
+        },
+        {
+          "step": 55593,
+          "eval_return": 95.22720234251175
+        },
+        {
+          "step": 60634,
+          "eval_return": 95.07089965095656
+        },
+        {
+          "step": 65678,
+          "eval_return": 95.06046608584042
+        },
+        {
+          "step": 70718,
+          "eval_return": 95.04788537872564
+        },
+        {
+          "step": 75757,
+          "eval_return": 94.99939082067935
+        },
+        {
+          "step": 80801,
+          "eval_return": 94.8803839095399
+        },
+        {
+          "step": 85848,
+          "eval_return": 94.99294048373477
+        },
+        {
+          "step": 90887,
+          "eval_return": 94.97939116505567
+        },
+        {
+          "step": 95925,
+          "eval_return": 95.00388937050249
+        },
+        {
+          "step": 100964,
+          "eval_return": 95.04342387574825
+        },
+        {
+          "step": 106003,
+          "eval_return": 95.1351396946212
+        },
+        {
+          "step": 111037,
+          "eval_return": 95.0834499788041
+        },
+        {
+          "step": 116054,
+          "eval_return": 94.98425383705941
+        },
+        {
+          "step": 121123,
+          "eval_return": 94.94726961093234
+        },
+        {
+          "step": 126183,
+          "eval_return": 94.91082255222264
+        },
+        {
+          "step": 131249,
+          "eval_return": 94.95953170533434
+        },
+        {
+          "step": 136314,
+          "eval_return": 95.05272949279163
+        },
+        {
+          "step": 141316,
+          "eval_return": 94.99460408887106
+        },
+        {
+          "step": 146376,
+          "eval_return": 95.04866411255716
+        },
+        {
+          "step": 151379,
+          "eval_return": 94.92799405823936
+        },
+        {
+          "step": 156385,
+          "eval_return": 94.96795050557266
+        },
+        {
+          "step": 161389,
+          "eval_return": 94.96467057187317
+        },
+        {
+          "step": 166399,
+          "eval_return": 95.01027249132642
+        },
+        {
+          "step": 171410,
+          "eval_return": 95.07347283060392
+        },
+        {
+          "step": 176472,
+          "eval_return": 95.04400469506399
+        },
+        {
+          "step": 181540,
+          "eval_return": 95.05697542013216
+        },
+        {
+          "step": 186540,
+          "eval_return": 95.04183784315362
+        },
+        {
+          "step": 191559,
+          "eval_return": 95.03410497047034
+        },
+        {
+          "step": 196564,
+          "eval_return": 95.03679224708411
+        },
+        {
+          "step": 200047,
+          "eval_return": 95.0518784764187
+        }
+      ],
+      "acting_policy_mode": "obs",
+      "transfer_skill_name": null,
+      "source_crystallized": null,
+      "used_vec": false,
+      "wall_clock_sec": 6133.327192783356,
+      "telemetry": [],
+      "ablation": "none",
+      "ablation_info": null
+    },
+    {
+      "pair_alias": "cartpole_mcc",
+      "pair_role": "primary",
+      "src_env": "cartpole",
+      "tgt_env": "mountaincar-continuous",
+      "seed": 55,
+      "arm": "transfer",
+      "mastery_threshold": 90.0,
+      "max_env_steps": 200000,
+      "total_env_steps": 200027,
+      "total_episodes": 2717,
+      "final_eval_return": 95.09306646948366,
+      "best_eval_return": 95.42231791693261,
+      "steps_to_mastery": 10147,
+      "censored": false,
+      "eval_curve": [
+        {
+          "step": 5128,
+          "eval_return": -8.81209379835886
+        },
+        {
+          "step": 10147,
+          "eval_return": 95.30964373982599
+        },
+        {
+          "step": 15213,
+          "eval_return": 91.4741628571621
+        },
+        {
+          "step": 20247,
+          "eval_return": 95.42231791693261
+        },
+        {
+          "step": 25308,
+          "eval_return": 95.22492069012227
+        },
+        {
+          "step": 30334,
+          "eval_return": 95.37630075996978
+        },
+        {
+          "step": 35395,
+          "eval_return": 95.37975199001434
+        },
+        {
+          "step": 40429,
+          "eval_return": 95.04429105591342
+        },
+        {
+          "step": 45450,
+          "eval_return": 95.34181414778674
+        },
+        {
+          "step": 50469,
+          "eval_return": 95.2585686400757
+        },
+        {
+          "step": 55484,
+          "eval_return": 95.31284715042236
+        },
+        {
+          "step": 60494,
+          "eval_return": 95.28043663491255
+        },
+        {
+          "step": 65500,
+          "eval_return": 95.30223106734528
+        },
+        {
+          "step": 70567,
+          "eval_return": 95.03608133425858
+        },
+        {
+          "step": 75634,
+          "eval_return": 95.0283274262169
+        },
+        {
+          "step": 80687,
+          "eval_return": 94.95708569355486
+        },
+        {
+          "step": 85737,
+          "eval_return": 95.14388345864391
+        },
+        {
+          "step": 90777,
+          "eval_return": 95.1151143572758
+        },
+        {
+          "step": 95825,
+          "eval_return": 95.11359472870626
+        },
+        {
+          "step": 100876,
+          "eval_return": 95.15627894369655
+        },
+        {
+          "step": 105906,
+          "eval_return": 94.96429767666973
+        },
+        {
+          "step": 110930,
+          "eval_return": 94.97599089136737
+        },
+        {
+          "step": 115948,
+          "eval_return": 94.95914472353834
+        },
+        {
+          "step": 121013,
+          "eval_return": 94.95479912277679
+        },
+        {
+          "step": 126028,
+          "eval_return": 95.04258583662865
+        },
+        {
+          "step": 131030,
+          "eval_return": 95.00519759569589
+        },
+        {
+          "step": 136030,
+          "eval_return": 95.1109514460647
+        },
+        {
+          "step": 141030,
+          "eval_return": 95.10726909800806
+        },
+        {
+          "step": 146094,
+          "eval_return": 95.11593399526143
+        },
+        {
+          "step": 151102,
+          "eval_return": 95.10282461551638
+        },
+        {
+          "step": 156102,
+          "eval_return": 95.08694856990653
+        },
+        {
+          "step": 161104,
+          "eval_return": 95.00927681218204
+        },
+        {
+          "step": 166109,
+          "eval_return": 95.09164494767859
+        },
+        {
+          "step": 171110,
+          "eval_return": 95.0811046090635
+        },
+        {
+          "step": 176178,
+          "eval_return": 95.13394332094683
+        },
+        {
+          "step": 181189,
+          "eval_return": 95.00463380337388
+        },
+        {
+          "step": 186191,
+          "eval_return": 94.94213524564702
+        },
+        {
+          "step": 191261,
+          "eval_return": 95.0075299020107
+        },
+        {
+          "step": 196269,
+          "eval_return": 95.01328139460944
+        },
+        {
+          "step": 200027,
+          "eval_return": 95.09306646948366
+        }
+      ],
+      "acting_policy_mode": "latent",
+      "transfer_skill_name": "CartPole-v1_1440ep",
+      "source_crystallized": null,
+      "used_vec": false,
+      "wall_clock_sec": 6114.7808628082275,
+      "telemetry": [
+        {
+          "step": 5128,
+          "episode": 6,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.0,
+            "core.gru.weight_hh": 0.0,
+            "core.gru.bias_ih": 0.0,
+            "core.gru.bias_hh": 0.0,
+            "core.prior.0.weight": 0.0,
+            "core.prior.0.bias": 0.0,
+            "core.prior.2.weight": 0.0,
+            "core.prior.2.bias": 0.0,
+            "core.posterior.0.weight": 0.0,
+            "core.posterior.0.bias": 0.0,
+            "core.posterior.2.weight": 0.0,
+            "core.posterior.2.bias": 0.0
+          },
+          "kl_posterior_prior": 0.47021484375,
+          "kl_probe_error": null
+        },
+        {
+          "step": 10147,
+          "episode": 46,
+          "transferable_drift_max": 0.005382010594036245,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.00318859585854613,
+            "core.gru.weight_hh": 0.0030264591186349972,
+            "core.gru.bias_ih": 0.003518213341582187,
+            "core.gru.bias_hh": 0.0036589695199314596,
+            "core.prior.0.weight": 0.003819250616017379,
+            "core.prior.0.bias": 0.004747784565616102,
+            "core.prior.2.weight": 0.002414146098810389,
+            "core.prior.2.bias": 0.003021776306753772,
+            "core.posterior.0.weight": 0.005382010594036245,
+            "core.posterior.0.bias": 0.00523560595055397,
+            "core.posterior.2.weight": 0.0026288928072738587,
+            "core.posterior.2.bias": 0.0034566455674849977
+          },
+          "kl_posterior_prior": 0.39222532510757446,
+          "kl_probe_error": null
+        },
+        {
+          "step": 15213,
+          "episode": 87,
+          "transferable_drift_max": 0.009910769961284514,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.005970382785876452,
+            "core.gru.weight_hh": 0.005700758076499657,
+            "core.gru.bias_ih": 0.006601306917571469,
+            "core.gru.bias_hh": 0.006866158010397747,
+            "core.prior.0.weight": 0.006655394886204117,
+            "core.prior.0.bias": 0.008378940839988407,
+            "core.prior.2.weight": 0.004396245833906679,
+            "core.prior.2.bias": 0.00546867916592228,
+            "core.posterior.0.weight": 0.009894553790961104,
+            "core.posterior.0.bias": 0.009910769961284514,
+            "core.posterior.2.weight": 0.004782785784748144,
+            "core.posterior.2.bias": 0.006465280905228662
+          },
+          "kl_posterior_prior": 0.5124939680099487,
+          "kl_probe_error": null
+        },
+        {
+          "step": 20247,
+          "episode": 154,
+          "transferable_drift_max": 0.016944913877317103,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.010515932019644977,
+            "core.gru.weight_hh": 0.010158376382201462,
+            "core.gru.bias_ih": 0.011760100721912895,
+            "core.gru.bias_hh": 0.01223440908052097,
+            "core.prior.0.weight": 0.011713319430989855,
+            "core.prior.0.bias": 0.014546225405106639,
+            "core.prior.2.weight": 0.008035456104265213,
+            "core.prior.2.bias": 0.009694726584819022,
+            "core.posterior.0.weight": 0.01685943863661669,
+            "core.posterior.0.bias": 0.016944913877317103,
+            "core.posterior.2.weight": 0.008423691645731802,
+            "core.posterior.2.bias": 0.010853299622390549
+          },
+          "kl_posterior_prior": 0.741148054599762,
+          "kl_probe_error": null
+        },
+        {
+          "step": 25308,
+          "episode": 221,
+          "transferable_drift_max": 0.05594879006330669,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.03556632089117347,
+            "core.gru.weight_hh": 0.03659839561513501,
+            "core.gru.bias_ih": 0.03921686110635483,
+            "core.gru.bias_hh": 0.04084561625974576,
+            "core.prior.0.weight": 0.048233320208922424,
+            "core.prior.0.bias": 0.05594879006330669,
+            "core.prior.2.weight": 0.0337023096010907,
+            "core.prior.2.bias": 0.03637523532002719,
+            "core.posterior.0.weight": 0.04727673587027694,
+            "core.posterior.0.bias": 0.04110555982138422,
+            "core.posterior.2.weight": 0.02885523537023425,
+            "core.posterior.2.bias": 0.030563157382954682
+          },
+          "kl_posterior_prior": 0.7231813073158264,
+          "kl_probe_error": null
+        },
+        {
+          "step": 30334,
+          "episode": 290,
+          "transferable_drift_max": 0.10696753421385004,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.0714173572146389,
+            "core.gru.weight_hh": 0.07784630048804803,
+            "core.gru.bias_ih": 0.0780742589172333,
+            "core.gru.bias_hh": 0.08138903062512075,
+            "core.prior.0.weight": 0.0939220495416214,
+            "core.prior.0.bias": 0.10696753421385004,
+            "core.prior.2.weight": 0.07068380434820959,
+            "core.prior.2.bias": 0.0727575389589104,
+            "core.posterior.0.weight": 0.08566448183609532,
+            "core.posterior.0.bias": 0.060457797781942296,
+            "core.posterior.2.weight": 0.05471940540869674,
+            "core.posterior.2.bias": 0.04849471914603411
+          },
+          "kl_posterior_prior": 0.7160776853561401,
+          "kl_probe_error": null
+        },
+        {
+          "step": 35395,
+          "episode": 361,
+          "transferable_drift_max": 0.12700474710971807,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.0876785984224224,
+            "core.gru.weight_hh": 0.09923737415934086,
+            "core.gru.bias_ih": 0.0990270162091728,
+            "core.gru.bias_hh": 0.10318903147025606,
+            "core.prior.0.weight": 0.11020594664471196,
+            "core.prior.0.bias": 0.12700474710971807,
+            "core.prior.2.weight": 0.07749592535655854,
+            "core.prior.2.bias": 0.08378719451316048,
+            "core.posterior.0.weight": 0.11219144141613387,
+            "core.posterior.0.bias": 0.061655654678034376,
+            "core.posterior.2.weight": 0.0706396728704446,
+            "core.posterior.2.bias": 0.05013430991782417
+          },
+          "kl_posterior_prior": 0.5736146569252014,
+          "kl_probe_error": null
+        },
+        {
+          "step": 40429,
+          "episode": 432,
+          "transferable_drift_max": 0.14290481393220153,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.10141900064704905,
+            "core.gru.weight_hh": 0.11870408077668679,
+            "core.gru.bias_ih": 0.1140979531946064,
+            "core.gru.bias_hh": 0.11893367460366089,
+            "core.prior.0.weight": 0.13205088965587722,
+            "core.prior.0.bias": 0.14290481393220153,
+            "core.prior.2.weight": 0.08504017723998503,
+            "core.prior.2.bias": 0.09151191474453996,
+            "core.posterior.0.weight": 0.1353495516100463,
+            "core.posterior.0.bias": 0.06590387969004699,
+            "core.posterior.2.weight": 0.08332280470517105,
+            "core.posterior.2.bias": 0.052557231596607155
+          },
+          "kl_posterior_prior": 0.6396511793136597,
+          "kl_probe_error": null
+        },
+        {
+          "step": 45450,
+          "episode": 503,
+          "transferable_drift_max": 0.16292999008117906,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.12086348985642124,
+            "core.gru.weight_hh": 0.14568203954949646,
+            "core.gru.bias_ih": 0.13318236001820094,
+            "core.gru.bias_hh": 0.13900587263388528,
+            "core.prior.0.weight": 0.15934847066321733,
+            "core.prior.0.bias": 0.16241092375424362,
+            "core.prior.2.weight": 0.103704131334584,
+            "core.prior.2.bias": 0.10239094938654503,
+            "core.posterior.0.weight": 0.16292999008117906,
+            "core.posterior.0.bias": 0.07815221001486775,
+            "core.posterior.2.weight": 0.09849510184844548,
+            "core.posterior.2.bias": 0.05926057266151511
+          },
+          "kl_posterior_prior": 0.5609467029571533,
+          "kl_probe_error": null
+        },
+        {
+          "step": 50469,
+          "episode": 574,
+          "transferable_drift_max": 0.19381419525265411,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.14462091898088053,
+            "core.gru.weight_hh": 0.17280915343750847,
+            "core.gru.bias_ih": 0.14983155440983753,
+            "core.gru.bias_hh": 0.1566867926246921,
+            "core.prior.0.weight": 0.19345382112040835,
+            "core.prior.0.bias": 0.1862722986743458,
+            "core.prior.2.weight": 0.12751928204502375,
+            "core.prior.2.bias": 0.11538860195359213,
+            "core.posterior.0.weight": 0.19381419525265411,
+            "core.posterior.0.bias": 0.08260297907068748,
+            "core.posterior.2.weight": 0.11490671945676205,
+            "core.posterior.2.bias": 0.06491160662720417
+          },
+          "kl_posterior_prior": 1.014946699142456,
+          "kl_probe_error": null
+        },
+        {
+          "step": 55484,
+          "episode": 645,
+          "transferable_drift_max": 0.23003151004551337,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.16609863120881505,
+            "core.gru.weight_hh": 0.19072534449918785,
+            "core.gru.bias_ih": 0.16058619651921602,
+            "core.gru.bias_hh": 0.16826648137075312,
+            "core.prior.0.weight": 0.23003151004551337,
+            "core.prior.0.bias": 0.21659205666294343,
+            "core.prior.2.weight": 0.15551655250608473,
+            "core.prior.2.bias": 0.13058924295756702,
+            "core.posterior.0.weight": 0.215088610517219,
+            "core.posterior.0.bias": 0.08495097226305721,
+            "core.posterior.2.weight": 0.12818605000072925,
+            "core.posterior.2.bias": 0.07120512667424791
+          },
+          "kl_posterior_prior": 0.8982589244842529,
+          "kl_probe_error": null
+        },
+        {
+          "step": 60494,
+          "episode": 716,
+          "transferable_drift_max": 0.26428614438282677,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.18814619397253118,
+            "core.gru.weight_hh": 0.21008372798665756,
+            "core.gru.bias_ih": 0.17379397875398428,
+            "core.gru.bias_hh": 0.18250542647287715,
+            "core.prior.0.weight": 0.26428614438282677,
+            "core.prior.0.bias": 0.25327716859205535,
+            "core.prior.2.weight": 0.1828730511706311,
+            "core.prior.2.bias": 0.14644212750227875,
+            "core.posterior.0.weight": 0.23651155271940155,
+            "core.posterior.0.bias": 0.08640550858761861,
+            "core.posterior.2.weight": 0.14546124035237684,
+            "core.posterior.2.bias": 0.07869761134770202
+          },
+          "kl_posterior_prior": 1.1204255819320679,
+          "kl_probe_error": null
+        },
+        {
+          "step": 65500,
+          "episode": 787,
+          "transferable_drift_max": 0.29760616578886423,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.19665859471085032,
+            "core.gru.weight_hh": 0.2129601098529152,
+            "core.gru.bias_ih": 0.17915432384100388,
+            "core.gru.bias_hh": 0.18786471402851815,
+            "core.prior.0.weight": 0.29760616578886423,
+            "core.prior.0.bias": 0.29747526684392506,
+            "core.prior.2.weight": 0.209681408335414,
+            "core.prior.2.bias": 0.16300600176721383,
+            "core.posterior.0.weight": 0.25936033820012727,
+            "core.posterior.0.bias": 0.08011443577078411,
+            "core.posterior.2.weight": 0.14499128318831833,
+            "core.posterior.2.bias": 0.08260179705364382
+          },
+          "kl_posterior_prior": 0.8661579489707947,
+          "kl_probe_error": null
+        },
+        {
+          "step": 70567,
+          "episode": 859,
+          "transferable_drift_max": 0.353316350979597,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.20944049939529577,
+            "core.gru.weight_hh": 0.2233167689694007,
+            "core.gru.bias_ih": 0.18952575180977352,
+            "core.gru.bias_hh": 0.19886943199630583,
+            "core.prior.0.weight": 0.32169954749170265,
+            "core.prior.0.bias": 0.353316350979597,
+            "core.prior.2.weight": 0.227953548338357,
+            "core.prior.2.bias": 0.18176254365055733,
+            "core.posterior.0.weight": 0.2761066738035869,
+            "core.posterior.0.bias": 0.07987642553774091,
+            "core.posterior.2.weight": 0.1533008505074701,
+            "core.posterior.2.bias": 0.08537846470603562
+          },
+          "kl_posterior_prior": 0.7933239340782166,
+          "kl_probe_error": null
+        },
+        {
+          "step": 75634,
+          "episode": 931,
+          "transferable_drift_max": 0.43646789944315706,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.22458685259107936,
+            "core.gru.weight_hh": 0.2371547057511799,
+            "core.gru.bias_ih": 0.20245802706093324,
+            "core.gru.bias_hh": 0.21288692524050554,
+            "core.prior.0.weight": 0.349375950669022,
+            "core.prior.0.bias": 0.43646789944315706,
+            "core.prior.2.weight": 0.2511833744170297,
+            "core.prior.2.bias": 0.21284748096918857,
+            "core.posterior.0.weight": 0.2876613596037375,
+            "core.posterior.0.bias": 0.08488102587164308,
+            "core.posterior.2.weight": 0.17238545626004564,
+            "core.posterior.2.bias": 0.09300449546743643
+          },
+          "kl_posterior_prior": 1.178579330444336,
+          "kl_probe_error": null
+        },
+        {
+          "step": 80687,
+          "episode": 1003,
+          "transferable_drift_max": 0.5183291342127879,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.23739660245949146,
+            "core.gru.weight_hh": 0.24551753211061683,
+            "core.gru.bias_ih": 0.21468414999581523,
+            "core.gru.bias_hh": 0.22612523602163828,
+            "core.prior.0.weight": 0.37961838539847387,
+            "core.prior.0.bias": 0.5183291342127879,
+            "core.prior.2.weight": 0.27725808302787774,
+            "core.prior.2.bias": 0.24656962548908207,
+            "core.posterior.0.weight": 0.3022396003052259,
+            "core.posterior.0.bias": 0.08928038274515136,
+            "core.posterior.2.weight": 0.1936345907239416,
+            "core.posterior.2.bias": 0.09962806888734844
+          },
+          "kl_posterior_prior": 1.9627513885498047,
+          "kl_probe_error": null
+        },
+        {
+          "step": 85737,
+          "episode": 1075,
+          "transferable_drift_max": 0.6163209082347986,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.25387874809395833,
+            "core.gru.weight_hh": 0.2620446395627202,
+            "core.gru.bias_ih": 0.23249818622219184,
+            "core.gru.bias_hh": 0.24506768183848854,
+            "core.prior.0.weight": 0.4241984794296085,
+            "core.prior.0.bias": 0.6163209082347986,
+            "core.prior.2.weight": 0.3201751354703497,
+            "core.prior.2.bias": 0.294241828245485,
+            "core.posterior.0.weight": 0.3226486725021886,
+            "core.posterior.0.bias": 0.12382581853124175,
+            "core.posterior.2.weight": 0.22571111140802338,
+            "core.posterior.2.bias": 0.11963500060697456
+          },
+          "kl_posterior_prior": 2.9682812690734863,
+          "kl_probe_error": null
+        },
+        {
+          "step": 90777,
+          "episode": 1147,
+          "transferable_drift_max": 0.6953033328346333,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.28126772848515735,
+            "core.gru.weight_hh": 0.2914767703504394,
+            "core.gru.bias_ih": 0.24964189731987257,
+            "core.gru.bias_hh": 0.26154701311579553,
+            "core.prior.0.weight": 0.443472559737252,
+            "core.prior.0.bias": 0.6953033328346333,
+            "core.prior.2.weight": 0.33364680536124075,
+            "core.prior.2.bias": 0.32216834026216357,
+            "core.posterior.0.weight": 0.37773186393134667,
+            "core.posterior.0.bias": 0.17904396957638333,
+            "core.posterior.2.weight": 0.2145177368988508,
+            "core.posterior.2.bias": 0.13650263534452028
+          },
+          "kl_posterior_prior": 1.416297435760498,
+          "kl_probe_error": null
+        },
+        {
+          "step": 95825,
+          "episode": 1219,
+          "transferable_drift_max": 0.7771888802674359,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.2889786201865707,
+            "core.gru.weight_hh": 0.29407007279867414,
+            "core.gru.bias_ih": 0.26495780146667847,
+            "core.gru.bias_hh": 0.2765725796322863,
+            "core.prior.0.weight": 0.45158483121597814,
+            "core.prior.0.bias": 0.7771888802674359,
+            "core.prior.2.weight": 0.3410581630575485,
+            "core.prior.2.bias": 0.3502921482378024,
+            "core.posterior.0.weight": 0.47151888713076395,
+            "core.posterior.0.bias": 0.24157178262797854,
+            "core.posterior.2.weight": 0.21227110401150806,
+            "core.posterior.2.bias": 0.14352177917038553
+          },
+          "kl_posterior_prior": 2.0977790355682373,
+          "kl_probe_error": null
+        },
+        {
+          "step": 100876,
+          "episode": 1291,
+          "transferable_drift_max": 0.8454263939101176,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.294506801988805,
+            "core.gru.weight_hh": 0.29379851600349854,
+            "core.gru.bias_ih": 0.2762560411321493,
+            "core.gru.bias_hh": 0.2880916563313663,
+            "core.prior.0.weight": 0.45301479993928634,
+            "core.prior.0.bias": 0.8454263939101176,
+            "core.prior.2.weight": 0.34007984391723656,
+            "core.prior.2.bias": 0.36945719066649285,
+            "core.posterior.0.weight": 0.5616300473876522,
+            "core.posterior.0.bias": 0.29930670085255956,
+            "core.posterior.2.weight": 0.21756795803446477,
+            "core.posterior.2.bias": 0.1440190718535204
+          },
+          "kl_posterior_prior": 2.0407655239105225,
+          "kl_probe_error": null
+        },
+        {
+          "step": 105906,
+          "episode": 1363,
+          "transferable_drift_max": 0.8793751695351876,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.3009221057522736,
+            "core.gru.weight_hh": 0.2958564773942481,
+            "core.gru.bias_ih": 0.2834513134887091,
+            "core.gru.bias_hh": 0.2960214023470816,
+            "core.prior.0.weight": 0.451855844484742,
+            "core.prior.0.bias": 0.8793751695351876,
+            "core.prior.2.weight": 0.339492748660136,
+            "core.prior.2.bias": 0.3826766637105804,
+            "core.posterior.0.weight": 0.6467717864194895,
+            "core.posterior.0.bias": 0.3516490445738456,
+            "core.posterior.2.weight": 0.22686867829717366,
+            "core.posterior.2.bias": 0.1440277616962947
+          },
+          "kl_posterior_prior": 2.380997657775879,
+          "kl_probe_error": null
+        },
+        {
+          "step": 110930,
+          "episode": 1435,
+          "transferable_drift_max": 0.8939656716812987,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.3193252123599211,
+            "core.gru.weight_hh": 0.30013233418086765,
+            "core.gru.bias_ih": 0.28100392601681534,
+            "core.gru.bias_hh": 0.29427593385689466,
+            "core.prior.0.weight": 0.45258971070492515,
+            "core.prior.0.bias": 0.8939656716812987,
+            "core.prior.2.weight": 0.33477219666295366,
+            "core.prior.2.bias": 0.3887091720758754,
+            "core.posterior.0.weight": 0.7609718401506925,
+            "core.posterior.0.bias": 0.4233797439006606,
+            "core.posterior.2.weight": 0.23693773555866587,
+            "core.posterior.2.bias": 0.15296695184150474
+          },
+          "kl_posterior_prior": 4.908137798309326,
+          "kl_probe_error": null
+        },
+        {
+          "step": 115948,
+          "episode": 1507,
+          "transferable_drift_max": 0.9025669608498911,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": 0.34646704838280123,
+            "core.gru.weight_hh": 0.3085935427891971,
+            "core.gru.bias_ih": 0.3025904762678228,
+            "core.gru.bias_hh": 0.3180069221275905,
+            "core.prior.0.weight": 0.45835797524387806,
+            "core.prior.0.bias": 0.9025669608498911,
+            "core.prior.2.weight": 0.3322273735096394,
+            "core.prior.2.bias": 0.38683063556928265,
+            "core.posterior.0.weight": 0.8001326935983255,
+            "core.posterior.0.bias": 0.46093477019505735,
+            "core.posterior.2.weight": 0.24667633626076368,
+            "core.posterior.2.bias": 0.16979216700201183
+          },
+          "kl_posterior_prior": 9.703822135925293,
+          "kl_probe_error": null
+        },
+        {
+          "step": 121013,
+          "episode": 1580,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 126028,
+          "episode": 1652,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 131030,
+          "episode": 1724,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 136030,
+          "episode": 1796,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 141030,
+          "episode": 1868,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 146094,
+          "episode": 1941,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 151102,
+          "episode": 2013,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 156102,
+          "episode": 2085,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 161104,
+          "episode": 2157,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 166109,
+          "episode": 2229,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 171110,
+          "episode": 2301,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 176178,
+          "episode": 2374,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 181189,
+          "episode": 2446,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 186191,
+          "episode": 2518,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 191261,
+          "episode": 2591,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 196269,
+          "episode": 2663,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        },
+        {
+          "step": 200027,
+          "episode": 2717,
+          "transferable_drift_max": 0.0,
+          "transferable_drift_per_param": {
+            "core.gru.weight_ih": NaN,
+            "core.gru.weight_hh": NaN,
+            "core.gru.bias_ih": NaN,
+            "core.gru.bias_hh": NaN,
+            "core.prior.0.weight": NaN,
+            "core.prior.0.bias": NaN,
+            "core.prior.2.weight": NaN,
+            "core.prior.2.bias": NaN,
+            "core.posterior.0.weight": NaN,
+            "core.posterior.0.bias": NaN,
+            "core.posterior.2.weight": NaN,
+            "core.posterior.2.bias": NaN
+          },
+          "kl_posterior_prior": NaN,
+          "kl_probe_error": null
+        }
+      ],
+      "ablation": "none",
+      "ablation_info": null
+    }
+  ]
+}
