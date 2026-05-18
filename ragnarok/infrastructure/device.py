@@ -56,15 +56,6 @@ IS_XLA = str(DEVICE).startswith("xla")
 # Left ON for CUDA/CPU so local dev still catches bad distribution args.
 if IS_XLA:  # pragma: no cover - only runs on a TPU VM
     torch.distributions.Distribution.set_default_validate_args(False)
-    # TPU MXU matmuls default to a single bf16 pass for fp32 inputs. Across a
-    # long recurrent unroll (the RSSM world model's 128-step GRU) that
-    # rounding error compounds: world-model training diverges on the TPU
-    # (observed KL 1.3 -> 10 over 30 rollouts) while staying stable on a CUDA
-    # GPU running the identical code. 'highest' forces XLA to compute fp32
-    # matmuls faithfully (multi-pass bf16), so the TPU matches the GPU the
-    # calibration was done on — calibration-neutral by construction. It costs
-    # matmul throughput, but a diverging world model is worthless.
-    torch.set_float32_matmul_precision("highest")
 
 
 def to_device(tensor: torch.Tensor) -> torch.Tensor:
