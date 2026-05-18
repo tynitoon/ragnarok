@@ -41,7 +41,7 @@ class DeviceAgent:
     """
 
     def __init__(self, env_cls, num_envs: int = 256, horizon: int = 128,
-                 sac_updates: int = 1024):
+                 sac_updates: int = 1024, curiosity_warmup: int = 0):
         self.env_cls = env_cls
         self.num_envs = num_envs
         self.horizon = horizon
@@ -76,8 +76,11 @@ class DeviceAgent:
                 warmup_steps=num_envs * horizon,
                 buffer=DeviceSACBuffer(capacity=200_000))
             # MountainCar's reward is too sparse for bare SAC — curiosity
-            # supplies the exploration drive (Stage 5.1).
-            self.curiosity = DeviceLatentCuriosity(self.rssm)
+            # supplies the exploration drive (Stage 5.1). curiosity_warmup
+            # gates it off until the RSSM is trained (the KL is meaningless
+            # before that, and collapses the latent A2C).
+            self.curiosity = DeviceLatentCuriosity(
+                self.rssm, warmup=curiosity_warmup)
 
         # Latent policy — the cross-task transfer vehicle. Its shared trunk +
         # critic are env-agnostic and travel in snapshot().

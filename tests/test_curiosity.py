@@ -153,3 +153,16 @@ class TestDeviceLatentCuriosity:
         assert float(cur._count) == 8 * 16
         cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
         assert float(cur._count) == 2 * 8 * 16
+
+    def test_warmup_gates_curiosity(self):
+        """During the warmup window the curiosity is gated to zero — the
+        RSSM's KL is a meaningless signal until the world model is trained.
+        Stats are still folded so the normalizer is warm when the gate opens.
+        """
+        cur = DeviceLatentCuriosity(self._rssm(4, 2), beta=0.1, warmup=2)
+        for call in range(1, 4):
+            r = cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
+            if call <= 2:
+                assert float(r.abs().max()) == 0.0, f"call {call} not gated"
+        assert cur._calls == 3
+        assert float(cur._count) == 3 * 8 * 16   # stats folded even while gated

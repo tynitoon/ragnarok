@@ -407,10 +407,18 @@ class DeviceLatentCuriosity:
     what makes the device SAC path able to explore it.
     """
 
-    def __init__(self, rssm, beta: float = 0.1, clip: float = 5.0):
+    def __init__(self, rssm, beta: float = 0.1, clip: float = 5.0,
+                 warmup: int = 0):
         self.rssm = rssm
         self.beta = beta
         self.clip = clip
+        # intrinsic_reward calls before the curiosity activates. The RSSM's
+        # posterior/prior KL is a meaningless exploration signal until the
+        # world model is trained; feeding it to a fragile on-policy latent
+        # A2C from step 0 collapses the policy. The gym LatentCuriosityModule
+        # gates the same way (config.curiosity.min_rssm_episodes).
+        self.warmup = warmup
+        self._calls = 0
         self._mean = torch.zeros((), device=DEVICE)
         self._m2 = torch.zeros((), device=DEVICE)
         self._count = torch.zeros((), device=DEVICE)
@@ -454,9 +462,11 @@ class DeviceLatentCuriosity:
         Returns a device tensor; the caller adds it into batch.rewards.
         """
         kl = self._raw_kl(batch)                      # (N, T)
-        self._fold_stats(kl.reshape(-1))
+        self._fold_stats(kl.reshape(-1))              # warm the stats always
+        self._calls += 1
+        mark_step()  # XLA: flush the curiosity-scoring (observe) graph
+        if self._calls <= self.warmup:
+            return torch.zeros_like(kl)               # gated — RSSM not ready
         std = torch.sqrt(self._var).clamp(min=1e-8)
         norm = ((kl - self._mean) / std).clamp(0.0, self.clip)
-        reward = self.beta * norm
-        mark_step()  # XLA: flush the curiosity-scoring (observe) graph
-        return reward
+        return self.beta * norm

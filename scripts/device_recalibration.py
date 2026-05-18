@@ -50,7 +50,8 @@ def _run_mcc_arm(agent: DeviceAgent, iters: int):
     return curve, mastery
 
 
-def _run_seed(seed: int, source_iters: int, mcc_iters: int) -> dict:
+def _run_seed(seed: int, source_iters: int, mcc_iters: int,
+              curiosity_warmup: int) -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
 
@@ -64,13 +65,15 @@ def _run_seed(seed: int, source_iters: int, mcc_iters: int) -> dict:
 
     # Scratch MCC — SAC-acting, no transfer.
     scratch = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                          horizon=128, sac_updates=512)
+                          horizon=128, sac_updates=512,
+                          curiosity_warmup=curiosity_warmup)
     s_curve, s_mastery = _run_mcc_arm(scratch, mcc_iters)
 
     # Transfer MCC — load the CartPole snapshot; load_snapshot flips the
     # agent to act via the transferred latent policy.
     transfer = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                           horizon=128, sac_updates=512)
+                           horizon=128, sac_updates=512,
+                           curiosity_warmup=curiosity_warmup)
     transfer.load_snapshot(snap)
     t_curve, t_mastery = _run_mcc_arm(transfer, mcc_iters)
 
@@ -87,6 +90,9 @@ def main():
     parser.add_argument("--seeds", type=int, default=5)
     parser.add_argument("--source-iters", type=int, default=25)
     parser.add_argument("--mcc-iters", type=int, default=45)
+    parser.add_argument("--curiosity-warmup", type=int, default=6,
+                        help="iterations the latent-KL curiosity is gated "
+                             "off (RSSM not yet trained)")
     args = parser.parse_args()
 
     print(f"[device-recalibration] device={DEVICE}  seeds={args.seeds}  "
@@ -95,7 +101,8 @@ def main():
     results = []
     for seed in range(args.seeds):
         s0 = time.perf_counter()
-        r = _run_seed(seed, args.source_iters, args.mcc_iters)
+        r = _run_seed(seed, args.source_iters, args.mcc_iters,
+                      args.curiosity_warmup)
         results.append(r)
         s = r["scratch"]["mastery_env_steps"]
         t = r["transfer"]["mastery_env_steps"]
