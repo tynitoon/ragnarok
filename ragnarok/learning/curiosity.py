@@ -387,3 +387,76 @@ class LatentCuriosityModule:
         self._reward_var = state["reward_var"]
         self._reward_count = state["reward_count"]
         self._episodes_seen = state.get("episodes_seen", 0)
+
+
+class DeviceLatentCuriosity:
+    """Device-resident latent (RSSM Bayesian-surprise) curiosity.
+
+    The device-path counterpart of LatentCuriosityModule.compute_batch_kl:
+    intrinsic reward = beta * relu(clip(normalized KL(posterior || prior))).
+    A whole RolloutBatch is scored in a single rssm.observe call — fixed
+    (N, T), so no chunking (the gym path chunks only to dodge variable
+    episode lengths). KL running-normalisation stats are device scalars,
+    folded with batched (Chan's parallel) variance like DeviceRunningNormalizer.
+
+    intrinsic_reward folds this rollout's KL into the stats and then
+    normalises — the update-then-normalise order of the gym module.
+
+    MountainCar's reward is too sparse for bare SAC (the goal is never hit,
+    entropy collapses, the policy does nothing); this intrinsic reward is
+    what makes the device SAC path able to explore it.
+    """
+
+    def __init__(self, rssm, beta: float = 0.1, clip: float = 5.0):
+        self.rssm = rssm
+        self.beta = beta
+        self.clip = clip
+        self._mean = torch.zeros((), device=DEVICE)
+        self._m2 = torch.zeros((), device=DEVICE)
+        self._count = torch.zeros((), device=DEVICE)
+        self._var = torch.ones((), device=DEVICE)
+
+    @torch.no_grad()
+    def _raw_kl(self, batch) -> torch.Tensor:
+        """Per-step KL(posterior || prior) from the RSSM — an (N, T) tensor."""
+        actions = batch.actions
+        if actions.dim() == 2:                       # discrete index form
+            actions = F.one_hot(actions.long(),
+                                self.rssm.action_dim).float()
+        out = self.rssm.observe(batch.obs, actions, done_seq=batch.dones)
+        prior = torch.distributions.Normal(
+            out["prior_mean"], out["prior_logstd"].exp())
+        posterior = torch.distributions.Normal(
+            out["post_mean"], out["post_logstd"].exp())
+        kl = torch.distributions.kl_divergence(posterior, prior)
+        return kl.sum(dim=-1)                         # (N, T)
+
+    def _fold_stats(self, kl_flat: torch.Tensor) -> None:
+        """Batched Welford — fold a flat block of KL values into the stats."""
+        m = kl_flat.shape[0]
+        b_mean = kl_flat.mean()
+        b_m2 = ((kl_flat - b_mean) ** 2).sum()
+        delta = b_mean - self._mean
+        tot = self._count + m
+        self._mean = self._mean + delta * (m / tot)
+        self._m2 = self._m2 + b_m2 + delta ** 2 * (self._count * m / tot)
+        self._count = tot
+        self._var = (self._m2 / torch.clamp(tot - 1.0, min=1.0)).clamp(min=1e-6)
+
+    @torch.no_grad()
+    def intrinsic_reward(self, batch) -> torch.Tensor:
+        """(N, T) intrinsic reward for a RolloutBatch.
+
+        beta * relu(clip(normalized KL)). Folds this rollout's KL into the
+        running normalizer, then normalizes with it — the update-then-
+        normalize order of the gym LatentCuriosityModule. ReLU keeps only
+        positive surprise (novelty is a bonus; familiarity is not a penalty).
+        Returns a device tensor; the caller adds it into batch.rewards.
+        """
+        kl = self._raw_kl(batch)                      # (N, T)
+        self._fold_stats(kl.reshape(-1))
+        std = torch.sqrt(self._var).clamp(min=1e-8)
+        norm = ((kl - self._mean) / std).clamp(0.0, self.clip)
+        reward = self.beta * norm
+        mark_step()  # XLA: flush the curiosity-scoring (observe) graph
+        return reward

@@ -4,7 +4,12 @@ import numpy as np
 import torch
 import pytest
 
-from ragnarok.learning.curiosity import CuriosityModule
+from ragnarok.learning.curiosity import CuriosityModule, DeviceLatentCuriosity
+from ragnarok.environments.device_env import (
+    DeviceVecCartPole, DeviceVecMountainCarContinuous)
+from ragnarok.learning.rollout import collect_rollout
+from ragnarok.core.rssm import RSSM
+from ragnarok.infrastructure.device import DEVICE
 
 
 class TestCuriosityModule:
@@ -95,3 +100,56 @@ class TestCuriosityModule:
         # High beta should give higher rewards (approximately 10x)
         # Not exact due to running stats update, but should be clearly larger
         assert r_high.sum() > r_low.sum(), "Higher beta should give higher rewards"
+
+
+class TestDeviceLatentCuriosity:
+    """Device-resident RSSM Bayesian-surprise curiosity from a RolloutBatch."""
+
+    @staticmethod
+    def _discrete_rollout(n=8, t=16):
+        def pf(obs):
+            b = obs.shape[0]
+            dist = torch.distributions.Categorical(
+                logits=torch.zeros(b, 2, device=obs.device))
+            a = dist.sample()
+            return a, dist.log_prob(a), torch.zeros(b, device=obs.device)
+        return collect_rollout(DeviceVecCartPole(n), pf, t)
+
+    @staticmethod
+    def _continuous_rollout(n=8, t=16):
+        def pf(obs):
+            b = obs.shape[0]
+            a = torch.rand(b, 1, device=obs.device) * 2 - 1
+            return (a, torch.zeros(b, device=obs.device),
+                    torch.zeros(b, device=obs.device))
+        return collect_rollout(DeviceVecMountainCarContinuous(n), pf, t)
+
+    @staticmethod
+    def _rssm(obs_dim, action_dim):
+        return RSSM(obs_dim=obs_dim, action_dim=action_dim, hidden_dim=32,
+                    stoch_dim=8, encoder_hidden=32).to(DEVICE)
+
+    def test_discrete_rollout_reward_shape_and_range(self):
+        """Discrete (one-hot encoded) rollout: reward is (N,T), ReLU'd, capped
+        at beta*clip."""
+        cur = DeviceLatentCuriosity(self._rssm(4, 2), beta=0.1, clip=5.0)
+        r = cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
+        assert r.shape == (8, 16)
+        assert (r >= 0).all()                      # ReLU
+        assert (r <= 0.1 * 5.0 + 1e-5).all()       # beta * clip ceiling
+
+    def test_continuous_rollout(self):
+        cur = DeviceLatentCuriosity(self._rssm(2, 1), beta=0.1)
+        r = cur.intrinsic_reward(self._continuous_rollout(n=8, t=16))
+        assert r.shape == (8, 16)
+        assert (r >= 0).all()
+        assert r.device.type == DEVICE.type
+
+    def test_stats_accumulate_across_rollouts(self):
+        """Each intrinsic_reward call folds N*T KL values into the stats."""
+        cur = DeviceLatentCuriosity(self._rssm(4, 2))
+        assert float(cur._count) == 0.0
+        cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
+        assert float(cur._count) == 8 * 16
+        cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
+        assert float(cur._count) == 2 * 8 * 16
