@@ -175,11 +175,12 @@ class WorldModelTrainer:
                     full_sequence_valid=True)
                 self.optimizer.zero_grad()
                 losses["total_loss"].backward()
-                torch.nn.utils.clip_grad_norm_(self.rssm.parameters(),
-                                               self.grad_clip)
+                gnorm = torch.nn.utils.clip_grad_norm_(
+                    self.rssm.parameters(), self.grad_clip)
                 self.optimizer.step()
                 mark_step()  # XLA: one graph per minibatch update
                 last = {k: v.detach() for k, v in losses.items()}
+                last["grad_norm"] = gnorm.detach()
 
         return {f"wm/{k}": v.item() for k, v in last.items()}
 
