@@ -122,7 +122,8 @@ class WorldModelTrainer:
         return {k: v / count for k, v in totals.items()}
 
     def train_world_model_on_rollout(self, batch, epochs: int = 5,
-                                     n_minibatches: int = 8) -> dict[str, float]:
+                                     n_minibatches: int = 8,
+                                     seq_chunk: int = 32) -> dict[str, float]:
         """Train the RSSM directly on a fixed-shape on-device RolloutBatch.
 
         The device-path counterpart of ``train()`` / ``train_step()``:
@@ -140,11 +141,30 @@ class WorldModelTrainer:
         passes with reshuffled env-row minibatches supply the gradient
         diversity a replay buffer otherwise would.
 
+        Truncated unroll depth (TPU-divergence fix). The GRU is unrolled
+        over at most ``seq_chunk`` steps, not the full rollout length T:
+        each row is split along T into consecutive chunks, every chunk is
+        an independent ``RSSM.loss`` call (fresh zero state), and the
+        per-chunk losses are length-weighted so the aggregate is the mean
+        over all T steps. Backprop-through-time therefore never reaches
+        deeper than ``seq_chunk``. Training the WM on the full 128-step
+        unroll converges on a CUDA GPU but DIVERGES on the TPU (KL
+        1.3 -> 70) — even at fp32-faithful matmul precision a 128-step
+        recurrent backward is a marginal instability the TPU tips over
+        around rollout ~12. A TPU diagnostic swept the unroll depth on
+        CartPole: 32 steps converged cleanly, 64 was marginal, 128 blew
+        up — so ``seq_chunk`` defaults to 32 (the calibrated gym world
+        model used 50-step subsequences, but the TPU needs shorter). A
+        ``seq_chunk >= T`` collapses to a single full-length unroll (the
+        pre-fix behaviour).
+
         A rollout row spans several auto-reset episodes, so ``RSSM.loss``
         runs with ``full_sequence_valid=True`` (every step real, no
         padding) and ``observe`` resets the GRU at each episode seam.
-        Minibatching is along the env dimension N only — the T axis must
-        stay whole for the GRU unroll.
+        Minibatching is along the env dimension N; the chunk split is
+        along T. A chunk boundary mid-episode restarts the GRU from zero
+        state — the standard truncated-BPTT approximation, and how the
+        gym path's sampled subsequences already behaved.
 
         Discrete actions arrive as (N, T) indices and are one-hot encoded;
         continuous actions (Stage 4) arrive as (N, T, action_dim) already.
@@ -155,11 +175,12 @@ class WorldModelTrainer:
         else:
             actions = batch.actions
 
-        N = batch.obs.shape[0]
+        N, T = batch.obs.shape[0], batch.obs.shape[1]
         assert N % n_minibatches == 0, (
             f"rollout env count {N} must be divisible by n_minibatches "
             f"{n_minibatches}")
         mb = N // n_minibatches
+        chunk = seq_chunk
 
         last: dict[str, torch.Tensor] = {}
         for _ in range(epochs):
@@ -168,18 +189,28 @@ class WorldModelTrainer:
             perm = torch.rand(N, device=DEVICE).argsort()
             for k in range(n_minibatches):
                 idx = perm[k * mb:(k + 1) * mb]
-                losses = self.rssm.loss(
-                    batch.obs[idx], actions[idx],
-                    batch.rewards[idx], batch.dones[idx],
-                    self.kl_weight, self.free_nats,
-                    full_sequence_valid=True)
+                o, a = batch.obs[idx], actions[idx]
+                r, d = batch.rewards[idx], batch.dones[idx]
                 self.optimizer.zero_grad()
-                losses["total_loss"].backward()
+                # Accumulate the gradient over consecutive T-axis chunks.
+                # Each chunk is an independent unroll of at most `chunk`
+                # steps, so BPTT never reaches deeper than that.
+                agg: dict[str, torch.Tensor] = {}
+                for s in range(0, T, chunk):
+                    e = min(s + chunk, T)
+                    losses = self.rssm.loss(
+                        o[:, s:e], a[:, s:e], r[:, s:e], d[:, s:e],
+                        self.kl_weight, self.free_nats,
+                        full_sequence_valid=True)
+                    w = (e - s) / T          # length-weight -> mean over T
+                    (losses["total_loss"] * w).backward()
+                    for name, val in losses.items():
+                        agg[name] = agg.get(name, 0.0) + val.detach() * w
                 torch.nn.utils.clip_grad_norm_(self.rssm.parameters(),
                                                self.grad_clip)
                 self.optimizer.step()
                 mark_step()  # XLA: one graph per minibatch update
-                last = {k: v.detach() for k, v in losses.items()}
+                last = agg
 
         return {f"wm/{k}": v.item() for k, v in last.items()}
 

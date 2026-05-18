@@ -60,6 +60,13 @@ def main():
                              "trained on 50-step subsequences. Shorten this "
                              "to test whether unroll depth triggers the TPU "
                              "divergence.")
+    parser.add_argument("--wm-seq-chunk", type=int, default=32,
+                        help="WM-training BPTT chunk length: the GRU is "
+                             "unrolled over at most this many steps per "
+                             "RSSM.loss call (default 32 — the TPU-stable "
+                             "depth). Pass a value >= --horizon to disable "
+                             "chunking (full-unroll — the pre-fix behaviour "
+                             "that diverges on TPU).")
     args = parser.parse_args()
 
     if IS_XLA:
@@ -86,7 +93,7 @@ def main():
     for it in range(1, args.rollouts + 1):
         batch = collect_rollout(env, random_policy_fn, args.horizon,
                                 normalizer=normalizer)
-        m = wm.train_world_model_on_rollout(batch)
+        m = wm.train_world_model_on_rollout(batch, seq_chunk=args.wm_seq_chunk)
         normalizer.update(batch.raw_obs.reshape(-1, 4))
         first = first or m
         last = m
