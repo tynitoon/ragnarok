@@ -13,10 +13,11 @@ world-model path is correct and Stage 3's core is validated.
 Usage:  python -m scripts.validate_device_wm
 """
 
+import argparse
 import time
 import torch
 
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, IS_XLA
 from ragnarok.environments.device_env import (
     DeviceVecCartPole, DeviceRunningNormalizer)
 from ragnarok.learning.rollout import collect_rollout
@@ -40,7 +41,26 @@ def random_policy_fn(obs):
 
 
 def main():
-    print(f"[validate-device-wm] device={DEVICE}")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--xla-precision", choices=["default", "high", "highest"],
+        default="highest",
+        help="TPU MXU fp32-matmul precision (XLA only; no-op on CUDA/CPU). "
+             "'default' is a single bf16 pass — the TPU default; its "
+             "rounding error compounds across the RSSM's 128-step GRU "
+             "unroll and the world model diverges. 'highest' is a six-pass "
+             "~fp32-faithful matmul that matches the CUDA path the agent "
+             "was calibrated on. Pass 'default' to reproduce the historical "
+             "TPU divergence.")
+    parser.add_argument("--rollouts", type=int, default=ROLLOUTS)
+    args = parser.parse_args()
+
+    if IS_XLA:
+        import torch_xla.backends
+        torch_xla.backends.set_mat_mul_precision(args.xla_precision)
+
+    print(f"[validate-device-wm] device={DEVICE}  "
+          f"xla_matmul_precision={args.xla_precision if IS_XLA else 'n/a'}")
     torch.manual_seed(0)
 
     rssm = RSSM(obs_dim=4, action_dim=2).to(DEVICE)
@@ -56,7 +76,7 @@ def main():
 
     first = last = None
     t0 = time.perf_counter()
-    for it in range(1, ROLLOUTS + 1):
+    for it in range(1, args.rollouts + 1):
         batch = collect_rollout(env, random_policy_fn, HORIZON,
                                 normalizer=normalizer)
         m = wm.train_world_model_on_rollout(batch)
@@ -72,7 +92,7 @@ def main():
     print(f"\n  recon  {first['wm/recon_loss']:.4f} -> {last['wm/recon_loss']:.4f}")
     print(f"  reward {first['wm/reward_loss']:.4f} -> {last['wm/reward_loss']:.4f}")
     print(f"  total  {first['wm/total_loss']:.4f} -> {last['wm/total_loss']:.4f}")
-    print(f"  {ROLLOUTS} rollouts in {wall:.1f}s")
+    print(f"  {args.rollouts} rollouts in {wall:.1f}s")
     # CartPole pays a constant +1 reward — the reward head should nail it;
     # recon must fall well below its starting value.
     learned = (last["wm/reward_loss"] < 0.1
