@@ -4,7 +4,11 @@ import torch
 import numpy as np
 import pytest
 
-from ragnarok.learning.latent_policy import LatentPolicyHead
+from ragnarok.learning.latent_policy import LatentPolicyHead, LatentPolicyTrainer
+from ragnarok.environments.device_env import (
+    DeviceVecCartPole, DeviceVecMountainCarContinuous)
+from ragnarok.learning.rollout import collect_rollout
+from ragnarok.core.rssm import RSSM
 from ragnarok.infrastructure.device import DEVICE
 
 
@@ -676,3 +680,62 @@ class TestActingPath:
             assert agent2.acting_policy_mode == "latent"
             env2.close()
         env.close()
+
+
+class TestLatentPolicyTrainer:
+    """Device-path A2C training of the latent policy from a RolloutBatch."""
+
+    @staticmethod
+    def _discrete_setup(n=16, t=16):
+        rssm = RSSM(obs_dim=4, action_dim=2, hidden_dim=32, stoch_dim=8,
+                    encoder_hidden=32).to(DEVICE)
+
+        def pf(obs):
+            b = obs.shape[0]
+            dist = torch.distributions.Categorical(
+                logits=torch.zeros(b, 2, device=obs.device))
+            a = dist.sample()
+            return a, dist.log_prob(a), torch.zeros(b, device=obs.device)
+
+        batch = collect_rollout(DeviceVecCartPole(n), pf, t)
+        trainer = LatentPolicyTrainer(latent_dim=40, action_dim=2,
+                                      discrete=True)
+        return trainer, rssm, batch
+
+    def test_returns_latent_metrics(self):
+        trainer, rssm, batch = self._discrete_setup()
+        m = trainer.train_on_rollout(batch, rssm, epochs=1, n_minibatches=4)
+        for k in ("latent/actor_loss", "latent/value_loss", "latent/entropy"):
+            assert k in m and isinstance(m[k], float)
+
+    def test_requires_divisible_size(self):
+        trainer, rssm, batch = self._discrete_setup(n=16, t=16)   # M = 256
+        with pytest.raises(AssertionError):
+            trainer.train_on_rollout(batch, rssm, n_minibatches=7)  # 256 % 7
+
+    def test_updates_policy_weights(self):
+        trainer, rssm, batch = self._discrete_setup(n=16, t=16)
+        before = {k: v.clone()
+                  for k, v in trainer.policy.state_dict().items()}
+        trainer.train_on_rollout(batch, rssm, epochs=2, n_minibatches=4)
+        after = trainer.policy.state_dict()
+        changed = any(not torch.equal(before[k], after[k])
+                      for k in before if k.startswith("shared."))
+        assert changed, "latent-policy trunk weights should change"
+
+    def test_continuous_rollout(self):
+        """Continuous (N,T,action_dim) rollout — the non-one-hot path."""
+        rssm = RSSM(obs_dim=2, action_dim=1, hidden_dim=32, stoch_dim=8,
+                    encoder_hidden=32).to(DEVICE)
+
+        def pf(obs):
+            b = obs.shape[0]
+            a = torch.rand(b, 1, device=obs.device) * 2 - 1
+            return (a, torch.zeros(b, device=obs.device),
+                    torch.zeros(b, device=obs.device))
+
+        batch = collect_rollout(DeviceVecMountainCarContinuous(16), pf, 16)
+        trainer = LatentPolicyTrainer(latent_dim=40, action_dim=1,
+                                      discrete=False)
+        m = trainer.train_on_rollout(batch, rssm, epochs=1, n_minibatches=4)
+        assert "latent/actor_loss" in m

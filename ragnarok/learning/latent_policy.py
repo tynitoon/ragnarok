@@ -18,7 +18,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ragnarok.infrastructure.device import DEVICE
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 class LatentPolicyHead(nn.Module):
@@ -180,3 +180,108 @@ class LatentPolicyHead(nn.Module):
             if k in current and current[k].shape == v.shape:
                 current[k] = v
         self.load_state_dict(current)
+
+
+class LatentPolicyTrainer:
+    """Trains a LatentPolicyHead from device rollouts (Phase 2 Stage 5.2).
+
+    The device-path counterpart of RagnarokAgent._train_latent_policy: A2C on
+    RSSM latent states cat(h, z). The RSSM runs no-grad — the world-model
+    trainer owns the RSSM; the latent policy trains only its own weights on
+    the detached latents — then A2C runs over env-flattened minibatches. No
+    padding mask: device rollouts have no padding, every step is real.
+
+    Returns are per-env-row, done-reset, G=0-seeded discounted reward sums —
+    the same estimator as the gym _train_latent_policy, which also trains on
+    fixed windows with no tail bootstrap. observe() resets the GRU at each
+    episode seam (a rollout row spans several auto-reset episodes).
+
+    The shared trunk + critic of the LatentPolicyHead are the transferable
+    subset (get_trunk_state_dict) — this trainer is what gives cross-task
+    transfer something trained to carry.
+    """
+
+    def __init__(self, latent_dim: int, action_dim: int, discrete: bool = True,
+                 hidden: int = 128, action_low=None, action_high=None,
+                 gamma: float = 0.99, value_coeff: float = 0.5,
+                 entropy_coeff: float = 0.01, grad_clip: float = 0.5,
+                 lr: float = 3e-4):
+        self.policy = LatentPolicyHead(
+            latent_dim, action_dim, hidden, discrete,
+            action_low=action_low, action_high=action_high).to(DEVICE)
+        self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr)
+        self.gamma = gamma
+        self.value_coeff = value_coeff
+        self.entropy_coeff = entropy_coeff
+        self.grad_clip = grad_clip
+
+    def train_on_rollout(self, batch, rssm, epochs: int = 4,
+                         n_minibatches: int = 8) -> dict:
+        """A2C update of the latent policy from a RolloutBatch.
+
+        rssm.observe runs no-grad — the latent policy trains on detached
+        cat(h, z); the RSSM is trained separately by WorldModelTrainer.
+        """
+        # 1. RSSM latents for the whole rollout (no-grad, done-reset seams).
+        with torch.no_grad():
+            actions = batch.actions
+            if actions.dim() == 2:                       # discrete index form
+                actions = F.one_hot(actions.long(),
+                                    rssm.action_dim).float()
+            out = rssm.observe(batch.obs, actions, done_seq=batch.dones)
+            latent = torch.cat([out["h"], out["z"]], dim=-1)   # (N, T, L)
+
+        # 2. Per-row done-reset discounted returns (G=0 seed — as the gym
+        #    _train_latent_policy, which also trains windowed, no bootstrap).
+        T = batch.horizon
+        R = torch.zeros(batch.num_envs, device=DEVICE)
+        returns_rev = []
+        for t in reversed(range(T)):
+            R = batch.rewards[:, t] + self.gamma * (1.0 - batch.dones[:, t]) * R
+            returns_rev.append(R)
+        returns = torch.stack(returns_rev[::-1], dim=1)        # (N, T)
+
+        # 3. Flatten; A2C over env-flattened minibatches (evaluate_action is
+        #    per-transition — the recurrence already ran in observe).
+        latent_f = latent.reshape(-1, latent.shape[-1])
+        ret_f = returns.reshape(-1)
+        act_f = (batch.actions.reshape(-1) if batch.actions.dim() == 2
+                 else batch.actions.reshape(-1, batch.actions.shape[-1]))
+        M = latent_f.shape[0]
+        assert M % n_minibatches == 0, (
+            f"rollout size {M} must be divisible by n_minibatches "
+            f"{n_minibatches}")
+        mb = M // n_minibatches
+
+        actor_t = value_t = ent_t = torch.zeros((), device=DEVICE)
+        for _ in range(epochs):
+            # rand().argsort() not randperm — randperm's int64 RNG emits an
+            # s64 HLO the TPU's X64 pass cannot lower.
+            perm = torch.rand(M, device=DEVICE).argsort()
+            for k in range(n_minibatches):
+                idx = perm[k * mb:(k + 1) * mb]
+                log_prob, entropy, value = self.policy.evaluate_action(
+                    latent_f[idx], act_f[idx])
+                ret = ret_f[idx]
+                adv = ret - value.detach()
+                adv = (adv - adv.mean()) / (adv.std() + 1e-8)
+                actor_loss = -(adv * log_prob).mean()
+                value_loss = F.mse_loss(value, ret)
+                entropy_mean = entropy.mean()
+                loss = (actor_loss + self.value_coeff * value_loss
+                        - self.entropy_coeff * entropy_mean)
+                self.optimizer.zero_grad()
+                loss.backward()
+                nn.utils.clip_grad_norm_(self.policy.parameters(),
+                                         self.grad_clip)
+                self.optimizer.step()
+                mark_step()  # XLA: one graph per minibatch update
+                actor_t = actor_loss.detach()
+                value_t = value_loss.detach()
+                ent_t = entropy_mean.detach()
+
+        return {
+            "latent/actor_loss": actor_t.item(),
+            "latent/value_loss": value_t.item(),
+            "latent/entropy": ent_t.item(),
+        }
