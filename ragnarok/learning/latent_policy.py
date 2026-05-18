@@ -253,7 +253,7 @@ class LatentPolicyTrainer:
         self.grad_clip = grad_clip
 
     def train_on_rollout(self, batch, rssm, epochs: int = 1,
-                         n_minibatches: int = 8) -> dict:
+                         n_minibatches: int = 1) -> dict:
         """A2C update of the latent policy from a RolloutBatch.
 
         rssm.observe runs no-grad — the latent policy trains on detached
@@ -291,12 +291,14 @@ class LatentPolicyTrainer:
         mb = M // n_minibatches
 
         actor_t = value_t = ent_t = torch.zeros((), device=DEVICE)
-        # epochs=1: a single pass over the rollout. A2C is on-policy and
-        # UNCLIPPED — re-using the rollout for several epochs over-updates
-        # the policy (4x the actor gradient overwhelms the entropy bonus),
-        # which collapses a continuous latent policy to a saturated action
-        # (observed: MountainCar latent-acting -> constant full throttle by
-        # iteration 3). The gym _train_latent_policy is likewise single-pass.
+        # One fully on-policy A2C update per rollout (epochs=1,
+        # n_minibatches=1 by default). A2C is on-policy and UNCLIPPED, so
+        # BOTH re-using the rollout across epochs AND splitting it into
+        # minibatches (the policy shifts between minibatch steps, so later
+        # minibatches train on off-policy advantages) over-update and
+        # collapse a continuous latent policy to a saturated action —
+        # observed on MountainCar latent-acting (full throttle, return
+        # -99.9). The gym _train_latent_policy is one update per episode.
         for _ in range(epochs):
             # rand().argsort() not randperm — randperm's int64 RNG emits an
             # s64 HLO the TPU's X64 pass cannot lower.
