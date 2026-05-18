@@ -534,6 +534,9 @@ class SACTrainer:
         and the buffer holds >= batch_size transitions).
         """
         self.replay.add_rollout(batch)
+        mark_step()  # XLA: flush the buffer-write graph here — during warmup
+                     # no _update follows to flush it, so without this the
+                     # index_copy ops would ride into the next collect graph.
         self.total_steps += batch.total_steps
         if (self.total_steps < self.warmup_steps
                 or len(self.replay) < self.batch_size):
