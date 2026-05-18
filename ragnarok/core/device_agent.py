@@ -58,7 +58,14 @@ class DeviceAgent:
         # World model — trained every iteration, shared with the latent policy
         # (latents) and, for continuous tasks, with curiosity.
         self.rssm = RSSM(self.obs_dim, self.action_dim).to(DEVICE)
-        self.wm = WorldModelTrainer(self.rssm, ReplayBuffer())
+        # The device WM trains at lr 3e-5, not the gym default 3e-4: at
+        # full rate the world-model training is a marginal instability on
+        # the TPU — a gradient-norm runaway escapes the stable basin after
+        # ~25-30 rollouts (KL 1.3 -> 10+). The TPU's stable-lr threshold is
+        # ~10x below the GPU's (validate_device_wm sweep; matmul precision
+        # and BPTT depth were both ruled out first). 3e-5 holds — KL
+        # stationary over a 100-rollout confirmation.
+        self.wm = WorldModelTrainer(self.rssm, ReplayBuffer(), lr=3e-5)
 
         # Real policy: PPO for discrete, SAC for continuous.
         bounds = None

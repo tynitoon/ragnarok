@@ -59,8 +59,10 @@ def main():
     parser.add_argument("--horizon", type=int, default=HORIZON,
                         help="rollout length T (also the WM training unroll "
                              "depth).")
-    parser.add_argument("--wm-lr", type=float, default=3e-4,
-                        help="world-model Adam learning rate.")
+    parser.add_argument("--wm-lr", type=float, default=3e-5,
+                        help="world-model Adam learning rate. 3e-5 is the "
+                             "TPU-stable rate (the device-path default); "
+                             "pass 3e-4 to reproduce the TPU divergence.")
     parser.add_argument("--wm-grad-clip", type=float, default=100.0,
                         help="world-model gradient-norm clip.")
     parser.add_argument("--wm-epochs", type=int, default=5,
