@@ -176,6 +176,100 @@ class SACReplayBuffer:
         return self.size
 
 
+class DeviceSACBuffer:
+    """Device-resident replay buffer for the accelerator-resident SAC path.
+
+    SAC is off-policy and cannot train on just the latest rollout — it needs
+    a buffer of past transitions. The device path keeps that buffer ON the
+    accelerator: fixed-capacity device tensors fed directly from a
+    RolloutBatch (collect_rollout output), with no per-rollout device->host
+    transfer of the experience itself.
+
+    XLA-safety — the trap SACReplayBuffer's docstring describes is a device
+    buffer whose write index and sample bound get baked into the graph (they
+    change every step -> recompile -> executable-cache OOM). This buffer
+    sidesteps it the way SACReplayBuffer does for sampling, and extends it to
+    writes: the write positions and the sample indices are generated on the
+    HOST as small int arrays (numpy — cheap, no graph) and handed to the
+    device as plain index tensors. Those are graph INPUTS, not baked
+    constants, so index_copy / index_select compile once and are reused.
+    Only the tiny index arrays cross the host boundary; the experience
+    tensors never leave the device.
+
+    sample() returns the same (obs, act, rew, next_obs, done) tuple as
+    SACReplayBuffer, so SACTrainer._update consumes it unchanged.
+    """
+
+    def __init__(self, capacity: int = 100_000):
+        self.capacity = capacity
+        self._ptr = 0       # host int — never enters a graph
+        self._size = 0      # host int
+        self._obs = self._act = self._rew = None
+        self._next_obs = self._done = None
+
+    def _ensure_allocated(self, obs_dim: int, act_dim: int):
+        if self._obs is not None:
+            return
+        c = self.capacity
+        self._obs = torch.zeros(c, obs_dim, device=DEVICE)
+        self._act = torch.zeros(c, act_dim, device=DEVICE)
+        self._rew = torch.zeros(c, device=DEVICE)
+        self._next_obs = torch.zeros(c, obs_dim, device=DEVICE)
+        self._done = torch.zeros(c, device=DEVICE)
+
+    def add_rollout(self, batch) -> None:
+        """Fold a RolloutBatch's N*T transitions into the buffer.
+
+        next_obs is the rollout shifted one step in time (last_obs closes the
+        final step). After an auto-reset done the shifted next_obs is a
+        fresh-episode state, but SAC's q_target multiplies the bootstrap by
+        (1 - done), so a done transition's next_obs is never read — correct.
+        """
+        obs = batch.obs                                  # (N, T, obs_dim)
+        act = batch.actions                              # (N, T, act_dim)
+        if act.dim() == 2:                               # discrete index form
+            act = act.unsqueeze(-1).float()
+        next_obs = torch.cat(
+            [obs[:, 1:], batch.last_obs.unsqueeze(1)], dim=1)
+        n, t, obs_dim = obs.shape
+        act_dim = act.shape[-1]
+        self._ensure_allocated(obs_dim, act_dim)
+
+        m = n * t
+        assert m <= self.capacity, (
+            f"rollout has {m} transitions > buffer capacity {self.capacity}")
+
+        # Write positions: a contiguous ring span, host-computed — the
+        # ever-changing _ptr never enters the XLA graph.
+        pos_np = (self._ptr + np.arange(m)) % self.capacity
+        pos = torch.tensor(pos_np, dtype=torch.long, device=DEVICE)
+        self._obs = self._obs.index_copy(0, pos, obs.reshape(m, obs_dim))
+        self._act = self._act.index_copy(0, pos, act.reshape(m, act_dim))
+        self._rew = self._rew.index_copy(0, pos, batch.rewards.reshape(m))
+        self._next_obs = self._next_obs.index_copy(
+            0, pos, next_obs.reshape(m, obs_dim))
+        self._done = self._done.index_copy(0, pos, batch.dones.reshape(m))
+
+        self._ptr = (self._ptr + m) % self.capacity
+        self._size = min(self._size + m, self.capacity)
+
+    def sample(self, batch_size: int):
+        """Uniform sample (with replacement). Indices are host-generated; only
+        the fixed-shape gathered batch is a device tensor."""
+        idx_np = np.random.randint(0, self._size, size=batch_size)
+        idx = torch.tensor(idx_np, dtype=torch.long, device=DEVICE)
+        return (
+            self._obs.index_select(0, idx),
+            self._act.index_select(0, idx),
+            self._rew.index_select(0, idx),
+            self._next_obs.index_select(0, idx),
+            self._done.index_select(0, idx),
+        )
+
+    def __len__(self) -> int:
+        return self._size
+
+
 class SACTrainer:
     """Soft Actor-Critic trainer for continuous control.
 
@@ -190,6 +284,7 @@ class SACTrainer:
                  tau: float = 0.005,
                  lr: float = 3e-4,
                  buffer_capacity: int = 100_000,
+                 buffer=None,
                  batch_size: int = 256,
                  warmup_steps: int = 1000,
                  reward_shaper=None,
@@ -243,8 +338,11 @@ class SACTrainer:
             list(self.q1_target.parameters()) + list(self.q2_target.parameters())
         )
 
-        # Replay buffer
-        self.replay = SACReplayBuffer(buffer_capacity)
+        # Replay buffer. Default: the host-resident SACReplayBuffer (gym
+        # path). The device-SAC path passes a DeviceSACBuffer so the
+        # experience stays on the accelerator.
+        self.replay = (buffer if buffer is not None
+                       else SACReplayBuffer(buffer_capacity))
         self.total_steps = 0
 
     @property
@@ -392,6 +490,58 @@ class SACTrainer:
             "sac/alpha": self.alpha.item(),
             "sac/entropy": entropy.item(),
         }
+
+    # ── Device-resident path (Phase 2 TPU re-architecture) ────────────
+    #
+    # collect_and_train above runs ONE gym episode in a host loop with a
+    # SAC update interleaved per step. The two methods below instead drive
+    # SAC from a RolloutBatch — N envs x T steps collected batched on the
+    # device by collect_rollout — feeding a DeviceSACBuffer that keeps the
+    # experience on the accelerator.
+
+    @torch.no_grad()
+    def device_policy_fn(self, obs: torch.Tensor):
+        """``policy_fn`` for ``collect_rollout`` — batched SAC action sampling.
+
+        Before warmup, uniform-random actions across the env bounds (SAC's
+        standard exploration warmup); after, the squashed-Gaussian policy.
+        ``logp``/``value`` are returned as zeros — the SAC update recomputes
+        everything from the replay buffer, so ``collect_rollout`` only needs
+        the action itself.
+        """
+        n = obs.shape[0]
+        if self.total_steps < self.warmup_steps:
+            u = torch.rand(n, self.action_dim, device=obs.device)
+            action = self.policy.action_low + u * (
+                self.policy.action_high - self.policy.action_low)
+        else:
+            action, _ = self.policy.sample(obs)
+        zeros = torch.zeros(n, device=obs.device)
+        return action, zeros, zeros
+
+    def train_on_rollout(self, batch, n_updates: int) -> dict:
+        """SAC update from a fixed-shape on-device ``RolloutBatch``.
+
+        Folds the rollout's N*T transitions into the (device-resident)
+        replay buffer, then runs ``n_updates`` SAC updates sampling
+        minibatches from it. Unlike the PPO / world-model on-rollout
+        trainers (on-policy, fixed epochs over the rollout), SAC is
+        off-policy: ``n_updates`` is the update-to-collected-step ratio, a
+        tuning knob the caller sets — large-N parallel collection does not
+        change how many gradient steps SAC needs to converge.
+
+        Returns {} until warmup is satisfied (total_steps >= warmup_steps
+        and the buffer holds >= batch_size transitions).
+        """
+        self.replay.add_rollout(batch)
+        self.total_steps += batch.total_steps
+        if (self.total_steps < self.warmup_steps
+                or len(self.replay) < self.batch_size):
+            return {}
+        metrics: dict = {}
+        for _ in range(n_updates):
+            metrics = self._update()
+        return metrics
 
     def evaluate(self, env, episodes: int = 5) -> float:
         """Evaluate deterministic policy."""
