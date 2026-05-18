@@ -56,7 +56,12 @@ def bench(n: int) -> dict:
         trainer.train_on_rollout(batch)
         normalizer.update(batch.raw_obs.reshape(-1, 4))
 
-    for _ in range(WARMUP):       # pay XLA compile for both graphs
+    # Warm up every graph the timed loops hit. The collect-only loop drops
+    # its RolloutBatch, so XLA dead-code-eliminates the final stacks — a
+    # different graph hash from collect-inside-collect_train. Warming both
+    # call patterns keeps XLA compilation out of the timed regions.
+    for _ in range(WARMUP):
+        collect()
         collect_train()
     _sync()
 
