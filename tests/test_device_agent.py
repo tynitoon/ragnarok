@@ -48,3 +48,26 @@ class TestDeviceAgent:
         for k, v in snap["latent_trunk"].items():
             assert torch.equal(
                 dst.latent.policy.state_dict()[k].detach().cpu(), v)
+        assert dst.acting_mode == "latent"   # transfer flips the acting mode
+
+    def test_latent_acting_mode_train_iteration(self):
+        """After load_snapshot the agent acts via the latent policy:
+        train_iteration collects latent-mode, trains latent + WM, and does
+        NOT train the real (SAC) policy — it is no longer the actor."""
+        src = DeviceAgent(DeviceVecCartPole, num_envs=16, horizon=16)
+        dst = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=16,
+                          horizon=16, sac_updates=4)
+        dst.load_snapshot(src.snapshot())
+        m = dst.train_iteration()
+        assert any(k.startswith("wm/") for k in m)
+        assert any(k.startswith("latent/") for k in m)
+        assert not any(k.startswith("sac/") for k in m)
+        assert dst.total_env_steps == 16 * 16
+
+    def test_latent_mode_evaluate(self):
+        """evaluate() in latent mode runs the RSSM-state-threaded eval."""
+        src = DeviceAgent(DeviceVecCartPole, num_envs=16, horizon=16)
+        dst = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=16,
+                          horizon=16, sac_updates=4)
+        dst.load_snapshot(src.snapshot())
+        assert isinstance(dst.evaluate(steps=64, n_envs=16), float)

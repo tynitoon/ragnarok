@@ -162,6 +162,43 @@ class LatentPolicyHead(nn.Module):
         entropy = dist.entropy().sum(dim=-1)
         return log_prob, entropy, value
 
+    @torch.no_grad()
+    def device_sample(self, latent: torch.Tensor):
+        """Batched on-device sampling for collection — (action, logp, value).
+
+        Discrete: action is (N,) int indices. Continuous: action is
+        (N, action_dim) env-space (tanh-squashed then rescaled), with the
+        squashed-Gaussian log-prob correction so logp matches the density
+        actually sampled (cf. evaluate_action). All device tensors — no host
+        sync, unlike act() which returns host ints / numpy.
+        """
+        if self.discrete:
+            logits, value = self.forward(latent)
+            dist = torch.distributions.Categorical(logits=logits)
+            action = dist.sample()
+            return action, dist.log_prob(action), value
+        mean, logstd, value = self.forward(latent)
+        dist = torch.distributions.Normal(mean, logstd.exp())
+        raw = dist.rsample()
+        squashed = torch.tanh(raw)
+        logp = (dist.log_prob(raw).sum(dim=-1)
+                - torch.log(1.0 - squashed.pow(2) + 1e-6).sum(dim=-1))
+        return self._rescale(squashed), logp, value
+
+    @torch.no_grad()
+    def device_act(self, latent: torch.Tensor) -> torch.Tensor:
+        """Batched on-device greedy action for evaluation — action only.
+
+        Discrete: (N,) int indices. Continuous: (N, action_dim) env-space.
+        The device-tensor counterpart of act() (which returns host ints /
+        numpy and so cannot run inside a device collection/eval loop).
+        """
+        if self.discrete:
+            logits, _ = self.forward(latent)
+            return logits.argmax(dim=-1)
+        mean, _, _ = self.forward(latent)
+        return self._rescale(torch.tanh(mean))
+
     def get_trunk_state_dict(self) -> dict:
         """Get only the shared trunk + critic weights (transferable)."""
         trunk_keys = set()

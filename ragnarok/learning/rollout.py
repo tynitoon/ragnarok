@@ -15,6 +15,7 @@ the latent policy, curiosity — which live in their own modules.
 from dataclasses import dataclass
 
 import torch
+import torch.nn.functional as F
 
 from ragnarok.infrastructure.device import DEVICE, mark_step
 
@@ -146,5 +147,103 @@ def device_evaluate(device_env, act_fn, steps: int, normalizer=None) -> float:
         ret_sum = ret_sum + (ret * done).sum()
         ep_count = ep_count + done.sum()
         ret = ret * (1.0 - done)
+    mark_step()
+    return (ret_sum / ep_count.clamp(min=1.0)).item()
+
+
+@torch.no_grad()
+def collect_rollout_latent(device_env, rssm, latent_head, horizon: int,
+                           normalizer=None) -> RolloutBatch:
+    """Collect a rollout where the latent policy acts on RSSM state cat(h, z).
+
+    The post-transfer acting path. Unlike ``collect_rollout`` (a stateless
+    ``policy_fn`` on raw obs), the latent policy consumes the RSSM recurrent
+    state, so (h, z) and the preceding action are threaded across the horizon
+    and zeroed at every episode seam — a rollout row spans several auto-reset
+    episodes and the GRU must not bridge them (mirrors ``observe``'s done
+    reset).
+
+    Returns the same ``RolloutBatch`` shape as ``collect_rollout``, so the
+    world-model / latent-policy / SAC trainers consume it unchanged.
+    """
+    n = device_env.num_envs
+    h, z = rssm.initial_state(n, DEVICE)
+    prev_action = torch.zeros(n, rssm.action_dim, device=DEVICE)
+    raw = device_env.state
+    raw_l, obs_l, act_l, rew_l, done_l, logp_l, val_l = [], [], [], [], [], [], []
+
+    for _ in range(horizon):
+        obs = normalizer.normalize(raw) if normalizer is not None else raw
+        h, z = rssm.encode_observation(obs, h, z, prev_action)
+        action, logp, value = latent_head.device_sample(torch.cat([h, z], dim=-1))
+        next_raw, reward, _terminated, _truncated, done = device_env.step(action)
+        raw_l.append(raw)
+        obs_l.append(obs)
+        act_l.append(action)
+        rew_l.append(reward)
+        done_l.append(done.float())
+        logp_l.append(logp)
+        val_l.append(value)
+        # Thread the RSSM state; zero (h, z) and the preceding action at
+        # episode seams — the post-done obs belongs to a fresh episode.
+        keep = (1.0 - done.float()).unsqueeze(-1)
+        act_oh = (F.one_hot(action.long(), rssm.action_dim).float()
+                  if action.dim() == 1 else action)
+        h = h * keep
+        z = z * keep
+        prev_action = act_oh * keep
+        raw = next_raw
+
+    last_obs = normalizer.normalize(raw) if normalizer is not None else raw
+    h, z = rssm.encode_observation(last_obs, h, z, prev_action)
+    _, _, last_value = latent_head.device_sample(torch.cat([h, z], dim=-1))
+    mark_step()
+
+    return RolloutBatch(
+        obs=torch.stack(obs_l, dim=1),
+        raw_obs=torch.stack(raw_l, dim=1),
+        actions=torch.stack(act_l, dim=1),
+        rewards=torch.stack(rew_l, dim=1),
+        dones=torch.stack(done_l, dim=1),
+        logp=torch.stack(logp_l, dim=1),
+        values=torch.stack(val_l, dim=1),
+        last_obs=last_obs,
+        last_value=last_value,
+    )
+
+
+@torch.no_grad()
+def device_evaluate_latent(device_env, rssm, latent_head, steps: int,
+                           normalizer=None) -> float:
+    """Greedy latent-policy eval — mean completed-episode return.
+
+    The latent-acting counterpart of ``device_evaluate``: it threads the RSSM
+    recurrent state (h, z) and acts greedily via the latent policy on
+    cat(h, z), resetting the state at episode seams.
+    """
+    device_env.reset()
+    n = device_env.num_envs
+    h, z = rssm.initial_state(n, DEVICE)
+    prev_action = torch.zeros(n, rssm.action_dim, device=DEVICE)
+    ret = torch.zeros(n, device=DEVICE)
+    ret_sum = torch.zeros((), device=DEVICE)
+    ep_count = torch.zeros((), device=DEVICE)
+    for _ in range(steps):
+        raw = device_env.state
+        obs = normalizer.normalize(raw) if normalizer is not None else raw
+        h, z = rssm.encode_observation(obs, h, z, prev_action)
+        action = latent_head.device_act(torch.cat([h, z], dim=-1))
+        _, reward, _t, _tr, done = device_env.step(action)
+        done = done.float()
+        ret = ret + reward
+        ret_sum = ret_sum + (ret * done).sum()
+        ep_count = ep_count + done.sum()
+        ret = ret * (1.0 - done)
+        keep = (1.0 - done).unsqueeze(-1)
+        act_oh = (F.one_hot(action.long(), rssm.action_dim).float()
+                  if action.dim() == 1 else action)
+        h = h * keep
+        z = z * keep
+        prev_action = act_oh * keep
     mark_step()
     return (ret_sum / ep_count.clamp(min=1.0)).item()

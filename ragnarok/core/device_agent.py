@@ -19,7 +19,9 @@ import torch
 from ragnarok.infrastructure.device import DEVICE
 from ragnarok.core.rssm import RSSM
 from ragnarok.memory.replay_buffer import ReplayBuffer
-from ragnarok.learning.rollout import collect_rollout, device_evaluate
+from ragnarok.learning.rollout import (
+    collect_rollout, collect_rollout_latent,
+    device_evaluate, device_evaluate_latent)
 from ragnarok.learning.real_experience import RealExperienceTrainer
 from ragnarok.learning.sac import SACTrainer, DeviceSACBuffer
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
@@ -47,6 +49,8 @@ class DeviceAgent:
         self.obs_dim = env_cls.obs_dim
         self.action_dim = env_cls.action_dim
         self.discrete = env_cls.is_discrete
+        self.acting_mode = "obs"      # flipped to "latent" by load_snapshot
+        self.total_env_steps = 0
 
         self.env = env_cls(num_envs)
         self.normalizer = DeviceRunningNormalizer(self.obs_dim)
@@ -83,22 +87,49 @@ class DeviceAgent:
             action_high=None if bounds is None else bounds[1])
 
     def train_iteration(self) -> dict:
-        """One collect-and-train cycle over every device component."""
-        batch = collect_rollout(self.env, self.real.device_policy_fn,
-                                self.horizon, normalizer=self.normalizer)
-        if self.discrete:
-            metrics = self.real.train_on_rollout(batch)
+        """One collect-and-train cycle over every device component.
+
+        acting_mode 'obs': collect via the real policy (PPO/SAC), and train
+        it + the world model + the latent policy. acting_mode 'latent' (set
+        by load_snapshot): collect via the latent policy on RSSM state, and
+        train the latent policy + the world model — the real policy is not
+        the actor, so it is not trained.
+        """
+        if self.acting_mode == "latent":
+            batch = collect_rollout_latent(
+                self.env, self.rssm, self.latent.policy, self.horizon,
+                normalizer=self.normalizer)
         else:
-            # Curiosity augments the SAC reward only (it drives MountainCar
-            # exploration); the world model and latent policy keep training
-            # on the raw env reward.
-            intrinsic = self.curiosity.intrinsic_reward(batch)
-            sac_batch = dataclasses.replace(
-                batch, rewards=batch.rewards + intrinsic)
-            metrics = self.real.train_on_rollout(
-                sac_batch, n_updates=self.sac_updates)
+            batch = collect_rollout(self.env, self.real.device_policy_fn,
+                                    self.horizon, normalizer=self.normalizer)
+        self.total_env_steps += batch.total_steps
+
+        # Curiosity intrinsic reward — computed once (the call also folds
+        # this rollout's KL into the running normalizer) and reused below.
+        intrinsic = (self.curiosity.intrinsic_reward(batch)
+                     if self.curiosity is not None else None)
+
+        metrics: dict = {}
+        # Real policy — trained only when it is the actor (obs mode).
+        if self.acting_mode == "obs":
+            if self.discrete:
+                metrics = self.real.train_on_rollout(batch)
+            else:
+                sac_batch = dataclasses.replace(
+                    batch, rewards=batch.rewards + intrinsic)
+                metrics = self.real.train_on_rollout(
+                    sac_batch, n_updates=self.sac_updates)
+
+        # World model — always, on the raw env reward.
         metrics.update(self.wm.train_world_model_on_rollout(batch))
-        metrics.update(self.latent.train_on_rollout(batch, self.rssm))
+
+        # Latent policy — always; curiosity-augmented reward for the sparse
+        # continuous task so the latent-acting transfer arm can explore.
+        latent_batch = (
+            dataclasses.replace(batch, rewards=batch.rewards + intrinsic)
+            if intrinsic is not None else batch)
+        metrics.update(self.latent.train_on_rollout(latent_batch, self.rssm))
+
         self.normalizer.update(batch.raw_obs.reshape(-1, self.obs_dim))
         return metrics
 
@@ -117,8 +148,16 @@ class DeviceAgent:
 
     @torch.no_grad()
     def evaluate(self, steps: int = 500, n_envs: int = 256) -> float:
-        """Greedy mean completed-episode return on a fresh eval env."""
+        """Greedy mean completed-episode return on a fresh eval env.
+
+        Evaluated through whichever policy is the actor — the real policy in
+        obs mode, the latent policy (on RSSM state) in latent mode.
+        """
         eval_env = self.env_cls(n_envs)
+        if self.acting_mode == "latent":
+            return device_evaluate_latent(
+                eval_env, self.rssm, self.latent.policy, steps,
+                normalizer=self.normalizer)
         return device_evaluate(eval_env, self._greedy_act_fn(), steps,
                                normalizer=self.normalizer)
 
@@ -136,8 +175,15 @@ class DeviceAgent:
         }
 
     def load_snapshot(self, snap: dict) -> None:
-        """Load a snapshot from another (possibly different-dim) task."""
+        """Load a snapshot from another (possibly different-dim) task.
+
+        Flips acting_mode to 'latent': post-transfer the agent must act via
+        the transferred latent policy on RSSM state — otherwise the
+        transferred RSSM core + latent trunk never influence behaviour and
+        the transfer is acting-time invisible.
+        """
         self.rssm.load_transferable_state_dict(
             {k: v.to(DEVICE) for k, v in snap["rssm_core"].items()})
         self.latent.policy.load_trunk_state_dict(
             {k: v.to(DEVICE) for k, v in snap["latent_trunk"].items()})
+        self.acting_mode = "latent"
