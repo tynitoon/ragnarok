@@ -53,6 +53,13 @@ def main():
              "was calibrated on. Pass 'default' to reproduce the historical "
              "TPU divergence.")
     parser.add_argument("--rollouts", type=int, default=ROLLOUTS)
+    parser.add_argument("--horizon", type=int, default=HORIZON,
+                        help="rollout length T — also the RSSM world-model "
+                             "training unroll depth. The device path unrolls "
+                             "the full 128-step row; the calibrated gym WM "
+                             "trained on 50-step subsequences. Shorten this "
+                             "to test whether unroll depth triggers the TPU "
+                             "divergence.")
     args = parser.parse_args()
 
     if IS_XLA:
@@ -68,8 +75,8 @@ def main():
     env = DeviceVecCartPole(N_ENVS)
     normalizer = DeviceRunningNormalizer(obs_dim=4)
 
-    print(f"  N={N_ENVS}  horizon={HORIZON}  "
-          f"({N_ENVS * HORIZON:,} transitions/rollout)\n")
+    print(f"  N={N_ENVS}  horizon={args.horizon}  "
+          f"({N_ENVS * args.horizon:,} transitions/rollout)\n")
     print(f"{'rollout':>8} | {'recon':>9} | {'reward':>9} | "
           f"{'continue':>9} | {'kl':>9} | {'total':>9}")
     print("-" * 64)
@@ -77,7 +84,7 @@ def main():
     first = last = None
     t0 = time.perf_counter()
     for it in range(1, args.rollouts + 1):
-        batch = collect_rollout(env, random_policy_fn, HORIZON,
+        batch = collect_rollout(env, random_policy_fn, args.horizon,
                                 normalizer=normalizer)
         m = wm.train_world_model_on_rollout(batch)
         normalizer.update(batch.raw_obs.reshape(-1, 4))
