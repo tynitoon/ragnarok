@@ -16,7 +16,7 @@ from dataclasses import dataclass
 
 import torch
 
-from ragnarok.infrastructure.device import mark_step
+from ragnarok.infrastructure.device import DEVICE, mark_step
 
 
 @dataclass
@@ -116,3 +116,35 @@ def collect_rollout(device_env, policy_fn, horizon: int, normalizer=None) -> Rol
         last_obs=last_obs,
         last_value=last_value,
     )
+
+
+@torch.no_grad()
+def device_evaluate(device_env, act_fn, steps: int, normalizer=None) -> float:
+    """Mean completed-episode return — greedy eval on a DeviceVec* env.
+
+    The device-path counterpart of the gym ``evaluate()``. ``act_fn(obs) ->
+    action`` is a deterministic (greedy) action function: ``obs`` is the
+    (N, obs_dim) device tensor, normalized first if a normalizer is given,
+    and ``action`` is what ``device_env.step`` expects. Runs ``steps`` steps
+    — an env that finishes auto-resets and starts a fresh episode — and
+    returns the mean return over every episode that completed in the window
+    (each env truncates at least once at its step cap, so the count is
+    never zero). No host sync until the final scalar read.
+    """
+    device_env.reset()
+    n = device_env.num_envs
+    ret = torch.zeros(n, device=DEVICE)
+    ret_sum = torch.zeros((), device=DEVICE)
+    ep_count = torch.zeros((), device=DEVICE)
+    for _ in range(steps):
+        obs = device_env.state
+        if normalizer is not None:
+            obs = normalizer.normalize(obs)
+        _, reward, _, _, done = device_env.step(act_fn(obs))
+        done = done.float()
+        ret = ret + reward
+        ret_sum = ret_sum + (ret * done).sum()
+        ep_count = ep_count + done.sum()
+        ret = ret * (1.0 - done)
+    mark_step()
+    return (ret_sum / ep_count.clamp(min=1.0)).item()
