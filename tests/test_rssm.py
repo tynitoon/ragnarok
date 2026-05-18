@@ -113,3 +113,38 @@ class TestObserveEpisodeReset:
         torch.manual_seed(0)
         out_b = rssm.observe(obs_b, act_b)
         assert not torch.allclose(out_a["h"][:, d + 1:], out_b["h"][:, d + 1:])
+
+
+class TestLossFullSequenceValid:
+    """loss(full_sequence_valid=True) counts every step — needed for device
+    rollout rows, which span multiple auto-reset episodes with no padding."""
+
+    def test_changes_loss_for_multi_episode_sequence(self, rssm):
+        """The default cumsum mask drops every step after the second done;
+        full_sequence_valid keeps them, so the loss must differ."""
+        batch, time = 2, 10
+        obs = torch.randn(batch, time, 4)
+        actions = torch.randn(batch, time, 2)
+        rewards = torch.ones(batch, time)
+        dones = torch.zeros(batch, time)
+        dones[:, 3] = 1.0
+        dones[:, 7] = 1.0   # two episode boundaries within the sequence
+        torch.manual_seed(0)
+        masked = rssm.loss(obs, actions, rewards, dones)
+        torch.manual_seed(0)
+        full = rssm.loss(obs, actions, rewards, dones, full_sequence_valid=True)
+        assert not torch.allclose(masked["total_loss"], full["total_loss"])
+
+    def test_noop_when_no_done(self, rssm):
+        """With no done the cumsum mask is already all-ones — the flag must
+        be a no-op (guards against it changing the gym path spuriously)."""
+        batch, time = 2, 8
+        obs = torch.randn(batch, time, 4)
+        actions = torch.randn(batch, time, 2)
+        rewards = torch.ones(batch, time)
+        dones = torch.zeros(batch, time)
+        torch.manual_seed(0)
+        masked = rssm.loss(obs, actions, rewards, dones)
+        torch.manual_seed(0)
+        full = rssm.loss(obs, actions, rewards, dones, full_sequence_valid=True)
+        torch.testing.assert_close(masked["total_loss"], full["total_loss"])

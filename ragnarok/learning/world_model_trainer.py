@@ -2,6 +2,7 @@
 
 import numpy as np
 import torch
+import torch.nn.functional as F
 from ragnarok.core.rssm import RSSM
 from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.infrastructure.device import DEVICE, mark_step
@@ -119,6 +120,68 @@ class WorldModelTrainer:
         if count == 0:
             return {}
         return {k: v / count for k, v in totals.items()}
+
+    def train_world_model_on_rollout(self, batch, epochs: int = 5,
+                                     n_minibatches: int = 8) -> dict[str, float]:
+        """Train the RSSM directly on a fixed-shape on-device RolloutBatch.
+
+        The device-path counterpart of ``train()`` / ``train_step()``:
+        instead of sampling padded subsequences from the host
+        ``ReplayBuffer`` and transferring them, it consumes a
+        ``RolloutBatch`` (N env rows x T steps, all device tensors) from
+        ``ragnarok.learning.rollout.collect_rollout`` — no host sampling,
+        no host->device transfer.
+
+        On-policy world-model training: one rollout at large N is hundreds
+        of thousands of transitions from N independent envs at random
+        episode phases — already far more decorrelated than the gym
+        ``ReplayBuffer``, and the WM's reconstruction/dynamics loss does
+        not drift with the policy the way a value target does. ``epochs``
+        passes with reshuffled env-row minibatches supply the gradient
+        diversity a replay buffer otherwise would.
+
+        A rollout row spans several auto-reset episodes, so ``RSSM.loss``
+        runs with ``full_sequence_valid=True`` (every step real, no
+        padding) and ``observe`` resets the GRU at each episode seam.
+        Minibatching is along the env dimension N only — the T axis must
+        stay whole for the GRU unroll.
+
+        Discrete actions arrive as (N, T) indices and are one-hot encoded;
+        continuous actions (Stage 4) arrive as (N, T, action_dim) already.
+        """
+        if batch.actions.dim() == 2:
+            actions = F.one_hot(batch.actions.long(),
+                                self.rssm.action_dim).float()
+        else:
+            actions = batch.actions
+
+        N = batch.obs.shape[0]
+        assert N % n_minibatches == 0, (
+            f"rollout env count {N} must be divisible by n_minibatches "
+            f"{n_minibatches}")
+        mb = N // n_minibatches
+
+        last: dict[str, torch.Tensor] = {}
+        for _ in range(epochs):
+            # Shuffle env rows. rand().argsort(), NOT randperm — randperm's
+            # int64 RNG emits an s64 HLO the TPU's X64 pass cannot lower.
+            perm = torch.rand(N, device=DEVICE).argsort()
+            for k in range(n_minibatches):
+                idx = perm[k * mb:(k + 1) * mb]
+                losses = self.rssm.loss(
+                    batch.obs[idx], actions[idx],
+                    batch.rewards[idx], batch.dones[idx],
+                    self.kl_weight, self.free_nats,
+                    full_sequence_valid=True)
+                self.optimizer.zero_grad()
+                losses["total_loss"].backward()
+                torch.nn.utils.clip_grad_norm_(self.rssm.parameters(),
+                                               self.grad_clip)
+                self.optimizer.step()
+                mark_step()  # XLA: one graph per minibatch update
+                last = {k: v.detach() for k, v in losses.items()}
+
+        return {f"wm/{k}": v.item() for k, v in last.items()}
 
     # ── Transferable-subset LR scaling (Bug E Phase 5 fix) ────────────
     #

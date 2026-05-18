@@ -430,8 +430,14 @@ class RSSM(nn.Module):
 
     def loss(self, obs_seq: torch.Tensor, action_seq: torch.Tensor,
              reward_seq: torch.Tensor, done_seq: torch.Tensor,
-             kl_weight: float = 0.1, free_nats: float = 1.0) -> dict[str, torch.Tensor]:
+             kl_weight: float = 0.1, free_nats: float = 1.0,
+             full_sequence_valid: bool = False) -> dict[str, torch.Tensor]:
         """Compute total RSSM loss.
+
+        full_sequence_valid: set True for device-rollout batches — rows with
+        no padding that span several auto-reset episodes. It makes every step
+        count; the default (False) uses the cumsum padding mask, correct for
+        zero-padded replay-buffer subsequences.
 
         Returns dict with: total_loss, recon_loss, reward_loss, continue_loss, kl_loss
         """
@@ -442,16 +448,24 @@ class RSSM(nn.Module):
         # essential.
         outputs = self.observe(obs_seq, action_seq, done_seq=done_seq)
 
-        # Padding mask. Replay-buffer sequences are zero-padded to a fixed
-        # length (required for XLA — see ReplayBuffer.sample_sequences).
-        # Padded steps must not contribute to the loss, or the world model
-        # trains to predict padding. Padding sets done=1.0, so the cumulative
-        # sum of done identifies real steps: every step up to and including
-        # the first done has cumsum <= 1; padding has cumsum >= 2.
-        # valid_mask is (batch, seq_len): 1.0 = real step, 0.0 = padding.
-        # A mid-episode subsequence has no done at all -> mask is all-ones,
-        # so this is a no-op when there is no padding.
-        valid_mask = (torch.cumsum(done_seq.float(), dim=1) <= 1.0).float()
+        # Validity mask — 1.0 = real step, 0.0 = ignored.
+        #
+        # Replay-buffer subsequences are zero-padded to a fixed length (XLA
+        # needs a constant shape — see ReplayBuffer.sample_sequences). Padded
+        # steps must not contribute, or the world model trains to predict
+        # padding. Padding sets done=1.0, so cumsum(done) identifies real
+        # steps: up to and including the first done cumsum <= 1, padding has
+        # cumsum >= 2. A within-episode subsequence has no done -> all-ones.
+        #
+        # Device rollouts (full_sequence_valid=True) have NO padding — every
+        # step is a real transition, and observe(done_seq=...) already resets
+        # the GRU at each episode seam. A rollout row spans several episodes,
+        # so the cumsum mask would wrongly drop every step after the first
+        # done; an all-ones mask is the correct one there.
+        if full_sequence_valid:
+            valid_mask = torch.ones_like(done_seq, dtype=torch.float32)
+        else:
+            valid_mask = (torch.cumsum(done_seq.float(), dim=1) <= 1.0).float()
         n_valid = valid_mask.sum().clamp(min=1.0)
 
         # Reconstruction loss (masked mean over real steps)
