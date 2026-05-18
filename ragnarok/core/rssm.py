@@ -274,6 +274,7 @@ class RSSM(nn.Module):
     def observe(self, obs_seq: torch.Tensor, action_seq: torch.Tensor,
                 init_state: tuple[torch.Tensor, torch.Tensor] | None = None,
                 init_action: torch.Tensor | None = None,
+                done_seq: torch.Tensor | None = None,
                 ) -> dict[str, torch.Tensor]:
         """Process a sequence of real observations.
 
@@ -287,6 +288,13 @@ class RSSM(nn.Module):
             init_action: optional (batch, action_dim) action preceding the
                 first observation (the previous chunk's last action). Defaults
                 to zeros, which is correct at the true start of an episode.
+            done_seq: optional (batch, time) episode-boundary flags. When
+                given, the recurrent state (h, z) and the preceding action
+                are zeroed at every step that follows a done — so a sequence
+                spanning several auto-reset episodes (a device-rollout row)
+                never leaks GRU state across an episode seam. Defaults to
+                None: the recurrence runs unbroken, correct for a single
+                within-episode subsequence.
 
         Returns:
             Dict with keys: h, z, prior_mean, prior_logstd,
@@ -322,6 +330,14 @@ class RSSM(nn.Module):
                     prev_action = init_action
             else:
                 prev_action = action_seq[:, t - 1]
+                # Episode-boundary reset: if step t-1 ended an episode, step
+                # t begins a fresh one — zero the carried (h, z) and the
+                # preceding action so the GRU does not bridge the seam.
+                if done_seq is not None:
+                    keep = (1.0 - done_seq[:, t - 1]).unsqueeze(-1)
+                    h = h * keep
+                    z = z * keep
+                    prev_action = prev_action * keep
 
             # GRU step
             h = self.core.step(h, z, prev_action)
@@ -419,7 +435,12 @@ class RSSM(nn.Module):
 
         Returns dict with: total_loss, recon_loss, reward_loss, continue_loss, kl_loss
         """
-        outputs = self.observe(obs_seq, action_seq)
+        # done_seq -> observe resets the GRU at episode seams. For a
+        # replay-buffer subsequence (one episode + padding) the only done is
+        # at/after the slice end, so resets touch only the masked padding and
+        # the loss is unchanged; for a multi-episode device rollout it is
+        # essential.
+        outputs = self.observe(obs_seq, action_seq, done_seq=done_seq)
 
         # Padding mask. Replay-buffer sequences are zero-padded to a fixed
         # length (required for XLA — see ReplayBuffer.sample_sequences).

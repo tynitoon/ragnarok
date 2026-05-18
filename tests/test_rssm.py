@@ -70,3 +70,46 @@ class TestRSSMShapes:
 
     def test_state_dim(self, rssm):
         assert rssm.state_dim == 32 + 8
+
+
+class TestObserveEpisodeReset:
+    """observe(done_seq=...) zeroes the GRU state at episode boundaries so a
+    multi-episode rollout row never leaks recurrent state across a seam."""
+
+    def test_state_resets_after_done(self, rssm):
+        """Two rollouts identical from the boundary onward but different
+        before it must produce identical post-reset states."""
+        batch, time, d = 3, 8, 3            # episode boundary at step d
+        obs_a = torch.randn(batch, time, 4)
+        act_a = torch.randn(batch, time, 2)
+        obs_b = obs_a.clone()
+        act_b = act_a.clone()
+        obs_b[:, :d] = torch.randn(batch, d, 4)   # differ strictly before d
+        act_b[:, :d] = torch.randn(batch, d, 2)
+        dones = torch.zeros(batch, time)
+        dones[:, d] = 1.0
+
+        torch.manual_seed(0)
+        out_a = rssm.observe(obs_a, act_a, done_seq=dones)
+        torch.manual_seed(0)
+        out_b = rssm.observe(obs_b, act_b, done_seq=dones)
+        # The reset at step d+1 wipes every trace of the pre-d divergence.
+        torch.testing.assert_close(out_a["h"][:, d + 1:], out_b["h"][:, d + 1:])
+        torch.testing.assert_close(out_a["z"][:, d + 1:], out_b["z"][:, d + 1:])
+
+    def test_no_reset_without_done_seq(self, rssm):
+        """Without done_seq the recurrence runs unbroken — a pre-boundary
+        difference DOES propagate (guards against an accidental no-op)."""
+        batch, time, d = 3, 8, 3
+        obs_a = torch.randn(batch, time, 4)
+        act_a = torch.randn(batch, time, 2)
+        obs_b = obs_a.clone()
+        act_b = act_a.clone()
+        obs_b[:, :d] = torch.randn(batch, d, 4)
+        act_b[:, :d] = torch.randn(batch, d, 2)
+
+        torch.manual_seed(0)
+        out_a = rssm.observe(obs_a, act_a)
+        torch.manual_seed(0)
+        out_b = rssm.observe(obs_b, act_b)
+        assert not torch.allclose(out_a["h"][:, d + 1:], out_b["h"][:, d + 1:])
