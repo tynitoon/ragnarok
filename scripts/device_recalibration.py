@@ -51,7 +51,7 @@ def _run_mcc_arm(agent: DeviceAgent, iters: int):
 
 
 def _run_seed(seed: int, source_iters: int, mcc_iters: int,
-              curiosity_warmup: int) -> dict:
+              curiosity_warmup: int, sac_updates: int) -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
 
@@ -65,14 +65,14 @@ def _run_seed(seed: int, source_iters: int, mcc_iters: int,
 
     # Scratch MCC — SAC-acting, no transfer.
     scratch = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                          horizon=128, sac_updates=512,
+                          horizon=128, sac_updates=sac_updates,
                           curiosity_warmup=curiosity_warmup)
     s_curve, s_mastery = _run_mcc_arm(scratch, mcc_iters)
 
     # Transfer MCC — load the CartPole snapshot; load_snapshot flips the
     # agent to act via the transferred latent policy.
     transfer = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                           horizon=128, sac_updates=512,
+                           horizon=128, sac_updates=sac_updates,
                            curiosity_warmup=curiosity_warmup)
     transfer.load_snapshot(snap)
     t_curve, t_mastery = _run_mcc_arm(transfer, mcc_iters)
@@ -93,6 +93,9 @@ def main():
     parser.add_argument("--curiosity-warmup", type=int, default=6,
                         help="iterations the latent-KL curiosity is gated "
                              "off (RSSM not yet trained)")
+    parser.add_argument("--sac-updates", type=int, default=512,
+                        help="SAC updates per iteration on the MCC arms "
+                             "(lower = faster, lighter on the device path)")
     args = parser.parse_args()
 
     print(f"[device-recalibration] device={DEVICE}  seeds={args.seeds}  "
@@ -102,7 +105,7 @@ def main():
     for seed in range(args.seeds):
         s0 = time.perf_counter()
         r = _run_seed(seed, args.source_iters, args.mcc_iters,
-                      args.curiosity_warmup)
+                      args.curiosity_warmup, args.sac_updates)
         results.append(r)
         s = r["scratch"]["mastery_env_steps"]
         t = r["transfer"]["mastery_env_steps"]
