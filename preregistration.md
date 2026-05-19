@@ -1859,4 +1859,70 @@ in Phase 4 baselines, not Phase 5.
   run, 2026-05-19 — the latent-scaling confound; the ratio-statistic and
   curve-smoothing deviations; the N=3 power shortfall.
 
+- **2026-05-20 (v3.13 — the latent must be load-bearing for transfer to
+  be detectable; SAC reads latent-only and the full RSSM is transferred).**
+
+  *Flaw found (interpretation of the v3.12 null).* v3.12's clean null
+  (transfer-minus-permuted AUC +2.68 +/- 13.87, N=8) is consistent with a
+  simple mechanistic explanation: SAC reads cat([obs, h, z]) and the raw
+  2-d obs is a complete state for MountainCarContinuous-Hard, so SAC
+  solves the task using just the obs and learns to weight the 160-d
+  latent block toward zero. The transferred representation has nothing
+  load-bearing to do, so its quality cannot be measured. Compounding
+  this, the encoder (per-env, fresh-random in every arm under
+  v3.11/v3.12) feeds the core a random input regardless of core
+  training, further degrading any signal the transferred core could
+  carry.
+
+  *Corrected mechanism (v3.13).*
+  - SAC reads ONLY the latent cat([h, z]) — no raw observation in the
+    actor or critic input. The latent is therefore load-bearing: a
+    learner that cannot use it cannot solve the task. This is the
+    "strong channel" the v3.10 amendment called for — but with the same
+    learner (SAC) across all arms, not the retired latent-A2C path.
+  - The transferable subset is broadened from the env-agnostic core to
+    the FULL RSSM state dict. MCC and MCC-Hard share obs_dim, action_dim
+    and reward structure, so the encoder, decoder, reward-predictor and
+    continue-predictor are all shape-compatible. Transferring everything
+    lets the transferred representation produce a meaningful target
+    latent (a fresh-random encoder + a transferred core would still feed
+    the core noise, denying the core's learned dynamics any real state
+    to operate on).
+
+  *Controls and metric (retained from v3.12).* Three arms — transfer
+  (the full source RSSM, frozen), permuted (each parameter tensor of the
+  source RSSM randomly permuted: scale/rank/distribution-matched,
+  learned structure destroyed, frozen), scratch (fresh random RSSM,
+  frozen). The augmented-obs normaliser is over the 160-d latent only.
+  Same RSSM-independent ICM curiosity. N=8 seeds; primary endpoint =
+  the per-seed AUC difference transfer-minus-permuted (and
+  -minus-scratch), mean +/- Student-t 95% CI; curve smoothed by 3-point
+  moving average before trapezoidal integration.
+
+  *Heterogeneous-dim relation.* v3.13 is preregistered for SAME-obs-dim
+  transfer (MCC -> MCC-Hard). The heterogeneous-dim transfer claim
+  (e.g. cartpole -> mcc) cannot transfer the encoder and is the
+  conditional follow-up: only if v3.13 shows working transfer is it
+  worth probing whether the env-agnostic core alone transfers across
+  obs_dim boundaries.
+
+  *Decisive interpretation.* If v3.13 is positive (transfer > permuted,
+  CI excludes zero), the representation-transfer mechanism is alive and
+  the program proceeds to probe the heterogeneous-dim and core-only
+  cases. If v3.13 is also null under this maximally-favourable design
+  (forced latent dependence + full-RSSM transfer + the proven freeze
+  fix + the v3.12 scale control), the representation-transfer line on
+  these toy continuous-control tasks is concluded null and the project
+  pivots its mechanism class.
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.13
+  implementation and BEFORE any v3.13 run. The latent-only mechanism,
+  the full-RSSM transferable scope, the decisive interpretation, and the
+  same-vs-heterogeneous staging are pre-outcome.
+
+  *Amendment trigger:* the v3.12 clean null (commit dacb4ff) and the
+  observation that the augmented [obs, h, z] mechanism gives SAC a
+  raw-obs fallback that nullifies any transferred-latent benefit on
+  fully-observable tasks.
+
 - (Subsequent amendments timestamped here before execution.)
