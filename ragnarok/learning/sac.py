@@ -217,20 +217,26 @@ class DeviceSACBuffer:
         self._next_obs = torch.zeros(c, obs_dim, device=DEVICE)
         self._done = torch.zeros(c, device=DEVICE)
 
-    def add_rollout(self, batch) -> None:
+    def add_rollout(self, batch, obs_attr: str = "obs",
+                    last_obs_attr: str = "last_obs") -> None:
         """Fold a RolloutBatch's N*T transitions into the buffer.
 
         next_obs is the rollout shifted one step in time (last_obs closes the
         final step). After an auto-reset done the shifted next_obs is a
         fresh-episode state, but SAC's q_target multiplies the bootstrap by
         (1 - done), so a done transition's next_obs is never read — correct.
+
+        obs_attr / last_obs_attr name the RolloutBatch fields supplying the
+        observation. Default ("obs", "last_obs"); the v3.10 corrected-
+        transfer path passes ("aug_obs", "last_aug") so SAC trains on the
+        [obs, h, z] augmented observation.
         """
-        obs = batch.obs                                  # (N, T, obs_dim)
+        obs = getattr(batch, obs_attr)                   # (N, T, obs_dim)
+        last = getattr(batch, last_obs_attr)             # (N, obs_dim)
         act = batch.actions                              # (N, T, act_dim)
         if act.dim() == 2:                               # discrete index form
             act = act.unsqueeze(-1).float()
-        next_obs = torch.cat(
-            [obs[:, 1:], batch.last_obs.unsqueeze(1)], dim=1)
+        next_obs = torch.cat([obs[:, 1:], last.unsqueeze(1)], dim=1)
         n, t, obs_dim = obs.shape
         act_dim = act.shape[-1]
         self._ensure_allocated(obs_dim, act_dim)
@@ -519,7 +525,8 @@ class SACTrainer:
         zeros = torch.zeros(n, device=obs.device)
         return action, zeros, zeros
 
-    def train_on_rollout(self, batch, n_updates: int) -> dict:
+    def train_on_rollout(self, batch, n_updates: int, obs_attr: str = "obs",
+                         last_obs_attr: str = "last_obs") -> dict:
         """SAC update from a fixed-shape on-device ``RolloutBatch``.
 
         Folds the rollout's N*T transitions into the (device-resident)
@@ -533,7 +540,7 @@ class SACTrainer:
         Returns {} until warmup is satisfied (total_steps >= warmup_steps
         and the buffer holds >= batch_size transitions).
         """
-        self.replay.add_rollout(batch)
+        self.replay.add_rollout(batch, obs_attr, last_obs_attr)
         mark_step()  # XLA: flush the buffer-write graph here — during warmup
                      # no _update follows to flush it, so without this the
                      # index_copy ops would ride into the next collect graph.

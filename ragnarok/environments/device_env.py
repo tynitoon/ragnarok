@@ -147,6 +147,22 @@ class DeviceVecMountainCarContinuous:
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecMountainCarContinuousHard(DeviceVecMountainCarContinuous):
+    """MountainCarContinuous with a weaker engine — a graded-difficulty
+    variant for the v3.10 corrected-transfer experiment.
+
+    Same dynamics family as DeviceVecMountainCarContinuous: identical
+    obs/action dims, hill term, gravity, velocity clamp and Euler
+    integration — only the engine ``_POWER`` is reduced, so the car needs
+    more energy-pumping skill to reach the goal. Because the physics is
+    otherwise identical, an RSSM world-model core trained on the standard
+    variant carries genuinely transferable dynamics structure — this is
+    the "shared-dynamics, graded-difficulty" pair v3.10 calls for.
+    """
+
+    _POWER = 0.0011   # vs 0.0015 standard — a ~27%-weaker engine
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 
