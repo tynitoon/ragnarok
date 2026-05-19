@@ -1692,4 +1692,101 @@ in Phase 4 baselines, not Phase 5.
   confound verified in `device_agent.py`; the gym non-confound verified in
   `pilot_run.py` + `agent.py`.
 
+- **2026-05-19 (v3.11 — concurrent RSSM training is incompatible with
+  off-policy SAC replay; the representation is frozen for the SAC arm).**
+
+  *Flaw found.* The v3.10 corrected mechanism was implemented (commit
+  b1d60ae) and a run started. Its first phase — training the SOURCE agent
+  on standard MountainCarContinuous, SAC reading the 162-d augmented
+  observation [obs, h, z] — FAILED to learn. Over 60 rollouts / 1.97M
+  env-steps the eval return never rose above ~6 and ended negative; a
+  learned MCC agent evals ~+90. The blip-then-collapse signature is a
+  training instability, not slow learning.
+
+  *Cause.* SAC is off-policy: it learns from a 200k-transition replay
+  buffer. v3.10 stores the augmented observation — which contains the
+  RSSM latent (h, z) — directly in that buffer, while the RSSM trains
+  concurrently. A transition collected at rollout 5 carries a latent
+  produced by the rollout-5 RSSM; a transition from rollout 40 carries a
+  rollout-40 RSSM's latent; they are sampled into the same minibatch. The
+  same physical state therefore maps to different 162-d vectors depending
+  on when it was collected, so the critic's bootstrap target
+  Q(s,a) <- r + gamma*Q(s',a') is regressed across a non-stationary
+  representation and cannot converge. (DreamerV2/V3 avoid exactly this by
+  never replaying stored latents — the world model re-encodes raw
+  observations with its current weights.) The proven device baseline
+  confirms the locus: device_recalibration.py's scratch arm — the same
+  SAC, same curiosity, same concurrently-trained RSSM, but reading the
+  RAW 2-d observation (DeviceAgent constructs SAC with obs_dim equal to
+  the env's raw obs_dim and collects on raw obs) — masters standard MCC
+  at 590k env-steps. The only change between the working baseline and the
+  failing run is SAC's input: a stationary 2-d obs vs a non-stationary
+  162-d [obs, h, z].
+
+  *Diagnosis discipline.* The diagnosis was put to a 3-agent adversarial
+  review. One agent challenged it, asserting the recalibration baseline
+  also read the augmented obs (which would make the failure mere
+  variance). That assertion was checked directly against device_agent.py
+  and found false — DeviceAgent's SAC is constructed with obs_dim equal
+  to the env's raw obs_dim and collects on raw obs; it is a genuine
+  raw-obs baseline. The diagnosis stands.
+
+  *Corrected mechanism (preregistered).* The RSSM representation is
+  FROZEN during the SAC arm. The world model is trained first (for the
+  source skill, by the proven raw-obs DeviceAgent path); its env-agnostic
+  core is then frozen, and SAC trains on the now-stationary
+  [obs, h_frozen, z_frozen]. With a frozen RSSM the replay buffer is
+  representation-consistent and the off-policy critic is well-posed. This
+  supersedes exactly one clause of v3.10 — "the transferred core trains
+  under the post-transfer LR warmup"; the core no longer trains during
+  the SAC arm, so that LR-warmup machinery is unused. Every other v3.10
+  element is retained: same learner (SAC), same augmented [obs, h, z]
+  interface, same optimiser and eval, and the sole inter-arm difference
+  remains the RSSM core initialisation.
+
+  *Arms.* scratch — RSSM core fresh-initialised, frozen. transfer — RSSM
+  core warm-started from the source snapshot, frozen. The latent z fed to
+  SAC is the posterior mean (deterministic), so the frozen representation
+  is a fixed function of the observation history.
+
+  *Scope — what a Stage-1 result does and does not show (preregistered).*
+  The scratch arm's core is fresh-initialised — v3.10's "scratch
+  initialises fresh", unchanged. This first experiment therefore compares
+  a SOURCE-trained representation against a fresh/random one. It is not a
+  tautology: SAC reads the raw observation in BOTH arms, and raw-obs SAC
+  alone masters MCC (the 590k baseline), so the scratch arm is a fully
+  capable learner and its frozen random core is at worst ignorable noise.
+  A positive Stage-1 result (transfer AUC > scratch AUC) establishes that
+  a transferred world-model core measurably accelerates SAC through the
+  augmented-obs channel. It does NOT, by itself, separate "the source
+  skill specifically transferred" from "any trained world model would
+  help". That separation is the preregistered Stage-2 follow-up, run only
+  if Stage 1 is positive: a control whose RSSM is pretrained on the
+  TARGET task to convergence and then frozen, with its target-task
+  pretraining env-steps charged to the sample-efficiency AUC budget. Stage
+  1 is run first because it is the cheapest falsification and carries no
+  representation-pretraining chicken-and-egg or budget-accounting
+  complexity; a null Stage 1 ends the line and makes Stage 2 moot.
+
+  *Pair, metric, budget.* Unchanged from v3.10: source = standard
+  MountainCarContinuous, target = MountainCarContinuous-Hard (weaker
+  engine, shared dynamics family); endpoint = sample-efficiency AUC of the
+  >=10-episode-averaged eval-return vs env-steps curve, transfer vs
+  scratch, N>=3 seeds. Both Stage-1 arms spend their entire target
+  env-step budget on SAC (neither does target-task representation
+  pretraining), so the AUC x-axis is directly comparable.
+
+  *What is NOT changed in v3.11:* §8 / §11; the v3.9 meta-kill; v3.8's
+  falsification; the device-path infrastructure; v3.10's Findings 1-3 and
+  its corrected-pair principle. Only v3.10's "core trains under LR warmup"
+  clause is superseded.
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.11
+  implementation and BEFORE any v3.11 run. The frozen-representation
+  mechanism and the Stage-1/Stage-2 staging are pre-outcome.
+
+  *Amendment trigger:* the v3.10 source-run learning failure; 3-agent
+  adversarial review 2026-05-19; the off-policy / non-stationary-latent
+  diagnosis verified in sac.py + device_agent.py.
+
 - (Subsequent amendments timestamped here before execution.)
