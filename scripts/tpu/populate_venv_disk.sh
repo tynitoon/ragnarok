@@ -2,9 +2,12 @@
 # populate_venv_disk.sh — one-time: install the PyTorch/XLA venv onto the
 # attached persistent disk `ragnarok-venv`.
 #
-# Run ON a TPU VM that has the persistent disk attached read-write:
-#   gcloud compute tpus tpu-vm attach-disk <node> --disk=ragnarok-venv \
-#       --mode=read-write --zone=europe-west4-b
+# Installing the wheels needs no TPU — run this on any VM that has the
+# persistent disk attached read-write. A small on-demand GCE instance is
+# simplest (stable, no spot preemption mid-install):
+#   gcloud compute instances create <vm> --zone=europe-west4-b \
+#       --image-family=ubuntu-2204-lts --image-project=ubuntu-os-cloud \
+#       --disk=name=ragnarok-venv,mode=rw
 #
 # After this, a fresh spot TPU VM just mounts the disk and uses the venv
 # directly — setup drops from ~8 min (pip install torch_xla) to ~1 min
@@ -59,8 +62,8 @@ python3 -m venv "$VENV"
 "$VENV/bin/pip" install --progress-bar off dm_control 2>/dev/null \
   && echo "  dm_control installed" || echo "  dm_control skipped"
 
-echo "=== [5/5] Smoke test (drive the TPU from the disk venv) ==="
-"$VENV/bin/python" -c 'import torch, torch_xla; import torch_xla.core.xla_model as xm; d=xm.xla_device(); r=float((torch.randn(128,128,device=d)@torch.randn(128,128,device=d)).sum()); print("venv OK | torch", torch.__version__, "| torch_xla", torch_xla.__version__, "| xla matmul", round(r,1))'
+echo "=== [5/5] Smoke test (imports — populate runs off-TPU) ==="
+"$VENV/bin/python" -c 'import torch, torch_xla; print("venv OK | torch", torch.__version__, "| torch_xla", torch_xla.__version__)'
 mkdir -p "$MNT/checkpoints"
 sync
 sudo umount "$MNT"
