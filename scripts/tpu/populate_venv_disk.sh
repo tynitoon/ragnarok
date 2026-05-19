@@ -41,19 +41,26 @@ sudo apt-get update -qq
 sudo apt-get install -y python3.10-venv >/dev/null 2>&1
 
 echo "=== [4/5] venv + PyTorch/XLA $TORCH_VER + deps on the disk ==="
-[ -d "$VENV" ] || python3 -m venv "$VENV"
+# Clean venv each populate — avoids a half-installed state left by a
+# preempted earlier attempt.
+rm -rf "$VENV"
+python3 -m venv "$VENV"
 "$VENV/bin/pip" install --upgrade pip -q
-"$VENV/bin/pip" install "torch==$TORCH_VER" "torch_xla[tpu]==$TORCH_VER" \
-  --progress-bar off -f https://storage.googleapis.com/libtpu-releases/index.html
+# CPU torch build: the TPU uses torch_xla as its backend, so the ~1.4 GB
+# of nvidia-cu12 CUDA packages the default torch wheel drags in are dead
+# weight. The CPU build cuts the torch download from ~2.3 GB to ~0.3 GB
+# so the populate fits inside a short spot window.
+"$VENV/bin/pip" install --progress-bar off "torch==$TORCH_VER" \
+  --index-url https://download.pytorch.org/whl/cpu
+"$VENV/bin/pip" install --progress-bar off "torch_xla[tpu]==$TORCH_VER" \
+  -f https://storage.googleapis.com/libtpu-releases/index.html
 "$VENV/bin/pip" install --progress-bar off \
   "gymnasium[classic-control]>=0.29.0" tensorboard pytest lifelines
 "$VENV/bin/pip" install --progress-bar off dm_control 2>/dev/null \
   && echo "  dm_control installed" || echo "  dm_control skipped"
 
-echo "=== [5/5] Smoke test ==="
-"$VENV/bin/python" -c "
-import torch, torch_xla
-print(f'venv OK | torch {torch.__version__} | torch_xla {torch_xla.__version__}')"
+echo "=== [5/5] Smoke test (drive the TPU from the disk venv) ==="
+"$VENV/bin/python" -c 'import torch, torch_xla; import torch_xla.core.xla_model as xm; d=xm.xla_device(); r=float((torch.randn(128,128,device=d)@torch.randn(128,128,device=d)).sum()); print("venv OK | torch", torch.__version__, "| torch_xla", torch_xla.__version__, "| xla matmul", round(r,1))'
 mkdir -p "$MNT/checkpoints"
 sync
 sudo umount "$MNT"
