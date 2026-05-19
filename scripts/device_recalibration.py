@@ -18,12 +18,20 @@ Both MCC arms run a fixed iteration budget; mastery = total env-steps at the
 first greedy eval >= 90. ratio = scratch_mastery / transfer_mastery (>1 means
 transfer reached mastery sooner). Band C = ratio < 1.05.
 
+Checkpoint/resume (--ckpt): the run pickles the live DeviceAgent and its
+progress after every iteration. On a preemptible (spot) TPU, a fresh VM
+re-launched with the same --ckpt resumes mid-arm — the whole agent (models,
+optimizers, SAC buffer, normalizer, RNG) is in the checkpoint, so the
+continuation is exact. Without --ckpt the run is in-memory only (for a
+stable machine).
+
 Usage:  python -m scripts.device_recalibration [--seeds N] [--source-iters N]
-        [--mcc-iters N]
+        [--mcc-iters N] [--sac-updates N] [--ckpt PATH]
 """
 
 import argparse
 import json
+import os
 import time
 
 import numpy as np
@@ -35,54 +43,103 @@ from ragnarok.environments.device_env import (
     DeviceVecCartPole, DeviceVecMountainCarContinuous)
 
 MASTERY = 90.0          # MountainCarContinuous mastery threshold (gym pilot)
-OUT = "device_recalibration.json"
 
 
-def _run_mcc_arm(agent: DeviceAgent, iters: int):
-    """Train an MCC DeviceAgent; return (eval_curve, mastery_env_steps)."""
-    curve, mastery = [], None
-    for _ in range(iters):
+def _save_ckpt(ck: dict, path: str | None) -> None:
+    """Atomically write the checkpoint (to .tmp, then rename)."""
+    if not path:
+        return
+    ck["torch_rng"] = torch.get_rng_state()
+    ck["np_rng"] = np.random.get_state()
+    tmp = path + ".tmp"
+    torch.save(ck, tmp)
+    os.replace(tmp, path)
+
+
+def _load_or_init(seed: int, path: str | None) -> dict:
+    """Resume from the checkpoint at `path`, or start a fresh seed."""
+    if path and os.path.exists(path):
+        ck = torch.load(path, weights_only=False)
+        torch.set_rng_state(ck["torch_rng"])
+        np.random.set_state(ck["np_rng"])
+        print(f"  [resume] seed {seed}: phase={ck['phase']} iter={ck['iter']}",
+              flush=True)
+        return ck
+    torch.manual_seed(seed)
+    np.random.seed(seed)
+    return {"seed": seed, "phase": "source", "iter": 0, "agent": None,
+            "snapshot": None, "source_eval": None,
+            "scratch": None, "transfer": None}
+
+
+def _mcc_loop(ck: dict, key: str, mcc_iters: int, path: str | None) -> None:
+    """Train ck['agent'] on MCC for mcc_iters, checkpointing every iteration.
+
+    `key` is 'scratch' or 'transfer'. Resumable: picks up at ck['iter'].
+    """
+    agent, rec = ck["agent"], ck[key]
+    while ck["iter"] < mcc_iters:
         agent.train_iteration()
         score = agent.evaluate(steps=999)
-        curve.append([agent.total_env_steps, score])
-        if mastery is None and score >= MASTERY:
-            mastery = agent.total_env_steps
-    return curve, mastery
+        rec["eval_curve"].append([agent.total_env_steps, score])
+        if rec["mastery_env_steps"] is None and score >= MASTERY:
+            rec["mastery_env_steps"] = agent.total_env_steps
+        ck["iter"] += 1
+        _save_ckpt(ck, path)
+        if ck["iter"] % 5 == 0 or ck["iter"] == mcc_iters:
+            print(f"    {key} iter {ck['iter']:>3}/{mcc_iters} | "
+                  f"score {score:7.1f} | env_steps {agent.total_env_steps}",
+                  flush=True)
 
 
 def _run_seed(seed: int, source_iters: int, mcc_iters: int,
-              curiosity_warmup: int, sac_updates: int) -> dict:
-    torch.manual_seed(seed)
-    np.random.seed(seed)
+              curiosity_warmup: int, sac_updates: int,
+              ckpt_path: str | None = None) -> dict:
+    """Run (or resume) one transfer seed: source -> scratch MCC -> transfer MCC."""
+    ck = _load_or_init(seed, ckpt_path)
 
-    # Source: CartPole — train to crystallization, snapshot the transferable
-    # subset (RSSM core + latent-policy trunk).
-    source = DeviceAgent(DeviceVecCartPole, num_envs=128, horizon=128)
-    for _ in range(source_iters):
-        source.train_iteration()
-    src_eval = source.evaluate(steps=500)
-    snap = source.snapshot()
+    # -- source: CartPole -> snapshot the transferable subset --
+    if ck["phase"] == "source":
+        if ck["agent"] is None:
+            ck["agent"] = DeviceAgent(DeviceVecCartPole, num_envs=128,
+                                      horizon=128)
+        while ck["iter"] < source_iters:
+            ck["agent"].train_iteration()
+            ck["iter"] += 1
+            _save_ckpt(ck, ckpt_path)
+        ck["source_eval"] = ck["agent"].evaluate(steps=500)
+        ck["snapshot"] = ck["agent"].snapshot()
+        print(f"  seed {seed}: source done, eval {ck['source_eval']:.1f}",
+              flush=True)
+        ck["phase"], ck["iter"], ck["agent"] = "scratch", 0, None
+        _save_ckpt(ck, ckpt_path)
 
-    # Scratch MCC — SAC-acting, no transfer.
-    scratch = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                          horizon=128, sac_updates=sac_updates,
-                          curiosity_warmup=curiosity_warmup)
-    s_curve, s_mastery = _run_mcc_arm(scratch, mcc_iters)
+    # -- scratch MCC: SAC-acting, no transfer --
+    if ck["phase"] == "scratch":
+        if ck["agent"] is None:
+            ck["agent"] = DeviceAgent(
+                DeviceVecMountainCarContinuous, num_envs=256, horizon=128,
+                sac_updates=sac_updates, curiosity_warmup=curiosity_warmup)
+            ck["scratch"] = {"eval_curve": [], "mastery_env_steps": None}
+        _mcc_loop(ck, "scratch", mcc_iters, ckpt_path)
+        ck["phase"], ck["iter"], ck["agent"] = "transfer", 0, None
+        _save_ckpt(ck, ckpt_path)
 
-    # Transfer MCC — load the CartPole snapshot; load_snapshot flips the
-    # agent to act via the transferred latent policy.
-    transfer = DeviceAgent(DeviceVecMountainCarContinuous, num_envs=256,
-                           horizon=128, sac_updates=sac_updates,
-                           curiosity_warmup=curiosity_warmup)
-    transfer.load_snapshot(snap)
-    t_curve, t_mastery = _run_mcc_arm(transfer, mcc_iters)
+    # -- transfer MCC: load the CartPole snapshot, act via the latent policy --
+    if ck["phase"] == "transfer":
+        if ck["agent"] is None:
+            ag = DeviceAgent(
+                DeviceVecMountainCarContinuous, num_envs=256, horizon=128,
+                sac_updates=sac_updates, curiosity_warmup=curiosity_warmup)
+            ag.load_snapshot(ck["snapshot"])
+            ck["agent"] = ag
+            ck["transfer"] = {"eval_curve": [], "mastery_env_steps": None}
+        _mcc_loop(ck, "transfer", mcc_iters, ckpt_path)
+        ck["phase"], ck["agent"] = "done", None
+        _save_ckpt(ck, ckpt_path)
 
-    return {
-        "seed": seed,
-        "source_eval": src_eval,
-        "scratch": {"eval_curve": s_curve, "mastery_env_steps": s_mastery},
-        "transfer": {"eval_curve": t_curve, "mastery_env_steps": t_mastery},
-    }
+    return {"seed": seed, "source_eval": ck["source_eval"],
+            "scratch": ck["scratch"], "transfer": ck["transfer"]}
 
 
 def main():
@@ -96,16 +153,30 @@ def main():
     parser.add_argument("--sac-updates", type=int, default=512,
                         help="SAC updates per iteration on the MCC arms "
                              "(lower = faster, lighter on the device path)")
+    parser.add_argument("--ckpt", default=None,
+                        help="checkpoint path base. If given, each seed "
+                             "checkpoints after every iteration to "
+                             "<ckpt>.seed<N>.pt and resumes from it — needed "
+                             "to survive spot-TPU preemption. Omit on a "
+                             "stable machine.")
     args = parser.parse_args()
 
+    if args.ckpt:
+        os.makedirs(os.path.dirname(args.ckpt) or ".", exist_ok=True)
+    out = (os.path.join(os.path.dirname(args.ckpt) or ".",
+                        "device_recalibration.json")
+           if args.ckpt else "device_recalibration.json")
+
     print(f"[device-recalibration] device={DEVICE}  seeds={args.seeds}  "
-          f"source_iters={args.source_iters}  mcc_iters={args.mcc_iters}")
+          f"source_iters={args.source_iters}  mcc_iters={args.mcc_iters}  "
+          f"ckpt={'on' if args.ckpt else 'off'}", flush=True)
     t0 = time.perf_counter()
     results = []
     for seed in range(args.seeds):
         s0 = time.perf_counter()
+        ckpt_path = f"{args.ckpt}.seed{seed}.pt" if args.ckpt else None
         r = _run_seed(seed, args.source_iters, args.mcc_iters,
-                      args.curiosity_warmup, args.sac_updates)
+                      args.curiosity_warmup, args.sac_updates, ckpt_path)
         results.append(r)
         s = r["scratch"]["mastery_env_steps"]
         t = r["transfer"]["mastery_env_steps"]
@@ -113,8 +184,8 @@ def main():
         print(f"  seed {seed} | src_eval {r['source_eval']:6.1f} | "
               f"scratch mastery {str(s):>9} | transfer mastery {str(t):>9} | "
               f"ratio {('%.3f' % ratio) if ratio else '  n/a':>6} | "
-              f"{time.perf_counter() - s0:.0f}s")
-        with open(OUT, "w") as f:                  # incremental save
+              f"{time.perf_counter() - s0:.0f}s", flush=True)
+        with open(out, "w") as f:                  # incremental save
             json.dump({"results": results}, f, indent=2)
 
     ratios = [r["scratch"]["mastery_env_steps"] / r["transfer"]["mastery_env_steps"]
@@ -136,10 +207,10 @@ def main():
     else:
         verdict = "CHECK — no seed reached mastery in both arms"
     print(f"  [{verdict}]")
-    with open(OUT, "w") as f:
+    with open(out, "w") as f:
         json.dump({"results": results, "ratios": ratios,
                    "median_ratio": median}, f, indent=2)
-    print(f"  wrote {OUT}  |  {wall:.0f}s")
+    print(f"  wrote {out}  |  {wall:.0f}s")
 
 
 if __name__ == "__main__":
