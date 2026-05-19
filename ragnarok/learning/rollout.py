@@ -51,6 +51,10 @@ class RolloutBatch:
     # plain/latent collectors, so existing constructor calls stay valid.
     aug_obs: torch.Tensor | None = None    # (N, T, obs_dim + state_dim)
     last_aug: torch.Tensor | None = None   # (N, obs_dim + state_dim)
+    # v3.12: the raw (pre-normalization) augmented observation — feed it to
+    # the aug-obs normalizer's update() between rollouts. Set by
+    # collect_rollout_augmented only when an aug_normalizer is in use.
+    raw_aug_obs: torch.Tensor | None = None  # (N, T, obs_dim + state_dim)
 
     @property
     def num_envs(self) -> int:
@@ -257,8 +261,8 @@ def device_evaluate_latent(device_env, rssm, latent_head, steps: int,
 
 @torch.no_grad()
 def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
-                              normalizer=None, deterministic: bool = False
-                              ) -> RolloutBatch:
+                              normalizer=None, deterministic: bool = False,
+                              aug_normalizer=None) -> RolloutBatch:
     """Collect a rollout where SAC acts on the augmented obs [obs, h, z].
 
     The v3.10 corrected-transfer collection. The RSSM recurrent state is
@@ -280,23 +284,36 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
     the SAC arm, which makes ``aug_obs`` a stationary function of the
     observation history; pass ``deterministic=True`` so z is the
     posterior mean (no per-step sampling noise) for that frozen use.
+
+    v3.12 ``aug_normalizer``: an optional ``DeviceRunningNormalizer`` over
+    the full augmented vector. The raw [h, z] block has an arm-dependent
+    scale (a trained vs a random RSSM core emit differently-scaled
+    latents); feeding that to SAC's plain MLP un-normalised is a scaling
+    confound. When given, SAC acts/trains on ``aug_normalizer.normalize``
+    of cat(obs, h, z); the unnormalized vector is returned in
+    ``raw_aug_obs`` so the caller can ``aug_normalizer.update`` it BETWEEN
+    rollouts (the obs-normalizer contract).
     """
     n = device_env.num_envs
     h, z = rssm.initial_state(n, DEVICE)
     prev_action = torch.zeros(n, rssm.action_dim, device=DEVICE)
     raw = device_env.state
-    raw_l, obs_l, aug_l, act_l, rew_l, done_l = [], [], [], [], [], []
+    raw_l, obs_l, aug_l, raw_aug_l, act_l, rew_l, done_l = (
+        [], [], [], [], [], [], [])
 
     for _ in range(horizon):
         obs = normalizer.normalize(raw) if normalizer is not None else raw
         h, z = rssm.encode_observation(obs, h, z, prev_action,
                                        deterministic=deterministic)
-        aug = torch.cat([obs, h, z], dim=-1)
+        aug_raw = torch.cat([obs, h, z], dim=-1)
+        aug = (aug_normalizer.normalize(aug_raw)
+               if aug_normalizer is not None else aug_raw)
         action, _, _ = sac_trainer.device_policy_fn(aug)
         next_raw, reward, _terminated, _truncated, done = device_env.step(action)
         raw_l.append(raw)
         obs_l.append(obs)
         aug_l.append(aug)
+        raw_aug_l.append(aug_raw)
         act_l.append(action)
         rew_l.append(reward)
         done_l.append(done.float())
@@ -313,7 +330,9 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
     last_obs = normalizer.normalize(raw) if normalizer is not None else raw
     h, z = rssm.encode_observation(last_obs, h, z, prev_action,
                                    deterministic=deterministic)
-    last_aug = torch.cat([last_obs, h, z], dim=-1)
+    last_aug_raw = torch.cat([last_obs, h, z], dim=-1)
+    last_aug = (aug_normalizer.normalize(last_aug_raw)
+                if aug_normalizer is not None else last_aug_raw)
     mark_step()
 
     zeros = torch.zeros(n, horizon, device=DEVICE)
@@ -329,17 +348,21 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
         last_value=torch.zeros(n, device=DEVICE),
         aug_obs=torch.stack(aug_l, dim=1),
         last_aug=last_aug,
+        raw_aug_obs=torch.stack(raw_aug_l, dim=1),
     )
 
 
 @torch.no_grad()
 def evaluate_augmented(device_env, rssm, sac_policy, steps: int,
-                       normalizer=None, deterministic: bool = False) -> float:
+                       normalizer=None, deterministic: bool = False,
+                       aug_normalizer=None) -> float:
     """Greedy SAC-on-[obs,h,z] eval — mean completed-episode return.
 
     The v3.10 counterpart of ``device_evaluate``: threads the RSSM state
     and acts greedily via the SAC policy on the augmented observation
-    cat(obs, h, z).
+    cat(obs, h, z). ``aug_normalizer`` (v3.12), when given, normalizes the
+    augmented vector exactly as in ``collect_rollout_augmented`` so eval
+    and training feed SAC the same scaling.
     """
     device_env.reset()
     n = device_env.num_envs
@@ -354,6 +377,8 @@ def evaluate_augmented(device_env, rssm, sac_policy, steps: int,
         h, z = rssm.encode_observation(obs, h, z, prev_action,
                                        deterministic=deterministic)
         aug = torch.cat([obs, h, z], dim=-1)
+        if aug_normalizer is not None:
+            aug = aug_normalizer.normalize(aug)
         mean, _ = sac_policy.forward(aug)
         action = sac_policy._rescale(torch.tanh(mean))
         _, reward, _t, _tr, done = device_env.step(action)
