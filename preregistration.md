@@ -1597,4 +1597,99 @@ in Phase 4 baselines, not Phase 5.
   credibility gap. This amendment addresses the gap before
   submission and before compute is spent.
 
+- **2026-05-19 (v3.10 — device-path transfer confound identified; the
+  transfer mechanism is corrected; the scratch-vs-transfer comparison must
+  hold the learner fixed).**
+
+  *Context.* A 3-agent adversarial review on 2026-05-19 challenged the
+  Phase-2 device-path "recalibration" (re-running cartpole→MCC transfer on
+  the accelerator-resident reimplementation). The challenge was verified
+  directly against the code (`device_agent.py`, `agent.py`, `pilot_run.py`).
+
+  *Finding 1 — the device recalibration is confounded; abandoned.* In the
+  device path, `DeviceAgent.load_snapshot` flips `acting_mode="latent"`:
+  the transfer arm then collects via `collect_rollout_latent`, trains only
+  the latent policy + world model, and is evaluated through the latent
+  policy — a single-pass, single-minibatch, unclipped on-policy A2C. The
+  scratch arm trains and is evaluated through SAC (off-policy, replay,
+  ~512 updates/rollout). The two arms run different RL algorithms, so the
+  scratch/transfer ratio cannot isolate the transfer effect from the
+  SAC-vs-A2C learner gap. The device recalibration is abandoned (no
+  further seeds).
+
+  *Finding 2 — the v3.8 gym falsification is NOT confounded and stands.*
+  Verified separately: the gym pilot (`pilot_run.py`) trains both arms via
+  `train_policy_real → _train_sac`; `acting_policy_mode` affects only
+  `collect_episode`, which the pilot loop never calls. The gym
+  cartpole→MCC arms both ran SAC (collect, train, eval). v3.8's N=10
+  falsification is therefore a clean SAC-vs-SAC negative and is not
+  reopened by this amendment. What it falsified, restated precisely:
+  *warm-starting the env-agnostic RSSM core from the source skill produces
+  no transfer benefit on cartpole→MCC.*
+
+  *Finding 3 — both transfer mechanisms tested to date are weak channels.*
+  The gym mechanism warm-starts the RSSM core, but SAC reads raw
+  observations — the transferred core reaches the measured learner only
+  indirectly (dream training, latent curiosity). The device mechanism
+  routes transfer through a separate weak latent A2C. Neither has tested
+  the strong-learner / strong-channel combination: the task's real learner
+  directly consuming the transferred representation.
+
+  *Corrected transfer mechanism (preregistered).* From this amendment
+  onward, transfer experiments hold the learner fixed and give transfer a
+  direct channel:
+  - Both arms (scratch, transfer) use the same task learner — SAC for
+    continuous control, the standard discrete learner for discrete
+    control. The transfer arm never swaps to the latent policy as its
+    actor.
+  - The learner's actor and critic read an augmented observation
+    `[obs, h, z]` — the raw observation concatenated with the RSSM latent
+    state.
+  - The only difference between the two arms is the RSSM env-agnostic
+    core's initialisation: the transfer arm warm-starts it from the source
+    skill; the scratch arm initialises it fresh. Architecture, learner,
+    optimiser, eval — identical. This isolates the transfer effect.
+  - The transferred core trains under the existing post-transfer LR warmup
+    (`set_transferable_lr_scale`).
+  - `acting_policy_mode="latent"` / the latent-policy-as-actor path is
+    retired as a transfer vehicle (code retained, no longer used for
+    transfer).
+
+  *Corrected metric (preregistered).* Single-episode "first eval ≥
+  threshold" is replaced by a ≥10-episode averaged eval; the primary
+  endpoint is the sample-efficiency AUC of the smoothed return-vs-env-steps
+  curve over the fixed budget (transfer vs scratch). RMST / log-rank
+  remains a secondary endpoint where mastery is reached.
+
+  *Corrected task pair (preregistered).* cartpole→MCC is retired as a
+  transfer pair: v3.8 cleanly established it has no transferable structure
+  (physics-dissimilar — balance / dense reward vs energy-pumping / sparse
+  reward). Transfer experiments use pairs that share dynamics —
+  graded-difficulty within one dynamics family, where a world-model core
+  is genuinely transferable. The first corrected experiment validates the
+  mechanism end-to-end on one such pair at N ≥ 3 on the available GPU; the
+  exact pair is named in the implementing commit.
+
+  *Relation to the v3.9 Sprint program.* v3.9's Sprints (Q1-C, Q3-B,
+  horizontal scale) are not cancelled. Every Sprint inherits the corrected
+  mechanism, metric, and pair-selection principle above; v3.9 Sprint
+  thresholds are reinterpreted against the AUC endpoint and restated at
+  each Sprint's launch amendment. The v3.9 meta-kill criterion is unchanged
+  and now governs the corrected Sprints.
+
+  *What is NOT changed in v3.10:* §8 / §11; the v3.9 meta-kill; v3.8's
+  falsification (which stands, restated above); the device-path
+  infrastructure (built and validated — retained and parked, not deleted;
+  the intended compute path for the horizontal-scale Sprints once a working
+  method exists to scale).
+
+  *Chronology assertion.* This amendment is committed **before** the
+  corrected mechanism is implemented and **before** any corrected-mechanism
+  run. The corrected mechanism, metric, and pair-selection principle above
+  are pre-outcome.
+
+  *Amendment trigger:* 3-agent adversarial review 2026-05-19; the device
+  confound verified in `device_agent.py`; the gym non-confound verified in
+  `pilot_run.py` + `agent.py`.
+
 - (Subsequent amendments timestamped here before execution.)
