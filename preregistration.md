@@ -1789,4 +1789,74 @@ in Phase 4 baselines, not Phase 5.
   adversarial review 2026-05-19; the off-policy / non-stationary-latent
   diagnosis verified in sac.py + device_agent.py.
 
+- **2026-05-19 (v3.12 — the v3.11 Stage-1 result is confounded by latent
+  scaling; the augmented observation is normalized and a permuted-core
+  control is added).**
+
+  *Flaw found (adversarial review of the v3.11 run).* The v3.11 Stage-1
+  run completed — 3 seeds, transfer AUC > scratch AUC in all 3, results
+  committed — and was put to a 3-agent adversarial review. The review
+  found a genuine confound. SAC reads the augmented observation
+  cat([obs, h, z]); only the raw `obs` block is scale-normalised
+  (DeviceRunningNormalizer) — the 160-d RSSM latent block [h, z] is fed
+  to SAC's MLP un-normalised. A frozen *trained* RSSM core and a frozen
+  *random* core emit [h, z] of materially different magnitude and
+  conditioning. SAC's plain-MLP actor/critic optimise an un-normalised
+  input at an effective rate that depends on that scale, so the v3.11
+  "transfer > scratch" gap is confounded: it cannot be separated into
+  "the transferred core carries useful learned structure" vs "the
+  transferred core merely emits better-scaled features for an MLP". The
+  v3.11 Stage-1 result therefore does NOT cleanly establish
+  representational transfer and is superseded.
+
+  *Secondary review findings (also corrected here).* (i) The v3.11
+  script reported a transfer/scratch AUC *ratio*; with a near-zero,
+  high-variance denominator (one scratch seed had AUC 0.77) the ratio is
+  a pathological estimator (per-seed ratios 3.25 / 8.02 / 32.09). The
+  registered endpoint is the AUC *difference*; v3.12 reports the
+  difference (the v3.11 per-seed transfer-minus-scratch gap, 26.7 / 24.2
+  / 24.0, was in fact strikingly consistent). (ii) The registered metric
+  is the *smoothed* return-vs-env-steps curve; v3.11's AUC applied no
+  smoothing. v3.12 pre-specifies the smoothing: a 3-point moving average
+  of the per-iteration eval curve before trapezoidal integration.
+  (iii) N=3 is underpowered for the observed bimodal scratch baseline
+  (it mastered in 1/3 seeds, stayed flat in 2/3); v3.12 uses N=8.
+
+  *Corrected design (v3.12).* Retained from v3.11: the frozen-RSSM
+  mechanism — validated, frozen-RSSM augmented SAC learns MCC-Hard,
+  which the v3.10 concurrent-RSSM version could not — SAC as the fixed
+  learner, the RSSM-independent ICM curiosity, the standard-MCC ->
+  MCC-Hard pair. Changed:
+  - The augmented observation cat([obs, h, z]) is passed through a
+    running normaliser before SAC (every arm), so all arms feed SAC a
+    comparably-scaled input and the scale channel is closed.
+  - A third control arm — `permuted` — is added: the source RSSM core
+    with the weights of each parameter tensor randomly permuted. This
+    preserves the trained core's weight distribution, per-layer norm and
+    rank statistics (hence its [h,z] scale) while destroying its learned
+    structure. The decisive test of representational transfer is
+    transfer vs permuted: a transfer>permuted gap is attributable to
+    learned structure, not scale. transfer vs scratch (fresh-random
+    core) is retained as the v3.11-comparable baseline.
+  - N=8 seeds; primary endpoint = the per-seed AUC *difference*
+    transfer-minus-permuted (and transfer-minus-scratch), reported as a
+    mean with a CI over the 8 seeds.
+
+  *Claim ceiling (unchanged from v3.11).* Even a clean v3.12 positive
+  (transfer > permuted) establishes only that the source-trained core's
+  learned structure accelerates SAC — it still does not separate
+  source-skill-specific knowledge from generic target-usable world-model
+  structure. The target-pretrained-core control (Stage 2) remains the
+  preregistered conditional follow-up, gated on a positive de-confounded
+  v3.12.
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.12
+  implementation and BEFORE any v3.12 run. The augmented-obs
+  normalisation, the permuted-core control, N=8, and the difference
+  endpoint with the specified smoothing are pre-outcome.
+
+  *Amendment trigger:* 3-agent adversarial review of the v3.11 Stage-1
+  run, 2026-05-19 — the latent-scaling confound; the ratio-statistic and
+  curve-smoothing deviations; the N=3 power shortfall.
+
 - (Subsequent amendments timestamped here before execution.)
