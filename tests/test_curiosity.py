@@ -1,10 +1,13 @@
 """Tests for the intrinsic curiosity module."""
 
+import dataclasses
+
 import numpy as np
 import torch
 import pytest
 
-from ragnarok.learning.curiosity import CuriosityModule, DeviceLatentCuriosity
+from ragnarok.learning.curiosity import (
+    CuriosityModule, DeviceLatentCuriosity, DeviceForwardCuriosity)
 from ragnarok.environments.device_env import (
     DeviceVecCartPole, DeviceVecMountainCarContinuous)
 from ragnarok.learning.rollout import collect_rollout
@@ -166,3 +169,69 @@ class TestDeviceLatentCuriosity:
                 assert float(r.abs().max()) == 0.0, f"call {call} not gated"
         assert cur._calls == 3
         assert float(cur._count) == 3 * 8 * 16   # stats folded even while gated
+
+
+class TestDeviceForwardCuriosity:
+    """Device-resident forward-prediction (ICM) curiosity from a RolloutBatch."""
+
+    @staticmethod
+    def _continuous_rollout(n=8, t=16):
+        def pf(obs):
+            b = obs.shape[0]
+            a = torch.rand(b, 1, device=obs.device) * 2 - 1
+            return (a, torch.zeros(b, device=obs.device),
+                    torch.zeros(b, device=obs.device))
+        return collect_rollout(DeviceVecMountainCarContinuous(n), pf, t)
+
+    @staticmethod
+    def _discrete_rollout(n=8, t=16):
+        def pf(obs):
+            b = obs.shape[0]
+            dist = torch.distributions.Categorical(
+                logits=torch.zeros(b, 2, device=obs.device))
+            a = dist.sample()
+            return a, dist.log_prob(a), torch.zeros(b, device=obs.device)
+        return collect_rollout(DeviceVecCartPole(n), pf, t)
+
+    def test_continuous_rollout_reward_shape_and_range(self):
+        """Reward is (N,T), ReLU'd, capped at beta*clip, on-device."""
+        cur = DeviceForwardCuriosity(obs_dim=2, action_dim=1, beta=0.1, clip=5.0)
+        r = cur.intrinsic_reward(self._continuous_rollout(n=8, t=16))
+        assert r.shape == (8, 16)
+        assert (r >= 0).all()                       # ReLU
+        assert (r <= 0.1 * 5.0 + 1e-5).all()        # beta * clip ceiling
+        assert r.device.type == DEVICE.type
+
+    def test_discrete_rollout_onehots_actions(self):
+        """A discrete (index-form) action rollout is one-hot encoded."""
+        cur = DeviceForwardCuriosity(obs_dim=4, action_dim=2)
+        r = cur.intrinsic_reward(self._discrete_rollout(n=8, t=16))
+        assert r.shape == (8, 16)
+        assert torch.isfinite(r).all()
+
+    def test_seam_steps_scored_zero(self):
+        """The intrinsic reward at an episode seam (done=1) is exactly 0 —
+        the next-obs there belongs to a fresh episode."""
+        cur = DeviceForwardCuriosity(obs_dim=2, action_dim=1)
+        batch = self._continuous_rollout(n=4, t=8)
+        dones = torch.zeros_like(batch.dones)
+        dones[:, 3] = 1.0                            # force a seam at t=3
+        r = cur.intrinsic_reward(dataclasses.replace(batch, dones=dones))
+        assert float(r[:, 3].abs().max()) == 0.0
+
+    def test_train_reduces_loss(self):
+        """Repeated predictor updates on a fixed batch lower the loss."""
+        cur = DeviceForwardCuriosity(obs_dim=2, action_dim=1, lr=1e-3)
+        batch = self._continuous_rollout(n=16, t=16)
+        loss1 = cur.train(batch)
+        for _ in range(30):
+            cur.train(batch)
+        loss2 = cur.train(batch)
+        assert loss2 < loss1, f"loss should fall: {loss1:.5f} -> {loss2:.5f}"
+
+    def test_stats_accumulate(self):
+        """Each intrinsic_reward call folds N*T error values into the stats."""
+        cur = DeviceForwardCuriosity(obs_dim=2, action_dim=1)
+        assert float(cur._count) == 0.0
+        cur.intrinsic_reward(self._continuous_rollout(n=8, t=16))
+        assert float(cur._count) == 8 * 16

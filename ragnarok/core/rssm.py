@@ -506,16 +506,21 @@ class RSSM(nn.Module):
         }
 
     def encode_observation(self, obs: torch.Tensor, h: torch.Tensor,
-                           z: torch.Tensor, action: torch.Tensor
+                           z: torch.Tensor, action: torch.Tensor,
+                           deterministic: bool = False
                            ) -> tuple[torch.Tensor, torch.Tensor]:
         """Encode a single observation into (h_t, z_t) given previous state.
 
         Used during real-environment interaction (not training).
+        ``deterministic`` returns the posterior mean for z instead of a
+        sample — used when the RSSM is a frozen representation (v3.11), so
+        the [obs, h, z] fed to the learner is a fixed function of the
+        observation history rather than carrying per-step sampling noise.
         """
         h = self.core.step(h, z, action)
         features = self.encoder(obs)
         post_mean, post_logstd = self.core.forward_posterior(h, features)
-        z = self.core.sample(post_mean, post_logstd)
+        z = post_mean if deterministic else self.core.sample(post_mean, post_logstd)
         return h, z
 
     # ── Cross-dim transfer: split the RSSM into env-agnostic vs per-env ──

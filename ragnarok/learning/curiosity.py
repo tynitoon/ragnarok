@@ -470,3 +470,106 @@ class DeviceLatentCuriosity:
         std = torch.sqrt(self._var).clamp(min=1e-8)
         norm = ((kl - self._mean) / std).clamp(0.0, self.clip)
         return self.beta * norm
+
+
+class DeviceForwardCuriosity:
+    """Device-resident forward-prediction (ICM) curiosity.
+
+    A small MLP predicts the next (normalized) observation from
+    (obs, action); the prediction error is the intrinsic reward — novel
+    transitions are poorly predicted and score high, and as the predictor
+    learns curiosity shifts to still-novel regions (Pathak et al., ICM
+    2017). The device, RSSM-free counterpart of DeviceLatentCuriosity.
+
+    Why ICM and not DeviceLatentCuriosity for the v3.11 transfer
+    experiment: v3.11 FREEZES the RSSM, and the two arms differ in the
+    frozen RSSM core (source-trained vs fresh). An RSSM-KL curiosity
+    would then be a real novelty signal for the source-trained arm and a
+    meaningless one for the fresh-RSSM arm — a second, uncontrolled
+    transfer channel. A fresh ForwardPredictor trains identically in BOTH
+    arms, so curiosity is a controlled constant and the only inter-arm
+    difference stays the frozen RSSM core feeding SAC's augmented obs.
+
+    Non-stationarity note: the predictor trains, so the intrinsic reward
+    is non-stationary — but it enters only SAC's REWARD, not SAC's
+    observation, so it does not poison the off-policy replay the way a
+    drifting observation representation does (the v3.10 failure). Reward
+    reshaping across a converging bonus is benign for SAC.
+
+    A whole RolloutBatch is scored/trained in one batched pass — fixed
+    (N, T) shapes, XLA-clean. Error running-normalisation uses the same
+    batched (Chan's parallel) Welford as DeviceLatentCuriosity.
+    """
+
+    def __init__(self, obs_dim: int, action_dim: int, hidden: int = 64,
+                 lr: float = 1e-3, beta: float = 0.1, clip: float = 5.0,
+                 grad_clip: float = 1.0):
+        self.obs_dim = obs_dim
+        self.action_dim = action_dim
+        self.beta = beta
+        self.clip = clip
+        self.grad_clip = grad_clip
+        self.predictor = ForwardPredictor(obs_dim, action_dim, hidden).to(DEVICE)
+        self.optimizer = torch.optim.Adam(self.predictor.parameters(), lr=lr)
+        self._mean = torch.zeros((), device=DEVICE)
+        self._m2 = torch.zeros((), device=DEVICE)
+        self._count = torch.zeros((), device=DEVICE)
+        self._var = torch.ones((), device=DEVICE)
+
+    def _next_obs(self, batch) -> torch.Tensor:
+        """(N, T, obs_dim) — the observation one step ahead of batch.obs."""
+        return torch.cat([batch.obs[:, 1:], batch.last_obs.unsqueeze(1)], dim=1)
+
+    def _actions(self, batch) -> torch.Tensor:
+        """Actions as (N, T, action_dim) — one-hot a discrete index form."""
+        a = batch.actions
+        return (F.one_hot(a.long(), self.action_dim).float()
+                if a.dim() == 2 else a)
+
+    def _fold_stats(self, flat: torch.Tensor) -> None:
+        """Batched Welford — fold a flat block of error values into the stats."""
+        m = flat.shape[0]
+        b_mean = flat.mean()
+        b_m2 = ((flat - b_mean) ** 2).sum()
+        delta = b_mean - self._mean
+        tot = self._count + m
+        self._mean = self._mean + delta * (m / tot)
+        self._m2 = self._m2 + b_m2 + delta ** 2 * (self._count * m / tot)
+        self._count = tot
+        self._var = (self._m2 / torch.clamp(tot - 1.0, min=1.0)).clamp(min=1e-6)
+
+    @torch.no_grad()
+    def intrinsic_reward(self, batch) -> torch.Tensor:
+        """(N, T) intrinsic reward — beta * relu(clip(normalized pred error)).
+
+        Folds this rollout's per-step error into the running normalizer,
+        then normalizes — the update-then-normalize order of the gym ICM.
+        Steps at an episode seam (done=1) are scored 0: their next-obs
+        belongs to a fresh episode, so the forward-prediction error there
+        is meaningless.
+        """
+        pred = self.predictor(batch.obs, self._actions(batch))
+        err = ((pred - self._next_obs(batch)) ** 2).mean(dim=-1)   # (N, T)
+        self._fold_stats(err.reshape(-1))
+        mark_step()  # XLA: flush the curiosity-scoring graph
+        std = torch.sqrt(self._var).clamp(min=1e-8)
+        norm = ((err - self._mean) / std).clamp(0.0, self.clip)
+        return self.beta * norm * (1.0 - batch.dones)
+
+    def train(self, batch) -> float:
+        """One gradient step of the forward predictor on the batch.
+
+        Seam steps (done=1) are masked out of the loss — their target
+        next-obs is from a fresh episode. Returns the (masked-mean) loss.
+        """
+        next_obs = self._next_obs(batch)
+        valid = (1.0 - batch.dones).unsqueeze(-1)                  # (N, T, 1)
+        pred = self.predictor(batch.obs, self._actions(batch))
+        sq = ((pred - next_obs) ** 2) * valid
+        loss = sq.sum() / (valid.sum().clamp(min=1.0) * self.obs_dim)
+        self.optimizer.zero_grad()
+        loss.backward()
+        nn.utils.clip_grad_norm_(self.predictor.parameters(), self.grad_clip)
+        self.optimizer.step()
+        mark_step()  # XLA: cut the graph at the update boundary
+        return float(loss.detach())
