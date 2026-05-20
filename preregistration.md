@@ -2141,4 +2141,44 @@ in Phase 4 baselines, not Phase 5.
   enables the transfer the v3.13/v3.14 same-dim positives suggest is
   possible.
 
+- **2026-05-20 (v3.17 — solidify v3.15's CartPole -> MCC null at N=16
+  to match v3.16's budget).**
+
+  *Honest motivation.* v3.15 N=8 (CartPole -> MCC, commit ea1df5d) was
+  concluded null per the strict preregistered rule (CI lower bound
+  -7.31, outside the +/-3 marginal band). The contrast with v3.16's
+  N=16 positive (Pendulum -> MCC, commit 98ff2ca, lower bound +1.70)
+  carries the project's "physics-matters" interpretation, but the N
+  mismatch (8 vs 16) is a methodological asymmetry: the
+  CartPole-vs-Pendulum contrast should rest on comparable budgets.
+  v3.17 extends v3.15 to N=16 to firm up the null at the same N as
+  v3.16's positive.
+
+  *Optional-stopping discipline.* This extension is post-hoc relative
+  to the v3.15 amendment. The honest framing: v3.17 IS optional
+  stopping (the rule said don't extend; we are extending), motivated
+  by the user's request for additional confirmatory tests. The risk
+  guarded against is "extend until you get a positive". The discipline:
+  N=16 is committed as the FINAL stopping point — no further
+  extensions on v3.15 / v3.17 without another amendment, regardless
+  of where the N=16 verdict lands. If the N=16 verdict surprises us by
+  going positive (becoming a true positive that N=8 missed), that
+  itself is reported as a finding, not buried.
+
+  *Design unchanged.* All v3.15 parameters identical (latent-only SAC,
+  frozen RSSM, aug-normalizer, 3 arms transfer/permuted/scratch, ICM
+  curiosity, 3-point smoothing, same source snapshot at
+  `transfer_v315_out/source_cartpole_core.pt`). The resume-aware
+  script appends seeds 8-15 to the existing seeds 0-7. AUC difference
+  + Student-t 95% CI is the same endpoint.
+
+  *Chronology assertion.* This amendment is committed BEFORE the
+  additional 8 seeds run; the FINAL stopping point at N=16 is
+  pre-outcome.
+
+  *Amendment trigger:* the user's request for more confirmatory tests
+  to solidify the cross-experiment "transfer works iff physics is
+  shared" interpretation, and the N-mismatch between v3.15 (N=8 null)
+  and v3.16 (N=16 positive).
+
 - (Subsequent amendments timestamped here before execution.)
