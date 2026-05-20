@@ -2222,4 +2222,77 @@ in Phase 4 baselines, not Phase 5.
   *Amendment trigger:* the user's request for more confirmatory tests
   and the natural reverse-direction symmetry check on v3.16's positive.
 
+- **2026-05-20 (v3.19 — multi-skill composition: do TWO transferred
+  cores compose into a skill neither carries alone?).**
+
+  *Question.* Phase A established: a single transferred RSSM core
+  accelerates SAC iff the source and target share physics. The next
+  question is the project's stated long-term goal — "learn a new skill
+  faster by reusing OLD skillS, plural." Can two source cores, each
+  carrying a partial skill, COMBINE into a target skill that requires
+  both? The user's analogy: "I know how to use a violin, I know
+  solfege, therefore I can play a piece of sheet music on violin" —
+  neither source alone is sufficient; the composition is.
+
+  *Composite target task.* DeviceVecCartPoleOnHill (added in this
+  amendment's implementation commit) — a cart on the MCC hill with a
+  pole balanced on top. obs (4) = [cart_pos, cart_vel, pole_angle,
+  pole_angvel], action (1) = continuous engine force, sparse reward
+  +100 only at goal-reach with pole still upright (theta < pi/4),
+  early termination on pole-fall. Cart dynamics follow MCC (hill
+  gravity, velocity clamp); pole dynamics follow CartPole (cart force
+  determines pole accel). Aggressive driving (needed to climb) swings
+  the pole; gentle driving preserves the pole but cannot climb. The
+  composite genuinely requires BOTH MCC's energy-pumping skill AND
+  CartPole's balancing skill.
+
+  *Composition mechanism.* Element-wise WEIGHT AVERAGING of two
+  source cores. For each parameter tensor in the env-agnostic core
+  (gru + prior + posterior), the composition is
+  ``avg[k] = (mcc[k] + cp[k]) / 2``. Same architecture / state_dim
+  / SAC input as v3.14 (160-d latent, latent-only SAC). The simpler
+  composition mechanism is tested first; concatenation (320-d latent,
+  two parallel cores) is the contingent next test if averaging fails.
+
+  *Five arms, N=8, same mechanism as v3.14.*
+  - scratch: fresh random core.
+  - permuted: MCC core with each parameter tensor's elements
+    randomly permuted (scale/rank-matched, structure destroyed).
+  - transfer_mcc: MCC core (single-skill source A, energy pumping).
+  - transfer_cp: CartPole core (single-skill source B, balancing).
+  - transfer_avg: (MCC + CartPole) / 2 — the composition.
+
+  *Decisive interpretation.*
+  - transfer_avg > max(transfer_mcc, transfer_cp), 95% CI excludes
+    0 on the per-seed pairwise difference => COMPOSITION WORKS:
+    averaging two partial-skill cores produces something stronger
+    than either alone. This is the "violin + solfege" claim.
+  - transfer_avg ~ max(transfer_mcc, transfer_cp): the composition
+    has no additive benefit — the best single source already does
+    everything it can.
+  - transfer_avg < either single: averaging actively destroys
+    structure. Pivot to the concatenation mechanism (v3.20 follow-up).
+  - All arms null at the budget: composite too hard for the budget,
+    follow-up tunes difficulty (looser THETA_THRESH or nearer goal).
+
+  *Sources used (cached, no retraining):* MCC source =
+  `transfer_v311_out/source_snapshot.pt` (the env-agnostic core from
+  the same MCC source as v3.11/v3.12/v3.14). CartPole source =
+  `transfer_v315_out/source_cartpole_core.pt` (the env-agnostic core
+  from the v3.15 CartPole DeviceAgent — same network architecture).
+  Both are `transferable_state_dict` outputs; their keys/shapes match
+  exactly, making element-wise averaging well-defined.
+
+  *Stopping rule.* N=8 first; extend to N=16 only if the decisive
+  comparison (transfer_avg minus max(transfer_mcc, transfer_cp)) has
+  per-seed-mean CI lower bound within +/-3 of zero.
+
+  *Chronology assertion.* This amendment is committed BEFORE the
+  v3.19 implementation script and BEFORE any v3.19 run.
+  DeviceVecCartPoleOnHill is committed in the same step.
+
+  *Amendment trigger:* the user's request for multi-skill composition
+  experiments (the violin + solfege analogy), building on Phase A's
+  same-physics-transfer-works results.
+
 - (Subsequent amendments timestamped here before execution.)

@@ -242,6 +242,115 @@ class DeviceVecPendulum:
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecCartPoleOnHill:
+    """N CartPole-on-Hill composite environments — a car on the MCC hill
+    with a pole balanced on top. The agent applies a continuous engine
+    force; it must climb the hill (energy pumping, MCC skill) WHILE
+    keeping the pole upright (balance, CartPole skill). Neither sub-skill
+    alone suffices — aggressive driving swings the pole; gentle driving
+    cannot climb. This is the v3.19 composite task for the multi-skill
+    transfer experiment.
+
+    obs (4) = [cart_pos, cart_vel, pole_angle, pole_angvel] (CART on
+    the hill, POLE on the cart). action (1) = continuous engine force.
+
+    Physics: the cart follows MCC dynamics on its x-axis (hill gravity
+    via cos(3 pos), velocity clamp, position clamped); the pole follows
+    CartPole dynamics under an effective horizontal force scaled from
+    the same action (action_scaled = action * pole_force_scale). The
+    coupling — the pole reacts to the agent's force, not directly to
+    the hill — is a simplification (a fully coupled cart-pole-on-curve
+    is far more complex) but preserves the composite-skill nature.
+
+    Reward is SPARSE: +100 at goal reach (cart_pos >= goal_pos AND pole
+    still upright), 0 otherwise; minus a small force^2 control cost.
+    Episode terminates on goal-reach OR pole fall (theta > pi/4),
+    truncates at 999 steps.
+    """
+
+    obs_dim = 4
+    action_dim = 1
+    is_discrete = False
+
+    # Cart-on-hill (MCC) parameters
+    _MIN_POS = -1.2
+    _MAX_POS = 0.6
+    _MAX_SPEED = 0.07
+    _GOAL_POS = 0.45
+    _GOAL_VEL = 0.0
+    _CART_POWER = 0.0015         # same as standard MCC
+
+    # Pole-on-cart (CartPole) parameters
+    _G = 9.8
+    _MASSPOLE = 0.1
+    _TOTAL_MASS = 1.1
+    _LENGTH = 0.5
+    _POLEMASS_LENGTH = 0.05
+    _POLE_FORCE_SCALE = 10.0     # action in [-1, 1] -> pole feels +/-10 N
+    _TAU = 0.02
+    _THETA_THRESH = math.pi / 4   # 45 deg — generous; the agent can lean
+    _MAX_STEPS = 999
+
+    def __init__(self, num_envs: int):
+        self.num_envs = num_envs
+        self.reset()
+
+    def reset(self) -> torch.Tensor:
+        pos = torch.rand(self.num_envs, device=DEVICE) * 0.2 - 0.6
+        vel = torch.zeros(self.num_envs, device=DEVICE)
+        theta = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        thdot = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        self.state = torch.stack([pos, vel, theta, thdot], dim=-1)
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        return self.state
+
+    def step(self, action: torch.Tensor):
+        """action: (N,) or (N, 1) float, clamped to [-1, 1]."""
+        u = action.reshape(self.num_envs).clamp(-1.0, 1.0)
+        pos, vel, theta, thdot = self.state.unbind(dim=-1)
+
+        # --- Cart on hill (MCC dynamics) ---
+        vel_new = vel + u * self._CART_POWER - 0.0025 * torch.cos(3.0 * pos)
+        vel_new = vel_new.clamp(-self._MAX_SPEED, self._MAX_SPEED)
+        pos_new = (pos + vel_new).clamp(self._MIN_POS, self._MAX_POS)
+        # At the left wall with negative velocity, velocity is zeroed.
+        vel_new = torch.where((pos_new <= self._MIN_POS) & (vel_new < 0),
+                              torch.zeros_like(vel_new), vel_new)
+
+        # --- Pole on cart (CartPole dynamics) ---
+        force = u * self._POLE_FORCE_SCALE
+        cos_t = torch.cos(theta)
+        sin_t = torch.sin(theta)
+        temp = (force + self._POLEMASS_LENGTH * thdot ** 2 * sin_t) / self._TOTAL_MASS
+        thetaacc = (self._G * sin_t - cos_t * temp) / (
+            self._LENGTH * (4.0 / 3.0 - self._MASSPOLE * cos_t ** 2 / self._TOTAL_MASS))
+        theta_new = theta + self._TAU * thdot
+        thdot_new = thdot + self._TAU * thetaacc
+
+        new_state = torch.stack([pos_new, vel_new, theta_new, thdot_new], dim=-1)
+        self.steps = self.steps + 1.0
+
+        # --- Termination + reward ---
+        pole_fell = theta_new.abs() > self._THETA_THRESH
+        reached_goal = (pos_new >= self._GOAL_POS) & (vel_new >= self._GOAL_VEL) & ~pole_fell
+        terminated = pole_fell | reached_goal
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+
+        # Sparse: +100 only if the cart reaches the goal with pole upright.
+        reward = 100.0 * reached_goal.float() - 0.1 * u ** 2
+
+        # Auto-reset.
+        pos0 = torch.rand(self.num_envs, device=DEVICE) * 0.2 - 0.6
+        vel0 = torch.zeros(self.num_envs, device=DEVICE)
+        th0 = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        thdot0 = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        fresh = torch.stack([pos0, vel0, th0, thdot0], dim=-1)
+        self.state = torch.where(done.unsqueeze(-1), fresh, new_state)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 
