@@ -2369,4 +2369,67 @@ in Phase 4 baselines, not Phase 5.
   the composition mechanism on a target where single-skill transfer
   is solidly established.
 
+- **2026-05-21 (v3.21 — composition via LATENT CONCATENATION (two
+  parallel cores), the v3.19/v3.20 preregistered fallback).**
+
+  *Trigger.* v3.20 N=8 (commit 9fc3816, MCC+Pendulum -> MCC-Hard, both
+  single-skill transfers solidly positive) showed weight-averaging
+  COMPOSITION HURTS: transfer_avg - max(transfer_mcc, transfer_pen)
+  = -11.31 +/- 7.32, 0/8 seeds positive, CI entirely below zero. The
+  averaging mechanism is killed; per the v3.19/v3.20 preregistered
+  fallbacks, the next composition mechanism to test is latent
+  concatenation.
+
+  *Mechanism: latent concatenation.* Two frozen RSSM cores in parallel,
+  each producing its own [h, z]; SAC reads cat([h_a, z_a, h_b, z_b])
+  (= 2 * state_dim = 320-d) instead of the v3.13/14's single 160-d
+  latent. Each core retains its learned structure intact (no weight
+  averaging); SAC's first-layer Linear learns to weight the relevant
+  half of the concatenated input. This is the principled composition
+  mechanism — preserves each source's representation, lets SAC
+  selectively use either or both.
+
+  *Design.* Five arms, two cores per arm, same target as v3.20
+  (MountainCarContinuous-Hard, where single-skill transfer is robustly
+  positive). N=8.
+    - scratch_dual:        2 fresh random cores
+    - permuted_dual:       MCC core permuted + Pendulum core permuted
+                           (scale/rank-matched, structure destroyed,
+                           ensures the dual-core architecture itself
+                           doesn't carry transfer signal)
+    - transfer_mcc_only:   trained MCC core + 1 fresh random core
+                           (single-skill in the concat architecture)
+    - transfer_pen_only:   1 fresh random core + trained Pendulum core
+                           (single-skill in the concat architecture)
+    - transfer_both:       trained MCC core + trained Pendulum core
+                           (THE COMPOSITION TEST)
+
+  *Decisive interpretation.*
+  - transfer_both > max(transfer_mcc_only, transfer_pen_only), CI
+    excludes 0 positive: latent concatenation COMPOSES two skill cores
+    into something stronger than either alone — the clean composition
+    result the project is after.
+  - transfer_both ~ max(transfer_mcc_only, transfer_pen_only): concat
+    is neutral; SAC uses one core and ignores the other.
+  - transfer_both < max(single): adding a second skill HURTS, even via
+    concatenation. Would imply RSSM-core skill composition is broken
+    as a general approach with this substrate; pivot to a different
+    substrate (per the user's "if RSSM doesn't deliver, try other
+    model classes").
+
+  *Implementation note.* Requires new dual-latent rollout/eval
+  functions (collect_rollout_dual_latent, evaluate_dual_latent) added
+  to rollout.py — same structure as collect_rollout_augmented but
+  threads two RSSMs in parallel and produces a cat of both latents
+  for SAC. Sources cached as in v3.20 (no retraining). Stopping rule:
+  N=8 first; extend to N=16 only if CI lower bound on the decisive
+  comparison within +/-3 of zero (same rule as v3.20).
+
+  *Chronology assertion.* This amendment is committed BEFORE the
+  rollout.py changes, the v3.21 script and any v3.21 run.
+
+  *Amendment trigger:* the v3.20 clean negative on averaging
+  composition (commit 9fc3816); concatenation is the preregistered
+  fallback as stated in v3.19 and v3.20.
+
 - (Subsequent amendments timestamped here before execution.)
