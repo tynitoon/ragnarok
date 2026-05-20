@@ -2019,4 +2019,62 @@ in Phase 4 baselines, not Phase 5.
   the v3.14 marginal null (commit 0cf55ca) — both CIs at N=8 are too
   wide for the downstream decisions they drive.
 
+- **2026-05-20 (v3.15 — heterogeneous-dim core-only transfer
+  (CartPole -> MCC-Hard) under the v3.13/v3.14 mechanism).**
+
+  *Trigger.* The v3.14 N=16 result (commit 511527b, mean +11.00, 95% CI
+  +/-5.80, lower bound +5.20) confirmed that the env-agnostic core
+  alone — without encoder transfer — carries transferable structure on
+  the same-obs-dim MCC -> MCC-Hard pair. The core (gru + prior +
+  posterior) is the ONLY subset of the RSSM shareable across an obs_dim
+  mismatch, so v3.14's positive directly authorizes the
+  heterogeneous-dim follow-up that the v3.13 and v3.14 amendments
+  preregistered as conditional.
+
+  *Design.* Source = CartPole-v1 (obs_dim 4, action_dim 2, discrete);
+  target = MountainCarContinuous-Hard (obs_dim 2, action_dim 1,
+  continuous). The source RSSM is trained inside a DeviceAgent on the
+  proven raw-obs path (PPO + WM + latent policy, no curiosity for
+  discrete — the existing DeviceAgent code path for discrete envs); its
+  env-agnostic core (gru + prior + posterior) is snapshotted. The target
+  arms run the v3.14 mechanism exactly: SAC reads cat([h, z]) only
+  (latent-only, load-bearing), the RSSM is frozen, the augmented vector
+  is run through a running aug-normalizer, curiosity is the fresh ICM
+  module per arm, three arms (transfer = load_transferable_state_dict
+  from CartPole / permuted = the CartPole core with each parameter
+  tensor's elements randomly permuted / scratch = fresh random core).
+  Metric and stopping rule: per-seed AUC difference, 3-point-smoothed,
+  Student-t 95% CI, N=8 first; if marginal (CI lower bound within +/-3
+  of zero) extend to N=16 in a follow-up amendment.
+
+  *Relation to v3.8.* v3.8 (cartpole -> mcc, gym pilot) was a clean
+  falsification of cartpole -> mcc transfer under a DIFFERENT mechanism
+  — the gym pilot trained both arms via _train_sac (SAC reading raw
+  obs) and used a dream-training transfer channel. v3.15 retests
+  cartpole -> mcc transfer under the v3.13/v3.14 latent-only mechanism
+  (SAC reads ONLY the frozen RSSM latent, with the augmented vector
+  scale-normalized and a permuted-core structure control). v3.15 is NOT
+  a re-run of v3.8; it is a new test under a stronger transfer channel,
+  authorized by the v3.14 positive.
+
+  *Decisive interpretation.*
+  - v3.15 positive (transfer > permuted, CI excludes 0): the workshop's
+    heterogeneous-dim transfer claim is alive — the env-agnostic core
+    carries dynamics structure that helps SAC even on a different
+    dynamics family.
+  - v3.15 null: the v3.13/v3.14 positive holds within a shared-dynamics
+    family (MCC family) but does NOT generalise across families
+    (CartPole pole-balancing -> MCC energy-pumping). Workshop story
+    becomes "transfer works within a dynamics family", a meaningful but
+    narrower claim.
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.15
+  implementation and BEFORE any v3.15 run. The source/target pair, the
+  unchanged-from-v3.14 mechanism, the metric, and the N=8 -> N=16
+  stopping rule are pre-outcome.
+
+  *Amendment trigger:* the v3.14 N=16 positive (commit 511527b) and the
+  conditional heterogeneous-dim follow-up preregistered in v3.13 and
+  v3.14.
+
 - (Subsequent amendments timestamped here before execution.)
