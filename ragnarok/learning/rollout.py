@@ -407,3 +407,126 @@ def evaluate_augmented(device_env, rssm, sac_policy, steps: int,
         prev_action = act_oh * keep
     mark_step()
     return (ret_sum / ep_count.clamp(min=1.0)).item()
+
+
+@torch.no_grad()
+def collect_rollout_dual_latent(device_env, rssm_a, rssm_b, sac_trainer,
+                                horizon: int, normalizer=None,
+                                aug_normalizer=None,
+                                deterministic: bool = True) -> RolloutBatch:
+    """v3.21 multi-skill composition collector: two FROZEN RSSMs in
+    parallel, SAC reads cat([h_a, z_a, h_b, z_b]) — preserves each
+    core's structure intact (vs v3.20's weight-averaging which
+    compromised them).
+
+    Both RSSMs are threaded across the horizon and zeroed at episode
+    seams. SAC sees a 2*state_dim latent. ``aug_normalizer``, if
+    given, must be dimensioned to 2*state_dim.
+    """
+    n = device_env.num_envs
+    assert rssm_a.action_dim == rssm_b.action_dim, "action_dim mismatch"
+    h_a, z_a = rssm_a.initial_state(n, DEVICE)
+    h_b, z_b = rssm_b.initial_state(n, DEVICE)
+    prev_action = torch.zeros(n, rssm_a.action_dim, device=DEVICE)
+    raw = device_env.state
+    raw_l, obs_l, aug_l, raw_aug_l, act_l, rew_l, done_l = (
+        [], [], [], [], [], [], [])
+
+    for _ in range(horizon):
+        obs = normalizer.normalize(raw) if normalizer is not None else raw
+        h_a, z_a = rssm_a.encode_observation(obs, h_a, z_a, prev_action,
+                                             deterministic=deterministic)
+        h_b, z_b = rssm_b.encode_observation(obs, h_b, z_b, prev_action,
+                                             deterministic=deterministic)
+        aug_raw = torch.cat([h_a, z_a, h_b, z_b], dim=-1)
+        aug = (aug_normalizer.normalize(aug_raw)
+               if aug_normalizer is not None else aug_raw)
+        action, _, _ = sac_trainer.device_policy_fn(aug)
+        next_raw, reward, _t, _tr, done = device_env.step(action)
+        raw_l.append(raw)
+        obs_l.append(obs)
+        aug_l.append(aug)
+        raw_aug_l.append(aug_raw)
+        act_l.append(action)
+        rew_l.append(reward)
+        done_l.append(done.float())
+        keep = (1.0 - done.float()).unsqueeze(-1)
+        act_oh = (F.one_hot(action.long(), rssm_a.action_dim).float()
+                  if action.dim() == 1 else action)
+        h_a = h_a * keep
+        z_a = z_a * keep
+        h_b = h_b * keep
+        z_b = z_b * keep
+        prev_action = act_oh * keep
+        raw = next_raw
+
+    last_obs = normalizer.normalize(raw) if normalizer is not None else raw
+    h_a, z_a = rssm_a.encode_observation(last_obs, h_a, z_a, prev_action,
+                                         deterministic=deterministic)
+    h_b, z_b = rssm_b.encode_observation(last_obs, h_b, z_b, prev_action,
+                                         deterministic=deterministic)
+    last_aug_raw = torch.cat([h_a, z_a, h_b, z_b], dim=-1)
+    last_aug = (aug_normalizer.normalize(last_aug_raw)
+                if aug_normalizer is not None else last_aug_raw)
+    mark_step()
+
+    zeros = torch.zeros(n, horizon, device=DEVICE)
+    return RolloutBatch(
+        obs=torch.stack(obs_l, dim=1),
+        raw_obs=torch.stack(raw_l, dim=1),
+        actions=torch.stack(act_l, dim=1),
+        rewards=torch.stack(rew_l, dim=1),
+        dones=torch.stack(done_l, dim=1),
+        logp=zeros,
+        values=zeros,
+        last_obs=last_obs,
+        last_value=torch.zeros(n, device=DEVICE),
+        aug_obs=torch.stack(aug_l, dim=1),
+        last_aug=last_aug,
+        raw_aug_obs=torch.stack(raw_aug_l, dim=1),
+    )
+
+
+@torch.no_grad()
+def evaluate_dual_latent(device_env, rssm_a, rssm_b, sac_policy, steps: int,
+                         normalizer=None, aug_normalizer=None,
+                         deterministic: bool = True) -> float:
+    """v3.21 multi-skill composition eval: greedy SAC on
+    cat([h_a, z_a, h_b, z_b]). Mirrors ``evaluate_augmented`` with two
+    frozen RSSMs in parallel."""
+    device_env.reset()
+    n = device_env.num_envs
+    h_a, z_a = rssm_a.initial_state(n, DEVICE)
+    h_b, z_b = rssm_b.initial_state(n, DEVICE)
+    prev_action = torch.zeros(n, rssm_a.action_dim, device=DEVICE)
+    ret = torch.zeros(n, device=DEVICE)
+    ret_sum = torch.zeros((), device=DEVICE)
+    ep_count = torch.zeros((), device=DEVICE)
+    for _ in range(steps):
+        raw = device_env.state
+        obs = normalizer.normalize(raw) if normalizer is not None else raw
+        h_a, z_a = rssm_a.encode_observation(obs, h_a, z_a, prev_action,
+                                             deterministic=deterministic)
+        h_b, z_b = rssm_b.encode_observation(obs, h_b, z_b, prev_action,
+                                             deterministic=deterministic)
+        aug = torch.cat([h_a, z_a, h_b, z_b], dim=-1)
+        if aug_normalizer is not None:
+            aug = aug_normalizer.normalize(aug)
+        mean, _ = sac_policy.forward(aug)
+        action = sac_policy._rescale(torch.tanh(mean))
+        _, reward, _t, _tr, done = device_env.step(action)
+        done = done.float()
+        ret = ret + reward
+        ret_sum = ret_sum + (ret * done).sum()
+        ep_count = ep_count + done.sum()
+        ret = ret * (1.0 - done)
+        keep = (1.0 - done).unsqueeze(-1)
+        act_oh = (F.one_hot(action.long(), rssm_a.action_dim).float()
+                  if action.dim() == 1 else action)
+        h_a = h_a * keep
+        z_a = z_a * keep
+        h_b = h_b * keep
+        z_b = z_b * keep
+        prev_action = act_oh * keep
+    mark_step()
+    return (ret_sum / ep_count.clamp(min=1.0)).item()
