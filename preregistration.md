@@ -1978,4 +1978,45 @@ in Phase 4 baselines, not Phase 5.
   effect — the necessary preliminary to the workshop's heterogeneous-dim
   claim.
 
+- **2026-05-20 (v3.13/v3.14 extension to N=16 — firm up both marginal
+  results before pivot decisions).**
+
+  *Why.* v3.13 (full-RSSM transfer) came out marginally positive at N=8:
+  transfer-minus-permuted mean +15.67, 95% CI +/-15.65, lower bound +0.02.
+  v3.14 (core-only transfer) came out marginal/null at N=8: mean +7.64,
+  95% CI +/-9.61, lower bound -1.97. Both CIs are wide enough that
+  doubling N could meaningfully tighten the verdict on either result.
+  Crucially, the two outcomes drive different downstream decisions
+  (v3.13 firm-positive => workshop has a clean same-dim result; v3.13
+  null => the project's only positive collapses; v3.14 firm-positive =>
+  heterogeneous-dim becomes viable; v3.14 null => the core-only
+  transferable subset is too weak and the workshop's heterogeneous-dim
+  claim is dead) — so investing in tighter CIs is high-leverage before
+  any pivot.
+
+  *What.* Extend both v3.13 (full-RSSM) and v3.14 (core-only) from N=8
+  to N=16 seeds. The scripts are resume-aware: they append seeds 8-15 to
+  the existing seeds 0-7 in results.json without re-running the first
+  eight. All other design parameters (latent-only SAC, freeze,
+  aug-normalizer, 3 arms, 3-point smoothing, AUC-difference endpoint)
+  are unchanged. The source snapshots are the same cached files used at
+  N=8.
+
+  *Optional-stopping note.* The decision to extend was made AFTER seeing
+  the N=8 results, which is a known statistical concern. This amendment
+  is the discipline: the N=16 extension is committed BEFORE the
+  additional seeds run, and the analysis at N=16 uses the same primary
+  endpoint (AUC difference + Student-t 95% CI). N=16 is committed as
+  the final stopping point for both — no further seed extensions are
+  permitted on these two designs without another amendment.
+
+  *Chronology assertion.* This amendment is committed BEFORE the N=16
+  runs. The endpoint, the stopping rule (N=16, no further extensions
+  without a new amendment), and the unchanged-design constraint are
+  pre-outcome.
+
+  *Amendment trigger:* the v3.13 marginal positive (commit e8bd009) and
+  the v3.14 marginal null (commit 0cf55ca) — both CIs at N=8 are too
+  wide for the downstream decisions they drive.
+
 - (Subsequent amendments timestamped here before execution.)
