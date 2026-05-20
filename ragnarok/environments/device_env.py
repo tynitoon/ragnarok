@@ -163,6 +163,85 @@ class DeviceVecMountainCarContinuousHard(DeviceVecMountainCarContinuous):
     _POWER = 0.0011   # vs 0.0015 standard — a ~27%-weaker engine
 
 
+class DeviceVecPendulum:
+    """N Pendulum-v1 environments, device-resident and batched.
+
+    Physical state (theta, theta_dot); observation is (cos theta,
+    sin theta, theta_dot) — obs_dim 3, while the physics has only 2
+    DOF (the cos/sin pair encodes the angle without a discontinuity at
+    +/- pi). Physics matches gymnasium's Pendulum-v1 exactly: a single
+    nonlinear DOF with gravity, torque actuation and a velocity clamp.
+    Reward is a per-step cost ``-(theta_n^2 + 0.1 thetadot^2 + 0.001 u^2)``
+    where ``theta_n`` is theta wrapped to [-pi, pi].
+
+    Why this env exists here: it shares dynamics structure (energy
+    pumping in a 1-DOF nonlinear gravitational potential, continuous
+    torque control) with MountainCarContinuous despite having a
+    different obs_dim — the v3.16 heterogeneous-dim transfer test
+    needs a source whose dynamics are close enough to MCC's that the
+    env-agnostic RSSM core can plausibly carry useful structure
+    (CartPole's pole-balancing dynamics were too far, per v3.15).
+    """
+
+    obs_dim = 3
+    action_dim = 1
+    is_discrete = False
+
+    _G = 10.0
+    _M = 1.0
+    _L = 1.0
+    _MAX_SPEED = 8.0
+    _MAX_TORQUE = 2.0
+    _DT = 0.05
+    _MAX_STEPS = 200
+
+    def __init__(self, num_envs: int):
+        self.num_envs = num_envs
+        self.reset()
+
+    def _obs(self) -> torch.Tensor:
+        return torch.stack(
+            [torch.cos(self._th), torch.sin(self._th), self._thdot], dim=-1)
+
+    def reset(self) -> torch.Tensor:
+        # gym: theta uniform(-pi, pi), theta_dot uniform(-1, 1).
+        self._th = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 2.0 * math.pi
+        self._thdot = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 2.0
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        self.state = self._obs()
+        return self.state
+
+    def step(self, action: torch.Tensor):
+        """action: (N,) or (N, 1) float, clamped to [-2, 2] (torque)."""
+        u = action.reshape(self.num_envs).clamp(-self._MAX_TORQUE,
+                                                self._MAX_TORQUE)
+        # angle_normalize: ((th + pi) mod 2pi) - pi
+        th_n = ((self._th + math.pi) % (2.0 * math.pi)) - math.pi
+        cost = th_n ** 2 + 0.1 * self._thdot ** 2 + 0.001 * u ** 2
+        reward = -cost                                  # gym returns -cost
+
+        # Euler integrator (matches gym's Pendulum-v1 dynamics).
+        thdot_new = self._thdot + (
+            3.0 * self._G / (2.0 * self._L) * torch.sin(self._th)
+            + 3.0 / (self._M * self._L ** 2) * u) * self._DT
+        thdot_new = thdot_new.clamp(-self._MAX_SPEED, self._MAX_SPEED)
+        th_new = self._th + thdot_new * self._DT
+        self.steps = self.steps + 1.0
+
+        # Pendulum-v1 has no termination — only truncation at MAX_STEPS.
+        terminated = torch.zeros(self.num_envs, device=DEVICE, dtype=torch.bool)
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+
+        fresh_th = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 2.0 * math.pi
+        fresh_thdot = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 2.0
+        self._th = torch.where(done, fresh_th, th_new)
+        self._thdot = torch.where(done, fresh_thdot, thdot_new)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        self.state = self._obs()
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 

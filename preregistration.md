@@ -2077,4 +2077,68 @@ in Phase 4 baselines, not Phase 5.
   conditional heterogeneous-dim follow-up preregistered in v3.13 and
   v3.14.
 
+- **2026-05-20 (v3.16 — heterogeneous-dim core transfer with a
+  shared-physics source: Pendulum -> MCC-Hard).**
+
+  *Trigger and rationale.* v3.15 N=8 (commit ea1df5d, CartPole -> MCC)
+  came in marginal-null: mean +7.24, 95% CI +/-14.55, lower bound -7.31
+  (outside the prereg's +/-3 marginal band, so NOT extended to N=16 —
+  the prereg discipline holds). The honest read of v3.15: the env-
+  agnostic core does carry a positive-direction signal across an
+  obs_dim mismatch (mean is positive, 5/8 seeds favour transfer), but
+  CartPole's pole-balancing dynamics and MCC's energy-pumping dynamics
+  are physically very different, so the shared structure available to
+  transfer is thin and the signal cannot be resolved at N=8. v3.16
+  re-tests the heterogeneous-dim claim with a closer-physics source.
+
+  *Source choice.* Pendulum (gymnasium Pendulum-v1, here implemented as
+  ``DeviceVecPendulum``: obs_dim 3 (cos theta, sin theta, theta_dot),
+  action_dim 1 continuous (torque)). Pendulum and MCC share a
+  one-degree-of-freedom nonlinear mechanical system with gravity, a
+  velocity clamp, and continuous-torque/force actuation — both require
+  energy-pumping behaviour to reach a high-potential goal state. This
+  is much closer-physics than CartPole and is precisely the kind of
+  shared-dynamics-family-different-obs-dim transfer the workshop claim
+  is about.
+
+  *Design.* Identical to v3.15 except the source env:
+    - SOURCE: DeviceAgent on Pendulum (continuous: SAC + WM + latent +
+      curiosity, same path the MCC source uses). The env-agnostic core
+      (gru + prior + posterior) is snapshotted.
+    - Three target arms on MCC-Hard, latent-only SAC, frozen RSSM,
+      aug-normalizer over the 160-d latent, ICM curiosity fresh per
+      arm. Transfer / permuted / scratch — identical to v3.14/v3.15.
+  Metric and stopping: per-seed AUC difference, 3-point smoothed,
+  Student-t 95% CI. N=8 first; extend to N=16 only if CI lower bound
+  is within +/-3 of zero (the SAME rule v3.15 used; respected even when
+  unfavourable). No further extensions without another amendment.
+
+  *Decisive interpretation.*
+  - v3.16 positive: the workshop's heterogeneous-dim claim is alive,
+    refined as "across-obs-dim transfer works when source and target
+    share dynamics family". This is a defensible workshop result.
+  - v3.16 also null: even with shared-physics, cross-obs-dim transfer
+    of the env-agnostic core alone does not produce detectable
+    acceleration. The honest conclusion would then be that this RSSM
+    transfer mechanism delivers within a fixed obs_dim only — and the
+    project pivots to a different substrate (the user's planned next
+    branch: alternative model classes — policy distillation,
+    successor features, or markovian dynamics models).
+
+  *DeviceVecPendulum.* Newly added in this amendment's implementation
+  commit (next). Physics matches gymnasium's Pendulum-v1 exactly
+  (g=10, m=l=1, max_speed=8, max_torque=2, dt=0.05, max_steps=200,
+  reward = -(theta_n^2 + 0.1 theta_dot^2 + 0.001 u^2)). Episode is
+  truncation-only (no termination — Pendulum runs for 200 steps).
+
+  *Chronology assertion.* This amendment is committed BEFORE the
+  DeviceVecPendulum implementation lands, BEFORE the v3.16 script is
+  written, and BEFORE any v3.16 run. Source/target pair, mechanism,
+  metric and the N=8 -> N=16 stopping rule are pre-outcome.
+
+  *Amendment trigger:* the v3.15 marginal-null on CartPole -> MCC and
+  the question of whether a closer-physics heterogeneous-dim source
+  enables the transfer the v3.13/v3.14 same-dim positives suggest is
+  possible.
+
 - (Subsequent amendments timestamped here before execution.)
