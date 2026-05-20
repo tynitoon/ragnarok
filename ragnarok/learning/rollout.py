@@ -262,7 +262,8 @@ def device_evaluate_latent(device_env, rssm, latent_head, steps: int,
 @torch.no_grad()
 def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
                               normalizer=None, deterministic: bool = False,
-                              aug_normalizer=None) -> RolloutBatch:
+                              aug_normalizer=None, include_obs: bool = True
+                              ) -> RolloutBatch:
     """Collect a rollout where SAC acts on the augmented obs [obs, h, z].
 
     The v3.10 corrected-transfer collection. The RSSM recurrent state is
@@ -293,6 +294,12 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
     of cat(obs, h, z); the unnormalized vector is returned in
     ``raw_aug_obs`` so the caller can ``aug_normalizer.update`` it BETWEEN
     rollouts (the obs-normalizer contract).
+
+    v3.13 ``include_obs`` (default True): when False, the augmented vector
+    is just cat(h, z) — the raw observation is excluded from SAC's input.
+    This makes the latent load-bearing (SAC cannot fall back to raw obs)
+    and is the v3.13 mechanism. ``aug_normalizer``, if given, must then be
+    dimensioned to the latent (state_dim), not state_dim + obs_dim.
     """
     n = device_env.num_envs
     h, z = rssm.initial_state(n, DEVICE)
@@ -305,7 +312,8 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
         obs = normalizer.normalize(raw) if normalizer is not None else raw
         h, z = rssm.encode_observation(obs, h, z, prev_action,
                                        deterministic=deterministic)
-        aug_raw = torch.cat([obs, h, z], dim=-1)
+        aug_raw = (torch.cat([obs, h, z], dim=-1) if include_obs
+                   else torch.cat([h, z], dim=-1))
         aug = (aug_normalizer.normalize(aug_raw)
                if aug_normalizer is not None else aug_raw)
         action, _, _ = sac_trainer.device_policy_fn(aug)
@@ -330,7 +338,8 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
     last_obs = normalizer.normalize(raw) if normalizer is not None else raw
     h, z = rssm.encode_observation(last_obs, h, z, prev_action,
                                    deterministic=deterministic)
-    last_aug_raw = torch.cat([last_obs, h, z], dim=-1)
+    last_aug_raw = (torch.cat([last_obs, h, z], dim=-1) if include_obs
+                    else torch.cat([h, z], dim=-1))
     last_aug = (aug_normalizer.normalize(last_aug_raw)
                 if aug_normalizer is not None else last_aug_raw)
     mark_step()
@@ -355,14 +364,16 @@ def collect_rollout_augmented(device_env, rssm, sac_trainer, horizon: int,
 @torch.no_grad()
 def evaluate_augmented(device_env, rssm, sac_policy, steps: int,
                        normalizer=None, deterministic: bool = False,
-                       aug_normalizer=None) -> float:
+                       aug_normalizer=None, include_obs: bool = True) -> float:
     """Greedy SAC-on-[obs,h,z] eval — mean completed-episode return.
 
     The v3.10 counterpart of ``device_evaluate``: threads the RSSM state
     and acts greedily via the SAC policy on the augmented observation
     cat(obs, h, z). ``aug_normalizer`` (v3.12), when given, normalizes the
     augmented vector exactly as in ``collect_rollout_augmented`` so eval
-    and training feed SAC the same scaling.
+    and training feed SAC the same scaling. ``include_obs`` (v3.13) sets
+    whether the raw obs is included in the augmented vector — must match
+    the training-time setting.
     """
     device_env.reset()
     n = device_env.num_envs
@@ -376,7 +387,8 @@ def evaluate_augmented(device_env, rssm, sac_policy, steps: int,
         obs = normalizer.normalize(raw) if normalizer is not None else raw
         h, z = rssm.encode_observation(obs, h, z, prev_action,
                                        deterministic=deterministic)
-        aug = torch.cat([obs, h, z], dim=-1)
+        aug = (torch.cat([obs, h, z], dim=-1) if include_obs
+               else torch.cat([h, z], dim=-1))
         if aug_normalizer is not None:
             aug = aug_normalizer.normalize(aug)
         mean, _ = sac_policy.forward(aug)
