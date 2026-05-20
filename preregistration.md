@@ -1925,4 +1925,57 @@ in Phase 4 baselines, not Phase 5.
   raw-obs fallback that nullifies any transferred-latent benefit on
   fully-observable tasks.
 
+- **2026-05-20 (v3.14 — does the env-agnostic core ALONE carry the v3.13
+  transfer effect? Required stepping stone toward heterogeneous-dim).**
+
+  *v3.13 outcome (positive, marginal).* The v3.13 run (commit e8bd009)
+  came out positive on the decisive comparison: transfer-minus-permuted
+  AUC mean +15.67 +/- 15.65 (N=8, CI excludes zero by ~0.02), with 7/8
+  seeds favouring transfer and end-of-run mastery rates of 6/8 (transfer)
+  vs 2/8 (permuted) vs 0/8 (scratch). The hypothesis that v3.12's null
+  was caused by SAC's raw-obs fallback rendering the latent irrelevant
+  is supported: forcing latent dependence (no raw obs) and giving the
+  latent real content (full-RSSM transfer including encoder) makes the
+  transfer effect detectable for the first time in the project.
+
+  *Question.* v3.13's transferable scope was the FULL RSSM state dict —
+  encoder + env-agnostic core + decoder + heads. The workshop claim is
+  about transferable representational structure in the env-agnostic core
+  (gru + prior + posterior), which is the only subset that survives a
+  heterogeneous-dim transfer (where source/target obs_dims differ, so
+  the encoder cannot transfer). v3.14 probes the necessary preliminary:
+  on the same-dim MCC -> MCC-Hard pair, does the core ALONE carry the
+  v3.13 effect, or was the encoder transfer essential?
+
+  *v3.14 design.* Identical to v3.13 except the transferable scope
+  reverts to the v3.11/v3.12 subset — the env-agnostic core only
+  (gru, prior, posterior). The encoder, decoder, reward and continue
+  predictors are fresh-random in EVERY arm (transfer, permuted, scratch).
+  Mechanism (latent-only SAC, freeze, aug-normalizer, ICM curiosity,
+  3-arm controls) and metric (per-seed AUC difference, 3-point smoothed,
+  Student-t 95% CI) are unchanged. N=8. The source RSSM core is the
+  v3.11 source snapshot (`transfer_v311_out/source_snapshot.pt` — the
+  same source training as v3.11/v3.12).
+
+  *Decisive interpretation.*
+  - v3.14 positive (transfer > permuted, CI excludes 0): the env-agnostic
+    core ALONE carries transferable knowledge. Heterogeneous-dim transfer
+    (cartpole -> mcc with core-only transfer) becomes the natural next
+    test — this is the workshop's heterogeneous-dim claim.
+  - v3.14 null: the encoder transfer was essential to v3.13. The
+    heterogeneous-dim mechanism (which cannot transfer the encoder) is
+    unlikely to work as currently designed; the project then either
+    accepts the same-dim positive as the workshop claim, or pivots to
+    mechanisms that carry encoder-equivalent information across obs_dim
+    boundaries (e.g. shared abstract state, dimension-aligning probes).
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.14
+  implementation and BEFORE any v3.14 run. The core-only transferable
+  scope is pre-outcome.
+
+  *Amendment trigger:* the v3.13 marginal positive (commit e8bd009) and
+  the question of whether the env-agnostic core alone carries the
+  effect — the necessary preliminary to the workshop's heterogeneous-dim
+  claim.
+
 - (Subsequent amendments timestamped here before execution.)
