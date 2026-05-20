@@ -2181,4 +2181,45 @@ in Phase 4 baselines, not Phase 5.
   shared" interpretation, and the N-mismatch between v3.15 (N=8 null)
   and v3.16 (N=16 positive).
 
+- **2026-05-20 (v3.18 — reverse-direction heterogeneous-dim:
+  MCC -> Pendulum, symmetry check on the v3.16 positive).**
+
+  *Trigger.* v3.16 N=16 (commit 98ff2ca, Pendulum -> MCC) was solidly
+  positive: heterogeneous-dim transfer works when source and target
+  share dynamics structure. The user requested confirmatory tests; a
+  natural symmetry check is whether transfer works in the REVERSE
+  direction with the same task pair. If the v3.16 effect reflects
+  shared dynamics structure (as opposed to a directional asymmetry
+  specific to Pendulum-source / MCC-target), MCC -> Pendulum should
+  also be positive.
+
+  *Design.* Identical to v3.16 except source/target swap:
+  - SOURCE: standard MountainCarContinuous via the cached snapshot at
+    `transfer_v311_out/source_snapshot.pt` (the same source used by
+    v3.11/v3.12/v3.14 — already a core-only snapshot, no retraining).
+  - TARGET: Pendulum-v1 (DeviceVecPendulum, obs_dim 3, action_dim 1
+    continuous). Eval = mean per-episode return; episode length 200
+    steps (Pendulum-v1 truncation cap); a perfect Pendulum agent
+    scores near 0 (negative cost summed), random near -2000.
+  - Same mechanism: latent-only SAC, frozen RSSM, aug-normalizer,
+    ICM curiosity, three controls (transfer / permuted / scratch).
+  - Metric: per-seed AUC difference, 3-point smoothed, Student-t 95%
+    CI. N=8 first; extend to N=16 only if CI lower bound within +/-3
+    of zero (same rule as v3.15 / v3.16).
+
+  *Decisive interpretation.*
+  - v3.18 positive: the v3.16 effect is symmetric — shared-physics
+    transfer works in both directions. Strengthens the workshop claim.
+  - v3.18 null (with v3.16 positive): the transfer effect is
+    directional, MCC -> Pendulum specifically failing. This would be
+    a surprising finding worth investigating (asymmetry diagnostics).
+  - Both positive at comparable magnitudes => symmetric, robust
+    heterogeneous-dim transfer with shared physics.
+
+  *Chronology assertion.* This amendment is committed BEFORE the
+  v3.18 implementation script and BEFORE any v3.18 run.
+
+  *Amendment trigger:* the user's request for more confirmatory tests
+  and the natural reverse-direction symmetry check on v3.16's positive.
+
 - (Subsequent amendments timestamped here before execution.)
