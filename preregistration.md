@@ -2295,4 +2295,78 @@ in Phase 4 baselines, not Phase 5.
   experiments (the violin + solfege analogy), building on Phase A's
   same-physics-transfer-works results.
 
+- **2026-05-20 (v3.20 — composition mechanism test on a target where
+  single-skill transfer is established to work: MCC + Pendulum cores
+  averaged into MCC-Hard).**
+
+  *Why the pivot.* v3.19 (commit a4ff48b) came in null on
+  cart-pole-on-hill: BOTH transfer_avg failed to beat the best single
+  AND single-skill transfer (transfer_mcc, transfer_cp) failed to beat
+  scratch. The two failures are confounded — they could mean (a) the
+  averaging mechanism is broken, OR (b) cart-pole-on-hill is too
+  DOF-mismatched with the sources for any transfer to help. Without
+  separating them, v3.19 cannot answer the composition question.
+  v3.20 isolates the composition mechanism by moving to a target where
+  single-skill transfer is solidly established to work.
+
+  *Design.* Target = MountainCarContinuous-Hard (the v3.13/14/16
+  target where single-skill transfer from MCC or Pendulum produces a
+  robust positive effect). Sources = MCC core + Pendulum core (both
+  shown to transfer positively to MCC-Hard alone). Composition
+  mechanism = element-wise weight averaging of the two cores
+  (avg[k] = (mcc[k] + pen[k]) / 2). Same v3.14 mechanism otherwise
+  (latent-only SAC, frozen RSSM, aug-normalizer, ICM curiosity).
+
+  *Five arms, N=8.*
+  - scratch:          fresh random core
+  - permuted:         MCC core permuted
+  - transfer_mcc:     MCC core alone (the v3.14 positive arm)
+  - transfer_pen:     Pendulum core alone (the v3.16 positive arm)
+  - transfer_avg:     (MCC + Pendulum) / 2 — the composition
+
+  *Decisive interpretation.*
+  - transfer_avg > max(transfer_mcc, transfer_pen), CI excludes 0
+    positive => averaging COMPOSES the two skills into something
+    better than either alone. The clean composition positive the
+    project is after.
+  - transfer_avg ~ max(transfer_mcc, transfer_pen): averaging
+    preserves but doesn't add; composition mechanism is neutral on
+    this pair.
+  - transfer_avg < either single (CI excludes 0 negative): averaging
+    actively DESTROYS structure between sources whose dynamics
+    families overlap (MCC and Pendulum are both 1-DOF nonlinear
+    energy-pumping). Then v3.21 tests CONCATENATION (the original
+    v3.19 fallback, reframed as a v3.20 fallback).
+  - Both single-skill transfers null on this target (unlikely given
+    v3.14/v3.16 positives but possible at this seed sample): would
+    indicate a regression in our infrastructure; investigate before
+    iterating.
+
+  *Cached sources.* MCC core: `transfer_v311_out/source_snapshot.pt`
+  (the same source as v3.11/v3.12/v3.14/v3.19). Pendulum core:
+  `transfer_v316_out/source_pendulum_core.pt` (the same source as
+  v3.16). No retraining.
+
+  *What the original v3.20 preregistered (concatenation on
+  cart-pole-on-hill) becomes.* That test is REORDERED, not cancelled:
+  if v3.20-here (averaging on MCC-Hard) shows averaging works as a
+  composition mechanism, we then return to the cart-pole-on-hill
+  composition question with confidence the mechanism is sound (so a
+  null there would diagnose the target, not the mechanism). If
+  v3.20-here shows averaging is broken, then we test concatenation
+  next — and a positive there would justify revisiting both
+  cart-pole-on-hill and the more general composition story.
+
+  *Stopping rule.* N=8 first; extend to N=16 only if CI lower bound on
+  the decisive comparison within +/-3 of zero (same rule as
+  v3.13/14/15/16).
+
+  *Chronology assertion.* Committed BEFORE the v3.20 implementation
+  script and BEFORE any v3.20 run.
+
+  *Amendment trigger:* the v3.19 null with confounded interpretation
+  (composition mechanism vs target amenability), the need to isolate
+  the composition mechanism on a target where single-skill transfer
+  is solidly established.
+
 - (Subsequent amendments timestamped here before execution.)
