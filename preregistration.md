@@ -2432,4 +2432,73 @@ in Phase 4 baselines, not Phase 5.
   composition (commit 9fc3816); concatenation is the preregistered
   fallback as stated in v3.19 and v3.20.
 
+- **2026-05-21 (v3.22 — pivot substrate: composition via POLICY weight
+  transfer instead of RSSM-core weight transfer).**
+
+  *Trigger.* v3.20 (averaging) and v3.21 (concatenation) both failed to
+  produce additive composition on the RSSM-core substrate (averaging
+  CLEAN NEGATIVE, concatenation NEUTRAL). The user's plan triggered:
+  "if the RSSM substrate doesn't deliver composition, test alternative
+  substrates." v3.22 swaps the substrate from "RSSM core weights" to
+  "SAC policy weights" (actor + critics), keeping everything else as
+  parallel to v3.20 as possible.
+
+  *Mechanism.* No RSSM at all in the target — SAC reads raw obs
+  directly (the proven raw-obs DeviceAgent setup). Source training:
+  raw-obs DeviceAgent trains MCC and Pendulum sources; at end, save
+  the env-agnostic subset of each source's SACPolicy (shared layer 2 +
+  mean_head + logstd_head) and each source's two QNetwork critics
+  (net.2 + net.4). These are the layers that DON'T depend on obs_dim
+  (all action_dim=1 continuous, so the heads are shape-compatible).
+
+  *Arms (5, N=8, target = MCC-Hard).*
+  - scratch_pol: fresh random SAC (the v3.13-comparable null baseline)
+  - permuted_pol: MCC source policy weights permuted per-tensor
+  - transfer_mcc_pol: env-agnostic subset of MCC's SAC loaded
+  - transfer_pen_pol: env-agnostic subset of Pendulum's SAC loaded
+  - transfer_avg_pol: average of MCC + Pendulum env-agnostic subsets
+
+  *Single-skill check (within the same experiment).* This v3.22 design
+  also tests SINGLE-skill policy weight transfer (a question never
+  asked before — Phase A used RSSM-core transfer to a target SAC
+  reading the LATENT). If transfer_mcc_pol > scratch_pol with CI
+  excluding 0, single-skill policy transfer works on this substrate.
+  This contextualises any composition result.
+
+  *Decisive interpretations.*
+  - transfer_mcc_pol > scratch_pol AND transfer_avg_pol > max(
+    transfer_mcc_pol, transfer_pen_pol), both CIs excluding 0: the
+    policy-weight substrate supports single-skill transfer AND
+    additive composition where the RSSM substrate did not. This is
+    the cleanest possible positive on the violin claim.
+  - Single-skill policy transfer works, but averaging composition
+    doesn't: substrate doesn't matter for composition; the mechanism
+    (averaging) is the issue regardless of substrate. Concatenation
+    on policies would be a contingent v3.23.
+  - Neither single-skill nor composition policy transfer works:
+    the policy substrate is worse than RSSM-core for transfer. Try
+    a different substrate (successor features, markovian dynamics)
+    in v3.23.
+
+  *Sources are re-trained for this experiment* (the original v3.11 +
+  v3.16 source caches only saved the RSSM core, not the SAC actor +
+  critics). Source training adds the policy-weight save step at the
+  end and caches it; subsequent runs reuse the cache. SAC trainer
+  gets two new methods: policy_transferable_state_dict (extract the
+  env-agnostic subset) and load_policy_transferable_state_dict (load
+  it). Implementation note: action_dim=1 across MCC / Pendulum /
+  MCC-Hard, so the action-head layers (mean/logstd_head, Q-output)
+  are shape-compatible and included in the transferable subset.
+
+  *Stopping rule.* N=8 first; extend to N=16 only if the decisive
+  composition CI lower bound is within +/-3 of zero (same rule as
+  v3.20 / v3.21).
+
+  *Chronology assertion.* Committed BEFORE the sac.py changes, the
+  v3.22 script, and any v3.22 run.
+
+  *Amendment trigger:* v3.20 + v3.21 exhausted RSSM-substrate
+  composition mechanisms (averaging negative, concat neutral); user
+  chose option 4 (pivot substrate) on the post-v3.21 fork.
+
 - (Subsequent amendments timestamped here before execution.)
