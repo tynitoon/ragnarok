@@ -2501,4 +2501,72 @@ in Phase 4 baselines, not Phase 5.
   composition mechanisms (averaging negative, concat neutral); user
   chose option 4 (pivot substrate) on the post-v3.21 fork.
 
+- **2026-05-21 (v3.23 — composition via LEARNED soft gating over two
+  frozen cores).**
+
+  *Trigger.* v3.20 (averaging RSSM cores: CLEAN NEGATIVE), v3.21
+  (concatenating RSSM latents: NEUTRAL) and v3.22 (averaging SAC
+  policy weights: DEEPLY NEGATIVE) all failed to produce additive
+  composition. Each used a STATIC composition rule. The user's plan
+  triggered: try a more sophisticated, LEARNED composition. v3.23
+  tests learned soft gating over two frozen cores — SAC trains a
+  small gate jointly with its policy/critics, deciding how to mix
+  the two source latents based on context.
+
+  *Mechanism.* Two frozen RSSM cores (MCC and Pendulum source, same
+  as v3.20/v3.21) produce two latents [h_a, z_a] (160-d) and
+  [h_b, z_b] (160-d). A small `Gate` MLP takes the 320-d concat and
+  outputs a scalar w in [0, 1] via sigmoid. The combined latent is
+  ``mixed = w * latent_a + (1 - w) * latent_b`` (160-d). SAC's actor
+  and critics read `mixed` (same architecture / dim as v3.14). The
+  gate is SHARED between actor and critics (and their target nets);
+  its parameters get gradients from the SAC loss via the
+  differentiable path mixed -> actor/critic -> loss. Off-policy
+  staleness note: the buffer stores aug_obs (the 320-d concat); at
+  each SAC update the CURRENT gate re-computes mixed from stored
+  aug_obs, so gate-improvement re-uses old data without
+  importance-sampling — accepted as a standard SAC off-policy
+  approximation.
+
+  *Five arms, N=8, target = MCC-Hard, same v3.21 buffer/aug_obs setup
+  (320-d dual latents).*
+  - scratch_gated:        2 fresh random cores + gate
+  - permuted_gated:       MCC core permuted + Pendulum core permuted + gate
+  - transfer_mcc_gated:   trained MCC core + 1 fresh random core + gate
+  - transfer_pen_gated:   1 fresh random core + trained Pendulum core + gate
+  - transfer_both_gated:  trained MCC core + trained Pendulum core + gate
+                          -- THE GATED COMPOSITION TEST
+
+  *Decisive interpretation.*
+  - transfer_both_gated > max(transfer_mcc_gated, transfer_pen_gated),
+    CI excludes 0 positive: learned gating COMPOSES the two skill
+    cores into something better than either alone. The first positive
+    composition result the project achieves. Validates that the
+    earlier nulls (averaging, concat) were a MECHANISM problem (static
+    rules), not a fundamental limitation.
+  - transfer_both_gated similar to best single: gating doesn't extract
+    additive value from the second skill (SAC's gate learns w near
+    0 or 1, picking the better single — composition still null).
+  - transfer_both_gated < either single: gating actively hurts. Would
+    indicate the gate adds optimisation difficulty without value.
+
+  *Implementation.* No changes to SACTrainer or rollout.py;
+  collect_rollout_dual_latent (v3.21) re-used. v3.23 script builds the
+  SACTrainer with obs_dim = state_dim (160) and WRAPS its actor and
+  critics with a shared Gate module (320 -> 1) that internally
+  compresses 320-d aug_obs to 160-d mixed before forwarding. Gate
+  parameters are added to the policy optimizer.
+
+  *Stopping rule.* N=8 first; extend to N=16 only if the decisive
+  composition CI lower bound is within +/-3 of zero (same rule as
+  v3.20/21/22).
+
+  *Chronology assertion.* Committed BEFORE the v3.23 script and any
+  v3.23 run.
+
+  *Amendment trigger:* the three static-composition nulls
+  (v3.20/v3.21/v3.22) and the user's direction to push the
+  composition question with a sophisticated mechanism (option 3
+  on the post-v3.22 fork).
+
 - (Subsequent amendments timestamped here before execution.)
