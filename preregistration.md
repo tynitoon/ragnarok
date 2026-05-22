@@ -2654,4 +2654,77 @@ in Phase 4 baselines, not Phase 5.
   (v3.20-v3.23) and the user's directive to pursue composition via
   hierarchical RL / the options framework.
 
+- **2026-05-22 (v3.25 — SEQUENTIAL composition: a manager switches
+  between two frozen skills used in different phases).**
+
+  *Trigger.* v3.24 (hierarchical manager on CartPoleOnHill) hit the
+  preregistered "all arms fail" branch — 0/8 AUC>1 in every arm. The
+  diagnosed cause: that composite's two skills CONFLICT over a single
+  shared actuator (climbing needs aggressive oscillation; that same
+  oscillation drops the pole), so a convex action blend
+  w*a_climb + (1-w)*a_balance can only produce a washed-out compromise.
+  The violin+solfege analogy assumes COMPLEMENTARY skills (separate
+  channels); v3.24's were ANTAGONISTIC over one channel. v3.25 fixes
+  the composite design: a SEQUENTIAL task where the two skills are used
+  at DIFFERENT TIMES — no simultaneous conflict — which is the regime
+  where hierarchical / options composition is established to work.
+
+  *Composite target (DeviceVecNavigateThenBalance, mode='composite').*
+  obs (5) = [cart_pos, cart_vel, pole_angle, pole_angvel, phase].
+  Phase 0: drive the cart up the MCC hill to the goal (the pole is
+  rigid). On reaching the goal the cart freezes and Phase 1 begins:
+  the pole activates and must be held upright; +1 reward per phase-1
+  step with the pole up, episode ends on pole-fall. To score well an
+  agent must navigate FAST (more time left for phase 1) AND balance
+  LONG. The two skills are needed at disjoint times.
+
+  *Single-skill source tasks (share the 5-d obs / 1-d action).*
+    - mode='nav': phase-0 task only, +100 on reaching the goal — the
+      NAVIGATE skill.
+    - mode='balance': starts in phase 1, cart frozen at the goal,
+      +1/step pole-up — the BALANCE skill.
+
+  *Mechanism — unchanged from v3.24.* Two source SAC policies (nav,
+  balance) trained then FROZEN; a learned SAC MANAGER (1-d action =
+  blend weight w in [0,1]) applies a = w*a_nav + (1-w)*a_balance to the
+  composite. Because the skills are used in disjoint phases, the
+  manager's job reduces to a TEMPORAL switch — learn w near 1 in phase
+  0, near 0 in phase 1 (the phase is in the obs, so this is learnable).
+
+  *Four arms, N=8, target = composite.*
+    - scratch_mgr:           manager + 2 fresh random policies
+    - transfer_nav_only:     manager + (nav policy, random)
+    - transfer_balance_only: manager + (random, balance policy)
+    - transfer_both:         manager + (nav policy, balance policy)
+
+  *Decisive interpretation.*
+  - transfer_both > max(transfer_nav_only, transfer_balance_only),
+    95% CI on the per-seed difference excludes 0: SEQUENTIAL
+    composition WORKS — a manager orchestrating two frozen skills in
+    sequence solves a task neither solves alone. The project's first
+    positive composition result.
+  - transfer_both ~ best single, or worse: composition still fails
+    even in the sequential regime. Combined with v3.20-v3.24 that
+    would be a strong, well-bounded negative — simple skill
+    composition does not work in this RL setup — and the project
+    consolidates the Phase-A single-skill positives.
+
+  *Metric.* Per-seed sample-efficiency AUC (3-point-smoothed
+  mean-completed-episode return vs env-steps), Student-t 95% CI on
+  transfer_both minus max(single). N=8 first; extend to N=16 if the
+  decisive CI lower bound is within +/-3 of zero.
+
+  *Implementation.* DeviceVecNavigateThenBalance added to device_env.py
+  (one class, mode in {composite, nav, balance}), committed with this
+  amendment. The v3.25 script reuses v3.24's manager + blend-rollout
+  machinery unchanged.
+
+  *Chronology assertion.* This amendment and DeviceVecNavigateThenBalance
+  are committed BEFORE the v3.25 script and any v3.25 run.
+
+  *Amendment trigger:* the v3.24 all-arms-fail outcome, the
+  conflicting-skill diagnosis, and the user's directive to pursue
+  composition via hierarchical RL — applied now to the sequential
+  regime where it is sound.
+
 - (Subsequent amendments timestamped here before execution.)

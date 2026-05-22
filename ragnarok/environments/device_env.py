@@ -441,6 +441,127 @@ class DeviceVecCartPoleOnHillBalanceOnly(DeviceVecCartPoleOnHill):
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecNavigateThenBalance:
+    """Sequential two-phase composite for the v3.25 hierarchical
+    composition test. obs (5) = [cart_pos, cart_vel, pole_angle,
+    pole_angvel, phase].
+
+    mode='composite': PHASE 0 — drive the cart up the MCC hill to the
+      goal (the pole is rigid, irrelevant). On reaching the goal the
+      cart freezes and PHASE 1 begins — the pole activates and must be
+      kept upright; +1 reward per phase-1 step with the pole up, the
+      episode ends on pole-fall. The two phases need two DIFFERENT
+      skills used at DIFFERENT TIMES — no shared-actuator conflict
+      (the v3.24 design flaw, where climb and balance fought over one
+      actuator simultaneously).
+    mode='nav': the phase-0 task in isolation — reach the goal for
+      +100, episode ends. Trains the NAVIGATE skill.
+    mode='balance': starts already in phase 1 — cart frozen at the
+      goal, pole active from step 0, +1/step pole-up. Trains the
+      BALANCE skill.
+
+    All three modes share the 5-d obs / 1-d action, so a policy trained
+    on a sub-skill is dimensionally drop-in for the composite.
+    """
+
+    obs_dim = 5
+    action_dim = 1
+    is_discrete = False
+
+    _MIN_POS = -1.2
+    _MAX_POS = 0.6
+    _MAX_SPEED = 0.07
+    _GOAL_POS = 0.45
+    _CART_POWER = 0.0015
+
+    _G = 9.8
+    _MASSPOLE = 0.1
+    _TOTAL_MASS = 1.1
+    _LENGTH = 0.5
+    _POLEMASS_LENGTH = 0.05
+    _POLE_FORCE_SCALE = 10.0
+    _TAU = 0.02
+    _THETA_THRESH = math.pi / 4
+    _MAX_STEPS = 999
+
+    def __init__(self, num_envs: int, mode: str = "composite"):
+        assert mode in ("composite", "nav", "balance")
+        self.num_envs = num_envs
+        self.mode = mode
+        self.reset()
+
+    def _fresh(self) -> torch.Tensor:
+        pos = torch.rand(self.num_envs, device=DEVICE) * 0.2 - 0.6
+        vel = torch.zeros(self.num_envs, device=DEVICE)
+        theta = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        thdot = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        if self.mode == "balance":
+            # start AT the goal, already in phase 1
+            pos = torch.full_like(pos, self._GOAL_POS)
+            phase = torch.ones(self.num_envs, device=DEVICE)
+        else:
+            phase = torch.zeros(self.num_envs, device=DEVICE)
+        return torch.stack([pos, vel, theta, thdot, phase], dim=-1)
+
+    def reset(self) -> torch.Tensor:
+        self.state = self._fresh()
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        return self.state
+
+    def step(self, action: torch.Tensor):
+        u = action.reshape(self.num_envs).clamp(-1.0, 1.0)
+        pos, vel, theta, thdot, phase = self.state.unbind(dim=-1)
+        in_p0 = phase < 0.5
+
+        # Phase-0 dynamics: MCC cart, rigid pole.
+        vel_p0 = (vel + u * self._CART_POWER
+                  - 0.0025 * torch.cos(3.0 * pos)).clamp(-self._MAX_SPEED,
+                                                         self._MAX_SPEED)
+        pos_p0 = (pos + vel_p0).clamp(self._MIN_POS, self._MAX_POS)
+        vel_p0 = torch.where((pos_p0 <= self._MIN_POS) & (vel_p0 < 0),
+                             torch.zeros_like(vel_p0), vel_p0)
+
+        # Phase-1 dynamics: cart frozen, pole active (CartPole physics).
+        force = u * self._POLE_FORCE_SCALE
+        cos_t = torch.cos(theta)
+        sin_t = torch.sin(theta)
+        temp = (force + self._POLEMASS_LENGTH * thdot ** 2 * sin_t) / self._TOTAL_MASS
+        thetaacc = (self._G * sin_t - cos_t * temp) / (
+            self._LENGTH * (4.0 / 3.0 - self._MASSPOLE * cos_t ** 2 / self._TOTAL_MASS))
+        theta_p1 = theta + self._TAU * thdot
+        thdot_p1 = thdot + self._TAU * thetaacc
+
+        # Per-env phase blend: phase 0 -> cart moves / pole rigid;
+        # phase 1 -> cart frozen / pole active.
+        pos_new = torch.where(in_p0, pos_p0, pos)
+        vel_new = torch.where(in_p0, vel_p0, torch.zeros_like(vel))
+        theta_new = torch.where(in_p0, theta, theta_p1)
+        thdot_new = torch.where(in_p0, thdot, thdot_p1)
+
+        self.steps = self.steps + 1.0
+        reached_goal = in_p0 & (pos_new >= self._GOAL_POS)
+
+        if self.mode == "nav":
+            phase_new = phase                                 # never advances
+            reward = 100.0 * reached_goal.float() - 0.1 * u ** 2
+            terminated = reached_goal
+        else:
+            phase_new = torch.where(reached_goal, torch.ones_like(phase), phase)
+            in_p1 = phase_new > 0.5
+            pole_up = theta_new.abs() <= self._THETA_THRESH
+            reward = (in_p1 & pole_up).float() - 0.01 * u ** 2
+            terminated = in_p1 & (theta_new.abs() > self._THETA_THRESH)
+
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+
+        new_state = torch.stack(
+            [pos_new, vel_new, theta_new, thdot_new, phase_new], dim=-1)
+        self.state = torch.where(done.unsqueeze(-1), self._fresh(), new_state)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 
