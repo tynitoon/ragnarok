@@ -351,6 +351,96 @@ class DeviceVecCartPoleOnHill:
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecCartPoleOnHillClimbOnly(DeviceVecCartPoleOnHill):
+    """Cart-pole-on-hill with a RIGID pole — the pole never rotates and
+    never falls. Isolates the CLIMBING sub-skill of the composite: the
+    agent only has to drive the cart up the hill. Same 4-d obs / 1-d
+    action / goal / reward shape as the full composite, so a policy
+    trained here is dimensionally drop-in for the composite. The pole
+    obs dims (theta, theta_dot) are present but held at 0.
+
+    v3.24 source task A (the "climb" skill).
+    """
+
+    def step(self, action: torch.Tensor):
+        u = action.reshape(self.num_envs).clamp(-1.0, 1.0)
+        pos, vel, _theta, _thdot = self.state.unbind(dim=-1)
+
+        vel_new = vel + u * self._CART_POWER - 0.0025 * torch.cos(3.0 * pos)
+        vel_new = vel_new.clamp(-self._MAX_SPEED, self._MAX_SPEED)
+        pos_new = (pos + vel_new).clamp(self._MIN_POS, self._MAX_POS)
+        vel_new = torch.where((pos_new <= self._MIN_POS) & (vel_new < 0),
+                              torch.zeros_like(vel_new), vel_new)
+        # Pole is rigid — theta, theta_dot stay 0.
+        zero = torch.zeros_like(pos_new)
+        new_state = torch.stack([pos_new, vel_new, zero, zero], dim=-1)
+        self.steps = self.steps + 1.0
+
+        reached_goal = (pos_new >= self._GOAL_POS) & (vel_new >= self._GOAL_VEL)
+        terminated = reached_goal
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+        reward = 100.0 * reached_goal.float() - 0.1 * u ** 2
+
+        pos0 = torch.rand(self.num_envs, device=DEVICE) * 0.2 - 0.6
+        z = torch.zeros_like(pos0)
+        fresh = torch.stack([pos0, z, z, z], dim=-1)
+        self.state = torch.where(done.unsqueeze(-1), fresh, new_state)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        return self.state, reward, terminated, truncated, done
+
+
+class DeviceVecCartPoleOnHillBalanceOnly(DeviceVecCartPoleOnHill):
+    """Cart-pole-on-hill on FLAT ground — the hill-gravity term is
+    removed, so climbing is trivial; the only challenge is keeping the
+    pole upright while driving to the goal. Isolates the BALANCING
+    sub-skill of the composite. Same 4-d obs / 1-d action / goal /
+    reward shape as the full composite.
+
+    v3.24 source task B (the "balance" skill).
+    """
+
+    def step(self, action: torch.Tensor):
+        u = action.reshape(self.num_envs).clamp(-1.0, 1.0)
+        pos, vel, theta, thdot = self.state.unbind(dim=-1)
+
+        # Flat ground — NO hill-gravity ``- 0.0025*cos(3*pos)`` term.
+        vel_new = (vel + u * self._CART_POWER).clamp(-self._MAX_SPEED,
+                                                     self._MAX_SPEED)
+        pos_new = (pos + vel_new).clamp(self._MIN_POS, self._MAX_POS)
+        vel_new = torch.where((pos_new <= self._MIN_POS) & (vel_new < 0),
+                              torch.zeros_like(vel_new), vel_new)
+
+        # Pole dynamics — identical to the full composite.
+        force = u * self._POLE_FORCE_SCALE
+        cos_t = torch.cos(theta)
+        sin_t = torch.sin(theta)
+        temp = (force + self._POLEMASS_LENGTH * thdot ** 2 * sin_t) / self._TOTAL_MASS
+        thetaacc = (self._G * sin_t - cos_t * temp) / (
+            self._LENGTH * (4.0 / 3.0 - self._MASSPOLE * cos_t ** 2 / self._TOTAL_MASS))
+        theta_new = theta + self._TAU * thdot
+        thdot_new = thdot + self._TAU * thetaacc
+
+        new_state = torch.stack([pos_new, vel_new, theta_new, thdot_new], dim=-1)
+        self.steps = self.steps + 1.0
+
+        pole_fell = theta_new.abs() > self._THETA_THRESH
+        reached_goal = (pos_new >= self._GOAL_POS) & (vel_new >= self._GOAL_VEL) & ~pole_fell
+        terminated = pole_fell | reached_goal
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+        reward = 100.0 * reached_goal.float() - 0.1 * u ** 2
+
+        pos0 = torch.rand(self.num_envs, device=DEVICE) * 0.2 - 0.6
+        vel0 = torch.zeros_like(pos0)
+        th0 = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        thdot0 = (torch.rand(self.num_envs, device=DEVICE) - 0.5) * 0.1
+        fresh = torch.stack([pos0, vel0, th0, thdot0], dim=-1)
+        self.state = torch.where(done.unsqueeze(-1), fresh, new_state)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 

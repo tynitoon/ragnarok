@@ -2569,4 +2569,89 @@ in Phase 4 baselines, not Phase 5.
   composition question with a sophisticated mechanism (option 3
   on the post-v3.22 fork).
 
+- **2026-05-22 (v3.24 — hierarchical composition: a learned MANAGER
+  orchestrates two frozen skill policies on a target that genuinely
+  requires both).**
+
+  *Trigger and rationale.* Four composition mechanisms (v3.20 averaging
+  RSSM cores, v3.21 latent concat, v3.22 averaging policy weights,
+  v3.23 learned soft gate over cores) all failed to produce additive
+  composition. The diagnosed root cause is NOT only the mechanism: in
+  every case the target task (MCC-Hard) is solvable by a SINGLE skill,
+  so there is no composition to detect — the v3.23 gate correctly
+  learned to SELECT one core. v3.24 fixes BOTH problems: a target that
+  genuinely requires two distinct skills, and a hierarchical mechanism
+  (the user-chosen option B).
+
+  *Composite target with isolable sub-skills.* DeviceVecCartPoleOnHill
+  (the v3.19 composite — a cart on the MCC hill with a balanced pole)
+  is paired with two NEW single-skill variants that share its exact
+  4-d obs / 1-d action / goal / reward:
+    - DeviceVecCartPoleOnHillClimbOnly: the pole is RIGID (never
+      rotates, never falls). Isolates the CLIMBING skill — only the
+      hill must be solved.
+    - DeviceVecCartPoleOnHillBalanceOnly: the ground is FLAT (no
+      hill-gravity term). Isolates the BALANCING skill — only the pole
+      must be kept up while reaching the goal.
+  The full composite requires climbing the hill WHILE keeping the pole
+  upright; aggressive driving (needed to climb) swings the pole, gentle
+  driving (preserves the pole) cannot climb. Neither sub-skill alone
+  solves the composite. Because all three share obs/action dims, a
+  policy trained on a sub-skill is dimensionally drop-in for the
+  composite (fixing the v3.19 DOF mismatch).
+
+  *Hierarchical mechanism (option B).* Two source SAC policies are
+  trained, one on ClimbOnly and one on BalanceOnly, then FROZEN. A
+  learned MANAGER — itself a SAC agent with obs the 4-d composite
+  state and a 1-d continuous action w in [0, 1] — orchestrates them:
+  at each step the action applied to the composite env is
+  ``a = w * a_climb + (1 - w) * a_balance`` where a_climb / a_balance
+  are the two frozen policies' greedy actions on the current obs. Only
+  the manager is trained on the composite. This is the violin-analogy
+  structure: the manager (the "musician") composes two fixed
+  competences by deciding, per state, how much of each to apply.
+
+  *Four arms, N=8, target = DeviceVecCartPoleOnHill.*
+    - scratch_mgr:           manager + 2 fresh random policies
+    - transfer_climb_only:   manager + (trained climb policy, random)
+    - transfer_balance_only: manager + (random, trained balance policy)
+    - transfer_both:         manager + (trained climb, trained balance)
+                             -- THE HIERARCHICAL COMPOSITION TEST
+  Each source policy is applied through its own saved obs-normaliser
+  so it sees inputs distributed as in its training.
+
+  *Decisive interpretation.*
+  - transfer_both > max(transfer_climb_only, transfer_balance_only),
+    95% CI on the per-seed difference excludes 0: hierarchical
+    composition WORKS — a manager orchestrating two frozen skills
+    solves a task neither skill solves alone. The project's first
+    positive composition result and a direct realisation of the
+    violin+solfege analogy.
+  - transfer_both ~ best single: the manager cannot extract joint
+    value; it collapses to one skill. Composition still null.
+  - transfer_both < best single: the second option distracts the
+    manager. Composition hurts.
+  - All arms fail (no arm solves the composite): the composite is too
+    hard for the manager-blend action class at the budget; a follow-up
+    loosens difficulty (THETA_THRESH) or grants the manager a residual
+    action term.
+
+  *Metric.* Per-seed sample-efficiency AUC (3-point-smoothed eval
+  return vs env-steps), Student-t 95% CI on transfer_both minus
+  max(single). N=8 first; extend to N=16 if the decisive CI lower
+  bound is within +/-3 of zero.
+
+  *Implementation.* Two env variants added to device_env.py (committed
+  with this amendment). A v3.24 script trains the two source policies
+  via the proven raw-obs DeviceAgent path, then runs the four manager
+  arms with a custom blend-action rollout. No changes to SACTrainer.
+
+  *Chronology assertion.* This amendment, and the DeviceVecCartPoleOnHill
+  Climb/Balance-Only env variants, are committed BEFORE the v3.24
+  script and BEFORE any v3.24 run.
+
+  *Amendment trigger:* the four static/gated composition nulls
+  (v3.20-v3.23) and the user's directive to pursue composition via
+  hierarchical RL / the options framework.
+
 - (Subsequent amendments timestamped here before execution.)
