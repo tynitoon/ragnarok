@@ -2727,4 +2727,68 @@ in Phase 4 baselines, not Phase 5.
   composition via hierarchical RL — applied now to the sequential
   regime where it is sound.
 
+- **2026-05-24 (v3.26 — DISCRETE manager via straight-through hard
+  selection, addressing v3.25's soft-blend pathology).**
+
+  *Trigger.* v3.25 (sequential composition with a SAC manager outputting
+  a continuous blend weight w in [0,1]) was null with a striking
+  signature: transfer_both AUC was 16.12 +/- 0.12 across N=8 (std
+  ~0.7% of mean) — the manager converged to the SAME local minimum
+  every seed, around w ~ 0.4-0.6, splitting the action 50/50 between
+  the two skills instead of hard-switching per phase. The single-skill
+  arms forced commitment (the random option leaves only one useful
+  signal) and outperformed. The diagnosed pathology: soft-blend with
+  two real options cannot learn a phase-conditional hard switch — it
+  settles into "split the baby." The user-directed next test is a
+  DISCRETE manager.
+
+  *Mechanism — straight-through hard selection.* The manager's SAC
+  architecture is unchanged (1-d continuous action w in [0,1]), but
+  the blend is replaced with a hard one-of-two selection with
+  straight-through gradient flow:
+
+      hard = (w > 0.5).float()                 # 0 or 1
+      w_eff = hard + w - w.detach()            # forward = hard;
+                                               # d(w_eff)/dw = 1
+      a = w_eff * a_opt_a + (1 - w_eff) * a_opt_b
+                                               # forward: one of two
+                                               # actions, period.
+
+  Forward pass: the env action is exactly a_opt_a if w > 0.5 else
+  a_opt_b — a true discrete selection. Backward pass: the manager's
+  gradient on w flows as in the soft-blend, so SAC's policy still
+  trains on a continuous w. This is the standard straight-through
+  estimator and it directly addresses the v3.25 pathology by removing
+  the smooth-mixing local minimum at w=0.5.
+
+  *Design — unchanged from v3.25.* Target = DeviceVecNavigateThenBalance
+  (composite). Sources = the same cached nav and balance policies
+  (`transfer_v325_out/source_nav.pt`, `source_balance.pt`). Four arms
+  (scratch_mgr / transfer_nav_only / transfer_balance_only /
+  transfer_both). N=8. Endpoint = per-seed AUC, decisive
+  transfer_both - max(singles), Student-t 95% CI.
+
+  *Decisive interpretation.*
+  - transfer_both > max(singles), CI excludes 0: discrete switching
+    works — the project's first sequential composition positive,
+    validates the v3.25 diagnosis (the pathology was soft-blending,
+    not composition itself).
+  - transfer_both ~ singles: even with hard selection the manager
+    doesn't extract additive value from two real skills. The 8th
+    composition null bounds the negative further.
+  - transfer_both < singles: hard selection introduces enough critic
+    instability (Q-function across a discontinuity at w=0.5) to hurt.
+    Would point to a value-based discrete manager (DQN-over-options)
+    as a follow-up if pursued.
+
+  *Stopping rule.* N=8 first; extend to N=16 only if the decisive CI
+  lower bound is within +/-3 of zero (same rule as v3.20-v3.25).
+
+  *Chronology assertion.* This amendment is committed BEFORE the v3.26
+  script and any v3.26 run.
+
+  *Amendment trigger:* the v3.25 manager pathology (transfer_both
+  stuck at 16.12 +/- 0.12 across 8 seeds) and the user's directive
+  to try a discrete manager — option 2 on the post-v3.25 fork.
+
 - (Subsequent amendments timestamped here before execution.)
