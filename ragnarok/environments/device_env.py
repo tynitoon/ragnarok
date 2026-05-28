@@ -648,6 +648,101 @@ class DeviceVecPointMass2D:
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecOrderedVisit:
+    """N point-mass environments where the task is to VISIT 3 zones in a
+    fixed order — the v4.0 Phase-2 compositional task.
+
+    obs (5) = [x, y, vx, vy, progress] where progress in {0,1,2,3}/3 is
+    how many zones have been visited in order so far. action (2) = force.
+    Same point-mass DYNAMICS as DeviceVecPointMass2D — so a world model
+    trained on the free-space dynamics (Phase 1) is reusable UNCHANGED
+    for the first 4 obs dims; "progress" is task bookkeeping the
+    high-level tracks, not part of the dynamics model.
+
+    Reward is SPARSE: +1 when the next-required zone is reached (advancing
+    progress), +10 on completing all three, small control cost. Reaching
+    a wrong (not-next) zone does nothing. Sparse + long-horizon, so flat
+    primitive RL faces a hard exploration problem; a hierarchical agent
+    that REUSES a "reach a point" skill (Phase-1 world-model planning)
+    only has to learn the ORDER — the composition — and should learn it
+    far faster (or solve a task flat RL cannot).
+
+    The "basic notion" (reach a point) is reused; the "complex notion"
+    (the ordered visit) is the new composition.
+    """
+
+    obs_dim = 5
+    action_dim = 2
+    is_discrete = False
+
+    _BOUND = 1.0
+    _DRAG = 0.10
+    _POWER = 0.05
+    _MAX_SPEED = 0.30
+    _ZONE_RADIUS = 0.15
+    _MAX_STEPS = 150
+    # Three fixed zones; required order is index 0 -> 1 -> 2.
+    _ZONES = ((-0.6, 0.6), (0.6, 0.6), (0.0, -0.6))
+    _N_ZONES = 3
+
+    def __init__(self, num_envs: int):
+        self.num_envs = num_envs
+        zr = torch.tensor(self._ZONES, dtype=torch.float32, device=DEVICE)
+        self.zones = zr                                    # (3, 2)
+        self.reset()
+
+    def _obs(self) -> torch.Tensor:
+        prog = (self.progress.float() / self._N_ZONES).unsqueeze(-1)
+        return torch.cat([self.pos, self.vel, prog], dim=-1)
+
+    def reset(self) -> torch.Tensor:
+        self.pos = (torch.rand(self.num_envs, 2, device=DEVICE) - 0.5) * 1.6
+        self.vel = torch.zeros(self.num_envs, 2, device=DEVICE)
+        self.progress = torch.zeros(self.num_envs, dtype=torch.long, device=DEVICE)
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        self.state = self._obs()
+        return self.state
+
+    def next_zone(self) -> torch.Tensor:
+        """(N, 2) the position of each env's next-required zone (clamped at
+        the last zone once complete) — used by a high-level / oracle."""
+        idx = self.progress.clamp(max=self._N_ZONES - 1)
+        return self.zones[idx]
+
+    def step(self, action: torch.Tensor):
+        f = action.reshape(self.num_envs, 2).clamp(-1.0, 1.0)
+        self.vel = (self.vel * (1.0 - self._DRAG) + f * self._POWER).clamp(
+            -self._MAX_SPEED, self._MAX_SPEED)
+        self.pos = (self.pos + self.vel).clamp(-self._BOUND, self._BOUND)
+        self.steps = self.steps + 1.0
+
+        # Did we reach the next-required zone? (only the next one counts)
+        nz = self.next_zone()
+        at_next = (torch.norm(self.pos - nz, dim=-1) < self._ZONE_RADIUS)
+        incomplete = self.progress < self._N_ZONES
+        advanced = at_next & incomplete
+        self.progress = self.progress + advanced.long()
+
+        completed = self.progress >= self._N_ZONES
+        reward = (advanced.float()                       # +1 per correct zone
+                  + 10.0 * (completed & advanced).float()  # +10 finishing bonus
+                  - 0.01 * (f ** 2).sum(dim=-1))
+
+        terminated = completed
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+
+        fresh_pos = (torch.rand(self.num_envs, 2, device=DEVICE) - 0.5) * 1.6
+        m = done.unsqueeze(-1)
+        self.pos = torch.where(m, fresh_pos, self.pos)
+        self.vel = torch.where(m, torch.zeros_like(self.vel), self.vel)
+        self.progress = torch.where(done, torch.zeros_like(self.progress),
+                                    self.progress)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        self.state = self._obs()
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 

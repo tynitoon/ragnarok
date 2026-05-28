@@ -2913,4 +2913,73 @@ developmental learning.
   weak, composition null, world model unused for control) and the
   project owner's restated developmental-learning goal.
 
+- **2026-05-29 (v4.0 Phase 2 — composition by sub-goals: reuse the
+  "reach a point" skill to learn a sequential task fast).**
+
+  *Trigger.* Phase 1 succeeded: a reused world model solves new goals by
+  planning, and the compounding curve is demonstrated (marginal cost per
+  new goal -> 0; crossover vs from-scratch at k=8; mpc success 1.00 on
+  12 goals). Phase 2 is the project owner's "complex notion reuses basic
+  notions, learned faster" pillar — with the CORRECT mechanism
+  (temporal abstraction over sub-goals), not the per-step action-blending
+  that v3.24-26 falsified.
+
+  *Task (DeviceVecOrderedVisit).* obs (5) = [x, y, vx, vy, progress],
+  same point-mass dynamics as Phase 1. Visit 3 fixed zones in a FIXED
+  order; SPARSE reward (+1 per correct-next zone, +10 on completing all
+  three; nothing for a wrong zone). Sanity-checked: an oracle that heads
+  to the next-required zone completes reliably (371 completions / 300
+  steps / 64 envs); RANDOM primitive actions complete ZERO times. So the
+  task is solvable only by COMPOSING "reach a zone" moves — flat
+  primitive exploration cannot find it.
+
+  *Mechanism — hierarchical, temporal abstraction.*
+  - Low level = the REUSED Phase-1 world model (4-d point-mass dynamics,
+    UNCHANGED) + CEM-MPC: given a sub-goal point, plan to reach it. The
+    "basic notion" — reused as-is, zero relearning.
+  - High level = a SAC agent whose action is a 2-D SUB-GOAL point. Each
+    high-level decision triggers a MACRO-STEP: the low-level MPC pursues
+    the sub-goal for up to K low-level steps; the high level then
+    re-decides. The high level trains on macro-transitions (obs, sub-goal,
+    summed reward, next obs) — a semi-MDP. Temporal abstraction collapses
+    the decision horizon from ~150 primitive steps to ~10 macro-decisions,
+    which is exactly what made credit assignment intractable for the
+    per-step managers of v3.24-26.
+  - The high level learns ONLY the composition (which zone next / the
+    order); the navigation is reused. "Complex = sequence of basics."
+
+  *Arms.*
+  - hierarchical_reuse: high-level SAC + low-level MPC in the TRAINED
+    (reused) world model.
+  - hierarchical_untrained: high-level SAC + low-level MPC in a fresh
+    RANDOM world model (control — the low level cannot reach sub-goals,
+    so composition has no working primitive). Isolates that the REUSED
+    dynamics knowledge is what enables fast composition.
+  - flat_scratch: flat SAC over primitive [fx, fy] actions, from scratch.
+
+  *Endpoint.* Env-steps to MASTER the ordered visit (completion success
+  >= 0.8 from random starts), per arm, N seeds. Decisive:
+  hierarchical_reuse masters in DRAMATICALLY fewer env-steps than
+  flat_scratch — or flat_scratch never masters (random completes 0, so a
+  flat learner may fail entirely), in which case the result is the
+  stronger "composition makes possible what flat RL cannot". And
+  hierarchical_reuse >> hierarchical_untrained (the reused world model,
+  not just the hierarchy, is what enables it).
+
+  *Graceful-fallback note (Phase 3 hook).* The high level can only
+  compose sub-goals the low-level world model can actually reach; here
+  all zones are reachable by the reused free-space model, so reuse
+  suffices. When a sub-task is NOT reachable by the current model (novel
+  dynamics), the developmental loop must extend the model / learn a new
+  skill — the "if no link, learn a new notion" branch, deferred to
+  Phase 3.
+
+  *Chronology assertion.* This amendment and DeviceVecOrderedVisit are
+  committed BEFORE the Phase-2 hierarchical-controller script and any
+  Phase-2 run.
+
+  *Amendment trigger:* Phase 1 success and the project owner's
+  clarified developmental-composition vision (complex reuses basic ->
+  faster), realised with temporal-abstraction hierarchy.
+
 - (Subsequent amendments timestamped here before execution.)
