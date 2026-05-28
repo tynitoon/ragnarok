@@ -269,7 +269,7 @@ def _summarize_curve(log, n_per_block):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--regimes", nargs="+",
-                   default=["free", "drift", "ice", "reverse"])
+                   default=["free", "rot90", "reverse", "rot270"])
     p.add_argument("--blocks", type=int, default=3)
     p.add_argument("--seeds", type=int, default=3)
     p.add_argument("--num-envs", type=int, default=128)

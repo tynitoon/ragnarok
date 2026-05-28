@@ -1,0 +1,35 @@
+{
+  "matrix": {
+    "free": {
+      "free": 1.0,
+      "rot90": 0.0,
+      "reverse": 0.0078125,
+      "rot270": 0.015625
+    },
+    "rot90": {
+      "free": 0.046875,
+      "rot90": 1.0,
+      "reverse": 0.0078125,
+      "rot270": 0.0
+    },
+    "reverse": {
+      "free": 0.0,
+      "rot90": 0.015625,
+      "reverse": 0.9765625,
+      "rot270": 0.015625
+    },
+    "rot270": {
+      "free": 0.0,
+      "rot90": 0.0078125,
+      "reverse": 0.0,
+      "rot270": 0.984375
+    }
+  },
+  "clean": true,
+  "regimes": [
+    "free",
+    "rot90",
+    "reverse",
+    "rot270"
+  ]
+}

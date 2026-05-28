@@ -3113,4 +3113,53 @@ developmental learning.
   script (scripts/devloop_v4.py), the ``regime`` env change, and any
   Phase-3 run.
 
+- **2026-05-29 (v4.0 Phase 3 substrate correction — the four notions are
+  the ROTATION GROUP, not the physics regimes; validate-driven, committed
+  before the real run).**
+
+  *What the preregistered --validate probe matrix showed.* The Phase-3
+  amendment named {free, drift, ice, reverse} as the four distinct
+  notions. The substrate check it ALSO prescribed ("verified by a skill x
+  regime probe matrix in --validate") was run first (devloop_v4_out/
+  validate_run.log) and falsified that choice: all four are masterable
+  (diag >= 0.80) but they are NOT four separate notions —
+      free    drift    ice   reverse   (rows=skill, cols=test-regime)
+   free 1.00   0.32   1.00    0.00
+  drift 0.60   0.80   0.76    0.01
+    ice 0.88   0.08   0.84    0.01
+  rev   0.01   0.06   0.03    0.80
+  free and ice transfer into each other (1.00 / 0.88): the reach-on-first-
+  entry termination is forgiving, so a free-skill simply COASTS THROUGH
+  the goal under low-friction ice. drift also leaks outward (0.60-0.76).
+  A library gate would (correctly) collapse free/ice into one skill, so
+  the "library size == 4" check could never hold — the env did not in
+  fact contain four distinct notions.
+
+  *Correction.* Replace the notion set with the ROTATION GROUP
+  {free = 0deg, rot90, reverse = 180deg, rot270}: the action->force map is
+  rotated by a fixed angle per regime. These are non-transferring BY
+  GEOMETRY — a skill tuned for one rotation moves at the wrong angle under
+  any other (the inverted/rotated-control analogy from human sensorimotor
+  learning). The same --validate matrix (validate_rot.log) confirms a
+  clean diagonal:
+             free   rot90  reverse  rot270
+    free     1.00    0.00    0.01    0.02
+   rot90     0.05    1.00    0.01    0.00
+  reverse    0.00    0.02    0.98    0.02
+  rot270     0.00    0.01    0.00    0.98
+  diag mean 0.99 (min 0.98), off-diag mean 0.01 (max 0.05). Four
+  genuinely distinct, individually masterable notions.
+
+  *Why this is a substrate fix, not hypothesis-hacking.* Everything about
+  the EXPERIMENT is unchanged — the gate, the three arms, the
+  block-permutation curriculum, the endpoint, and all four decisive
+  criteria. What changed is only the IDENTITY of the four notions, chosen
+  so the environment actually contains four distinct ones (a validity
+  precondition, the explicit purpose of the preregistered probe matrix).
+  The choice is blind to the experiment's outcome: it is driven solely by
+  the transfer matrix, and the no_reuse / always_reuse_first controls are
+  unaffected. Recording the matrices in full so the reader can audit the
+  switch. The real 3-arm curriculum run uses
+  `--regimes free rot90 reverse rot270` and is launched AFTER this commit.
+
 - (Subsequent amendments timestamped here before execution.)
