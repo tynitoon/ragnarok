@@ -2982,4 +2982,45 @@ developmental learning.
   clarified developmental-composition vision (complex reuses basic ->
   faster), realised with temporal-abstraction hierarchy.
 
+- **2026-05-29 (v4.0 Phase 2 implementation note — the reusable
+  reach-skill is a goal-conditioned policy, not MPC-in-the-loop).**
+
+  *Why.* The Phase-2 amendment specified the low-level "reach a point"
+  skill as CEM-MPC in the reused world model. Running CEM-MPC inside the
+  high-level TRAINING loop (thousands of planning calls, each B x n_cand
+  x horizon x n_iters model steps) is computationally prohibitive
+  (~1e12 core-steps for one training). The reusable basic skill is
+  therefore realised as a fast GOAL-CONDITIONED POLICY pi_lo(obs4, g) ->
+  action — a single forward pass — which is the AMORTISED form of the
+  same "reach a point" competence Phase 1 demonstrated by planning (and
+  could in principle be distilled from the world model; trained directly
+  here for simplicity). The scientific question is UNCHANGED: does
+  reusing the basic reach-skill make the complex (ordered-visit) task
+  learnable far faster than from scratch?
+
+  *Updated mechanism.*
+  - Basic skill (one-time, the "notion already known"): pi_lo trained by
+    goal-conditioned SAC on point-mass — reach arbitrary goals; input
+    [x, y, vx, vy, gx, gy] (6-d), action (2-d).
+  - hierarchical_reuse: high-level SAC outputs a sub-goal; the FROZEN
+    pi_lo executes it for K low-level steps (a macro-step); the high
+    level trains on macro-transitions.
+  - hierarchical_untrained: high level + a FRESH RANDOM pi_lo (control —
+    the reach-skill is absent, so composition has no working primitive).
+  - flat_scratch: flat SAC over primitive actions, from scratch.
+
+  *Everything else unchanged* (task, endpoint, decisive interpretation,
+  graceful-fallback note).
+
+  *Chronology correction (honest record).* The Phase-2 experimental
+  DESIGN — task (OrderedVisit), endpoint (env-steps to master), the three
+  arms, and the decision rule — was committed in 14fe57f BEFORE the run.
+  This implementation note describes the MPC->goal-conditioned-policy
+  switch, a decision taken before the run (the run used it), but the
+  written note itself was left uncommitted in the working tree and is
+  being committed now, AFTER the run. The switch is a mechanism detail,
+  not an outcome-selecting degree of freedom: the hier_untrained control
+  (random pi_lo) still isolates the effect of skill reuse, so design
+  integrity holds. Recording the slip rather than backdating the claim.
+
 - (Subsequent amendments timestamped here before execution.)
