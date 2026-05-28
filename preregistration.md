@@ -3023,4 +3023,94 @@ developmental learning.
   (random pi_lo) still isolates the effect of skill reuse, so design
   integrity holds. Recording the slip rather than backdating the claim.
 
+- **2026-05-29 (v4.0 Phase 3 — the developmental loop: a growing skill
+  library + relevance gating; the "learning-to-learn" curve).**
+
+  *What this closes.* Phase 1 = "understanding the world makes new goals
+  cheap" (plan in a reused model). Phase 2 = "complex reuses basic"
+  (temporal-abstraction hierarchy over a reused skill). Phase 3 = the
+  full loop the owner asked for: *"plus elle connaît de choses, moins
+  elle a à apprendre"* — and the explicit branch *"si pas de lien, elle
+  apprend une nouvelle notion."* It unifies reuse and novelty under one
+  relevance-gated policy and measures the developmental signature
+  directly: marginal cost-to-master a new task DECREASES as the library
+  of mastered notions grows — but only when tasks share structure; a
+  genuinely novel task still costs a full learn (honest accounting).
+
+  *Substrate — distinct "notions" as distinct dynamics regimes.*
+  DeviceVecPointMass2D gains a ``regime`` parameter that alters the
+  dynamics while keeping obs (4-d) and action (2-d) and the reach-a-goal
+  reward FIXED. Four regimes, each a distinct motor "notion":
+  - ``free``    — standard drag/power (the Phase-1/2 dynamics).
+  - ``drift``   — a constant wind field added to velocity each step;
+    must aim UPWIND. A free-skill is blown off-target.
+  - ``ice``     — near-frictionless (very low drag); momentum dominates,
+    must BRAKE early. A free-skill overshoots/orbits.
+  - ``reverse`` — the action-to-force map is inverted; must push the
+    OPPOSITE way. A free-skill does exactly the wrong thing.
+  A skill mastered in one regime generalizes across GOALS within that
+  regime, but is expected NOT to transfer across regimes. This
+  diagonal-transfer property (verified by a skill x regime probe matrix
+  in --validate) is what makes the four regimes four genuinely separate
+  notions rather than one.
+
+  *A skill.* A goal-conditioned policy pi(obs4, goal2) -> action (the
+  amortised reach-competence of Phase 1/2; obs to the policy is the 6-d
+  [x,y,vx,vy,gx,gy]). The library is a set of such skills, each the
+  agent's learned competence for one notion. (Each could equivalently be
+  a world-model+planner; policies keep a multi-task curriculum tractable
+  on one GPU, per the Phase-2 implementation note.)
+
+  *The relevance gate (no oracle — empirical probe).* The agent is NEVER
+  told a task's regime. For each new task it PROBES every library skill:
+  a handful of eval rollouts on the task's own (start, goal) instances.
+  If the best skill already reaches the MASTERY bar (success >= 0.8), it
+  is REUSED with ZERO learning (the task is, by definition, already
+  solved by a known notion). Otherwise the agent LEARNS A NEW skill
+  (goal-conditioned SAC to success >= 0.8) and ADDS it to the library —
+  the "if no link, learn a notion" branch. Probe cost (eval env-steps)
+  is COUNTED in the budget; trying what you know is not free.
+
+  *Curriculum.* A length-12 sequence in which the four regimes recur
+  (each appears ~3x), order shuffled per seed; each task draws fresh
+  random goals under its (hidden) regime. Early tasks are mostly novel
+  (library empty) -> learn; later tasks increasingly hit a known notion
+  -> reuse. New goals under an already-learned regime test within-notion
+  generalization (should reuse, not re-learn).
+
+  *Arms.*
+  - reuse_gated: the developmental loop above (library + empirical gate).
+  - no_reuse: ablation — no library, no probe; every task trains a fresh
+    skill to mastery. The linear baseline (cost grows ~linearly in #tasks).
+  - always_reuse_first (control): forced to reuse skill #1 for every task
+    (no gate). Novel regimes fail -> shows the GATE, not mere reuse, is
+    what makes the loop both fast AND correct.
+
+  *Endpoint & decisive interpretation.* Per arm, N seeds, record per-task
+  marginal env-steps (probe + any learning), the cumulative curve, total
+  env-steps, the gate's per-task decision (reuse/learn), final library
+  size, and whether ALL tasks ended mastered. DECISIVE for the
+  developmental thesis iff, for reuse_gated:
+  1. marginal cost-to-master TRENDS DOWN across the curriculum (late-task
+     mean << early-task mean; negative slope) while no_reuse stays flat;
+  2. total env-steps << no_reuse total (reuse compounds the savings);
+  3. the gate recovers EXACTLY the true notion count (final library size
+     == 4) without being told — learning each notion once, reusing after;
+  4. all tasks end mastered (reuse never silently broke a task), whereas
+     always_reuse_first leaves the non-free regimes UNMASTERED.
+  A null (no downward trend, or library != 4, or reuse breaks tasks)
+  would mean the loop does not actually compound knowledge — reported
+  honestly as such.
+
+  *Honest scope.* Four hand-built regimes on one toy substrate; the gate
+  is a success-probe, not a learned relevance model. This validates the
+  MECHANISM of relevance-gated reuse-or-learn and the compounding curve
+  it produces — not open-world skill discovery. It is, however, the
+  literal closed form of the owner's "learns basics first, then reuses
+  them to learn faster, and learns anew when there is no link."
+
+  *Chronology assertion.* This amendment is committed BEFORE the Phase-3
+  script (scripts/devloop_v4.py), the ``regime`` env change, and any
+  Phase-3 run.
+
 - (Subsequent amendments timestamped here before execution.)
