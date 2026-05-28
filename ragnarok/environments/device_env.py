@@ -562,6 +562,92 @@ class DeviceVecNavigateThenBalance:
         return self.state, reward, terminated, truncated, done
 
 
+class DeviceVecPointMass2D:
+    """N 2-D point-mass navigation environments, device-resident, batched.
+
+    obs (4) = [x, y, vx, vy]. action (2) = [fx, fy] continuous force.
+    A point mass with drag in a bounded square arena; reach a GOAL
+    (gx, gy) within a radius. ONE dynamics, infinitely many goals — the
+    v4.0 substrate for "reuse the dynamics model across tasks": a single
+    world model trained on the (goal-agnostic) dynamics can solve any
+    goal by planning, and goals compose naturally for Phase-2 multi-skill
+    navigation.
+
+    The observation is GOAL-AGNOSTIC (the goal is NOT in obs) so the
+    learned world model is pure dynamics, reusable across all goals; the
+    goal enters only through the reward (for SAC) and the planner's
+    scoring (for MPC). With ``goal=None`` the goal is resampled each
+    episode (for goal-agnostic dynamics-model data); pass a fixed
+    ``goal`` (2-vector) to train/evaluate a single specific task.
+    """
+
+    obs_dim = 4
+    action_dim = 2
+    is_discrete = False
+
+    _BOUND = 1.0
+    _DRAG = 0.10
+    _POWER = 0.05
+    _MAX_SPEED = 0.30
+    _GOAL_RADIUS = 0.10
+    _MAX_STEPS = 100
+
+    def __init__(self, num_envs: int, goal=None):
+        self.num_envs = num_envs
+        self._fixed_goal = (None if goal is None
+                            else torch.as_tensor(goal, dtype=torch.float32,
+                                                 device=DEVICE).reshape(2))
+        self.reset()
+
+    def _sample_goals(self, n: int) -> torch.Tensor:
+        return (torch.rand(n, 2, device=DEVICE) - 0.5) * 1.6   # [-0.8, 0.8]^2
+
+    def _sample_start(self, n: int) -> torch.Tensor:
+        return (torch.rand(n, 2, device=DEVICE) - 0.5) * 1.6
+
+    def _goals(self, n: int) -> torch.Tensor:
+        if self._fixed_goal is not None:
+            return self._fixed_goal.unsqueeze(0).expand(n, 2).clone()
+        return self._sample_goals(n)
+
+    def reset(self) -> torch.Tensor:
+        self.pos = self._sample_start(self.num_envs)
+        self.vel = torch.zeros(self.num_envs, 2, device=DEVICE)
+        self.goal = self._goals(self.num_envs)
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        self.state = torch.cat([self.pos, self.vel], dim=-1)
+        return self.state
+
+    def step(self, action: torch.Tensor):
+        """action: (N, 2) or (N*2,) float, clamped to [-1, 1]."""
+        f = action.reshape(self.num_envs, 2).clamp(-1.0, 1.0)
+        self.vel = (self.vel * (1.0 - self._DRAG) + f * self._POWER).clamp(
+            -self._MAX_SPEED, self._MAX_SPEED)
+        self.pos = (self.pos + self.vel).clamp(-self._BOUND, self._BOUND)
+        self.steps = self.steps + 1.0
+
+        dist = torch.norm(self.pos - self.goal, dim=-1)
+        reached = dist < self._GOAL_RADIUS
+        # Dense shaping (-dist) + control cost + reach bonus. MPC scores
+        # by the same -dist; SAC optimizes the same reward.
+        reward = -dist - 0.01 * (f ** 2).sum(dim=-1) + 10.0 * reached.float()
+
+        terminated = reached
+        truncated = self.steps >= self._MAX_STEPS
+        done = terminated | truncated
+
+        fresh_pos = self._sample_start(self.num_envs)
+        fresh_vel = torch.zeros(self.num_envs, 2, device=DEVICE)
+        fresh_goal = self._goals(self.num_envs)
+        m = done.unsqueeze(-1)
+        self.pos = torch.where(m, fresh_pos, self.pos)
+        self.vel = torch.where(m, fresh_vel, self.vel)
+        self.goal = torch.where(m, fresh_goal, self.goal)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        self.state = torch.cat([self.pos, self.vel], dim=-1)
+        return self.state, reward, terminated, truncated, done
+
+
 class DeviceRunningNormalizer:
     """Device-resident running observation normalizer (batched Welford).
 
