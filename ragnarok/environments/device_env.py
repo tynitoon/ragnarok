@@ -592,8 +592,45 @@ class DeviceVecPointMass2D:
     _GOAL_RADIUS = 0.10
     _MAX_STEPS = 100
 
-    def __init__(self, num_envs: int, goal=None):
+    # v4.0 Phase 3: distinct DYNAMICS regimes = distinct "notions". obs/
+    # action dims and the reach-a-goal reward are identical across regimes;
+    # only the transition changes, so a skill learned in one regime is
+    # expected NOT to transfer to another (verified by a probe matrix).
+    #   free    : the Phase-1/2 dynamics.
+    #   drift   : a constant wind added to velocity each step (aim upwind).
+    #   ice     : near-frictionless (low drag) -> overshoot, must brake.
+    #   reverse : action-to-force map inverted (push the opposite way).
+    # Rotation regimes (rot = degrees the action vector is rotated before it
+    # becomes force): a clean group of mutually NON-transferring sensorimotor
+    # "notions" — a skill tuned for one rotation moves at the wrong angle under
+    # another (the inverted-goggles analogy). reverse == rot180.
+    #   rot90 / rot270 : action rotated +90 / +270 deg.
+    _REGIMES = {
+        "free":    dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=0.0),
+        "drift":   dict(drag=0.10, power=0.05, wind=(0.04, 0.0), rot=0.0),
+        "ice":     dict(drag=0.02, power=0.05, wind=(0.0, 0.0),  rot=0.0),
+        "reverse": dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=180.0),
+        "rot90":   dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=90.0),
+        "rot270":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=270.0),
+    }
+
+    def __init__(self, num_envs: int, goal=None, regime: str = "free"):
         self.num_envs = num_envs
+        if regime not in self._REGIMES:
+            raise ValueError(f"unknown regime {regime!r}; "
+                             f"choose from {list(self._REGIMES)}")
+        self.regime = regime
+        p = self._REGIMES[regime]
+        self._drag = p["drag"]
+        self._power = p["power"]
+        self._wind = torch.tensor(p["wind"], dtype=torch.float32, device=DEVICE)
+        th = float(p["rot"]) * 3.141592653589793 / 180.0
+        # Right-multiply row-vector actions by this matrix == rotating each
+        # action vector by `rot` degrees. Identity when rot == 0.
+        c, s = math.cos(th), math.sin(th)
+        self._rot = torch.tensor([[c, s], [-s, c]], dtype=torch.float32,
+                                 device=DEVICE)
+        self._has_rot = abs(p["rot"]) > 1e-9
         self._fixed_goal = (None if goal is None
                             else torch.as_tensor(goal, dtype=torch.float32,
                                                  device=DEVICE).reshape(2))
@@ -621,8 +658,10 @@ class DeviceVecPointMass2D:
     def step(self, action: torch.Tensor):
         """action: (N, 2) or (N*2,) float, clamped to [-1, 1]."""
         f = action.reshape(self.num_envs, 2).clamp(-1.0, 1.0)
-        self.vel = (self.vel * (1.0 - self._DRAG) + f * self._POWER).clamp(
-            -self._MAX_SPEED, self._MAX_SPEED)
+        if self._has_rot:
+            f = f @ self._rot
+        self.vel = self.vel * (1.0 - self._drag) + f * self._power + self._wind
+        self.vel = self.vel.clamp(-self._MAX_SPEED, self._MAX_SPEED)
         self.pos = (self.pos + self.vel).clamp(-self._BOUND, self._BOUND)
         self.steps = self.steps + 1.0
 
