@@ -1,0 +1,57 @@
+{
+  "reach_skill_success": 1.0,
+  "rows": {
+    "hier_reuse": [
+      [
+        230400,
+        1.0,
+        true
+      ],
+      [
+        230400,
+        1.0,
+        true
+      ],
+      [
+        230400,
+        1.0,
+        true
+      ]
+    ],
+    "hier_untrained": [
+      [
+        1536000,
+        0.0,
+        false
+      ],
+      [
+        1536000,
+        0.0,
+        false
+      ],
+      [
+        1536000,
+        0.0,
+        false
+      ]
+    ],
+    "flat_scratch": [
+      [
+        1638400,
+        0.0078125,
+        false
+      ],
+      [
+        1048576,
+        1.0,
+        true
+      ],
+      [
+        1638400,
+        0.0,
+        false
+      ]
+    ]
+  },
+  "verdict": "COMPOSITION WORKS \u2014 reusing the reach-skill masters the ordered visit; flat-scratch and untrained-skill do not (or far slower)"
+}
