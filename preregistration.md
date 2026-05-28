@@ -2791,4 +2791,126 @@ in Phase 4 baselines, not Phase 5.
   stuck at 16.12 +/- 0.12 across 8 seeds) and the user's directive
   to try a discrete manager — option 2 on the post-v3.25 fork.
 
+============================================================================
+v4.0 — PARADIGM PIVOT: from representation transfer to model-based
+developmental learning.
+============================================================================
+
+- **2026-05-29 (v4.0 — pivot rationale and the developmental program).**
+
+  *Why pivot.* The v3.x program rigorously established two things:
+  (1) a transferred RSSM world-model core gives a MODEST, CONDITIONAL
+  single-skill speed-up to SAC, only when source and target share
+  dynamics (v3.13/14/16 positive; v3.15/17 null contrast); (2) simple
+  additive skill COMPOSITION does not work — 8 experiments across 5
+  mechanism families (averaging, concat, gate, soft/hard hierarchical),
+  all null/negative. The deeper diagnosis: across the ENTIRE v3.x
+  program the world model was never used to ACT — SAC learned from real
+  experience and the RSSM was only an auxiliary observation / curiosity
+  signal. We transferred an organ we never used; hence the weak gains.
+  Representation warm-starting is also the wrong paradigm for the
+  project's stated goal — it gives a one-shot bump, it does not COMPOUND.
+
+  *The goal, restated precisely (per the project owner).* A child-like
+  developmental learner: first absorb many BASIC notions, then acquire
+  COMPLEX notions that REUSE the basic ones, getting faster at each new
+  notion that links to prior knowledge — and, when a new notion has no
+  link, simply learning it fresh (no forced negative transfer). The
+  measurable signature is a learning-to-learn curve: env-steps to master
+  the K-th new task DECREASES as the library of mastered notions grows.
+
+  *Architecture mapping (the v4 thesis).*
+  - "basic notions" = (a) a world model of how the environment behaves
+    (dynamics), and (b) elementary goal-reaching skills.
+  - "complex notion reusing basics" = a new goal/reward solved by
+    PLANNING in the reused world model; later, by sequencing skills.
+  - "uses what it knows to go faster" = a trained world model makes a
+    new goal in the same dynamics near-zero-shot (plan, don't relearn);
+    a skill library makes a complex task a short search over skills.
+  - "if no link, learn a new notion" = unseen dynamics -> extend/learn
+    a new world model; no applicable skill -> primitive fallback +
+    learn a new skill. Additive, relevance-gated, no forced reuse.
+
+  *Phased plan.*
+  - Phase 1 (preregistered below): make control MODEL-BASED — solve new
+    goals by planning in a reused world model. The foundational pillar:
+    "understanding the world makes new goals cheap." Fixes the v3.x
+    defect (model never used to act).
+  - Phase 2: a growing library of goal-conditioned skills used as
+    TEMPORALLY-EXTENDED actions (not the per-step blending that failed
+    in v3.24-26), on a compositional curriculum — the "complex uses
+    basic" pillar.
+  - Phase 3: the full developmental loop — growing library + relevance
+    gating (reuse vs learn-fresh) — measured by the learning-to-learn
+    curve over a curriculum.
+
+  *What carries over from v3.x:* the device-resident batched-env infra,
+  the RSSM (now load-bearing for control), and the preregistration /
+  controls / Student-t-CI discipline. What is retired: the
+  frozen-representation-transfer + action-blending-composition line
+  (concluded; not reopened).
+
+  *Honest scale caveat.* A single GPU + toy continuous-control tasks
+  will not produce an impressive "real AI". v4 develops and validates
+  the RIGHT MECHANISMS (model-based planning, hierarchical skill reuse,
+  curriculum) at small scale with rigour — these are exactly the methods
+  that scale; the result is "a validated mechanism", not an AGI.
+
+- **2026-05-29 (v4.0 Phase 1 — a reused world model solves new goals by
+  planning; the "understanding -> cheap new goals" demonstration).**
+
+  *Environment (new).* DeviceVecPointMass2D — a 2-D point mass with
+  momentum. obs = [x, y, vx, vy] (4-d), action = [fx, fy] (2-d
+  continuous force), bounded arena, drag. A GOAL (gx, gy) defines a
+  task; reward = goal-reach (within radius eps) with a small control
+  cost. One DYNAMICS, infinitely many goals — the cleanest substrate
+  for "reuse the dynamics model across tasks", and the natural base for
+  Phase-2 compositional navigation. Short-horizon MPC suffices for
+  point-to-point navigation (unlike MCC's long-horizon energy pumping),
+  so planning is well-posed.
+
+  *Mechanism.* (1) Train an RSSM world model (dynamics + decoder) on the
+  point-mass dynamics, goal-AGNOSTIC (random-goal / exploratory data).
+  (2) FREEZE it. (3) For a NEW goal: solve by CEM-MPC planning purely in
+  the frozen model — sample action sequences, roll them via RSSM.imagine,
+  decode latent -> predicted obs, score by the ANALYTIC new-goal reward
+  (distance to the new goal; requires NO reward-head learning), refit the
+  CEM distribution, execute the first action (receding horizon). The
+  agent does ZERO policy/reward learning on the new goal — it only plans
+  in its reused understanding of the world.
+
+  *Arms / controls.*
+  - mpc_trained:  CEM-MPC in the world model trained on the dynamics.
+  - mpc_untrained: CEM-MPC in a fresh RANDOM RSSM (control — isolates
+    that the LEARNED dynamics, not the planner, enable solving).
+  - sac_scratch:  from-scratch SAC trained per goal (the warm baseline
+    for "cost to master a new goal without reuse").
+
+  *Endpoints.*
+  - Primary: per-goal success rate and env-steps-to-goal of mpc_trained
+    vs mpc_untrained (CI excludes parity => the learned model is what
+    enables zero-shot goal solving).
+  - The "faster and faster" curve: TOTAL env-steps to master K new goals.
+    mpc_trained = (one-time model-training steps) + ~0 per goal -> the
+    per-goal cost amortizes to ~0 as K grows; sac_scratch = K x
+    per-goal-training -> linear. The crossover and the ->0 asymptote ARE
+    the demonstration of compounding.
+  - Secondary: mpc_trained must succeed across a distribution of goals
+    (generalisation of the single dynamics model across the goal space).
+
+  *Decisive interpretation.* mpc_trained solves new goals at near-zero
+  marginal env-cost and beats mpc_untrained decisively => the
+  model-based foundation works and "understanding the world makes new
+  goals cheap" is demonstrated; proceed to Phase 2. If planning in the
+  trained model fails (e.g. model not accurate enough for multi-step
+  rollouts, or CEM horizon too short), diagnose model quality / planner
+  horizon before proceeding.
+
+  *Chronology assertion.* This amendment is committed BEFORE
+  DeviceVecPointMass2D, the CEM-MPC planner, and any v4.0 run.
+
+  *Amendment trigger:* the v3.x conclusion (representation transfer
+  weak, composition null, world model unused for control) and the
+  project owner's restated developmental-learning goal.
+
 - (Subsequent amendments timestamped here before execution.)
