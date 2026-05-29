@@ -1,0 +1,283 @@
+{
+  "seeds": {
+    "0": [
+      {
+        "node": "collect_wood",
+        "depth": 0,
+        "dev_cost": 245760,
+        "dev_master": true,
+        "dev_succ": 0.9296875,
+        "nore_cost": 245760,
+        "nore_master": true,
+        "nore_succ": 0.92578125
+      },
+      {
+        "node": "make_table",
+        "depth": 1,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 327680,
+        "nore_master": true,
+        "nore_succ": 0.84375
+      },
+      {
+        "node": "make_wood_pickaxe",
+        "depth": 2,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 573440,
+        "nore_master": true,
+        "nore_succ": 0.89453125
+      },
+      {
+        "node": "collect_stone",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.90234375,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_coal",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.88671875,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_stone_pickaxe",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_furnace",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_iron",
+        "depth": 5,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.859375,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_iron_pickaxe",
+        "depth": 6,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      }
+    ],
+    "1": [
+      {
+        "node": "collect_wood",
+        "depth": 0,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.82421875,
+        "nore_cost": 163840,
+        "nore_master": true,
+        "nore_succ": 0.86328125
+      },
+      {
+        "node": "make_table",
+        "depth": 1,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 409600,
+        "nore_master": true,
+        "nore_succ": 0.90234375
+      },
+      {
+        "node": "make_wood_pickaxe",
+        "depth": 2,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 573440,
+        "nore_master": true,
+        "nore_succ": 0.8046875
+      },
+      {
+        "node": "collect_stone",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.84375,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_coal",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.88671875,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_stone_pickaxe",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_furnace",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_iron",
+        "depth": 5,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.92578125,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_iron_pickaxe",
+        "depth": 6,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      }
+    ],
+    "2": [
+      {
+        "node": "collect_wood",
+        "depth": 0,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.8515625,
+        "nore_cost": 163840,
+        "nore_master": true,
+        "nore_succ": 0.890625
+      },
+      {
+        "node": "make_table",
+        "depth": 1,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 245760,
+        "nore_master": true,
+        "nore_succ": 0.8828125
+      },
+      {
+        "node": "make_wood_pickaxe",
+        "depth": 2,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 573440,
+        "nore_master": true,
+        "nore_succ": 0.83203125
+      },
+      {
+        "node": "collect_stone",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.89453125,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_coal",
+        "depth": 3,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.89453125,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_stone_pickaxe",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_furnace",
+        "depth": 4,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "collect_iron",
+        "depth": 5,
+        "dev_cost": 163840,
+        "dev_master": true,
+        "dev_succ": 0.8828125,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      },
+      {
+        "node": "make_iron_pickaxe",
+        "depth": 6,
+        "dev_cost": 81920,
+        "dev_master": true,
+        "dev_succ": 1.0,
+        "nore_cost": 819200,
+        "nore_master": false,
+        "nore_succ": 0.0
+      }
+    ]
+  },
+  "verdict": "DEVELOPMENTAL LEARNING WORKS \u2014 reusing learned basics lets the agent master the FULL deep tree (incl. depth-6 iron_pickaxe) at bounded per-node cost, where learning from scratch (no reuse) explodes with depth and fails the deep nodes. 'De plus en plus vite' on a real tech tree.",
+  "dev_total_mean": 1092266.6666666667,
+  "nore_total_mean": 6007466.666666667
+}
