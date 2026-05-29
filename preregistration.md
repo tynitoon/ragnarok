@@ -4094,4 +4094,12 @@ developmental learning.
   *Chronology assertion.* Committed BEFORE the pixel renderer, the CNN-PPO,
   and any Phase-A run.
 
+- **2026-05-30 (v12 Phase A RESULT — PERCEPTION WORKS).** craft_v6_out/
+  v12a.json. Learning collect_wood from a 28x28x3 RGB egocentric image (no
+  cell-type ids given; agent must learn colour->meaning + spatial nav) via a
+  CNN-encoder PPO: reached 0.99 by iter 25 (~20s, 205k env-steps) and held
+  1.00 through 300 iters. Matches/exceeds the symbolic-MLP skill (~0.96). The
+  agent learned to SEE. Perception is in -> proceed to Phase B (RSSM world
+  model from pixels).
+
 - (Subsequent amendments timestamped here before execution.)
