@@ -4314,4 +4314,25 @@ developmental learning.
   v12-A (perception), the developmental story now stands on pixels. Recorded;
   committing + pushing.
 
+- **2026-05-30 (v14 — AUTONOMOUS DISCOVERY FROM PIXELS; capstone prereg).**
+  Unify the validated pieces: v7 (self-directed discovery via frontier
+  item-novelty + reuse), v12-A (perception — skills from pixels), v13b
+  (compounding — reused prerequisites make deep skills learnable from pixels).
+  v14 runs v7's discovery loop but every skill is learned FROM PIXELS
+  (ConvPPONet). No goals/recipes/order given. Mechanism per round: from the
+  granted "all-mastered-items" state, random-explore and detect any NEW item
+  type (reachability, read from the env inventory); for each new item, train a
+  goal-conditioned CNN skill from pixels to obtain it (prereqs granted), add to
+  the mastered set; repeat until nothing new. HYPOTHESIS: from pixels the agent
+  discovers + masters the FULL 9-skill tree via a DAG-valid order, reaching
+  make_iron_pickaxe, N=3 seeds. DECISIVE if >=2/3 seeds reach 9/9 mastered AND
+  DAG-valid order AND iron_pickaxe (matching v7's symbolic robustness, now
+  perceptual). KILL: if it stalls (cannot master the collect skills from pixels
+  inside the discovery loop, or discovery halts early) on >=2/3 seeds. HONEST
+  CAVEAT (predeclared): the NOVELTY/reachability signal reads inventory
+  (proprioception), as in symbolic v7; PERCEPTION + NAVIGATION + skill learning
+  are from pixels. This is the fullest realization of the project's vision on
+  the hard (pixel) substrate. Script scripts/discover_pixels_v14.py committed
+  BEFORE the run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
