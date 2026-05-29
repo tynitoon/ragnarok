@@ -3881,4 +3881,47 @@ developmental learning.
   prerequisite collect. Remaining frontier (cross-recipe transfer, deeper
   trees) needs an env refactor to a configurable tree — scoped next.
 
+- **2026-05-30 (v9.0 — MODEL-BASED: learn the world's rules, then PLAN to any
+  goal).** Reconnects the RSSM/model-based line (v4 Phase 1) to CraftWorld,
+  at the SYMBOLIC operator level, and subsumes "discover the recipes".
+
+  *Idea.* Instead of learning a policy/manager per goal (M5) or being given
+  the tree, the agent (1) LEARNS the world's operators — for each obtainable
+  item, its PRECONDITION (which items must be present) and EFFECT (produced /
+  consumed) — from interaction, then (2) PLANS (search over the learned
+  operators) the sub-goal sequence to reach ANY target item, zero-shot, and
+  (3) EXECUTES the plan using the reused collect skills + craft actions.
+  "Understand the world's rules -> any goal is a planning problem."
+
+  *Rule-learning (causal, active).* For each item I, run probe trials with a
+  RANDOM granted subset of the other items and attempt to obtain I (collect
+  skill if a resource, craft action if a craft); record (granted-subset,
+  success). Learn precondition(I) = the items whose ABSENCE makes the attempt
+  fail (necessity test), i.e. items present in (nearly) all successes and
+  whose removal drops success to ~0. Effect = +I (and, for crafts, the items
+  consumed). This recovers the recipe DAG from data, not from being told.
+
+  *Planner.* BFS over learned operators (an operator is applicable when its
+  learned precondition ⊆ current item-set) from {} to the target -> a plan
+  (operator sequence). Order from sets; quantities handled at execution
+  (quantity-aware collect).
+
+  *Arms / decisive.*
+  - Rule recovery: learned preconditions vs ground-truth ACH_PREREQS
+    (precision/recall ~1.0 => recovered the recipe DAG).
+  - Planning coverage: valid plans produced for ALL 9 targets incl.
+    iron_pickaxe.
+  - Execution: running the plans reaches the targets (high success, reusing
+    collect skills), far past flat PPO (0.11).
+  - Generality: the SAME learned model plans to ANY target with NO per-goal
+    learning (the model-based payoff vs M5's per-reward RL manager).
+  Null: if learned rules are wrong (bad precision/recall) or plans fail in
+  execution, reported honestly.
+
+  *Honest scope.* Symbolic operator model (not pixels / RSSM latent — that is
+  parked as future research); collect skills remain model-free and reused;
+  quantities handled heuristically at execution. Still toy CraftWorld.
+
+  *Chronology assertion.* Committed BEFORE scripts/model_based_v9.py and run.
+
 - (Subsequent amendments timestamped here before execution.)

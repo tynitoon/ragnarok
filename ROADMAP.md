@@ -34,12 +34,15 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [CROSS-WORLD via configurable tree] v9: refactor CraftWorld to a
-  DATA-DRIVEN tree spec (items/recipes/resources as a config), default =
-  current 9-node tree (regression-test with craft_sanity). Unlocks BOTH a
-  deeper tree and a SECOND world (different recipes sharing primitives) ->
-  the cross-world transfer test (skills from A accelerate B). The highest-
-  value remaining frontier.
+- [MODEL-BASED] v9: the agent LEARNS the world's operators (precondition +
+  effect of each collect/craft — i.e. learns the RECIPES from experience,
+  not given) and PLANS (search in the learned model) to reach ANY target
+  item zero-shot — no per-goal RL, no given order. "Understand the world ->
+  any goal is a planning problem." Reuses the learned collect skills for
+  execution. Decisive: learned operators recover the true recipe DAG; the
+  planner solves all 9 targets incl. iron_pickaxe; execution reaches them,
+  far past flat (0.11). Connects to v4 Phase 1 (plan in a reused model) and
+  subsumes "discover the recipes".
 
 ## DONE (recent)
 - v7 SOLIDIFIED N=5: 5/5 seeds full tree + DAG-valid + iron_pickaxe.
@@ -50,17 +53,17 @@ on a non-toy substrate, with honest controls + recorded failures.
 - M7 reliability: end-to-end iron_pickaxe 0.65->0.71->0.77; PLATEAUED ~0.77
   (in-chain skill-compounding). PARKED (diminishing returns).
 
-## NEXT (prioritized)
-1. SCALE depth: with the configurable tree, extend to depth ~8-10; show
-   discovery still climbs it and the reuse advantage grows with depth.
-2. Curiosity-GUIDED frontier exploration (vs random) — would extend the
-   robustness limit to even sparser/bigger worlds.
-
-## BACKLOG / ideas
-- Discover the RECIPES/physics themselves (not just the sub-goal curriculum) —
-  deepest autonomy, hard/open-ended.
-- Visual render of the agent crafting (tangible demo).
-- World-model / planning in CraftWorld latent (reuse RSSM) instead of model-free.
+## FUTURE RESEARCH (parked — kept for later exploration, prioritized)
+1. Curiosity-GUIDED frontier exploration (vs random) — push the robustness
+   limit to even sparser/bigger worlds (random frontier held to grid 17).
+2. SCALE depth / CROSS-WORLD via a data-driven configurable tree spec
+   (default = current 9-node tree, regression-test with craft_sanity):
+   deeper trees + a second world sharing primitives (cross-task transfer).
+   Incremental — M3 already shows the reuse advantage grows with depth.
+3. RSSM latent world-model + imagination/CEM planning on CraftWorld (the
+   pixels/latent version of v9's symbolic model — richer, harder).
+4. Visual render of the agent crafting (tangible demo, not scientific).
+5. Quantity-aware / retry control to push end-to-end execution 0.77 -> ~1.0.
 
 ## Conventions
 - Preregister design in preregistration.md BEFORE each run (chronology).
