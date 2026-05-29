@@ -34,28 +34,25 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [SCALE depth] v8: extend the tree (diamond + diamond_pickaxe -> depth ~8)
-  via a deep=True flag (keep the default 9-achievement env intact); show v7
-  discovery still climbs it bottom-up and the advantage GROWS with depth.
+- [HARDER NAV] v8: re-run autonomous discovery on a BIGGER, SPARSER world
+  (grid 13, longer episodes/exploration) — zero code surgery (params only).
+  Tests whether discovery is ROBUST when navigation is non-trivial (the M4
+  "nav too easy in 9x9" concern). Robust => generality; degrades => honest
+  limitation + pointer to better exploration.
 
-## DONE since last update
+## DONE (recent)
 - v7 SOLIDIFIED N=5: 5/5 seeds reach full tree (9/9) + DAG-valid order +
   iron_pickaxe. Capstone robust, not a fluke.
+- M7 reliability: end-to-end iron_pickaxe 0.65->0.71->0.77 across M5/M6/M7;
+  PLATEAUED ~0.77 (in-chain skill-compounding, not quantity). PARKED
+  (diminishing returns; learning claims don't depend on 1.0).
 
 ## NEXT (prioritized)
-
-## DONE since last update
-- M7 reliability: end-to-end iron_pickaxe 0.71 -> 0.77 (quantity-aware
-  options); PLATEAUED ~0.77 (in-chain skill-compounding, not quantity).
-  PARKED — diminishing returns (0.65->0.71->0.77 across M5/M6/M7); learning
-  claims don't depend on 1.0. A working autonomous builder ~7x flat.
-
-## NEXT (prioritized)
-2. CROSS-WORLD transfer: skills learned in world A accelerate mastery in a
-   related world B (shared primitives, different layout/recipes) — the
-   ultimate reuse test (cross-task, not just cross-depth).
-3. Harder navigation (bigger/sparser/obstacles) so learned low-level skills
-   separate decisively from random nav end-to-end.
+1. SCALE depth: extend tree to depth ~8 (diamond) via a deep=True instance
+   flag (needs env refactor to instance-level dims to keep default intact).
+   Incremental — M3 already shows the reuse advantage grows with depth.
+2. CROSS-WORLD transfer: skills from world A accelerate mastery in a related
+   world B (shared primitives, different layout/recipes).
 
 ## BACKLOG / ideas
 - Discover the RECIPES/physics themselves (not just the sub-goal curriculum) —
