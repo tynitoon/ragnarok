@@ -3437,4 +3437,29 @@ developmental learning.
   *Chronology assertion.* Committed BEFORE the env angle extension, the v5
   script (scripts/learned_gate_v5.py), and any v5 run.
 
+- **2026-05-29 (v5.0 RESULT — LEARNED GATE WORKS, all 4 experiments pass).**
+  lgate_v5_out/results.json. Recognizer = MLP on a K=4 dynamics signature;
+  novelty = recognizer-proposal + one verification.
+  - A. Routing accuracy mean 0.986 (per-seed 0.983-0.987, N=5) on 8
+    rotations, held-out goals -> >= 0.95. PASS.
+  - B. Scaling (headline): probe cost {12,800 / 25,600 / 51,200} for
+    R={2,4,8} (linear) vs learned FLAT 6,656; speedup 1.9x / 3.8x / 7.7x,
+    routing accuracy held 0.98+ throughout. Recognition cost is independent
+    of library size. PASS.
+  - C. Novelty detection (leave-one-out, 8 rotations): verification-AUC
+    1.000, detect-rate 1.00 (every held-out regime flagged novel; the
+    nearest known skill fails verification). PASS.
+  - D. Integrated developmental loop with the LEARNED gate (clean-4):
+    library [4,4,4,4,4] == true notion count; marginal cost first-block
+    107,456 -> last-block 6,656 env-steps (compounding preserved); per-reuse
+    recognition cost 6,656 vs probe 25,600. PASS.
+
+  Net: the developmental loop's recognition step is now a LEARNED, O(1),
+  novelty-aware model that scales (flat vs probe O(R)) and triggers learning
+  on genuine novelty -- answering the "it's just an exhaustive probe / a
+  lookup" critique. Scope honest: rotation-ID is individually easy; the
+  contribution is the learned, scaling, OOD-aware GATE mechanism, not the
+  difficulty of identifying a rotation. (Run completed cleanly before a
+  harness update; no data lost.)
+
 - (Subsequent amendments timestamped here before execution.)

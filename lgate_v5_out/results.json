@@ -1,0 +1,123 @@
+{
+  "A": {
+    "regimes": [
+      "free",
+      "rot45",
+      "rot90",
+      "rot135",
+      "reverse",
+      "rot225",
+      "rot270",
+      "rot315"
+    ],
+    "accuracy": [
+      0.985595703125,
+      0.98687744140625,
+      0.9873046875,
+      0.9832763671875,
+      0.9847412109375
+    ],
+    "mean": 0.98555908203125
+  },
+  "B": {
+    "rows": [
+      {
+        "R": 2,
+        "probe_cost": 12800,
+        "learned_cost": 6656,
+        "learned_recognizer_only": 256,
+        "routing_acc": 0.99267578125,
+        "speedup": 1.9230769230769231
+      },
+      {
+        "R": 4,
+        "probe_cost": 25600,
+        "learned_cost": 6656,
+        "learned_recognizer_only": 256,
+        "routing_acc": 0.99072265625,
+        "speedup": 3.8461538461538463
+      },
+      {
+        "R": 8,
+        "probe_cost": 51200,
+        "learned_cost": 6656,
+        "learned_recognizer_only": 256,
+        "routing_acc": 0.983642578125,
+        "speedup": 7.6923076923076925
+      }
+    ]
+  },
+  "C": {
+    "regimes": [
+      "free",
+      "rot45",
+      "rot90",
+      "rot135",
+      "reverse",
+      "rot225",
+      "rot270",
+      "rot315"
+    ],
+    "verif_auc": 1.0,
+    "softmax_auc": 1.0,
+    "detect_rate": 1.0
+  },
+  "D": {
+    "regimes": [
+      "free",
+      "rot90",
+      "reverse",
+      "rot270"
+    ],
+    "seeds": [
+      {
+        "library_size": 4,
+        "first_block": 107456.0,
+        "last_block": 6656.0,
+        "total": 483072,
+        "all_reuse_correct": true,
+        "recog_cost_per_reuse": 6656
+      },
+      {
+        "library_size": 4,
+        "first_block": 107456.0,
+        "last_block": 6656.0,
+        "total": 483072,
+        "all_reuse_correct": true,
+        "recog_cost_per_reuse": 6656
+      },
+      {
+        "library_size": 4,
+        "first_block": 107456.0,
+        "last_block": 6656.0,
+        "total": 483072,
+        "all_reuse_correct": true,
+        "recog_cost_per_reuse": 6656
+      },
+      {
+        "library_size": 4,
+        "first_block": 107456.0,
+        "last_block": 6656.0,
+        "total": 483072,
+        "all_reuse_correct": true,
+        "recog_cost_per_reuse": 6656
+      },
+      {
+        "library_size": 4,
+        "first_block": 107456.0,
+        "last_block": 6656.0,
+        "total": 483072,
+        "all_reuse_correct": true,
+        "recog_cost_per_reuse": 6656
+      }
+    ],
+    "probe_cost_per_reuse": 25600
+  },
+  "pass": {
+    "A": true,
+    "B": true,
+    "C": true,
+    "D": true
+  },
+  "verdict": "LEARNED GATE WORKS \u2014 O(1) recognition that generalizes, scales (flat vs probe O(R)), and detects novelty; the developmental loop is preserved at library-independent recognition cost."
+}
