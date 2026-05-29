@@ -4146,4 +4146,20 @@ developmental learning.
   report the negative and fall back to CEM-MPC planning in the latent (v4-
   style, but perceptual). Committed before scripts/dreamer_v12.py and the run.
 
+- **2026-05-30 (v12 Phase C RESULT — sparse-reward Dreamer NEGATIVE; fair
+  dense-reward retry next).** craft_v6_out/v12c.json. The actor trained only
+  in imagination reached 0.00 achievements (random baseline 0.80) over 120
+  iters; imagined reward fluctuated near 0, entropy stayed ~2.0 (near-uniform),
+  greedy deployment degenerate. Honest negative: on the SPARSE achievement
+  reward (+1 per first achievement) the world-model reward predictor gives
+  almost no imagined signal, so the dreamed actor cannot bootstrap — a
+  well-known Dreamer-on-sparse-reward failure, NOT a perception/world-model
+  failure (Phases A and B both work). Next (preregistered fair test): repeat
+  with a DENSE collect reward (computed externally: + resource units gathered
+  per step) to isolate whether the imagination actor-critic ITSELF learns to
+  act when the reward is learnable. If yes -> "dreaming-to-act works given a
+  dense reward; sparsity was the limiter" (honest caveat). If it still fails
+  -> the imagination actor-critic is the problem (deeper). Committed before
+  the dense retry.
+
 - (Subsequent amendments timestamped here before execution.)

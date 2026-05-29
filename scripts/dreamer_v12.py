@@ -25,10 +25,12 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.memory.replay_buffer import ReplayBuffer
 from ragnarok.learning.world_model_trainer import WorldModelTrainer
 from ragnarok.learning.rollout import RolloutBatch
-from ragnarok.environments.craft_world import DeviceVecCraftWorld, ACH_NAMES, N_ACH
+from ragnarok.environments.craft_world import (
+    DeviceVecCraftWorld, ACH_NAMES, N_ACH, WOOD, STONE_I, COAL_I, IRON_I)
 from scripts.worldmodel_v12 import build_rssm, HID, STOCH, ACTION_DIM
 
 FEAT = HID + STOCH
+RES = [WOOD, STONE_I, COAL_I, IRON_I]      # for the dense collect reward
 
 
 class MLP(nn.Module):
@@ -43,9 +45,11 @@ class MLP(nn.Module):
 
 
 @torch.no_grad()
-def collect_real(env, rssm, actor, horizon, explore=0.3):
+def collect_real(env, rssm, actor, horizon, explore=0.3, dense=False):
     """Real pixel rollout; track latent (posterior), act with the actor
-    (epsilon-explore). Returns a RolloutBatch for WM training."""
+    (epsilon-explore). Returns a RolloutBatch for WM training. If dense, the
+    reward is the number of resource units gathered this step (a dense,
+    learnable signal) instead of the env's sparse achievement reward."""
     N = env.num_envs
     O, A, R, D = [], [], [], []
     obs = env.state
@@ -58,7 +62,10 @@ def collect_real(env, rssm, actor, horizon, explore=0.3):
         rand = torch.rand(N, device=DEVICE) < explore
         a = torch.where(rand, torch.randint(0, ACTION_DIM, (N,), device=DEVICE), a)
         a_oh = torch.nn.functional.one_hot(a, ACTION_DIM).float()
+        res_before = env.inv[:, RES].sum(-1).clone() if dense else None
         nobs, r, _t, _tr, done = env.step(a)
+        if dense:
+            r = (env.inv[:, RES].sum(-1) - res_before).clamp(min=0).float()
         O.append(obs); A.append(a_oh); R.append(r); D.append(done.float())
         prev_a = a_oh
         if bool(done.any()):
@@ -162,6 +169,9 @@ def main():
     p.add_argument("--horizon", type=int, default=48)
     p.add_argument("--deploy-steps", type=int, default=100)
     p.add_argument("--eval-every", type=int, default=20)
+    p.add_argument("--dense", action="store_true",
+                   help="dense collect reward (fair test: isolates the actor "
+                        "from the sparse-reward confound)")
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
     args = p.parse_args()
@@ -185,7 +195,8 @@ def main():
     curve = []
     for it in range(1, args.iters + 1):
         batch = collect_real(env, rssm, actor, args.horizon,
-                             explore=max(0.1, 0.5 - it / args.iters * 0.4))
+                             explore=max(0.1, 0.5 - it / args.iters * 0.4),
+                             dense=args.dense)
         wm.train_world_model_on_rollout(batch, epochs=args.wm_epochs)
         with torch.no_grad():
             out = rssm.observe(batch.obs, batch.actions)
