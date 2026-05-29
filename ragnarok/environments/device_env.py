@@ -612,6 +612,7 @@ class DeviceVecPointMass2D:
         "reverse": dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=180.0),
         "rot90":   dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=90.0),
         "rot270":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=270.0),
+        "rot45":   dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=45.0),
     }
 
     def __init__(self, num_envs: int, goal=None, regime: str = "free"):
@@ -684,6 +685,100 @@ class DeviceVecPointMass2D:
         self.goal = torch.where(m, fresh_goal, self.goal)
         self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
         self.state = torch.cat([self.pos, self.vel], dim=-1)
+        return self.state, reward, terminated, truncated, done
+
+
+class DeviceVecRelay:
+    """N point-mass RELAY environments — the v4.0 Phase-4 compositional
+    substrate. A ROUTE is an ordered list of L LEGS; each leg has a target
+    ZONE and a hidden motor REGIME (a rotation of the action->force map,
+    reusing DeviceVecPointMass2D._REGIMES). The agent must reach each leg's
+    zone in order; on reaching it the next leg begins (new zone + new hidden
+    regime), so completing a route requires applying the RIGHT motor skill
+    on each leg — i.e. composing a sequence of motor primitives.
+
+    obs (6) = [x, y, vx, vy, gx, gy] where (gx, gy) is the CURRENT leg's
+    zone. The regime is NOT in obs: the agent is told WHERE to go, not which
+    skill the leg needs (it must recognise that empirically). Reward is
+    SPARSE: +1 per leg reached, +10 on completing the whole route.
+
+    With R distinct regimes and Z zones there are (R*Z)^L routes — so a small
+    set of per-regime primitives composes into exponentially many novel
+    routes; no route is ever trained at the composite level.
+    """
+
+    obs_dim = 6
+    action_dim = 2
+    is_discrete = False
+
+    _BOUND = 1.0
+    _DRAG = 0.10
+    _POWER = 0.05
+    _MAX_SPEED = 0.30
+    _GOAL_RADIUS = 0.10
+    _LEG_STEPS = 60                       # per-leg step budget
+
+    def __init__(self, num_envs: int, route):
+        """route: list of (regime_name, (zx, zy))."""
+        self.num_envs = num_envs
+        self.route = list(route)
+        self.L = len(route)
+        self.regimes = [r for r, _ in route]
+        self.zones = torch.tensor([list(z) for _, z in route],
+                                  dtype=torch.float32, device=DEVICE)   # (L, 2)
+        mats = []
+        for r, _ in route:
+            th = float(DeviceVecPointMass2D._REGIMES[r]["rot"]) * math.pi / 180.0
+            c, s = math.cos(th), math.sin(th)
+            mats.append([[c, s], [-s, c]])
+        self.rot = torch.tensor(mats, dtype=torch.float32, device=DEVICE)  # (L,2,2)
+        self.max_steps = self._LEG_STEPS * self.L
+        self.reset()
+
+    def _sample_start(self, n):
+        return (torch.rand(n, 2, device=DEVICE) - 0.5) * 1.6
+
+    def _cur_zone(self):
+        return self.zones[self.leg]                       # (N, 2)
+
+    def _set_state(self):
+        self.state = torch.cat([self.pos, self.vel, self._cur_zone()], dim=-1)
+
+    def reset(self):
+        self.pos = self._sample_start(self.num_envs)
+        self.vel = torch.zeros(self.num_envs, 2, device=DEVICE)
+        self.leg = torch.zeros(self.num_envs, dtype=torch.long, device=DEVICE)
+        self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        self._set_state()
+        return self.state
+
+    def step(self, action: torch.Tensor):
+        f = action.reshape(self.num_envs, 2).clamp(-1.0, 1.0)
+        R = self.rot[self.leg]                            # (N, 2, 2)
+        f = torch.bmm(f.unsqueeze(1), R).squeeze(1)       # per-env rotated force
+        self.vel = (self.vel * (1.0 - self._DRAG) + f * self._POWER).clamp(
+            -self._MAX_SPEED, self._MAX_SPEED)
+        self.pos = (self.pos + self.vel).clamp(-self._BOUND, self._BOUND)
+        self.steps = self.steps + 1.0
+
+        dist = torch.norm(self.pos - self._cur_zone(), dim=-1)
+        reached = dist < self._GOAL_RADIUS
+        new_leg = self.leg + reached.long()
+        completed = new_leg >= self.L
+        reward = reached.float() + 10.0 * completed.float()
+        self.leg = torch.clamp(new_leg, max=self.L - 1)
+
+        terminated = completed
+        truncated = self.steps >= self.max_steps
+        done = terminated | truncated
+
+        m = done.unsqueeze(-1)
+        fresh = self._sample_start(self.num_envs)
+        self.pos = torch.where(m, fresh, self.pos)
+        self.vel = torch.where(m, torch.zeros_like(self.vel), self.vel)
+        self.leg = torch.where(done, torch.zeros_like(self.leg), self.leg)
+        self.steps = torch.where(done, torch.zeros_like(self.steps), self.steps)
+        self._set_state()
         return self.state, reward, terminated, truncated, done
 
 
