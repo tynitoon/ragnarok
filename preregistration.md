@@ -4246,4 +4246,32 @@ developmental learning.
   faster learning — FROM PIXELS, which is more central to the vision than
   cracking pixel control. Proceeding to run v13 now.
 
+- **2026-05-30 (v13 design insight + v13b prereg — M3 ON PIXELS, the central
+  test).** v13 early data (seed 0): collect_stone learns SLOWER warm-started
+  from the wood encoder (reuse_ft 0.5@417k, auc 0.62) than from SCRATCH
+  (0.5@270k, auc 0.73) — mild NEGATIVE transfer. Insight: v13 tests PERCEPTUAL-
+  FEATURE transfer between SIBLING skills (wood-encoder -> stone), which can
+  over-specialize (green-seeking features biasing a grey-seeking task). That is
+  a SECONDARY mechanism, not the project's central claim. The central claim
+  (validated symbolically in v6/M3) is REUSE OF MASTERED PREREQUISITES letting
+  DEEPER skills be learned that a flat agent cannot. v13 will be allowed to
+  finish (honest secondary result; not killing a preregistered run over
+  unfavorable early data). v13b tests the CENTRAL claim FROM PIXELS:
+    For targets at increasing tech-tree depth (wood d0, table d1, wood_pickaxe
+    d2, stone d3, stone_pickaxe d4, furnace d4, iron_pickaxe d6), train a
+    goal-conditioned CNN policy FROM PIXELS under two arms:
+      REUSE (developmental): prerequisites GRANTED (mastery simulated) -> learn
+        only the final step(s). 
+      FLAT (no reuse): grant NOTHING -> must achieve the whole chain in one
+        episode from pixels.
+    N=3 seeds, max_steps 200 (generous, so FLAT failure is exploration not
+    budget). Metric: success per (target, arm) + steps-to-master for REUSE.
+    HYPOTHESIS: REUSE masters ALL depths from pixels with ~FLAT per-skill cost;
+    FLAT succeeds only shallow (<= d2) and FAILS deep (>= d3-4). DECISIVE if
+    REUSE >= 0.8 on a deep target (d>=4) where FLAT <= 0.2 — i.e. reuse makes
+    deep skills learnable from pixels that are otherwise unlearnable (M3, now
+    perceptual). KILL: if FLAT also masters deep skills (no reuse advantage) OR
+    REUSE fails deep skills too. Script scripts/devloop_pixels_v13b.py committed
+    BEFORE the run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
