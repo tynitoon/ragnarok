@@ -3859,4 +3859,13 @@ developmental learning.
   FULL tree (9/9), 5/5 DAG-valid discovery order, 5/5 reached iron_pickaxe.
   craft_v6_out/v7.json. The capstone is robust, not a single-seed fluke.
 
+- **2026-05-30 (v8 — autonomous discovery ROBUST to harder navigation).**
+  Re-ran v7 discovery on a bigger, sparser world (grid 13 vs 9; resource
+  density ~0.14 vs 0.30; egocentric view 5 sees ~9% of the world, so the
+  agent often sees no resource and must explore). N=3: 3/3 seeds reached the
+  full tree (9/9), DAG-valid order, iron_pickaxe. The result is not an
+  artifact of the tiny 9x9 world — it holds where navigation is non-trivial.
+  Params-only (no code change). Next: probe the limit (grid 17, very sparse)
+  to find where random-frontier-exploration breaks (honest boundary).
+
 - (Subsequent amendments timestamped here before execution.)
