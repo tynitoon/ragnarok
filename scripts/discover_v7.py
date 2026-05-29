@@ -114,6 +114,7 @@ def main():
     p.add_argument("--disc-steps", type=int, default=120)
     p.add_argument("--disc-thresh", type=float, default=0.01)
     p.add_argument("--max-rounds", type=int, default=8)
+    p.add_argument("--seeds", type=int, default=1)
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
     args = p.parse_args()
@@ -126,41 +127,61 @@ def main():
             "entropy", "skill_cap", "eval_every", "mastery", "disc_envs",
             "disc_steps", "disc_thresh")}
     os.makedirs(args.out_dir, exist_ok=True)
-    print(f"[discover-v7] device={DEVICE} | NO given goals — novelty only", flush=True)
+    print(f"[discover-v7] device={DEVICE} | NO given goals — novelty only | "
+          f"seeds={args.seeds}", flush=True)
     t0 = time.perf_counter()
 
+    runs = []
+    for seed in range(args.seeds):
+        import numpy as _np
+        torch.manual_seed(seed); _np.random.seed(seed)
+        print(f"\n########## SEED {seed} ##########", flush=True)
+        runs.append(_run_once(cfg, args, seed))
+
+    n_full = sum(1 for r in runs if r["mastered_count"] == len(ALL_ITEMS))
+    n_dag = sum(1 for r in runs if r["dag_ok"])
+    n_ipick = sum(1 for r in runs if r["reached_ipick"])
+    print(f"\n{'=' * 74}\n  v7.0 AUTONOMOUS DISCOVERY — N={args.seeds}")
+    print(f"{'=' * 74}")
+    print(f"  reached full tree (9/9):     {n_full}/{args.seeds}")
+    print(f"  DAG-valid discovery order:   {n_dag}/{args.seeds}")
+    print(f"  reached iron_pickaxe:        {n_ipick}/{args.seeds}")
+    print(f"  baseline curiosity-flat (M2): iron_pickaxe 0.11, reliable depth <=4")
+    robust = n_full == args.seeds and n_dag == args.seeds
+    verdict = ("AUTONOMOUS DISCOVERY WORKS (robust) — every seed discovers its "
+               "own curriculum and masters the FULL tree via a DAG-valid order, "
+               "no goals given; far past curiosity-flat."
+               if robust else
+               f"PARTIAL — full {n_full}/{args.seeds}, dag {n_dag}/{args.seeds}.")
+    print(f"\n  -> {verdict}\n  {time.perf_counter()-t0:.0f}s", flush=True)
+    with open(os.path.join(args.out_dir, "v7.json"), "w") as f:
+        json.dump(dict(seeds=args.seeds, runs=runs, n_full=n_full, n_dag=n_dag,
+                       n_ipick=n_ipick, verdict=verdict), f, indent=2)
+
+
+def _run_once(cfg, args, seed):
+    """One full autonomous-discovery run; returns a result dict."""
     mastered = set()
     order = []
-    rounds = []
     for rnd in range(1, args.max_rounds + 1):
         frac = _discover(mastered, cfg)
         cand = sorted([i for i, f in frac.items() if f >= args.disc_thresh],
                       key=lambda i: -frac[i])
-        cand_names = [(ITEM_NAME[i], round(frac[i], 3)) for i in cand]
-        print(f"\n[round {rnd}] mastered={[ITEM_NAME[i] for i in mastered]}")
-        print(f"  discovered-reachable (frac): {cand_names}", flush=True)
+        print(f"[s{seed} round {rnd}] mastered={[ITEM_NAME[i] for i in mastered]} "
+              f"| reachable={[(ITEM_NAME[i], round(frac[i], 2)) for i in cand]}",
+              flush=True)
         if not cand:
-            print("  no new item discovered -> frontier exhausted", flush=True)
             break
-        learned_this = []
         for item in cand:
             if item in mastered:
                 continue
             steps, succ = _learn_item(item, mastered, cfg)
-            ok = succ >= args.mastery
-            print(f"    learn {ITEM_NAME[item]:14s} -> succ {succ:.2f} "
-                  f"({steps:,} steps) {'MASTERED' if ok else 'failed'}", flush=True)
-            if ok:
+            if succ >= args.mastery:
                 mastered.add(item); order.append(ITEM_NAME[item])
-                learned_this.append(ITEM_NAME[item])
-        rounds.append(dict(round=rnd, mastered_before=len(mastered) - len(learned_this),
-                           learned=learned_this))
+                print(f"    +mastered {ITEM_NAME[item]} ({succ:.2f})", flush=True)
         if len(mastered) == len(ALL_ITEMS):
-            print("\n  ALL items mastered.", flush=True)
             break
 
-    reached_ipick = IPICK in mastered
-    # DAG-validity of discovery order: each item after its prereqs
     pos = {name: k for k, name in enumerate(order)}
 
     def before(a, b):
@@ -169,29 +190,12 @@ def main():
               and before("wood_pickaxe", "stone") and before("stone", "stone_pickaxe")
               and before("stone_pickaxe", "iron") and before("iron", "iron_pickaxe")
               and before("furnace", "iron_pickaxe"))
-    print(f"\n{'=' * 74}\n  v7.0 AUTONOMOUS DISCOVERY")
-    print(f"{'=' * 74}")
-    print(f"  items mastered (no goals given): {len(mastered)}/{len(ALL_ITEMS)}")
-    print(f"  discovery order: {order}")
-    print(f"  order respects dependency DAG: {dag_ok}")
-    print(f"  reached deepest (iron_pickaxe): {reached_ipick}")
-    print(f"  baseline curiosity-flat (= M2 flat, novelty reward): iron_pickaxe "
-          f"0.11, reliable depth <=4")
-    ok = len(mastered) == len(ALL_ITEMS) and reached_ipick and dag_ok
-    verdict = ("AUTONOMOUS DISCOVERY WORKS — with NO given goals, the agent "
-               "discovers its own sub-goal curriculum (item-novelty + frontier "
-               "expansion + reuse), reconstructs the dependency DAG bottom-up, "
-               "and masters the FULL tree incl. iron_pickaxe — far past "
-               "curiosity-flat (depth <=4). It decides what to learn next, "
-               "by itself."
-               if ok else
-               f"PARTIAL/CHECK — mastered {len(mastered)}/{len(ALL_ITEMS)}, "
-               f"ipick={reached_ipick}, dag={dag_ok}.")
-    print(f"\n  -> {verdict}\n  {time.perf_counter()-t0:.0f}s", flush=True)
-    with open(os.path.join(args.out_dir, "v7.json"), "w") as f:
-        json.dump(dict(mastered=[ITEM_NAME[i] for i in mastered], order=order,
-                       dag_ok=bool(dag_ok), reached_ipick=bool(reached_ipick),
-                       rounds=rounds, verdict=verdict), f, indent=2)
+    res = dict(mastered_count=len(mastered), order=order, dag_ok=bool(dag_ok),
+               reached_ipick=IPICK in mastered)
+    print(f"  [s{seed}] mastered {res['mastered_count']}/{len(ALL_ITEMS)} | "
+          f"dag_ok={dag_ok} | ipick={res['reached_ipick']} | order={order}",
+          flush=True)
+    return res
 
 
 if __name__ == "__main__":

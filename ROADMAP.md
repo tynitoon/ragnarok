@@ -34,10 +34,15 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [SCALE depth] v8: extend the tree (diamond/diamond_pickaxe -> depth ~8);
-  show v7 discovery still climbs it bottom-up and the developmental advantage
-  GROWS with depth while flat/curiosity falls further behind (compounding
-  scales; counters "toy/shallow").
+- [SOLIDIFY v7] v7 capstone was N=1. Re-run autonomous discovery over N=5
+  seeds to show it RELIABLY reaches 9/9 + DAG-valid order (not a fluke).
+  Highest-value, lowest-risk (no env surgery); firms up the headline.
+
+## NEXT (prioritized)
+0. SCALE depth: extend the tree (diamond/diamond_pickaxe -> depth ~8) via a
+   deep=True flag (keep old env default intact); show discovery still climbs
+   it and the advantage GROWS with depth. (Moderate env surgery — do after
+   solidifying v7.)
 
 ## DONE since last update
 - M7 reliability: end-to-end iron_pickaxe 0.71 -> 0.77 (quantity-aware
