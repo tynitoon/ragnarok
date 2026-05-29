@@ -3944,4 +3944,51 @@ developmental learning.
   version parked as future research); collect skills reused/model-free;
   execution at the ~0.77 ceiling (M7).
 
+- **2026-05-30 (v10.0 — GENERALITY: procedural tech-trees, no hand-built
+  world).** Attacks the #1 honest gap: every prior result is on ONE
+  hand-built 9-item tree. v10 tests whether the developmental + model-based
+  agent works on tech-tree worlds that NEITHER the agent NOR we designed —
+  random recipe DAGs.
+
+  *New env: DeviceVecTechTree (data-driven, procedural).* A generalization of
+  CraftWorld built from a SPEC (not hardcoded), kept separate so the existing
+  CraftWorld + results are untouched. Items are either RESOURCES (collected
+  from a grid cell type, optionally gated by a tool item) or CRAFTS (consume
+  input items + require tool items). A generator samples a RANDOM DAG: layered
+  dependencies, n_items ~ 12-24, target depth ~ 6-10, branching. Actions =
+  move(4) + collect(1) + one craft action per craft item; obs = egocentric
+  patch + inventory (+ optional goal). Achievements = first obtaining each
+  item; sparse reward. Sanity: a scripted oracle completes a random tree;
+  random policy stalls shallow.
+
+  *Agent (generalised from v7/v9, item-set read from the env).*
+  - ONE goal-conditioned COLLECT skill (input: target resource cell-type) —
+    "go to nearest cell of type X and collect"; tree-AGNOSTIC, trained once,
+    reused across ALL random trees (a cross-world primitive-transfer result
+    in itself).
+  - Rule-learning (v9 leave-one-out necessity) over the env's item set ->
+    recover the RANDOM DAG from interaction.
+  - BFS planning over the learned DAG to the deepest item; execute.
+
+  *Decisive (over K>=10 random unseen trees, N seeds).*
+  1. Rule recovery: learned preconditions vs the (hidden) generated DAG —
+     precision/recall ~1.0 across random trees.
+  2. Planning coverage: valid plan to the deepest item on every tree.
+  3. Execution: builds the deepest item far past a flat/curiosity baseline.
+  4. Primitive transfer: the single collect skill (trained once) works across
+     all trees without retraining.
+  A null (recovery/planning degrades on unseen trees) is reported honestly —
+  it would mean the approach overfit the hand-built tree.
+
+  *Why this matters.* It would show the agent doesn't memorise ONE tree — it
+  DEVELOPS in arbitrary tech-tree worlds. That is both a real generality
+  result AND the first thing genuinely worth the owner TESTING (generate a
+  random world neither of us built; watch the agent figure it out).
+
+  *Honest scope.* Still grid-world + symbolic-ish obs (no pixels); "tech-tree
+  worlds" is a structured family, not arbitrary environments. Perception /
+  real-world richness remain future research.
+
+  *Chronology assertion.* Committed BEFORE DeviceVecTechTree and any v10 code.
+
 - (Subsequent amendments timestamped here before execution.)
