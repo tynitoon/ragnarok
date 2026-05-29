@@ -3203,4 +3203,37 @@ developmental learning.
   experiment's hypothesis (it corrects self-recognition, not the
   reuse-vs-no-reuse comparison).
 
+- **2026-05-29 (v4.0 Phase 3 RESULT — DEVELOPMENTAL LOOP WORKS, N=3).**
+  Rotation-group substrate {free, rot90, reverse, rot270}; skills
+  consolidated to >=0.95, reuse bar 0.80; 3 blocks x 4 regimes = 12 tasks
+  per seed. devloop_v4_out/results.json.
+
+  All four preregistered decisive criteria met, every seed:
+  1. *Marginal cost falls.* reuse_gated cost-to-master drops from
+     first-block mean 105,173 -> last-block mean 25,600 env-steps (~4.1x);
+     cost-vs-task slope -8,584 +/- 3,101 (negative in all 3 seeds). The
+     "de plus en plus vite" signature, measured directly.
+  2. *Total << no-reuse.* 625,493 +/- 117,500 vs 1,160,533 +/- 58,750
+     env-steps (1.86x; CIs disjoint). Savings are structural (O(notions)
+     learning vs O(tasks)) and grow without bound as the curriculum
+     lengthens.
+  3. *The gate recovers the true notion count.* library size = [4, 4, 4]
+     == 4 distinct notions, with NO oracle — every block-1 task found its
+     regime novel (best prior <= 0.05) and learned it; every block-2/3
+     task recognised a known notion (probe 0.95-1.00) and reused the
+     CORRECT skill. Learns each notion once, reuses forever after.
+  4. *Gating is necessary, and reuse never broke a task.* reuse_gated
+     all-tasks-mastered = [True, True, True]; the always_reuse_first
+     control (one skill, no gate) mastered only 0.25 of tasks — the ~3/12
+     sharing its single notion — leaving every novel regime UNMASTERED.
+
+  The v1-strict run (kept as results_v1strict.json) is the honest
+  counter-point: without the consolidation margin the gate duplicated two
+  borderline skills (library 6 in seed 0). Fixing self-recognition — not
+  the reuse comparison — gave the clean result. Net: the full
+  developmental loop holds — she learns each basic notion once, reuses it
+  whenever it applies (near-free), and pays the full learning cost only
+  for genuinely new notions; cumulative effort flattens as her repertoire
+  covers the world.
+
 - (Subsequent amendments timestamped here before execution.)

@@ -1,0 +1,1261 @@
+{
+  "regimes": [
+    "free",
+    "rot90",
+    "reverse",
+    "rot270"
+  ],
+  "blocks": 3,
+  "n_regimes": 4,
+  "seeds": {
+    "0": {
+      "curriculum": [
+        "reverse",
+        "free",
+        "rot90",
+        "rot270",
+        "rot270",
+        "reverse",
+        "rot90",
+        "free",
+        "rot90",
+        "rot270",
+        "free",
+        "reverse"
+      ],
+      "reuse_gated": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "new skill#0 succ 1.00 (best prior -1.00)"
+          },
+          {
+            "task": 1,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 88320,
+            "mastered": true,
+            "note": "new skill#1 succ 1.00 (best prior 0.00)"
+          },
+          {
+            "task": 2,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 94720,
+            "mastered": true,
+            "note": "new skill#2 succ 0.98 (best prior 0.05)"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 142080,
+            "mastered": true,
+            "note": "new skill#3 succ 1.00 (best prior 0.02)"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          },
+          {
+            "task": 5,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.98"
+          },
+          {
+            "task": 7,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 1.00"
+          },
+          {
+            "task": 8,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.98"
+          },
+          {
+            "task": 9,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 1.00"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 1.00"
+          }
+        ],
+        "costs": [
+          122880,
+          88320,
+          94720,
+          142080,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600
+        ],
+        "cumulative": [
+          122880,
+          211200,
+          305920,
+          448000,
+          473600,
+          499200,
+          524800,
+          550400,
+          576000,
+          601600,
+          627200,
+          652800
+        ],
+        "total": 652800,
+        "first_block_mean": 112000.0,
+        "last_block_mean": 25600.0,
+        "slope": -9443.356643356641,
+        "all_mastered": true,
+        "library_size": 4
+      },
+      "no_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 0.98"
+          },
+          {
+            "task": 1,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 2,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 5,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 7,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 8,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.95"
+          },
+          {
+            "task": 9,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.98"
+          }
+        ],
+        "costs": [
+          122880,
+          122880,
+          122880,
+          81920,
+          81920,
+          81920,
+          81920,
+          81920,
+          81920,
+          81920,
+          122880,
+          81920
+        ],
+        "cumulative": [
+          122880,
+          245760,
+          368640,
+          450560,
+          532480,
+          614400,
+          696320,
+          778240,
+          860160,
+          942080,
+          1064960,
+          1146880
+        ],
+        "total": 1146880,
+        "first_block_mean": 112640.0,
+        "last_block_mean": 92160.0,
+        "slope": -2577.9020979020984,
+        "all_mastered": true
+      },
+      "always_reuse_first": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 1,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 2,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 5,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 7,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 8,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 9,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 10,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 1.00"
+          }
+        ],
+        "costs": [
+          122880,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400
+        ],
+        "cumulative": [
+          122880,
+          129280,
+          135680,
+          142080,
+          148480,
+          154880,
+          161280,
+          167680,
+          174080,
+          180480,
+          186880,
+          193280
+        ],
+        "total": 193280,
+        "first_block_mean": 35520.0,
+        "last_block_mean": 6400.0,
+        "slope": -4480.000000000004,
+        "all_mastered": false
+      }
+    },
+    "1": {
+      "curriculum": [
+        "free",
+        "rot90",
+        "reverse",
+        "rot270",
+        "rot270",
+        "free",
+        "reverse",
+        "rot90",
+        "rot270",
+        "free",
+        "rot90",
+        "reverse"
+      ],
+      "reuse_gated": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "new skill#0 succ 0.98 (best prior -1.00)"
+          },
+          {
+            "task": 1,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 88320,
+            "mastered": true,
+            "note": "new skill#1 succ 0.97 (best prior 0.00)"
+          },
+          {
+            "task": 2,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 94720,
+            "mastered": true,
+            "note": "new skill#2 succ 0.98 (best prior 0.02)"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 101120,
+            "mastered": true,
+            "note": "new skill#3 succ 1.00 (best prior 0.02)"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          },
+          {
+            "task": 5,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 0.98"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.98"
+          },
+          {
+            "task": 7,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 0.95"
+          },
+          {
+            "task": 8,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          },
+          {
+            "task": 9,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 0.98"
+          },
+          {
+            "task": 10,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 0.97"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.97"
+          }
+        ],
+        "costs": [
+          81920,
+          88320,
+          94720,
+          101120,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600
+        ],
+        "cumulative": [
+          81920,
+          170240,
+          264960,
+          366080,
+          391680,
+          417280,
+          442880,
+          468480,
+          494080,
+          519680,
+          545280,
+          570880
+        ],
+        "total": 570880,
+        "first_block_mean": 91520.0,
+        "last_block_mean": 25600.0,
+        "slope": -7151.888111888105,
+        "all_mastered": true,
+        "library_size": 4
+      },
+      "no_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 1,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 2,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.98"
+          },
+          {
+            "task": 5,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 7,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.97"
+          },
+          {
+            "task": 8,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.95"
+          },
+          {
+            "task": 9,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          }
+        ],
+        "costs": [
+          122880,
+          81920,
+          81920,
+          122880,
+          81920,
+          81920,
+          81920,
+          81920,
+          81920,
+          122880,
+          122880,
+          81920
+        ],
+        "cumulative": [
+          122880,
+          204800,
+          286720,
+          409600,
+          491520,
+          573440,
+          655360,
+          737280,
+          819200,
+          942080,
+          1064960,
+          1146880
+        ],
+        "total": 1146880,
+        "first_block_mean": 102400.0,
+        "last_block_mean": 102400.0,
+        "slope": 2.719267708168783e-12,
+        "all_mastered": true
+      },
+      "always_reuse_first": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 1,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 2,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 4,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 5,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 7,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 8,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 9,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 11,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.03"
+          }
+        ],
+        "costs": [
+          81920,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400
+        ],
+        "cumulative": [
+          81920,
+          88320,
+          94720,
+          101120,
+          107520,
+          113920,
+          120320,
+          126720,
+          133120,
+          139520,
+          145920,
+          152320
+        ],
+        "total": 152320,
+        "first_block_mean": 25280.0,
+        "last_block_mean": 6400.0,
+        "slope": -2904.6153846153866,
+        "all_mastered": false
+      }
+    },
+    "2": {
+      "curriculum": [
+        "rot270",
+        "reverse",
+        "free",
+        "rot90",
+        "free",
+        "rot90",
+        "reverse",
+        "rot270",
+        "free",
+        "reverse",
+        "rot270",
+        "rot90"
+      ],
+      "reuse_gated": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "new skill#0 succ 0.97 (best prior -1.00)"
+          },
+          {
+            "task": 1,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 129280,
+            "mastered": true,
+            "note": "new skill#1 succ 1.00 (best prior 0.00)"
+          },
+          {
+            "task": 2,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 94720,
+            "mastered": true,
+            "note": "new skill#2 succ 0.97 (best prior 0.02)"
+          },
+          {
+            "task": 3,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 142080,
+            "mastered": true,
+            "note": "new skill#3 succ 1.00 (best prior 0.03)"
+          },
+          {
+            "task": 4,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.98"
+          },
+          {
+            "task": 5,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 1.00"
+          },
+          {
+            "task": 7,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 0.95"
+          },
+          {
+            "task": 8,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#2 succ 0.97"
+          },
+          {
+            "task": 9,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#1 succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#0 succ 1.00"
+          },
+          {
+            "task": 11,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 25600,
+            "mastered": true,
+            "note": "skill#3 succ 1.00"
+          }
+        ],
+        "costs": [
+          81920,
+          129280,
+          94720,
+          142080,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600,
+          25600
+        ],
+        "cumulative": [
+          81920,
+          211200,
+          305920,
+          448000,
+          473600,
+          499200,
+          524800,
+          550400,
+          576000,
+          601600,
+          627200,
+          652800
+        ],
+        "total": 652800,
+        "first_block_mean": 112000.0,
+        "last_block_mean": 25600.0,
+        "slope": -9156.923076923073,
+        "all_mastered": true,
+        "library_size": 4
+      },
+      "no_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 1,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 2,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 4,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.97"
+          },
+          {
+            "task": 5,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 7,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 0.98"
+          },
+          {
+            "task": 8,
+            "regime": "free",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 9,
+            "regime": "reverse",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 10,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 11,
+            "regime": "rot90",
+            "decision": "learn",
+            "cost": 122880,
+            "mastered": true,
+            "note": "succ 1.00"
+          }
+        ],
+        "costs": [
+          122880,
+          81920,
+          81920,
+          81920,
+          81920,
+          122880,
+          122880,
+          81920,
+          81920,
+          122880,
+          81920,
+          122880
+        ],
+        "cumulative": [
+          122880,
+          204800,
+          286720,
+          368640,
+          450560,
+          573440,
+          696320,
+          778240,
+          860160,
+          983040,
+          1064960,
+          1187840
+        ],
+        "total": 1187840,
+        "first_block_mean": 92160.0,
+        "last_block_mean": 102400.0,
+        "slope": 1002.5174825174847,
+        "all_mastered": true
+      },
+      "always_reuse_first": {
+        "log": [
+          {
+            "task": 0,
+            "regime": "rot270",
+            "decision": "learn",
+            "cost": 81920,
+            "mastered": true,
+            "note": "succ 1.00"
+          },
+          {
+            "task": 1,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 2,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 3,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 4,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 5,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 6,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.00"
+          },
+          {
+            "task": 7,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 0.98"
+          },
+          {
+            "task": 8,
+            "regime": "free",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 9,
+            "regime": "reverse",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          },
+          {
+            "task": 10,
+            "regime": "rot270",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": true,
+            "note": "succ 0.97"
+          },
+          {
+            "task": 11,
+            "regime": "rot90",
+            "decision": "reuse",
+            "cost": 6400,
+            "mastered": false,
+            "note": "succ 0.02"
+          }
+        ],
+        "costs": [
+          81920,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400,
+          6400
+        ],
+        "cumulative": [
+          81920,
+          88320,
+          94720,
+          101120,
+          107520,
+          113920,
+          120320,
+          126720,
+          133120,
+          139520,
+          145920,
+          152320
+        ],
+        "total": 152320,
+        "first_block_mean": 25280.0,
+        "last_block_mean": 6400.0,
+        "slope": -2904.6153846153866,
+        "all_mastered": false
+      }
+    }
+  },
+  "verdict": "DEVELOPMENTAL LOOP WORKS \u2014 marginal cost-to-master FALLS as the library grows; the gate recovers exactly the true notion count, reuses what applies and learns what is novel; total cost << no-reuse. Gating (not mere reuse) is necessary."
+}
