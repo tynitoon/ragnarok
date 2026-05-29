@@ -1,10 +1,26 @@
 # Ragnarok
 
-**Modular reinforcement-learning agent with skill crystallization and cross-action-space transfer.**
+**A self-teaching developmental agent: learns basic skills, reuses them to learn complex ones just as cheaply, and discovers its own curriculum.**
 
-Ragnarok is a research project exploring whether an RL agent can crystallize a learned skill (policy + world-model subset) from one task, then transfer a latent core of that skill to a new task with a *different action space* (discrete ↔ continuous) and learn faster than training from scratch.
+Ragnarok is a solo-dev research project building a *childlike developmental learner*: an agent that (1) learns basic notions, (2) **reuses** them to learn deeper notions without paying more for the extra depth (compounding), (3) **discovers on its own** what to learn next, and (4) learns from scratch when nothing transfers. The current substrate is a depth-6 crafting tech-tree (and procedurally-generated random tech-trees); recent work lifts the same ideas onto **raw pixels** (CNN perception + a learned world model).
 
-The codebase is a solo-dev research prototype run with preregistration-grade methodology: every hypothesis, threshold, and analysis choice is committed to `preregistration.md` **before** data is collected, with a public chronology audit for any amendments.
+The project began as a narrower study (cross-action-space skill transfer) which was **falsified at N=10** and honestly recorded; it then pivoted to the broader developmental program above. See *Origin* under Status below — the falsification record is preserved, not hidden.
+
+The codebase is run with preregistration-grade methodology: every hypothesis, threshold, and analysis choice is committed to `preregistration.md` **before** data is collected, with a public chronology audit for any amendments, and **honest negatives are recorded** alongside positives.
+
+---
+
+## Watch it learn (runnable demo)
+
+After install (see *Running it yourself*), drop the agent into a world it knows nothing about and watch it teach **itself** the whole tech-tree — no goals, no recipes, no curriculum given:
+
+```bash
+python -m scripts.demo            # ~5-8 min on a GPU; narrates as it learns
+python -m scripts.demo --fast     # ~2-3 min, smaller but still real
+python -m scripts.ragnarok --target iron_pickaxe   # watch it PLAN + BUILD, live ASCII
+```
+
+`demo.py` shows the heart of the project: with no goals given, the agent explores, notices what it can newly make, learns that skill, and — because it can now produce everything it has mastered — climbs the tree bottom-up, **choosing the order itself**, with deep skills costing no more to learn than shallow ones. `ragnarok.py` lets you ask for any target and watch it infer the recipes, plan, and craft it step by step.
 
 **Repositories:**
 - Primary (source of truth): [gitlab.com/mortier.jeremie/ragnarok](https://gitlab.com/mortier.jeremie/ragnarok)
@@ -14,7 +30,29 @@ The codebase is a solo-dev research prototype run with preregistration-grade met
 
 ## Status
 
-**As of 2026-04-18**, the preregistered primary hypothesis has been **falsified at N=10**. The project has activated branch C of its pre-committed decision tree and pivoted from hypothesis-confirmation to a broader research program exploring three open questions (Q1/Q2/Q3, see `reviews/research_directions.md`).
+**As of 2026-05-30**, the project runs the **developmental program**. The original transfer hypothesis was falsified at N=10 on 2026-04-18 (preserved below under *Origin*); the project then pivoted to the childlike-developmental learner described at the top. The results below are validated and preregistered; honest negatives are listed alongside.
+
+**Validated (preregistered, on GitLab — see `preregistration.md`, `ROADMAP.md`):**
+
+| Result | What it shows | State |
+|---|---|---|
+| v6 / M3 — developmental loop | Reuse ⇒ **flat** per-skill learning cost vs depth; a no-reuse baseline fails past depth 2 (deep mastery 1.00 vs 0.00) — the compounding claim | ✅ |
+| v7.0 — autonomous discovery (N=5) | No goals given: frontier-novelty + reuse discovers its own curriculum and masters the full 9-skill tree via a DAG-valid order, 5/5 seeds; curiosity-flat baseline stalls at depth ≤4 | ✅ |
+| v9 — model-based | Learns the recipe DAG from interaction (precision/recall 1.00), plans to any target zero-shot | ✅ |
+| v10 — generality | 10/10 **random** unseen tech-trees: rule recovery 1.00, plans + executes (not memorising one tree) | ✅ |
+| v8 — robustness | Discovery still reaches 9/9 across world sizes (grid 13, 17 / very sparse) | ✅ |
+| v12-A — perception | Learns a skill from **raw pixels** (CNN, no cell-types given), matching the symbolic skill (1.00) | ✅ |
+| v12-B — world model | RSSM world model from pixels predicts the future (beats a persistence baseline, open-loop k-step) | ✅ |
+| v13 — reuse from pixels | Does reuse⇒faster survive on raw pixels? | 🟡 running |
+
+**Honest negatives (recorded, not hidden):**
+- **M6/M7** end-to-end execution plateaued ~0.77 (manager under-collects resource *quantity*); parked.
+- **v11** universal goal-conditioned navigation didn't train (scripted nav is 1.00, so the env is correct — it's a hard exploration problem); parked.
+- **v12-C** acting via the learned *pixel* world model did **not** crack in budget — Dreamer-in-imagination was degenerate, and random-shooting planning did not reliably beat random. Perception (A) + world model (B) stand; control-from-pixels is future work.
+
+### Origin: the original transfer hypothesis (falsified 2026-04-18, preserved)
+
+The project began as a narrower study — cross-action-space skill transfer — that was **honestly falsified** per its preregistered kill criteria. The record is kept for transparency; it is the integrity backbone the developmental program inherited.
 
 | Milestone | State |
 |---|---|
@@ -45,7 +83,9 @@ For full details see `preregistration.md` §13 v3.8 (kill amendment) and `review
 
 ---
 
-## The research claim
+## The original research claim (transfer hypothesis — falsified, kept for context)
+
+*The project's current claims are the developmental ones at the top of this file. The four below are the original hypothesis that was falsified at N=10 (see Origin above); they are preserved because the RSSM + skill machinery they motivated is reused throughout the developmental program.*
 
 1. **Skills can be crystallized** from a trained Dreamer-style agent as a tuple `(RSSM_core + prior + posterior + policy_trunk + latent_centroid)`.
 2. **A subset of the RSSM** (GRU core + prior + posterior, excluding encoder/decoder) is transferable across tasks with *different observation and action dimensions*, via `load_state_dict` with strict shape compatibility on the transferable subset only.
@@ -77,17 +117,24 @@ ragnarok/
 │   ├── selector.py     # Nearest-neighbor skill selection (warmup-based)
 │   ├── router.py       # CentroidRouter + LearnedRouter (latter unused)
 │   └── multi_agent.py  # Multi-skill execution-time routing
-└── environments/       # Env wrappers, normalizers
-scripts/
-├── pilot_run.py        # Phase 3 pilot pipeline (smoke + N-seed runs)
-├── pilot_analysis.py   # §8 preregistered verdict analyzer (RMST, log-rank)
-└── smoke_verdict.py    # Pre-pilot smoke abort logic
-tests/                  # 444 tests (pytest); run with: ./venv310/Scripts/python.exe -m pytest
-preregistration.md      # Preregistered study protocol + all amendments (§13)
+├── environments/       # Env wrappers + DeviceVecCraftWorld (crafting tech-tree)
+│   ├── craft_world.py   # batched tech-tree env (symbolic OR pixel obs)
+│   └── tech_tree.py     # procedural random recipe-DAG generator (v10)
+└── learning/ppo_discrete.py  # batched discrete PPO (MLP + CNN actor-critic)
+scripts/                # developmental program (current)
+├── demo.py             # << watch the agent teach itself (narrated)
+├── ragnarok.py         # << ask for a target; watch it plan + build (ASCII)
+├── craft_devloop_v6.py # v6/M3 developmental loop (compounding)
+├── discover_v7.py      # v7.0 autonomous discovery (no goals)
+├── model_based_v9.py   # v9 learn recipe DAG + plan
+├── techtree_agent_v10.py # v10 generality on random trees
+├── perception_v12.py / worldmodel_v12.py / dreamer_v12.py / latent_mpc_v12.py  # pixels
+├── devreuse_v13.py     # v13 reuse from pixels
+└── (transfer-era: pilot_run.py, pilot_analysis.py, smoke_verdict.py)
+tests/                  # test suite (pytest); run with: ./venv310/Scripts/python.exe -m pytest
+preregistration.md      # Preregistered protocol + ALL amendments (developmental + origin)
+ROADMAP.md              # living roadmap: done / tried / now / future
 reviews/                # Multi-agent reviews, chronology audit, research directions
-pilot_results.json      # Pilot #2 seed-level data (primary + 2 secondaries)
-pilot_bandb_results.json # Band B rescue seed-level data (N=5)
-pilot_bandc_results.json # Band C N=10 extension (in progress)
 ```
 
 ---
@@ -109,20 +156,25 @@ python3.10 -m venv venv310
 ./venv310/Scripts/python.exe -m pytest tests/ -x
 ```
 
-**Reproduce pilot #2 analysis**:
+**Watch the agent teach itself** (the headline demo — GPU recommended for the full run):
 ```bash
-./venv310/Scripts/python.exe -m scripts.pilot_analysis pilot_results.json
+python -m scripts.demo            # ~5-8 min: narrates its own discovery + compounding
+python -m scripts.demo --fast     # ~2-3 min, smaller but still real
 ```
 
-**Reproduce Band B rescue analysis**:
+**Watch it plan and build any target** (live ASCII view):
 ```bash
-./venv310/Scripts/python.exe -m scripts.pilot_analysis pilot_bandb_results.json
+python -m scripts.ragnarok --target iron_pickaxe
+python -m scripts.ragnarok --target furnace
 ```
 
-**Run a smoke training** (~5 min CPU):
+**Re-run the core developmental experiments** (preregistered; JSON lands in `craft_v6_out/`):
 ```bash
-./venv310/Scripts/python.exe -m scripts.pilot_run --smoke --output smoke_results.json
+python -m scripts.discover_v7   --seeds 5   # v7.0 autonomous discovery (no goals given)
+python -m scripts.perception_v12            # v12-A learn a skill from raw pixels
+python -m scripts.techtree_agent_v10        # v10 generality on random tech-trees
 ```
+Most experiment scripts accept `--smoke` for a fast sanity run. (On the tested setup substitute `./venv310/Scripts/python.exe` for `python`.)
 
 ---
 
