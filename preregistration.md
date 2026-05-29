@@ -3615,4 +3615,48 @@ developmental learning.
   separate; (b) replace the scripted high-level plan with a learned one
   (the v5 gate / a learned manager over skills).
 
+- **2026-05-29 (v6.0 M5 — LEARNED composition: a manager discovers the
+  order; closes the "scripted plan" gap from M4).**
+
+  *Why.* M3 showed developmental LEARNING (reuse -> flat cost vs depth); M4
+  showed the skills compose end-to-end but the ORDER was hand-scripted. M5
+  makes the composition itself LEARNED: the agent discovers, from reward,
+  which skill to deploy when — so it is learned-skills + learned-ordering,
+  an autonomous developmental agent, not a hand-coded plan.
+
+  *Mechanism (temporal abstraction, the Phase-2/4 insight on CraftWorld).*
+  A high-level MANAGER (PPO) acts over MACRO-steps. Manager obs = compact
+  symbolic state [inventory(9, normalised), unlocked-achievements(9)] = 18-d
+  (no grid; the skills handle navigation). Manager action = which of the 9
+  achievement nodes to pursue. A macro-step executes that node's behaviour
+  for K low-level steps: a COLLECT node runs the learned collect skill; a
+  CRAFT node emits the craft action. Reward = the env's sparse +1 per
+  first-time achievement, summed over the macro-step. Episode = ~24
+  macro-steps, so the manager's credit-assignment horizon is ~24 (vs ~450
+  primitive steps for flat) -> tractable where flat is not.
+
+  *Arms.*
+  - manager + LEARNED skills (the autonomous developmental agent).
+  - manager + RANDOM-nav skills (ablation: does the learned manager carry it
+    even with random low-level navigation? — isolates the manager's value).
+  - flat PPO (M2 reference, iron_pickaxe 0.11).
+
+  *Decisive.* The learned manager autonomously masters make_iron_pickaxe
+  (completion >> flat's 0.11) via an order it DISCOVERED (not scripted), and
+  the discovered macro-action sequence respects the dependency DAG (e.g.
+  never crafts iron_pickaxe before obtaining iron). Null = manager cannot
+  learn the order (then the ordering is not learnable at this abstraction;
+  reported honestly).
+
+  *Honest scope.* The macro-action set (one per achievement) and the
+  achievement definitions are given structure; the manager learns the
+  POLICY over them (when/what), not the action set itself. Low-level nav is
+  easy in the 9x9 world (M4), so the manager+random-nav ablation may match
+  manager+learned-skills — that would show the MANAGER (learned ordering),
+  not the low-level skills, is what M5 contributes. Either way the scripted
+  plan is replaced by a learned one.
+
+  *Chronology assertion.* Committed BEFORE scripts/craft_manager_v6.py and
+  any M5 run.
+
 - (Subsequent amendments timestamped here before execution.)
