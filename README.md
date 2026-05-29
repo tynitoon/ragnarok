@@ -2,7 +2,7 @@
 
 **A self-teaching developmental agent: learns basic skills, reuses them to learn complex ones just as cheaply, and discovers its own curriculum.**
 
-Ragnarok is a solo-dev research project building a *childlike developmental learner*: an agent that (1) learns basic notions, (2) **reuses** them to learn deeper notions without paying more for the extra depth (compounding), (3) **discovers on its own** what to learn next, and (4) learns from scratch when nothing transfers. The current substrate is a depth-6 crafting tech-tree (and procedurally-generated random tech-trees); recent work lifts the same ideas onto **raw pixels** (CNN perception + a learned world model).
+Ragnarok is a solo-dev research project building a *childlike developmental learner*: an agent that (1) learns basic notions, (2) **reuses** them to learn deeper notions without paying more for the extra depth (compounding), (3) **discovers on its own** what to learn next, and (4) learns from scratch when nothing transfers. The current substrate is a depth-6 crafting tech-tree (and procedurally-generated random tech-trees); recent work lifts the same ideas onto **raw-pixel perception** — perception, navigation, and skill-learning are from pixels (CNN encoder + a learned world model), while the frontier/novelty signal that decides *what to learn next* still reads the inventory (proprioception), not pixels.
 
 The project began as a narrower study (cross-action-space skill transfer) which was **falsified at N=10** and honestly recorded; it then pivoted to the broader developmental program above. See *Origin* under Status below — the falsification record is preserved, not hidden.
 
@@ -43,14 +43,16 @@ python -m scripts.ragnarok --target iron_pickaxe   # watch it PLAN + BUILD, live
 | v8 — robustness | Discovery still reaches 9/9 across world sizes (grid 13, 17 / very sparse) | ✅ |
 | v12-A — perception | Learns a skill from **raw pixels** (CNN, no cell-types given), matching the symbolic skill (1.00) | ✅ |
 | v12-B — world model | RSSM world model from pixels predicts the future (beats a persistence baseline, open-loop k-step) | ✅ |
-| **v13b — compounding from pixels** | **The headline pixel result:** reusing mastered prerequisites lets a CNN policy master every skill up to the depth-6 iron-pickaxe **from raw pixels** (1.00, ~flat cost vs depth); a flat-from-pixels agent fails at depth ≥1. M3 compounding, now perceptual | ✅ |
-| **v14 — discovery from pixels (CAPSTONE)** | Given **only pixels and no goals**, 3/3 seeds discover their own curriculum and master the **full 9-skill tree** bottom-up (DAG-valid, reaching iron-pickaxe) **from raw pixels**, ~6 min total. Unifies discovery + perception + compounding — the whole vision on the hard substrate | ✅ |
+| **v13b — compounding from pixels** | Reusing *granted* prerequisites, a CNN policy masters every target up to the depth-6 iron-pickaxe **from pixels**; a flat agent (no reuse, sparse goal reward) fails at depth ≥1. Honest nuance: given its inputs a deep *craft* is a cheap one-action step, so the force is the **contrast** (reuse decomposes a deep skill into shallow learnable steps), not deep skills being intrinsically cheap. A *shaped*-reward flat baseline (v13c) is the fair comparator. | ✅\* |
+| **v14 — self-directed mastery from pixels (CAPSTONE)** | Given pixels and no goals, 3/3 seeds autonomously sequence and master the **full 9-skill tree** (reaching iron-pickaxe), learning every skill **from pixels**, ~6 min. Caveat (per review): the frontier/novelty signal that picks the next skill reads inventory (a reachability *oracle*), so the curriculum *ordering* is environment-gated, not discovered from pixels — the from-pixels result is the perceptual skill-mastery + sequencing. | ✅ |
 
 **Honest negatives (recorded, not hidden):**
 - **M6/M7** end-to-end execution plateaued ~0.77 (manager under-collects resource *quantity*); parked.
 - **v11** universal goal-conditioned navigation didn't train (scripted nav is 1.00, so the env is correct — it's a hard exploration problem); parked.
 - **v12-C** acting via the learned *pixel* world model did **not** crack in budget — Dreamer-in-imagination was degenerate, and random-shooting planning did not reliably beat random. Perception (A) + world model (B) stand; control-from-pixels is future work.
 - **v13** naive reuse of one skill's *visual encoder* to learn a sibling skill gave **negative** transfer from pixels (~1.7× slower than scratch; frozen failed outright) — features specialize to one target colour. This *sharpened* the story: reuse belongs at the skill/prerequisite level (v13b ✅), not the raw-feature level.
+
+\* *v13b's reuse-vs-flat contrast used a sparse goal-only reward, so a 2026-05-30 phase-gate review flagged that flat's failure could be a sparse-reward artifact rather than a depth/reuse effect. A fair **shaped-reward** flat baseline (v13c) is being run to confirm reuse — not reward shaping — is what unlocks the deep skills. True pixel-based novelty (so discovery itself is from pixels, not inventory) is recorded as future work. The project records and acts on such dissent rather than hiding it.*
 
 ### Origin: the original transfer hypothesis (falsified 2026-04-18, preserved)
 

@@ -4355,4 +4355,48 @@ developmental learning.
   navigation, and all skill learning are from pixels. Recorded; committing +
   pushing; updating README/ROADMAP and adding a watchable --pixels demo mode.
 
+- **2026-05-30 (PHASE-GATE MULTI-AGENT REVIEW of the pixel program — dissent
+  logged, acted on).** Per standing practice (spawn reviewers at phase gates,
+  dissent > consent), 2 adversarial agents reviewed v12/v13/v13b/v14. Both
+  raised valid, important critiques (recorded, not dismissed):
+  REVIEWER A (methodology): (1) v13b's deep targets are one-button CRAFTS given
+  granted inputs -> depth is uncorrelated with per-skill cost; "compounding"
+  (flat cost vs depth) is partly an artifact (cost tracks PERCEPTION load, not
+  depth). The FLAT baseline fails due to SPARSE goal-only reward + multi-step
+  exploration, NOT depth per se; a fair baseline needs per-achievement SHAPING
+  (env supports it in non-goal mode). Verdict OVERCLAIMED; fix = run a shaped-
+  reward flat baseline. (2) v14's novelty/reachability signal reads env.inv, so
+  the frontier/DAG is ENV-GATED, not discovered; "discovers its own curriculum"
+  overstates a reachability ORACLE. Execution-from-pixels SOUND; discovery-from-
+  pixels OVERCLAIMED. DAG-valid check is lenient (doesn't constrain coal vs
+  stone). 
+  REVIEWER B (honesty): prereg is candid (caveats predeclared), but the README
+  OVERSTATED vs its own prereg — "only pixels" contradicted by the inventory
+  signal; v13b row dropped the granted/single-action nuance. Verdict MINOR-
+  FIXES-NEEDED.
+  MY RESPONSE (honest, acting on dissent): (a) FIXED README tagline + v13b/v14
+  rows to state the caveats (inventory-based novelty oracle; granted prereqs;
+  deep crafts are cheap last-steps; flat baseline was sparse-reward). (b) v14
+  reframed: "self-directed MASTERY + sequencing from pixels" with the ordering
+  env-gated (not pixel-discovered). (c) Will RUN the shaped-reward flat baseline
+  (v13c) as the fair comparator for v13b. (d) Pixel-based novelty (RND/encoder-
+  feature) for true pixel-discovery noted as FUTURE WORK. The reviews were
+  correct; the underlying results (perceptual skill-mastery 9/9 from pixels;
+  reuse vs sparse-flat contrast) stand, but the CLAIMS are now scoped honestly.
+
+- **2026-05-30 (v13c prereg — fair SHAPED-reward flat baseline for v13b).**
+  Reviewer A's key fix. Question: does reuse's advantage survive a FAIR flat
+  baseline that gets a dense learning signal? Arms for deep targets
+  (make_stone_pickaxe d4, make_iron_pickaxe d6): (i) REUSE (grant prereqs, goal
+  reward) — from v13b, masters; (ii) FLAT-SHAPED (grant NOTHING, NON-goal mode
+  = +1 per first-time achievement, a dense curriculum-free signal) — measure
+  whether it ever achieves the deep TARGET from pixels. HYPOTHESIS: even with
+  shaping, flat-from-pixels fails to reach the deep target (matching symbolic
+  M2 where shaped/curiosity-flat stalled at depth <=4, iron_pickaxe 0.11), so
+  reuse's advantage is NOT merely a sparse-reward artifact. DECISIVE if FLAT-
+  SHAPED target-achievement <= 0.2 at d6 while reuse = 1.0. KILL/UPDATE: if
+  FLAT-SHAPED reaches the deep target (>0.5), then shaping (not reuse) was the
+  key and the v13b claim must be weakened. Script scripts/flat_shaped_v13c.py
+  committed BEFORE the run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
