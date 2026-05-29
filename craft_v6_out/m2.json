@@ -1,0 +1,30 @@
+{
+  "skills": {
+    "collect_wood": {
+      "success": 0.95703125,
+      "steps": 409600
+    },
+    "collect_stone": {
+      "success": 0.95703125,
+      "steps": 491520
+    },
+    "collect_iron": {
+      "success": 0.95703125,
+      "steps": 327680
+    }
+  },
+  "flat_profile": [
+    0.87109375,
+    0.87109375,
+    0.80859375,
+    0.65625,
+    0.53515625,
+    0.62890625,
+    0.1796875,
+    0.3125,
+    0.11328125
+  ],
+  "flat_steps": 3276800,
+  "flat_deepest_depth": 4,
+  "verdict": "M2 OK: skills learnable; flat PPO stalls shallow (deep nodes remain the gap for the developmental agent)"
+}
