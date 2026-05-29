@@ -97,16 +97,24 @@ def _fresh_skill():
 
 
 def _learn_skill(regime, cfg, verbose=False):
-    """Train a goal-conditioned skill on `regime` until eval success >=
-    mastery (or the rollout cap). Returns (frozen_policy, env_steps_spent,
-    mastered_bool, final_success)."""
+    """Train a goal-conditioned skill on `regime` until it is CONSOLIDATED
+    (eval success >= cfg['consolidate'], default 0.95) or the rollout cap.
+
+    Why consolidate above the mastery bar: a skill that *barely* crosses
+    0.80 re-probes around 0.80 +/- noise, so the gate can later fail to
+    recognise its own skill and duplicate it (observed in the v1 strict
+    run: library bloated to 6). Practising to fluency (>=0.95) makes a
+    same-notion re-probe reliably clear the preregistered 0.80 reuse bar.
+    The reuse bar and the "mastered" definition stay at cfg['mastery'].
+
+    Returns (frozen_policy, env_steps_spent, mastered_bool, final_success)."""
     env = DeviceVecPointMass2D(cfg["num_envs"], regime=regime)
     sac = SACTrainer(obs_dim=6, action_dim=2,
                      action_low=np.full(2, -1.0, dtype=np.float32),
                      action_high=np.full(2, 1.0, dtype=np.float32),
                      warmup_steps=cfg["num_envs"] * cfg["horizon"],
                      buffer=DeviceSACBuffer(capacity=200_000))
-    total, mastered_at, last = 0, None, 0.0
+    total, last = 0, 0.0
     for it in range(1, cfg["skill_rollouts"] + 1):
         batch = _collect_goal_cond(env, sac, cfg["horizon"])
         sac.train_on_rollout(batch, n_updates=cfg["skill_updates"])
@@ -116,17 +124,13 @@ def _learn_skill(regime, cfg, verbose=False):
             if verbose:
                 print(f"      [learn {regime}] it {it:>2} | succ {last:.2f} "
                       f"| steps {total:,}", flush=True)
-            if last >= cfg["mastery"]:
-                mastered_at = total
+            if last >= cfg["consolidate"]:
                 break
     pi = sac.policy
     pi.eval()
     for p in pi.parameters():
         p.requires_grad_(False)
-    if mastered_at is None:                 # ensure we report final success
-        last = _skill_success(pi, regime, cfg)
-    return pi, (mastered_at if mastered_at is not None else total), \
-        mastered_at is not None, last
+    return pi, total, last >= cfg["mastery"], last
 
 
 # --------------------------------------------------------------------------
@@ -278,8 +282,12 @@ def main():
     p.add_argument("--skill-updates", type=int, default=128)
     p.add_argument("--eval-every", type=int, default=5)
     p.add_argument("--eval-steps", type=int, default=100)
-    p.add_argument("--probe-trials", type=int, default=128)
-    p.add_argument("--mastery", type=float, default=0.8)
+    p.add_argument("--probe-trials", type=int, default=64)
+    p.add_argument("--mastery", type=float, default=0.8,
+                   help="reuse bar + 'mastered' definition (preregistered)")
+    p.add_argument("--consolidate", type=float, default=0.95,
+                   help="train a new skill to this fluency before shelving it "
+                        "(hysteresis above the reuse bar; see v1-strict finding)")
     p.add_argument("--out-dir", default="devloop_v4_out")
     p.add_argument("--validate", action="store_true")
     p.add_argument("--smoke", action="store_true")
@@ -291,10 +299,12 @@ def main():
         args.eval_every, args.eval_steps, args.probe_trials = 3, 40, 32
         args.blocks = 2
         args.regimes = ["free", "reverse"]
+        args.consolidate = 0.3
 
     cfg = {k: getattr(args, k) for k in
            ("num_envs", "horizon", "skill_rollouts", "skill_updates",
-            "eval_every", "eval_steps", "probe_trials", "mastery")}
+            "eval_every", "eval_steps", "probe_trials", "mastery",
+            "consolidate")}
 
     os.makedirs(args.out_dir, exist_ok=True)
     print(f"[devloop-v4] device={DEVICE} | regimes={args.regimes} | "

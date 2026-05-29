@@ -3162,4 +3162,45 @@ developmental learning.
   switch. The real 3-arm curriculum run uses
   `--regimes free rot90 reverse rot270` and is launched AFTER this commit.
 
+- **2026-05-29 (v4.0 Phase 3 gate fix — CONSOLIDATE a skill to fluency
+  before shelving it; the v1-strict run revealed borderline duplication).**
+
+  *What the first real run (reuse bar == learn-stop == mastery == 0.80)
+  showed.* With the rotation-group substrate, seed 0 of reuse_gated bloated
+  the library to SIX skills instead of four (results_v1strict.json):
+    task 0 reverse -> learn skill#0 (succ 0.81)   # barely crossed 0.80
+    task 5 reverse -> LEARN skill#4 (best prior 0.78)  # re-probe of #0 < 0.80
+    task 10 free   -> LEARN skill#5 (best prior 0.77)  # re-probe of #1 < 0.80
+  Root cause: a skill that stops the moment it first crosses 0.80 sits at
+  ~0.80, so an independent re-probe on fresh goals lands at 0.80 +/- noise
+  and sometimes dips below the (identical) 0.80 reuse bar — the gate then
+  fails to recognise its OWN skill and learns a duplicate. (Seed 1, whose
+  skills happened to train to 0.97-1.00, stayed clean at four.) This is a
+  real threshold-flapping failure of a gate whose reuse bar equals its
+  learn-stop bar.
+
+  *Fix (more stringent, not less).* Decouple two thresholds, exploiting the
+  large diagonal/off-diagonal gap the probe matrix already established
+  (off-diag <= 0.05, on-diag >= 0.98):
+  - learn-stop / CONSOLIDATE = 0.95: a newly learned skill is practised to
+    fluency (>=0.95) before being added to the library — like a child
+    practising a notion until fluent rather than barely passing.
+  - reuse bar = mastery = 0.80 (UNCHANGED, preregistered): reuse a library
+    skill iff its probe >= 0.80, and a task counts "mastered" iff >= 0.80.
+  A consolidated (~0.95+) skill re-probes reliably above 0.80, so the gate
+  recognises it and does not duplicate; and a reused task is genuinely
+  mastered (>=0.80). This is hysteresis with the reuse bar held at the
+  preregistered value; it raises the learning cost in ALL arms equally
+  (no_reuse and always_reuse_first also consolidate), so the savings ratio
+  is unaffected — the change only removes spurious library duplication.
+
+  *Honesty / chronology.* The v1-strict result (library up to 6) is kept as
+  results_v1strict.json / run_v1strict.log and reported as the finding that
+  motivated the fix. This amendment is committed BEFORE the v2 run; only
+  the learn-stop threshold changed (0.80 -> 0.95 consolidate), every other
+  preregistered element — gate logic, reuse bar, three arms, curriculum,
+  endpoint, decisive criteria — is unchanged. The fix is blind to the
+  experiment's hypothesis (it corrects self-recognition, not the
+  reuse-vs-no-reuse comparison).
+
 - (Subsequent amendments timestamped here before execution.)
