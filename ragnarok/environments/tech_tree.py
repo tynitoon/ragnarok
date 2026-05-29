@@ -68,7 +68,14 @@ class DeviceVecTechTree:
     is_discrete = True
 
     def __init__(self, num_envs, spec, grid=11, view=5, max_steps=300,
-                 n_resource=5, goal=None, grant=None, seed=0):
+                 n_resource=5, goal=None, grant=None, seed=0,
+                 max_cells=None, nav_goal=None):
+        """max_cells: pad the cell-type one-hot to this fixed width (so obs
+        dim is identical across trees — needed for a tree-agnostic skill).
+        nav_goal: navigation-skill mode. None=normal; 'random'=resample a
+        target resource cell-type per env each reset; int=fixed target. In nav
+        mode obs = egocentric(max_cells) + target-cell-type one-hot, and reward
+        is +1 (terminate) when the item of the target cell-type is collected."""
         self.num_envs = num_envs
         self.spec = spec
         self.G = grid
@@ -78,12 +85,17 @@ class DeviceVecTechTree:
         self.n_resource = n_resource          # cells of EACH resource type
         self.n_items = spec["n_items"]
         self.n_cells = spec["n_cells"]        # 0=empty, 1..(n_cells-1)=resources
-        self.n_cell_types = self.n_cells + 1  # + a WALL slot for the view
+        self.n_cell_types = max_cells if max_cells else (self.n_cells + 1)
         self.goal_idx = goal
         self.goal_conditioned = goal is not None
+        self._nav = nav_goal                  # None | 'random' | int
+        self.nav_mode = nav_goal is not None
         self.action_dim = 5 + len(spec["craft_actions"])
-        self.obs_dim = self.P * self.P * self.n_cell_types + self.n_items \
-            + (self.n_items if self.goal_conditioned else 0)
+        if self.nav_mode:
+            self.obs_dim = self.P * self.P * self.n_cell_types + self.n_cell_types
+        else:
+            self.obs_dim = self.P * self.P * self.n_cell_types + self.n_items \
+                + (self.n_items if self.goal_conditioned else 0)
         self._grant = (None if grant is None else
                        torch.as_tensor(grant, dtype=torch.long, device=DEVICE))
 
@@ -127,6 +139,12 @@ class DeviceVecTechTree:
         a = order[:, slot]
         return grid, torch.stack([a // G, a % G], dim=-1)
 
+    def _sample_nav(self, n):
+        rc = torch.tensor(self.resource_cells, device=DEVICE)
+        if self._nav == "random":
+            return rc[torch.randint(len(rc), (n,), generator=self._gen, device=DEVICE)]
+        return torch.full((n,), int(self._nav), dtype=torch.long, device=DEVICE)
+
     def reset(self):
         self.grid, self.pos = self._rand_cells(self.num_envs)
         self.inv = torch.zeros(self.num_envs, self.n_items, dtype=torch.long,
@@ -136,6 +154,8 @@ class DeviceVecTechTree:
         self.unlocked = torch.zeros(self.num_envs, self.n_items, dtype=torch.bool,
                                     device=DEVICE)
         self.steps = torch.zeros(self.num_envs, device=DEVICE)
+        if self.nav_mode:
+            self.nav_vec = self._sample_nav(self.num_envs)
         self._set_state()
         return self.state
 
@@ -154,6 +174,10 @@ class DeviceVecTechTree:
     def _set_state(self):
         ego = self._egocentric()
         oh = torch.nn.functional.one_hot(ego, self.n_cell_types).float()
+        if self.nav_mode:
+            g = torch.nn.functional.one_hot(self.nav_vec, self.n_cell_types).float()
+            self.state = torch.cat([oh.reshape(self.num_envs, -1), g], dim=-1)
+            return
         parts = [oh.reshape(self.num_envs, -1),
                  self.inv.float().clamp(max=5.0) / 5.0]
         if self.goal_conditioned:
@@ -169,9 +193,12 @@ class DeviceVecTechTree:
         a = action.reshape(self.num_envs).long()
         N = self.num_envs
         reward = torch.zeros(N, device=DEVICE)
+        env_ar = torch.arange(N, device=DEVICE)
         goal_was = (self.unlocked[:, self.goal_idx].clone()
                     if self.goal_conditioned else None)
-        env_ar = torch.arange(N, device=DEVICE)
+        if self.nav_mode:
+            nav_item = self.cell2item[self.nav_vec]
+            nav_before = self.inv[env_ar, nav_item].clone()
 
         # movement (0-3)
         deltas = torch.tensor([[-1, 0], [1, 0], [0, -1], [0, 1]], device=DEVICE)
@@ -216,7 +243,11 @@ class DeviceVecTechTree:
                 reward[idx] += newly.float()
 
         self.steps += 1
-        if self.goal_conditioned:
+        if self.nav_mode:
+            got = self.inv[env_ar, nav_item] > nav_before
+            terminated = got
+            reward = got.float()
+        elif self.goal_conditioned:
             terminated = self.unlocked[:, self.goal_idx].clone()
             reward = (terminated & (~goal_was)).float()
         else:
@@ -238,3 +269,5 @@ class DeviceVecTechTree:
         self.inv[done] = 0 if self._grant is None else self._grant
         self.unlocked[done] = False
         self.steps[done] = 0
+        if self.nav_mode:
+            self.nav_vec[done] = self._sample_nav(n)
