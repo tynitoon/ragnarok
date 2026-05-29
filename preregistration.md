@@ -3868,4 +3868,17 @@ developmental learning.
   Params-only (no code change). Next: probe the limit (grid 17, very sparse)
   to find where random-frontier-exploration breaks (honest boundary).
 
+- **2026-05-30 (v8 limit probe — grid 17, very sparse: still robust).**
+  N=2 on grid 17 (~0.08 density; egocentric view sees ~9%). Both seeds
+  reached the FULL tree (9/9) + iron_pickaxe — autonomous discovery does NOT
+  break even here; stronger generality than expected. Strict DAG-order metric
+  1/2: a benign artifact — given the stone_pickaxe tool is granted, the
+  iron_pickaxe SKILL internally collects its own iron then crafts, so it can
+  master before "iron" exists as a separate library item; the PHYSICS
+  dependency (no ipick without iron) is still respected (the skill gathers
+  it). Conclusion: discovery is robust across world sizes 9/13/17; the
+  library-order metric over-counts violations when a deep skill subsumes a
+  prerequisite collect. Remaining frontier (cross-recipe transfer, deeper
+  trees) needs an env refactor to a configurable tree — scoped next.
+
 - (Subsequent amendments timestamped here before execution.)

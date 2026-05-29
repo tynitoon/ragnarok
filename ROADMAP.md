@@ -34,25 +34,27 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [HARDER NAV] v8: re-run autonomous discovery on a BIGGER, SPARSER world
-  (grid 13, longer episodes/exploration) — zero code surgery (params only).
-  Tests whether discovery is ROBUST when navigation is non-trivial (the M4
-  "nav too easy in 9x9" concern). Robust => generality; degrades => honest
-  limitation + pointer to better exploration.
+- [CROSS-WORLD via configurable tree] v9: refactor CraftWorld to a
+  DATA-DRIVEN tree spec (items/recipes/resources as a config), default =
+  current 9-node tree (regression-test with craft_sanity). Unlocks BOTH a
+  deeper tree and a SECOND world (different recipes sharing primitives) ->
+  the cross-world transfer test (skills from A accelerate B). The highest-
+  value remaining frontier.
 
 ## DONE (recent)
-- v7 SOLIDIFIED N=5: 5/5 seeds reach full tree (9/9) + DAG-valid order +
-  iron_pickaxe. Capstone robust, not a fluke.
-- M7 reliability: end-to-end iron_pickaxe 0.65->0.71->0.77 across M5/M6/M7;
-  PLATEAUED ~0.77 (in-chain skill-compounding, not quantity). PARKED
-  (diminishing returns; learning claims don't depend on 1.0).
+- v7 SOLIDIFIED N=5: 5/5 seeds full tree + DAG-valid + iron_pickaxe.
+- v8 ROBUSTNESS across world sizes: grid 13 (3/3) and grid 17 / very sparse
+  (2/2) still reach 9/9 + iron_pickaxe. Discovery does not break with harder
+  navigation; not an artifact of the tiny 9x9 world. (DAG-order metric is a
+  slight over-counter: a deep skill can subsume a prerequisite collect.)
+- M7 reliability: end-to-end iron_pickaxe 0.65->0.71->0.77; PLATEAUED ~0.77
+  (in-chain skill-compounding). PARKED (diminishing returns).
 
 ## NEXT (prioritized)
-1. SCALE depth: extend tree to depth ~8 (diamond) via a deep=True instance
-   flag (needs env refactor to instance-level dims to keep default intact).
-   Incremental — M3 already shows the reuse advantage grows with depth.
-2. CROSS-WORLD transfer: skills from world A accelerate mastery in a related
-   world B (shared primitives, different layout/recipes).
+1. SCALE depth: with the configurable tree, extend to depth ~8-10; show
+   discovery still climbs it and the reuse advantage grows with depth.
+2. Curiosity-GUIDED frontier exploration (vs random) — would extend the
+   robustness limit to even sparser/bigger worlds.
 
 ## BACKLOG / ideas
 - Discover the RECIPES/physics themselves (not just the sub-goal curriculum) —
