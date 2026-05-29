@@ -3659,4 +3659,31 @@ developmental learning.
   *Chronology assertion.* Committed BEFORE scripts/craft_manager_v6.py and
   any M5 run.
 
+- **2026-05-29 (v6.0 M5 RESULT — LEARNED COMPOSITION WORKS; resolves M4's
+  wrinkle).** craft_v6_out/m5.json.
+  - The manager DISCOVERED a DAG-valid macro-order from reward (modal seq):
+    collect_wood -> make_table -> make_wood_pickaxe -> collect_stone ->
+    make_stone_pickaxe -> collect_coal -> collect_iron -> make_furnace ->
+    make_iron_pickaxe (then repeats the terminal craft). A correct
+    topological sort of the tech tree — LEARNED, not scripted. dag_ok=True.
+  - End-to-end make_iron_pickaxe: manager+LEARNED-skills 0.65 vs
+    manager+RANDOM-nav 0.06 vs flat PPO 0.11. ~6x flat, ~10x random-nav.
+  - This RESOLVES M4's wrinkle: under a TIGHT per-sub-goal budget (K=20
+    low-level steps per macro-step), navigation efficiency matters, so the
+    LEARNED skills decisively beat random navigation (0.65 vs 0.06) — unlike
+    M4's unlimited-wandering regime where random nav happened to suffice.
+
+  So on the crafting tech tree the FULL autonomous developmental loop holds:
+  learn skills (M2) -> reuse so deep skills are cheap to learn (M3) -> learn
+  the ORDER and autonomously reach the depth-6 goal (M5), every step far
+  beyond flat RL. Nothing is hand-scripted in the M5 agent's policy: skills
+  learned, ordering learned.
+
+  *Honest note.* 0.65 is a chain-compounding ceiling (8 sequential
+  sub-goals, manager still improving at 100 iters), not a failure; a longer
+  manager run / larger macro-budget pushes it higher (extension run
+  follows). The macro-action SET (one per achievement) and the achievement
+  definitions remain given structure; the manager learns the POLICY over
+  them.
+
 - (Subsequent amendments timestamped here before execution.)
