@@ -4274,4 +4274,21 @@ developmental learning.
     REUSE fails deep skills too. Script scripts/devloop_pixels_v13b.py committed
     BEFORE the run; chronology asserted.
 
+- **2026-05-30 (v13 RESULT — NEGATIVE, robust N=3: naive perceptual-encoder
+  reuse hurts).** craft_v6_out/v13.json. Across 3 sibling collect-skills
+  (stone/coal/iron) x 3 seeds, warm-starting the collect_wood CNN encoder did
+  NOT accelerate learning: REUSE-FINETUNE was ~1.7x SLOWER than SCRATCH (mean
+  steps-to-0.5: stone 393k vs 246k, coal 410k vs 229k, iron 238k vs 147k;
+  overall speedup 0.60x, AUC gain -0.41), and REUSE-FROZEN FAILED outright
+  (best ~0.02-0.09, 0/3 reach 0.5). Interpretation: low-level perceptual
+  features specialized to one target colour (wood/green) are the WRONG bias for
+  a sibling skill with a different target (grey/black/orange); frozen cannot
+  adapt them (total failure) and finetune must first overcome the bias (slower
+  than a fresh net). HONEST NEGATIVE, and a SHARPENING result: it shows reuse
+  must operate at the SKILL / PREREQUISITE granularity (the project's validated
+  mechanism, M3/v7), NOT at the raw perceptual-feature level. This does not
+  contradict M3 (different mechanism). Motivates v13b directly. Note: the
+  decisive metric is robust (frozen 0/3 is unambiguous; ft-slower holds on 3/3
+  skills x 3 seeds). Recorded; proceeding to v13b (central claim from pixels).
+
 - (Subsequent amendments timestamped here before execution.)

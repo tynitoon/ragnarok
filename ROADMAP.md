@@ -61,12 +61,15 @@ occasional plain-language explanations. Expect failures; report them.
   a bigger/better world model, known Dreamer stabilization tricks, or stronger
   planning + much more compute. A (perception 1.00) + B (predicts, beats
   persistence) stand as the program's wins.
-- [v13] DEVELOPMENTAL REUSE FROM PIXELS (the project's HEART, perceptual):
-  does v6/M3's reuse->faster-learning survive on raw pixels? Reuse the
-  collect_wood CNN encoder (warm/frozen) to learn new collect-skills vs
-  scratch; measure steps-to-threshold speedup. This is the perceptual version
-  of "reuse learned notions to learn new ones faster" — more central to the
-  vision than cracking Dreamer control. QUEUED behind the MPC run (GPU).
+- [v13] DONE/NEGATIVE (robust N=3) — naive perceptual-encoder reuse HURTS:
+  warm-starting the collect_wood CNN encoder to learn stone/coal/iron was
+  ~1.7x SLOWER than scratch (speedup 0.60x), FROZEN failed outright (0/3).
+  Low-level features specialized to one target colour are the wrong bias for
+  a sibling target. Sharpens the story: reuse must be at the SKILL/PREREQUISITE
+  level (M3/v7), not raw features -> motivates v13b.
+- [v13b] M3 FROM PIXELS (the CENTRAL test): does reusing mastered PREREQUISITES
+  make DEEP skills learnable from pixels where a flat agent fails? reuse(grant
+  prereqs) vs flat(grant none) per target by depth. RUNNING.
 - [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
   loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 

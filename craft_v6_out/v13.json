@@ -1,0 +1,77 @@
+{
+  "summary": {
+    "collect_stone": {
+      "scratch": {
+        "mean_best": 1.0,
+        "mean_auc": 0.7222033514492754,
+        "mean_steps": 245760.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_ft": {
+        "mean_best": 0.984375,
+        "mean_auc": 0.5510076992753623,
+        "mean_steps": 393216.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_frozen": {
+        "mean_best": 0.015625,
+        "mean_auc": 0.002547554347826087,
+        "mean_steps": null,
+        "reached": 0,
+        "n": 3
+      }
+    },
+    "collect_coal": {
+      "scratch": {
+        "mean_best": 1.0,
+        "mean_auc": 0.7147871376811595,
+        "mean_steps": 229376.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_ft": {
+        "mean_best": 0.9270833333333334,
+        "mean_auc": 0.592391304347826,
+        "mean_steps": 409600.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_frozen": {
+        "mean_best": 0.018229166666666668,
+        "mean_auc": 0.0037930253623188405,
+        "mean_steps": null,
+        "reached": 0,
+        "n": 3
+      }
+    },
+    "collect_iron": {
+      "scratch": {
+        "mean_best": 0.8932291666666666,
+        "mean_auc": 0.7031816123188407,
+        "mean_steps": 147456.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_ft": {
+        "mean_best": 0.9166666666666666,
+        "mean_auc": 0.6308876811594203,
+        "mean_steps": 237568.0,
+        "reached": 3,
+        "n": 3
+      },
+      "reuse_frozen": {
+        "mean_best": 0.08854166666666667,
+        "mean_auc": 0.010076992753623188,
+        "mean_steps": null,
+        "reached": 0,
+        "n": 3
+      }
+    }
+  },
+  "mean_speedup": 0.6018965517241379,
+  "mean_auc_gain": -0.4149399909420291,
+  "verdict": "NEGATIVE \u2014 reuse not faster from pixels (speedup 0.60x, AUC gain -0.41). Perceptual reuse advantage did not materialise in this budget.",
+  "seeds": 3
+}
