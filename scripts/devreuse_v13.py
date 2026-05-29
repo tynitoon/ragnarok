@@ -204,15 +204,17 @@ def main():
     mean_auc_gain = _mean(auc_gains)
     ok = (mean_speedup is not None and mean_speedup > 1.15) or \
          (mean_auc_gain is not None and mean_auc_gain > 0.08)
+    sp_s = f"{mean_speedup:.2f}x" if mean_speedup is not None else "n/a"
+    ag_s = f"{mean_auc_gain:+.2f}" if mean_auc_gain is not None else "n/a"
     verdict = (f"REUSE ACCELERATES NEW SKILLS FROM PIXELS — mean steps-to-"
-               f"threshold speedup {mean_speedup:.2f}x, mean AUC gain "
-               f"{mean_auc_gain:+.2f}. The learned perceptual notion is reused "
-               f"to learn new notions faster: the developmental compounding "
-               f"claim holds on raw pixels, not just symbols."
+               f"threshold speedup {sp_s}, mean AUC gain {ag_s}. The learned "
+               f"perceptual notion is reused to learn new notions faster: the "
+               f"developmental compounding claim holds on raw pixels, not just "
+               f"symbols."
                if ok else
-               f"NEGATIVE — reuse not faster from pixels (speedup "
-               f"{mean_speedup}, AUC gain {mean_auc_gain}). Perceptual reuse "
-               f"advantage did not materialise in this budget.")
+               f"NEGATIVE — reuse not faster from pixels (speedup {sp_s}, "
+               f"AUC gain {ag_s}). Perceptual reuse advantage did not "
+               f"materialise in this budget.")
     print(f"\n  -> {verdict}\n  {time.perf_counter()-t0:.0f}s", flush=True)
     with open(os.path.join(args.out_dir, "v13.json"), "w") as f:
         json.dump(dict(summary=summary, mean_speedup=mean_speedup,
