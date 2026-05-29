@@ -613,6 +613,9 @@ class DeviceVecPointMass2D:
         "rot90":   dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=90.0),
         "rot270":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=270.0),
         "rot45":   dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=45.0),
+        "rot135":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=135.0),
+        "rot225":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=225.0),
+        "rot315":  dict(drag=0.10, power=0.05, wind=(0.0, 0.0),  rot=315.0),
     }
 
     def __init__(self, num_envs: int, goal=None, regime: str = "free"):
