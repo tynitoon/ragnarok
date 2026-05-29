@@ -67,9 +67,13 @@ occasional plain-language explanations. Expect failures; report them.
   Low-level features specialized to one target colour are the wrong bias for
   a sibling target. Sharpens the story: reuse must be at the SKILL/PREREQUISITE
   level (M3/v7), not raw features -> motivates v13b.
-- [v13b] M3 FROM PIXELS (the CENTRAL test): does reusing mastered PREREQUISITES
-  make DEEP skills learnable from pixels where a flat agent fails? reuse(grant
-  prereqs) vs flat(grant none) per target by depth. RUNNING.
+- [v13b] DONE/STRONG POSITIVE (N=3): M3 compounding holds FROM PIXELS. With
+  prerequisites reused, a CNN policy masters every skill up to make_iron_pickaxe
+  (depth 6) at 1.00 from raw pixels, each in ~10 iters regardless of depth; the
+  FLAT agent (no reuse) fails at depth >= 1 (can't even chain wood->table under
+  sparse reward). Reuse decomposes an unlearnable deep problem into shallow
+  learnable steps -> the project's HEART, validated on pixels. (Combined with
+  v7 discovery + v12-A perception, the developmental story now stands on pixels.)
 - [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
   loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 

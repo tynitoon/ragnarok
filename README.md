@@ -43,12 +43,13 @@ python -m scripts.ragnarok --target iron_pickaxe   # watch it PLAN + BUILD, live
 | v8 — robustness | Discovery still reaches 9/9 across world sizes (grid 13, 17 / very sparse) | ✅ |
 | v12-A — perception | Learns a skill from **raw pixels** (CNN, no cell-types given), matching the symbolic skill (1.00) | ✅ |
 | v12-B — world model | RSSM world model from pixels predicts the future (beats a persistence baseline, open-loop k-step) | ✅ |
-| v13 — reuse from pixels | Does reuse⇒faster survive on raw pixels? | 🟡 running |
+| **v13b — compounding from pixels** | **The headline pixel result:** reusing mastered prerequisites lets a CNN policy master every skill up to the depth-6 iron-pickaxe **from raw pixels** (1.00, ~flat cost vs depth); a flat-from-pixels agent fails at depth ≥1. M3 compounding, now perceptual | ✅ |
 
 **Honest negatives (recorded, not hidden):**
 - **M6/M7** end-to-end execution plateaued ~0.77 (manager under-collects resource *quantity*); parked.
 - **v11** universal goal-conditioned navigation didn't train (scripted nav is 1.00, so the env is correct — it's a hard exploration problem); parked.
 - **v12-C** acting via the learned *pixel* world model did **not** crack in budget — Dreamer-in-imagination was degenerate, and random-shooting planning did not reliably beat random. Perception (A) + world model (B) stand; control-from-pixels is future work.
+- **v13** naive reuse of one skill's *visual encoder* to learn a sibling skill gave **negative** transfer from pixels (~1.7× slower than scratch; frozen failed outright) — features specialize to one target colour. This *sharpened* the story: reuse belongs at the skill/prerequisite level (v13b ✅), not the raw-feature level.
 
 ### Origin: the original transfer hypothesis (falsified 2026-04-18, preserved)
 

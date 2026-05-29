@@ -1,0 +1,54 @@
+{
+  "summary": {
+    "collect_wood": {
+      "depth": 0,
+      "reuse_best": 0.9453125,
+      "flat_best": 0.9921875,
+      "reuse_master_steps": 163840.0
+    },
+    "make_table": {
+      "depth": 1,
+      "reuse_best": 1.0,
+      "flat_best": 0.0,
+      "reuse_master_steps": 81920.0
+    },
+    "make_wood_pickaxe": {
+      "depth": 2,
+      "reuse_best": 1.0,
+      "flat_best": 0.0,
+      "reuse_master_steps": 81920.0
+    },
+    "collect_stone": {
+      "depth": 3,
+      "reuse_best": 0.8880208333333334,
+      "flat_best": 0.0,
+      "reuse_master_steps": 245760.0
+    },
+    "make_stone_pickaxe": {
+      "depth": 4,
+      "reuse_best": 1.0,
+      "flat_best": 0.0,
+      "reuse_master_steps": 81920.0
+    },
+    "make_furnace": {
+      "depth": 4,
+      "reuse_best": 1.0,
+      "flat_best": 0.0,
+      "reuse_master_steps": 81920.0
+    },
+    "make_iron_pickaxe": {
+      "depth": 6,
+      "reuse_best": 1.0,
+      "flat_best": 0.0,
+      "reuse_master_steps": 81920.0
+    }
+  },
+  "deep_wins": [
+    "make_stone_pickaxe",
+    "make_furnace",
+    "make_iron_pickaxe"
+  ],
+  "reuse_cost_spread": 3.0,
+  "verdict": "DEVELOPMENTAL REUSE MAKES DEEP SKILLS LEARNABLE FROM PIXELS \u2014 reuse masters deep target(s) ['make_stone_pickaxe', 'make_furnace', 'make_iron_pickaxe'] (>=0.80) where the flat-from-pixels agent fails (<=0.20). Reuse master-cost spread across depth = 3.0x (flat-ish => compounding). The M3 compounding claim holds on raw pixels.",
+  "seeds": 3
+}

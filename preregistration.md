@@ -4291,4 +4291,27 @@ developmental learning.
   decisive metric is robust (frozen 0/3 is unambiguous; ft-slower holds on 3/3
   skills x 3 seeds). Recorded; proceeding to v13b (central claim from pixels).
 
+- **2026-05-30 (v13b RESULT — STRONG POSITIVE, robust N=3: M3 compounding holds
+  FROM PIXELS).** craft_v6_out/v13b.json. With prerequisites REUSED (granted),
+  a goal-conditioned CNN policy masters EVERY target from raw pixels including
+  the DEEPEST — make_iron_pickaxe (depth 6) at 1.00 — and given its
+  prerequisites each masters in ~10 iters (81,920 steps) regardless of depth;
+  the perception-heavy collect skills cost more (wood 164k, stone 246k) but
+  those are shallow (d0, d3). The FLAT agent (no reuse, must achieve the whole
+  chain in one episode from pixels under a sparse goal-only reward) succeeds
+  ONLY at depth 0 (collect_wood 0.99) and FAILS at depth >= 1 (0.00 everywhere,
+  even make_table d1). Decisive criterion MET: reuse masters deep targets
+  (make_stone_pickaxe, make_furnace d4; make_iron_pickaxe d6) >= 0.80 where
+  flat <= 0.20. Reuse master-cost spread 3.0x (flat-ish). HONEST NUANCE (stated,
+  not hidden): the deep targets are crafts, so given inputs the final step is a
+  single action -> cheap; the result's force is the CONTRAST (same pixels, same
+  sparse reward: reuse masters depth 6, flat can't pass depth 0) and the
+  mechanism (reuse decomposes an unlearnable deep problem into a sequence of
+  shallow, learnable ones). This is exactly the M3 compounding claim, now
+  validated on RAW PIXELS, and more dramatic than symbolic M3 (where flat
+  reached ~depth 2-4; from pixels flat fails at depth 1). Combined with v7
+  (the agent DISCOVERS + masters those prerequisites itself, symbolic) and
+  v12-A (perception), the developmental story now stands on pixels. Recorded;
+  committing + pushing.
+
 - (Subsequent amendments timestamped here before execution.)
