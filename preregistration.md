@@ -3680,10 +3680,14 @@ developmental learning.
   learned, ordering learned.
 
   *Honest note.* 0.65 is a chain-compounding ceiling (8 sequential
-  sub-goals, manager still improving at 100 iters), not a failure; a longer
-  manager run / larger macro-budget pushes it higher (extension run
-  follows). The macro-action SET (one per achievement) and the achievement
-  definitions remain given structure; the manager learns the POLICY over
-  them.
+  sub-goals, each skill ~0.74-0.9 reliable per macro-window). An EXTENSION
+  run (180 manager iters, macro-budget 30, K=22) gave 0.66 — i.e. the ~0.66
+  end-to-end rate is a STRUCTURAL ceiling (compounding sub-goal
+  unreliability), NOT undertraining; it is still ~6x flat (0.11). The
+  discovered order was again DAG-valid. The macro-action SET (one per
+  achievement) and the achievement definitions remain given structure; the
+  manager learns the POLICY over them. Pushing toward ~1.0 would need more
+  reliable low-level skills (the chain bottleneck), not more manager
+  training.
 
 - (Subsequent amendments timestamped here before execution.)
