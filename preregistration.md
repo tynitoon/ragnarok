@@ -4010,4 +4010,34 @@ developmental learning.
   available -> parked), and a learned UNIVERSAL navigation skill (vs the
   scripted nav used here for tree-agnosticism).
 
+- **2026-05-30 (v11.0 — a LEARNED universal navigation skill: fully-learned
+  generality).** Closes v10's one caveat (navigation was a scripted primitive
+  so a single agent could run on any random tree). v11 replaces it with ONE
+  goal-conditioned navigation skill, LEARNED, that works on ANY tech-tree
+  world.
+
+  *Mechanism.* Add a fixed-size observation to DeviceVecTechTree (cell-type
+  one-hot padded to MAX_CELLS) so obs dimensionality is identical across
+  trees. Train one PPO skill conditioned on a TARGET CELL-TYPE (one-hot):
+  "go to the nearest cell of type c and collect", on RANDOM worlds (random
+  layouts + random which cell-types exist). Because it conditions on the
+  cell-type and uses an egocentric view, it is tree-agnostic. Then re-run the
+  v10 generality pipeline (rule-learning probes + execution) using this
+  LEARNED skill in place of the scripted nav.
+
+  *Decisive.* (1) The single learned nav skill reaches+collects an arbitrary
+  target cell-type at high success on held-out random worlds. (2) The v10
+  generality result REPRODUCES with the learned skill: over K>=10 random
+  trees, rule recovery precision/recall ~1.0, planned to target, execution
+  high — i.e. the whole loop is now LEARNED end-to-end (nav + rules +
+  planning), no scripts. A null (learned nav doesn't generalize, or v10
+  degrades) is reported honestly.
+
+  *Honest scope.* Still grid-world / symbolic-ish obs; this removes the
+  scripted-nav asterisk on the generality claim, it does not address scale or
+  perception (which need compute we do not have reliably).
+
+  *Chronology assertion.* Committed BEFORE the env obs change and the v11
+  script.
+
 - (Subsequent amendments timestamped here before execution.)
