@@ -145,6 +145,18 @@ class DeviceVecTechTree:
             return rc[torch.randint(len(rc), (n,), generator=self._gen, device=DEVICE)]
         return torch.full((n,), int(self._nav), dtype=torch.long, device=DEVICE)
 
+    def _nav_dist(self):
+        """Manhattan distance from each agent to the nearest cell of its
+        target type (for dense nav-reward shaping)."""
+        N, G = self.num_envs, self.G
+        mask = self.grid == self.nav_vec.view(N, 1, 1)
+        rows = torch.arange(G, device=DEVICE).view(1, G, 1)
+        cols = torch.arange(G, device=DEVICE).view(1, 1, G)
+        pr, pc = self.pos[:, 0].view(N, 1, 1), self.pos[:, 1].view(N, 1, 1)
+        d = torch.where(mask, (rows - pr).abs() + (cols - pc).abs(),
+                        torch.full((N, G, G), G * G, device=DEVICE))
+        return d.view(N, -1).min(-1).values.float()
+
     def reset(self):
         self.grid, self.pos = self._rand_cells(self.num_envs)
         self.inv = torch.zeros(self.num_envs, self.n_items, dtype=torch.long,
@@ -156,6 +168,7 @@ class DeviceVecTechTree:
         self.steps = torch.zeros(self.num_envs, device=DEVICE)
         if self.nav_mode:
             self.nav_vec = self._sample_nav(self.num_envs)
+            self.nav_prevdist = self._nav_dist()
         self._set_state()
         return self.state
 
@@ -245,8 +258,9 @@ class DeviceVecTechTree:
         self.steps += 1
         if self.nav_mode:
             got = self.inv[env_ar, nav_item] > nav_before
+            cur = self._nav_dist()
+            reward = (self.nav_prevdist - cur) * 0.1 + got.float()  # dense shaping
             terminated = got
-            reward = got.float()
         elif self.goal_conditioned:
             terminated = self.unlocked[:, self.goal_idx].clone()
             reward = (terminated & (~goal_was)).float()
@@ -256,6 +270,8 @@ class DeviceVecTechTree:
         done = terminated | truncated
         if bool(done.any()):
             self._reset_done(done)
+        if self.nav_mode:
+            self.nav_prevdist = self._nav_dist()   # refresh for next step (post-reset)
         self._set_state()
         return self.state, reward, terminated, truncated, done
 

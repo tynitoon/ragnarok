@@ -34,10 +34,15 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [TESTABLE DEMO on random worlds] make the runnable demo work on PROCEDURAL
-  random trees: generate a world neither of us built, agent learns its rules
-  + plans + builds the deepest item, ASCII view + narration. This is the
-  first genuinely meaningful thing for the owner to run locally and test.
+- (idle) v10 generality + play_world demo done; v11 (universal learned nav)
+  PARKED as honest negative. Pick next research when resuming.
+
+## DONE (recent)
+- play_world: runnable random-world demo (learns recipes -> plans -> builds);
+  testable locally on any seed.
+- v11 universal learned nav: PARKED — env/reward correct (scripted nav 1.0)
+  but PPO can't bootstrap nav goal-conditioned over ~13 target types
+  (hard exploration). v10 generality (scripted-nav primitive) stands.
 
 ## DONE (recent)
 - v10 GENERALITY: 10/10 RANDOM unseen tech-tree worlds — rule recovery

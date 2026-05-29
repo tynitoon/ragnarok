@@ -4040,4 +4040,25 @@ developmental learning.
   *Chronology assertion.* Committed BEFORE the env obs change and the v11
   script.
 
+- **2026-05-30 (v11 RESULT — PARKED, honest negative).** Goal: replace v10's
+  scripted nav with ONE learned universal nav skill. Outcome: the learned
+  nav skill did NOT train. reach-success stayed flat at ~0.02-0.07 across
+  three variants (sparse reward; + distance-shaping; + view=9), over 50-120
+  PPO iters.
+  - The env/reward are CORRECT — a scripted nav policy on the same nav env
+    achieves got-rate 1.00 with strongly-positive shaped reward (verified).
+    So it is not a bug.
+  - Root cause: the generated nav world has ~13 resource cell-types, so the
+    skill must be goal-conditioned over 13 targets; from an initially-random
+    policy the shaped signal averages ~0 (random walk doesn't consistently
+    reduce distance) and the +1 collect is rarely hit -> hard exploration,
+    PPO stalls at ~random.
+  - Decision: PARKED (diminishing returns on a modest caveat). LEARNED nav
+    for SINGLE goals in denser worlds was already shown (v6/v7); the v10
+    generality result (rule-learning + planning, with a generic scripted nav
+    primitive) stands as the generality claim. Closing universal multi-goal
+    learned nav properly needs more (a goal-type CURRICULUM, a recurrent
+    policy, stronger shaping, or many more iters) -> future research.
+  Honest lesson recorded rather than massaged into a win.
+
 - (Subsequent amendments timestamped here before execution.)
