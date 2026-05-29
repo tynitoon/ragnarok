@@ -1,0 +1,50 @@
+{
+  "mastered": [
+    "wood",
+    "stone",
+    "coal",
+    "iron",
+    "wood_pickaxe",
+    "stone_pickaxe",
+    "iron_pickaxe",
+    "table",
+    "furnace"
+  ],
+  "order": [
+    "wood",
+    "table",
+    "wood_pickaxe",
+    "stone",
+    "coal",
+    "furnace",
+    "stone_pickaxe",
+    "iron",
+    "iron_pickaxe"
+  ],
+  "dag_ok": true,
+  "reached_ipick": true,
+  "rounds": [
+    {
+      "round": 1,
+      "mastered_before": 0,
+      "learned": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "stone",
+        "coal",
+        "furnace",
+        "stone_pickaxe"
+      ]
+    },
+    {
+      "round": 2,
+      "mastered_before": 7,
+      "learned": [
+        "iron",
+        "iron_pickaxe"
+      ]
+    }
+  ],
+  "verdict": "AUTONOMOUS DISCOVERY WORKS \u2014 with NO given goals, the agent discovers its own sub-goal curriculum (item-novelty + frontier expansion + reuse), reconstructs the dependency DAG bottom-up, and masters the FULL tree incl. iron_pickaxe \u2014 far past curiosity-flat (depth <=4). It decides what to learn next, by itself."
+}

@@ -3790,4 +3790,42 @@ developmental learning.
 
   *Chronology assertion.* Committed BEFORE scripts/discover_v7.py and any run.
 
+- **2026-05-30 (v7.0 RESULT — AUTONOMOUS DISCOVERY WORKS; the capstone).**
+  craft_v6_out/v7.json. With NO given goals/order/task-reward (only item-
+  novelty), the agent discovered its own sub-goal curriculum and mastered
+  the FULL tech tree bottom-up:
+  - items mastered: 9/9 (incl. depth-6 iron_pickaxe).
+  - discovery order: wood -> table -> wood_pickaxe -> stone -> coal ->
+    furnace -> stone_pickaxe -> iron -> iron_pickaxe. DAG-valid (each item
+    discovered/learned only after its prerequisites).
+  - reached the deepest node (iron_pickaxe): True.
+  - baseline curiosity-flat (= M2 flat, per-item-novelty reward):
+    iron_pickaxe 0.11, reliable depth <=4.
+  Round 1 (from empty) discovered + mastered wood, table, wood_pickaxe,
+  stone, coal, furnace, stone_pickaxe (shallowest-first, prerequisites
+  granted progressively within the round, so each was learned cheaply);
+  round 2 discovered + mastered iron then iron_pickaxe. ~3 min total.
+
+  Decisive: the agent reconstructs the dependency DAG and masters the whole
+  tree WITHOUT being told the goals — frontier-novelty drives discovery,
+  skill reuse makes each newly discovered node cheap to learn. Curiosity
+  alone (flat) cannot reach depth; discovery + reuse can. The "decide what
+  to learn next, by yourself" faculty.
+
+  *Honest scope.* The agent discovers its sub-goal CURRICULUM (which items,
+  in what order) from novelty; it does not invent the action space or the
+  recipes (the world's physics). Toy CraftWorld. Discovery order emerges
+  from reachability-frequency (shallower = more reachable), which respects
+  the DAG.
+
+  *Net — the full developmental AI, demonstrated.* v6+v7 close the loop the
+  owner described: the agent (1) learns basic skills, (2) REUSES them so deep
+  skills cost a flat amount to learn while from-scratch fails (M3), (3) LEARNS
+  to compose them to reach deep goals (M5), and (4) with no goals given,
+  DISCOVERS its own curriculum and masters the entire tree bottom-up (v7) --
+  every step far beyond flat/curiosity RL. "Apprendre les bases, s'en servir
+  pour apprendre le complexe de plus en plus vite, et decider seule quoi
+  apprendre ensuite." Open items (honest): reliable end-to-end execution
+  (~0.71, quantity precision), and scale/realism (toy world, given physics).
+
 - (Subsequent amendments timestamped here before execution.)
