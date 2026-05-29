@@ -33,11 +33,40 @@ class PPONet(nn.Module):
         return self.actor(h), self.critic(h).squeeze(-1)
 
 
+class ConvPPONet(nn.Module):
+    """CNN actor-critic for flattened RGB image obs (B, 3*H*W). The agent
+    learns features from pixels (no hand-given symbols)."""
+    def __init__(self, img_hw, action_dim, hidden=256):
+        super().__init__()
+        self.img_hw = img_hw
+        self.conv = nn.Sequential(
+            nn.Conv2d(3, 16, 4, stride=2), nn.ReLU(),
+            nn.Conv2d(16, 32, 3, stride=2), nn.ReLU(),
+            nn.Conv2d(32, 32, 3, stride=1), nn.ReLU())
+        with torch.no_grad():
+            d = self.conv(torch.zeros(1, 3, img_hw, img_hw)).reshape(1, -1).shape[1]
+        self.fc = nn.Sequential(nn.Linear(d, hidden), nn.ReLU())
+        self.actor = nn.Linear(hidden, action_dim)
+        self.critic = nn.Linear(hidden, 1)
+        for m in self.modules():
+            if isinstance(m, (nn.Linear, nn.Conv2d)):
+                nn.init.orthogonal_(m.weight, gain=2 ** 0.5)
+                nn.init.zeros_(m.bias)
+        nn.init.orthogonal_(self.actor.weight, gain=0.01)
+
+    def forward(self, obs):
+        B = obs.shape[0]
+        x = obs.view(B, 3, self.img_hw, self.img_hw)
+        h = self.fc(self.conv(x).reshape(B, -1))
+        return self.actor(h), self.critic(h).squeeze(-1)
+
+
 class DiscretePPO:
     def __init__(self, obs_dim, action_dim, hidden=256, lr=3e-4, gamma=0.99,
                  lam=0.95, clip=0.2, entropy=0.01, value_coeff=0.5,
-                 epochs=4, minibatches=4, grad_clip=0.5):
-        self.net = PPONet(obs_dim, action_dim, hidden).to(DEVICE)
+                 epochs=4, minibatches=4, grad_clip=0.5, net=None):
+        self.net = (net if net is not None
+                    else PPONet(obs_dim, action_dim, hidden)).to(DEVICE)
         self.opt = torch.optim.Adam(self.net.parameters(), lr=lr, eps=1e-5)
         self.gamma, self.lam, self.clip = gamma, lam, clip
         self.entropy, self.value_coeff = entropy, value_coeff

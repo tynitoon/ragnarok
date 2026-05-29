@@ -66,12 +66,15 @@ class DeviceVecCraftWorld:
 
     def __init__(self, num_envs: int, grid: int = 9, view: int = 5,
                  max_steps: int = 200, n_resource: int = 6, goal=None,
-                 grant=None, seed: int = 0):
+                 grant=None, seed: int = 0, pixel: bool = False, tile: int = 4):
         """goal: if set, goal-conditioned mode — reward is +1 ONLY when that
         achievement first fires, and the episode terminates then (a skill
         target). grant: optional (N_ITEMS,) iterable of inventory counts/flags
         pre-stocked at every reset — represents "prerequisite skills already
-        available", so a deep skill can be trained/run GIVEN its prerequisites."""
+        available", so a deep skill can be trained/run GIVEN its prerequisites.
+        pixel: if True, obs is a flattened RGB egocentric IMAGE (each cell-type
+        a colour, upscaled by `tile`) — the agent must learn to SEE; the agent
+        is always at the centre of the view (position implicit)."""
         self.num_envs = num_envs
         self.G = grid
         self.P = view                       # odd; egocentric window P x P
@@ -80,8 +83,23 @@ class DeviceVecCraftWorld:
         self.n_resource = n_resource        # cells of EACH resource type
         self.goal_conditioned = goal is not None
         self.goal_idx = goal
-        self.obs_dim = self.P * self.P * N_CELL_TYPES + N_ITEMS \
-            + (N_ACH if self.goal_conditioned else 0)
+        self.pixel = pixel
+        self.tile = tile
+        if pixel:
+            # cell-type -> RGB colour (the agent must learn what colours mean)
+            self._color = torch.tensor([
+                [0.30, 0.30, 0.30],   # EMPTY  grey
+                [0.10, 0.70, 0.10],   # TREE   green
+                [0.45, 0.45, 0.60],   # STONE  blue-grey
+                [0.05, 0.05, 0.05],   # COAL   black
+                [0.85, 0.55, 0.20],   # IRON   orange
+                [0.15, 0.10, 0.05],   # WALL   dark
+            ], device=DEVICE)
+            self.img_hw = self.P * tile
+            self.obs_dim = 3 * self.img_hw * self.img_hw
+        else:
+            self.obs_dim = self.P * self.P * N_CELL_TYPES + N_ITEMS \
+                + (N_ACH if self.goal_conditioned else 0)
         self._grant = (None if grant is None else
                        torch.as_tensor(grant, dtype=torch.long, device=DEVICE))
         self._gen = torch.Generator(device=DEVICE)
@@ -140,6 +158,11 @@ class DeviceVecCraftWorld:
 
     def _set_state(self):
         ego = self._egocentric()                              # (N,P,P)
+        if self.pixel:
+            rgb = self._color[ego]                            # (N,P,P,3)
+            rgb = rgb.repeat_interleave(self.tile, 1).repeat_interleave(self.tile, 2)
+            self.state = rgb.permute(0, 3, 1, 2).reshape(self.num_envs, -1)  # (N,3*H*W)
+            return
         onehot = torch.nn.functional.one_hot(ego, N_CELL_TYPES).float()
         flat = onehot.reshape(self.num_envs, -1)
         inv = self.inv.float().clamp(max=5.0) / 5.0           # normalised counts
