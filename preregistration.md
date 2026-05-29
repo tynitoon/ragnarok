@@ -4178,4 +4178,23 @@ developmental learning.
   needs more (better model / known Dreamer tricks / more compute) -> future
   research; A+B stand as the program's wins. Committed before the MPC run.
 
+- **2026-05-30 (v13 — developmental REUSE FROM PIXELS; prereg).** The project's
+  HEART is "reuse learned notions to learn new ones faster" (v6/M3, validated
+  on symbolic obs). v13 tests whether that advantage SURVIVES on raw pixels.
+  Design: learn collect_wood from pixels (a CNN perception notion); then learn
+  3 NEW collect-skills (stone/coal/iron — same task structure "locate a colour,
+  navigate, collect", different target colour; prereq tool granted so each is
+  learnable in isolation) under 3 arms — SCRATCH (fresh CNN), REUSE-FINETUNE
+  (warm-start conv+fc encoder from the wood skill, fresh heads, train all),
+  REUSE-FROZEN (warm-start AND freeze the encoder, train only the policy/value
+  heads). N=3 seeds. Metric: env-steps to first reach success>=0.5, and mean
+  success over training (AUC, sample-efficiency). HYPOTHESIS: REUSE reaches the
+  threshold in FEWER steps / higher AUC than SCRATCH (the reused perceptual
+  notion accelerates new-skill learning). DECISIVE if mean steps-to-threshold
+  speedup > 1.15x OR mean AUC gain > 0.08. KILL: if reuse is no faster than
+  scratch, the perceptual reuse advantage does not hold in this budget (honest
+  negative; symbolic M3 still stands). Predeclared confound control: REUSE-
+  FROZEN isolates PERCEPTUAL reuse (only heads adapt) from policy copying.
+  Script scripts/devreuse_v13.py committed BEFORE the run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)

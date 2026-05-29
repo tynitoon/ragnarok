@@ -47,9 +47,27 @@ validated toy MECHANISMS to an AI that learns like we wanted.
 Discipline unchanged: preregister, milestones, honest negatives, commit/push,
 occasional plain-language explanations. Expect failures; report them.
 
-## NOW
-- [v12 Phase A] pixel rendering + CNN encoder; train a collect skill FROM
-  pixels; verify it matches the symbolic-MLP skill (perception works).
+## NOW (v12 perception program — status)
+- [v12 Phase A] DONE/POSITIVE — collect_wood learned FROM PIXELS (CNN encoder,
+  no cell-types given) reaching 1.00. The agent learned to SEE.
+- [v12 Phase B] DONE/POSITIVE — RSSM world model from pixels: one-step recon
+  + open-loop k-step prediction beats a persistence baseline. It predicts.
+- [v12 Phase C] acting via the learned pixel model — HARD.
+  - Dreamer (actor-critic in imagination): NEGATIVE on BOTH sparse and dense
+    reward (dreamed actor 0.00 vs random ~1.0). The imagination policy-learning
+    itself didn't crack from scratch in this budget (it's famously finicky).
+  - Fallback = random-shooting MPC (plan in the learned model, no actor
+    training): RUNNING. If it works -> control via the learned pixel model
+    (planning, not dreaming). If not -> control-from-pixels parked as future
+    work; A+B stand as the program's perception/world-model wins.
+- [v13] DEVELOPMENTAL REUSE FROM PIXELS (the project's HEART, perceptual):
+  does v6/M3's reuse->faster-learning survive on raw pixels? Reuse the
+  collect_wood CNN encoder (warm/frozen) to learn new collect-skills vs
+  scratch; measure steps-to-threshold speedup. This is the perceptual version
+  of "reuse learned notions to learn new ones faster" — more central to the
+  vision than cracking Dreamer control. QUEUED behind the MPC run (GPU).
+- [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
+  loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 
 ## DONE (recent)
 - play_world: runnable random-world demo (learns recipes -> plans -> builds);
