@@ -52,14 +52,15 @@ occasional plain-language explanations. Expect failures; report them.
   no cell-types given) reaching 1.00. The agent learned to SEE.
 - [v12 Phase B] DONE/POSITIVE — RSSM world model from pixels: one-step recon
   + open-loop k-step prediction beats a persistence baseline. It predicts.
-- [v12 Phase C] acting via the learned pixel model — HARD.
-  - Dreamer (actor-critic in imagination): NEGATIVE on BOTH sparse and dense
-    reward (dreamed actor 0.00 vs random ~1.0). The imagination policy-learning
-    itself didn't crack from scratch in this budget (it's famously finicky).
-  - Fallback = random-shooting MPC (plan in the learned model, no actor
-    training): RUNNING. If it works -> control via the learned pixel model
-    (planning, not dreaming). If not -> control-from-pixels parked as future
-    work; A+B stand as the program's perception/world-model wins.
+- [v12 Phase C] acting via the learned pixel model — CONCLUDED: NOT cracked
+  (honest negative, parked). Dreamer (imagination actor-critic): degenerate
+  0.00 on sparse AND dense. Random-shooting MPC: ~random (H6 0.58 vs 0.39
+  was within the random baseline's own 0.39->0.61 run-to-run variance; H15
+  0.59 vs 0.61 tied). The model PREDICTS (Phase B) but isn't actionable enough
+  over a planning horizon for competent control in this budget. PARKED: needs
+  a bigger/better world model, known Dreamer stabilization tricks, or stronger
+  planning + much more compute. A (perception 1.00) + B (predicts, beats
+  persistence) stand as the program's wins.
 - [v13] DEVELOPMENTAL REUSE FROM PIXELS (the project's HEART, perceptual):
   does v6/M3's reuse->faster-learning survive on raw pixels? Reuse the
   collect_wood CNN encoder (warm/frozen) to learn new collect-skills vs

@@ -4224,4 +4224,26 @@ developmental learning.
   strong pixel control is parked as future work (A+B remain the wins); this is
   the LAST Phase C attempt either way. Committed before the retry.
 
+- **2026-05-30 (v12 Phase C — CONCLUDED: control-from-pixels NOT cracked;
+  honest negative, parked).** MPC H=15/K=512: total 0.59 vs random 0.61 — TIED.
+  Decisive honesty check: the RANDOM baseline itself swung 0.39 (H6 run) ->
+  0.61 (H15 run) across runs (stochastic 64-env x 60-step eval), a 0.22 band
+  that is LARGER than any MPC-vs-random gap. So MPC (~0.58-0.59, stable) does
+  NOT reliably beat random — the H6 "weak positive" (0.58 vs 0.39) was mostly
+  random-baseline variance, not real control. CONCLUSION for Phase C: acting
+  via the learned PIXEL world model did not work in this budget by EITHER
+  route — Dreamer (degenerate 0.00, sparse+dense) nor random-shooting MPC
+  (~random, H6+H15). The world model PREDICTS well (Phase B beat persistence)
+  but is not accurate/actionable enough over a planning horizon to drive
+  competent control with these planners here (longer horizon compounded model
+  error rather than helping). This is an HONEST NEGATIVE. PARKED as future
+  work: control-from-pixels needs a better/larger world model, known Dreamer
+  stabilization (return normalization, symlog/twohot, longer training, target
+  critic), or stronger planning (CEM with learned proposal) + far more compute
+  than one GPU short-budget. The v12 program's WINS stand: A (perception from
+  pixels 1.00) + B (world model predicts from pixels, beats persistence).
+  PIVOT (already preregistered): v13 tests the project's HEART — reuse ->
+  faster learning — FROM PIXELS, which is more central to the vision than
+  cracking pixel control. Proceeding to run v13 now.
+
 - (Subsequent amendments timestamped here before execution.)
