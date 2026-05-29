@@ -4102,4 +4102,19 @@ developmental learning.
   agent learned to SEE. Perception is in -> proceed to Phase B (RSSM world
   model from pixels).
 
+- **2026-05-30 (v12 Phase B — RSSM WORLD MODEL from pixels).** Plug a CNN
+  encoder + transposed-conv decoder into the existing pluggable RSSM (reuse
+  the GRU core + prior/posterior + reward/continue predictors + the
+  WorldModelTrainer). Train on pixel rollouts of the craft world (random +
+  skill-driven) to predict next observation + reward (reconstruction + KL +
+  reward loss). The project's RSSM foundation, now PERCEPTUAL.
+  Decisive: (1) one-step reconstruction error is low (the model sees/encodes
+  the world); (2) OPEN-LOOP imagination — roll the model k steps from a real
+  latent with the true actions, predicted frames/reward stay coherent vs
+  actual (multi-step prediction, not just autoencoding). Reported with the
+  recon error curve + an open-loop-vs-actual comparison. Null/weak result
+  (blurry recon, diverging rollouts) reported honestly. Hook -> Phase C: act/
+  plan in this learned model + the developmental loop on its latent.
+  Committed before scripts/worldmodel_v12.py and the run.
+
 - (Subsequent amendments timestamped here before execution.)
