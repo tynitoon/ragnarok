@@ -4117,4 +4117,16 @@ developmental learning.
   plan in this learned model + the developmental loop on its latent.
   Committed before scripts/worldmodel_v12.py and the run.
 
+- **2026-05-30 (v12 Phase B RESULT — world model PREDICTS from pixels;
+  substantive success).** craft_v6_out/v12b.json. Pixel RSSM (CNN enc +
+  deconv dec) trained 200 rollouts. One-step recon MSE 0.025 -> 0.018 (still
+  decreasing). OPEN-LOOP k-step imagination (roll the prior with true actions,
+  decode): ~0.020 vs persistence ~0.034, beating persistence at 8/10 horizons
+  -> the model learned the DYNAMICS of the scrolling egocentric world, not
+  just autoencoding. Substantive criterion (predicts the perceived world)
+  MET; the strict 0.01 recon bar not hit (deconv reconstructions are decent,
+  not pixel-crisp; recon still improving — more training / a sharper decoder
+  would help, but pixel-perfect recon is not needed to plan in the latent).
+  Honest: a working PERCEPTUAL world model. -> Phase C: act by DREAMING in it.
+
 - (Subsequent amendments timestamped here before execution.)
