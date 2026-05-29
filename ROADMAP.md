@@ -34,15 +34,14 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [MODEL-BASED] v9: the agent LEARNS the world's operators (precondition +
-  effect of each collect/craft — i.e. learns the RECIPES from experience,
-  not given) and PLANS (search in the learned model) to reach ANY target
-  item zero-shot — no per-goal RL, no given order. "Understand the world ->
-  any goal is a planning problem." Reuses the learned collect skills for
-  execution. Decisive: learned operators recover the true recipe DAG; the
-  planner solves all 9 targets incl. iron_pickaxe; execution reaches them,
-  far past flat (0.11). Connects to v4 Phase 1 (plan in a reused model) and
-  subsumes "discover the recipes".
+- (idle) v9 DONE. Next research items are parked below ("prochaines
+  recherches") per owner; pick one when resuming.
+
+## DONE (recent)
+- v9 MODEL-BASED: agent LEARNED the full recipe DAG from interaction
+  (precision/recall 1.00, 9/9 exact), BFS-PLANS to any target zero-shot
+  (incl. iron_pickaxe, DAG-valid), executes 0.72 (~7x flat). Retires the
+  "recipes hand-given" caveat — the agent discovers the rules itself.
 
 ## DONE (recent)
 - v7 SOLIDIFIED N=5: 5/5 seeds full tree + DAG-valid + iron_pickaxe.

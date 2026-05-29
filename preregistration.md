@@ -3924,4 +3924,24 @@ developmental learning.
 
   *Chronology assertion.* Committed BEFORE scripts/model_based_v9.py and run.
 
+- **2026-05-30 (v9.0 RESULT — MODEL-BASED WORKS).** craft_v6_out/v9.json.
+  - Rule recovery: precision 1.00, recall 1.00, EXACT 9/9 items. The agent
+    LEARNED the entire recipe DAG from interaction (leave-one-out necessity
+    probing), incl. the collect->tool dependencies (stone<-wood_pickaxe,
+    coal<-wood_pickaxe, iron<-stone_pickaxe) and the craft recipes
+    (ipick <- {wood,coal,iron,table,furnace}).
+  - Planning: BFS solved ALL 9 targets zero-shot. iron_pickaxe plan is
+    DAG-valid and complete: wood -> table -> wood_pickaxe -> stone -> coal ->
+    stone_pickaxe -> iron -> furnace -> iron_pickaxe.
+  - Execution: running the learned iron_pickaxe plan reaches it 0.72 (reusing
+    the collect skills), ~7x flat PPO (0.11).
+  - The SAME learned model plans to ANY target with NO per-goal RL (the
+    model-based payoff vs M5's per-reward manager).
+  Significance: "understand the world -> any goal is a planning problem", on
+  the rich substrate; and the agent DISCOVERS the recipes itself, retiring
+  the "recipes hand-given" caveat (it now learns the structure, not just the
+  sub-goal curriculum). Honest scope: symbolic operator model (RSSM-latent
+  version parked as future research); collect skills reused/model-free;
+  execution at the ~0.77 ceiling (M7).
+
 - (Subsequent amendments timestamped here before execution.)

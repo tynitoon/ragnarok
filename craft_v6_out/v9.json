@@ -1,0 +1,102 @@
+{
+  "learned": {
+    "wood": [],
+    "stone": [
+      "wood_pickaxe"
+    ],
+    "coal": [
+      "wood_pickaxe"
+    ],
+    "iron": [
+      "stone_pickaxe"
+    ],
+    "table": [
+      "wood"
+    ],
+    "wood_pickaxe": [
+      "table",
+      "wood"
+    ],
+    "stone_pickaxe": [
+      "stone",
+      "table",
+      "wood"
+    ],
+    "furnace": [
+      "stone",
+      "table"
+    ],
+    "iron_pickaxe": [
+      "coal",
+      "furnace",
+      "iron",
+      "table",
+      "wood"
+    ]
+  },
+  "precision": 1.0,
+  "recall": 1.0,
+  "exact": 9,
+  "plans": {
+    "0": [
+      "wood"
+    ],
+    "1": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "stone"
+    ],
+    "2": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "coal"
+    ],
+    "3": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "stone",
+      "stone_pickaxe",
+      "iron"
+    ],
+    "7": [
+      "wood",
+      "table"
+    ],
+    "4": [
+      "wood",
+      "table",
+      "wood_pickaxe"
+    ],
+    "5": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "stone",
+      "stone_pickaxe"
+    ],
+    "8": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "stone",
+      "furnace"
+    ],
+    "6": [
+      "wood",
+      "table",
+      "wood_pickaxe",
+      "stone",
+      "coal",
+      "stone_pickaxe",
+      "iron",
+      "furnace",
+      "iron_pickaxe"
+    ]
+  },
+  "all_planned": true,
+  "exec_iron_pickaxe": 0.71875,
+  "verdict": "MODEL-BASED WORKS \u2014 the agent LEARNED the recipe DAG from interaction (precision/recall ~1.0), PLANS to any target zero-shot incl. iron_pickaxe, and executes far past flat. Understand the world -> any goal is a planning problem."
+}
