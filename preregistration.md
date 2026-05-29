@@ -4208,4 +4208,20 @@ developmental learning.
   unchanged. This hardens the task and sharpens resolution; it does NOT change
   what counts as success. Per-seed checkpoint to v13_partial.json.
 
+- **2026-05-30 (v12 Phase C — MPC H=6 WEAK POSITIVE; horizon fix retry).**
+  craft_v6_out/v12c_mpc_H6.json. Random-shooting MPC (K=256, H=6) in the
+  learned pixel WM beat random OVERALL (total 0.58 vs 0.39) and on collect_wood
+  (0.27 vs 0.16) — so the learned pixel world model carries ACTIONABLE signal
+  usable by planning (qualitatively better than the degenerate Dreamer's flat
+  0.00). BUT below the preregistered decisive margin (sum gap 0.19 < 0.30) —
+  not competent control. Diagnosis: H=6 is too short to NAVIGATE to a resource
+  (trees are several steps away in the 9x9 world), so most sampled sequences
+  never reach reward within the horizon -> weak planning signal. Principled
+  fix (NOT a metric change): rerun with H=15 (long enough to reach resources)
+  and K=512 (more candidates). Same WM (150 dense random rollouts), same
+  decisive criterion. If clear positive -> Phase C salvaged as model-based
+  CONTROL from pixels (planning). If still weak -> the weak-positive stands and
+  strong pixel control is parked as future work (A+B remain the wins); this is
+  the LAST Phase C attempt either way. Committed before the retry.
+
 - (Subsequent amendments timestamped here before execution.)
