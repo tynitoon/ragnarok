@@ -3828,4 +3828,17 @@ developmental learning.
   apprendre ensuite." Open items (honest): reliable end-to-end execution
   (~0.71, quantity precision), and scale/realism (toy world, given physics).
 
+- **2026-05-30 (v6.0 M7 — quantity-aware options for RELIABLE end-to-end).**
+  Diagnosed root cause of the ~0.71 end-to-end ceiling (M6): the manager
+  under-collects resource QUANTITY (the chain needs ~4 wood, 2 stone; a
+  collect option that stops at the first +1 unit yields too little, and the
+  manager doesn't reliably re-pick). Fix: a collect option gathers to a
+  TARGET count (run the skill until the watched resource rises by
+  `collect_target`, or option_timeout), so one "collect X" decision stocks
+  enough for the downstream recipes. Everything else (manager PPO, obs, the
+  learned skills, arms) unchanged. Decisive: manager+learned-skills end-to-end
+  make_iron_pickaxe rises clearly above 0.71 toward ~0.9-1.0, still via a
+  DISCOVERED DAG-valid order. Null/partial reported honestly. Committed before
+  the run.
+
 - (Subsequent amendments timestamped here before execution.)
