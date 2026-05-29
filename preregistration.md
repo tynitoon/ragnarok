@@ -3690,4 +3690,28 @@ developmental learning.
   reliable low-level skills (the chain bottleneck), not more manager
   training.
 
+- **2026-05-29 (v6.0 M6 — option semantics: run-until-achieved macro-steps
+  to make the autonomous agent RELIABLE).**
+
+  *Why.* M5's end-to-end completion ceilings at ~0.66 because fixed-length
+  macro-steps (K=20) give a skill a fixed, sometimes-insufficient window, and
+  per-sub-goal unreliability compounds over the ~8-deep chain. M6 replaces
+  the fixed window with proper OPTION semantics: a macro-step runs the chosen
+  node's skill UNTIL that node's achievement fires OR a per-option timeout,
+  and the manager re-pursues as needed. This is the standard options/semi-MDP
+  termination, and should lift per-sub-goal reliability -> end-to-end toward
+  ~1.0.
+
+  *Change.* ManagerEnv gains an option mode: step(g) loops low-level steps
+  until achievement g newly fires (per env) or `option_timeout` steps elapse;
+  envs that finish early idle (no-op) until the batch's option ends (kept
+  simple/batched). Everything else (manager PPO, obs, arms) unchanged.
+
+  *Decisive.* manager+learned-skills end-to-end make_iron_pickaxe rises
+  clearly above M5's 0.66 (target ~0.9+), still via a DISCOVERED DAG-valid
+  order, and remains >> flat (0.11). If it does NOT improve, the ceiling is
+  deeper than option length (reported honestly).
+
+  *Chronology assertion.* Committed BEFORE the M6 code change and run.
+
 - (Subsequent amendments timestamped here before execution.)

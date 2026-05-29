@@ -26,6 +26,7 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.learning.ppo_discrete import DiscretePPO
 from ragnarok.environments.craft_world import (
     DeviceVecCraftWorld, ACH_NAMES, N_ACH, N_ITEMS, TREE, STONE, COAL, IRON,
+    WOOD, STONE_I, COAL_I, IRON_I,
     A_WOOD, A_TABLE, A_WPICK, A_STONE, A_COAL, A_SPICK, A_FURNACE, A_IRON, A_IPICK)
 from scripts.craft_endtoend_v6 import _train_collect, _goal_onehot, COLLECT
 
@@ -37,6 +38,8 @@ ACH_BEHAVIOR = {
     A_IRON: ("collect", IRON), A_IPICK: ("craft", 9),
 }
 COLLECT_GOAL = {TREE: A_WOOD, STONE: A_STONE, COAL: A_COAL, IRON: A_IRON}
+# achievement -> watched inventory resource index for a collect option (-1 = craft)
+RES_OF_ACH = {A_WOOD: WOOD, A_STONE: STONE_I, A_COAL: COAL_I, A_IRON: IRON_I}
 
 
 def _low_action(base, g_vec, skills, random_nav=False):
@@ -66,7 +69,7 @@ class ManagerEnv:
     action_dim = N_ACH
 
     def __init__(self, num_envs, skills, K=20, macro_budget=24, random_nav=False,
-                 grid=9, view=5):
+                 grid=9, view=5, option_timeout=0):
         self.base = DeviceVecCraftWorld(num_envs, grid=grid, view=view,
                                         max_steps=10 ** 9)   # no auto-truncation
         self.num_envs = num_envs
@@ -74,7 +77,10 @@ class ManagerEnv:
         self.K = K
         self.macro_budget = macro_budget
         self.random_nav = random_nav
+        self.option_timeout = option_timeout   # >0 => run-until-achieved options
         self.obs_dim = N_ITEMS + N_ACH
+        self._res_of = torch.tensor([RES_OF_ACH.get(a, -1) for a in range(N_ACH)],
+                                    device=DEVICE)
         self.reset()
 
     def _set_state(self):
@@ -90,10 +96,32 @@ class ManagerEnv:
     def step(self, g):
         g = g.reshape(self.num_envs)
         rew = torch.zeros(self.num_envs, device=DEVICE)
-        for _ in range(self.K):
-            a = _low_action(self.base, g, self.skills, self.random_nav)
-            _, r, _, _, _ = self.base.step(a)
-            rew += r
+        if self.option_timeout > 0:
+            # OPTION semantics: run the chosen skill until its sub-goal is
+            # obtained (collect: watched resource count rises; craft: 1 step)
+            # or option_timeout elapses. Per-env early stop.
+            res = self._res_of[g]                       # (N,) watched item or -1
+            is_craft = res < 0
+            start = torch.zeros(self.num_envs, device=DEVICE)
+            cm = ~is_craft
+            if bool(cm.any()):
+                start[cm] = self.base.inv[cm, res[cm]].float()
+            done_opt = torch.zeros(self.num_envs, dtype=torch.bool, device=DEVICE)
+            for _ in range(self.option_timeout):
+                a = _low_action(self.base, g, self.skills, self.random_nav)
+                _, r, _, _, _ = self.base.step(a)
+                rew += r * (~done_opt).float()          # count up to the finishing step
+                cur = torch.zeros(self.num_envs, device=DEVICE)
+                if bool(cm.any()):
+                    cur[cm] = self.base.inv[cm, res[cm]].float()
+                done_opt = done_opt | is_craft | (cm & (cur > start))
+                if bool(done_opt.all()):
+                    break
+        else:
+            for _ in range(self.K):
+                a = _low_action(self.base, g, self.skills, self.random_nav)
+                _, r, _, _, _ = self.base.step(a)
+                rew += r
         self.msteps += 1
         terminated = torch.zeros(self.num_envs, dtype=torch.bool, device=DEVICE)
         truncated = self.msteps >= self.macro_budget
@@ -110,7 +138,7 @@ def _eval_manager(mgr, skills, cfg, n=512, random_nav=False):
     """Fraction unlocking each achievement within one macro-episode; also the
     modal discovered macro-action sequence."""
     env = ManagerEnv(n, skills, K=cfg["K"], macro_budget=cfg["macro_budget"],
-                     random_nav=random_nav)
+                     random_nav=random_nav, option_timeout=cfg.get("option_timeout", 0))
     unlocked = torch.zeros(n, N_ACH, dtype=torch.bool, device=DEVICE)
     seq = []
     obs = env.state
@@ -124,7 +152,8 @@ def _eval_manager(mgr, skills, cfg, n=512, random_nav=False):
 
 def _train_manager(skills, cfg, random_nav=False):
     env = ManagerEnv(cfg["num_envs"], skills, K=cfg["K"],
-                     macro_budget=cfg["macro_budget"], random_nav=random_nav)
+                     macro_budget=cfg["macro_budget"], random_nav=random_nav,
+                     option_timeout=cfg.get("option_timeout", 0))
     mgr = DiscretePPO(env.obs_dim, N_ACH, hidden=128, entropy=cfg["entropy"],
                       gamma=0.99, lam=0.95)
     for it in range(1, cfg["mgr_iters"] + 1):
@@ -148,6 +177,8 @@ def main():
     p.add_argument("--entropy", type=float, default=0.03)
     p.add_argument("--skill-cap", type=int, default=70)
     p.add_argument("--K", type=int, default=20)
+    p.add_argument("--option-timeout", type=int, default=0,
+                   help=">0 enables run-until-achieved option macro-steps (M6)")
     p.add_argument("--macro-budget", type=int, default=24)
     p.add_argument("--mgr-iters", type=int, default=150)
     p.add_argument("--eval-every", type=int, default=25)
@@ -162,6 +193,7 @@ def main():
     cfg = {k: getattr(args, k) for k in
            ("num_envs", "grid", "view", "max_steps", "rollout", "hidden",
             "entropy", "skill_cap", "K", "macro_budget", "eval_every", "mgr_iters")}
+    cfg["option_timeout"] = args.option_timeout
     os.makedirs(args.out_dir, exist_ok=True)
     print(f"[craft-manager-v6] device={DEVICE}", flush=True)
     t0 = time.perf_counter()
