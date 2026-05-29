@@ -52,7 +52,8 @@ SKILLS = [
 def _success(ppo, goal, grant, cfg, n=128):
     env = DeviceVecCraftWorld(n, grid=cfg["grid"], view=cfg["view"],
                               max_steps=cfg["max_steps"], goal=goal,
-                              grant=grant, pixel=True, tile=cfg["tile"])
+                              grant=grant, n_resource=cfg["n_resource"],
+                              pixel=True, tile=cfg["tile"])
     ever = torch.zeros(n, dtype=torch.bool, device=DEVICE)
     obs = env.state
     for _ in range(cfg["max_steps"]):
@@ -78,7 +79,8 @@ def train_skill(goal, grant, cfg, iters, eval_every, seed,
     torch.manual_seed(seed)
     env = DeviceVecCraftWorld(cfg["num_envs"], grid=cfg["grid"], view=cfg["view"],
                               max_steps=cfg["max_steps"], goal=goal, grant=grant,
-                              pixel=True, tile=cfg["tile"], seed=seed)
+                              n_resource=cfg["n_resource"], pixel=True,
+                              tile=cfg["tile"], seed=seed)
     net = ConvPPONet(env.img_hw, env.action_dim, hidden=cfg["hidden"])
     if init_state is not None:
         _copy_encoder(net, init_state)
@@ -110,14 +112,15 @@ def train_skill(goal, grant, cfg, iters, eval_every, seed,
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--seeds", type=int, default=3)
-    p.add_argument("--base-iters", type=int, default=150)
-    p.add_argument("--skill-iters", type=int, default=120)
-    p.add_argument("--eval-every", type=int, default=10)
+    p.add_argument("--base-iters", type=int, default=100)
+    p.add_argument("--skill-iters", type=int, default=140)
+    p.add_argument("--eval-every", type=int, default=3)  # fine: skills learn fast
     p.add_argument("--num-envs", type=int, default=256)
-    p.add_argument("--grid", type=int, default=9)
+    p.add_argument("--grid", type=int, default=13)       # harder nav: perception
+    p.add_argument("--n-resource", type=int, default=3)  # sparser: is the bottleneck
     p.add_argument("--view", type=int, default=7)
     p.add_argument("--tile", type=int, default=4)
-    p.add_argument("--max-steps", type=int, default=100)
+    p.add_argument("--max-steps", type=int, default=130)
     p.add_argument("--rollout", type=int, default=32)
     p.add_argument("--hidden", type=int, default=256)
     p.add_argument("--entropy", type=float, default=0.02)
@@ -132,7 +135,7 @@ def main():
 
     cfg = {k: getattr(args, k) for k in
            ("grid", "view", "tile", "max_steps", "rollout", "hidden",
-            "entropy", "num_envs")}
+            "entropy", "num_envs", "n_resource")}
     os.makedirs(args.out_dir, exist_ok=True)
     print(f"[v13] device={DEVICE} | developmental REUSE from pixels | "
           f"{args.seeds} seeds x {len(SKILLS)} skills x 3 arms", flush=True)

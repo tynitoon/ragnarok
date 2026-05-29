@@ -4197,4 +4197,15 @@ developmental learning.
   FROZEN isolates PERCEPTUAL reuse (only heads adapt) from policy copying.
   Script scripts/devreuse_v13.py committed BEFORE the run; chronology asserted.
 
+- **2026-05-30 (v13 calibration — pre-run, chronology).** Phase-A check:
+  collect_wood-from-pixels hit 0.99 by the FIRST eval (iter 25) at grid 9 —
+  a ceiling-effect risk (if scratch also learns in ~25 iters there is no room
+  to measure a reuse SPEEDUP, and the encoder is not the bottleneck). To make
+  perception genuinely the bottleneck (the regime where reuse SHOULD matter)
+  and to resolve the early crossing, FIXED before the run: grid 13 (harder
+  navigation), n_resource 3 (sparser search), view 7, max_steps 130, eval every
+  3 iters, base 100 iters, skill 140 iters, N=3 seeds. Hypothesis/metric/kill
+  unchanged. This hardens the task and sharpens resolution; it does NOT change
+  what counts as success. Per-seed checkpoint to v13_partial.json.
+
 - (Subsequent amendments timestamped here before execution.)
