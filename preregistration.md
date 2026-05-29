@@ -4407,4 +4407,21 @@ developmental learning.
   inventory reachability oracle; the from-pixels part is perception + skill
   mastery.) N=3 result preserved in v14_n3.json.
 
+- **2026-05-30 (v13c RESULT — reuse advantage CONFIRMED real, not a sparse-
+  reward artifact).** craft_v6_out/v13c.json. The FAIR shaped-reward flat
+  baseline (per-achievement +1 dense reward, NO reuse, NO granted prereqs, 300
+  iters / 2.46M steps from pixels, N=3) reaches ONLY collect_wood (depth 0,
+  0.53 mean) and FAILS at every deeper target: make_table d1 0.00, ...,
+  make_stone_pickaxe d4 0.00, make_iron_pickaxe d6 0.00. v13b's REUSE arm
+  reaches 1.00 at d4 and d6. This DIRECTLY refutes the review's strongest
+  critique (that flat failed only because of SPARSE reward): with a fair DENSE
+  signal and a generous budget, flat-from-pixels STILL stalls at depth 0. So
+  REUSE — not reward shaping — is what unlocks the deep skills from pixels, and
+  the pixel substrate makes the advantage even starker than symbolic M2 (where
+  shaped/curiosity-flat reached depth <=4; from pixels it reaches depth 0).
+  The v13b claim SURVIVES the fair test. Remaining honest nuance (unchanged):
+  given its granted prerequisites a deep CRAFT is a cheap one-action step — but
+  that is precisely the point (reuse converts a deep, flat-unlearnable problem
+  into a sequence of shallow learnable ones). Recorded; updating README.
+
 - (Subsequent amendments timestamped here before execution.)

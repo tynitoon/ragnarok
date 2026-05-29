@@ -1,0 +1,64 @@
+{
+  "seeds": 3,
+  "mean_profile": [
+    0.53125,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "profiles": [
+    [
+      0.484375,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.4921875,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.6171875,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "deepest": 0,
+  "spick": 0.0,
+  "ipick": 0.0,
+  "verdict": "REUSE ADVANTAGE IS REAL (not a sparse-reward artifact) \u2014 even a FAIR shaped-reward flat agent, no reuse, generous budget, stalls at depth 0 (spick 0.00, ipick 0.00) where v13b's reuse arm reaches 1.00. Reuse, not reward shaping, unlocks the deep skills from pixels.",
+  "ach_names": [
+    "collect_wood",
+    "make_table",
+    "make_wood_pickaxe",
+    "collect_stone",
+    "collect_coal",
+    "make_stone_pickaxe",
+    "make_furnace",
+    "collect_iron",
+    "make_iron_pickaxe"
+  ]
+}

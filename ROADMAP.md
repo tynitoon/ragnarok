@@ -81,6 +81,11 @@ occasional plain-language explanations. Expect failures; report them.
   inventory (a reachability ORACLE) -> the curriculum ORDERING is env-gated, not
   pixel-discovered; the from-pixels result is the perceptual skill-mastery +
   sequencing. True pixel-based novelty = future work.
+- [v13c] DONE/POSITIVE (N=3) — fair shaped-flat baseline (phase-gate review
+  response): a flat agent with a DENSE per-achievement reward, no reuse, 2.46M
+  steps from pixels, reaches ONLY depth 0 (collect_wood) and fails every deeper
+  target. Refutes "v13b flat failed only due to sparse reward" -> reuse, not
+  shaping, unlocks deep skills from pixels. v13b claim survives the fair test.
 - [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
   loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 
