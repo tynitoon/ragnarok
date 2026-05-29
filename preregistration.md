@@ -4061,4 +4061,37 @@ developmental learning.
     policy, stronger shaping, or many more iters) -> future research.
   Honest lesson recorded rather than massaged into a win.
 
+- **2026-05-30 (v12 — PERCEPTION + WORLD-MODEL program; reframe: one GPU,
+  unlimited time).** Owner: only the local GPU, but time is not a constraint,
+  and they want me to manage toward the goal. -> Stop toy minutes-long
+  symbolic runs; use the GPU fully (CNNs, RSSM, long training) to add the
+  fundamental missing piece: PERCEPTION (learn from observation) + a learned
+  WORLD MODEL. Multi-phase, higher-risk, honest about failures.
+
+  *Phase A (preregistered here) — learn skills from PIXELS.* Render the
+  egocentric view as a small RGB IMAGE (each cell-type -> a fixed colour,
+  upscaled to tiles, e.g. P=7, tile=4 -> 28x28x3). A CNN-encoder discrete PPO
+  replaces the MLP-on-one-hot. Train a COLLECT skill from the image — the
+  agent is NOT given cell-type ids; it sees colours and must learn what they
+  mean. Inventory stays a small vector for now (spatial perception is the new
+  part).
+  Decisive: the pixel/CNN skill reaches the symbolic-MLP skill's success
+  (>=0.8 collect) within a (longer) training budget — i.e. perception works,
+  the agent learns to SEE. Null: if it cannot learn from pixels, diagnose
+  (encoder, colours, augmentation) and report.
+
+  *Phases B, C (hooks).* B: an RSSM world model on the pixel encoder that
+  predicts next observation + reward (reconstruction / open-loop rollout
+  quality) -> imagination/planning (Dreamer-style; reuses v4 RSSM). C: the
+  developmental loop (skills, discovery, model-based planning) on the LEARNED
+  latent, on richer worlds.
+
+  *Honest scope.* A rendered gridworld is still a gridworld; but learning
+  cell-meaning-from-colour + spatial features via a CNN is genuine
+  representation-learning-from-observation (the prerequisite for richer
+  perception), not the hand-given one-hot. This is the start of a long road.
+
+  *Chronology assertion.* Committed BEFORE the pixel renderer, the CNN-PPO,
+  and any Phase-A run.
+
 - (Subsequent amendments timestamped here before execution.)

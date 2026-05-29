@@ -33,9 +33,23 @@ on a non-toy substrate, with honest controls + recorded failures.
 - Curiosity-only flat PPO: stalls at depth <=4 (can't reach deep via novelty
   alone) — this is the v7 baseline.
 
+## BIG DIRECTION (2026-05-30): PERCEPTION + WORLD-MODEL (one GPU, unlimited time)
+Reframe from the owner: only the local GPU, but time is NOT a constraint.
+=> stop toy symbolic minutes-long runs; USE the GPU fully (CNNs, RSSM,
+hours/days of training). Move from "given clean symbolic state" to "the agent
+SEES the world (pixels) and learns a world model" — the project's RSSM
+foundation, finally at real (single-GPU) scale. The honest path from
+validated toy MECHANISMS to an AI that learns like we wanted.
+  Phase A — perception: learn skills from PIXELS (CNN encoder).        [NOW]
+  Phase B — RSSM world-model from pixels (predict/dream/plan).
+  Phase C — developmental loop (skills/discovery/composition) on the LEARNED
+            latent, on progressively richer worlds.
+Discipline unchanged: preregister, milestones, honest negatives, commit/push,
+occasional plain-language explanations. Expect failures; report them.
+
 ## NOW
-- (idle) v10 generality + play_world demo done; v11 (universal learned nav)
-  PARKED as honest negative. Pick next research when resuming.
+- [v12 Phase A] pixel rendering + CNN encoder; train a collect skill FROM
+  pixels; verify it matches the symbolic-MLP skill (perception works).
 
 ## DONE (recent)
 - play_world: runnable random-world demo (learns recipes -> plans -> builds);
