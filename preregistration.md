@@ -4335,4 +4335,24 @@ developmental learning.
   the hard (pixel) substrate. Script scripts/discover_pixels_v14.py committed
   BEFORE the run; chronology asserted.
 
+- **2026-05-30 (v14 RESULT — STRONG POSITIVE, robust N=3: AUTONOMOUS DISCOVERY
+  FROM PIXELS works; the capstone).** craft_v6_out/v14.json. Given ONLY pixels
+  and NO goals, all 3/3 seeds discovered their own curriculum and mastered the
+  FULL 9-skill tech-tree from pixels via a DAG-valid order, reaching
+  make_iron_pickaxe (3/3 full, 3/3 DAG-valid, 3/3 iron_pickaxe). Order each
+  seed: wood -> table -> wood_pickaxe -> {stone,coal} -> furnace ->
+  stone_pickaxe -> iron -> iron_pickaxe (the dependency DAG, bottom-up,
+  reconstructed without ever being told it). Per-skill cost from pixels: crafts
+  ~41k steps (given inputs, ~one button), collect skills ~123-287k (real pixel
+  navigation); deep skills cost no more than shallow given reuse. Whole run
+  ~356s for 3 seeds. DECISIVE criterion (>=2/3 on full+DAG+ipick) MET at 3/3.
+  This UNIFIES the validated pieces on the hard substrate: v7 (self-directed
+  discovery) + v12-A (perception from pixels) + v13b (reuse makes deep skills
+  learnable from pixels). It is the fullest realization of the project's vision
+  — learn basics, REUSE to compound, DISCOVER the curriculum — FROM RAW PIXELS,
+  fast enough to run and watch locally. HONEST CAVEAT (as predeclared): the
+  novelty/reachability signal reads inventory (proprioception); perception,
+  navigation, and all skill learning are from pixels. Recorded; committing +
+  pushing; updating README/ROADMAP and adding a watchable --pixels demo mode.
+
 - (Subsequent amendments timestamped here before execution.)

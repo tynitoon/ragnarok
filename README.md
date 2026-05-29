@@ -44,6 +44,7 @@ python -m scripts.ragnarok --target iron_pickaxe   # watch it PLAN + BUILD, live
 | v12-A — perception | Learns a skill from **raw pixels** (CNN, no cell-types given), matching the symbolic skill (1.00) | ✅ |
 | v12-B — world model | RSSM world model from pixels predicts the future (beats a persistence baseline, open-loop k-step) | ✅ |
 | **v13b — compounding from pixels** | **The headline pixel result:** reusing mastered prerequisites lets a CNN policy master every skill up to the depth-6 iron-pickaxe **from raw pixels** (1.00, ~flat cost vs depth); a flat-from-pixels agent fails at depth ≥1. M3 compounding, now perceptual | ✅ |
+| **v14 — discovery from pixels (CAPSTONE)** | Given **only pixels and no goals**, 3/3 seeds discover their own curriculum and master the **full 9-skill tree** bottom-up (DAG-valid, reaching iron-pickaxe) **from raw pixels**, ~6 min total. Unifies discovery + perception + compounding — the whole vision on the hard substrate | ✅ |
 
 **Honest negatives (recorded, not hidden):**
 - **M6/M7** end-to-end execution plateaued ~0.77 (manager under-collects resource *quantity*); parked.

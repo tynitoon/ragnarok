@@ -72,8 +72,14 @@ occasional plain-language explanations. Expect failures; report them.
   (depth 6) at 1.00 from raw pixels, each in ~10 iters regardless of depth; the
   FLAT agent (no reuse) fails at depth >= 1 (can't even chain wood->table under
   sparse reward). Reuse decomposes an unlearnable deep problem into shallow
-  learnable steps -> the project's HEART, validated on pixels. (Combined with
-  v7 discovery + v12-A perception, the developmental story now stands on pixels.)
+  learnable steps -> the project's HEART, validated on pixels.
+- [v14] DONE/STRONG POSITIVE (N=3) — CAPSTONE: AUTONOMOUS DISCOVERY FROM PIXELS.
+  Given only pixels and NO goals, 3/3 seeds discover their own curriculum and
+  master the FULL 9-skill tree (DAG-valid, reaching iron_pickaxe) from pixels,
+  in ~6 min total. Unifies v7 (discovery) + v12-A (perception) + v13b
+  (compounding): the whole developmental vision, on the raw-pixel substrate,
+  runnable + watchable locally. (Caveat: novelty signal is inventory-based;
+  perception/navigation/skill-learning are from pixels.)
 - [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
   loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 

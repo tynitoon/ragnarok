@@ -1,0 +1,90 @@
+{
+  "seeds": 3,
+  "runs": [
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "coal",
+        "stone",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "costs": {
+        "wood": 122880,
+        "table": 40960,
+        "wood_pickaxe": 40960,
+        "coal": 245760,
+        "stone": 204800,
+        "furnace": 40960,
+        "stone_pickaxe": 40960,
+        "iron": 122880,
+        "iron_pickaxe": 40960
+      },
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "coal",
+        "stone",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "costs": {
+        "wood": 163840,
+        "table": 40960,
+        "wood_pickaxe": 40960,
+        "coal": 204800,
+        "stone": 204800,
+        "furnace": 40960,
+        "stone_pickaxe": 40960,
+        "iron": 122880,
+        "iron_pickaxe": 40960
+      },
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "stone",
+        "coal",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "costs": {
+        "wood": 122880,
+        "table": 40960,
+        "wood_pickaxe": 40960,
+        "stone": 245760,
+        "coal": 286720,
+        "furnace": 40960,
+        "stone_pickaxe": 40960,
+        "iron": 122880,
+        "iron_pickaxe": 40960
+      },
+      "dag_ok": true,
+      "reached_ipick": true
+    }
+  ],
+  "n_full": 3,
+  "n_dag": 3,
+  "n_ipick": 3,
+  "verdict": "AUTONOMOUS DISCOVERY FROM PIXELS WORKS \u2014 given only pixels and no goals, the agent discovers its own curriculum and masters the full tech-tree bottom-up (DAG-valid, reaching iron_pickaxe). The whole developmental vision, on the raw-pixel substrate."
+}
