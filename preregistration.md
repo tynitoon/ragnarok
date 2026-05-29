@@ -4162,4 +4162,20 @@ developmental learning.
   -> the imagination actor-critic is the problem (deeper). Committed before
   the dense retry.
 
+- **2026-05-30 (v12 Phase C — dense-reward Dreamer ALSO negative; fallback =
+  planning).** craft_v6_out/v12c_dense. With a DENSE collect reward the
+  imagination actor-critic STILL did not learn (dreamed actor 0.00 vs random
+  1.02; imagined reward ~0, entropy ~2.0). So the failure is the imagination
+  POLICY-LEARNING itself (REINFORCE-in-imagination from scratch is finicky),
+  not just sparsity. Honest: "learn-to-act-by-dreaming" did not work in my
+  implementation/budget. A (perception) and B (world model predicts from
+  pixels) remain solid. Final preregistered fallback: PLANNING in the learned
+  model — random-shooting MPC (no actor training; at each step sample K action
+  sequences, roll them through the world model, execute the first action of
+  the highest-predicted-reward sequence). Tests "control via the learned pixel
+  model" robustly. If it works -> Phase C salvaged as model-based CONTROL
+  (not policy-dreaming). If not -> honest: acting-via-learned-pixel-model
+  needs more (better model / known Dreamer tricks / more compute) -> future
+  research; A+B stand as the program's wins. Committed before the MPC run.
+
 - (Subsequent amendments timestamped here before execution.)
