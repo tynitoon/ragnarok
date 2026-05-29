@@ -43,7 +43,8 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.learning.sac import SACTrainer, DeviceSACBuffer
 from ragnarok.learning.rollout import collect_rollout
 from ragnarok.environments.device_env import DeviceVecRelay
-from scripts.devloop_v4 import _learn_skill, _skill_success, _skill_action
+from scripts.devloop_v4 import (_learn_skill, _skill_success, _skill_action,
+                                 _fresh_skill)
 
 _T95 = {1: 12.706, 2: 4.303, 3: 3.182, 4: 2.776, 5: 2.571, 6: 2.447,
         7: 2.365, 8: 2.306, 9: 2.262, 10: 2.228}
@@ -165,21 +166,32 @@ def _train_flat(route, cfg):
 
 
 # --------------------------------------------------------------------------
-def _build_known_library(cfg):
+def _build_known_library(cfg, cache_dir=None):
     """Pre-learn the known-regime primitives (the agent's prior knowledge).
-    Returns (library:list, dev_steps)."""
+    These are seed-invariant prior knowledge, so they are cached and reused
+    across seeds (only compose_reuse uses this; compose_no_library learns
+    fresh). Returns (library:list, dev_steps)."""
     lib, dev = [], 0
     for r in KNOWN_REGIMES:
+        path = os.path.join(cache_dir, f"prim_{r}.pt") if cache_dir else None
+        if path and os.path.exists(path):
+            pi = _fresh_skill()
+            pi.load_state_dict(torch.load(path, weights_only=False))
+            lib.append(pi)
+            continue
         pi, steps, ok, fin = _learn_skill(r, cfg)
+        if path:
+            torch.save({k: v.detach().cpu() for k, v in pi.state_dict().items()},
+                       path)
         lib.append(pi); dev += steps
     return lib, dev
 
 
-def _run_compose(curriculum, cfg, prebuilt):
+def _run_compose(curriculum, cfg, prebuilt, cache_dir=None):
     """Walk the curriculum. prebuilt=True -> start with known primitives;
     else start empty (must learn). Returns log + library size."""
     if prebuilt:
-        library, dev_steps = _build_known_library(cfg)
+        library, dev_steps = _build_known_library(cfg, cache_dir)
     else:
         library, dev_steps = [], 0
     log = []
@@ -290,7 +302,10 @@ def main():
         torch.manual_seed(seed); np.random.seed(seed)
         curriculum = _make_curriculum(seed, args.n_known, args.n_novel, args.leg_len)
 
-        log_cr, lib_cr, dev_cr = _run_compose(curriculum, cfg, prebuilt=True)
+        prim_cache = os.path.join(args.out_dir, "prims")
+        os.makedirs(prim_cache, exist_ok=True)
+        log_cr, lib_cr, dev_cr = _run_compose(curriculum, cfg, prebuilt=True,
+                                              cache_dir=prim_cache)
         log_nl, lib_nl, _ = _run_compose(curriculum, cfg, prebuilt=False)
 
         # flat baseline on a few of the (known-regime) routes, from scratch
