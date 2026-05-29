@@ -73,13 +73,14 @@ occasional plain-language explanations. Expect failures; report them.
   FLAT agent (no reuse) fails at depth >= 1 (can't even chain wood->table under
   sparse reward). Reuse decomposes an unlearnable deep problem into shallow
   learnable steps -> the project's HEART, validated on pixels.
-- [v14] DONE/STRONG POSITIVE (N=3) — CAPSTONE: AUTONOMOUS DISCOVERY FROM PIXELS.
-  Given only pixels and NO goals, 3/3 seeds discover their own curriculum and
-  master the FULL 9-skill tree (DAG-valid, reaching iron_pickaxe) from pixels,
-  in ~6 min total. Unifies v7 (discovery) + v12-A (perception) + v13b
-  (compounding): the whole developmental vision, on the raw-pixel substrate,
-  runnable + watchable locally. (Caveat: novelty signal is inventory-based;
-  perception/navigation/skill-learning are from pixels.)
+- [v14] DONE/STRONG POSITIVE (N=5) — CAPSTONE: SELF-DIRECTED MASTERY FROM PIXELS.
+  Given pixels and NO goals, 5/5 seeds autonomously sequence + master the FULL
+  9-skill tree (DAG-valid, reaching iron_pickaxe) learning every skill from
+  pixels, ~10 min. Unifies v7 (sequencing) + v12-A (perception) + v13b
+  (compounding). CAVEAT (phase-gate review): the novelty/frontier signal reads
+  inventory (a reachability ORACLE) -> the curriculum ORDERING is env-gated, not
+  pixel-discovered; the from-pixels result is the perceptual skill-mastery +
+  sequencing. True pixel-based novelty = future work.
 - [DELIVERABLE] one-command local demo showcasing the VALIDATED developmental
   loop (compounding + autonomous discovery) so Jeremie can run/watch/test it.
 

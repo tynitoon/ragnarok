@@ -4399,4 +4399,12 @@ developmental learning.
   key and the v13b claim must be weakened. Script scripts/flat_shaped_v13c.py
   committed BEFORE the run; chronology asserted.
 
+- **2026-05-30 (v14 firm-up N=5).** craft_v6_out/v14_n5.json. Re-ran the
+  capstone at N=5 (matching v7's solidification bar): 5/5 full tree, 5/5
+  DAG-valid, 5/5 iron_pickaxe from pixels (~621s). The execution result
+  (perceptual skill-mastery + autonomous sequencing of the full tree from
+  pixels) is robust. (Claim scope per the review: ordering is env-gated via the
+  inventory reachability oracle; the from-pixels part is perception + skill
+  mastery.) N=3 result preserved in v14_n3.json.
+
 - (Subsequent amendments timestamped here before execution.)
