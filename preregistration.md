@@ -3741,4 +3741,53 @@ developmental learning.
   End-to-end reliable completion (~1.0) is an open polish item, honestly
   bounded at ~0.71 for now.
 
+- **2026-05-30 (v7.0 — AUTONOMOUS DISCOVERY: the agent generates its own
+  sub-goal curriculum; no given achievements/order/reward).**
+
+  *Why.* Through v6 the achievement SET and the curriculum ORDER were given;
+  the agent learned skills (M2/M3) and, in M5, the ordering policy. v7 closes
+  the last hand-given piece: the agent is told NOTHING about goals — only
+  that obtaining a NEW item type is intrinsically interesting (novelty). It
+  must DISCOVER what is worth learning and in what order — the "child decides
+  what to try next" faculty.
+
+  *Mechanism — frontier expansion + reuse (open-ended developmental loop).*
+  Maintain a library of mastered items (skills that reliably obtain them),
+  starting empty.
+  - DISCOVER: from the state of "all currently-mastered items available"
+    (grant them — the agent can produce them via its skills), run a short
+    random exploration (primitive actions incl. craft/collect) across many
+    batched envs; record any item type that appears that is NOT yet mastered.
+    These are the frontier sub-goals (one dependency-layer out).
+  - LEARN: for each newly discovered item, train a goal-conditioned skill to
+    obtain it (grant = mastered items; reward = +1 on first obtaining the new
+    item; M3-style — only the new step is learned). Add it to the library.
+  - RECURSE until a round discovers no new item (tree exhausted).
+  The discovery is driven purely by item-novelty; the ORDER emerges (an item
+  is only discoverable once its prerequisites are mastered), so the agent
+  reconstructs the dependency DAG bottom-up without being told it.
+
+  *Arms.*
+  - discovery-agent: the frontier-expansion + reuse loop above.
+  - curiosity-flat (baseline): flat PPO with the SAME novelty reward (+1 per
+    first-time new item type), NO skill library / grant / frontier — pure
+    intrinsic-motivation exploration.
+
+  *Decisive.* The discovery agent autonomously discovers and masters ALL 9
+  item/achievement types bottom-up — including depth-6 iron_pickaxe — and the
+  discovery order is DAG-valid (each item discovered only after its
+  prerequisites). The curiosity-flat baseline discovers far fewer (stalls
+  shallow, as flat did in M2). Null = discovery stalls before depth (then
+  frontier random-exploration is insufficient to surface deep items — report
+  honestly; a fix would be curiosity-guided rather than random frontier
+  exploration).
+
+  *Honest scope.* The agent discovers its own sub-goal CURRICULUM (which
+  items to pursue, in what order) from novelty — it does NOT invent the
+  action space or the crafting recipes (those are the world's physics). This
+  is autonomous-curriculum / sub-goal discovery, the "decide what to learn
+  next" faculty, not discovery of new physics. Still the toy CraftWorld.
+
+  *Chronology assertion.* Committed BEFORE scripts/discover_v7.py and any run.
+
 - (Subsequent amendments timestamped here before execution.)
