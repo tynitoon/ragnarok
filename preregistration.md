@@ -3991,4 +3991,23 @@ developmental learning.
 
   *Chronology assertion.* Committed BEFORE DeviceVecTechTree and any v10 code.
 
+- **2026-05-30 (v10.0 RESULT — GENERALITY HOLDS over random tech-trees).**
+  craft_v6_out/v10.json. Over 10 RANDOM, unseen, procedurally-generated
+  tech-tree worlds (14 items each, target depths 4-7, varying resource/craft
+  mix + dependency structure): mean rule-recovery precision 1.000, recall
+  1.000; planned to the deepest item 10/10; mean execution 1.00 (built the
+  target in every world). The model-based agent (leave-one-out rule-learning
+  + BFS planning) does NOT memorise one hand-built tree — it recovers the
+  hidden DAG of ANY such world from interaction and plans to its goal.
+  Navigation used a tree-agnostic scripted primitive so the SAME agent runs
+  on every tree (learned collect skills shown in v6/v7/v9).
+
+  Significance: closes the #1 honest gap (everything prior was on ONE
+  hand-built tree). The agent DEVELOPS in worlds nobody designed -> the first
+  result genuinely worth the owner TESTING live (generate a random world,
+  watch it figure it out). Honest remaining gaps: SCALE & PERCEPTION (pixels,
+  large neural world-models) which need serious compute (TPU not reliably
+  available -> parked), and a learned UNIVERSAL navigation skill (vs the
+  scripted nav used here for tree-agnosticism).
+
 - (Subsequent amendments timestamped here before execution.)

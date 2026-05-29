@@ -1,0 +1,99 @@
+{
+  "trees": [
+    {
+      "seed": 0,
+      "n_items": 14,
+      "target_depth": 7,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 1,
+      "n_items": 14,
+      "target_depth": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 2,
+      "n_items": 14,
+      "target_depth": 5,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 3,
+      "n_items": 14,
+      "target_depth": 6,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 4,
+      "n_items": 14,
+      "target_depth": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 5,
+      "n_items": 14,
+      "target_depth": 5,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 6,
+      "n_items": 14,
+      "target_depth": 6,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 7,
+      "n_items": 14,
+      "target_depth": 5,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 8,
+      "n_items": 14,
+      "target_depth": 6,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    },
+    {
+      "seed": 9,
+      "n_items": 14,
+      "target_depth": 6,
+      "precision": 1.0,
+      "recall": 1.0,
+      "planned": true,
+      "exec": 1.0
+    }
+  ],
+  "mean_precision": 1.0,
+  "mean_recall": 1.0,
+  "n_planned": 10,
+  "mean_exec": 1.0,
+  "verdict": "GENERALITY HOLDS \u2014 the model-based agent learns ARBITRARY random tech-tree DAGs from interaction (precision/recall ~1.0), plans to every target, and executes \u2014 on worlds nobody hand-built. It develops in any tech-tree world, not just one."
+}

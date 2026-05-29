@@ -34,14 +34,20 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- (idle) v9 DONE. Next research items are parked below ("prochaines
-  recherches") per owner; pick one when resuming.
+- [TESTABLE DEMO on random worlds] make the runnable demo work on PROCEDURAL
+  random trees: generate a world neither of us built, agent learns its rules
+  + plans + builds the deepest item, ASCII view + narration. This is the
+  first genuinely meaningful thing for the owner to run locally and test.
 
 ## DONE (recent)
-- v9 MODEL-BASED: agent LEARNED the full recipe DAG from interaction
-  (precision/recall 1.00, 9/9 exact), BFS-PLANS to any target zero-shot
-  (incl. iron_pickaxe, DAG-valid), executes 0.72 (~7x flat). Retires the
-  "recipes hand-given" caveat — the agent discovers the rules itself.
+- v10 GENERALITY: 10/10 RANDOM unseen tech-tree worlds — rule recovery
+  precision/recall 1.00, planned 10/10, execution 1.00. The agent develops
+  in worlds nobody hand-built (not memorising one tree). Closes the #1
+  "toy/hand-built" gap. (Nav scripted for tree-agnosticism; learned nav in
+  v6/v7/v9.)
+- v9 MODEL-BASED: learned the recipe DAG from interaction (precision/recall
+  1.00), BFS-plans to any target zero-shot, executes 0.72 (~7x flat).
+  Retires the "recipes hand-given" caveat.
 
 ## DONE (recent)
 - v7 SOLIDIFIED N=5: 5/5 seeds full tree + DAG-valid + iron_pickaxe.
