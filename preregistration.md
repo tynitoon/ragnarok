@@ -3714,4 +3714,31 @@ developmental learning.
 
   *Chronology assertion.* Committed BEFORE the M6 code change and run.
 
+- **2026-05-29 (v6.0 M6 RESULT — options help modestly; the ceiling is
+  manager RESOURCE-QUANTITY precision, not the mechanism).** craft_v6_out/
+  m6 run. Run-until-achieved options lifted end-to-end make_iron_pickaxe
+  0.66 -> 0.71 (manager+learned-skills) and RESCUED random-nav 0.00 -> 0.54
+  (options let even random eventually collect within the timeout). Order
+  again DAG-valid. It did NOT reach ~1.0.
+
+  *Honest diagnosis.* The residual ~0.71 ceiling is NOT skill reliability or
+  option length; it is the manager's RESOURCE-QUANTITY precision. The chain
+  needs 2 stone (stone_pickaxe + furnace) and ~4 wood (table, wpick, spick,
+  ipick), but the discovered policy collects each resource ~once before
+  crafting, so make_furnace and everything downstream cap together at ~0.71.
+  This is a quantity credit-assignment problem at the manager level, SEPARATE
+  from the developmental mechanism. Pushing to ~1.0 needs a quantity-aware
+  manager (e.g. reward/curriculum for stocking, or collect options that
+  gather to a target count) — a distinct effort, not pursued further here
+  (diminishing returns; the conclusive claims do not depend on it).
+  Estimation note: option mode made each macro-step ~2x costlier; the run
+  took ~60 min vs a ~30 min estimate.
+
+  *Status.* The conclusive v6 results stand independent of this ceiling:
+  M3 (developmental LEARNING: flat cost vs depth via reuse; deep nodes
+  unlearnable without reuse) and M5 (LEARNED composition: manager discovers
+  a DAG-valid order, autonomously reaches the depth-6 goal ~6x flat).
+  End-to-end reliable completion (~1.0) is an open polish item, honestly
+  bounded at ~0.71 for now.
+
 - (Subsequent amendments timestamped here before execution.)
