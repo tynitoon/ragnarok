@@ -3375,4 +3375,66 @@ developmental learning.
   et apprendre du neuf quand il n'y a pas de lien" -- holds as a validated
   mechanism at controlled scale.
 
+- **2026-05-29 (v5.0 — a LEARNED relevance gate: O(1) recognition + novelty
+  detection, replacing the exhaustive probe; the scaling win).**
+
+  *Why.* Phases 3-4 used an EMPIRICAL gate: to route a task it probes EVERY
+  library skill (a reach-rollout each) — O(library) cost, and the
+  phase-gate review fairly called it "a lookup, not a learned model." v5
+  replaces it with a LEARNED recognizer that names the relevant skill in
+  O(1) from a short interaction signature, and flags genuinely novel
+  regimes (out-of-distribution) so the "if no link, learn a notion" branch
+  fires by principled detection rather than probe-failure. The headline is
+  a SCALING claim: recognition cost stays flat as the library grows, where
+  the probe gate grows linearly — the property a real developmental agent
+  with many skills needs.
+
+  *Substrate.* Rotation regimes on point-mass, extended to 8 equally-spaced
+  angles {0,45,...,315} so library size R can be varied {2,4,8}. (Rotations
+  are cleanly distinguishable by their one-step dynamics signature
+  regardless of spacing; reach-transfer between them is irrelevant to the
+  GATE experiments A-C, which measure routing, cost, and novelty — not
+  library dedup. Experiment D uses the 90deg-spaced clean-4 from Phase 3.)
+
+  *The recognizer.* A small MLP. INPUT = a K-step exploration SIGNATURE: K
+  fixed/random probe actions applied from the task's start and the observed
+  velocity responses [(a_t, dv_t)] (system-identification of the local
+  dynamics). OUTPUT = softmax over KNOWN skills + a novelty score. Trained
+  SELF-SUPERVISED on signatures the agent can generate from its own library
+  (roll the probe policy under each known regime -> (signature, skill-id)).
+  Routing = argmax; NOVELTY when max-softmax < tau (optionally confirmed by
+  a single verification rollout of the proposed skill — O(1), vs probing
+  all). Signature cost = K env-steps (constant), independent of R.
+
+  *Experiments & decisive criteria (N>=5 where stochastic).*
+  - A. ROUTING ACCURACY + generalization: recognizer trained on known
+    regimes routes held-out (start,goal) instances to the correct skill.
+    Decisive: accuracy >= 0.95 on unseen goals (not memorising positions).
+  - B. SCALING (headline): per-task recognition cost (env-steps to decide)
+    for probe-gate vs learned-gate at R in {2,4,8}. Decisive: probe cost
+    grows ~linearly in R while learned cost stays ~flat (clear, widening
+    separation). This is structural but demonstrated empirically.
+  - C. NOVELTY DETECTION: train on R-1 regimes, present the held-out one;
+    measure flagged-novel vs misrouted. Decisive: detection AUC >= 0.9
+    (the recognizer does NOT confidently misclassify a novel regime as a
+    known one — a naive softmax would).
+  - D. INTEGRATED LOOP: a devloop (Phase-3 task) using the LEARNED gate
+    instead of the probe reproduces the developmental result — library
+    recovers the true notion count and the marginal-cost compounding holds
+    — at recognition cost independent of library size.
+  A null (routing < ~0.9, no scaling separation, or novelty AUC ~0.5 i.e.
+  novel regimes silently misrouted) means the learned gate does not improve
+  on probing — reported honestly.
+
+  *Honest scope.* Recognising rotations from a signature is individually
+  easy (the response is near-linear in the rotation); that is NOT the
+  claim. The claim is that the developmental loop's recognition step can be
+  a learned, O(1), novelty-aware model that SCALES, and that OOD novelty
+  detection (the learn-new trigger) works — neither of which exhaustive
+  probing provides. Still toy dynamics; the recognizer is small and the
+  regime family hand-specified.
+
+  *Chronology assertion.* Committed BEFORE the env angle extension, the v5
+  script (scripts/learned_gate_v5.py), and any v5 run.
+
 - (Subsequent amendments timestamped here before execution.)
