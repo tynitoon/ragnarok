@@ -3580,4 +3580,39 @@ developmental learning.
   Next (M4): end-to-end demonstration — the agent COMPLETES iron_pickaxe by
   sequencing its learned skills (resource-aware), vs flat PPO's 0.11.
 
+- **2026-05-29 (v6.0 M4 — end-to-end completion + an HONEST wrinkle).**
+  craft_v6_out/m4.json. The agent completes the depth-6 make_iron_pickaxe
+  END-TO-END from the base state, under partial (egocentric) observation,
+  by composing along the tech-tree DAG. Completion rate of iron_pickaxe:
+    - flat PPO (no composition, M2):                 0.11
+    - composition + RANDOM navigation (control):     0.89
+    - composition + LEARNED navigation skills:       0.74
+  All learned collect skills 0.92-0.96. Both composition arms crush flat
+  (~7x), confirming the compositional STRUCTURE is the lever and the
+  prerequisites M3 granted ARE obtainable end-to-end (validating M3's
+  accounting).
+
+  *Honest wrinkle (reported, not buried).* The learned navigation skills do
+  NOT beat random navigation here (0.74 < 0.89), and adding budget did not
+  close it (0.71@400 -> 0.74@800: a skill ceiling, not budget). Two honest
+  reasons: (1) the "random" control is not "no-knowledge" — it keeps the
+  SCRIPTED resource-aware plan (the tech-tree order + what to craft), so the
+  composition is hand-coded in BOTH arms; only navigation differs. (2) In a
+  small dense 9x9 world, navigation is easy enough that a random walk finds
+  resources given time, so learned nav adds no end-to-end edge; the
+  deterministic skill policy also occasionally gets stuck (~26% never
+  finish). So M4 demonstrates COMPOSITION >> flat, NOT learned-nav >>
+  random-nav.
+
+  *What this means for the thesis.* The conclusive developmental-LEARNING
+  result is M3 (marginal cost flat in depth via reuse; deep nodes
+  unlearnable without reuse) — unaffected. Across M3+M4 the agent LEARNS
+  the skills; the dependency ORDER (the recipe DAG) is structural world
+  knowledge, not learned. Making learned skills matter end-to-end, and
+  making the COMPOSITION itself learned (a learned manager/gate that
+  discovers the order), are the honest next steps: (a) a harder-navigation
+  world (bigger/sparser, obstacles) so random nav fails and learned skills
+  separate; (b) replace the scripted high-level plan with a learned one
+  (the v5 gate / a learned manager over skills).
+
 - (Subsequent amendments timestamped here before execution.)
