@@ -3236,4 +3236,97 @@ developmental learning.
   for genuinely new notions; cumulative effort flattens as her repertoire
   covers the world.
 
+- **2026-05-29 (v4.0 Phase 4 — COMPOSITIONAL reuse: a novel composite is
+  solved by assembling KNOWN primitives, with combinatorial leverage; the
+  test the owner's central claim demands).**
+
+  *Why this, now.* Phase 3 validated a relevance-gated reuse-or-learn loop,
+  but an adversarial phase-gate review (3 agents, dissent>consent) was
+  correct that Phase 3 is EXACT-MATCH reuse (the same notion recurs) —
+  close to memoization, and it does NOT test the owner's stated claim:
+  "si une nouvelle notion est composee d'autres notions deja connues, elle
+  apprend plus vite." Phase 4 tests exactly that, and is engineered so the
+  result CANNOT be a cache: composite tasks are NOVEL (never seen as
+  wholes) and COMBINATORIALLY numerous, so reuse must mean assembling parts.
+
+  *Substrate (new env, reuses point-mass dynamics + the validated rotation
+  primitives).* DeviceVecRelay — an episode is a sequence of L LEGS. Each
+  leg has a hidden motor REGIME (from the Phase-3 rotation group
+  {free, rot90, reverse, rot270}, + a held-out novel rot45 for the novelty
+  branch) and a target ZONE. obs = [x, y, vx, vy, gx, gy] where (gx,gy) is
+  the CURRENT leg's zone — the agent is told WHERE to go but NOT which
+  motor skill the leg needs (regime is hidden; it must recognise it).
+  Reaching the zone advances to the next leg (new hidden regime + zone);
+  reward is SPARSE (+1 per leg, + bonus on full completion). A "task" is a
+  specific route = ordered list of (regime, zone) legs. With R known
+  regimes and Z zones, there are (R*Z)^L routes — exponentially many —
+  while only R primitives need ever be learned.
+
+  *A primitive* = a goal-conditioned reach skill mastered under one regime
+  (the Phase-3 skill; reaches any zone under that regime). The library is
+  the set of primitives the agent has consolidated.
+
+  *Composition mechanism (unifies P1+P2+P3).* For a task, the agent assigns
+  a primitive to each leg by the Phase-3 GATE (probe library skills on that
+  leg; pick the one that reaches it; if none clears the mastery bar, the
+  leg's regime is NOVEL -> LEARN a new primitive for it, add to library).
+  It then EXECUTES the route by running the chosen primitive per leg — a
+  semi-MDP plan over skills (Phase-2 temporal abstraction). Crucially the
+  COMPOSITE ITSELF IS NEVER TRAINED: a novel route of KNOWN regimes is
+  completed ZERO-SHOT at the composite level (only per-leg primitive
+  selection), which is the strong claim.
+
+  *Arms.*
+  - compose_reuse: pre-learned primitive library + gate + compose-execute.
+  - flat_scratch: flat SAC over primitive [fx,fy] actions on the full
+    multi-leg task, from scratch. SAME obs and SAME sparse leg-rewards
+    (fair, not hobbled); it must cope with hidden, SWITCHING dynamics
+    across legs and a long horizon.
+  - compose_no_library: the identical compositional agent but starting
+    with an EMPTY library — must learn every primitive it needs. Isolates
+    that the PRE-LEARNED primitives (not the hierarchy alone) are the lever
+    and shows learning happens exactly when a primitive is missing.
+
+  *Curriculum.* A held-out test set of NOVEL routes (verified absent from
+  any training of the primitives), length L=3, drawn over R known regimes;
+  plus a novelty block whose routes contain a leg with the held-out rot45
+  regime. Per-seed shuffles; N=5 seeds (Phase 3 was under-powered at N=3).
+
+  *Honest cost accounting (addressing the review).* Per-leg gate probes ARE
+  charged to compose_reuse's budget (recognition is not free). compose_
+  no_library pays full primitive-learning. flat_scratch pays its training.
+  No regime identity is ever placed in obs or given to the gate. The
+  reported per-task cost is total env-steps (probe + any primitive-learning
+  + execution rollouts).
+
+  *Endpoint & decisive interpretation (escapes memoization).* DECISIVE iff:
+  1. compose_reuse completes NOVEL composites (never trained as wholes) at
+     success >= 0.80 with ~0 composite-level learning — and the count of
+     distinct novel composites solved GREATLY EXCEEDS the number of
+     primitives learned (combinatorial leverage: a cache of that few items
+     could not cover them).
+  2. A composite's marginal cost is explained by its number of UNKNOWN
+     regimes: all-known -> probe-only (cheap); contains-novel -> pay ONE
+     primitive-learn, then every later composite using it is cheap again
+     (the learning-to-learn curve flattens; the "if no link, learn a
+     notion" branch).
+  3. compose_reuse masters novel composites in << env-steps than
+     flat_scratch (or flat never masters); and >> compose_no_library early
+     (before it has rebuilt the library), converging as no_library catches
+     up — isolating the value of prior knowledge.
+  A null (flat_scratch matches compose_reuse, or composites need composite-
+  level training, or no combinatorial gap) means there is no real
+  compositional reuse — reported as such.
+
+  *Honest scope.* Still toy 2-D dynamics and a hand-specified regime set;
+  the gate is a probe, not a learned relevance model; composition is
+  sequencing (semi-MDP), not hierarchical part-whole beyond one level. What
+  it would establish: that the developmental loop produces COMBINATORIAL
+  generalization (few learned parts -> many solved novel wholes) with an
+  explicit learn-the-missing-part branch — the non-trivial form of the
+  owner's claim, not exact-match memoization.
+
+  *Chronology assertion.* Committed BEFORE the DeviceVecRelay env, the
+  Phase-4 script (scripts/compose_v4.py), and any Phase-4 run.
+
 - (Subsequent amendments timestamped here before execution.)
