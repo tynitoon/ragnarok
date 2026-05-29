@@ -1,0 +1,46 @@
+{
+  "profile_learned": [
+    0.9140625,
+    0.9140625,
+    0.9140625,
+    0.85546875,
+    0.8203125,
+    0.85546875,
+    0.8203125,
+    0.765625,
+    0.765625
+  ],
+  "profile_random": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "iron_pickaxe": 0.765625,
+  "iron_pickaxe_random": 0.0,
+  "discovered_order": [
+    "collect_wood",
+    "make_table",
+    "make_wood_pickaxe",
+    "collect_stone",
+    "make_stone_pickaxe",
+    "collect_coal",
+    "make_furnace",
+    "collect_iron",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe",
+    "make_iron_pickaxe"
+  ],
+  "dag_ok": true,
+  "verdict": "CHECK \u2014 see table / discovered order."
+}

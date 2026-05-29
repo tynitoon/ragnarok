@@ -3841,4 +3841,17 @@ developmental learning.
   DISCOVERED DAG-valid order. Null/partial reported honestly. Committed before
   the run.
 
+- **2026-05-30 (v6.0 M7 RESULT — reliability improved to 0.77; parked).**
+  Quantity-aware collect options (collect_target=3) lifted end-to-end
+  iron_pickaxe 0.71 -> 0.77 (DAG-valid order; mgr+random still 0.00). It did
+  NOT reach ~1.0: the residual ceiling is now in-chain skill-reliability
+  COMPOUNDING over the 8-deep chain (collect_iron ~0.92 in isolation but
+  ~0.77 in-context), not resource quantity. Across M5/M6/M7 the end-to-end
+  rate crept 0.65 -> 0.71 -> 0.77 (~0.06/attempt) -> diminishing returns.
+  PARKING reliability at 0.77 (a working autonomous builder, ~7x flat,
+  infinitely better than random-nav 0.00); reaching ~1.0 would need
+  substantially more reliable low-level skills or retry/model-based control,
+  and the conclusive LEARNING results (M3 reuse, M5 composition, v7 discovery)
+  do not depend on it. Moving to higher-value frontier (scale depth).
+
 - (Subsequent amendments timestamped here before execution.)

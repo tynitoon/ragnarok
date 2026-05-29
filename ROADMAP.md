@@ -34,14 +34,18 @@ on a non-toy substrate, with honest controls + recorded failures.
   alone) — this is the v7 baseline.
 
 ## NOW
-- [reliability->1.0] M7: quantity-aware collect options (gather to a target
-  count, not +1) so the autonomous agent RELIABLY builds iron_pickaxe (~1.0,
-  up from 0.71). Bounded fix for the one honest soft spot.
+- [SCALE depth] v8: extend the tree (diamond/diamond_pickaxe -> depth ~8);
+  show v7 discovery still climbs it bottom-up and the developmental advantage
+  GROWS with depth while flat/curiosity falls further behind (compounding
+  scales; counters "toy/shallow").
+
+## DONE since last update
+- M7 reliability: end-to-end iron_pickaxe 0.71 -> 0.77 (quantity-aware
+  options); PLATEAUED ~0.77 (in-chain skill-compounding, not quantity).
+  PARKED — diminishing returns (0.65->0.71->0.77 across M5/M6/M7); learning
+  claims don't depend on 1.0. A working autonomous builder ~7x flat.
 
 ## NEXT (prioritized)
-1. SCALE depth: extend the tree (diamond/gem -> depth ~10); show v7 discovery
-   still climbs it and the developmental advantage GROWS with depth while
-   flat/curiosity falls further behind (compounding scales; counters "toy").
 2. CROSS-WORLD transfer: skills learned in world A accelerate mastery in a
    related world B (shared primitives, different layout/recipes) — the
    ultimate reuse test (cross-task, not just cross-depth).
