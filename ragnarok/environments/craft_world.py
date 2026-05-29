@@ -66,7 +66,12 @@ class DeviceVecCraftWorld:
 
     def __init__(self, num_envs: int, grid: int = 9, view: int = 5,
                  max_steps: int = 200, n_resource: int = 6, goal=None,
-                 seed: int = 0):
+                 grant=None, seed: int = 0):
+        """goal: if set, goal-conditioned mode — reward is +1 ONLY when that
+        achievement first fires, and the episode terminates then (a skill
+        target). grant: optional (N_ITEMS,) iterable of inventory counts/flags
+        pre-stocked at every reset — represents "prerequisite skills already
+        available", so a deep skill can be trained/run GIVEN its prerequisites."""
         self.num_envs = num_envs
         self.G = grid
         self.P = view                       # odd; egocentric window P x P
@@ -77,6 +82,8 @@ class DeviceVecCraftWorld:
         self.goal_idx = goal
         self.obs_dim = self.P * self.P * N_CELL_TYPES + N_ITEMS \
             + (N_ACH if self.goal_conditioned else 0)
+        self._grant = (None if grant is None else
+                       torch.as_tensor(grant, dtype=torch.long, device=DEVICE))
         self._gen = torch.Generator(device=DEVICE)
         self._gen.manual_seed(seed)
         self.reset()
@@ -106,6 +113,8 @@ class DeviceVecCraftWorld:
         self.grid, self.pos = self._rand_cells(self.num_envs)
         self.inv = torch.zeros(self.num_envs, N_ITEMS, dtype=torch.long,
                                device=DEVICE)
+        if self._grant is not None:
+            self.inv[:] = self._grant
         self.unlocked = torch.zeros(self.num_envs, N_ACH, dtype=torch.bool,
                                     device=DEVICE)
         self.steps = torch.zeros(self.num_envs, dtype=torch.long, device=DEVICE)
@@ -157,6 +166,8 @@ class DeviceVecCraftWorld:
         a = action.reshape(self.num_envs).long()
         N = self.num_envs
         reward = torch.zeros(N, device=DEVICE)
+        goal_was = (self.unlocked[:, self.goal_idx].clone()
+                    if self.goal_conditioned else None)
 
         # --- movement (0-3) ---
         deltas = torch.tensor([[-1, 0], [1, 0], [0, -1], [0, 1]], device=DEVICE)
@@ -197,7 +208,10 @@ class DeviceVecCraftWorld:
         # --- bookkeeping / termination ---
         self.steps += 1
         if self.goal_conditioned:
-            terminated = self.unlocked[:, self.goal_idx]
+            # clone: _reset_done below mutates self.unlocked, which would
+            # otherwise clobber this (a view) to False for done envs.
+            terminated = self.unlocked[:, self.goal_idx].clone()
+            reward = (terminated & (~goal_was)).float()    # +1 ONLY on the goal
         else:
             terminated = torch.zeros(N, dtype=torch.bool, device=DEVICE)
         truncated = self.steps >= self.max_steps
@@ -230,5 +244,7 @@ class DeviceVecCraftWorld:
         self.grid[done] = grid
         self.pos[done] = apos
         self.inv[done] = 0
+        if self._grant is not None:
+            self.inv[done] = self._grant
         self.unlocked[done] = False
         self.steps[done] = 0
