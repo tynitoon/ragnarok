@@ -3462,4 +3462,78 @@ developmental learning.
   difficulty of identifying a rotation. (Run completed cleanly before a
   harness update; no data lost.)
 
+- **2026-05-29 (v6.0 PIVOT — build the REAL developmental agent on a rich
+  compositional substrate; conclusive results, not a paper).**
+
+  *Owner directive.* "Le papier ne m'intéresse plus; je veux des résultats
+  concluants. Mets tout en oeuvre pour qu'on arrive à une IA comme je l'ai
+  décrite. Peu importe le modèle, peu importe comment elle marche. Refais de
+  zéro si besoin. Tu es le maître du projet." -> Stop incrementing toy
+  mechanisms; build the described AI and SHOW it working, on a substrate
+  rich enough that the developmental property is undeniable. Keep the
+  scientific discipline (design-before-run, controls, recorded failures,
+  kill criteria) because "concluant" means "not self-deceiving", not a
+  publication.
+
+  *Why a new substrate.* v3-v5 validated the mechanisms (gated reuse,
+  compositional zero-shot, learned O(1) gate) but on 2-D point-mass with a
+  hand-built regime set -- the standing reviewer critique. The vision needs
+  a DEEP SKILL DEPENDENCY TREE where complex notions are literally
+  composed of basic ones and are UNREACHABLE without them, so reuse is not
+  a convenience but the only route to depth.
+
+  *Substrate: DeviceVecCraftWorld* (new, GPU-batched, keeps the device-
+  resident infra). A crafting gridworld with a Crafter-style tech-tree DAG:
+  collect wood -> craft stick / place table -> wood_pickaxe -> mine stone ->
+  stone_pickaxe / place furnace -> mine coal/iron -> smelt -> iron_pickaxe
+  (extensible). Egocentric observation patch + inventory; discrete actions
+  (move x4, collect, craft_X per recipe); SPARSE reward = +1 per FIRST-TIME
+  achievement (Crafter convention). Achievements are the nodes of the DAG;
+  each is a "notion". Deep nodes require the full prerequisite chain ->
+  composition is mandatory. Built batched in torch so big experiments stay
+  fast (the infra advantage).
+
+  *Agent.* Reuse the validated components -- world model (RSSM), goal-
+  conditioned skills (one per achievement node), the LEARNED relevance gate
+  (v5), hierarchical reuse of prerequisite skills as temporally-extended
+  subroutines (v2/v4) -- inside a developmental loop: acquire skills
+  bottom-up; to learn a node, REUSE its prerequisite skills as subroutines
+  (so only the new step is learned); LEARN a new skill when a node is novel
+  / has no usable prerequisite path; the gate decides reuse-vs-learn. Rebuild
+  any component that does not fit the discrete/compositional setting.
+
+  *THE conclusive claim (the flagship result).* Within a fixed env-step
+  budget B:
+  - flat RL (PPO/SAC over primitive actions, sparse achievement reward,
+    from scratch) unlocks only SHALLOW achievements -- deep nodes (e.g.
+    iron_pickaxe) essentially never (Crafter is famously hard for flat RL).
+  - the DEVELOPMENTAL agent unlocks the FULL tree, because each node, given
+    its prerequisite skills, costs a small ~constant marginal env-budget to
+    add -- the learning-to-learn curve: marginal cost to acquire node k is
+    ~flat (or sub-linear) in tree DEPTH, while a from-scratch learner's cost
+    explodes with depth or never succeeds.
+  Decisive = (i) developmental agent reaches strictly DEEPER nodes than flat
+  in the same B; (ii) marginal per-node cost does not grow with depth for
+  the developmental agent (it does, or is infinite, for flat); (iii) the
+  reused-prerequisite ablation (force-relearn each node from scratch) loses
+  the depth -- proving reuse, not the curriculum alone, is the lever.
+
+  *Kill criteria (honesty).* If, after the env + a working single-skill
+  learner, (a) flat RL already reaches deep nodes easily (substrate too
+  easy -> deepen the tree), or (b) the developmental agent cannot chain
+  skills (reuse fails to compose in the discrete setting -> diagnose;
+  report null if it cannot be made to work), the result is reported as
+  such, not massaged.
+
+  *Milestones (each a committed, verifiable deliverable).*
+  - M1: DeviceVecCraftWorld + dependency DAG; sanity (scripted oracle
+    unlocks deep nodes, random unlocks only shallow).
+  - M2: a goal-conditioned skill is learnable on it; measure how deep flat
+    RL gets in budget B (the gap).
+  - M3: the developmental loop -> the conclusive learning-to-learn-on-a-
+    deep-tree result + the reuse ablation.
+
+  *Chronology assertion.* This pivot is committed BEFORE DeviceVecCraftWorld
+  and any v6 code/run.
+
 - (Subsequent amendments timestamped here before execution.)
