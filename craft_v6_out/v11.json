@@ -1,0 +1,24 @@
+{
+  "nav_success": 0.00390625,
+  "trees": [
+    {
+      "seed": 0,
+      "precision": 1.0,
+      "recall": 0.9,
+      "planned": true,
+      "exec": 0.0
+    },
+    {
+      "seed": 1,
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "planned": true,
+      "exec": 0.0
+    }
+  ],
+  "mean_precision": 1.0,
+  "mean_recall": 0.8666666666666667,
+  "n_planned": 2,
+  "mean_exec": 0.0,
+  "verdict": "PARTIAL/CHECK \u2014 nav 0.00 P 1.00 R 0.87 planned 2/2 exec 0.00."
+}
