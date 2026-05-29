@@ -4129,4 +4129,21 @@ developmental learning.
   would help, but pixel-perfect recon is not needed to plan in the latent).
   Honest: a working PERCEPTUAL world model. -> Phase C: act by DREAMING in it.
 
+- **2026-05-30 (v12 Phase C — learn to ACT by DREAMING, from pixels).**
+  The culmination of the perception/world-model program: a Dreamer-style
+  loop on the craft world FROM PIXELS. Alternate: (1) collect a real pixel
+  rollout (actor + exploration); (2) train the RSSM world model on it
+  (Phase-B machinery); (3) train an ACTOR + CRITIC purely in IMAGINATION —
+  roll the learned model H steps from real latents with the actor, compute
+  lambda-returns on the model's PREDICTED reward + critic, update actor
+  (REINFORCE: logp x advantage + entropy) and critic (MSE to returns); the
+  world model is frozen during the actor update. Deploy the dreamed actor in
+  the REAL env.
+  Decisive: the actor trained ONLY in imagination unlocks MORE / DEEPER
+  achievements (esp. collect_wood, make_table) than a random baseline, acting
+  from pixels -> it learned to act by dreaming in its own learned model.
+  Honest caveat: Dreamer-style training is finicky; if it does not learn,
+  report the negative and fall back to CEM-MPC planning in the latent (v4-
+  style, but perceptual). Committed before scripts/dreamer_v12.py and the run.
+
 - (Subsequent amendments timestamped here before execution.)
