@@ -152,6 +152,7 @@ def main():
     p.add_argument("--mgr-iters", type=int, default=150)
     p.add_argument("--eval-every", type=int, default=25)
     p.add_argument("--out-dir", default="craft_v6_out")
+    p.add_argument("--skip-ablation", action="store_true")
     p.add_argument("--smoke", action="store_true")
     args = p.parse_args()
     if args.smoke:
@@ -176,9 +177,13 @@ def main():
     mgr = _train_manager(skills, cfg, random_nav=False)
     prof, seq = _eval_manager(mgr, skills, cfg, n=512, random_nav=False)
 
-    print("\n[M5b] ablation: manager + RANDOM-nav skills...", flush=True)
-    mgr_r = _train_manager(skills, cfg, random_nav=True)
-    prof_r, seq_r = _eval_manager(mgr_r, skills, cfg, n=512, random_nav=True)
+    if args.skip_ablation:
+        prof_r, seq_r = torch.zeros(N_ACH), []
+        print("\n[M5b] ablation skipped (--skip-ablation)", flush=True)
+    else:
+        print("\n[M5b] ablation: manager + RANDOM-nav skills...", flush=True)
+        mgr_r = _train_manager(skills, cfg, random_nav=True)
+        prof_r, seq_r = _eval_manager(mgr_r, skills, cfg, n=512, random_nav=True)
 
     print(f"\n  {'achievement':20s} {'mgr+skills':>12} {'mgr+random':>12}")
     for i, nm in enumerate(ACH_NAMES):
