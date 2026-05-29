@@ -1,0 +1,3325 @@
+{
+  "known": [
+    "free",
+    "rot90",
+    "reverse",
+    "rot270"
+  ],
+  "novel": "rot45",
+  "L": 3,
+  "n_known": 12,
+  "n_novel": 6,
+  "seeds": {
+    "0": {
+      "compose_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "free",
+              "reverse",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.984375,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot270",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.984375,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 83200,
+            "learn_steps": 81920,
+            "cost": 165120,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.8203125,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "free",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          76800,
+          51200,
+          51200,
+          51200,
+          76800,
+          51200,
+          51200,
+          51200,
+          76800,
+          76800,
+          76800,
+          76800,
+          165120,
+          96000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          76800,
+          128000,
+          179200,
+          230400,
+          307200,
+          358400,
+          409600,
+          460800,
+          537600,
+          614400,
+          691200,
+          768000,
+          933120,
+          1029120,
+          1125120,
+          1221120,
+          1317120,
+          1413120
+        ],
+        "total": 1413120,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 1,
+        "known_block_mean": 64000.0,
+        "all_solved": true,
+        "library_size": 5,
+        "dev_steps": 368640
+      },
+      "compose_no_library": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 3,
+            "probe_steps": 19200,
+            "learn_steps": 286720,
+            "cost": 305920,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "free",
+              "reverse",
+              "free"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 38400,
+            "learn_steps": 122880,
+            "cost": 161280,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot270",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9453125,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 83200,
+            "learn_steps": 81920,
+            "cost": 165120,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "free",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9296875,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          305920,
+          161280,
+          51200,
+          51200,
+          76800,
+          51200,
+          51200,
+          51200,
+          76800,
+          76800,
+          76800,
+          76800,
+          165120,
+          96000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          305920,
+          467200,
+          518400,
+          569600,
+          646400,
+          697600,
+          748800,
+          800000,
+          876800,
+          953600,
+          1030400,
+          1107200,
+          1272320,
+          1368320,
+          1464320,
+          1560320,
+          1656320,
+          1752320
+        ],
+        "total": 1752320,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 5,
+        "known_block_mean": 92266.66666666667,
+        "all_solved": true,
+        "library_size": 5
+      },
+      "flat_scratch": [
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ]
+      ]
+    },
+    "1": {
+      "compose_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9140625,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "rot270",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "reverse",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9453125,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 25600,
+            "learn_steps": 0,
+            "cost": 25600,
+            "success": 0.9609375,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.875,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 25600,
+            "learn_steps": 0,
+            "cost": 25600,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 76800,
+            "learn_steps": 81920,
+            "cost": 158720,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.921875,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "free",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot45",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot45",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          25600,
+          76800,
+          25600,
+          51200,
+          51200,
+          51200,
+          76800,
+          158720,
+          96000,
+          96000,
+          96000,
+          64000,
+          96000
+        ],
+        "cumulative": [
+          51200,
+          102400,
+          153600,
+          204800,
+          256000,
+          281600,
+          358400,
+          384000,
+          435200,
+          486400,
+          537600,
+          614400,
+          773120,
+          869120,
+          965120,
+          1061120,
+          1125120,
+          1221120
+        ],
+        "total": 1221120,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 1,
+        "known_block_mean": 51200.0,
+        "all_solved": true,
+        "library_size": 5,
+        "dev_steps": 0
+      },
+      "compose_no_library": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "learn",
+            "n_learned": 2,
+            "probe_steps": 6400,
+            "learn_steps": 163840,
+            "cost": 170240,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "rot270",
+              "free",
+              "free"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 25600,
+            "learn_steps": 122880,
+            "cost": 148480,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "reverse",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 38400,
+            "learn_steps": 0,
+            "cost": 38400,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 38400,
+            "learn_steps": 122880,
+            "cost": 161280,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 25600,
+            "learn_steps": 0,
+            "cost": 25600,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.921875,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 25600,
+            "learn_steps": 0,
+            "cost": 25600,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "rot270",
+              "free",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 76800,
+            "learn_steps": 122880,
+            "cost": 199680,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot90",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "free",
+              "rot45",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot45",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot45",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          170240,
+          148480,
+          38400,
+          161280,
+          51200,
+          25600,
+          76800,
+          25600,
+          51200,
+          51200,
+          51200,
+          76800,
+          199680,
+          96000,
+          96000,
+          96000,
+          64000,
+          96000
+        ],
+        "cumulative": [
+          170240,
+          318720,
+          357120,
+          518400,
+          569600,
+          595200,
+          672000,
+          697600,
+          748800,
+          800000,
+          851200,
+          928000,
+          1127680,
+          1223680,
+          1319680,
+          1415680,
+          1479680,
+          1575680
+        ],
+        "total": 1575680,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 5,
+        "known_block_mean": 77333.33333333333,
+        "all_solved": true,
+        "library_size": 5
+      },
+      "flat_scratch": [
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ]
+      ]
+    },
+    "2": {
+      "compose_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9609375,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot90",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "rot270",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.890625,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.90625,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.921875,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 51200,
+            "learn_steps": 122880,
+            "cost": 174080,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9921875,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          76800,
+          51200,
+          51200,
+          174080,
+          64000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          51200,
+          102400,
+          153600,
+          204800,
+          256000,
+          307200,
+          358400,
+          409600,
+          460800,
+          537600,
+          588800,
+          640000,
+          814080,
+          878080,
+          974080,
+          1070080,
+          1166080,
+          1262080
+        ],
+        "total": 1262080,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 1,
+        "known_block_mean": 53333.333333333336,
+        "all_solved": true,
+        "library_size": 5,
+        "dev_steps": 0
+      },
+      "compose_no_library": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "learn",
+            "n_learned": 2,
+            "probe_steps": 6400,
+            "learn_steps": 163840,
+            "cost": 170240,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 32000,
+            "learn_steps": 122880,
+            "cost": 154880,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "free",
+              "free",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 44800,
+            "learn_steps": 81920,
+            "cost": 126720,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.8984375,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot90",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "rot270",
+              "free",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9296875,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.84375,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9375,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot270",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 51200,
+            "learn_steps": 122880,
+            "cost": 174080,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.8515625,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          170240,
+          154880,
+          126720,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          51200,
+          76800,
+          51200,
+          51200,
+          174080,
+          64000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          170240,
+          325120,
+          451840,
+          503040,
+          554240,
+          605440,
+          656640,
+          707840,
+          759040,
+          835840,
+          887040,
+          938240,
+          1112320,
+          1176320,
+          1272320,
+          1368320,
+          1464320,
+          1560320
+        ],
+        "total": 1560320,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 5,
+        "known_block_mean": 78186.66666666667,
+        "all_solved": true,
+        "library_size": 5
+      },
+      "flat_scratch": [
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ]
+      ]
+    },
+    "3": {
+      "compose_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.96875,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.8984375,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.984375,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9921875,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9921875,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot90",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 89600,
+            "learn_steps": 122880,
+            "cost": 212480,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9921875,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9453125,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot45",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.984375,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9453125,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          51200,
+          51200,
+          76800,
+          76800,
+          76800,
+          51200,
+          76800,
+          76800,
+          51200,
+          76800,
+          51200,
+          76800,
+          212480,
+          96000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          51200,
+          102400,
+          179200,
+          256000,
+          332800,
+          384000,
+          460800,
+          537600,
+          588800,
+          665600,
+          716800,
+          793600,
+          1006080,
+          1102080,
+          1198080,
+          1294080,
+          1390080,
+          1486080
+        ],
+        "total": 1486080,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 1,
+        "known_block_mean": 66133.33333333333,
+        "all_solved": true,
+        "library_size": 5,
+        "dev_steps": 0
+      },
+      "compose_no_library": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 2,
+            "probe_steps": 6400,
+            "learn_steps": 204800,
+            "cost": 211200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 25600,
+            "learn_steps": 81920,
+            "cost": 107520,
+            "success": 0.84375,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 57600,
+            "learn_steps": 0,
+            "cost": 57600,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 57600,
+            "learn_steps": 0,
+            "cost": 57600,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "free"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 57600,
+            "learn_steps": 122880,
+            "cost": 180480,
+            "success": 0.9609375,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "reverse",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.8125,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "free",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "rot90",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "rot90",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 89600,
+            "learn_steps": 122880,
+            "cost": 212480,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "rot270",
+              "rot90",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot45",
+              "reverse",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot45",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.9296875,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          211200,
+          107520,
+          57600,
+          57600,
+          180480,
+          51200,
+          76800,
+          76800,
+          51200,
+          76800,
+          51200,
+          76800,
+          212480,
+          96000,
+          96000,
+          96000,
+          96000,
+          96000
+        ],
+        "cumulative": [
+          211200,
+          318720,
+          376320,
+          433920,
+          614400,
+          665600,
+          742400,
+          819200,
+          870400,
+          947200,
+          998400,
+          1075200,
+          1287680,
+          1383680,
+          1479680,
+          1575680,
+          1671680,
+          1767680
+        ],
+        "total": 1767680,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 5,
+        "known_block_mean": 89600.0,
+        "all_solved": true,
+        "library_size": 5
+      },
+      "flat_scratch": [
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ]
+      ]
+    },
+    "4": {
+      "compose_reuse": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "reverse",
+              "free",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9453125,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9609375,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.984375,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9765625,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9921875,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 0.9453125,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 0.9921875,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 76800,
+            "learn_steps": 81920,
+            "cost": 158720,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 0.84375,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 0.953125,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          76800,
+          76800,
+          51200,
+          51200,
+          51200,
+          76800,
+          76800,
+          76800,
+          76800,
+          51200,
+          51200,
+          76800,
+          158720,
+          64000,
+          96000,
+          96000,
+          64000,
+          96000
+        ],
+        "cumulative": [
+          76800,
+          153600,
+          204800,
+          256000,
+          307200,
+          384000,
+          460800,
+          537600,
+          614400,
+          665600,
+          716800,
+          793600,
+          952320,
+          1016320,
+          1112320,
+          1208320,
+          1272320,
+          1368320
+        ],
+        "total": 1368320,
+        "solved": 18,
+        "n_tasks": 18,
+        "primitives_learned": 1,
+        "known_block_mean": 66133.33333333333,
+        "all_solved": true,
+        "library_size": 5,
+        "dev_steps": 0
+      },
+      "compose_no_library": {
+        "log": [
+          {
+            "task": 0,
+            "regimes": [
+              "reverse",
+              "free",
+              "rot90"
+            ],
+            "decision": "learn",
+            "n_learned": 3,
+            "probe_steps": 19200,
+            "learn_steps": 245760,
+            "cost": 264960,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 1,
+            "regimes": [
+              "reverse",
+              "rot270",
+              "free"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 64000,
+            "learn_steps": 122880,
+            "cost": 186880,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 2,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 3,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 4,
+            "regimes": [
+              "rot90",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 5,
+            "regimes": [
+              "free",
+              "rot90",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 6,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 7,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 8,
+            "regimes": [
+              "rot90",
+              "free",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 9,
+            "regimes": [
+              "free",
+              "rot270",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 10,
+            "regimes": [
+              "reverse",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 51200,
+            "learn_steps": 0,
+            "cost": 51200,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 11,
+            "regimes": [
+              "free",
+              "rot270",
+              "reverse"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 76800,
+            "learn_steps": 0,
+            "cost": 76800,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 12,
+            "regimes": [
+              "free",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "learn",
+            "n_learned": 1,
+            "probe_steps": 76800,
+            "learn_steps": 81920,
+            "cost": 158720,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 13,
+            "regimes": [
+              "rot45",
+              "rot90",
+              "rot90"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 0.7421875,
+            "mastered": false
+          },
+          {
+            "task": 14,
+            "regimes": [
+              "reverse",
+              "rot45",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 15,
+            "regimes": [
+              "rot90",
+              "reverse",
+              "rot45"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 16,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "rot270"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 64000,
+            "learn_steps": 0,
+            "cost": 64000,
+            "success": 1.0,
+            "mastered": true
+          },
+          {
+            "task": 17,
+            "regimes": [
+              "rot270",
+              "rot45",
+              "free"
+            ],
+            "decision": "reuse",
+            "n_learned": 0,
+            "probe_steps": 96000,
+            "learn_steps": 0,
+            "cost": 96000,
+            "success": 1.0,
+            "mastered": true
+          }
+        ],
+        "costs": [
+          264960,
+          186880,
+          51200,
+          51200,
+          51200,
+          76800,
+          76800,
+          76800,
+          76800,
+          51200,
+          51200,
+          76800,
+          158720,
+          64000,
+          96000,
+          96000,
+          64000,
+          96000
+        ],
+        "cumulative": [
+          264960,
+          451840,
+          503040,
+          554240,
+          605440,
+          682240,
+          759040,
+          835840,
+          912640,
+          963840,
+          1015040,
+          1091840,
+          1250560,
+          1314560,
+          1410560,
+          1506560,
+          1570560,
+          1666560
+        ],
+        "total": 1666560,
+        "solved": 17,
+        "n_tasks": 18,
+        "primitives_learned": 5,
+        "known_block_mean": 90986.66666666667,
+        "all_solved": false,
+        "library_size": 5
+      },
+      "flat_scratch": [
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ],
+        [
+          491520,
+          false,
+          0.0
+        ]
+      ]
+    }
+  },
+  "verdict": "COMPOSITIONAL REUSE WORKS \u2014 a handful of learned primitives compose into many NOVEL routes solved zero-shot at the composite level; flat-scratch cannot. Few parts -> many wholes (combinatorial), with a learn-the-missing-part branch."
+}

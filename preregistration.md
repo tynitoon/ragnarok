@@ -3329,4 +3329,50 @@ developmental learning.
   *Chronology assertion.* Committed BEFORE the DeviceVecRelay env, the
   Phase-4 script (scripts/compose_v4.py), and any Phase-4 run.
 
+- **2026-05-29 (v4.0 Phase 4 RESULT — COMPOSITIONAL REUSE WORKS, N=5).**
+  DeviceVecRelay, L=3-leg routes; known regimes {free,rot90,reverse,
+  rot270} + held-out rot45; 12 known + 6 novelty routes/seed.
+  compose_v4_out/results.json.
+
+  All decisive criteria met, every seed:
+  1. *Combinatorial leverage (not a cache).* compose_reuse solved 18/18
+     NOVEL composites (never trained as wholes) having learned only ONE new
+     primitive on the curriculum (rot45); 5 primitives total (4 prior + 1).
+     The route space is (R*Z)^L = (4*4)^3 ~= 4096 -- a 5-item library cannot
+     memoize it; reuse is genuine assembly of parts. all_solved=[T,T,T,T,T].
+  2. *Flat RL cannot do it.* flat_scratch (same obs + same sparse leg
+     rewards) mastered 0/3 routes in EVERY seed, completion 0.00, after
+     491,520 env-steps/route -- zero progress on the hidden, switching-
+     dynamics, multi-leg task. compose_reuse solves the identical routes
+     ZERO-SHOT at the composite level. Composition makes possible what flat
+     RL cannot.
+  3. *The "if no link, learn a notion" branch fires correctly.* the gate
+     reused known primitives for the 12 known routes (zero learning), and
+     learned exactly one new primitive when the rot45 legs appeared, reusing
+     it for all later rot45 routes.
+  4. *Prior knowledge is the lever.* compose_reuse 1,350,144 +/- 134,825 vs
+     compose_no_library 1,664,512 +/- 119,569 env-steps (CIs disjoint);
+     no_library reproduces the same competence but pays to learn the 4
+     known primitives inside the curriculum -- isolating that pre-learned
+     parts, not the hierarchy alone, are what make novel composites cheap.
+
+  *Honest accounting.* The per-task cost charged is probe + any primitive-
+  learning (probes scale O(distinct-regimes x library-size) and DOMINATE
+  compose_reuse's total -- recognition is not free, and is fully charged);
+  execution-rollout steps are not counted (consistently, for all arms). No
+  regime identity is ever in obs or read by the gate's decision. This
+  directly answers the phase-gate review's central critique that Phase 3
+  was exact-match memoization: Phase 4 composites are novel, exponentially
+  numerous, and unsolvable by flat RL, so the speed-up is compositional
+  reuse of parts. Scope unchanged (toy 2-D dynamics, hand-specified regime
+  set, sequencing-level composition, probe-not-learned gate).
+
+  Net across v4.0: P1 understand-world -> cheap new goals; P2 compose basics
+  -> a complex task flat RL can't; P3 relevance-gated library -> compounding
+  (learn-to-learn curve); P4 a few learned parts -> exponentially many NOVEL
+  wholes, with a learn-the-missing-part branch. The owner's developmental
+  vision -- "apprendre les bases, puis s'en servir pour apprendre plus vite,
+  et apprendre du neuf quand il n'y a pas de lien" -- holds as a validated
+  mechanism at controlled scale.
+
 - (Subsequent amendments timestamped here before execution.)
