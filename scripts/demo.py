@@ -16,6 +16,7 @@ v7.0). It is meant to be run and watched, not a new experiment.
 Usage:
   python -m scripts.demo                # ~5-8 min on a GPU
   python -m scripts.demo --fast         # ~2-3 min (smaller, still real)
+  python -m scripts.demo --pixels       # learn each skill FROM RAW PIXELS (v14 capstone)
   python -m scripts.demo --build        # then watch it BUILD iron_pickaxe live
 """
 
@@ -34,6 +35,7 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.craft_world import ACH_DEPTH
 from scripts.discover_v7 import (
     _discover, _learn_item, ITEM_TO_ACH, ITEM_NAME, ALL_ITEMS)
+from scripts.discover_pixels_v14 import _learn_item_pixels
 
 BAR = "=" * 72
 
@@ -46,14 +48,15 @@ def _depth_of(item):
     return ACH_DEPTH[ITEM_TO_ACH[item]]
 
 
-def develop(cfg, max_rounds):
+def develop(cfg, max_rounds, learn_fn, from_pixels):
     """Run the autonomous self-teaching loop with plain-language narration.
     Returns the ordered list of (item, depth, steps_to_master)."""
     mastered, learned = set(), []
+    eyes = "seeing the world as raw pixels" if from_pixels else "reading the world"
     _say(BAR)
     _say("  RAGNAROK  -  a self-teaching agent")
     _say(BAR)
-    _say("\nI've just been dropped into a world I know nothing about.")
+    _say(f"\nI've just been dropped into a world I know nothing about ({eyes}).")
     _say("No one told me what to do or what's possible. Let me find out.\n")
     time.sleep(1.0)
 
@@ -76,7 +79,7 @@ def develop(cfg, max_rounds):
             reuse = ("" if not mastered else
                      " (reusing what I already know)")
             _say(f"     ... learning to get {ITEM_NAME[item]}{reuse} ...")
-            steps, succ = _learn_item(item, mastered, cfg)
+            steps, succ = learn_fn(item, mastered, cfg)
             if succ >= cfg["mastery"]:
                 mastered.add(item)
                 learned.append((item, _depth_of(item), steps))
@@ -121,22 +124,28 @@ def _summary(learned):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--fast", action="store_true", help="quicker, smaller run")
+    p.add_argument("--pixels", action="store_true",
+                   help="learn each skill FROM RAW PIXELS (the v14 capstone; "
+                        "slower, ~a few min)")
     p.add_argument("--build", action="store_true",
                    help="after self-teaching, watch it BUILD iron_pickaxe live")
     p.add_argument("--grid", type=int, default=9)
-    p.add_argument("--view", type=int, default=5)
+    p.add_argument("--view", type=int, default=None)
     p.add_argument("--max-rounds", type=int, default=8)
     args = p.parse_args()
 
-    cfg = dict(num_envs=256, grid=args.grid, view=args.view, max_steps=100,
+    view = args.view if args.view is not None else (7 if args.pixels else 5)
+    cfg = dict(num_envs=256, grid=args.grid, view=view, max_steps=100,
                rollout=32, hidden=256, entropy=0.02, skill_cap=70, eval_every=10,
-               mastery=0.8, disc_envs=512, disc_steps=120, disc_thresh=0.01)
+               mastery=0.8, disc_envs=512, disc_steps=120, disc_thresh=0.01,
+               tile=4, n_resource=4)
     if args.fast:
         cfg.update(num_envs=128, skill_cap=40, disc_envs=256, disc_steps=80)
+    learn_fn = _learn_item_pixels if args.pixels else _learn_item
 
-    _say(f"[device: {DEVICE}]")
+    _say(f"[device: {DEVICE}{' | FROM PIXELS' if args.pixels else ''}]")
     t0 = time.perf_counter()
-    learned = develop(cfg, args.max_rounds)
+    learned = develop(cfg, args.max_rounds, learn_fn, args.pixels)
     _summary(learned)
     _say(f"(self-taught in {time.perf_counter()-t0:.0f}s on {DEVICE})")
 
