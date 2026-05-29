@@ -3854,4 +3854,9 @@ developmental learning.
   and the conclusive LEARNING results (M3 reuse, M5 composition, v7 discovery)
   do not depend on it. Moving to higher-value frontier (scale depth).
 
+- **2026-05-30 (v7.0 SOLIDIFIED — N=5, robust).** Re-ran autonomous
+  discovery over 5 seeds (v7 was originally N=1). Every seed: 5/5 reached the
+  FULL tree (9/9), 5/5 DAG-valid discovery order, 5/5 reached iron_pickaxe.
+  craft_v6_out/v7.json. The capstone is robust, not a single-seed fluke.
+
 - (Subsequent amendments timestamped here before execution.)

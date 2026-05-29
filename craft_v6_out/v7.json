@@ -1,50 +1,89 @@
 {
-  "mastered": [
-    "wood",
-    "stone",
-    "coal",
-    "iron",
-    "wood_pickaxe",
-    "stone_pickaxe",
-    "iron_pickaxe",
-    "table",
-    "furnace"
-  ],
-  "order": [
-    "wood",
-    "table",
-    "wood_pickaxe",
-    "stone",
-    "coal",
-    "furnace",
-    "stone_pickaxe",
-    "iron",
-    "iron_pickaxe"
-  ],
-  "dag_ok": true,
-  "reached_ipick": true,
-  "rounds": [
+  "seeds": 5,
+  "runs": [
     {
-      "round": 1,
-      "mastered_before": 0,
-      "learned": [
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "coal",
+        "stone",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "coal",
+        "stone",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
         "wood",
         "table",
         "wood_pickaxe",
         "stone",
         "coal",
         "furnace",
-        "stone_pickaxe"
-      ]
-    },
-    {
-      "round": 2,
-      "mastered_before": 7,
-      "learned": [
+        "stone_pickaxe",
         "iron",
         "iron_pickaxe"
-      ]
+      ],
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "stone",
+        "coal",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "dag_ok": true,
+      "reached_ipick": true
+    },
+    {
+      "mastered_count": 9,
+      "order": [
+        "wood",
+        "table",
+        "wood_pickaxe",
+        "stone",
+        "coal",
+        "furnace",
+        "stone_pickaxe",
+        "iron",
+        "iron_pickaxe"
+      ],
+      "dag_ok": true,
+      "reached_ipick": true
     }
   ],
-  "verdict": "AUTONOMOUS DISCOVERY WORKS \u2014 with NO given goals, the agent discovers its own sub-goal curriculum (item-novelty + frontier expansion + reuse), reconstructs the dependency DAG bottom-up, and masters the FULL tree incl. iron_pickaxe \u2014 far past curiosity-flat (depth <=4). It decides what to learn next, by itself."
+  "n_full": 5,
+  "n_dag": 5,
+  "n_ipick": 5,
+  "verdict": "AUTONOMOUS DISCOVERY WORKS (robust) \u2014 every seed discovers its own curriculum and masters the FULL tree via a DAG-valid order, no goals given; far past curiosity-flat."
 }
