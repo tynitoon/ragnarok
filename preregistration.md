@@ -4445,4 +4445,29 @@ developmental learning.
   chronology asserted. (Note: PPO-winning-Pong is established RL; the project
   novelty is the GENERALITY suite + later combining with reuse/discovery.)
 
+- **2026-05-30 (v15 M1 RESULT — WINS Pong FROM PIXELS).** craft_v6_out/
+  v15_pong.json. ConvPPONet+DiscretePPO on DeviceVecPong, from the 48x48 image
+  only: random baseline win-rate 0.00 (margin -11.52); the agent crossed 0.80
+  win-rate by iter 80 and stabilized at win-rate 0.96-0.97 (margin +4.08,
+  conceding ~0.1/episode) by iter 400 (~3.3M steps, 237s). DECISIVE criterion
+  MET (win-rate>=0.80 AND margin>0). First concrete proof of the general-game-
+  mastery north star: same validated agent, a real game, from pixels, learns
+  to WIN. (Honest: PPO-winning-Pong is established RL; the value here is it's
+  the first rung of the game curriculum + uses the same machinery that will be
+  reused across games.)
+
+- **2026-05-30 (GAME CURRICULUM — owner's plan, recorded).** Owner refined the
+  path: teach the agent the CONCEPT of win/lose (from the on-screen outcome),
+  incl. games with NO end where you maximize score, then climb to complex games
+  (Tetris). Agreed curriculum (rungs, each teaching a reusable capability),
+  see ROADMAP: P0 Pong (reactive control + score-seeking) DONE; P1 Breakout/
+  Catch (explicit LOSE screen + lives); P2 Snake/Flappy (endless score-max +
+  survival); P3 SHARED win/lose recognizer across P0-P2 -> generalize to a new
+  game w/ little/no explicit reward (THE core scientific milestone); P4 Tetris-lite
+  (placement as a MACRO-action: which column+rotation; reuse options M6/M7 +
+  planning v9); P5 full Tetris (placement+rotation+lines, shaped reward
+  height/holes/lines + world-model lookahead). Honest: full pixel Tetris is
+  hard for the field; the macro-action placement framing + shaping + reuse is
+  what makes it tractable. Next: P1 Breakout with the SAME agent (generality).
+
 - (Subsequent amendments timestamped here before execution.)

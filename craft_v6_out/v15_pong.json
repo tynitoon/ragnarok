@@ -1,0 +1,136 @@
+{
+  "random": {
+    "margin": -11.517578125,
+    "winrate": 0.0
+  },
+  "final": {
+    "margin": 4.078125,
+    "winrate": 0.970703125,
+    "scored": 4.19140625,
+    "conceded": 0.11328125
+  },
+  "best_winrate": 0.970703125,
+  "curve": [
+    {
+      "it": 20,
+      "steps": 163840,
+      "margin": -3.6015625,
+      "winrate": 0.083984375
+    },
+    {
+      "it": 40,
+      "steps": 327680,
+      "margin": 1.36328125,
+      "winrate": 0.646484375
+    },
+    {
+      "it": 60,
+      "steps": 491520,
+      "margin": 1.875,
+      "winrate": 0.705078125
+    },
+    {
+      "it": 80,
+      "steps": 655360,
+      "margin": 2.763671875,
+      "winrate": 0.849609375
+    },
+    {
+      "it": 100,
+      "steps": 819200,
+      "margin": 3.263671875,
+      "winrate": 0.90234375
+    },
+    {
+      "it": 120,
+      "steps": 983040,
+      "margin": 3.61328125,
+      "winrate": 0.943359375
+    },
+    {
+      "it": 140,
+      "steps": 1146880,
+      "margin": 3.62109375,
+      "winrate": 0.955078125
+    },
+    {
+      "it": 160,
+      "steps": 1310720,
+      "margin": 3.55859375,
+      "winrate": 0.94921875
+    },
+    {
+      "it": 180,
+      "steps": 1474560,
+      "margin": 3.87109375,
+      "winrate": 0.96875
+    },
+    {
+      "it": 200,
+      "steps": 1638400,
+      "margin": 3.73046875,
+      "winrate": 0.94140625
+    },
+    {
+      "it": 220,
+      "steps": 1802240,
+      "margin": 3.8125,
+      "winrate": 0.951171875
+    },
+    {
+      "it": 240,
+      "steps": 1966080,
+      "margin": 3.8984375,
+      "winrate": 0.966796875
+    },
+    {
+      "it": 260,
+      "steps": 2129920,
+      "margin": 3.962890625,
+      "winrate": 0.962890625
+    },
+    {
+      "it": 280,
+      "steps": 2293760,
+      "margin": 3.833984375,
+      "winrate": 0.94921875
+    },
+    {
+      "it": 300,
+      "steps": 2457600,
+      "margin": 3.7734375,
+      "winrate": 0.951171875
+    },
+    {
+      "it": 320,
+      "steps": 2621440,
+      "margin": 3.912109375,
+      "winrate": 0.95703125
+    },
+    {
+      "it": 340,
+      "steps": 2785280,
+      "margin": 4.23046875,
+      "winrate": 0.9609375
+    },
+    {
+      "it": 360,
+      "steps": 2949120,
+      "margin": 3.939453125,
+      "winrate": 0.9609375
+    },
+    {
+      "it": 380,
+      "steps": 3112960,
+      "margin": 3.791015625,
+      "winrate": 0.962890625
+    },
+    {
+      "it": 400,
+      "steps": 3276800,
+      "margin": 4.078125,
+      "winrate": 0.970703125
+    }
+  ],
+  "verdict": "WINS FROM PIXELS \u2014 the agent learned to BEAT the opponent at Pong from the raw image (final win-rate 0.97, margin +4.08; random was win-rate 0.00, margin -11.52). First proof of game-mastery-to-win from pixels."
+}

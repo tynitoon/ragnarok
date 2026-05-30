@@ -21,6 +21,29 @@ agent masters multiple distinct games), then layer the developmental reuse
 established RL; the project-aligned novelty is generality across a game suite +
 combining it with the validated reuse/discovery machinery.
 
+### Game curriculum (owner's plan, 2026-05-30) — teach win/lose, then climb
+Each rung teaches a REUSABLE capability; the agent should learn the CONCEPT of
+winning/losing (from the on-screen outcome) and carry it across games.
+- P0 — reactive control + "more points = good": **Pong**. DONE: win-rate 0.97
+  from pixels (random 0.00). [v15 M1]
+- P1 — explicit LOSE screen + lives: **Breakout / Catch**. "this screen = lost
+  = bad", "cleared = won". [v15 M2, NOW]
+- P2 — endless score-max + survival (no fixed end): **Snake / Flappy**. The
+  "maximize points, don't die" concept.
+- P3 — GENERALIZE win/lose (the core scientific milestone): a SHARED outcome-
+  recognizer trained across P0-P2, then dropped on a NEW game where the agent
+  seeks "win"/avoids "lose" with little/no explicit reward. = "it understood
+  winning/losing." This is the reuse/compounding thesis on the most basic
+  notion.
+- P4 — placement + delayed reward (bridge to Tetris): **Tetris-lite**, placement
+  as a MACRO-action (which column + rotation), reusing options (M6/M7) +
+  planning (v9) + world model (v12-B).
+- P5 — **full Tetris**: placement+rotation+line-clearing, shaped reward
+  (height/holes/lines) + model-based lookahead.
+Honest: full pixel Tetris is hard for the field (sparse/delayed reward, long
+horizon); the macro-action placement framing + shaping + reuse is the
+tractable path. Don't skip P3-P4 — that's the real bridge.
+
 ## DONE (validated, preregistered, on GitLab)
 - v3 gated reuse, v4 compositional reuse, v5 learned O(1) relevance gate
   (2-D point-mass; mechanisms validated but substrate is toy).
