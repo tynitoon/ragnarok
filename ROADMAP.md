@@ -9,6 +9,18 @@ notions faster ("de plus en plus vite" / compounding), (3) DISCOVERS what to
 learn next, (4) learns anew when there is no link. Demonstrated conclusively,
 on a non-toy substrate, with honest controls + recorded failures.
 
+## NORTH STAR refined (2026-05-30, owner): GENERAL GAME MASTERY
+"L'IA finale parfaite: la mettre sur N'IMPORTE QUEL jeu et qu'elle arrive à le
+MAÎTRISER pour GAGNER." The developmental learning (reuse/discovery) is the
+MEANS; the END is: drop the same agent on an arbitrary game, from pixels, and
+it learns to WIN. This spotlights the exact piece v12-C struggled with —
+acting from pixels to maximize a game's score. New program v15: prove the agent
+WINS real, recognizable games from pixels (GPU-batched), then GENERALITY (same
+agent masters multiple distinct games), then layer the developmental reuse
+(cross-game skill transfer). Honest framing: PPO-from-pixels winning Pong is
+established RL; the project-aligned novelty is generality across a game suite +
+combining it with the validated reuse/discovery machinery.
+
 ## DONE (validated, preregistered, on GitLab)
 - v3 gated reuse, v4 compositional reuse, v5 learned O(1) relevance gate
   (2-D point-mass; mechanisms validated but substrate is toy).

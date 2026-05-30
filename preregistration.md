@@ -4424,4 +4424,25 @@ developmental learning.
   that is precisely the point (reuse converts a deep, flat-unlearnable problem
   into a sequence of shallow learnable ones). Recorded; updating README.
 
+- **2026-05-30 (v15 NORTH-STAR PIVOT — GENERAL GAME MASTERY; M1 Pong prereg).**
+  Owner refined the ultimate target: drop the agent on ANY game, from pixels,
+  and it learns to WIN. This targets the exact gap v12-C exposed (acting from pixels
+  to maximize game score). Env probe: gymnasium present but NO Atari/ALE/JAX/
+  Craftax/MinAtar (ALE would be CPU-slow on one GPU). Decision: build RECOGNIZ-
+  ABLE arcade games as GPU-batched device-resident PIXEL envs (my infra
+  strength) and prove the agent WINS each from pixels with the validated
+  ConvPPONet+DiscretePPO. M1 = DeviceVecPong: agent paddle (3 actions: up/down/
+  stay) vs a SCRIPTED tracking opponent; pixel obs (small rendered court);
+  reward +1/-1 per point (+ small contact bonus to bootstrap returning the
+  ball, disclosed). HYPOTHESIS: from pixels, the agent goes from LOSING (random
+  ~ -X vs opponent) to WINNING (positive score margin / beats the scripted
+  opponent) — i.e. it masters the game. DECISIVE: deterministic-eval mean score
+  margin > 0 AND win-rate >= 0.8 over episodes vs the scripted opponent (random
+  baseline loses heavily). KILL: if PPO-from-pixels cannot reach winning play
+  on Pong in a generous budget (would indicate an env/agent bug, since this is
+  established). Then M2 = a 2nd distinct game (Breakout/Snake-like) with the
+  SAME agent code (generality). Scripts/env committed BEFORE training;
+  chronology asserted. (Note: PPO-winning-Pong is established RL; the project
+  novelty is the GENERALITY suite + later combining with reuse/discovery.)
+
 - (Subsequent amendments timestamped here before execution.)
