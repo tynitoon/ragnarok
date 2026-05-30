@@ -4524,4 +4524,19 @@ developmental learning.
   generality. Next: P3 — emerge + transfer the win/lose CONCEPT (the core
   milestone).
 
+- **2026-05-30 (v15 P3 prereg — CROSS-GAME TRANSFER).** The achievable core of
+  "understand games generally / reuse win-lose competence": does playing a
+  SOURCE game make a TARGET game faster to master? Pretrain ConvPPONet on the
+  source, then learn the target two ways — TRANSFER (reuse source's conv+fc
+  encoder, fresh actor/critic heads) vs SCRATCH — and compare eval-return AUC +
+  steps-to-positive-return. First pair: Pong -> Breakout (both paddle+ball =>
+  shared visual primitives; Breakout is ~150 iters from scratch => measurable
+  window, unlike Pong which masters in ~40). HYPOTHESIS: TRANSFER reaches a
+  positive return faster (higher AUC, fewer steps) than SCRATCH. HONEST CONTROL:
+  v13 showed naive single-source encoder reuse can HURT (over-specialization);
+  this is a real test. DECISIVE: AUC gain > 0 AND steps-to-win speedup > 1.0.
+  Note N=1 first signal; firm up with seeds/pairs if promising. If negative ->
+  single-source over-specializes; multi-game pretraining (shared encoder, per-
+  game heads) is the follow-up. Script committed before run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
