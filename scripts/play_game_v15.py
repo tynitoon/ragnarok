@@ -22,8 +22,9 @@ from ragnarok.infrastructure.device import DEVICE
 from ragnarok.learning.ppo_discrete import DiscretePPO, ConvPPONet
 from ragnarok.environments.pong import DeviceVecPong
 from ragnarok.environments.breakout import DeviceVecBreakout
+from ragnarok.environments.snake import DeviceVecSnake
 
-GAMES = {"pong": DeviceVecPong, "breakout": DeviceVecBreakout}
+GAMES = {"pong": DeviceVecPong, "breakout": DeviceVecBreakout, "snake": DeviceVecSnake}
 
 
 @torch.no_grad()

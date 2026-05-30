@@ -4482,4 +4482,16 @@ developmental learning.
   GENERALITY: one agent, a second distinct game, from pixels. Env+script
   committed BEFORE training; chronology asserted.
 
+- **2026-05-30 (v15 P2 prereg — Snake, endless score-max).** DeviceVecSnake
+  (GPU-batched pixel game; eat food to grow + score, die on wall/self -> the
+  "no end, maximize points" lesson). SAME agent + generic trainer. Batched body
+  via a per-cell t_enter timestamp (body iff T - t_enter < length). Env
+  validated: random return -13 (food ~2.6, constant death); greedy food-seeker
+  return +45 (food ~48) — clean winnable signal. HYPOTHESIS: the same agent
+  learns to seek food + survive from pixels (mean eval return >> random, food
+  count grows far above random). DECISIVE: final return > 0 and >> random +
+  margin. Adds the endless/survival flavor to the generality suite (Pong=beat
+  opponent, Breakout=clear wall, Snake=maximize endlessly). Committed before
+  the run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
