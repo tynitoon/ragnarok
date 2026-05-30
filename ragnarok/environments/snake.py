@@ -25,18 +25,18 @@ NEG = -10_000
 
 class DeviceVecSnake:
     def __init__(self, num_envs, grid=12, tile=4, max_steps=400, init_len=3,
-                 survive_bonus=0.01, img=None, seed=0):
+                 food_shaping=0.1, img=None, seed=0):
         self.num_envs = num_envs
         self.G = grid
         # accept an `img` size for a uniform game interface (derive tile)
         self.tile = max(1, img // grid) if img is not None else tile
-        self.H = self.W = grid * tile
-        self.img_hw = grid * tile
+        self.H = self.W = grid * self.tile
+        self.img_hw = grid * self.tile
         self.obs_dim = 3 * self.img_hw * self.img_hw
         self.action_dim = 4
         self.max_steps = max_steps
         self.init_len = init_len
-        self.SURV = survive_bonus
+        self.SHAPE = food_shaping            # dense guidance toward the food
         self._gen = torch.Generator(device=DEVICE); self._gen.manual_seed(seed)
         self._dr = torch.tensor([-1, 1, 0, 0], device=DEVICE)
         self._dc = torch.tensor([0, 0, -1, 1], device=DEVICE)
@@ -95,8 +95,12 @@ class DeviceVecSnake:
         self.fc = torch.zeros(N, dtype=torch.long, device=DEVICE)
         self.steps = torch.zeros(N, dtype=torch.long, device=DEVICE)
         self._reset(torch.ones(N, dtype=torch.bool, device=DEVICE))
+        self.prev_dist = self._food_dist()
         self._render()
         return self.state
+
+    def _food_dist(self):
+        return ((self.hr - self.fr).abs() + (self.hc - self.fc).abs()).float()
 
     def _render(self):
         N, G = self.num_envs, self.G
@@ -137,7 +141,12 @@ class DeviceVecSnake:
         self.hr = torch.where(alive, nhr_c, self.hr)
         self.hc = torch.where(alive, nhc_c, self.hc)
         self.length = self.length + ate.long()
-        reward = ate.float() - dead.float() + alive.float() * self.SURV
+        # dense guidance: reward getting CLOSER to the food (potential-based),
+        # only on ordinary alive non-eating moves (no jump on eat/death/reset)
+        cur_dist = self._food_dist()
+        shaping = self.SHAPE * (self.prev_dist - cur_dist)
+        shaping = torch.where(alive & ~ate, shaping, torch.zeros_like(shaping))
+        reward = ate.float() - dead.float() + shaping
         self.cum_food += ate.float()
         self.cum_deaths += dead.float()
         self._spawn_food(ate)
@@ -147,6 +156,7 @@ class DeviceVecSnake:
         terminated = dead
         done = terminated | truncated
         self._reset(done)
+        self.prev_dist = self._food_dist()        # to current food (post-reset/eat)
         self._render()
         return self.state, reward, terminated, truncated, done
 

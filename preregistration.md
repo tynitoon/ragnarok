@@ -4503,4 +4503,16 @@ developmental learning.
   pixels — Pong (beat an opponent) + Breakout (clear a wall). Next P2 Snake
   (running). Reused the same encoder+PPO with NO per-game tuning beyond the env.
 
+- **2026-05-30 (v15 P2 Snake — reward fix after a degenerate first run; honest).**
+  First Snake run (survive_bonus +0.01/step) converged to a DEGENERATE optimum:
+  the agent learned to SURVIVE (deaths 12334 -> ~2) but NOT to EAT (food ~0.3 vs
+  greedy 48) — it maximized the easy survival bonus and ignored the score. This
+  is itself telling (it grasped "avoid losing" but not "maximize points"), but
+  it's the wrong P2 result. FIX (recorded, not hidden): removed the survive
+  bonus; added potential-based distance-to-food shaping (+0.1*(prev_dist-
+  cur_dist) on ordinary moves) so the dense signal points at the food. Re-
+  validated: greedy +74 return (food 48) vs random -21 — eating now strongly
+  rewarded, no survive-only loophole. Re-running with the fixed reward; same
+  decisive criterion (return >> random, food climbs far above random).
+
 - (Subsequent amendments timestamped here before execution.)
