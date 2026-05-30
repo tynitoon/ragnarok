@@ -1,0 +1,109 @@
+{
+  "perfect": 109.453125,
+  "true_landing": 105.5078125,
+  "curve": [
+    {
+      "round": 1,
+      "games": 620.0,
+      "lines": 0.0
+    },
+    {
+      "round": 2,
+      "games": 1554.0,
+      "lines": 8.046875
+    },
+    {
+      "round": 3,
+      "games": 2218.0,
+      "lines": 10.3046875
+    },
+    {
+      "round": 4,
+      "games": 2858.0,
+      "lines": 12.6015625
+    },
+    {
+      "round": 5,
+      "games": 3468.0,
+      "lines": 16.734375
+    },
+    {
+      "round": 6,
+      "games": 4077.0,
+      "lines": 22.8515625
+    },
+    {
+      "round": 7,
+      "games": 4661.0,
+      "lines": 24.9375
+    },
+    {
+      "round": 8,
+      "games": 5241.0,
+      "lines": 30.3125
+    },
+    {
+      "round": 9,
+      "games": 5805.0,
+      "lines": 30.3046875
+    },
+    {
+      "round": 10,
+      "games": 6348.0,
+      "lines": 30.4453125
+    },
+    {
+      "round": 11,
+      "games": 6882.0,
+      "lines": 31.0625
+    },
+    {
+      "round": 12,
+      "games": 7401.0,
+      "lines": 34.3125
+    },
+    {
+      "round": 13,
+      "games": 7892.0,
+      "lines": 32.1328125
+    },
+    {
+      "round": 14,
+      "games": 8409.0,
+      "lines": 36.0234375
+    },
+    {
+      "round": 15,
+      "games": 8890.0,
+      "lines": 35.7265625
+    },
+    {
+      "round": 16,
+      "games": 9374.0,
+      "lines": 39.1328125
+    },
+    {
+      "round": 17,
+      "games": 9849.0,
+      "lines": 40.34375
+    },
+    {
+      "round": 18,
+      "games": 10318.0,
+      "lines": 42.8359375
+    },
+    {
+      "round": 19,
+      "games": 10787.0,
+      "lines": 45.15625
+    },
+    {
+      "round": 20,
+      "games": 11252.0,
+      "lines": 46.03125
+    }
+  ],
+  "final": 46.03125,
+  "total_games": 11252.0,
+  "verdict": "PARTIAL \u2014 learned-landing plays 46.0 lines; reached 46.0 lines (<50). (perfect 109.5, true-landing 105.5.)"
+}

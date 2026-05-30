@@ -4671,4 +4671,24 @@ developmental learning.
   (post-place, no compaction) — still a fair planning signal. Env methods +
   script committed before the real run; chronology asserted.
 
+- **2026-05-31 (v17b RESULT — learning the LANDING -> sample-efficient Tetris;
+  hypothesis CONFIRMED).** craft_v6_out/v17b_landing.json. The factorized model
+  (learn ONLY where each piece falls = gravity+collision, then plan via
+  metrics_at) climbs steadily: 8 lines @1.5k games -> 30 @5k -> 36 @8.4k -> 46
+  @11.3k games, STILL rising, loss 0.012->0.0009. vs model-free PPO: 63 lines
+  needed ~170k games (and ~60k just to reach 46). So learning the RIGHT concept
+  gives ~5-15x fewer games for comparable play -> the owner's hypothesis
+  (understand the dynamics -> far fewer tries) CONFIRMED. HONEST: did not cross
+  the arbitrary 50-line line (peaked 46, still climbing -> would with more
+  rounds); and 46 is still below the perfect/true-landing planner (105-110), so
+  the learned landing model is good-not-perfect (residual landing errors ->
+  some suboptimal placements; more capacity/data would close it). Decisive
+  contrast vs v17 (predict-everything: 7.8 lines): the FACTORIZATION (learn the
+  clean concept, compute the rest) is what made model-based work. This is the
+  realistic confirmation: the concept (gravity) buys a large efficiency win,
+  with headroom remaining toward the 105 upper bound. Key lesson for the vision:
+  accumulate REUSABLE CONCEPTS (dynamics/skills), learned at the right
+  granularity, + plan -> sample-efficient mastery (NOT shared pixel-features,
+  cf. P3/v16).
+
 - (Subsequent amendments timestamped here before execution.)
