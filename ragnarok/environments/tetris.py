@@ -267,3 +267,64 @@ class DeviceVecTetris:
             out[:, a, 3] = ((~placeable) | nb[:, 0, :].any(dim=1)).float()
         return out
 
+    def _placement_cells(self, a):
+        """(cr, cc) board cells for placement-action a (rot*W+col), clamped to
+        fit horizontally. cr is the piece's row offsets, cc the board columns."""
+        N, W = self.num_envs, self.W
+        rot, col = a // W, a % W
+        cells = self._cells[self.piece, rot]
+        cr, cc = cells[:, :, 0], cells[:, :, 1]
+        cc = cc - cc.min(dim=1, keepdim=True).values
+        pw = cc.max(dim=1, keepdim=True).values + 1
+        colc = torch.full((N, 1), col, device=DEVICE).clamp(min=0).minimum(W - pw)
+        return cr, cc + colc
+
+    @torch.no_grad()
+    def placement_landings(self):
+        """(N, action_dim) the TRUE landing row-offset of each placement — i.e.
+        WHERE THE PIECE FALLS (gravity + collision). -1 if unplaceable. This is
+        the clean target a model can learn to 'understand gravity'."""
+        N, Hb = self.num_envs, self.Hb
+        ar = torch.arange(N, device=DEVICE)
+        out = torch.full((N, self.action_dim), -1, dtype=torch.long, device=DEVICE)
+        for a in range(self.action_dim):
+            cr, cc = self._placement_cells(a)
+            landing = torch.full((N,), -1, dtype=torch.long, device=DEVICE)
+            clear = torch.ones(N, dtype=torch.bool, device=DEVICE)
+            for d in range(Hb):
+                rr = cr + d
+                inb = (rr < Hb).all(dim=1)
+                occ = self.board[ar.view(N, 1), rr.clamp(0, Hb - 1), cc].any(dim=1)
+                fits = inb & ~occ
+                ch = fits & clear
+                landing = torch.where(ch, torch.full_like(landing, d), landing)
+                clear = clear & fits
+            out[:, a] = landing
+        return out
+
+    @torch.no_grad()
+    def metrics_at(self, landings):
+        """Given PREDICTED landings (N, action_dim), compute outcome metrics
+        [lines, holes, height, dead] (N, action_dim, 4) by placing each piece at
+        the given landing. Lets a planner score placements from a LEARNED landing
+        model (the rest = exact analytic bookkeeping)."""
+        N, W, Hb = self.num_envs, self.W, self.Hb
+        ar = torch.arange(N, device=DEVICE)
+        rows = torch.arange(Hb, device=DEVICE).view(1, Hb, 1)
+        out = torch.zeros(N, self.action_dim, 4, device=DEVICE)
+        for a in range(self.action_dim):
+            cr, cc = self._placement_cells(a)
+            d = landings[:, a].clamp(0, Hb - 1)
+            rr = (cr + d.view(N, 1)).clamp(0, Hb - 1)
+            nb = self.board.clone()
+            ei = ar.view(N, 1).expand(N, 4)
+            nb[ei.reshape(-1), rr.reshape(-1), cc.reshape(-1)] = True
+            full = nb.all(dim=2)
+            first = torch.where(nb, rows, torch.full_like(rows, Hb)).min(dim=1).values
+            heights = (Hb - first).clamp(min=0)
+            out[:, a, 0] = full.sum(dim=1).float()
+            out[:, a, 1] = (heights - nb.sum(dim=1)).clamp(min=0).sum(dim=1).float()
+            out[:, a, 2] = heights.sum(dim=1).float()
+            out[:, a, 3] = nb[:, 0, :].any(dim=1).float()
+        return out
+

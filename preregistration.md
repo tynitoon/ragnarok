@@ -4656,4 +4656,19 @@ developmental learning.
   planning + faithful to 'learn the concept'. Recorded honestly for the owner's
   sample-efficiency thread.
 
+- **2026-05-31 (v17b prereg — FACTORIZED model-based Tetris: learn the LANDING).**
+  Fix for v17's weak learned model. Learn ONLY the landing of each placement
+  (where the piece falls = pure gravity+collision; a single always-defined
+  target via env.placement_landings), then compute lines/holes/height/death
+  ANALYTICALLY from the predicted landing (env.metrics_at) and plan. Pipeline
+  sanity: a TRUE-landing planner (placement_landings -> metrics_at -> plan)
+  should ~match the perfect planner (~110 lines) — validates metrics_at.
+  HYPOTHESIS: the LEARNED-landing model reaches strong play (>=50 lines) in a
+  few thousand games (<<170k) -> learning the RIGHT concept (gravity+collision)
+  is both easy and sufficient for sample-efficient planning (owner's thesis,
+  done properly). DECISIVE: learned-landing lines >= 50 with games << 170k.
+  Honest: if the true-landing planner itself is < perfect, metrics_at is approx
+  (post-place, no compaction) — still a fair planning signal. Env methods +
+  script committed before the real run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
