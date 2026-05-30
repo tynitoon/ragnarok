@@ -1,0 +1,108 @@
+{
+  "perfect_lines": 109.453125,
+  "curve": [
+    {
+      "round": 1,
+      "games": 620.0,
+      "lines": 0.0546875
+    },
+    {
+      "round": 2,
+      "games": 1242.0,
+      "lines": 2.6875
+    },
+    {
+      "round": 3,
+      "games": 1789.0,
+      "lines": 4.6640625
+    },
+    {
+      "round": 4,
+      "games": 2329.0,
+      "lines": 5.53125
+    },
+    {
+      "round": 5,
+      "games": 2881.0,
+      "lines": 4.4765625
+    },
+    {
+      "round": 6,
+      "games": 3448.0,
+      "lines": 4.4375
+    },
+    {
+      "round": 7,
+      "games": 3985.0,
+      "lines": 6.3828125
+    },
+    {
+      "round": 8,
+      "games": 4514.0,
+      "lines": 5.5390625
+    },
+    {
+      "round": 9,
+      "games": 5055.0,
+      "lines": 5.7734375
+    },
+    {
+      "round": 10,
+      "games": 5594.0,
+      "lines": 4.8515625
+    },
+    {
+      "round": 11,
+      "games": 6103.0,
+      "lines": 6.078125
+    },
+    {
+      "round": 12,
+      "games": 6605.0,
+      "lines": 7.1484375
+    },
+    {
+      "round": 13,
+      "games": 7084.0,
+      "lines": 8.53125
+    },
+    {
+      "round": 14,
+      "games": 7552.0,
+      "lines": 7.671875
+    },
+    {
+      "round": 15,
+      "games": 8015.0,
+      "lines": 6.046875
+    },
+    {
+      "round": 16,
+      "games": 8495.0,
+      "lines": 5.5703125
+    },
+    {
+      "round": 17,
+      "games": 8976.0,
+      "lines": 7.9375
+    },
+    {
+      "round": 18,
+      "games": 9443.0,
+      "lines": 7.3828125
+    },
+    {
+      "round": 19,
+      "games": 9916.0,
+      "lines": 6.390625
+    },
+    {
+      "round": 20,
+      "games": 10396.0,
+      "lines": 7.8046875
+    }
+  ],
+  "final_lines": 7.8046875,
+  "total_games": 10396.0,
+  "verdict": "PARTIAL \u2014 learned model reaches 7.8 lines; did not reach 50 lines."
+}

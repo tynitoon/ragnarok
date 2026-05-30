@@ -4635,4 +4635,25 @@ developmental learning.
   weight metrics (emphasize lines+dead). Env method evaluate_placements + script
   modelbased_tetris_v17 committed before the real run; chronology asserted.
 
+- **2026-05-31 (v17 RESULT — hypothesis TRUE in principle; learned-model
+  accuracy is the new bottleneck).** craft_v6_out/v17_modelbased_tetris.json.
+  (1) PERFECT-model planner: 109.5 lines/window with ZERO learning, vs model-
+  free PPO ~63 lines after ~170k games -> understanding the dynamics solves
+  Tetris near-instantly. The owner's hypothesis (understand gravity/collision/
+  rotation -> master with ~no tries) is CONFIRMED at the upper bound. (2) But
+  the LEARNED model M(board,piece)->all-placement-outcomes, after ~10,400 games
+  (16x fewer than PPO), plays only ~7.8 lines (loss fell 0.029->0.009; better
+  than random 1.9 but FAR below perfect 110 and below model-free PPO 63). So
+  the learned model captures the dynamics ROUGHLY but not accurately enough to
+  PLAN well -> the bottleneck MOVED from exploration (model-free) to MODEL
+  ACCURACY (model-based). HONEST: model-based did NOT beat model-free here.
+  Diagnosis: predicting all 4 metrics x 32 placements end-to-end is a hard
+  structured prediction dominated by common cases; rare-but-critical signals
+  (lines cleared, death) are under-predicted -> wrong argmax. CLEAR FIX (v17b,
+  next): FACTORIZE — learn only the LANDING (where the piece falls = the actual
+  gravity+collision concept; a simpler, always-defined target), then compute
+  lines/holes/height/death ANALYTICALLY from the predicted landing -> accurate
+  planning + faithful to 'learn the concept'. Recorded honestly for the owner's
+  sample-efficiency thread.
+
 - (Subsequent amendments timestamped here before execution.)
