@@ -4494,4 +4494,13 @@ developmental learning.
   opponent, Breakout=clear wall, Snake=maximize endlessly). Committed before
   the run; chronology asserted.
 
+- **2026-05-30 (v15 P1 RESULT — MASTERS Breakout FROM PIXELS; generality).**
+  craft_v6_out/v15_breakout.json. The SAME agent (ConvPPONet+DiscretePPO via the
+  generic trainer) reached eval return +25.64 (best) vs random -23.48, clearing
+  the brick wall ~31x/eval with ~1 life lost (random: 0 clears, ~1840 life-
+  losses). Curve: stuck ~-16 to iter 100, then climbed to +25 by iter 350.
+  DECISIVE criterion MET. GENERALITY shown: one agent, two distinct games from
+  pixels — Pong (beat an opponent) + Breakout (clear a wall). Next P2 Snake
+  (running). Reused the same encoder+PPO with NO per-game tuning beyond the env.
+
 - (Subsequent amendments timestamped here before execution.)

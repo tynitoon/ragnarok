@@ -26,10 +26,12 @@ Each rung teaches a REUSABLE capability; the agent should learn the CONCEPT of
 winning/losing (from the on-screen outcome) and carry it across games.
 - P0 — reactive control + "more points = good": **Pong**. DONE: win-rate 0.97
   from pixels (random 0.00). [v15 M1]
-- P1 — explicit LOSE screen + lives: **Breakout / Catch**. "this screen = lost
-  = bad", "cleared = won". [v15 M2, NOW]
-- P2 — endless score-max + survival (no fixed end): **Snake / Flappy**. The
-  "maximize points, don't die" concept.
+- P1 — clear a goal + lives: **Breakout**. DONE: same agent, return +25.6 vs
+  random -23.5, clears the wall ~31x/eval, ~1 life lost. Generality across 2
+  distinct games from pixels. [v15 P1]
+- P2 — endless score-max + survival (no fixed end): **Snake**. NOW: same agent;
+  env validated (greedy +48 food vs random +2.6). The "maximize points, don't
+  die" concept.
 - P3 — GENERALIZE win/lose (the core scientific milestone): a SHARED outcome-
   recognizer trained across P0-P2, then dropped on a NEW game where the agent
   seeks "win"/avoids "lose" with little/no explicit reward. = "it understood

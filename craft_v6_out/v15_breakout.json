@@ -1,0 +1,214 @@
+{
+  "game": "breakout",
+  "random_return": -23.484375,
+  "final_return": 23.7265625,
+  "best_return": 25.63671875,
+  "final_stats": {
+    "cum_bricks": 23.94140625,
+    "wins": 22.0,
+    "losses": 5.0
+  },
+  "curve": [
+    {
+      "it": 25,
+      "steps": 204800,
+      "ret": -16.12890625,
+      "stats": {
+        "cum_bricks": 35.52734375,
+        "wins": 0.0,
+        "losses": 1623.0
+      }
+    },
+    {
+      "it": 50,
+      "steps": 409600,
+      "ret": -16.12890625,
+      "stats": {
+        "cum_bricks": 35.52734375,
+        "wins": 0.0,
+        "losses": 1623.0
+      }
+    },
+    {
+      "it": 75,
+      "steps": 614400,
+      "ret": -15.7890625,
+      "stats": {
+        "cum_bricks": 35.34375,
+        "wins": 0.0,
+        "losses": 1606.0
+      }
+    },
+    {
+      "it": 100,
+      "steps": 819200,
+      "ret": -16.12890625,
+      "stats": {
+        "cum_bricks": 35.52734375,
+        "wins": 0.0,
+        "losses": 1623.0
+      }
+    },
+    {
+      "it": 125,
+      "steps": 1024000,
+      "ret": -7.78125,
+      "stats": {
+        "cum_bricks": 35.89453125,
+        "wins": 0.0,
+        "losses": 1364.0
+      }
+    },
+    {
+      "it": 150,
+      "steps": 1228800,
+      "ret": -0.08984375,
+      "stats": {
+        "cum_bricks": 35.1875,
+        "wins": 0.0,
+        "losses": 1095.0
+      }
+    },
+    {
+      "it": 175,
+      "steps": 1433600,
+      "ret": 5.24609375,
+      "stats": {
+        "cum_bricks": 35.36328125,
+        "wins": 0.0,
+        "losses": 931.0
+      }
+    },
+    {
+      "it": 200,
+      "steps": 1638400,
+      "ret": 9.9609375,
+      "stats": {
+        "cum_bricks": 34.375,
+        "wins": 0.0,
+        "losses": 752.0
+      }
+    },
+    {
+      "it": 225,
+      "steps": 1843200,
+      "ret": 13.75390625,
+      "stats": {
+        "cum_bricks": 34.34765625,
+        "wins": 2.0,
+        "losses": 629.0
+      }
+    },
+    {
+      "it": 250,
+      "steps": 2048000,
+      "ret": 14.6640625,
+      "stats": {
+        "cum_bricks": 33.84375,
+        "wins": 0.0,
+        "losses": 581.0
+      }
+    },
+    {
+      "it": 275,
+      "steps": 2252800,
+      "ret": 16.23046875,
+      "stats": {
+        "cum_bricks": 33.703125,
+        "wins": 2.0,
+        "losses": 527.0
+      }
+    },
+    {
+      "it": 300,
+      "steps": 2457600,
+      "ret": 17.36328125,
+      "stats": {
+        "cum_bricks": 33.65234375,
+        "wins": 5.0,
+        "losses": 492.0
+      }
+    },
+    {
+      "it": 325,
+      "steps": 2662400,
+      "ret": 20.578125,
+      "stats": {
+        "cum_bricks": 32.30859375,
+        "wins": 10.0,
+        "losses": 343.0
+      }
+    },
+    {
+      "it": 350,
+      "steps": 2867200,
+      "ret": 25.6171875,
+      "stats": {
+        "cum_bricks": 29.5625,
+        "wins": 34.0,
+        "losses": 114.0
+      }
+    },
+    {
+      "it": 375,
+      "steps": 3072000,
+      "ret": 25.63671875,
+      "stats": {
+        "cum_bricks": 27.29296875,
+        "wins": 34.0,
+        "losses": 44.0
+      }
+    },
+    {
+      "it": 400,
+      "steps": 3276800,
+      "ret": 24.0390625,
+      "stats": {
+        "cum_bricks": 24.42578125,
+        "wins": 25.0,
+        "losses": 5.0
+      }
+    },
+    {
+      "it": 425,
+      "steps": 3481600,
+      "ret": 24.05078125,
+      "stats": {
+        "cum_bricks": 24.203125,
+        "wins": 27.0,
+        "losses": 3.0
+      }
+    },
+    {
+      "it": 450,
+      "steps": 3686400,
+      "ret": 24.81640625,
+      "stats": {
+        "cum_bricks": 24.71875,
+        "wins": 31.0,
+        "losses": 1.0
+      }
+    },
+    {
+      "it": 475,
+      "steps": 3891200,
+      "ret": 24.12890625,
+      "stats": {
+        "cum_bricks": 24.25390625,
+        "wins": 28.0,
+        "losses": 3.0
+      }
+    },
+    {
+      "it": 500,
+      "steps": 4096000,
+      "ret": 23.7265625,
+      "stats": {
+        "cum_bricks": 23.94140625,
+        "wins": 22.0,
+        "losses": 5.0
+      }
+    }
+  ],
+  "verdict": "MASTERS BREAKOUT FROM PIXELS \u2014 the same agent reached return +23.73 (best +25.64) vs random -23.48; stats {'cum_bricks': 23.94140625, 'wins': 22.0, 'losses': 5.0}. Generality: one agent, another game, from pixels."
+}
