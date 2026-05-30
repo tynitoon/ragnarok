@@ -4592,4 +4592,26 @@ developmental learning.
   (placement-macro already saved ~100x). Honest: pixel-from-scratch human-level
   sample-efficiency is an open frontier.
 
+- **2026-05-30 (v16 RESULT — multi-game encoder accumulation NEGATIVE;
+  reframes the path).** craft_v6_out/v16_accumulate.json. Pretrained a SHARED
+  encoder on {pong, snake} (MultiGameConvNet), then learned Breakout: ACCUMULATED
+  (reuse encoder) AUC +1.67, steps-to-positive 1.15M vs SCRATCH AUC +2.75, 0.98M
+  -> accumulated was SLIGHTLY SLOWER (speedup 0.86x, AUC gain -1.09). So even
+  MULTI-game representation pretraining did NOT reduce the tries for a new game.
+  Combined with P3 (single-source, also negative), CONCLUSION: naive pixel-
+  ENCODER sharing across these (diverse) games does NOT yield cross-game sample-
+  efficiency. IMPORTANT REFRAME (honest): the accumulation that DID work in this
+  project is SKILL-LEVEL / compositional (craft world v13b/v14: reuse whole
+  mastered skills -> deep skills learnable in ~10 tries that are impossible from
+  scratch), NOT feature-level. So "more knowledge -> fewer tries" works when
+  knowledge is reusable SKILLS/abstractions, not shared low-level features. Path
+  forward for sample-efficiency on games: (a) a SKILL/OPTION library +
+  recognition (lift the craft-world v4/v5/v14 loop to games), and/or (b) MODEL-
+  BASED imagination (the biggest lever; learn from imagined rollouts; v12-B
+  world model + planning; v12-C was the hard attempt). NOT more encoder-transfer.
+  This is a pivotal honest result; recorded for the owner's sample-efficiency
+  question. Confound noted: pong head under-trained during rotated pretraining
+  (pong +0.7), so the shared encoder is a compromise; but the direction (encoder-
+  transfer doesn't accumulate) is consistent across P3+v16.
+
 - (Subsequent amendments timestamped here before execution.)
