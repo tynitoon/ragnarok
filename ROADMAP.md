@@ -33,11 +33,13 @@ winning/losing (from the on-screen outcome) and carry it across games.
   return +81 vs random -55, food ~48/episode (greedy-level). NOTE: first run
   learned to SURVIVE but not EAT (it grasped 'avoid losing' not 'maximize') —
   fixed reward (distance shaping) -> it maximizes. 3 distinct games now mastered.
-- P3 — GENERALIZE win/lose (the core scientific milestone): a SHARED outcome-
-  recognizer trained across P0-P2, then dropped on a NEW game where the agent
-  seeks "win"/avoids "lose" with little/no explicit reward. = "it understood
-  winning/losing." This is the reuse/compounding thesis on the most basic
-  notion.
+- P3 — GENERALIZE win/lose / reuse across games. Tested cross-game encoder
+  transfer (Pong->Breakout): NEGATIVE (AUC -3.6, 0.90x) — naive single-source
+  reuse over-specializes, consistent with v13. The win/lose signal is already
+  handled uniformly (every game = +good/-bad reward, same agent masters all 3);
+  true cross-game perceptual transfer needs MULTI-game pretraining over a
+  DIVERSE suite (future work). Pivoting to P4 (the capability that unlocks
+  complex games).
 - P4 — placement + delayed reward (bridge to Tetris): **Tetris-lite**, placement
   as a MACRO-action (which column + rotation), reusing options (M6/M7) +
   planning (v9) + world model (v12-B).

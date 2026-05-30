@@ -4539,4 +4539,22 @@ developmental learning.
   single-source over-specializes; multi-game pretraining (shared encoder, per-
   game heads) is the follow-up. Script committed before run; chronology asserted.
 
+- **2026-05-30 (v15 P3 RESULT — single-source cross-game transfer NEGATIVE;
+  consistent with v13).** craft_v6_out/v15p3_pong_breakout.json. Reusing Pong's
+  CNN encoder to learn Breakout was slightly WORSE than scratch: AUC -2.87 vs
+  +0.69 (gain -3.56), steps-to-positive 1.64M vs 1.47M (speedup 0.90x). So
+  naive SINGLE-SOURCE encoder reuse does not help across games either — the
+  encoder over-specializes to the source game (same mechanism as v13's negative
+  on sibling skills). HONEST NEGATIVE. The principled fix is MULTI-game
+  pretraining (a shared encoder over several DIVERSE games -> general game-
+  perception that transfers), which needs a larger game suite (a real env-build
+  investment). STRATEGIC CALL: rather than over-invest in a transfer study with
+  only 3 games (2 paddle+ball + 1 grid = limited diversity), pivot to the
+  capability that actually unlocks COMPLEX games (the owner's ultimate target):
+  P4, the Tetris bridge — placement as a MACRO-action + planning, reusing the
+  project's strongest validated machinery (options M6/M7, model-based planning
+  v9, world model v12-B). The win/lose concept is already handled uniformly
+  (every game uses +good/-bad reward, same agent masters all 3); cross-game
+  perceptual transfer is recorded as future work (needs a multi-game suite).
+
 - (Subsequent amendments timestamped here before execution.)
