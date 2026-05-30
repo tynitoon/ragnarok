@@ -218,3 +218,52 @@ class DeviceVecTetris:
     def stats(self):
         return dict(mean_lines=float(self.cum_lines.mean()),
                     games=float(self.cum_games.sum()))
+
+    @torch.no_grad()
+    def evaluate_placements(self):
+        """For the current (board, piece) of each env, return outcome metrics for
+        ALL placements WITHOUT mutating state: (N, action_dim, 4) =
+        [lines, holes, height, dead]. Post-place (pre-compaction) metrics — a
+        fast, planning-grade approximation of the dynamics (where the piece lands
+        = gravity+collision; rotation via the piece cells; line completion).
+        This is the 'understanding of the dynamics' a planner/world-model uses."""
+        N, W, Hb = self.num_envs, self.W, self.Hb
+        ar = torch.arange(N, device=DEVICE)
+        rows = torch.arange(Hb, device=DEVICE).view(1, Hb, 1)
+        out = torch.zeros(N, self.action_dim, 4, device=DEVICE)
+        for a in range(self.action_dim):
+            rot, col = a // W, a % W
+            cells = self._cells[self.piece, rot]
+            cr, cc = cells[:, :, 0], cells[:, :, 1]
+            cc = cc - cc.min(dim=1, keepdim=True).values
+            pw = cc.max(dim=1, keepdim=True).values + 1
+            colc = torch.full((N, 1), col, device=DEVICE).clamp(min=0).minimum(W - pw)
+            cc = cc + colc
+            landing = torch.full((N,), -1, dtype=torch.long, device=DEVICE)
+            clear = torch.ones(N, dtype=torch.bool, device=DEVICE)
+            for d in range(Hb):
+                rr = cr + d
+                inb = (rr < Hb).all(dim=1)
+                rrc = rr.clamp(0, Hb - 1)
+                occ = self.board[ar.view(N, 1), rrc, cc].any(dim=1)
+                fits = inb & ~occ
+                ch = fits & clear
+                landing = torch.where(ch, torch.full_like(landing, d), landing)
+                clear = clear & fits
+            placeable = landing >= 0
+            nb = self.board.clone()
+            rr = (cr + landing.view(N, 1)).clamp(0, Hb - 1)
+            pl = placeable.view(N, 1).expand(N, 4)
+            ei = ar.view(N, 1).expand(N, 4)
+            nb[ei[pl], rr[pl], cc[pl]] = True
+            full = nb.all(dim=2)
+            lines = full.sum(dim=1).float()
+            first = torch.where(nb, rows, torch.full_like(rows, Hb)).min(dim=1).values
+            heights = (Hb - first).clamp(min=0)
+            holes = (heights - nb.sum(dim=1)).clamp(min=0).sum(dim=1).float()
+            out[:, a, 0] = lines
+            out[:, a, 1] = holes
+            out[:, a, 2] = heights.sum(dim=1).float()
+            out[:, a, 3] = ((~placeable) | nb[:, 0, :].any(dim=1)).float()
+        return out
+

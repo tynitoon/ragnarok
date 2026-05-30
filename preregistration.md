@@ -4614,4 +4614,25 @@ developmental learning.
   (pong +0.7), so the shared encoder is a compromise; but the direction (encoder-
   transfer doesn't accumulate) is consistent across P3+v16.
 
+- **2026-05-31 (v17 prereg — MODEL-BASED Tetris: understanding dynamics ->
+  sample-efficiency; the owner's hypothesis).** Owner's thesis: if the agent
+  understands gravity/collision/rotation/controllability, it should master
+  Tetris in FAR fewer tries. Operationalized: the dynamics concepts = a world
+  model. Test: learn M(board, piece) -> predicted outcome of EACH placement
+  [lines, holes, height, dead] (the consequence of 'place piece here' = gravity
+  +collision+line-completion), trained on true outcomes from the env's
+  evaluate_placements (dense targets). Then PLAN greedily with M (imagine
+  outcomes, pick best) instead of trial-and-error. UPPER BOUND already measured:
+  a PERFECT model (env dynamics) + planning plays 110 lines/window with ZERO
+  learning, vs model-free PPO's ~63 lines after ~170k games. HYPOTHESIS: the
+  LEARNED model reaches strong play (>=50 lines) in a few THOUSAND games ->
+  orders-of-magnitude fewer than PPO -> 'more understanding = fewer tries',
+  measured. DECISIVE: learned-model lines >= 50 AND games-to-50 << 170k (>=10x
+  fewer). KEY INSIGHT (why this transfers where P3/v16 didn't): dynamics
+  (gravity/collision) are UNIVERSAL, so a model of them is reusable across
+  tasks, unlike task-specific pixel-features. If learned-M planning is weak ->
+  likely the MSE is dominated by the large 'height' target; fix = normalize/
+  weight metrics (emphasize lines+dead). Env method evaluate_placements + script
+  modelbased_tetris_v17 committed before the real run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
