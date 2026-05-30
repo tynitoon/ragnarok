@@ -4557,4 +4557,25 @@ developmental learning.
   (every game uses +good/-bad reward, same agent masters all 3); cross-game
   perceptual transfer is recorded as future work (needs a multi-game suite).
 
+- **2026-05-30 (v15 P4 prereg — TETRIS via placement-as-macro-action).** The
+  bridge to complex games. DeviceVecTetris (GPU-batched, pixel obs, 7
+  tetrominoes, board 8x14): each step the agent chooses a MACRO-action = (col,
+  rotation) for the current piece (action_dim = 4*W = 32), the piece drops,
+  full rows clear, game over when the stack reaches the top. This collapses the
+  long frame-level horizon to ~one decision per piece. Reward: +0.5/piece
+  (survival), + (lines_cleared^2)*2 (multi-line worth more), -5 on game over;
+  NO absolute hole/height penalty (a first attempt with it caused the agent to
+  SUICIDE to avoid the cost — recorded; survival reward implicitly rewards
+  clean stacking). Env validated: random return +19 (lines 1.3), a 'drop in
+  lowest column' heuristic +124 (lines 17.5) -> winnable + clear signal. SAME
+  agent (ConvPPONet+DiscretePPO) + generic trainer. HYPOTHESIS: the agent
+  learns to PLAY Tetris from pixels (return >> random, survives longer, clears
+  more lines than random). HONEST: full Tetris mastery is hard for RL even with
+  this framing; the target is learning-to-play (clearly beat random, clear
+  lines), and the placement-macro is what makes it tractable. DECISIVE: final
+  return > random + clear margin AND mean_lines >> random. If it plateaus,
+  add potential-based shaping (height/holes deltas) or model-based lookahead
+  (v9/v12-B) over placements. Env+trainer committed before run; chronology
+  asserted.
+
 - (Subsequent amendments timestamped here before execution.)
