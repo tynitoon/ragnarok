@@ -43,7 +43,7 @@ _PIECES = [
 class DeviceVecTetris:
     def __init__(self, num_envs, width=8, height=14, tile=3, max_pieces=300,
                  hole_penalty=0.0, height_penalty=0.0, img=None, max_steps=None,
-                 seed=0):
+                 piece_set=None, seed=0):
         # img is accepted for a uniform game interface (ignored; the board sets
         # the image size). max_steps, if given, caps pieces per game.
         if max_steps is not None:
@@ -63,11 +63,16 @@ class DeviceVecTetris:
         self._gen = torch.Generator(device=DEVICE); self._gen.manual_seed(seed)
         # precompute piece cell tensors: (7,4,4,2) long (piece, rot, cell, (r,c))
         self._cells = torch.tensor(_PIECES, dtype=torch.long, device=DEVICE)
+        # which piece types this env may spawn (default all 7) — for concept-
+        # transfer tests: train on a subset, test zero-shot on unseen pieces.
+        self._piece_set = torch.tensor(list(piece_set) if piece_set is not None
+                                       else list(range(7)), device=DEVICE)
         self.reset()
 
     def _new_piece(self, mask):
         n = self.num_envs
-        pid = torch.randint(0, 7, (n,), generator=self._gen, device=DEVICE)
+        idx = torch.randint(0, len(self._piece_set), (n,), generator=self._gen, device=DEVICE)
+        pid = self._piece_set[idx]
         self.piece = torch.where(mask, pid, self.piece)
 
     def reset(self):

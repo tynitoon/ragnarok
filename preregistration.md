@@ -4691,4 +4691,21 @@ developmental learning.
   granularity, + plan -> sample-efficient mastery (NOT shared pixel-features,
   cf. P3/v16).
 
+- **2026-05-31 (v18 prereg — CONCEPT TRANSFER: does learned gravity generalise
+  to UNSEEN shapes?).** The keystone of the owner's vision (concepts are
+  universal & reusable), and the answer to why P3/v16 failed (pixel-features
+  over-specialise, but DYNAMICS are universal). Test: a SHAPE-conditioned
+  landing model (input = board + piece GEOMETRY, not a piece-id) trained ONLY on
+  tetrominoes {I,O,T,S,Z}, then evaluated ZERO-SHOT on UNSEEN pieces {L,J}.
+  HYPOTHESIS: it plays well on the unseen shapes (>= 0.6x its trained-piece
+  level AND >= 15 lines) because it learned the GENERAL physics (where a shape
+  falls on a surface), not memorised shapes. DECISIVE: strong zero-shot lines on
+  unseen pieces -> the gravity/collision concept is reusable and TRANSFERS,
+  unlike pixel-features. Control: a model trained from SCRATCH on {L,J} (how
+  much it would take without the transferred concept). Env gains a piece_set
+  arg (spawn a subset). Committed before the run; chronology asserted. (Note:
+  same board size avoids the size-agnostic-architecture issue; the transfer
+  here is across SHAPES via shared physics — the cleanest achievable concept-
+  transfer test with the current games. A 2nd gravity GAME is future work.)
+
 - (Subsequent amendments timestamped here before execution.)
