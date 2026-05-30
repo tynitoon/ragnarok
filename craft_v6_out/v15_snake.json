@@ -1,0 +1,157 @@
+{
+  "game": "snake",
+  "random_return": -54.808143615722656,
+  "final_return": 79.47549438476562,
+  "best_return": 81.35711669921875,
+  "final_stats": {
+    "mean_food": 48.28125,
+    "deaths": 716.0
+  },
+  "curve": [
+    {
+      "it": 25,
+      "steps": 204800,
+      "ret": 4.912110328674316,
+      "stats": {
+        "mean_food": 7.29296875,
+        "deaths": 1540.0
+      }
+    },
+    {
+      "it": 50,
+      "steps": 409600,
+      "ret": 8.144144058227539,
+      "stats": {
+        "mean_food": 5.64453125,
+        "deaths": 354.0
+      }
+    },
+    {
+      "it": 75,
+      "steps": 614400,
+      "ret": 15.87265682220459,
+      "stats": {
+        "mean_food": 10.578125,
+        "deaths": 504.0
+      }
+    },
+    {
+      "it": 100,
+      "steps": 819200,
+      "ret": 26.53278350830078,
+      "stats": {
+        "mean_food": 17.015625,
+        "deaths": 612.0
+      }
+    },
+    {
+      "it": 125,
+      "steps": 1024000,
+      "ret": 29.758548736572266,
+      "stats": {
+        "mean_food": 18.453125,
+        "deaths": 462.0
+      }
+    },
+    {
+      "it": 150,
+      "steps": 1228800,
+      "ret": 48.36862564086914,
+      "stats": {
+        "mean_food": 29.7578125,
+        "deaths": 684.0
+      }
+    },
+    {
+      "it": 175,
+      "steps": 1433600,
+      "ret": 63.369712829589844,
+      "stats": {
+        "mean_food": 39.16796875,
+        "deaths": 920.0
+      }
+    },
+    {
+      "it": 200,
+      "steps": 1638400,
+      "ret": 63.93260955810547,
+      "stats": {
+        "mean_food": 39.23046875,
+        "deaths": 761.0
+      }
+    },
+    {
+      "it": 225,
+      "steps": 1843200,
+      "ret": 61.06700134277344,
+      "stats": {
+        "mean_food": 37.296875,
+        "deaths": 696.0
+      }
+    },
+    {
+      "it": 250,
+      "steps": 2048000,
+      "ret": 76.30284881591797,
+      "stats": {
+        "mean_food": 46.546875,
+        "deaths": 814.0
+      }
+    },
+    {
+      "it": 275,
+      "steps": 2252800,
+      "ret": 71.94623565673828,
+      "stats": {
+        "mean_food": 43.58203125,
+        "deaths": 738.0
+      }
+    },
+    {
+      "it": 300,
+      "steps": 2457600,
+      "ret": 73.09388732910156,
+      "stats": {
+        "mean_food": 44.51171875,
+        "deaths": 750.0
+      }
+    },
+    {
+      "it": 325,
+      "steps": 2662400,
+      "ret": 79.96025848388672,
+      "stats": {
+        "mean_food": 48.546875,
+        "deaths": 759.0
+      }
+    },
+    {
+      "it": 350,
+      "steps": 2867200,
+      "ret": 76.2423095703125,
+      "stats": {
+        "mean_food": 46.328125,
+        "deaths": 727.0
+      }
+    },
+    {
+      "it": 375,
+      "steps": 3072000,
+      "ret": 81.35711669921875,
+      "stats": {
+        "mean_food": 49.2890625,
+        "deaths": 783.0
+      }
+    },
+    {
+      "it": 400,
+      "steps": 3276800,
+      "ret": 79.47549438476562,
+      "stats": {
+        "mean_food": 48.28125,
+        "deaths": 716.0
+      }
+    }
+  ],
+  "verdict": "MASTERS SNAKE FROM PIXELS \u2014 the same agent reached return +79.48 (best +81.36) vs random -54.81; stats {'mean_food': 48.28125, 'deaths': 716.0}. Generality: one agent, another game, from pixels."
+}

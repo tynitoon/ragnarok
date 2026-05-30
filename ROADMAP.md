@@ -29,9 +29,10 @@ winning/losing (from the on-screen outcome) and carry it across games.
 - P1 — clear a goal + lives: **Breakout**. DONE: same agent, return +25.6 vs
   random -23.5, clears the wall ~31x/eval, ~1 life lost. Generality across 2
   distinct games from pixels. [v15 P1]
-- P2 — endless score-max + survival (no fixed end): **Snake**. NOW: same agent;
-  env validated (greedy +48 food vs random +2.6). The "maximize points, don't
-  die" concept.
+- P2 — endless score-max + survival (no fixed end): **Snake**. DONE: same agent,
+  return +81 vs random -55, food ~48/episode (greedy-level). NOTE: first run
+  learned to SURVIVE but not EAT (it grasped 'avoid losing' not 'maximize') —
+  fixed reward (distance shaping) -> it maximizes. 3 distinct games now mastered.
 - P3 — GENERALIZE win/lose (the core scientific milestone): a SHARED outcome-
   recognizer trained across P0-P2, then dropped on a NEW game where the agent
   seeks "win"/avoids "lose" with little/no explicit reward. = "it understood

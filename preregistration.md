@@ -4515,4 +4515,13 @@ developmental learning.
   rewarded, no survive-only loophole. Re-running with the fixed reward; same
   decisive criterion (return >> random, food climbs far above random).
 
+- **2026-05-30 (v15 P2 RESULT — MASTERS Snake FROM PIXELS).** craft_v6_out/
+  v15_snake.json. Same agent, fixed reward (distance shaping): return +81.4
+  (best) vs random -54.8, food ~48/episode (greedy-level), climbing 7->17->30
+  ->48 over 400 iters. DECISIVE met. The "no end, maximize points" rung holds.
+  The SAME agent now masters THREE distinct games from pixels: Pong (beat
+  opponent), Breakout (clear wall), Snake (maximize endlessly). Strong
+  generality. Next: P3 — emerge + transfer the win/lose CONCEPT (the core
+  milestone).
+
 - (Subsequent amendments timestamped here before execution.)
