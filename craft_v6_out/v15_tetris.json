@@ -1,0 +1,193 @@
+{
+  "game": "tetris",
+  "random_return": 30.09765625,
+  "final_return": 300.8359375,
+  "best_return": 303.828125,
+  "final_stats": {
+    "mean_lines": 62.62890625,
+    "games": 6429.0
+  },
+  "curve": [
+    {
+      "it": 25,
+      "steps": 204800,
+      "ret": 190.8671875,
+      "stats": {
+        "mean_lines": 24.109375,
+        "games": 7845.0
+      }
+    },
+    {
+      "it": 50,
+      "steps": 409600,
+      "ret": 223.57421875,
+      "stats": {
+        "mean_lines": 37.09765625,
+        "games": 7486.0
+      }
+    },
+    {
+      "it": 75,
+      "steps": 614400,
+      "ret": 229.642578125,
+      "stats": {
+        "mean_lines": 39.12109375,
+        "games": 7419.0
+      }
+    },
+    {
+      "it": 100,
+      "steps": 819200,
+      "ret": 233.798828125,
+      "stats": {
+        "mean_lines": 40.20703125,
+        "games": 7346.0
+      }
+    },
+    {
+      "it": 125,
+      "steps": 1024000,
+      "ret": 239.193359375,
+      "stats": {
+        "mean_lines": 41.7265625,
+        "games": 7263.0
+      }
+    },
+    {
+      "it": 150,
+      "steps": 1228800,
+      "ret": 246.265625,
+      "stats": {
+        "mean_lines": 43.97265625,
+        "games": 7188.0
+      }
+    },
+    {
+      "it": 175,
+      "steps": 1433600,
+      "ret": 254.16015625,
+      "stats": {
+        "mean_lines": 46.80078125,
+        "games": 7020.0
+      }
+    },
+    {
+      "it": 200,
+      "steps": 1638400,
+      "ret": 263.13671875,
+      "stats": {
+        "mean_lines": 50.0703125,
+        "games": 6963.0
+      }
+    },
+    {
+      "it": 225,
+      "steps": 1843200,
+      "ret": 268.494140625,
+      "stats": {
+        "mean_lines": 51.95703125,
+        "games": 6903.0
+      }
+    },
+    {
+      "it": 250,
+      "steps": 2048000,
+      "ret": 273.59765625,
+      "stats": {
+        "mean_lines": 53.5859375,
+        "games": 6780.0
+      }
+    },
+    {
+      "it": 275,
+      "steps": 2252800,
+      "ret": 277.03125,
+      "stats": {
+        "mean_lines": 54.484375,
+        "games": 6716.0
+      }
+    },
+    {
+      "it": 300,
+      "steps": 2457600,
+      "ret": 282.958984375,
+      "stats": {
+        "mean_lines": 56.63671875,
+        "games": 6653.0
+      }
+    },
+    {
+      "it": 325,
+      "steps": 2662400,
+      "ret": 288.642578125,
+      "stats": {
+        "mean_lines": 58.69140625,
+        "games": 6577.0
+      }
+    },
+    {
+      "it": 350,
+      "steps": 2867200,
+      "ret": 290.044921875,
+      "stats": {
+        "mean_lines": 59.171875,
+        "games": 6542.0
+      }
+    },
+    {
+      "it": 375,
+      "steps": 3072000,
+      "ret": 294.908203125,
+      "stats": {
+        "mean_lines": 60.73828125,
+        "games": 6498.0
+      }
+    },
+    {
+      "it": 400,
+      "steps": 3276800,
+      "ret": 295.818359375,
+      "stats": {
+        "mean_lines": 61.0,
+        "games": 6500.0
+      }
+    },
+    {
+      "it": 425,
+      "steps": 3481600,
+      "ret": 299.08203125,
+      "stats": {
+        "mean_lines": 62.296875,
+        "games": 6445.0
+      }
+    },
+    {
+      "it": 450,
+      "steps": 3686400,
+      "ret": 300.16796875,
+      "stats": {
+        "mean_lines": 62.47265625,
+        "games": 6455.0
+      }
+    },
+    {
+      "it": 475,
+      "steps": 3891200,
+      "ret": 303.828125,
+      "stats": {
+        "mean_lines": 63.390625,
+        "games": 6390.0
+      }
+    },
+    {
+      "it": 500,
+      "steps": 4096000,
+      "ret": 300.8359375,
+      "stats": {
+        "mean_lines": 62.62890625,
+        "games": 6429.0
+      }
+    }
+  ],
+  "verdict": "MASTERS TETRIS FROM PIXELS \u2014 the same agent reached return +300.84 (best +303.83) vs random +30.10; stats {'mean_lines': 62.62890625, 'games': 6429.0}. Generality: one agent, another game, from pixels."
+}

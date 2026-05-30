@@ -4578,4 +4578,18 @@ developmental learning.
   (v9/v12-B) over placements. Env+trainer committed before run; chronology
   asserted.
 
+- **2026-05-30 (v15 P4 RESULT — PLAYS Tetris FROM PIXELS).** craft_v6_out/
+  v15_tetris.json. Same agent (ConvPPONet+DiscretePPO) via placement-as-macro:
+  return +300.8 (best +303.8) vs random +30.1; ~63 lines/eval-window vs random
+  2.7 (>20x), surviving far longer. The placement-macro framing made Tetris
+  tractable (one decision/piece). The Tetris BRIDGE works -> a 4th, hard game
+  mastered from pixels. SAMPLE-EFFICIENCY NOTE (honest, for the record):
+  ~4.1M placements total; ~10-15k games to play decently, ~170k to play well
+  -> ~10-150x MORE games than a human (~1000). Current RL is sample-INefficient
+  vs humans; human efficiency comes from accumulated priors (the project's
+  thesis). Levers to close it: accumulation/transfer (v16, next), model-based
+  imagination (the big one; v12-C was the hard attempt), good abstractions
+  (placement-macro already saved ~100x). Honest: pixel-from-scratch human-level
+  sample-efficiency is an open frontier.
+
 - (Subsequent amendments timestamped here before execution.)
