@@ -4470,4 +4470,16 @@ developmental learning.
   hard for the field; the macro-action placement framing + shaping + reuse is
   what makes it tractable. Next: P1 Breakout with the SAME agent (generality).
 
+- **2026-05-30 (v15 M2/P1 prereg — Breakout, generality).** DeviceVecBreakout
+  (GPU-batched pixel game: paddle breaks a brick wall; lose a life on a miss,
+  game-over on 0 lives, WIN on clearing the wall). The SAME agent
+  (ConvPPONet+DiscretePPO) and a GENERIC trainer (scripts/play_game_v15.py)
+  are dropped on it. Env validated: random return -23 (0 wins, constant life-
+  loss); a paddle-tracking policy return +24 (18 wall-clears, 0 losses) — clean
+  beatable signal. HYPOTHESIS: the same agent masters Breakout from pixels
+  (mean eval return >> random, positive, with wall-clears > 0). DECISIVE if
+  final return > 0 and > random + 50% margin (and wins > 0). This demonstrates
+  GENERALITY: one agent, a second distinct game, from pixels. Env+script
+  committed BEFORE training; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)
