@@ -1,0 +1,18 @@
+{
+  "train_pieces": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test_pieces": [
+    5,
+    6
+  ],
+  "on_train": 43.4296875,
+  "zeroshot_unseen": 7.8828125,
+  "scratch_unseen": 49.0546875,
+  "train_games": 9471.0,
+  "verdict": "WEAK TRANSFER \u2014 zero-shot 7.9 vs 43.4 on trained pieces (scratch-on-unseen 49.1). The learned landing did not fully generalise to unseen shapes."
+}

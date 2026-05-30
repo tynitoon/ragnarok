@@ -4708,4 +4708,24 @@ developmental learning.
   here is across SHAPES via shared physics — the cleanest achievable concept-
   transfer test with the current games. A 2nd gravity GAME is future work.)
 
+- **2026-05-31 (v18 RESULT — zero-shot concept transfer NEGATIVE; the model
+  MEMORISED shapes).** craft_v6_out/v18_concept_transfer.json. Shape-conditioned
+  landing model trained on {I,O,T,S,Z} (9.5k games): 43.4 lines on trained
+  pieces, but only 7.9 lines ZERO-SHOT on unseen {L,J}; a scratch model on {L,J}
+  reaches 49.1. So feeding the piece GEOMETRY did NOT force the net to learn the
+  general 'scan down to collision' rule — it memorised the 5 training shapes and
+  failed on 2 new ones (7.9 ~ barely above random ~2). HONEST NEGATIVE for
+  zero-shot. This is the DEEP lesson (and the crux of the owner's vision AND of
+  AI generally): a PERFECT model of gravity transfers trivially (universal), but
+  LEARNING a model that captures the universal RULE — rather than memorising
+  instances — is the hard, unsolved-by-naive-means part. Same pattern as P3/v16
+  (nets memorise/over-specialise rather than abstract). FIXES (future): (a) train
+  on MANY shapes (random polyominoes) so memorisation is impossible -> forces
+  the general rule; (b) a STRUCTURED model with the right inductive bias (landing
+  = local function of column heights under the piece's bottom profile) ->
+  generalises by construction; (c) few-shot adaptation (a few games on new shapes
+  -> faster than scratch) as a softer 'transfer helps'. The honest state of the
+  concept-transfer thread: principle proven (perfect model), learnability proven
+  (v17b 46 lines), GENERALISATION of the learned concept NOT yet achieved.
+
 - (Subsequent amendments timestamped here before execution.)
