@@ -132,3 +132,26 @@ fair baseline, reviewed. Candidate substrates: Tetris/CraftWorld (structured, ha
 or a structured-symbolic input. Pixels remain the eventual rung, but only once the
 notion can be made accurate there (frame-stack/higher-res/learned-latent) AND the
 task is hard enough — not before.
+
+## UPDATE 2026-05-31 (deepest diagnosis + owner's RSSM hint): GO LEAN, AMORTISE SEARCH
+Unifying pattern across ALL results: **reuse pays exactly when the notion AMORTISES
+an expensive SEARCH/SIMULATION the task REQUIRES.**
+- v17b WORKS: Tetris is hard because choosing a placement needs simulating the drop;
+  the "landing" notion replaces that simulation -> planning becomes cheap -> 5-15x.
+- v36/v40/v41 NULL: reactive catch requires NO costly search (tracking suffices), so
+  the notion has nothing to amortise.
+Corollary (matches the owner's hint that RSSM may be the wrong path): the WORKING
+mechanism (v17b) is a LIGHT FACTORED PREDICTOR (one quantity), NOT a heavy
+world-model/RSSM. Both times we went heavy (RSSM-from-pixels v12-C; model-based
+planning v38/v39) it failed or was retracted. **Bet LEAN + FACTORED, not big-model.**
+
+### v42 (next concrete experiment, frozen-when-built): notion-amortises-search, FAIR
+A SEARCH-HEAVY task (candidate: Tetris-placement, or an abstract "pick the option
+whose value needs a rollout"). TWO model-free agents, identical except WARM's obs
+includes a pre-learned FACTORED notion (the rollout/landing outcome) as a feature;
+SCRATCH gets the raw obs and must learn the search implicitly. Both model-free ->
+FAIR (addresses the v38 strawman critique). Measure trials-to-competence, >=3 seeds.
+HYPOTHESIS: WARM >> SCRATCH *because the task needs the search the notion amortises*.
+If it nulls even here, the "amortise-search" theory is wrong too -> report and rethink.
+Also worth exploring (per owner): NON-model-based reuse — reusable OPTIONS/skills
+(hierarchical), or symbolic/program reuse — anything that makes a NEW hard task cheaper.
