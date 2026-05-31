@@ -24,10 +24,11 @@ class DeviceVecProjectileCatch:
     A_STAY, A_UP, A_DOWN = 0, 1, 2
 
     def __init__(self, num_envs, concept=None, gravity=0.004, catcher_speed=0.035,
-                 tol=0.08, x_plane=0.97, max_steps=70, img=0, seed=0):
+                 tol=0.08, x_plane=0.97, max_steps=70, img=0, sparse=False, seed=0):
         self.num_envs = num_envs
         self.concept = concept
         self.img = img
+        self.sparse = sparse
         self.g, self.cs, self.tol = gravity, catcher_speed, tol
         self.x_plane, self.max_steps = x_plane, max_steps
         self.action_dim = 3
@@ -117,9 +118,12 @@ class DeviceVecProjectileCatch:
         resolve = arrived | timeout
         err = (self.cy - self.by).abs()
         caught = resolve & arrived & (err <= self.tol)
-        # graded terminal reward: catch bonus minus distance-to-ball at the plane
-        reward = torch.where(resolve, caught.float() * 1.0 - err.clamp(max=1.0) * 0.5,
-                             torch.zeros_like(self.cy))
+        # reward at resolution: sparse (+1 catch / -1 miss) or graded (catch - dist)
+        if self.sparse:
+            term = caught.float() - (resolve & ~caught).float()
+        else:
+            term = caught.float() * 1.0 - err.clamp(max=1.0) * 0.5
+        reward = torch.where(resolve, term, torch.zeros_like(self.cy))
         self.cum_catch = self.cum_catch + caught.float()
         self.cum_ep = self.cum_ep + resolve.float()
 

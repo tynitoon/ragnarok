@@ -5744,3 +5744,22 @@ developmental learning.
   landing), AND the notion must be ACCURATE (low MSE) on exactly that hard-to-extract
   quantity. Recorded as a null; not reported as a result (per the owner's bar:
   return only with a convincing POSITIVE). Iteration continues.
+
+- **2026-05-31 (v41 prereg — the pixel test in the regime a notion CAN win; FROZEN).**
+  scripts/pixel_notion_v41.py. v40 was null for two diagnosed reasons; v41 fixes BOTH
+  (frozen, no edits between here and result): (A) HARDER task so SCRATCH genuinely
+  struggles — SPARSE reward (+1 catch / -1 miss, no distance shaping) + TIGHT
+  tolerance (0.05) on the bouncing-projectile catch from 32x32 pixels; (B) ACCURATE
+  notion — img=32, a bigger CNN (3 conv, 32/64/64) + more self-supervised data
+  (400 steps x 256 envs, 18 epochs) predicting the analytic (bounce-aware) landing.
+  WARM = PPO on [catcher_y, notion(pixels)-landing]; SCRATCH = PPO on raw pixels.
+  Metric: iters to catch-rate>=0.50, >=3 seeds (all seeded). HYPOTHESIS: with sparse
+  reward + tight tol, SCRATCH must precisely predict the bounce-landing from pixels
+  (slow/hard), while WARM gets it accurately for ~free -> WARM reaches competence in
+  <= half the iters (or SCRATCH fails). DECISIVE pass = WARM reaches >=0.50 every seed
+  AND WARM_iters <= 0.5*SCRATCH_iters (or SCRATCH fails). Honest failure modes to
+  report: notion still inaccurate (then 32x32 pixels can't give the landing -> report
+  the perceptual limit); SCRATCH still learns fast (then sparse+tight wasn't hard
+  enough -> report). FAIRNESS: notion is self-supervised (no task reward); the claim
+  is amortised reuse. If POSITIVE: spawn the adversarial review (standing rule) BEFORE
+  reporting to the owner. Committed BEFORE the run; mechanism FROZEN.
