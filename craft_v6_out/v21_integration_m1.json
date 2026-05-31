@@ -1,0 +1,12 @@
+{
+  "rules": [
+    "gravity(min)",
+    "edge(first)",
+    "soft(mean)"
+  ],
+  "recog_acc": 1.0,
+  "reuse_err": 0.04800923551122348,
+  "fixed_err": 2.732409315208594,
+  "oracle_err": 0.04800923551122348,
+  "verdict": "RECOGNISE-AND-REUSE WORKS \u2014 recognition accuracy 100% on new tasks (unseen shapes, hidden rule); reused-model error 0.048 ~ oracle 0.048, vs a fixed single model 2.732. The agent picks the right learned concept for a new situation and reuses it \u2014 the core of the integration (v5 gate x v19 concepts)."
+}

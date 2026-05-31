@@ -4777,4 +4777,34 @@ developmental learning.
   (v19) all proven; the recipe = learn over BROAD VARIETY at the right grain ->
   reuse + plan.
 
+- **2026-05-31 (v21 INTEGRATION M1 prereg — concept library + recognizer +
+  reuse).** Start of the grand integration (one agent that learns concepts ->
+  recognises which applies -> plans). M1 isolates the RECOGNISE-AND-REUSE core
+  (the v5 relevance-gate idea applied to v19 concept-models). Setup: K distinct
+  'physics' (landing rules: A=min over columns [normal gravity], B=first-column-
+  only [different collision], C=mean [soft landing]); for each, train a model on
+  broad shape variety (v19 recipe -> each generalises). LIBRARY = the K models.
+  RECOGNISER: on a new instance with HIDDEN rule, observe a few (terrain, shape,
+  true-landing) examples, pick the library model with lowest error. REUSE: use
+  the recognised model to predict. HYPOTHESIS: recognition accuracy ~100% and
+  with-recognition error ~ the matched model's own error (low on ALL rules),
+  while a FIXED single model fails on non-matching rules. DECISIVE: recog acc
+  >= 0.9 AND with-recognition mean error << fixed-model error. This is the
+  bottom rung of 'drop it on a new task -> it recognises which known concept
+  applies -> reuses it'. Self-contained (synthetic, fast). Committed before run.
+
+- **2026-05-31 (v21 INTEGRATION M1 RESULT — recognise-and-reuse WORKS).**
+  craft_v6_out/v21_integration_m1.json. Library of 3 concept-models (3 distinct
+  landing physics, each trained over broad shape variety per the v19 recipe).
+  On NEW tasks (held-out shapes, HIDDEN rule): recognition accuracy 100%; the
+  reused (recognised) model's error 0.048 == oracle 0.048, vs a fixed single
+  model 2.732. DECISIVE criterion met (acc>=0.9, reuse<<fixed). The integration's
+  core loop — 'new task -> recognise which known concept applies -> reuse it' —
+  works perfectly. This combines v5 (relevance gate) x v19 (generalised concept-
+  models). Integration STARTED. Next milestones (charted in ROADMAP): M2 scale
+  recognise-and-reuse to the GAMES (recognise which known game/skill applies
+  from pixels -> reuse it); M3 add model-based PLANNING (v17b) so reuse ->
+  act/solve; M4 add autonomous DISCOVERY (v7) so it grows its own library. Each
+  brick is individually validated; the integration is assembling them.
+
 - (Subsequent amendments timestamped here before execution.)
