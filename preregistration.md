@@ -5543,3 +5543,23 @@ developmental learning.
   horizon, not terminal), and CEM > random shooting for precise maneuvers.
   Recorded straight. *** THE PATH IS NOW CLEAR: model-based reuse of learned
   notions, not skill/representation libraries. ***
+
+- **2026-05-31 (v39 prereg — a LIBRARY of notions + RECOGNITION + reuse: the
+  missing lock).** scripts/notion_library_v39.py. After v38 (reuse ONE dynamics
+  notion across tasks), this closes the lock the whole arc kept pointing at:
+  reliable general reuse needs to RECOGNISE which stored notion applies (blind
+  transfer fails because it selects nothing). The developmental recognise-or-learn
+  loop (v22/v25) lifted to the NOTION level, model-based. A library of 4 learned
+  DYNAMICS models for 4 different 'worlds' (same action->force, different physics:
+  inertia / heavy-drag / gravity / strong-response). Tests: (1) RECOGNITION — given
+  a few transitions from a world, the model with lowest prediction error identifies
+  it (target >=90% over the 4 known worlds); (2) REUSE — planning with the
+  RECOGNISED model solves the task much better than planning with a WRONG model
+  (>= +0.25); (3) NOVELTY — a held-out 5th world ('anti-gravity') fits NO known
+  model (min-MSE > 20x the known scale) -> detected -> learn+add -> then solved.
+  HYPOTHESIS/DECISIVE: recog >=90% AND recognised-reuse >> wrong-model-reuse AND
+  novelty detected AND the newly-learned notion solves the novel world. This is the
+  reliable, general mechanism the user demanded: recognise-the-right-notion, reuse
+  it, learn when none fits — not blind transfer, not whole-skill libraries. Builds
+  on v38's CEM planner. Script + prereg committed BEFORE the run; chronology
+  asserted.
