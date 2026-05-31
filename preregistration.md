@@ -5417,3 +5417,32 @@ developmental learning.
   DECISIVE = both. This is the cleanest test of 'plus elle connait une notion, plus
   vite elle resout, car elle l'utilise' — the project's real value (cf. v17b's
   5-15x). Env + script + prereg committed BEFORE the full run; chronology asserted.
+
+- **2026-05-31 (v36 RESULT — IMPORTANT honest finding: a stored concept helps ONLY
+  when re-deriving it in the new context is HARD).** craft_v6_out/
+  v36_concept_gravity.json. with-concept reached catch 0.71 (hit 0.70 at iter 280);
+  SCRATCH reached 0.75 (hit 0.70 at iter 60) — i.e. SCRATCH LEARNED FASTER, the
+  OPPOSITE of the hypothesis. The ablation DID fire (scrambling the learned landing
+  collapses with-concept 0.71 -> 0.26, uses_it=True), so the agent genuinely USED
+  the concept — but having it did NOT make it faster. Diagnosis: (1) design flaw —
+  the with-concept obs was a 2-dim LOSSY summary [catcher, predicted-landing] (and
+  the predictor was only MSE 0.042 ~ 21% error), whereas SCRATCH saw the FULL 5-dim
+  state [catcher, bx, by, bvx, bvy], which is SUFFICIENT to learn an accurate
+  landing itself; so scratch had MORE and CLEANER information. (2) THE DEEP, GENERAL
+  TRUTH: from a full low-dim state, re-deriving gravity is EASY, so scratch just
+  re-learns it fast and the stored concept adds nothing. *** PRINCIPLE (this is the
+  key result): a stored concept reliably ACCELERATES a new context ONLY when
+  re-deriving that concept from the new context's raw input is HARD. *** This
+  EXPLAINS the whole arc honestly: v17b worked (5-15x) because extracting the
+  landing from a Tetris BOARD is genuinely hard; v35b blind pixel-transfer was weak
+  because the shared features did not capture a hard-to-relearn concept; and v36's
+  easy state-task shows the null case. Direct answer to the user's reliability bar
+  ('reuse must be reliable or skills are useless'): concept reuse is reliable and
+  VALUABLE specifically in HARD-to-re-derive (perceptual / deep / partially-observed)
+  contexts; in trivially-observed contexts accumulation does NOT pay. NEXT (brick 2):
+  demonstrate concept-reuse where it SHOULD help — a context where the concept is
+  hard to re-derive (pixels / partial observability), with-concept = full obs PLUS
+  the concept (additive, not lossy), and accurate concept; plus a RECOGNITION step
+  selecting the right concept. Recorded straight; a flawed-but-illuminating run kept
+  honestly (the principle it revealed is more valuable than the hypothesis would
+  have been).
