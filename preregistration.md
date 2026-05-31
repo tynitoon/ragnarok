@@ -4807,4 +4807,19 @@ developmental learning.
   act/solve; M4 add autonomous DISCOVERY (v7) so it grows its own library. Each
   brick is individually validated; the integration is assembling them.
 
+- **2026-05-31 (v22 INTEGRATION M2 RESULT — recognise-OR-learn WORKS).**
+  craft_v6_out/v22_integration_m2.json. Extends M1 with the developmental core:
+  a stream of tasks, library starting at 3 concepts, a NOVEL 4th physics (max)
+  appears. Result: novelty-detection accuracy 100%; the agent reused known
+  concepts, DETECTED the novel one (all known models fit poorly), LEARNED it,
+  and grew its library 3 -> 4; final reuse error 0.073. So 'reuse what fits,
+  learn what's new' runs END TO END = vision points 2 (reuse) + 3 (recognise) +
+  4 (learn anew), integrated. Integration status: M1 (recognise+reuse) + M2
+  (recognise-or-learn + library growth) DONE, decisively, in the abstract
+  concept domain. Remaining: M3 reuse-to-ACT (plug v17b planning so a recognised
+  model drives control/solving), M4 scale to GAMES from pixels (recognise which
+  game/skill + reuse; needs saved skill checkpoints + a pixel recogniser). The
+  integration's developmental loop is proven; scaling it to the pixel-game
+  substrate is the remaining engineering.
+
 - (Subsequent amendments timestamped here before execution.)

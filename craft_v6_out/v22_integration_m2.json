@@ -1,0 +1,7 @@
+{
+  "detect_acc": 1.0,
+  "final_library": 4,
+  "reuse_err": 0.0727524322643876,
+  "learned_novel": 1,
+  "verdict": "RECOGNISE-OR-LEARN WORKS \u2014 novelty detection accuracy 100%; the agent reused known concepts AND detected the novel physics, learned it, and grew its library 3 -> 4 (final reuse error 0.073). The developmental core \u2014 reuse what fits, learn what's new \u2014 runs end to end."
+}
