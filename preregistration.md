@@ -4750,4 +4750,14 @@ developmental learning.
   proven (perfect model), LEARNABILITY proven (v17b), GENERALISATION proven
   (v19, given variety).
 
+- **2026-05-31 (v20 prereg — concept transfer IN-GAME with variety).** Apply
+  the v19 recipe (variety -> the rule generalises) to the ACTUAL Tetris game:
+  generate MANY random 4-cell shapes (env now accepts a `shapes` set), train the
+  shape-conditioned landing model on a TRAIN subset (100), then PLAY the HELD-OUT
+  shapes (20) ZERO-SHOT. HYPOTHESIS: trained on 100 shapes, the agent plays the
+  unseen shapes well zero-shot (>= 0.7x trained-shape level AND >= 20 lines) ->
+  turning v18's 7.9 (only 5 training shapes -> memorised) into real playable
+  transfer, confirming v19 in-game. DECISIVE: strong zero-shot in-game lines on
+  unseen shapes. Env+script committed before run; chronology asserted.
+
 - (Subsequent amendments timestamped here before execution.)

@@ -43,7 +43,7 @@ _PIECES = [
 class DeviceVecTetris:
     def __init__(self, num_envs, width=8, height=14, tile=3, max_pieces=300,
                  hole_penalty=0.0, height_penalty=0.0, img=None, max_steps=None,
-                 piece_set=None, seed=0):
+                 piece_set=None, shapes=None, seed=0):
         # img is accepted for a uniform game interface (ignored; the board sets
         # the image size). max_steps, if given, caps pieces per game.
         if max_steps is not None:
@@ -61,12 +61,16 @@ class DeviceVecTetris:
         self.HOLE_PEN = hole_penalty
         self.HGT_PEN = height_penalty
         self._gen = torch.Generator(device=DEVICE); self._gen.manual_seed(seed)
-        # precompute piece cell tensors: (7,4,4,2) long (piece, rot, cell, (r,c))
-        self._cells = torch.tensor(_PIECES, dtype=torch.long, device=DEVICE)
-        # which piece types this env may spawn (default all 7) — for concept-
-        # transfer tests: train on a subset, test zero-shot on unseen pieces.
+        # piece cell tensors (n_pieces, 4 rot, 4 cells, (r,c)). Default = the 7
+        # tetrominoes; `shapes` can override with an arbitrary shape set (for
+        # broad-variety concept-transfer tests).
+        self._cells = (shapes.to(DEVICE).long() if shapes is not None
+                       else torch.tensor(_PIECES, dtype=torch.long, device=DEVICE))
+        n_shapes = self._cells.shape[0]
+        # which piece types this env may spawn — train on a subset, test
+        # zero-shot on unseen shapes.
         self._piece_set = torch.tensor(list(piece_set) if piece_set is not None
-                                       else list(range(7)), device=DEVICE)
+                                       else list(range(n_shapes)), device=DEVICE)
         self.reset()
 
     def _new_piece(self, mask):
