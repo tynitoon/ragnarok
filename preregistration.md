@@ -5293,3 +5293,18 @@ developmental learning.
   said; a real test needs a diverse, SEEDED, multi-run game suite. This reinforces
   the #1 strategic recommendation (build a genuinely diverse substrate before
   claiming anything about cross-game accumulation). Recorded honestly.
+
+- **2026-05-31 (v34 prereg — NEW gravity game added to the substrate, learn from
+  pixels).** ragnarok/environments/flappy.py + scripts/play_flappy_v34.py. Acting
+  on the strategy review's #1 recommendation (leave the paddle-ball/grid
+  monoculture): added DeviceVecFlappy, a gravity+timing game structurally
+  DIFFERENT from Pong/Breakout (paddle-ball) and Snake (grid) — the bird falls
+  under gravity, one FLAP action gives an upward impulse, and a scrolling pipe-gap
+  must be threaded (collision/ceiling/ground = death). Env VALIDATED before any
+  claim: random agent 0.00 pipes vs a flap-when-below-gap heuristic 5.83 pipes ->
+  winnable and fair, mechanics correct, batched render/step run clean. HYPOTHESIS:
+  a CNN-PPO agent learns it FROM PIXELS — cum-score rises from ~random toward/over
+  the heuristic (pass: final >= max(3, random+2)). This adds a 5th game and, more
+  importantly, the first genuinely DISSIMILAR target for the future cross-game
+  accumulation tests (which the 3-game cluster could not support). Env + script +
+  prereg committed BEFORE the full training run; chronology asserted.
