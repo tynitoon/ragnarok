@@ -1,0 +1,17 @@
+{
+  "seeds": [
+    0,
+    1
+  ],
+  "per_game": {
+    "pong": -0.214,
+    "breakout": 0.258,
+    "snake": 0.243
+  },
+  "mean_advantage": 0.096,
+  "helped": [
+    "breakout",
+    "snake"
+  ],
+  "verdict": "MIXED/NEGATIVE \u2014 library early-advantage per held-out game {'pong': -0.214, 'breakout': 0.258, 'snake': 0.243} (mean +0.10); helped in 2/3. Cross-game representation transfer is weak even with a diverse library; the developmental value is in recognise-and-reuse of KNOWN games, not blind cross-game transfer. Reported honestly."
+}

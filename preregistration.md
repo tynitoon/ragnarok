@@ -5367,3 +5367,32 @@ developmental learning.
   (held=snake, library=2 paddle-ball games, is the cleanest 'dissimilar' case).
   Catcher/Flappy remain in the repo as validated-winnable substrate that needs a
   learning pass — a scoped next task.
+
+- **2026-05-31 (v35b RESULT — the NORTH QUESTION, answered honestly: a library
+  gives a WEAK, INCONSISTENT head-start on a new game).** craft_v6_out/
+  v35b_crossgame_accum.json. Seeded (2-seed) multi-source leave-one-out over
+  {pong, breakout, snake} — for each held-out game, pretrain a shared conv encoder
+  on the other 2, then learn the held-out game WARM (reuse encoder) vs SCRATCH.
+  Normalised early-learning advantage (warm-scratch, 2-seed mean): pong -0.21
+  (warm slightly HURT), breakout +0.26 (but high variance: seeds +0.86 / -0.35),
+  snake +0.24 (CONSISTENT: +0.29 / +0.20 both seeds). Mean +0.10, helped 2/3.
+  KEY (and surprising) FINDING: the most DISSIMILAR held-out game — SNAKE (grid),
+  whose library was 2 paddle-ball games — benefited the MOST and most consistently
+  (warm learns snake ~1.5x better, final 28/23 vs 18/13), i.e. GENERIC visual
+  features (motion / object detection) bootstrap even a structurally-different
+  game; whereas the 'similar' pairings (pong with breakout in its library) did NOT
+  reliably help (even slightly hurt pong). HONEST CONCLUSION: blind cross-game
+  representation transfer via a shared encoder is a WEAK and UNRELIABLE source of
+  sample-efficiency (small mean, high variance, sign flips by game/seed) — it is
+  NOT the strong 'library makes a new game much cheaper' the north-star hoped for.
+  The reliable, large mechanisms remain (a) RECOGNISE-and-reuse of KNOWN games
+  (v25/v26, free) and (b) CONCEPT-granularity compounding (v17b, 5-15x). So 'plus
+  elle connait -> moins cher sur un jeu NOUVEAU' holds only weakly for blind
+  pixel-feature transfer; it is strong when the new task shares a learnable CONCEPT
+  or IS a known game. SCOPE/caveat: only 3 learnable games (the 2 new games I built
+  tonight, Flappy + Catcher, are validated-winnable but don't train with vanilla
+  PPO, so were excluded as held-out); a larger, genuinely-diverse LEARNABLE suite +
+  better RL (e.g. v7 curiosity) is the prerequisite for a stronger test, and is the
+  clear next build. This is v31 done right (diverse-ish, multi-source, SEEDED) and
+  directly answers the user's north question — honestly, including that the answer
+  is 'weakly, not strongly'. Recorded straight.
