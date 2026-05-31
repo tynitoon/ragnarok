@@ -5696,3 +5696,33 @@ developmental learning.
   novelty trigger is unsolved; the efficiency headline was strawman-inflated; and the
   arc avoided the actual hard problem (pixels) that the project had already hit. The
   reviews are accepted; FINDINGS/headlines to be de-hyped accordingly.
+
+- **2026-05-31 (v40 prereg — THE DECISIVE PIXEL TEST; design FROZEN before build).**
+  Per RESEARCH_DIRECTION.md and review #2: leave the toy, test the north-star claim
+  in the HARD regime (pixels). FROZEN DESIGN (no edits between here and result; if
+  the smoke fails, that is a NEGATIVE to report):
+  * Substrate: the projectile-catch physics (ragnarok/environments/projectile.py),
+    rendered to a small image (img=24, 3 channels): ball as a dot + a velocity cue
+    (a faint marker at the ball's previous position) + the catcher bar at x_plane.
+    The agent moves the catcher (3 actions) to intercept the arcing ball.
+  * NOTION (factored, self-supervised, NO task reward): a small CNN trained to
+    predict the ball's LANDING y at x_plane FROM THE PIXELS, on VARIED launches
+    (label = the env's analytic landing). This is a factored notion (just 'where it
+    lands'), learned from pixels, the v17b grain.
+  * Two RL arms at EQUAL conditions, same task/reward, PPO:
+    - WARM: obs = [catcher_y, notion(pixels)-predicted-landing] (reuses the notion).
+    - SCRATCH: obs = the raw pixels (must learn perception + parabola + control).
+  * Metric: iterations-to-competence (catch-rate >= 0.7), WARM vs SCRATCH, >=3
+    SEEDS (torch+cuda+env seeded; seeds + hyperparams logged in the JSON).
+  HYPOTHESIS (the v36 principle, now in the regime it predicts a WIN): extracting
+  the landing from pixels is HARD, so SCRATCH is slow; the pre-learned notion gives
+  WARM the landing for ~free, so WARM reaches competence in FAR fewer iters. DECISIVE
+  PASS: WARM reaches 0.7 every seed AND WARM_iters <= 0.5 * SCRATCH_iters (or SCRATCH
+  fails). FAIRNESS NOTE (disclosed up front): the notion is learned WITHOUT task
+  reward (cheap, reusable); the claim is amortised reuse (learn the notion once ->
+  any task that needs the landing is cheaper), NOT that WARM has more total compute.
+  Honest failure modes to report if they occur: SCRATCH can't learn pixels at all
+  (then report 'WARM works, SCRATCH fails' not a speed-up ratio); WARM's notion is
+  inaccurate from pixels (then the notion-from-pixels is the bottleneck, report it).
+  This is preregistered BEFORE building the renderer/notion/arms; chronology
+  asserted; mechanism FROZEN.
