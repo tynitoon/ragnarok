@@ -5726,3 +5726,21 @@ developmental learning.
   inaccurate from pixels (then the notion-from-pixels is the bottleneck, report it).
   This is preregistered BEFORE building the renderer/notion/arms; chronology
   asserted; mechanism FROZEN.
+
+- **2026-05-31 (v40 RESULT — NULL, but a SHARP design constraint; honest).**
+  craft_v6_out/v40_pixel_notion.json. 3 seeds: WARM (reuses a pixel->landing notion)
+  reached catch>=0.7 in 40/40/60 iters; SCRATCH (raw 24x24 pixels) in 40/40/40 —
+  scratch TIES or BEATS warm, both ~0.90-0.99 final. So even FROM PIXELS the notion
+  did NOT make a new task cheaper. Two confirmed causes: (1) the projectile-catch is
+  LEARNABLE ENOUGH from 24x24 pixels that SCRATCH solves it in ~40 iters -> no need
+  for the notion (the v36 principle again: reuse only pays when scratch genuinely
+  CANNOT easily solve it); (2) the notion-from-pixels is INACCURATE (val MSE ~0.06,
+  RMS ~0.24) -> WARM gets a noisy landing and is, if anything, slightly handicapped.
+  This is the THIRD confirmation (v36 state-easy, v37 probe-easy, v40 pixel-easy)
+  that the limiting factor is TASK HARDNESS-for-scratch, and now also NOTION ACCURACY.
+  SHARPENED REQUIREMENT for a real positive (added to RESEARCH_DIRECTION.md): the
+  test task must be one SCRATCH genuinely struggles with in the budget (long horizon,
+  sparse reward, or a consequence hard to extract from pixels e.g. MULTI-BOUNCE
+  landing), AND the notion must be ACCURATE (low MSE) on exactly that hard-to-extract
+  quantity. Recorded as a null; not reported as a result (per the owner's bar:
+  return only with a convincing POSITIVE). Iteration continues.

@@ -99,3 +99,18 @@ easy/low-dim regimes. **It must be proven from PIXELS or it doesn't count.**
 - **Seed everything** (torch + cuda + env); ≥3 seeds for any headline; log seeds +
   hyperparameters in the result JSON.
 - **Come back to the owner ONLY with a convincing, positive, reviewed result.**
+
+
+## UPDATE 2026-05-31 (after v40 null): the SHARPENED requirement for a positive
+v36 (state, easy), v37 (probe, easy), v40 (pixels, but easy + noisy notion) all
+NULL for the SAME reason. For a reuse-positive, BOTH must hold:
+1. **Scratch must genuinely STRUGGLE** on the task in the budget — not learn it in
+   ~40 iters. Achieve via: long horizon / sparse reward / a consequence that is
+   HARD to extract from the raw input (e.g. a MULTI-BOUNCE landing, or a
+   delayed/occluded outcome).
+2. **The notion must be ACCURATE** on exactly that hard-to-extract quantity (low
+   prediction error), or WARM is handicapped by a noisy feature.
+Next concrete experiment (v41): a HARD pixel task (multi-bounce projectile or
+sparse-reward long-horizon intercept) where scratch <0.3 at the budget, an
+ACCURATE notion (bigger CNN / more data / predict the multi-bounce landing), and
+WARM vs SCRATCH. If WARM>>SCRATCH reliably -> the positive; then review, then report.

@@ -1,0 +1,35 @@
+{
+  "img": 24,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "notion_val_mse": 0.0546,
+      "warm_iters": 60,
+      "warm_final": 0.938,
+      "scratch_iters": 40,
+      "scratch_final": 0.984
+    },
+    {
+      "seed": 1,
+      "notion_val_mse": 0.0667,
+      "warm_iters": 40,
+      "warm_final": 0.939,
+      "scratch_iters": 40,
+      "scratch_final": 0.989
+    },
+    {
+      "seed": 2,
+      "notion_val_mse": 0.0589,
+      "warm_iters": 40,
+      "warm_final": 0.898,
+      "scratch_iters": 40,
+      "scratch_final": 0.976
+    }
+  ],
+  "verdict": "PARTIAL/NEG \u2014 warm_ok=True, faster=False; rows=[{'seed': 0, 'notion_val_mse': 0.0546, 'warm_iters': 60, 'warm_final': 0.938, 'scratch_iters': 40, 'scratch_final': 0.984}, {'seed': 1, 'notion_val_mse': 0.0667, 'warm_iters': 40, 'warm_final': 0.939, 'scratch_iters': 40, 'scratch_final': 0.989}, {'seed': 2, 'notion_val_mse': 0.0589, 'warm_iters': 40, 'warm_final': 0.898, 'scratch_iters': 40, 'scratch_final': 0.976}]."
+}
