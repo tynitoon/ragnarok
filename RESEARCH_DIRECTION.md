@@ -114,3 +114,21 @@ Next concrete experiment (v41): a HARD pixel task (multi-bounce projectile or
 sparse-reward long-horizon intercept) where scratch <0.3 at the budget, an
 ACCURATE notion (bigger CNN / more data / predict the multi-bounce landing), and
 WARM vs SCRATCH. If WARM>>SCRATCH reliably -> the positive; then review, then report.
+
+
+## UPDATE 2026-05-31 (after v41 null #4): STRATEGIC PIVOT — stop raw-pixel reactive reuse
+FOUR nulls (v36 state-easy, v37 probe-easy, v40 pixel-easy, v41 pixel-hard) share a
+STRUCTURAL tension: a notion useful enough to help (hard-to-extract quantity) is hard
+to LEARN ACCURATELY from raw pixels, and small pixel games are learnable-enough that
+scratch doesn't need it. So raw-pixel REACTIVE notion-reuse does not pay.
+The project's ONE clean reuse-positive (v17b ~5-15x) had BOTH conditions raw-pixels
+lacks: (a) a STRUCTURED representation (Tetris board) where the notion (landing) is
+learned ACCURATELY; (b) a task genuinely HARD from scratch (deep Tetris).
+=> NEW DIRECTION for the positive (replaces "raw-pixel reactive" as plan item 1):
+GENERALISE v17b. Take a FACTORED notion learnable accurately from a STRUCTURED (not
+raw-pixel) representation, on a GENUINELY HARD task, and show it learned on task A
+accelerates a DIFFERENT hard task B that uses the same notion — reliably (>=3 seeds),
+fair baseline, reviewed. Candidate substrates: Tetris/CraftWorld (structured, hard),
+or a structured-symbolic input. Pixels remain the eventual rung, but only once the
+notion can be made accurate there (frame-stack/higher-res/learned-latent) AND the
+task is hard enough — not before.

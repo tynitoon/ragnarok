@@ -5763,3 +5763,27 @@ developmental learning.
   enough -> report). FAIRNESS: notion is self-supervised (no task reward); the claim
   is amortised reuse. If POSITIVE: spawn the adversarial review (standing rule) BEFORE
   reporting to the owner. Committed BEFORE the run; mechanism FROZEN.
+
+- **2026-05-31 (v41 RESULT — NULL; the 4th, and now a STRUCTURAL diagnosis).**
+  craft_v6_out/v41_pixel_notion_hard.json. 3 seeds: notion MSE ~0.05-0.06 (RMS
+  ~0.23) DESPITE a bigger CNN + 450 self-sup steps + 18 epochs; WARM reaches
+  catch>=0.5 in 60/80/60 iters (final ~0.89), SCRATCH in 60/60/60 (final ~0.96).
+  Both levers FAILED: (1) the notion stays INACCURATE — the BOUNCE-FOLDED landing is
+  near a PERCEPTUAL FLOOR from 32x32 pixels (the fold makes it highly nonlinear; tiny
+  pixel changes -> large landing changes), so WARM is capped by a noisy feature; (2)
+  even sparse-reward + tol-0.05, a CNN-PPO learns the catch from pixels in ~60 iters,
+  so SCRATCH does not need the notion. *** STRUCTURAL FINDING (4 nulls: v36/v37/v40/
+  v41): for FACTORED-NOTION reuse there is a TENSION — the notion that WOULD help (a
+  quantity HARD to extract, e.g. a bounce landing) is exactly the one HARD to LEARN
+  ACCURATELY from pixels; and the tasks where scratch fails are RARE for small pixel
+  games (CNN-PPO learns them). So raw-pixel REACTIVE notion-reuse does not pay. ***
+  This EXPLAINS why the project's ONE clean reuse-positive (v17b, ~5-15x) worked: its
+  notion (landing) was learned from the structured TETRIS BOARD (low-noise -> the
+  notion is ACCURATE) AND Tetris is genuinely HARD from scratch. v17b had BOTH
+  conditions; the pixel-projectile has NEITHER. STRATEGIC PIVOT (RESEARCH_DIRECTION
+  updated): stop brute-forcing raw-pixel reactive reuse; pursue the v17b TEMPLATE —
+  a STRUCTURED representation where the notion is accurately learnable + a genuinely
+  HARD task — and GENERALISE it (a factored notion learned in one structured task
+  that accelerates a DIFFERENT hard task using it). Recorded as a null; per the
+  owner's bar, not reported as a result. The negative is informative: it bounds
+  WHERE reuse pays.
