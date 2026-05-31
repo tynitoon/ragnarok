@@ -5011,3 +5011,24 @@ developmental learning.
   DECISIVE pass = both hold on every seed. This neutralises the single-seed
   critique before building further. Script + prereg committed BEFORE the run;
   chronology asserted.
+
+
+- **2026-05-31 (v28 RESULT — POSITIVE: more knowledge -> fewer episodes,
+  quantified).** craft_v6_out/v28_fewshot.json. On a NEW out-of-distribution HARD
+  Pong variant (paddle_speed 0.020 + ball 0.040 -> ratio 2.0, beyond the trained
+  max 1.5), iters/EPISODES to reach win-rate >= 0.70, fine-tuning from three
+  starts: VARIETY-pretrained (general) reached it in 80 iters (~819 parties),
+  zero-shot already 0.24; SINGLE-EASY (reactive/narrow) 110 iters (~1126 parties),
+  zero-shot 0.07; SCRATCH NEVER reached 0.70 in the 180-iter budget (final 0.641,
+  still climbing), zero-shot 0.00. MONOTONIC: general knowledge (819) < narrow
+  knowledge (1126) < none (censored > 1843). The variety-pretrained general skill
+  converts directly into sample-efficiency: >= 2.25x fewer episodes than scratch
+  (conservative — scratch censored), AND it reached competence while scratch did
+  not. Narrow single-instance knowledge helps LESS (must un-learn its reactive
+  bias). This answers the user's literal question ('moins d'essais avec plus de
+  connaissances?'): YES, and concretely it is HUNDREDS-to-~1000 parties for these
+  games, NOT millions. Honest scope: within the Pong family (general within-family
+  transfer on a controlled difficulty axis); cross-GENRE efficiency is the next
+  frontier (v30). v28 recorded honestly; design predated the run. *** EFFICIENCY
+  ARC (v27b->v28): broad variety over a policy-relevant axis -> a general skill ->
+  measurably fewer trials on novel harder instances. ***

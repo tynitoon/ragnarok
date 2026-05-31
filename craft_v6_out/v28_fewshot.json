@@ -1,0 +1,273 @@
+{
+  "target": {
+    "paddle_speed": 0.02,
+    "ball_speed": 0.04,
+    "paddle_half": 0.11,
+    "opp_speed": 0.018,
+    "spin": 0.5
+  },
+  "threshold": 0.7,
+  "episodes_per_iter": 10.24,
+  "results": {
+    "variety": {
+      "hit": 80,
+      "iters_used": 80,
+      "episodes": 819,
+      "zero_shot": 0.242,
+      "final": 0.809,
+      "reached": true,
+      "curve": [
+        [
+          0,
+          0.242
+        ],
+        [
+          10,
+          0.293
+        ],
+        [
+          20,
+          0.398
+        ],
+        [
+          30,
+          0.445
+        ],
+        [
+          40,
+          0.52
+        ],
+        [
+          50,
+          0.508
+        ],
+        [
+          60,
+          0.535
+        ],
+        [
+          70,
+          0.629
+        ],
+        [
+          80,
+          0.703
+        ],
+        [
+          90,
+          0.664
+        ],
+        [
+          100,
+          0.742
+        ],
+        [
+          110,
+          0.746
+        ],
+        [
+          120,
+          0.75
+        ],
+        [
+          130,
+          0.773
+        ],
+        [
+          140,
+          0.777
+        ],
+        [
+          150,
+          0.777
+        ],
+        [
+          160,
+          0.801
+        ],
+        [
+          170,
+          0.812
+        ],
+        [
+          180,
+          0.809
+        ]
+      ]
+    },
+    "single_easy": {
+      "hit": 110,
+      "iters_used": 110,
+      "episodes": 1126,
+      "zero_shot": 0.066,
+      "final": 0.836,
+      "reached": true,
+      "curve": [
+        [
+          0,
+          0.066
+        ],
+        [
+          10,
+          0.172
+        ],
+        [
+          20,
+          0.277
+        ],
+        [
+          30,
+          0.312
+        ],
+        [
+          40,
+          0.492
+        ],
+        [
+          50,
+          0.457
+        ],
+        [
+          60,
+          0.508
+        ],
+        [
+          70,
+          0.613
+        ],
+        [
+          80,
+          0.629
+        ],
+        [
+          90,
+          0.645
+        ],
+        [
+          100,
+          0.695
+        ],
+        [
+          110,
+          0.809
+        ],
+        [
+          120,
+          0.703
+        ],
+        [
+          130,
+          0.727
+        ],
+        [
+          140,
+          0.766
+        ],
+        [
+          150,
+          0.824
+        ],
+        [
+          160,
+          0.809
+        ],
+        [
+          170,
+          0.801
+        ],
+        [
+          180,
+          0.836
+        ]
+      ]
+    },
+    "scratch": {
+      "hit": null,
+      "iters_used": 180,
+      "episodes": 1843,
+      "zero_shot": 0.0,
+      "final": 0.641,
+      "reached": false,
+      "curve": [
+        [
+          0,
+          0.0
+        ],
+        [
+          10,
+          0.0
+        ],
+        [
+          20,
+          0.0
+        ],
+        [
+          30,
+          0.0
+        ],
+        [
+          40,
+          0.059
+        ],
+        [
+          50,
+          0.07
+        ],
+        [
+          60,
+          0.082
+        ],
+        [
+          70,
+          0.129
+        ],
+        [
+          80,
+          0.188
+        ],
+        [
+          90,
+          0.207
+        ],
+        [
+          100,
+          0.223
+        ],
+        [
+          110,
+          0.219
+        ],
+        [
+          120,
+          0.383
+        ],
+        [
+          130,
+          0.316
+        ],
+        [
+          140,
+          0.434
+        ],
+        [
+          150,
+          0.527
+        ],
+        [
+          160,
+          0.566
+        ],
+        [
+          170,
+          0.617
+        ],
+        [
+          180,
+          0.641
+        ]
+      ]
+    }
+  },
+  "speedup_vs_scratch": 2.25,
+  "verdict": "MORE KNOWLEDGE -> FEWER TRIALS \u2014 on a NEW out-of-distribution HARD variant, the VARIETY-pretrained general agent reached competence in 80 iters (~819 parties, zero-shot already 0.24), vs scratch NEVER reached it in 180 iters (final 0.641) and single-easy 110 iters \u2014 a ~2x speed-up vs scratch. Prior general knowledge converts directly into sample-efficiency: the agent that already abstracted the skill needs far fewer episodes on a novel harder instance. (Naive single-instance knowledge helps less \u2014 it must un-learn its bias.)"
+}
