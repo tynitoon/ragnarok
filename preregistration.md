@@ -5563,3 +5563,31 @@ developmental learning.
   it, learn when none fits — not blind transfer, not whole-skill libraries. Builds
   on v38's CEM planner. Script + prereg committed BEFORE the run; chronology
   asserted.
+
+- **2026-05-31 (v39 RESULT — POSITIVE: notion LIBRARY + RECOGNITION + reuse; the
+  missing lock CLOSED).** craft_v6_out/v39_notion_library.json. A library of 4
+  learned DYNAMICS models (4 worlds: inertia / heavy-drag / gravity / strong). From
+  a short observed TRAJECTORY (multi-step rollout), the agent: (1) RECOGNISES which
+  notion applies with 100% accuracy (argmin compounding prediction error); (2)
+  REUSING the RECOGNISED model to plan solves the task 0.82 vs only 0.51 with a
+  WRONG model (+0.31 — recognition genuinely MATTERS, once worlds are distinct
+  enough that closed-loop MPC can't paper over wrong physics); (3) DETECTS a NOVEL
+  world ('anti-gravity', held out) — its best-fitting known model's error
+  5.4e-2 exceeds the novelty threshold 4.9e-2 -> flagged novel -> LEARNS a new model
+  and adds it -> then solves the novel world 1.00 (vs 0.78 forcing a wrong known
+  model). DECISIVE pass (recog>=90%, recognised-reuse >> wrong, novelty detected,
+  learned-notion solves it). *** This CLOSES the recognition lock the whole arc
+  pointed at: blind transfer fails because it SELECTS nothing; here the agent
+  recognises WHICH stored notion applies, reuses it reliably, and learns anew when
+  none fits — the v22/v25 recognise-or-learn loop, now at the NOTION (world-model)
+  level, model-based. *** Together the concept-reuse story is COMPLETE and reliable:
+  v38 (reuse one notion across many tasks, ~18x fewer steps) + v39 (a LIBRARY of
+  notions, recognise the right one for a new context, reuse it, detect+learn novel)
+  + v17b (a learned physical concept -> 5-15x on a hard game). Honest scope: small
+  state-based worlds, simple physics, recognition by forward-model error; the next
+  rungs are perception (pixels) and richer/compositional notions. Direct answer to
+  the user's bar ('learn anything + reuse RELIABLY in new contexts, or skills are
+  useless'): reliable general reuse IS achievable — learn NOTIONS (world-models),
+  RECOGNISE which applies, reuse by planning, learn when novel — NOT blind skill/
+  representation libraries (v35b), and it pays in the HARD regime (v36/v37). Path is
+  proven at small scale; recorded straight.

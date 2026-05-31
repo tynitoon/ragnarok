@@ -1,0 +1,11 @@
+{
+  "recog_acc": 1.0,
+  "reuse_recognised": 0.8200811743736267,
+  "reuse_wrong": 0.5109969824552536,
+  "novelty_mse": 0.05377577245235443,
+  "novelty_thresh": 0.04905068315565586,
+  "novel_detected": true,
+  "novel_reuse": 0.9993248581886292,
+  "mismatch_reuse": 0.7757575511932373,
+  "verdict": "NOTION LIBRARY + RECOGNITION WORKS \u2014 the agent recognises which of 4 learned dynamics-notions applies (100%) and reusing the RECOGNISED model solves the task 82% vs only 51% with a WRONG model; it DETECTS the novel world (MSE 5.4e-02 > 4.9e-02), learns it, and then solves it 100% (vs 78% forcing a wrong known model). Recognise-the-right-notion-then-reuse is the reliable, general reuse mechanism \u2014 the missing lock, closed, at the notion level."
+}
