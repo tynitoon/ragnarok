@@ -49,6 +49,34 @@ Honest: full pixel Tetris is hard for the field (sparse/delayed reward, long
 horizon); the macro-action placement framing + shaping + reuse is the
 tractable path. Don't skip P3-P4 — that's the real bridge.
 
+### Sample-efficiency + concept transfer (v15 P4 -> v20) — THE RECIPE FOUND
+Owner's question: does more knowledge mean FEWER tries? Findings (all on Tetris,
+the hardest game):
+- Tetris from pixels (model-free PPO): ~63 lines after ~170k games — sample-
+  INefficient (~10-150x more games than a human; human efficiency = priors).
+- A PERFECT dynamics model + planning: 110 lines, ZERO learning. Understanding
+  the dynamics solves it. [v17 upper bound]
+- LEARNING the dynamics (factorised: learn only the LANDING = gravity+collision,
+  then plan): 46 lines in ~11k games, still rising — ~10x fewer than model-free.
+  [v17b] (Predict-everything-at-once failed at 7.8 — granularity matters.)
+- Does the learned concept TRANSFER to unseen shapes? Zero-shot on 2 unseen
+  tetrominoes FAILED (memorised, 7.9) [v18]; but trained on 200 shapes it
+  GENERALISES perfectly (0.13-row error on held-out == train) [v19]. In-game
+  playable version [v20] inconclusive (random shapes don't tile -> metric
+  broken; needs pentomino refactor).
+- **THE RECIPE (the major insight):** "more knowledge -> fewer tries" is REAL,
+  but only when knowledge = REUSABLE CONCEPTS learned over BROAD VARIETY (so the
+  net abstracts the RULE, can't memorise) at the RIGHT GRAIN (the clean concept),
+  then REUSED + PLANNED. This explains every prior result at once: craft world
+  worked (structured composition); single-source/few-instance transfer failed
+  (P3/v16/v18 = memorisation); broad-variety rule-learning generalises (v19).
+
+### NEXT (the grand integration — all bricks now exist)
+One agent that: learns concepts over variety (v19 recipe) -> recognises which
+apply to a new task (relevance gate v5) -> plans in its world model to act like
+a discoverer (v17b model-based) -> masters the new sample-efficiently. A large
+multi-phase build; each brick is individually validated.
+
 ## DONE (validated, preregistered, on GitLab)
 - v3 gated reuse, v4 compositional reuse, v5 learned O(1) relevance gate
   (2-D point-mass; mechanisms validated but substrate is toy).

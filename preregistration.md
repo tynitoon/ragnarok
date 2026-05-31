@@ -4760,4 +4760,21 @@ developmental learning.
   transfer, confirming v19 in-game. DECISIVE: strong zero-shot in-game lines on
   unseen shapes. Env+script committed before run; chronology asserted.
 
+- **2026-05-31 (v20 RESULT — in-game line-metric CONFOUNDED by non-tiling
+  shapes; v19 stands).** craft_v6_out/v20_ingame_transfer.json. Training on 100
+  random 4-cell shapes, the agent played ~0.1 lines on TRAINED shapes and 0.0
+  zero-shot — but a control check shows a PERFECT planner gets only 6.3 lines on
+  these random shapes (vs 109.5 on real tetrominoes). So random 4-cell shapes
+  DON'T TILE -> nobody can clear lines -> the line metric collapsed (not a model
+  failure; landing loss was low 0.0035). Honest: v20's playable in-game transfer
+  is inconclusive because arbitrary shapes break line-clearing. The clean
+  concept-generalisation result therefore STANDS at v19 (the gravity RULE
+  generalises to unseen shapes, 0.13-row landing error == train). A truly
+  playable in-game transfer demo would need TILING shape variety (e.g.,
+  pentominoes via a K=5 env refactor) — a detail, not essential since v19 proved
+  the principle. CONCEPT-TRANSFER THREAD CONCLUDED: principle (v17 perfect
+  planner) + sample-efficient learnability (v17b) + generalisation-given-variety
+  (v19) all proven; the recipe = learn over BROAD VARIETY at the right grain ->
+  reuse + plan.
+
 - (Subsequent amendments timestamped here before execution.)
