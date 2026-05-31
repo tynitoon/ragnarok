@@ -100,14 +100,15 @@ def main():
         args.eval_every, args.num_envs = 8, 64
 
     os.makedirs(args.out_dir, exist_ok=True)
+    games = args.games
     print(f"[v35b] device={DEVICE} | CROSS-GAME ACCUMULATION (leave-one-out) | "
-          f"library = the other 3 of {list(GAMES)} | warm vs scratch | seeds {args.seeds}",
-          flush=True)
+          f"suite {games} | library = the other {len(games)-1} | warm vs scratch | "
+          f"seeds {args.seeds}", flush=True)
     t0 = time.perf_counter()
 
     per_game = {}
-    for held in GAMES:
-        train_games = [g for g in GAMES if g != held]
+    for held in games:
+        train_games = [g for g in games if g != held]
         advs = []
         for s in args.seeds:
             enc = pretrain_library(train_games, args.pre_iters, args.num_envs, args.img, s)
@@ -126,16 +127,17 @@ def main():
 
     helped = [g for g, a in per_game.items() if a > 0.10]
     mean_adv = round(sum(per_game.values()) / len(per_game), 3)
-    ok = len(helped) >= 3 and mean_adv > 0.10
+    ng = len(games)
+    ok = len(helped) >= (ng - 1) and mean_adv > 0.10
     verdict = (
-        f"LIBRARY HELPS A NEW GAME — a 3-game shared-encoder library gives a positive "
-        f"normalised early-learning advantage on the held-out game in {len(helped)}/4 "
+        f"LIBRARY HELPS A NEW GAME — the shared-encoder library gives a positive "
+        f"normalised early-learning advantage on the held-out game in {len(helped)}/{ng} "
         f"cases (per-game {per_game}, mean {mean_adv:+.2f}). Accumulated multi-game "
         f"representation makes a NEW, dissimilar game cheaper to learn — the north-star "
         f"claim, now on a diverse seeded suite."
         if ok else
         f"MIXED/NEGATIVE — library early-advantage per held-out game {per_game} "
-        f"(mean {mean_adv:+.2f}); helped in {len(helped)}/4. Cross-game representation "
+        f"(mean {mean_adv:+.2f}); helped in {len(helped)}/{ng}. Cross-game representation "
         f"transfer is {'weak' if mean_adv > 0 else 'absent'} even with a diverse "
         f"library; the developmental value is in recognise-and-reuse of KNOWN games, "
         f"not blind cross-game transfer. Reported honestly.")
