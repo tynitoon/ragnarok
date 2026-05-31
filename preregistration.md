@@ -5204,3 +5204,23 @@ developmental learning.
   0.05 AND exceeds the best reactive baseline (single-easy/median) by >= 0.08. This
   removes the static-paddle confound and is the clean test. Committed before the
   real run.
+
+- **2026-05-31 (v33 prereg — does the variety->generalisation recipe hold OUTSIDE
+  games? a SYMBOLIC/maths probe).** scripts/symbolic_variety_v33.py. The strategy
+  review's highest-information small step: test the project's core thesis (broad
+  VARIETY forces the RULE -> generalises) in a non-game, continuous-MATH domain, to
+  see if it is domain-general or RL/game-specific. Task: IN-CONTEXT quadratic
+  regression — a model sees K=5 (x, f(x)) pairs of f(x)=a x^2+b x+c and predicts
+  f(x_q); it must INFER the function and apply it. Train fresh models on R distinct
+  functions for R in {1,2,4,8,16,32} (+ a continuous-variety arm = fresh function
+  every batch) at EQUAL steps; measure MSE on 64 HELD-OUT functions never trained
+  on. HYPOTHESIS (the recipe in maths): held-out MSE FALLS as R grows, approaching
+  the continuous floor — more function-variety forces learning the general
+  infer-and-apply procedure (curve fitting) instead of memorising functions.
+  DECISIVE pass: MSE(R=32) < 0.5 * MSE(R=1) AND continuous ~<= MSE(R=32). This is a
+  CLEAN low-noise scaling curve (no RL variance — addressing v30's noise critique)
+  in a domain DISTINCT from games. HONEST framing (recorded up front): this is
+  classic meta-learning / in-context learning, NOT a novel ML result; the point is
+  purely whether the project's variety->generalisation THESIS spans domains
+  (evidence for the cross-domain ambition) or is game-specific. torch seeded.
+  Script + prereg committed BEFORE the run; chronology asserted.
