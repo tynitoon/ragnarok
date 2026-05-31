@@ -1,0 +1,132 @@
+{
+  "stream": [
+    "breakout",
+    "breakout",
+    "pong",
+    "breakout",
+    "snake",
+    "breakout",
+    "breakout",
+    "breakout",
+    "breakout",
+    "breakout",
+    "snake",
+    "pong",
+    "snake",
+    "pong",
+    "breakout"
+  ],
+  "distinct": 3,
+  "unified_cost": 500,
+  "nomemory_cost": 2820,
+  "savings": 0.8226950354609929,
+  "recog_acc": 1.0,
+  "curve": [
+    {
+      "i": 1,
+      "game": "breakout",
+      "uni_cost": 220,
+      "nomem_cost": 220,
+      "lib": 1
+    },
+    {
+      "i": 2,
+      "game": "breakout",
+      "uni_cost": 220,
+      "nomem_cost": 440,
+      "lib": 1
+    },
+    {
+      "i": 3,
+      "game": "pong",
+      "uni_cost": 300,
+      "nomem_cost": 520,
+      "lib": 2
+    },
+    {
+      "i": 4,
+      "game": "breakout",
+      "uni_cost": 300,
+      "nomem_cost": 740,
+      "lib": 2
+    },
+    {
+      "i": 5,
+      "game": "snake",
+      "uni_cost": 500,
+      "nomem_cost": 940,
+      "lib": 3
+    },
+    {
+      "i": 6,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 1160,
+      "lib": 3
+    },
+    {
+      "i": 7,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 1380,
+      "lib": 3
+    },
+    {
+      "i": 8,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 1600,
+      "lib": 3
+    },
+    {
+      "i": 9,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 1820,
+      "lib": 3
+    },
+    {
+      "i": 10,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 2040,
+      "lib": 3
+    },
+    {
+      "i": 11,
+      "game": "snake",
+      "uni_cost": 500,
+      "nomem_cost": 2240,
+      "lib": 3
+    },
+    {
+      "i": 12,
+      "game": "pong",
+      "uni_cost": 500,
+      "nomem_cost": 2320,
+      "lib": 3
+    },
+    {
+      "i": 13,
+      "game": "snake",
+      "uni_cost": 500,
+      "nomem_cost": 2520,
+      "lib": 3
+    },
+    {
+      "i": 14,
+      "game": "pong",
+      "uni_cost": 500,
+      "nomem_cost": 2600,
+      "lib": 3
+    },
+    {
+      "i": 15,
+      "game": "breakout",
+      "uni_cost": 500,
+      "nomem_cost": 2820,
+      "lib": 3
+    }
+  ],
+  "verdict": "ACCUMULATION SCALES SUBLINEARLY \u2014 over 15 encounters the unified agent paid for only 3 DISTINCT games (500 iters), vs 2820 for a no-memory agent (82% saved); recognition on reuses 100%. The library's value compounds with scale \u2014 known games are free."
+}

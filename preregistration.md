@@ -4880,3 +4880,22 @@ developmental learning.
   with experience. Honest scope: variants share rendering/controls and differ only
   in physics params, so this proves WITHIN-FAMILY generalisation (the v19 recipe),
   not cross-genre transfer. Script committed before the run; chronology asserted.
+
+
+- **2026-05-31 (v26 SCALE RESULT — accumulation scales SUBLINEARLY).**
+  craft_v6_out/v26_scale.json. The unified agent (v25) run over a 15-encounter
+  randomised stream (seed 0): breakout x9, pong x3, snake x3. Result: it paid
+  training for ONLY the 3 DISTINCT games — unified cost 500 iters (breakout 220 +
+  pong 80 + snake 200) — vs 2820 iters for a no-memory agent that relearns every
+  encounter = 82% saved; recognition on the 12 reuses 100% (every repeat
+  correctly identified from pixels and reused with ZERO retraining). So the
+  library's value COMPOUNDS with stream length: cumulative cost grows only with
+  the number of distinct games, sublinearly in the stream. This quantifies the
+  accumulation benefit at scale that the developmental vision predicts — 'the
+  more it already knows, the less it pays.' Honest scope (unchanged from v25):
+  with a 3-game library this demonstrates the recognise->reuse COST/recognition
+  benefit; cross-game LEARNING-efficiency (a NEW game made cheaper by prior
+  skills) needs broad game VARIETY (the v19 recipe) — addressed next in v27
+  (broad-variety Pong: does training over many variants generalise to unseen
+  ones for free?). v26 committed after the run; prereg of v26's design predates
+  it in this file (the SCALE plan stated under v24/v25 entries).
