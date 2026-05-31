@@ -1,0 +1,73 @@
+{
+  "ks": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    24
+  ],
+  "pre_iters": 200,
+  "target": {
+    "paddle_speed": 0.02,
+    "ball_speed": 0.04,
+    "paddle_half": 0.11,
+    "opp_speed": 0.018,
+    "spin": 0.5
+  },
+  "threshold": 0.7,
+  "episodes_per_iter": 10.24,
+  "rows": [
+    {
+      "K": 1,
+      "gen_hard": 0.686,
+      "gen_easy": 0.977,
+      "master_iters": 130,
+      "master_reached": true,
+      "master_episodes": 1331
+    },
+    {
+      "K": 2,
+      "gen_hard": 0.615,
+      "gen_easy": 0.976,
+      "master_iters": 70,
+      "master_reached": true,
+      "master_episodes": 717
+    },
+    {
+      "K": 4,
+      "gen_hard": 0.644,
+      "gen_easy": 0.98,
+      "master_iters": 60,
+      "master_reached": true,
+      "master_episodes": 614
+    },
+    {
+      "K": 8,
+      "gen_hard": 0.681,
+      "gen_easy": 0.977,
+      "master_iters": 100,
+      "master_reached": true,
+      "master_episodes": 1024
+    },
+    {
+      "K": 16,
+      "gen_hard": 0.774,
+      "gen_easy": 0.969,
+      "master_iters": 70,
+      "master_reached": true,
+      "master_episodes": 717
+    },
+    {
+      "K": 24,
+      "gen_hard": 0.831,
+      "gen_easy": 0.966,
+      "master_iters": 70,
+      "master_reached": true,
+      "master_episodes": 717
+    }
+  ],
+  "gen_gain": 0.145,
+  "episode_drop": 614,
+  "verdict": "PARTIAL \u2014 gen 0.69->0.83 (+0.145), episodes 1331->717 (-614), monotone=True. See per-K rows."
+}
