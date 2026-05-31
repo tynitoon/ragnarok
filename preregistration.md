@@ -4926,3 +4926,25 @@ developmental learning.
   should then FAIL to transfer to anticipation variants, and variety (seeing
   both) should win. That is the fair test of whether the recipe has any footing
   in the GAME domain. v27 recorded honestly as a negative; design predates run.
+
+
+- **2026-05-31 (v27b prereg — the recipe on a POLICY-RELEVANT axis).**
+  scripts/variety_policyaxis_v27b.py. v27's negative was a TESTBED flaw: it
+  varied policy-INVARIANT params. v27b fixes the axis: vary paddle_SPEED (the
+  reaction budget) + ball_speed, holding size/opponent/spin fixed. A FAST paddle
+  permits reactive tracking; a SLOW paddle forces ANTICIPATION of the ball's wall
+  bounces (confirmed: pong reflects vy at the top/bottom walls) -> reactive vs
+  anticipatory are genuinely DIFFERENT policies. Three equal-budget agents:
+  VARIETY (24 variants spanning slow..fast paddle), SINGLE-EASY (trained only on
+  the fastest-paddle/reactive variant), SINGLE-HARD (only the slowest-paddle/
+  anticipatory variant). Test on UNSEEN variants split HARD (slow paddle) / EASY.
+  HYPOTHESES: (a) hard variants ARE solvable (variety wins them on train, >=0.6 —
+  guards against a confounded 'too hard for everyone' metric, the v20-style
+  check); (b) SINGLE-EASY FAILS unseen-hard (a reactive skill from one easy
+  instance can't anticipate); (c) VARIETY covers unseen-hard (>= single-easy +
+  0.15) without harming unseen-easy. DECISIVE pass = all three. Interpretation:
+  if VARIETY (and SINGLE-HARD) cover both halves while SINGLE-EASY fails hard,
+  the sharpened recipe holds — broad variety yields the GENERAL skill exactly
+  when the variation spans different required solutions (the condition v27's
+  invariant family lacked). Script + prereg committed BEFORE the run; chronology
+  asserted.
