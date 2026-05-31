@@ -4996,3 +4996,18 @@ developmental learning.
   within the Pong family (general within-family transfer), the cleanest substrate
   where we control difficulty; cross-genre efficiency is the further frontier.
   Script + prereg committed BEFORE the run; chronology asserted.
+
+
+- **2026-05-31 (v29 prereg — ROBUSTNESS of v27b + v28 over N seeds).**
+  scripts/robustness_v29.py. The two NOVEL positive claims (v27b general skill,
+  v28 sample efficiency) are single-seed; this firms them up over seeds [0,1,2]
+  (the project's standing rigor bar; cf. the v3.13/3.17 N=16 firm-ups). Per seed:
+  pretrain VARIETY (24 paddle-speed variants) + SINGLE-EASY (reactive); measure
+  (A) general-skill GAP = variety_unseen_hard - single_easy_unseen_hard; (B)
+  efficiency = iters/episodes-to-threshold (wr>=0.70) on the OOD-hard target
+  (ratio 2.0) from VARIETY-pretrained vs SCRATCH. HYPOTHESIS: across ALL seeds
+  gap > 0 (mean >= 0.15) AND variety reaches threshold in fewer iters than scratch
+  every seed. Per-seed values printed so a single bad seed is visible (honesty).
+  DECISIVE pass = both hold on every seed. This neutralises the single-seed
+  critique before building further. Script + prereg committed BEFORE the run;
+  chronology asserted.
