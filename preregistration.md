@@ -5833,3 +5833,15 @@ developmental learning.
   reviewed. Reconciles with the owner's RSSM hint: the model can be LEAN+FACTORED
   (v17b landing), not a heavy RSSM. Recorded straight; this null changes the plan, so
   it is reported to the owner.
+
+- **2026-05-31 (v43 prereg — model-based SAMPLE-EFFICIENCY, FAIR; FROZEN).**
+  scripts/model_based_v43.py. The corrected positive after 5 nulls: prior knowledge
+  (a learned dynamics-model) -> fewer ENV INTERACTIONS to competence than model-free,
+  done FAIRLY (addresses the v38 strawman). FROZEN: both agents see ONLY env reward
+  (lines). MODEL-BASED has the dynamics (evaluate_placements; v17b showed learnable)
+  and LEARNS V(metrics)->return by TD, acts greedily (no hand-coded scoring). MODEL-
+  FREE = PPO from the board. Metric: lines vs ENV INTERACTIONS (pieces placed),
+  threshold 5 lines, >=3 seeds. DECISIVE pass: MB reaches threshold every seed AND
+  mb_interactions <= 0.5*mf_interactions. HONEST staging (disclosed): dynamics is
+  analytic to isolate value-learning efficiency; learned-dynamics is the follow-up.
+  If POSITIVE: adversarial review BEFORE reporting. Committed BEFORE the run; FROZEN.
