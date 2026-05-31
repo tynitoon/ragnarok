@@ -86,6 +86,7 @@ def learn_game(encoder, game, iters, eval_every, num_envs, img, seed):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--seeds", type=int, nargs="+", default=[0, 1])
+    p.add_argument("--games", type=str, nargs="+", default=list(GAMES))
     p.add_argument("--pre-iters", type=int, default=120)
     p.add_argument("--learn-iters", type=int, default=100)
     p.add_argument("--eval-every", type=int, default=20)

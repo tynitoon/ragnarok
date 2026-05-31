@@ -5351,3 +5351,19 @@ developmental learning.
   representation transfer is weak even with diversity, and the developmental value
   is recognise-and-reuse of KNOWN games, not blind transfer. Scripts + envs + prereg
   committed BEFORE the v35b run; chronology asserted.
+
+- **2026-05-31 (Catcher RESULT — built + validated winnable, but does NOT train
+  either; same finding as Flappy).** DeviceVecCatcher trains flat at ~random
+  (~4 catches vs heuristic 13) across both shaping=0.05 (camps centre) and
+  shaping=0 (sparse, 250 iters) — the vanilla CNN-PPO pipeline that learned
+  pong/breakout/snake does NOT reliably learn the two NEW games I added tonight
+  (Flappy, Catcher). Honest pattern-level finding: building a LEARNABLE diverse
+  suite is harder than building the envs — the new games (sparser/timing-sensitive
+  rewards) need better RL (denser/potential-based shaping, longer training, or the
+  project's own v7 curiosity / intrinsic motivation), not just more envs. Decision:
+  stop env-tuning (context-bounded), and run the cross-game accumulation test
+  (v35b) on the 3 PROVEN-learnable games {pong, breakout, snake} — leave-one-out,
+  seeded, multi-source — which still answers the north question on validated games
+  (held=snake, library=2 paddle-ball games, is the cleanest 'dissimilar' case).
+  Catcher/Flappy remain in the repo as validated-winnable substrate that needs a
+  learning pass — a scoped next task.
