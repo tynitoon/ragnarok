@@ -5169,3 +5169,22 @@ developmental learning.
   (diverse suite / concept re-centring / symbolic probe). FINDINGS.md corrected in
   the same commit. These reviews are exactly why the phase-gate exists; the honest
   state is weaker and more interesting than the headlines implied.
+
+
+- **2026-05-31 (v32 prereg — ANTICIPATION probe: settle the v27b mechanism, per
+  the review).** scripts/anticipation_probe_v32.py. Directly tests the review's #1
+  scientific objection: is v27b's variety benefit a genuinely different
+  ANTICIPATORY policy, or just domain-randomisation COVERAGE? The env is known, so
+  we compute the ball's TRUE bounce-aware interception y at the agent plane
+  (period-2 reflection fold) and measure LEAD TIME = how early (8-16 steps before
+  contact) the paddle is already within a paddle-half of that true landing,
+  reported overall AND on BOUNCE trajectories (where a reactive policy is blind).
+  Agents (all torch+env SEEDED — fixing the review's #1 issue; equal compute):
+  VARIETY, SINGLE-EASY (reactive), SINGLE-HARD (anticipatory), and the review's
+  missing fair SINGLE-MEDIAN baseline. HYPOTHESIS (mine, under test): variety's
+  early-readiness exceeds the reactive single-easy/median agents, especially on
+  bounce trajectories. DECISIVE: anticipates iff bounce-advantage >= 0.10 AND
+  overall >= 0.05 over the best reactive baseline. If it FAILS, the review was
+  right — the v27b gap is coverage, not anticipation, and I retract the mechanistic
+  framing. Either way recorded honestly. This is the honest closing of the loop the
+  reviewers demanded; it can falsify my own prior claim. Committed BEFORE the run.
