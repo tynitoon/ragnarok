@@ -4948,3 +4948,29 @@ developmental learning.
   when the variation spans different required solutions (the condition v27's
   invariant family lacked). Script + prereg committed BEFORE the run; chronology
   asserted.
+
+
+- **2026-05-31 (v27b RESULT — POSITIVE: the recipe holds on a policy-relevant
+  axis).** craft_v6_out/v27b_policyaxis.json. Varying paddle_SPEED (reaction
+  budget) so slow-paddle variants REQUIRE anticipating wall-bounces. Win-rates on
+  UNSEEN variants (split by difficulty): VARIETY easy 0.97 / hard 0.71; SINGLE-
+  EASY (reactive) easy 0.95 / hard 0.45; SINGLE-HARD (anticipatory) easy 0.61 /
+  hard 0.69. Solvability check passed: variety wins 0.83 on hard TRAIN variants
+  (so the hard half is genuinely winnable — no 'too hard for everyone' confound).
+  DECISIVE: on unseen HARD, variety 0.71 >> single-easy 0.45 (+0.26, beats the
+  +0.15 bar) while staying equal on easy (0.97 vs 0.95). THE KEY FINDING: ONLY the
+  variety agent is strong across the WHOLE family — each single-instance agent is
+  NARROW (single-easy nails easy 0.95 but collapses on hard 0.45 because a
+  reactive skill can't anticipate; single-hard handles hard 0.69 but is mediocre
+  on easy 0.61). Broad variety is the only training that yields a skill general
+  over the family. This CONFIRMS the sharpened recipe and explains v27's negative:
+  variety helps iff the variation spans genuinely DIFFERENT required solutions
+  (policy-relevant); for an invariant-policy family (v27: ball-speed/size/spin)
+  it adds only noise. Net: in GAMES, single-source transfer fails (P3/v16) AND
+  naive variety over an invariant axis fails (v27), but variety over a POLICY-
+  RELEVANT axis yields a general skill (v27b) — the same mechanism as v19's
+  concept generalisation. NEXT (v28): the user's literal sample-efficiency
+  question — does this general skill make LEARNING a new OOD-hard variant take
+  FEWER episodes than from scratch (and fewer than a narrow single-instance
+  agent)? Measure iters/episodes-to-threshold. v27b recorded honestly; design
+  predated the run.

@@ -1,0 +1,48 @@
+{
+  "results": {
+    "variety_train_hard": 0.8291015625,
+    "variety_unseen_hard": 0.7080078125,
+    "variety_unseen_easy": 0.974609375,
+    "single_easy_unseen_hard": 0.4541015625,
+    "single_easy_unseen_easy": 0.9541015625,
+    "single_hard_unseen_hard": 0.6904296875,
+    "single_hard_unseen_easy": 0.6083984375
+  },
+  "verdict": "POLICY-RELEVANT VARIETY HELPS \u2014 hard variants are solvable (variety wins 83% on hard train). On UNSEEN HARD (slow-paddle, needs anticipation) variety wins 71% vs the single-EASY (reactive) agent's 45% \u2014 a reactive skill learned on one easy instance FAILS where the policy differs, while variety covers it (and stays ~equal on easy: 97% vs 95%). single-HARD on hard 69%. CONFIRMS the sharpened recipe: broad variety yields the general skill when the variation spans different required solutions (where v27's invariant-policy family showed no benefit).",
+  "difficulty_train": [
+    0.66,
+    0.71,
+    0.72,
+    0.72,
+    0.77,
+    0.78,
+    0.78,
+    0.8,
+    0.81,
+    0.83,
+    0.86,
+    0.87,
+    0.9,
+    0.9,
+    0.9,
+    0.99,
+    1.04,
+    1.11,
+    1.2,
+    1.25,
+    1.25,
+    1.26,
+    1.3,
+    1.49
+  ],
+  "difficulty_unseen": [
+    0.73,
+    0.75,
+    0.78,
+    0.83,
+    1.11,
+    1.27,
+    1.36,
+    1.4
+  ]
+}
