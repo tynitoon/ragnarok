@@ -5070,3 +5070,24 @@ developmental learning.
   cross-genre variety (which needs a larger, more diverse game suite — a flagged
   future build). Likely a weak/partial result; reported honestly either way.
   Script + prereg committed BEFORE the run; chronology asserted.
+
+
+- **2026-05-31 (v29 RESULT — ROBUST across 3 seeds, with an HONEST correction to
+  v28's magnitude).** craft_v6_out/v29_robustness.json. Per seed [0,1,2]:
+  (A) general-skill GAP (variety_hard - single_easy_hard) = +0.30 / +0.17 / +0.30
+  -> mean +0.26 +/- 0.06, POSITIVE EVERY SEED (variety beats the narrow reactive
+  agent on unseen-hard reliably). (B) efficiency on the OOD-hard target: variety
+  reached wr>=0.70 in 110 / 80 / 70 iters vs scratch 120 / 100 / 120 iters —
+  variety faster EVERY seed, mean ~887 vs ~1161 parties = ~1.35x fewer episodes.
+  *** HONEST CORRECTION: v28's headline (>=2.25x, 'scratch NEVER reached') was a
+  SINGLE-RUN optimistic outcome. torch's global RNG is not seeded here, so the
+  scratch arm's learning varies run-to-run, and scratch sits right at the 0.70
+  competence boundary on this target — it stalled at 0.641 in v28's one run but
+  REACHED 0.70 (~100-120 iters) in all three v29 runs. The robust, honest estimate
+  is ~1.35x fewer episodes (and more RELIABLE: variety reaches competence every
+  time, scratch is borderline), NOT 2.25x. The DIRECTION (more knowledge -> fewer
+  trials) is robust; the magnitude was overstated by a single censored run. ***
+  Claim (A) is solid and large; claim (B) is solid in direction, modest in
+  magnitude (~1.35x) at this budget — widening when the budget/threshold is
+  tighter (scratch then fails entirely). This is exactly why N-seed firm-ups
+  matter. v29 recorded honestly; both claims survive, magnitude recalibrated.

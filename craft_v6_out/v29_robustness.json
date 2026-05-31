@@ -1,0 +1,67 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "target": {
+    "paddle_speed": 0.02,
+    "ball_speed": 0.04,
+    "paddle_half": 0.11,
+    "opp_speed": 0.018,
+    "spin": 0.5
+  },
+  "threshold": 0.7,
+  "episodes_per_iter": 10.24,
+  "rows": [
+    {
+      "seed": 0,
+      "variety_hard": 0.832,
+      "single_easy_hard": 0.531,
+      "gap": 0.301,
+      "variety_easy": 0.978,
+      "single_easy_easy": 0.972,
+      "variety_iters": 110,
+      "variety_reached": true,
+      "scratch_iters": 120,
+      "scratch_reached": true,
+      "variety_episodes": 1126,
+      "scratch_episodes": 1229,
+      "scratch_final": 0.684
+    },
+    {
+      "seed": 1,
+      "variety_hard": 0.775,
+      "single_easy_hard": 0.609,
+      "gap": 0.166,
+      "variety_easy": 0.969,
+      "single_easy_easy": 0.93,
+      "variety_iters": 80,
+      "variety_reached": true,
+      "scratch_iters": 100,
+      "scratch_reached": true,
+      "variety_episodes": 819,
+      "scratch_episodes": 1024,
+      "scratch_final": 0.672
+    },
+    {
+      "seed": 2,
+      "variety_hard": 0.869,
+      "single_easy_hard": 0.565,
+      "gap": 0.304,
+      "variety_easy": 0.943,
+      "single_easy_easy": 0.86,
+      "variety_iters": 70,
+      "variety_reached": true,
+      "scratch_iters": 120,
+      "scratch_reached": true,
+      "variety_episodes": 717,
+      "scratch_episodes": 1229,
+      "scratch_final": 0.777
+    }
+  ],
+  "gap_mean": 0.257,
+  "gap_std": 0.064,
+  "speedup_mean": 1.35,
+  "verdict": "ROBUST across 3 seeds \u2014 (A) the variety agent beats the reactive single-easy agent on unseen HARD variants every seed (gap +0.26 +/- 0.06); (B) the variety-pretrained agent masters a NEW OOD-hard variant in ~887 parties vs ~1161 for scratch every seed (~1.35x fewer episodes). The general-skill and sample-efficiency claims are not single-seed flukes."
+}
