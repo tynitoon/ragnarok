@@ -4832,4 +4832,14 @@ developmental learning.
   milestone M4: lift the same loop to the pixel GAMES (recognise which game ->
   reuse its skill).
 
+- **2026-05-31 (v24 INTEGRATION M4 prereg — the loop on PIXEL GAMES).** Lift
+  recognise-and-reuse to the real games: a LIBRARY of game-skills (a trained
+  policy per game: Pong, Breakout) + a learned pixel RECOGNISER (classify which
+  game from a frame). Dropped on a game, the agent recognises it from pixels and
+  REUSES that game's skill. HYPOTHESIS: recognition ~100% AND the reused skill
+  plays its game well while a MISMATCHED skill fails. DECISIVE: recog acc 100%
+  and reused-return >> mismatched-return on each game. = 'drop it on a known
+  game -> identify it -> play it', the integration on the pixel substrate.
+  Script committed before run.
+
 - (Subsequent amendments timestamped here before execution.)
