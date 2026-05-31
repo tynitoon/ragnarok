@@ -5114,3 +5114,58 @@ developmental learning.
   law. NET: more breadth -> more general + fewer trials, REAL and visible (K24 >>
   K1 on both), but it is 'enough variety (K>=16) gives reliable generality', not a
   perfectly smooth law at tiny K. Recorded honestly; PARTIAL kept as PARTIAL.
+
+
+- **2026-05-31 (PHASE-GATE MULTI-AGENT REVIEW — 3 adversarial reviewers, dissent
+  > consent — MAJOR CORRECTIONS ACCEPTED).** Spawned 3 review agents (rigor/
+  methodology, RL-ML, vision/strategy) over the v25-v31 arc with a mandate to find
+  holes. They surfaced serious, largely-CORRECT critiques. Recording them honestly
+  and correcting the record (the marquee claims were rounded in the favourable
+  direction; here is the honest version):
+  1. **torch RNG never seeded.** Only random.Random(seed) was used (variant draws
+     + env-sampling order); torch's global RNG (net init, action sampling,
+     minibatch shuffle) and the env serve-generator (DeviceVecPong built without
+     seed= -> all use default seed 0) were UNCONTROLLED. So 'N=3 seeds' did NOT
+     control the dominant noise sources, and the v28->v29 magnitude flip (2.25x ->
+     1.35x) was a symptom. The efficiency advantage is also quantised to
+     eval_every=10 buckets and carried largely by 1 of 3 seeds (per-seed 1.09/
+     1.25/1.71x). => DOWNGRADE efficiency claim (B) to 'direction positive and
+     robust, MAGNITUDE NOT FIRMLY RESOLVED (~1.1-1.7x, small)'.
+  2. **'unseen-HARD' (v27b/v29) is INTERPOLATION, not extrapolation.** Its
+     difficulty ratios (ball/paddle 1.11-1.40) fall INSIDE the trained range
+     (~0.54-1.82). It is held-out-WITHIN-RANGE generalisation, not OOD. Only the
+     v28 efficiency target (ratio 2.0 > 1.82) is true extrapolation. Correct the
+     framing everywhere.
+  3. **The '+0.26 general-skill gap' is specifically vs single-EASY (the
+     worst-coverage baseline).** v27b's own single-HARD arm scores 0.69 on hard ~=
+     variety 0.71 (within eval noise). The DEFENSIBLE claim is narrower: variety is
+     the only agent strong on BOTH halves (single-easy fails hard 0.45; single-hard
+     fails easy 0.61); a single WELL-CHOSEN instance can match variety on its own
+     half. v29 DROPPED the single-hard arm, so its firm-up tested only the
+     favourable contrast. => firm-ups must keep single-hard.
+  4. **RETRACT the v30 'K=1 outlier = lucky anticipatory variant' story.** pool[0]
+     (seed 0) difficulty ~0.83 is on the EASY/reactive end, NOT anticipatory; my
+     rationalisation was factually wrong. The K=1 anomaly is single-variant +
+     unseeded-torch NOISE. v30's preregistered bar (+0.15) FAILED at +0.145 -> it
+     is a PARTIAL/negative, full stop; the K>=2 rebaselining was post-hoc.
+  5. **NOVELTY: this is informed DOMAIN RANDOMISATION / contextual-MDP
+     generalisation** (Tobin 2017; Peng 2018; Cobbe Procgen; Packer 2018; Kirk
+     2023), not a novel 'recipe'. And the mechanistic claim ('policy-relevant axis
+     = requires ANTICIPATION, a different policy') is UNTESTED/asserted: reviewer 2
+     shows the hardest unseen variant is geometrically reactively-solvable, so the
+     v27-vs-v27b contrast may be pure DIFFICULTY-COVERAGE, not a distinct policy.
+  6. **STRATEGIC (all 3): substrate monoculture.** The recent arc lives inside ONE
+     Pong family; the STRONGEST 'more knowledge -> faster' evidence is the
+     CONCEPT-granularity line (v13b impossible->~10 iters; v17b ~5-15x; v7 autonomous
+     discovery) on genuinely different/hard tasks — NOT the Pong ~1.35x. Stop adding
+     Pong seeds; build a DIVERSE game suite and/or re-centre concept-compounding
+     and/or run a symbolic cross-domain probe.
+  ACTIONS: (v32) a decisive ANTICIPATION LEAD-TIME probe — seed everything; add fair
+  single-MEDIAN + single-HARD baselines; compute the analytic bounce-aware
+  interception point; measure paddle LEAD-TIME (how early the paddle sits at the true
+  landing) for variety vs baselines, correlated with #wall-bounces. If variety
+  anticipates earlier (esp. on bounce-heavy serves) the mechanism is REAL; else it is
+  DR coverage and we say so plainly. Then PIVOT off Pong per the strategic review
+  (diverse suite / concept re-centring / symbolic probe). FINDINGS.md corrected in
+  the same commit. These reviews are exactly why the phase-gate exists; the honest
+  state is weaker and more interesting than the headlines implied.

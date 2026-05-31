@@ -8,6 +8,30 @@ This document answers, in plain terms, the three questions Jeremie asked:
 2. Does giving it **variety** create a **general** skill (not a memorised one)?
 3. Does **more knowledge mean fewer trials** — or would it need millions of games?
 
+> ## ⚠ Corrections after adversarial review (read this first)
+> Three adversarial reviewers (rigour, ML, strategy) stress-tested this arc and
+> caught me rounding in the favourable direction. The honest, corrected state:
+> - **The method is informed *domain randomization* / contextual-MDP generalization**
+>   (Tobin 2017; Peng 2018; Cobbe/Procgen; Kirk 2023) — well-trodden, not a novel
+>   "recipe". I should have framed it that way.
+> - **"unseen-hard" (Q2) is *interpolation*, not extrapolation** — those variants'
+>   difficulty falls *inside* the trained range. Only the Q3 efficiency target
+>   (ratio 2.0) is genuinely out-of-distribution.
+> - **The "+0.26, single-instance fails" gap is only vs the *weakest* baseline**
+>   (an agent trained on the easiest variant). A single *hard* instance reaches
+>   0.69 on hard ≈ variety's 0.71. Variety's real, defensible edge is being the
+>   **only** agent strong on **both** halves — not a unique winner on the hard half.
+> - **The efficiency effect is small and not firmly resolved**: ~1.1–1.7× across
+>   seeds (mean ~1.35×), measured at 10-iteration resolution with torch's RNG
+>   *unseeded* — the direction is robust, the magnitude is not.
+> - **The strongest evidence for "more knowledge → faster" is NOT this Pong arc**
+>   — it's the earlier *concept-granularity* results (v17b ~5–15×; v13b
+>   impossible→~10 iters) on genuinely different/hard tasks. This arc is one game
+>   family; treat it as a controlled probe, not the headline.
+> Next: a decisive *anticipation lead-time* probe (v32) to test whether variety
+> truly learns a different policy or just covers more difficulty, then move off
+> the Pong sandbox onto a diverse substrate. Details in `preregistration.md`.
+
 ---
 
 ## Q1 — Accumulation & reuse: YES
