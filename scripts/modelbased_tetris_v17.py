@@ -31,10 +31,17 @@ from ragnarok.environments.tetris import DeviceVecTetris
 N_PIECE = 7
 # planning score over predicted [lines, holes, height, dead]
 W_LINES, W_HOLES, W_HEIGHT, W_DEAD = 4.0, 2.0, 0.06, 100.0
+# per-metric scale so the model learns all metrics equally (MSE would otherwise
+# be dominated by the large 'height' values, under-fitting lines/dead).
+SCALE = torch.tensor([4.0, 20.0, 80.0, 1.0], device=DEVICE)
 
 
-def plan_score(m):  # m: (...,4)
+def plan_score(m):  # m: (...,4) raw metrics
     return m[..., 0] * W_LINES - m[..., 1] * W_HOLES - m[..., 2] * W_HEIGHT - m[..., 3] * W_DEAD
+
+
+def predict(model, board, piece):           # model outputs normalised -> raw
+    return model(board, piece) * SCALE
 
 
 class DynModel(nn.Module):
@@ -68,7 +75,7 @@ def collect(env, model, steps, explore, use_model):
         boards.append(env.board.clone()); pieces.append(env.piece.clone())
         targets.append(tgt)
         if use_model:
-            a = plan_score(model(env.board, env.piece)).argmax(1)
+            a = plan_score(predict(model, env.board, env.piece)).argmax(1)
         else:
             a = torch.randint(0, env.action_dim, (env.num_envs,), device=DEVICE)
         rnd = torch.rand(env.num_envs, device=DEVICE) < explore
@@ -85,7 +92,7 @@ def evaluate(env_cls, model, cfg, perfect=False, steps=400, n=128):
         if perfect:
             a = plan_score(env.evaluate_placements()).argmax(1)
         else:
-            a = plan_score(model(env.board, env.piece)).argmax(1)
+            a = plan_score(predict(model, env.board, env.piece)).argmax(1)
         env.step(a)
     return env.stats()
 
@@ -130,12 +137,12 @@ def main():
         for _ in range(args.epochs):
             idx = torch.randperm(B, device=DEVICE)[:4096]
             pred = model(boards[idx], pieces[idx])
-            loss = (pred - targets[idx]).pow(2).mean()
+            loss = (pred - targets[idx] / SCALE).pow(2).mean()
             opt.zero_grad(); loss.backward(); opt.step()
         st = evaluate(DeviceVecTetris, model, cfg)
         curve.append(dict(round=rnd, games=total_games, lines=st["mean_lines"]))
         print(f"  round {rnd:>2} | games~{total_games:>7,.0f} | learned-model "
-              f"plays {st['mean_lines']:>6.1f} lines | loss {float(loss):.3f} | "
+              f"plays {st['mean_lines']:>6.1f} lines | loss {loss.item():.4f} | "
               f"{time.perf_counter()-t0:.0f}s", flush=True)
 
     final = curve[-1]["lines"]
