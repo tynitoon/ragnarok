@@ -92,13 +92,19 @@ act, library growing) is proven in the concept domain AND on pixel games.
 - v26 — SCALE the stream to 15 encounters: cumulative cost grows ONLY with the
   number of DISTINCT games (500 iters) vs a no-memory agent (2820), 82% saved,
   recognition 100%. Accumulation is sublinear in stream length. DONE.
-- v27 — SCALE via BROAD VARIETY (the v19 recipe, in games): train one agent over
-  24 Pong variants, test zero-shot on 8 UNSEEN variants vs a single-variant
-  agent. Does broad variety yield a general skill that transfers to new instances
-  for free? [running]
-- v28 (next) — FEW-SHOT efficiency: the user's literal question — does more prior
-  knowledge mean FEWER tries on a genuinely new/harder variant? Measure iters-to-
-  threshold, variety-pretrained vs scratch.
+- v27 — variety over a POLICY-INVARIANT axis (ball speed, paddle size, opp,
+  spin): NEGATIVE — variety 0.68 vs single-variant 0.77 on unseen. Single
+  transferred better because 'track the ball' works for all; variety just added
+  noise. Honest negative; sharpened the recipe. DONE.
+- v27b — variety over a POLICY-RELEVANT axis (paddle SPEED -> reaction budget;
+  slow paddle needs anticipation): POSITIVE — only variety is general across the
+  family (unseen easy 0.97 / hard 0.71); single-easy fails hard (0.45),
+  single-hard mediocre on easy (0.61). The v19 recipe holds in games WHEN the
+  variation spans different required solutions. DONE.
+- v28 — SAMPLE EFFICIENCY (the user's literal question): on a NEW out-of-dist
+  HARD variant, does the variety-pretrained general skill reach competence in
+  FEWER episodes than scratch (and than a narrow single-instance agent)? Measure
+  iters/episodes-to-threshold. [running]
 FURTHER: unify the variety-pretrained, sample-efficient skill into the running
 agent across the full game/craft substrate, with model-based planning (v17b) +
 autonomous discovery (v7) — human-like 'more knowledge -> fewer trials'.
