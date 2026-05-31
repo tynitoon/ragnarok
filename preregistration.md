@@ -5052,3 +5052,21 @@ developmental learning.
   Note: the cross-GAME transfer probe is deferred to v31 (exploratory) because the
   current 3-game set is too small/visually-similar to fairly test cross-genre
   variety; v30 is the rigorous, low-risk frontier within the controlled family.
+
+
+- **2026-05-31 (v31 prereg — is cross-GAME transfer GATED BY SIMILARITY?
+  exploratory).** scripts/crossgame_probe_v31.py. Probes WHY naive cross-game
+  transfer failed (P3/v16): pretrain a CNN encoder on Pong, warm-start it (vs
+  scratch) on a SIMILAR game (Breakout: paddle+ball) and a DISSIMILAR one (Snake:
+  grid+food). Shared conv encoder (all 48x48x3), fresh per-game head. Metric:
+  early-learning advantage = mean(warm_return - scratch_return) over the first
+  half of checkpoints, per game. HYPOTHESIS: the Pong encoder HELPS Breakout
+  (positive transfer, shared features) but ~NOT Snake (no transfer). DECISIVE
+  pass: breakout early-advantage > 0.05 AND >= snake + 0.05. Interpretation: if
+  transfer is gated by similarity, that is exactly why a developmental agent must
+  RECOGNISE which known skill applies (v25) before reusing it, not transfer
+  blindly. HONEST SCOPE: only 3 games, visually clustered (2 paddle-ball + 1
+  grid); this maps the transfer-vs-similarity gradient, it does NOT prove broad
+  cross-genre variety (which needs a larger, more diverse game suite — a flagged
+  future build). Likely a weak/partial result; reported honestly either way.
+  Script + prereg committed BEFORE the run; chronology asserted.
