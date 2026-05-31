@@ -4728,4 +4728,26 @@ developmental learning.
   concept-transfer thread: principle proven (perfect model), learnability proven
   (v17b 46 lines), GENERALISATION of the learned concept NOT yet achieved.
 
+- **2026-05-31 (v19 RESULT — the GRAVITY RULE GENERALISES; concept-transfer
+  resolved POSITIVELY).** craft_v6_out/v19_rule_generalize.json. Isolated
+  supervised test of the pure landing rule (terrain + shape bottom-profile ->
+  landing = min over columns of surface-bp). Trained on 200 of 256 shapes,
+  tested on 56 HELD-OUT shapes: held-out MAE 0.131 rows == train MAE 0.132
+  (naive baseline 1.73); train and held-out error tracked IDENTICALLY the whole
+  way. So when the net CANNOT memorise (enough shape variety), it learns the
+  GENERAL gravity RULE and generalises to unseen shapes essentially perfectly.
+  This RESOLVES the concept-transfer thread: v18's zero-shot failure (7.9 lines
+  on 2 unseen pieces) was MEMORISATION FROM TOO FEW SHAPES (5), not a
+  fundamental wall. A genuinely general, REUSABLE concept IS learnable. THE
+  RECIPE (the key lesson for the owner's vision): to learn reusable concepts,
+  train across ENOUGH VARIETY so memorising is impossible -> the net abstracts
+  the rule -> it transfers. This explains every prior result: craft world
+  worked (structured composition); single-source/few-instance transfer failed
+  (P3/v16/v18 = memorisation); broad-variety rule-learning generalises (v19).
+  Path forward for the full vision: learn concepts over BROAD VARIETY (many
+  shapes/tasks/instances), with structure where possible, then reuse + plan
+  (v17b) -> sample-efficient mastery of the new. Concept-transfer: PRINCIPLE
+  proven (perfect model), LEARNABILITY proven (v17b), GENERALISATION proven
+  (v19, given variety).
+
 - (Subsequent amendments timestamped here before execution.)

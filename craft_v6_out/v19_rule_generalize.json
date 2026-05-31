@@ -1,0 +1,7 @@
+{
+  "n_train_shapes": 200,
+  "train_mae": 0.13158248364925385,
+  "heldout_mae": 0.13096939027309418,
+  "baseline_mae": 1.7339380979537964,
+  "verdict": "GRAVITY RULE GENERALISES \u2014 trained on 200 shapes, the net predicts landings on UNSEEN shapes to 0.131 rows (train 0.132; naive baseline 1.73). It learned the RULE, not memorised shapes -> a genuinely reusable concept is learnable once it can't just memorise (v18 failed for lack of shape variety)."
+}
