@@ -5492,3 +5492,24 @@ developmental learning.
   where scratch is slow and the mastered notion gives a large, reliable speed-up,
   with a RECOGNITION step selecting the right notion. Recorded straight; three
   honest nulls that together pin down WHEN accumulation matters.
+
+- **2026-05-31 (v38 prereg — learn the NOTION of DYNAMICS once, reuse it by
+  planning across MANY tasks; the reliable, large-payoff form of concept reuse).**
+  scripts/concept_dynamics_v38.py. Decided autonomously after v36/v37 established
+  that stored knowledge only pays in HARD contexts: model-based planning is exactly
+  such a regime (inertia makes the tasks hard for model-free exploration) AND a
+  proven project strength (v4). Setup: a 1-D point with INERTIA (force, drag,
+  walls). Three DIFFERENT tasks share the SAME dynamics: REACH (be at target), STOP
+  (at target AND still), PARK-CENTER (at 0.5 AND still). The 'notion' = a learned
+  forward model M(pos,vel,force)->(pos',vel'). DEMONSTRATION: learn M ONCE from
+  random/varied interaction (B env-steps), then REUSE it by random-shooting MPC to
+  solve ALL THREE tasks ZERO-SHOT (no per-task training, just a different planning
+  objective); baseline = model-free PPO trained SEPARATELY per task. HYPOTHESIS: one
+  dynamics notion, learned once, solves all tasks reliably by planning (mean success
+  >= 0.70, each >= 0.60), while model-free must pay env-steps PER task. This is the
+  faithful test of 'learn a notion -> reuse it RELIABLY in NEW contexts' in the hard
+  regime where it actually pays (the dynamics are costly to re-learn per task) — and
+  the amortisation (one notion -> every task that uses it) is exactly the value of
+  accumulation the user is after. Combines: learned notion + varied experience +
+  reliable reuse + hard context + recognition-free reuse via a shared model. Script
+  + prereg committed BEFORE the run; chronology asserted.
