@@ -5224,3 +5224,28 @@ developmental learning.
   purely whether the project's variety->generalisation THESIS spans domains
   (evidence for the cross-domain ambition) or is game-specific. torch seeded.
   Script + prereg committed BEFORE the run; chronology asserted.
+
+
+- **2026-05-31 (v32 RESULT — FALSIFIED my own 'anticipation' claim; the review was
+  right).** craft_v6_out/v32_anticipation.json. Bounce-trajectory anticipation
+  index (readiness to the TRUE future landing minus readiness to the CURRENT
+  ball-y) at 8-16 steps before contact: variety +0.01, single-easy +0.01,
+  single-median +0.02, single-hard -0.03. ALL agents are ~0 — none tracks the
+  future bounce-landing more than the current ball position; they are REACTIVE
+  trackers (late-readiness 0.58-0.65 confirms they reach the landing near contact,
+  i.e. by reacting). The variety agent shows NO anticipation advantage over the
+  reactive baselines. CONCLUSION: v27b's variety benefit is NOT a distinct
+  anticipatory policy — it is DOMAIN-RANDOMISATION COVERAGE (a policy made robust
+  across the trained speed range, generalising to held-out speeds by interpolation),
+  exactly as the ML reviewer predicted. *** I RETRACT the mechanistic
+  'policy-relevant axis = requires anticipation' framing of v27/v27b. The honest
+  description of the whole v27b/v28/v29 line is: standard domain randomisation /
+  contextual-MDP generalisation — training over a variety of paddle-speeds yields a
+  robust reactive policy that (a) covers held-out speeds better than a single-speed
+  agent and (b) fine-tunes a bit faster (~1.35x) to a new speed. Real, but mundane
+  and known; NOT a novel mechanism. *** This is the phase-gate working as intended:
+  a mechanistic claim, a test built to kill it, and it died. The win-rate gaps
+  themselves stand (they are reproducible DR coverage effects); only the
+  'anticipation' EXPLANATION is wrong and is withdrawn. Net lesson reinforced: the
+  *interesting* compounding evidence is the concept-granularity line (v17b/v13b),
+  not this Pong-DR line. Recorded honestly; FINDINGS.md updated.

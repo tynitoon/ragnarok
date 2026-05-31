@@ -1,0 +1,36 @@
+{
+  "results": {
+    "variety": {
+      "land_early": 0.236,
+      "land_bounce": 0.154,
+      "react_bounce": 0.15,
+      "antic_index_bounce": 0.005,
+      "late": 0.651
+    },
+    "single_easy": {
+      "land_early": 0.222,
+      "land_bounce": 0.126,
+      "react_bounce": 0.117,
+      "antic_index_bounce": 0.009,
+      "late": 0.579
+    },
+    "single_median": {
+      "land_early": 0.26,
+      "land_bounce": 0.152,
+      "react_bounce": 0.134,
+      "antic_index_bounce": 0.018,
+      "late": 0.633
+    },
+    "single_hard": {
+      "land_early": 0.305,
+      "land_bounce": 0.115,
+      "react_bounce": 0.14,
+      "antic_index_bounce": -0.025,
+      "late": 0.616
+    }
+  },
+  "baseline_index": 0.018,
+  "variety_advantage": -0.013,
+  "anticipates": false,
+  "verdict": "NOT ANTICIPATION (review was right) \u2014 variety's bounce anticipation index (landing-minus-reactive) +0.01 is NOT clearly above the reactive single-easy/median baselines (+0.02; advantage +-0.013). It does not track the future bounce landing more than a reactive agent does. The v27b gap is better explained by domain-randomisation COVERAGE than by a distinct anticipatory policy. Recorded honestly; the mechanistic 'anticipation' framing is RETRACTED."
+}

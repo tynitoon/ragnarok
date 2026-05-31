@@ -28,9 +28,18 @@ This document answers, in plain terms, the three questions Jeremie asked:
 >   — it's the earlier *concept-granularity* results (v17b ~5–15×; v13b
 >   impossible→~10 iters) on genuinely different/hard tasks. This arc is one game
 >   family; treat it as a controlled probe, not the headline.
-> Next: a decisive *anticipation lead-time* probe (v32) to test whether variety
-> truly learns a different policy or just covers more difficulty, then move off
-> the Pong sandbox onto a diverse substrate. Details in `preregistration.md`.
+> - **UPDATE (v32): the "anticipation" mechanism is FALSIFIED.** A decisive
+>   lead-time probe showed *no* agent (variety included) tracks the ball's future
+>   bounce-landing more than its current position — they are all *reactive
+>   trackers* (anticipation index ≈ 0 for every arm). So v27b's benefit is plain
+>   **domain-randomization coverage**, not a distinct anticipatory policy. I built
+>   the test to kill my own claim and it did. The win-rate *gaps* stand (they're
+>   reproducible DR effects); the *explanation* was wrong and is withdrawn.
+> Net: this Pong arc is standard, mundane domain randomization. The genuinely
+> interesting "more knowledge → faster" evidence is the **concept-granularity**
+> line (v17b ~5–15×, v13b impossible→~10 iters). Next: leave the Pong sandbox —
+> test whether the variety→generalization *thesis* even holds outside games (v33,
+> a symbolic/maths probe). Details in `preregistration.md`.
 
 ---
 
