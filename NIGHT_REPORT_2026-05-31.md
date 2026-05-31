@@ -82,3 +82,32 @@ skill applies before reusing it).
 
 *All commits on GitLab. Preregistration.md has the full, timestamped, honest log
 including every correction and the falsification.*
+
+---
+
+## Addendum — Direction 1 started (diverse substrate + cross-game test)
+*You chose direction 1: leave the Pong sandbox, build diversity, test if a library makes a new dissimilar game cheaper.*
+
+- **2 new structurally-different games built + validated winnable**: `Flappy`
+  (gravity/timing) and `Catcher` (falling-object intercept). **Honest snag:** the
+  vanilla CNN-PPO pipeline that learned Pong/Breakout/Snake does **not** train
+  either of them (Flappy = hard-exploration local optimum; Catcher = flat at
+  random). Lesson: building a *learnable* diverse suite needs **better RL**
+  (potential-based shaping, or the project's own v7 curiosity/intrinsic
+  motivation), not just more env code. This is the gating next task.
+- **Cross-game accumulation test (v35b), done right** (seeded, multi-source,
+  leave-one-out) on the 3 proven games. **Answer to the north question:** a shared
+  library gives a **weak, inconsistent** head-start (helped 2/3, mean +0.10, high
+  variance). Surprise: the *dissimilar* game (Snake, library = 2 paddle-ball
+  games) benefited **most consistently** (~1.5× better, both seeds) — generic
+  visual features bootstrap even a different game — while "similar" pairings didn't
+  reliably help. **Blind cross-game representation transfer is NOT a strong/reliable
+  efficiency source.** The strong, reliable "more knowledge → cheaper" remains
+  (a) recognise-and-reuse of *known* games (v25/v26) and (b) *concept*-granularity
+  compounding (v17b, 5–15×).
+
+**Direction-1 next steps (clear):** (1) make the new games learnable (better RL /
+v7 curiosity) → a real ≥6-game diverse *learnable* suite; (2) re-run v35b on it
+with more seeds; (3) test the *concept*-level transfer (a primitive learned in
+game A that demonstrably speeds a different game B) — the template is v17b's
+"gravity is universal".
