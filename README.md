@@ -18,6 +18,7 @@ After install (see *Running it yourself*), drop the agent into a world it knows 
 python -m scripts.demo            # ~5-8 min on a GPU; narrates as it learns
 python -m scripts.demo --fast     # ~2-3 min, smaller but still real
 python -m scripts.ragnarok --target iron_pickaxe   # watch it PLAN + BUILD, live ASCII
+python -m scripts.unified_agent_v25            # the UNIFIED agent: recognises/learns/plays/accumulates over a game stream
 ```
 
 `demo.py` shows the heart of the project: with no goals given, the agent explores, notices what it can newly make, learns that skill, and — because it can now produce everything it has mastered — climbs the tree bottom-up, **choosing the order itself**, with deep skills costing no more to learn than shallow ones. `ragnarok.py` lets you ask for any target and watch it infer the recipes, plan, and craft it step by step.

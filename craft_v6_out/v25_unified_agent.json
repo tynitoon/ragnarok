@@ -1,0 +1,69 @@
+{
+  "stream": [
+    "pong",
+    "breakout",
+    "pong",
+    "snake",
+    "breakout",
+    "snake",
+    "pong"
+  ],
+  "log": [
+    {
+      "game": "pong",
+      "action": "LEARNED (1st game)",
+      "lib": 1,
+      "perf": 2.56
+    },
+    {
+      "game": "breakout",
+      "action": "NOVEL -> LEARNED + added",
+      "lib": 2,
+      "perf": 5.54,
+      "retrained": true
+    },
+    {
+      "game": "pong",
+      "action": "RECOGNISED as pong -> REUSED",
+      "lib": 2,
+      "perf": 2.56,
+      "retrained": false
+    },
+    {
+      "game": "snake",
+      "action": "NOVEL -> LEARNED + added",
+      "lib": 3,
+      "perf": 62.67,
+      "retrained": true
+    },
+    {
+      "game": "breakout",
+      "action": "RECOGNISED as breakout -> REUSED",
+      "lib": 3,
+      "perf": 5.54,
+      "retrained": false
+    },
+    {
+      "game": "snake",
+      "action": "RECOGNISED as snake -> REUSED",
+      "lib": 3,
+      "perf": 62.67,
+      "retrained": false
+    },
+    {
+      "game": "pong",
+      "action": "RECOGNISED as pong -> REUSED",
+      "lib": 3,
+      "perf": 2.56,
+      "retrained": false
+    }
+  ],
+  "library": [
+    "pong",
+    "breakout",
+    "snake"
+  ],
+  "learned": 3,
+  "reused": 4,
+  "verdict": "UNIFIED AGENT WORKS \u2014 over a stream of 7 encounters it learned 3 NEW games (library grew to 3: ['pong', 'breakout', 'snake']) and REUSED a known skill 4x with ZERO retraining. It recognises what it knows, learns what's new, and accumulates \u2014 the developmental vision, running end to end."
+}
