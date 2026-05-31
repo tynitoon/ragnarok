@@ -81,12 +81,27 @@ plans -> learns anew if novel. Milestones:
 - v23 M3 — recognise/learn THEN ACT: use the recognised model to act; chosen
   actions == oracle, >> no-recognition. Full loop perceive->recognise->act. DONE.
 - v24 M4 — on the PIXEL GAMES: recognise which game from pixels -> reuse its
-  skill. [running/just done]
+  skill (recog 100%, reused >> mismatched). DONE.
 The integrated developmental loop (perceive -> recognise -> reuse-or-learn ->
-act, library growing) is proven in the concept domain; M4 lifts it to pixels.
-FURTHER (future): unify everything into the single running agent across the
-full game/craft substrate, with model-based planning + autonomous discovery,
-scaled over broad variety (the v19 recipe) for human-like sample efficiency.
+act, library growing) is proven in the concept domain AND on pixel games.
+
+### UNIFICATION + SCALE (v25-v27) — the single running agent, then make it scale
+- v25 — ONE UnifiedAgent over a stream of game-encounters: empty->learn;
+  else guess-from-pixels -> verify-by-playing -> known? reuse : learn+add.
+  Over 7 encounters it learned 3 games and reused 4x with ZERO retraining. DONE.
+- v26 — SCALE the stream to 15 encounters: cumulative cost grows ONLY with the
+  number of DISTINCT games (500 iters) vs a no-memory agent (2820), 82% saved,
+  recognition 100%. Accumulation is sublinear in stream length. DONE.
+- v27 — SCALE via BROAD VARIETY (the v19 recipe, in games): train one agent over
+  24 Pong variants, test zero-shot on 8 UNSEEN variants vs a single-variant
+  agent. Does broad variety yield a general skill that transfers to new instances
+  for free? [running]
+- v28 (next) — FEW-SHOT efficiency: the user's literal question — does more prior
+  knowledge mean FEWER tries on a genuinely new/harder variant? Measure iters-to-
+  threshold, variety-pretrained vs scratch.
+FURTHER: unify the variety-pretrained, sample-efficient skill into the running
+agent across the full game/craft substrate, with model-based planning (v17b) +
+autonomous discovery (v7) — human-like 'more knowledge -> fewer trials'.
 
 ## DONE (validated, preregistered, on GitLab)
 - v3 gated reuse, v4 compositional reuse, v5 learned O(1) relevance gate
