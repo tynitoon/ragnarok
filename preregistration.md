@@ -5807,3 +5807,29 @@ developmental learning.
   EVEN on a real search task with an oracle notion, the amortise-search theory is
   WRONG and I report that. If POSITIVE: spawn the adversarial review (standing rule)
   BEFORE reporting. Committed BEFORE the run; mechanism FROZEN.
+
+- **2026-05-31 (v42 RESULT — NULL #5; REFUTES "notion-as-RL-feature", CLARIFIES the
+  real capability).** craft_v6_out/v42_amortize_search.json. 3 seeds, FAIR (both
+  model-free): SCRATCH (raw board image) reaches 5 lines in 30 iters EVERY seed and
+  ends higher (final 14.7/15.9/13.5) than WARM (drop-outcome metrics; 30-60 iters,
+  final 13.4/13.0/11.8). The notion-as-feature LOST. Two reasons: (1) I handicapped
+  WARM (metrics-only is LESS information than the full board); (2) deeper and more
+  important: a board-CNN LEARNS the placement policy fine ON ITS OWN (v15-P4 already
+  showed ~60 lines), so it does NOT need the notion -- the search is learnable
+  implicitly from a rich-enough observation. *** THE HONEST META-CONCLUSION after 5
+  fair nulls (v36/v37/v40/v41/v42): "a learned notion as an RL FEATURE makes a NEW
+  task faster" does NOT reproduce when the agent can learn the task from its raw
+  observation -- which it can, for every substrate we have. The notion only "helps"
+  via PLANNING (using a learned model to avoid RL trial-and-error) -- and THAT is
+  standard model-based RL (what v17b/v38 actually did). So the real, defensible
+  capability is MODEL-BASED SAMPLE-EFFICIENCY: learn a (lean, factored) model ->
+  PLAN -> reach competence in fewer ENVIRONMENT interactions than model-free. That
+  is exactly the owner's "fewer trials with prior knowledge", and it is REAL (v17b);
+  the phase-gate critique of v38 was that I OVERSTATED it (single seed, hidden
+  planning compute, siloed baseline), NOT that it is false. *** CORRECTED PLAN: stop
+  the "notion-as-feature" framing (refuted). Demonstrate model-based sample-efficiency
+  FAIRLY: lean factored model -> planning -> fewer ENV interactions, vs a MULTI-TASK/
+  goal-conditioned model-free baseline, COUNTING planning compute, >=3 seeds, frozen,
+  reviewed. Reconciles with the owner's RSSM hint: the model can be LEAN+FACTORED
+  (v17b landing), not a heavy RSSM. Recorded straight; this null changes the plan, so
+  it is reported to the owner.

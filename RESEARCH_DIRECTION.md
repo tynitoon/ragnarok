@@ -155,3 +155,18 @@ HYPOTHESIS: WARM >> SCRATCH *because the task needs the search the notion amorti
 If it nulls even here, the "amortise-search" theory is wrong too -> report and rethink.
 Also worth exploring (per owner): NON-model-based reuse — reusable OPTIONS/skills
 (hierarchical), or symbolic/program reuse — anything that makes a NEW hard task cheaper.
+
+
+## UPDATE 2026-05-31 (after v42 null #5): "notion-as-feature" REFUTED; go MODEL-BASED, FAIRLY
+5 fair nulls (v36/37/40/41/42) settle it: a learned notion as an RL FEATURE does NOT
+speed a new task, because the agent learns the task from its raw observation anyway.
+The notion only helps via PLANNING (avoid RL trial-and-error) = model-based RL.
+=> THE positive to pursue (replaces "notion-as-feature"): MODEL-BASED SAMPLE-EFFICIENCY,
+done FAIRLY. Learn a LEAN, FACTORED model (e.g. v17b's landing / a 1-step dynamics),
+PLAN with it, and show it reaches competence in fewer ENVIRONMENT interactions than a
+FAIR model-free baseline (multi-task / goal-conditioned, NOT siloed), COUNTING planning
+compute, >=3 seeds, frozen, reviewed. This is the owner's "fewer trials with prior
+knowledge"; it is real (v17b) but was overstated in v38 -- so the job is a RIGOROUS,
+review-proof re-demonstration, not a new mechanism. Lean model (per owner's RSSM hint),
+not heavy world-model. Substrate: Tetris (placement planning via learned landing) or
+the inertial reach (planning under inertia). v43 = that, fairly.

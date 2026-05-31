@@ -1,0 +1,31 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "warm_iters": 60,
+      "warm_final": 13.38,
+      "scratch_iters": 30,
+      "scratch_final": 14.68
+    },
+    {
+      "seed": 1,
+      "warm_iters": 30,
+      "warm_final": 13.03,
+      "scratch_iters": 30,
+      "scratch_final": 15.88
+    },
+    {
+      "seed": 2,
+      "warm_iters": 45,
+      "warm_final": 11.76,
+      "scratch_iters": 30,
+      "scratch_final": 13.48
+    }
+  ],
+  "verdict": "PARTIAL/NEG \u2014 warm_ok=True, faster=False, better_final=False; rows=[{'seed': 0, 'warm_iters': 60, 'warm_final': 13.38, 'scratch_iters': 30, 'scratch_final': 14.68}, {'seed': 1, 'warm_iters': 30, 'warm_final': 13.03, 'scratch_iters': 30, 'scratch_final': 15.88}, {'seed': 2, 'warm_iters': 45, 'warm_final': 11.76, 'scratch_iters': 30, 'scratch_final': 13.48}]. If null, the amortise-search theory is wrong -> rethink."
+}
