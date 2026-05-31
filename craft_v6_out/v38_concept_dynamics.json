@@ -1,0 +1,23 @@
+{
+  "dyn_env_steps": 204800,
+  "dyn_mse": 0.000126664963318035,
+  "rows": {
+    "reach": {
+      "model_based": 0.982,
+      "model_free": 1.0,
+      "mf_env_steps": 1228800
+    },
+    "stop": {
+      "model_based": 0.758,
+      "model_free": 0.877,
+      "mf_env_steps": 1228800
+    },
+    "park_center": {
+      "model_based": 0.776,
+      "model_free": 0.869,
+      "mf_env_steps": 1228800
+    }
+  },
+  "mb_mean": 0.8386666666666667,
+  "verdict": "NOTION LEARNED ONCE, REUSED RELIABLY ACROSS TASKS \u2014 one dynamics model (learned from 204,800 random env-steps) solves ALL 3 different tasks by planning, zero per-task training, mean success 84%; a model-free agent must train SEPARATELY per task (3,686,400 task env-steps total). The dynamics NOTION amortises across every task that uses it \u2014 reliable reuse in NEW contexts, in the HARD (inertia) regime where it actually pays. (Contrast with v36/v37: easy tasks needed no stored notion; here the shared dynamics are reused wholesale.)"
+}

@@ -5513,3 +5513,33 @@ developmental learning.
   accumulation the user is after. Combines: learned notion + varied experience +
   reliable reuse + hard context + recognition-free reuse via a shared model. Script
   + prereg committed BEFORE the run; chronology asserted.
+
+- **2026-05-31 (v38 RESULT — POSITIVE & DECISIVE: a learned NOTION, reused
+  reliably across NEW tasks, at ~18x fewer interactions — the answer to the user's
+  reliability bar).** craft_v6_out/v38_concept_dynamics.json. A forward DYNAMICS
+  model (the 'notion' of how the inertial world moves) learned ONCE from 204,800
+  random env-steps (MSE 1.27e-4) is REUSED by CEM-MPC planning to solve THREE
+  different tasks ZERO-SHOT (no per-task training): reach 0.98, stop 0.76,
+  park-center 0.78 (mean 0.84, each >= 0.6 -> PASS). A model-free PPO baseline must
+  train SEPARATELY per task (1,228,800 env-steps each, 3,686,400 total) and reaches
+  reach 1.00, stop 0.88, park 0.87 (mean 0.92). So model-free is slightly better on
+  the PRECISE tasks (a specialised trained policy beats generic shooting-planning),
+  but the model-based agent REUSES ONE notion across EVERY task — at ~18x FEWER
+  env-steps total (205k vs 3.69M), amortised over all tasks AND any future task
+  that uses the same dynamics, with ZERO extra interaction. *** This is the
+  RELIABLE, LARGE-payoff form of reuse the user demanded: learn a notion (dynamics
+  / world-model) once -> reuse it reliably in NEW contexts (different task
+  objectives) via planning. It works in the HARD (inertia) regime where
+  re-deriving the notion is costly -> consistent with the v36/v37 principle (stored
+  knowledge pays only when scratch is hard). *** Together with v17b (a learned
+  gravity/landing concept -> 5-15x on Tetris) this gives TWO clean positives, and
+  they share a mechanism: reliable reuse comes from learning a NOTION (world-model
+  / physical concept) and reusing it via PLANNING — NOT from blind representation
+  transfer (v35b, weak) and NOT in easy tasks (v36/v37, null). Honest caveats:
+  simple shooting-planning underperforms a specialised policy on precise control
+  (a known model-based limitation; a learned/amortised policy-over-model would
+  close it); state-based here (pixels = the next hardness rung). Engineering knobs
+  that mattered: the planning cost must match the per-step success (MIN over the
+  horizon, not terminal), and CEM > random shooting for precise maneuvers.
+  Recorded straight. *** THE PATH IS NOW CLEAR: model-based reuse of learned
+  notions, not skill/representation libraries. ***
