@@ -5249,3 +5249,29 @@ developmental learning.
   'anticipation' EXPLANATION is wrong and is withdrawn. Net lesson reinforced: the
   *interesting* compounding evidence is the concept-granularity line (v17b/v13b),
   not this Pong-DR line. Recorded honestly; FINDINGS.md updated.
+
+- **2026-05-31 (v33 RESULT — the variety->generalisation thesis IS domain-general
+  (holds in symbolic maths), clean curve).** craft_v6_out/v33_symbolic.json.
+  In-context quadratic regression, held-out MSE on 64 unseen functions vs the
+  number R of distinct training functions (4000 steps each, EQUAL compute):
+  R=1 3.47, R=2 1.62, R=4 1.19, R=8 0.86, R=16 0.38, R=32 0.21, continuous 0.19.
+  A CLEAN MONOTONE scaling curve: more function-variety -> monotonically better
+  generalisation to unseen functions, approaching the continuous-variety floor.
+  The train MSE simultaneously RISES (0.001 at R=1 -> 0.17 at R=32): the model
+  shifts from MEMORISING specific functions (R=1: perfect train, useless held-out)
+  to learning the general infer-and-apply procedure (R=32: higher train, low
+  held-out) — the textbook memorisation->abstraction transition, driven purely by
+  experience BREADTH. This is the v19 recipe in a NON-GAME, continuous-MATH domain,
+  and it is the clean low-noise scaling law that v30's RL noise could not produce.
+  => The project's core thesis ('broad variety forces the rule, which generalises')
+  is DOMAIN-GENERAL: it holds in concepts (v19), games (v27b, as DR coverage), AND
+  symbolic maths (v33). HONEST framing (preregistered up front): this is classic
+  META-LEARNING / in-context learning — NOT a novel ML result. Its value here is
+  purely as evidence that the variety->generalisation MECHANISM the project relies
+  on is not game-specific (supporting the long-term cross-domain ambition toward
+  maths), the smallest real step the strategy review asked for. Recorded honestly.
+  *** Balanced night-summary: the SPECIFIC Pong 'anticipation' mechanism was wrong
+  (v32, falsified -> mundane DR), but the GENERAL variety->generalisation thesis is
+  real and spans domains (v33). The project's distinctive value remains the
+  developmental LOOP (recognise/learn/reuse, autonomous discovery) + concept-
+  granularity compounding (v17b/v13b), not the variety effect per se. ***

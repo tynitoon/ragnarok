@@ -1,0 +1,52 @@
+{
+  "rs": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32
+  ],
+  "steps": 4000,
+  "rows": [
+    {
+      "R": 1,
+      "heldout_mse": 3.4672,
+      "train_mse": 0.0006
+    },
+    {
+      "R": 2,
+      "heldout_mse": 1.6197,
+      "train_mse": 0.0015
+    },
+    {
+      "R": 4,
+      "heldout_mse": 1.1924,
+      "train_mse": 0.0204
+    },
+    {
+      "R": 8,
+      "heldout_mse": 0.8575,
+      "train_mse": 0.0416
+    },
+    {
+      "R": 16,
+      "heldout_mse": 0.3809,
+      "train_mse": 0.1404
+    },
+    {
+      "R": 32,
+      "heldout_mse": 0.2118,
+      "train_mse": 0.1745
+    },
+    {
+      "R": "cont",
+      "heldout_mse": 0.1882,
+      "train_mse": null
+    }
+  ],
+  "continuous_mse": 0.18818951919674873,
+  "drop": 3.2554,
+  "monotone": true,
+  "verdict": "THE RECIPE HOLDS IN MATHS \u2014 held-out MSE falls from 3.47 (R=1 function) to 0.21 (R=32) toward the continuous-variety floor 0.19: training on a VARIETY of functions teaches the model to INFER and apply an unseen function (generalise), where few functions only memorise. The variety->generalisation recipe is DOMAIN-GENERAL (games AND symbolic maths), a clean low-noise scaling curve. (Honest: this is classic meta-learning; the point is the thesis spans domains, not ML novelty.)"
+}
