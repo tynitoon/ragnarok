@@ -59,7 +59,7 @@ def train_concept(steps, batch, g):
         ball = torch.cat([bx, by, bvx, bvy], 1)
         loss = F.mse_loss(M(ball).squeeze(-1), true_landing(ball))
         opt.zero_grad(); loss.backward(); opt.step()
-        last = float(loss)
+        last = float(loss.detach())
     return M, last
 
 
