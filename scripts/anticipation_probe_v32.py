@@ -60,20 +60,29 @@ def seed_all(s):
 
 @torch.no_grad()
 def leadtime(ppo, variant, n=256, steps=799, early=(8, 16), late=(1, 4)):
+    """Returns, at EARLY time-to-contact: readiness vs the TRUE future landing and
+    vs the CURRENT ball-y, overall and on bounce trajectories. The anticipation
+    signature is tracking the future landing MORE than the current position
+    (esp. on bounces) — this controls for a static paddle scoring 'ready' by luck."""
     env = DeviceVecPong(n, max_steps=800, seed=0, **variant)
     obs = env.state
-    eh = et = ehb = etb = lh = lt = 0.0
+    eh = et = ehb = etb = lh = lt = 0.0       # landing-ready: early, early-bounce, late
+    rh = rhb = 0.0                            # reactive-ready (to current ball-y): early, early-bounce
     for _ in range(steps):
         landing, t, appr, bounce = predict_landing(env)
-        ready = (env.pad_a - landing).abs() <= env.PH
+        ready = (env.pad_a - landing).abs() <= env.PH         # near FUTURE landing
+        react = (env.pad_a - env.by).abs() <= env.PH          # near CURRENT ball-y
         e = appr & (t >= early[0]) & (t < early[1])
         l = appr & (t >= late[0]) & (t < late[1])
         eb = e & bounce
         eh += float((ready & e).sum()); et += float(e.sum())
         ehb += float((ready & eb).sum()); etb += float(eb.sum())
+        rh += float((react & e).sum()); rhb += float((react & eb).sum())
         lh += float((ready & l).sum()); lt += float(l.sum())
         obs, _, _, _, _ = env.step(ppo.act(obs, deterministic=True))
-    return (eh / max(et, 1.0), ehb / max(etb, 1.0), lh / max(lt, 1.0))
+    return dict(land_early=eh / max(et, 1.0), land_bounce=ehb / max(etb, 1.0),
+                react_early=rh / max(et, 1.0), react_bounce=rhb / max(etb, 1.0),
+                late=lh / max(lt, 1.0))
 
 
 def main():
@@ -112,43 +121,42 @@ def main():
     # evaluate lead-time on the UNSEEN test variants (mean over variants)
     out = {}
     for name, ppo in agents.items():
-        es, ebs, ls = [], [], []
-        for v in test_v:
-            e, eb, l = leadtime(ppo, v)
-            es.append(e); ebs.append(eb); ls.append(l)
-        out[name] = dict(early_ready=round(sum(es) / len(es), 3),
-                         early_ready_bounce=round(sum(ebs) / len(ebs), 3),
-                         late_ready=round(sum(ls) / len(ls), 3))
-        print(f"  {name:14s} early {out[name]['early_ready']:.2f} | early-bounce "
-              f"{out[name]['early_ready_bounce']:.2f} | late {out[name]['late_ready']:.2f}"
-              f" | {time.perf_counter()-t0:.0f}s", flush=True)
+        rs = [leadtime(ppo, v) for v in test_v]
+        avg = lambda k: sum(r[k] for r in rs) / len(rs)
+        lb, rb = avg("land_bounce"), avg("react_bounce")
+        out[name] = dict(land_early=round(avg("land_early"), 3), land_bounce=round(lb, 3),
+                         react_bounce=round(rb, 3), antic_index_bounce=round(lb - rb, 3),
+                         late=round(avg("late"), 3))
+        print(f"  {name:14s} land-bounce {out[name]['land_bounce']:.2f} vs react-bounce "
+              f"{out[name]['react_bounce']:.2f} -> antic-index {out[name]['antic_index_bounce']:+.2f}"
+              f" | late {out[name]['late']:.2f} | {time.perf_counter()-t0:.0f}s", flush=True)
 
     v = out["variety"]; se = out["single_easy"]; sm = out["single_median"]
-    # anticipation = variety parks at the TRUE landing earlier than reactive baselines,
-    # especially on bounce trajectories
-    adv_all = round(v["early_ready"] - max(se["early_ready"], sm["early_ready"]), 3)
-    adv_bounce = round(v["early_ready_bounce"] - max(se["early_ready_bounce"],
-                                                     sm["early_ready_bounce"]), 3)
-    anticipates = adv_bounce >= 0.10 and adv_all >= 0.05
+    # anticipation = on BOUNCE trajectories, track the FUTURE landing MORE than the
+    # CURRENT ball-y (positive index), and more so than the reactive baselines.
+    # This controls for a static paddle scoring 'ready' by luck.
+    base = max(se["antic_index_bounce"], sm["antic_index_bounce"])
+    adv = round(v["antic_index_bounce"] - base, 3)
+    anticipates = v["antic_index_bounce"] >= 0.05 and adv >= 0.08
     verdict = (
-        f"ANTICIPATION IS REAL — the variety agent is parked at the ball's TRUE "
-        f"(bounce-aware) landing EARLY far more often than the reactive single-easy/"
-        f"median agents: early-readiness {v['early_ready']:.2f} vs "
-        f"{max(se['early_ready'], sm['early_ready']):.2f} (+{adv_all}), and on BOUNCE "
-        f"trajectories {v['early_ready_bounce']:.2f} vs "
-        f"{max(se['early_ready_bounce'], sm['early_ready_bounce']):.2f} (+{adv_bounce}) "
-        f"— exactly where a reactive policy is blind. So v27b's variety benefit is a "
-        f"genuinely different (anticipatory) policy, not only difficulty coverage."
+        f"ANTICIPATION IS REAL — on BOUNCE trajectories the variety agent tracks the "
+        f"ball's TRUE future landing MORE than its current position (anticipation index "
+        f"land-react = {v['antic_index_bounce']:+.2f}), well above the reactive single-"
+        f"easy/median baselines ({base:+.2f}; advantage +{adv}). It positions for where "
+        f"the ball WILL be after the bounce — exactly where a reactive policy is blind. "
+        f"So v27b's variety benefit is a genuinely different (anticipatory) policy, not "
+        f"only domain-randomisation coverage."
         if anticipates else
-        f"NOT ANTICIPATION (review was right) — variety's early-readiness "
-        f"{v['early_ready']:.2f} (bounce {v['early_ready_bounce']:.2f}) is NOT clearly "
-        f"above the reactive single-easy/median baselines (all/bounce advantage "
-        f"+{adv_all}/+{adv_bounce}). The v27b gap is better explained by "
-        f"domain-randomisation COVERAGE than by a distinct anticipatory policy. "
-        f"Recorded honestly; the mechanistic 'anticipation' framing is retracted.")
+        f"NOT ANTICIPATION (review was right) — variety's bounce anticipation index "
+        f"(landing-minus-reactive) {v['antic_index_bounce']:+.2f} is NOT clearly above "
+        f"the reactive single-easy/median baselines ({base:+.2f}; advantage +{adv}). It "
+        f"does not track the future bounce landing more than a reactive agent does. The "
+        f"v27b gap is better explained by domain-randomisation COVERAGE than by a "
+        f"distinct anticipatory policy. Recorded honestly; the mechanistic "
+        f"'anticipation' framing is RETRACTED.")
     print(f"\n  -> {verdict}\n  {time.perf_counter()-t0:.0f}s", flush=True)
     with open(os.path.join(args.out_dir, "v32_anticipation.json"), "w") as f:
-        json.dump(dict(results=out, adv_all=adv_all, adv_bounce=adv_bounce,
+        json.dump(dict(results=out, baseline_index=base, variety_advantage=adv,
                        anticipates=anticipates, verdict=verdict), f, indent=2)
 
 

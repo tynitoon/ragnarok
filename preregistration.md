@@ -5188,3 +5188,19 @@ developmental learning.
   right — the v27b gap is coverage, not anticipation, and I retract the mechanistic
   framing. Either way recorded honestly. This is the honest closing of the loop the
   reviewers demanded; it can falsify my own prior claim. Committed BEFORE the run.
+
+
+- **2026-05-31 (v32 metric REFINEMENT before the real run — honest).** The v32
+  SMOKE (undertrained, 12 iters) exposed a confound in the original metric:
+  'readiness vs the true landing' can reward a near-STATIC paddle that sits where
+  folded bounce-landings happen to cluster (the smoke's single agents all showed an
+  identical 0.34 by this artifact). Before running the real experiment (no real
+  result yet, so this is a pre-result strengthening, not p-hacking), I refined the
+  metric to control for it: also measure readiness vs the CURRENT ball-y (reactive
+  readiness), and define the ANTICIPATION INDEX = (readiness to FUTURE landing) -
+  (readiness to CURRENT ball-y) on BOUNCE trajectories. A reactive agent tracks the
+  current y -> negative index on bounces; an anticipatory agent tracks the future
+  landing -> positive index. DECISIVE: anticipates iff variety's bounce index >=
+  0.05 AND exceeds the best reactive baseline (single-easy/median) by >= 0.08. This
+  removes the static-paddle confound and is the clean test. Committed before the
+  real run.
