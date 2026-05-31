@@ -1,0 +1,34 @@
+{
+  "ks": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "rows": [
+    {
+      "K": 0,
+      "e5_transfer_mse": 0.0675
+    },
+    {
+      "K": 1,
+      "e5_transfer_mse": 0.0869
+    },
+    {
+      "K": 2,
+      "e5_transfer_mse": 0.0761
+    },
+    {
+      "K": 3,
+      "e5_transfer_mse": 0.0786
+    },
+    {
+      "K": 4,
+      "e5_transfer_mse": 0.0697
+    }
+  ],
+  "drop": -0.0022,
+  "monotone": true,
+  "verdict": "PARTIAL \u2014 E5 MSE by K {0: 0.0675, 1: 0.0869, 2: 0.0761, 3: 0.0786, 4: 0.0697}; drop -0.0022, monotone=True."
+}

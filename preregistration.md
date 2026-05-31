@@ -5464,3 +5464,31 @@ developmental learning.
   reutilisation fiable', and composes with v36 (such a reusable notion pays off
   where re-deriving it is hard). Reliable supervised design (the RL-collapse issues
   of Flappy/Catcher are avoided). Script + prereg committed BEFORE the run.
+
+- **2026-05-31 (v37 RESULT — NULL, same root cause as v36; the principle is now
+  firmly established across 3 experiments).** craft_v6_out/v37_concept_mastery.json.
+  E5 (held-out exercise) transfer MSE by K varied training-exercises: K=0 (RANDOM
+  body) 0.068, K=1 0.087, K=2 0.076, K=3 0.079, K=4 0.070 — FLAT; the
+  gravity-'mastered' body (K=4) is NO BETTER than a RANDOM body (K=0). So 'varied
+  practice -> a more reusable representation' did NOT show here. ROOT CAUSE (same as
+  v36): E5 is a smooth, low-dimensional function that a ridge probe fits well from
+  20 examples using ANY features (even random projections ~ a random-feature
+  kernel) -> the mastered representation is not NEEDED, so it gives no measurable
+  benefit. *** CONSISTENT PRINCIPLE NOW ESTABLISHED ACROSS THREE EXPERIMENTS
+  (v35b blind-transfer weak, v36 concept-doesn't-speed-easy-task, v37
+  varied-practice-no-benefit-on-easy-probe): reuse of stored knowledge
+  (representations / concepts) provides a RELIABLE benefit ONLY when solving the new
+  task from scratch is genuinely HARD. In easy / low-dim / well-observed tasks the
+  agent just solves them directly and accumulation does not pay. The ONE clear
+  POSITIVE in the whole project (v17b, ~5-15x) was precisely a HARD context
+  (extracting the landing/gravity concept from a Tetris board). *** Honest
+  implication for the reliability bar: the VALUE of accumulating skills/concepts is
+  real but CONCENTRATED in hard (perceptual / deep / partially-observed)
+  contexts; clean easy benchmarks will keep showing null, which is misleading. The
+  user's pedagogical insight (varied practice -> mastery) is plausibly true but is
+  UNTESTABLE in easy tasks (any practice suffices) — it needs a hard context to
+  manifest. DECISIVE NEXT STEP (a substantial, fresh build): demonstrate
+  reuse-benefit in a genuinely HARD context — pixels or a deep compositional task —
+  where scratch is slow and the mastered notion gives a large, reliable speed-up,
+  with a RECOGNITION step selecting the right notion. Recorded straight; three
+  honest nulls that together pin down WHEN accumulation matters.
