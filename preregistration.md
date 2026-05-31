@@ -5032,3 +5032,23 @@ developmental learning.
   frontier (v30). v28 recorded honestly; design predated the run. *** EFFICIENCY
   ARC (v27b->v28): broad variety over a policy-relevant axis -> a general skill ->
   measurably fewer trials on novel harder instances. ***
+
+
+- **2026-05-31 (v30 prereg — the VARIETY SCALING LAW).**
+  scripts/variety_scaling_v30.py. v27b/v28 showed broad variety -> general skill
+  -> efficiency. v30 asks HOW MUCH variety, at FIXED COMPUTE. For K in
+  {1,2,4,8,16,24} paddle-speed variants, pretrain a Pong agent for the SAME total
+  iterations (only experience-BREADTH changes, not training amount; nested subsets
+  pool[:K] = a clean dose). Then per K measure (a) GENERALISATION = win-rate on a
+  FIXED held-out set of unseen HARD variants; (b) EFFICIENCY = episodes-to-master
+  a NEW out-of-distribution HARD target (clone + fine-tune to wr>=0.70).
+  HYPOTHESIS: generalisation RISES and episodes-to-master FALLS as K grows (more
+  breadth -> more general AND fewer trials on new instances), even at equal
+  compute. DECISIVE pass: gen(K=24) - gen(K=1) >= 0.15 AND episodes-to-master at
+  K=24 < at K=1. This draws the user's thesis ('plus elle connait, mieux/plus vite
+  elle resout') as a quantitative scaling curve, controlling for compute (so it is
+  breadth, not more training, that helps). Per-K values printed (honesty: a
+  non-monotone point is visible). Script + prereg committed BEFORE the run.
+  Note: the cross-GAME transfer probe is deferred to v31 (exploratory) because the
+  current 3-game set is too small/visually-similar to fairly test cross-genre
+  variety; v30 is the rigorous, low-risk frontier within the controlled family.
