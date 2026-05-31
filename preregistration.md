@@ -5330,3 +5330,24 @@ developmental learning.
   Not over-tuned unattended; recorded straight. Net for the substrate-diversity goal
   (review rec #1): a genuinely dissimilar game now EXISTS and is validated; making it
   learnable is a scoped next task. Env kept (shaping + trail params, default-safe).
+
+- **2026-05-31 (v35 prereg — DIRECTION 1: diverse substrate + the NORTH-QUESTION
+  cross-game accumulation test).** User picked direction 1 (leave the Pong
+  monoculture; build diversity; test whether a library makes a NEW dissimilar game
+  cheaper). Added DeviceVecCatcher (ragnarok/environments/catcher.py) — a
+  falling-object INTERCEPT game (dense reward), structurally distinct from the
+  bounce games; validated winnable (random 3.9 vs heuristic 13.0 catches). NOTE:
+  first catcher training with distance-shaping plateaued at ~random (a 'camp in the
+  centre' local optimum from the shaping); retrying with shaping=0 (pure
+  catch/miss) which should force tracking. v35b (scripts/crossgame_accumulation_v35b.py):
+  leave-one-out over {pong, breakout, snake, catcher} — for each held-out game,
+  pretrain a SHARED conv encoder on the other 3 (a 'library'), then learn the
+  held-out game WARM (reuse library encoder + fresh head) vs SCRATCH, seeded, and
+  compare learning curves (normalised early-advantage). HYPOTHESIS: a diverse
+  multi-game library gives a positive early-learning advantage on a NEW game. This
+  is v31 done RIGHT (4 diverse games, multi-source, SEEDED — fixing the review's
+  critiques). DECISIVE: library helps in >=3/4 held-out games, mean normalised
+  early-advantage > 0.10. Honest either way: a negative means cross-game
+  representation transfer is weak even with diversity, and the developmental value
+  is recognise-and-reuse of KNOWN games, not blind transfer. Scripts + envs + prereg
+  committed BEFORE the v35b run; chronology asserted.
