@@ -1,0 +1,18 @@
+{
+  "recog_acc": 1.0,
+  "results": {
+    "pong": {
+      "recognised": "pong",
+      "reused_return": 3.2066404819488525,
+      "mismatched_return": -10.7109375,
+      "correct_return": 3.2066404819488525
+    },
+    "breakout": {
+      "recognised": "breakout",
+      "reused_return": -0.2421875,
+      "mismatched_return": -12.84765625,
+      "correct_return": -0.2421875
+    }
+  },
+  "verdict": "GAME RECOGNISE-AND-REUSE WORKS \u2014 from raw pixels the agent recognised every game (100%) and reused the right skill (reused >> mismatched return on each). 'Drop it on a known game -> it identifies it -> plays it' \u2014 the integration on the pixel substrate."
+}

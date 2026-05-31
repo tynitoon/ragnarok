@@ -4842,4 +4842,20 @@ developmental learning.
   game -> identify it -> play it', the integration on the pixel substrate.
   Script committed before run.
 
-- (Subsequent amendments timestamped here before execution.)
+- **2026-05-31 (v24 INTEGRATION M4 RESULT — recognise game + reuse skill, on
+  pixels).** craft_v6_out/v24_integration_m4.json. From raw pixels the agent
+  recognised every game (100%) and reused the right skill: Pong +3.21, Breakout
+  -0.24 (recognised skill) vs -10.71 / -12.85 (mismatched skill) -> reused >>
+  mismatched on each. (Breakout's policy was lightly trained, 180 iters, so its
+  absolute return is modest, but the recognise-and-reuse CONTRAST is decisive.)
+  'Drop it on a known game -> identify it -> play it' works on the pixel
+  substrate. *** INTEGRATION FIRST PASS COMPLETE (M1-M4): recognise+reuse (v21),
+  recognise-or-learn+grow (v22), recognise/learn-then-ACT (v23), and on pixel
+  games (v24). The integrated developmental loop — perceive -> recognise ->
+  reuse-or-learn -> act, library growing — runs end to end across the abstract
+  concept domain AND the pixel-game substrate. *** FURTHER (the ongoing grand
+  vision): unify into ONE continuously-running agent over the full substrate
+  with model-based planning (v17b) + autonomous discovery (v7) + broad-variety
+  concept learning (v19 recipe) for human-like sample-efficiency — a large
+  multi-session build; every brick is now individually validated AND the
+  integration loop assembling them is proven.

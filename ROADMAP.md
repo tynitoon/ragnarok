@@ -71,11 +71,22 @@ the hardest game):
   worked (structured composition); single-source/few-instance transfer failed
   (P3/v16/v18 = memorisation); broad-variety rule-learning generalises (v19).
 
-### NEXT (the grand integration — all bricks now exist)
-One agent that: learns concepts over variety (v19 recipe) -> recognises which
-apply to a new task (relevance gate v5) -> plans in its world model to act like
-a discoverer (v17b model-based) -> masters the new sample-efficiently. A large
-multi-phase build; each brick is individually validated.
+### THE GRAND INTEGRATION (v21-v24) — STARTED, core loop proven
+One agent that learns concepts over variety -> recognises which apply -> reuses/
+plans -> learns anew if novel. Milestones:
+- v21 M1 — recognise + reuse: on a NEW task, pick the right learned concept
+  (100% acc) and reuse it (oracle-level). DONE.
+- v22 M2 — recognise-OR-learn: reuse what fits, DETECT the novel (100%), learn
+  it, grow the library 3->4. The developmental core, end to end. DONE.
+- v23 M3 — recognise/learn THEN ACT: use the recognised model to act; chosen
+  actions == oracle, >> no-recognition. Full loop perceive->recognise->act. DONE.
+- v24 M4 — on the PIXEL GAMES: recognise which game from pixels -> reuse its
+  skill. [running/just done]
+The integrated developmental loop (perceive -> recognise -> reuse-or-learn ->
+act, library growing) is proven in the concept domain; M4 lifts it to pixels.
+FURTHER (future): unify everything into the single running agent across the
+full game/craft substrate, with model-based planning + autonomous discovery,
+scaled over broad variety (the v19 recipe) for human-like sample efficiency.
 
 ## DONE (validated, preregistered, on GitLab)
 - v3 gated reuse, v4 compositional reuse, v5 learned O(1) relevance gate
