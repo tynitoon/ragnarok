@@ -27,11 +27,11 @@ from ragnarok.infrastructure.device import DEVICE
 from scripts.concept_dynamics_v38 import FORCE, TOL, VTOL, TASKS, success, plan_step
 
 WORLDS = [
-    dict(name="inertia", resp=1.0, gravity=0.0, drag=0.90),
-    dict(name="heavy_drag", resp=1.0, gravity=0.0, drag=0.70),
-    dict(name="gravity", resp=1.0, gravity=0.012, drag=0.90),
-    dict(name="strong", resp=2.0, gravity=0.0, drag=0.90),
-    dict(name="anti_gravity", resp=1.0, gravity=-0.012, drag=0.90),   # held out as NOVEL
+    dict(name="inertia", resp=1.0, gravity=0.0, drag=0.92),
+    dict(name="heavy_drag", resp=1.0, gravity=0.0, drag=0.50),
+    dict(name="gravity", resp=1.0, gravity=0.035, drag=0.92),
+    dict(name="strong", resp=3.0, gravity=0.0, drag=0.92),
+    dict(name="anti_gravity", resp=1.0, gravity=-0.035, drag=0.92),   # held out as NOVEL
 ]
 
 
@@ -64,19 +64,36 @@ def learn_model(w, steps, n, gen):
 
 
 @torch.no_grad()
-def transitions(w, n, gen):
+def rollout(w, n, gen, H=8):
+    """A short observed TRAJECTORY in world w (states + actions)."""
     pos = torch.rand(n, generator=gen, device=DEVICE)
     vel = (torch.rand(n, generator=gen, device=DEVICE) - 0.5) * 0.2
-    a = torch.randint(0, 3, (n,), generator=gen, device=DEVICE)
-    force = (a.float() - 1.0) * FORCE
-    npos, nvel = step_world(pos, vel, a, w)
-    return torch.stack([pos, vel, force], -1), torch.stack([npos, nvel], -1)
+    acts = torch.randint(0, 3, (H, n), generator=gen, device=DEVICE)
+    states = [torch.stack([pos, vel], -1)]
+    for h in range(H):
+        pos, vel = step_world(pos, vel, acts[h], w)
+        states.append(torch.stack([pos, vel], -1))
+    return torch.stack(states, 0), acts                  # (H+1,n,2), (H,n)
 
 
 @torch.no_grad()
-def recognise(models, x, y):
-    mses = torch.stack([F.mse_loss(M(x), y) for M in models])
-    return int(mses.argmin()), float(mses.min())
+def recognise(models, states, acts):
+    """Multi-step: roll each model forward along the observed actions; the model
+    with lowest accumulated trajectory error is the recognised notion. Compounding
+    makes worlds (and novelty) clearly separable."""
+    H = acts.shape[0]
+    errs = []
+    for M in models:
+        pos, vel = states[0, :, 0].clone(), states[0, :, 1].clone()
+        e = torch.zeros((), device=DEVICE)
+        for h in range(H):
+            force = (acts[h].float() - 1.0) * FORCE
+            out = M(torch.stack([pos, vel, force], -1))
+            pos, vel = out[:, 0].clamp(0, 1), out[:, 1]
+            e = e + F.mse_loss(torch.stack([pos, vel], -1), states[h + 1])
+        errs.append(e / H)
+    errs = torch.stack(errs)
+    return int(errs.argmin()), float(errs.min())
 
 
 class WorldEnv:
@@ -147,8 +164,8 @@ def main():
     known_min = []
     recog_ok = 0
     for i, w in enumerate(known):
-        x, y = transitions(w, 4000, gen)
-        r, mse = recognise(library, x, y)
+        states, acts = rollout(w, 1000, gen)
+        r, mse = recognise(library, states, acts)
         recog_ok += int(r == i); known_min.append(mse)
     recog_acc = recog_ok / len(known)
     thresh = max(known_min) * 20.0
@@ -159,8 +176,8 @@ def main():
     # reuse: recognised model vs a WRONG model, per known world
     rec_succ, wrong_succ = [], []
     for i, w in enumerate(known):
-        x, y = transitions(w, 4000, gen)
-        r, _ = recognise(library, x, y)
+        states, acts = rollout(w, 1000, gen)
+        r, _ = recognise(library, states, acts)
         rec_succ.append(reuse(library[r], w, args.task))
         wrong_succ.append(reuse(library[(i + 1) % len(known)], w, args.task))
     rs, ws = sum(rec_succ) / len(rec_succ), sum(wrong_succ) / len(wrong_succ)
@@ -168,8 +185,8 @@ def main():
           f"WRONG-model {ws:.2f} | {time.perf_counter()-t0:.0f}s", flush=True)
 
     # novelty: the novel world should fit no known model -> detect -> learn + reuse
-    xN, yN = transitions(novel, 4000, gen)
-    rN, mseN = recognise(library, xN, yN)
+    statesN, actsN = rollout(novel, 1000, gen)
+    rN, mseN = recognise(library, statesN, actsN)
     is_novel = mseN > thresh
     Mnew = learn_model(novel, args.dyn_steps, args.num_envs, gen)
     novel_reuse = reuse(Mnew, novel, args.task)
