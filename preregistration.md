@@ -5396,3 +5396,24 @@ developmental learning.
   clear next build. This is v31 done right (diverse-ish, multi-source, SEEDED) and
   directly answers the user's north question — honestly, including that the answer
   is 'weakly, not strongly'. Recorded straight.
+
+- **2026-05-31 (v36 prereg — THE REAL THESIS: learn a NOTION (gravity) -> solve a
+  new task FASTER because it USES it).** Per the user's sharpened goal (the
+  whole-game skill-library is of limited use; the real point is to learn a BASIC
+  CONCEPT and show that having it -> solve faster by using it).
+  ragnarok/environments/projectile.py (DeviceVecProjectileCatch) +
+  scripts/concept_gravity_v36.py. STEP 1: a small model M learns GRAVITY — predict
+  a projectile's landing y (analytic, with wall bounce), supervised. STEP 2: a task
+  that USES gravity — be at the ball's LANDING y when it arrives (tracking its
+  current y fails, it arcs). STEP 3: two RL agents at equal conditions — WITH-
+  CONCEPT (obs = [catcher_y, M's predicted landing]) vs SCRATCH (obs = [catcher_y,
+  raw ball state]; must re-infer gravity). Measure iters-to-competence (catch-rate
+  >= 0.70). STEP 4 (proves USAGE): feed the with-concept agent a SCRAMBLED landing;
+  if its catch-rate collapses, it genuinely used the notion. State-based (no pixels)
+  to ISOLATE the concept cleanly (pixels are a flagged next step; the perception
+  RL issues that blocked Flappy/Catcher are deliberately out of scope here).
+  HYPOTHESIS: with-concept reaches competence in FAR fewer iters than scratch
+  (>=1.5x; likely much more), AND ablation collapses it (catch drop >= 0.30).
+  DECISIVE = both. This is the cleanest test of 'plus elle connait une notion, plus
+  vite elle resout, car elle l'utilise' — the project's real value (cf. v17b's
+  5-15x). Env + script + prereg committed BEFORE the full run; chronology asserted.
