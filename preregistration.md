@@ -5787,3 +5787,23 @@ developmental learning.
   that accelerates a DIFFERENT hard task using it). Recorded as a null; per the
   owner's bar, not reported as a result. The negative is informative: it bounds
   WHERE reuse pays.
+
+- **2026-05-31 (v42 prereg — notion AMORTISES SEARCH, FAIR; FROZEN).**
+  scripts/notion_amortizes_search_v42.py. Tests the deepest diagnosis (reuse pays
+  iff the notion short-circuits an expensive SEARCH the task requires) on a genuinely
+  search-heavy task (Tetris: choosing a placement needs simulating the drop), with a
+  FAIR design (addresses the v38 strawman critique). FROZEN: WARM = model-free PPO on
+  the per-placement drop-outcome metrics (evaluate_placements: lines/holes/height/
+  dead, normalised) -- the amortised search; SCRATCH = model-free PPO on the raw
+  board IMAGE (ConvPPONet). BOTH model-free; the ONLY difference is whether the agent
+  is handed the drop-outcome (which v17b showed is LEARNABLE from the board) or must
+  learn it implicitly. Metric: lines cleared per eval; iters to >=5 lines, >=3 seeds.
+  HYPOTHESIS: WARM >> SCRATCH because Tetris-placement REQUIRES the drop-search the
+  notion amortises. DECISIVE pass: WARM reaches the threshold every seed AND (warm
+  iters <= 0.5*scratch, or warm final >= scratch+2). HONEST staging (disclosed): the
+  notion here is the ANALYTIC drop-outcome (oracle) to ISOLATE the reuse effect;
+  v17b already showed it is learnable from the board, so a positive here + v17b =
+  the full claim; the learned-notion version is the immediate follow-up. If it nulls
+  EVEN on a real search task with an oracle notion, the amortise-search theory is
+  WRONG and I report that. If POSITIVE: spawn the adversarial review (standing rule)
+  BEFORE reporting. Committed BEFORE the run; mechanism FROZEN.
