@@ -5275,3 +5275,21 @@ developmental learning.
   real and spans domains (v33). The project's distinctive value remains the
   developmental LOOP (recognise/learn/reuse, autonomous discovery) + concept-
   granularity compounding (v17b/v13b), not the variety effect per se. ***
+
+- **2026-05-31 (v31 RESULT — INCONCLUSIVE; my similarity-gating hypothesis NOT
+  supported either).** craft_v6_out/v31_crossgame.json. Pong-pretrained conv
+  encoder, warm-start vs scratch: Breakout (SIMILAR, paddle+ball) early-advantage
+  -0.29 (warm slightly HURT); Snake (DISSIMILAR, grid) early-advantage +8.27 (warm
+  HELPED a lot). This is the OPPOSITE of the preregistered 'helps similar, not
+  dissimilar' hypothesis. Worse, the SMOKE had shown the reverse direction
+  (breakout +0.89, snake +0.00), and v31 was written BEFORE the v32 seeding fix so
+  it is a single UNSEEDED run -> the cross-game transfer signal is NOT ROBUST.
+  HONEST verdict: INCONCLUSIVE. One plausible (untested) reading is that a Pong
+  conv-encoder supplies generic visual features (edges/motion) that bootstrap
+  whichever target is HARDER to learn from scratch (Snake needs ~200 iters vs
+  Breakout's near-zero early reward), independent of similarity — but this is a
+  single noisy run, not established. Net: cross-game transfer on this 3-game,
+  visually-clustered substrate is an ANECDOTE, exactly as the strategy reviewer
+  said; a real test needs a diverse, SEEDED, multi-run game suite. This reinforces
+  the #1 strategic recommendation (build a genuinely diverse substrate before
+  claiming anything about cross-game accumulation). Recorded honestly.
