@@ -1,0 +1,8 @@
+{
+  "detect_acc": 1.0,
+  "act_integrated": 8.275361633300781,
+  "act_oracle": 8.269591522216796,
+  "act_fixed": 7.160860443115235,
+  "final_library": 4,
+  "verdict": "FULL LOOP WORKS \u2014 perceive->recognise/learn->ACT, end to end. Novelty detection 100%; the agent's chosen placements land at depth 8.28 (== oracle 8.27) vs a fixed no-recognition agent 7.16. It recognises (or learns) the physics and ACTS well on it; library grew to 4. The integrated developmental agent runs end to end."
+}

@@ -4822,4 +4822,14 @@ developmental learning.
   integration's developmental loop is proven; scaling it to the pixel-game
   substrate is the remaining engineering.
 
+- **2026-05-31 (v23 INTEGRATION M3 RESULT — full loop perceive->recognise/learn
+  ->ACT works).** craft_v6_out/v23_integration_m3.json. The agent recognises (or
+  learns) the physics of each task, then USES that model to choose placements:
+  chosen-placement landing depth 8.28 == ORACLE 8.27, vs fixed no-recognition
+  7.16; novelty detection 100%; library grew 3->4. So the integrated
+  developmental loop runs END TO END in the concept domain: recognise-or-learn
+  the right concept AND act well with it. Integration M1+M2+M3 complete. Final
+  milestone M4: lift the same loop to the pixel GAMES (recognise which game ->
+  reuse its skill).
+
 - (Subsequent amendments timestamped here before execution.)
