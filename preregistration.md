@@ -4899,3 +4899,30 @@ developmental learning.
   (broad-variety Pong: does training over many variants generalise to unseen
   ones for free?). v26 committed after the run; prereg of v26's design predates
   it in this file (the SCALE plan stated under v24/v25 entries).
+
+
+- **2026-05-31 (v27 RESULT — NEGATIVE/PARTIAL, and an important scope lesson on
+  THE RECIPE).** craft_v6_out/v27_variety.json. Broad-variety Pong (24 train
+  variants varying ball_speed, paddle_HALF (size), opp_speed, spin) did NOT beat
+  a single-variant agent on 8 unseen variants: variety won 0.90 on its train
+  variants but only 0.68 zero-shot on unseen, while the single-variant agent
+  reached 0.77 on the same unseen set. So the hypothesis (variety >= single +
+  0.10 on unseen) FAILS — single transferred BETTER. Honest diagnosis: the
+  variation axis I chose does NOT change the OPTIMAL POLICY — 'track the ball and
+  intercept' is near-optimal for every ball-speed / paddle-size / opponent /
+  spin, so a single well-trained instance already generalises (Pong's policy is
+  largely physics-invariant), and adding variety only made the training objective
+  noisier (lower clean convergence) without conferring any robustness the single
+  agent lacked. This SHARPENS the v19 recipe rather than refuting it: broad
+  variety yields a generalising abstraction ONLY when the variation spans
+  genuinely DIFFERENT required solutions that share an underlying rule (v19's
+  shape->landing rule truly differs per shape, forcing abstraction). When the
+  family has an INVARIANT optimal policy, variety adds nothing (can hurt via
+  optimisation noise) and single-instance training transfers as well or better.
+  Testbed flaw, not recipe refutation. NEXT (v27b): re-run with a POLICY-RELEVANT
+  variation axis — vary paddle_SPEED (reaction budget) and ball_speed widely so
+  some variants REQUIRE anticipation (slow paddle) while others allow late
+  reaction (fast paddle); a single-variant (e.g. fast-paddle/reactive) agent
+  should then FAIL to transfer to anticipation variants, and variety (seeing
+  both) should win. That is the fair test of whether the recipe has any footing
+  in the GAME domain. v27 recorded honestly as a negative; design predates run.

@@ -1,0 +1,8 @@
+{
+  "n_train": 24,
+  "n_test": 8,
+  "variety_on_train": 0.90478515625,
+  "variety_on_unseen": 0.68359375,
+  "single_on_unseen": 0.7744140625,
+  "verdict": "PARTIAL \u2014 variety unseen 0.68 vs train 0.90 vs single 0.77."
+}
