@@ -51,6 +51,13 @@ def seed_all(s):
         torch.cuda.manual_seed_all(s)
 
 
+def concept_of(M):
+    @torch.no_grad()
+    def f(pix):                       # detached notion prediction (no grad into PPO)
+        return M(pix)
+    return f
+
+
 @torch.no_grad()
 def collect(n, steps, seed):
     env = Env(n, img=IMG, max_steps=70, seed=seed)
@@ -91,7 +98,8 @@ def catch_rate(ppo, make_env, n=256, steps=350, seed=7):
 def run_arm(mode, notion, iters, eval_every, num_envs, seed):
     seed_all(seed + (1 if mode == "warm" else 2))
     if mode == "warm":
-        make_env = lambda n, s: Env(n, img=IMG, concept=notion, max_steps=70, seed=s)
+        cf = concept_of(notion)
+        make_env = lambda n, s: Env(n, img=IMG, concept=cf, max_steps=70, seed=s)
         net = PPONet(2, 3, hidden=128)
     else:
         make_env = lambda n, s: Env(n, img=IMG, max_steps=70, seed=s)
