@@ -24,13 +24,18 @@ class DeviceVecProjectileCatch:
     A_STAY, A_UP, A_DOWN = 0, 1, 2
 
     def __init__(self, num_envs, concept=None, gravity=0.004, catcher_speed=0.035,
-                 tol=0.08, x_plane=0.97, max_steps=70, seed=0):
+                 tol=0.08, x_plane=0.97, max_steps=70, img=0, seed=0):
         self.num_envs = num_envs
         self.concept = concept
+        self.img = img
         self.g, self.cs, self.tol = gravity, catcher_speed, tol
         self.x_plane, self.max_steps = x_plane, max_steps
         self.action_dim = 3
-        self.obs_dim = 2 if concept is not None else 5
+        if img > 0:
+            self.img_hw = img
+            self.obs_dim = 2 if concept is not None else 3 * img * img
+        else:
+            self.obs_dim = 2 if concept is not None else 5
         self._gen = torch.Generator(device=DEVICE); self._gen.manual_seed(seed)
         self._launch(torch.ones(num_envs, dtype=torch.bool, device=DEVICE))
         self.cy = torch.full((num_envs,), 0.5, device=DEVICE)
@@ -60,12 +65,36 @@ class DeviceVecProjectileCatch:
         m = torch.remainder(yraw, 2.0)
         return torch.where(m <= 1.0, m, 2.0 - m)
 
+    @torch.no_grad()
+    def _pixels(self):
+        N, H = self.num_envs, self.img
+        im = torch.zeros(N, 3, H, H, device=DEVICE)
+        ri = torch.arange(H, device=DEVICE).view(1, H, 1)
+        ci = torch.arange(H, device=DEVICE).view(1, 1, H)
+
+        def dot(px, py, chan, val, rad=1):
+            r = (py.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
+            c = (px.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
+            m = ((ri - r).abs() <= rad) & ((ci - c).abs() <= rad)
+            im[:, chan] = torch.maximum(im[:, chan], m.float() * val)
+        dot(self.bx - self.bvx, self.by - self.bvy, 2, 0.5)   # velocity cue (prev pos, dim blue)
+        dot(self.bx, self.by, 0, 1.0)                          # ball (red)
+        cr = (self.cy.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
+        cc = int(self.x_plane * (H - 1))
+        bar = ((ri - cr).abs() <= 2) & ((ci - cc).abs() <= 0)
+        im[:, 1] = torch.maximum(im[:, 1], bar.float())        # catcher (green bar)
+        return im.reshape(N, -1)
+
     @property
     def state(self):
+        if self.img > 0:
+            pix = self._pixels()
+            if self.concept is not None:
+                return torch.stack([self.cy, self.concept(pix).reshape(-1)], -1)
+            return pix
         if self.concept is not None:
             ball = torch.stack([self.bx, self.by, self.bvx, self.bvy], -1)
-            pred = self.concept(ball).reshape(-1)
-            return torch.stack([self.cy, pred], -1)
+            return torch.stack([self.cy, self.concept(ball).reshape(-1)], -1)
         return torch.stack([self.cy, self.bx, self.by, self.bvx, self.bvy], -1)
 
     def reset(self):
