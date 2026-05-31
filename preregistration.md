@@ -5629,3 +5629,70 @@ developmental learning.
   not papered over. The user's core bar (recognise the right stored notion + reuse
   it reliably in a new context) is met robustly; reliable novelty DETECTION cutoff
   is the small remaining piece.
+
+- **2026-05-31 (PHASE-GATE REVIEW #2 — 3 adversarial agents on v36-v39; MAJOR
+  corrections accepted, headlines RETRACTED).** Spawned 3 reviewers (rigour / RL-ML
+  / vision) on the model-based notion-reuse arc. They were largely RIGHT; recording
+  and correcting:
+  1. **PREREGISTRATION VIOLATED on the two positives (v38, v39).** Git diffs show
+     the mechanism was EDITED between the prereg commit and the result commit, same
+     afternoon: v38's prereg script crashes (no num_envs) AND the planner was
+     swapped (random-shooting+terminal-cost -> CEM+min-over-horizon) until it
+     passed; v39's worlds were made far more separable + recognition switched to
+     multi-step after prereg. 'Committed before run' is true at the commit level but
+     the registered design did NOT produce the result, and the result entries did
+     not disclose the edits. => the v38/v39 'preregistered positive' framing is
+     INVALID; they are tuned-to-criterion. Standing rule reaffirmed: freeze the
+     mechanism at prereg; if the smoke shows it fails, that is a NEGATIVE to report,
+     not a licence to redesign under the same entry.
+  2. **v39 novelty claim CONTRADICTED by its own committed JSON.** craft_v6_out/
+     v39_notion_library.json (artifact of record): novel_detected=FALSE,
+     novelty_mse 0.025 < thresh 0.060, mismatch_reuse 0.91 (a WRONG model solves the
+     'novel' world). The v39 RESULT headline led with a favourable seed-0 log.
+     => RETRACT 'novelty detected / missing lock CLOSED'. HONEST: recognition (100%)
+     and recognised-vs-wrong reuse (0.85 vs 0.57) hold across seeds; the
+     DETECT-NOVEL trigger is NOT demonstrated (fails on the artifact of record and
+     2/3 firm-up seeds). The developmental 'recognise-OR-learn' loop is therefore
+     only half-shown (recognise+reuse), not the learn-when-novel half.
+  3. **v38 '~18x / DECISIVE' is a STRAWMAN; downgraded.** The CEM planner is handed
+     the ground-truth success geometry (min-over-horizon of the exact predicate)
+     while PPO must infer it from scalar reward; planning compute (~1e9 model-calls
+     at eval) is hidden under '0 task-steps'; single seed; dyn_steps=800 unlogged
+     (default 1500 -> ~6x); and model-free actually WINS on task quality
+     (stop/park 0.88/0.87 vs 0.76/0.78). A single GOAL-CONDITIONED model-free policy
+     over the 3 objectives (they differ only in a scalar, share the obs+target)
+     would erase most of the gap. => honest claim: 'in a low-dim near-linear system,
+     a learned model amortises REAL-INTERACTION across objectives; the env-step
+     ratio is hyperparameter-set and compute-shifted, and the baseline was siloed.'
+  4. **NOVELTY (literature): NONE.** v38 = PETS-style learned model + CEM-MPC (PILCO/
+     PETS/MBPO/Dreamer); v39 = multiple-model adaptive control / system-ID by
+     prediction error (Narendra-Balakrishnan MMAC 1997; MOSAIC Doya 2002) + residual-
+     threshold novelty. Uncited; nothing advanced. The 'notion / missing lock'
+     language is re-description of MBRL+MMAC. Reframe as engineering integration.
+  5. **STRATEGIC: a DETOUR from the north star, and v12-C already showed the wall.**
+     v36-v39 dropped 'pixels' and 'game' for a 1-D point with a closed-form 3-line
+     dynamics a 64-unit MLP nails (MSE 1e-4) — the home turf where model-based
+     trivially wins. CRUCIALLY, v12-C already tried the literal north-star thing
+     (act from PIXELS via a learned world-model + MPC) and it was an HONEST NEGATIVE,
+     PARKED. So the project hit the real wall, retreated to a toy where the same
+     mechanism works because the model is near-perfect, and I wrote 'THE PATH IS
+     CLEAR'. => RETRACT 'path clear'. Honest: 'model-based reuse amortises in low-dim
+     near-learnable worlds; whether it survives perception + long horizons is
+     UNTESTED and the one prior attempt (v12-C) failed.'
+  6. **WRONG GRAIN.** v38/v39 reuse a MONOLITHIC whole-world dynamics model — closer
+     to the whole-skill-library the user dismissed than to the BASIC NOTION he wants;
+     v17b's strength was FACTORISED (learn ONLY the landing). Notions should be
+     composable factors, not whole models.
+  ACTIONS (redirect, for fresh context — not run here): (A) go BACK to the north
+  star: port the recognise->reuse mechanism to a LEARNED LATENT from PIXELS on ONE
+  real game with 2026 world-model tooling (finish v12-C, don't re-park it) and
+  measure episodes-to-competence with vs without a pre-learned notion — decisive
+  either way; (B) re-run the user's 'varied practice' insight FAITHFULLY in a
+  hard-input regime, isolating diversity-vs-repetition at matched compute (v37
+  dodged it: a 20-example ridge probe fit the easy target from random features);
+  (C) replace the absolute novelty cutoff with a relative/conformal detector and
+  report AUROC over a graded novelty sweep. NET HONEST STATE: the recognise-and-reuse
+  PATTERN works in a small hand-separated low-dim regime (= classical MMAC); the
+  novelty trigger is unsolved; the efficiency headline was strawman-inflated; and the
+  arc avoided the actual hard problem (pixels) that the project had already hit. The
+  reviews are accepted; FINDINGS/headlines to be de-hyped accordingly.
