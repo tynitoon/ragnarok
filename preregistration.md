@@ -4974,3 +4974,25 @@ developmental learning.
   FEWER episodes than from scratch (and fewer than a narrow single-instance
   agent)? Measure iters/episodes-to-threshold. v27b recorded honestly; design
   predated the run.
+
+
+- **2026-05-31 (v28 prereg — SAMPLE EFFICIENCY: more knowledge -> fewer
+  episodes).** scripts/fewshot_efficiency_v28.py. The developmental vision's
+  pay-off, and the user's literal question ('plus elle connait, moins il lui faut
+  d'essais?'), measured. v27b gave us a GENERAL Pong skill (variety over the
+  paddle-speed axis). v28 takes a NEW out-of-distribution HARD target (paddle_
+  speed 0.020 + ball_speed 0.040 -> ratio 2.0, harder than any trained variant)
+  and measures iters/EPISODES-to-threshold (win-rate >= 0.70) when fine-tuning
+  from three starts at equal conditions: (1) VARIETY-pretrained (general),
+  (2) SINGLE-EASY-pretrained (reactive/narrow), (3) SCRATCH. Episodes/iter =
+  num_envs*32/max_steps = 256*32/800 = 10.24, so iters convert to 'parties'.
+  HYPOTHESIS: the variety-pretrained agent reaches competence in FAR fewer
+  episodes than scratch (large speed-up; likely strong zero-shot already) and
+  in <= the single-instance agent (which must un-learn its reactive bias).
+  DECISIVE pass: variety reaches threshold AND variety_iters <= single_easy_iters
+  AND (scratch not reached OR variety_iters*2 <= scratch_iters). This quantifies
+  'knowledge -> sample-efficiency' in concrete parties, answering whether the AI
+  needs millions of games (it should not, given prior skill). Honest scope: still
+  within the Pong family (general within-family transfer), the cleanest substrate
+  where we control difficulty; cross-genre efficiency is the further frontier.
+  Script + prereg committed BEFORE the run; chronology asserted.
