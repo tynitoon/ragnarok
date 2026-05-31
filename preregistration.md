@@ -5446,3 +5446,21 @@ developmental learning.
   selecting the right concept. Recorded straight; a flawed-but-illuminating run kept
   honestly (the principle it revealed is more valuable than the hypothesis would
   have been).
+
+- **2026-05-31 (v37 prereg — VARIED PRACTICE makes a notion REUSABLE; the user's
+  pedagogical insight).** scripts/concept_mastery_v37.py. The user: to MASTER a
+  notion you need several DIFFERENT exercises on the SAME notion (as humans do) —
+  the variety recipe applied to learning the CONCEPT itself. Test (clean,
+  supervised, reliable — no RL): notion = GRAVITY; inputs = a launch (x0,y0,vx,vy),
+  fixed g. Four DIFFERENT exercises depend on gravity: E1 landing-x, E2 peak height,
+  E3 flight time, E4 impact speed. Pretrain a shared BODY (MLP) on K of them
+  (K=0..4, EQUAL data, per-exercise heads), FREEZE the body, then measure how well
+  its representation transfers to a NEW held-out exercise E5 (height at a given x)
+  via a RIDGE LINEAR PROBE on only N=20 examples (test MSE, averaged over reps).
+  HYPOTHESIS: E5 transfer MSE DECREASES as K grows — practising the same notion
+  across more varied exercises yields a more gravity-general, reusable
+  representation. DECISIVE: MSE(K=4) < 0.6 * MSE(K=0/1) AND ~monotone. This
+  directly tests 'plusieurs exercices differents sur la meme notion -> maitrise ->
+  reutilisation fiable', and composes with v36 (such a reusable notion pays off
+  where re-deriving it is hard). Reliable supervised design (the RL-collapse issues
+  of Flappy/Catcher are avoided). Script + prereg committed BEFORE the run.
