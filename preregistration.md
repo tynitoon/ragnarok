@@ -5591,3 +5591,20 @@ developmental learning.
   RECOGNISE which applies, reuse by planning, learn when novel — NOT blind skill/
   representation libraries (v35b), and it pays in the HARD regime (v36/v37). Path is
   proven at small scale; recorded straight.
+
+- **2026-05-31 (v39 FIRM-UP over 3 seeds — core ROBUST, novelty-threshold
+  fragile; honest).** Re-ran v39 at seeds 0/1/2. ROBUST: recognition 100% every
+  seed; reuse with the RECOGNISED model 0.82/0.85/0.85 vs a WRONG model
+  0.51/0.52/0.57 (gap ~+0.30 every seed) — the recognition lock (recognise the
+  right notion -> reuse it reliably) is solid and not a single-seed fluke. FRAGILE:
+  NOVELTY detection tripped only at seed 0 (anti-gravity error 5.4e-2 > thresh
+  4.9e-2) but JUST MISSED at seeds 1/2 (5.2e-2 vs 6.3e-2; 5.6e-2 vs 6.0e-2). The
+  mechanism is sound (a novel world yields high best-known-model error -> flag ->
+  learn+add, and the learned notion then solves it ~1.0 every seed), but the
+  threshold (20x known_min) sits right at anti-gravity's error — anti-gravity is
+  only 'moderately novel' (one extra constant force). Honest fix (not done, to
+  avoid threshold-tuning to pass): a clearer novelty test (a more distinct novel
+  world, or a calibrated/relative threshold, or a held-out validation gap). NET:
+  the developmental loop's RECOGNISE-and-REUSE half is robustly demonstrated at
+  the notion level; the DETECT-novel half works but its cutoff needs principled
+  calibration. Recorded straight.
