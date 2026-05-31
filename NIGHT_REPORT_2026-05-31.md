@@ -26,6 +26,7 @@ genuinely encouraging. Everything is committed and pushed.
 | v32 | is v27b's benefit *anticipation* or just coverage? | **FALSIFIED my claim** — anticipation index ≈0 for *all* agents; it's domain-randomization **coverage**, not a distinct policy. |
 | v33 | does variety→generalization hold *outside* games? | **YES, clean** — in-context maths regression, held-out MSE 3.47 (R=1) → 0.19 (continuous). Domain-general. |
 | v31 | cross-game transfer (Pong→Breakout vs Snake)? | **INCONCLUSIVE** — Breakout (similar) −0.29, Snake (dissimilar) +8.27 (opposite of, and not robust to, my hypothesis; single unseeded run). Anecdote, not evidence — reinforces "build a real substrate". |
+| v34 | add a genuinely *different* game (gravity) + learn it | **PARTIAL** — new `DeviceVecFlappy` built + **validated winnable** (random 0.0 vs heuristic 5.8 pipes), the first non-paddle-ball/grid game. But vanilla CNN-PPO **did not learn it** (3 tries: sparse/+shaping/+velocity-cue) — classic Flappy hard-exploration local optimum. Real substrate addition; learning it is a scoped next task (needs stronger exploration, e.g. the project's own v7 curiosity). |
 
 ## What the reviewers caught (and I accepted)
 1. **torch RNG was never seeded** — so "N=3 seeds" didn't control the dominant
