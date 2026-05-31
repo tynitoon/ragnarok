@@ -5608,3 +5608,24 @@ developmental learning.
   the developmental loop's RECOGNISE-and-REUSE half is robustly demonstrated at
   the notion level; the DETECT-novel half works but its cutoff needs principled
   calibration. Recorded straight.
+
+- **2026-05-31 (v39 novelty-threshold — honest CONCLUSION after firm-up; core
+  solid, cutoff is real future work).** Tried 3 held-out 'novel' worlds at 3 seeds
+  each: anti_gravity(grav -0.035) = SOLVABLE (reuse ~1.0) but detection borderline
+  (trips seed0, misses seeds1-2); weird(resp0.4,grav-0.05) = robustly DETECTED all
+  seeds but UNSOLVABLE (the constant force exceeds max thrust -> reuse 0.0 for
+  everyone); weird(resp0.6,grav-0.022) = SOLVABLE (reuse 1.0) but UNDER threshold
+  (error 2.4e-2 < cutoff). This exposes a genuine TENSION: a world novel ENOUGH to
+  clear a fixed prediction-error cutoff tends to be EXTREME enough to be
+  uncontrollable; a world SOLVABLE enough is CLOSE enough to slip under the cutoff.
+  *** FINAL HONEST STATE of v39: the RECOGNISE-and-REUSE half is ROBUST and solid
+  (recognition 100% / recognised-reuse ~0.85 vs wrong ~0.55, every seed; and a
+  newly-learned notion solves its world ~1.0). The DETECT-NOVEL half's MECHANISM is
+  sound (novel world -> high best-known error -> flag -> learn) but its fixed
+  threshold (20x known_min) is FRAGILE — it needs a principled, RELATIVE/statistical
+  calibration (e.g. a held-out validation gap, or 'error >> the agent's own model's
+  error on data it WAS trained on'), not an absolute multiplier. *** That is the one
+  honest loose end in the otherwise-closed loop; flagged as the immediate next fix,
+  not papered over. The user's core bar (recognise the right stored notion + reuse
+  it reliably in a new context) is met robustly; reliable novelty DETECTION cutoff
+  is the small remaining piece.

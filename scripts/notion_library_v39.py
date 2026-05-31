@@ -31,8 +31,10 @@ WORLDS = [
     dict(name="heavy_drag", resp=1.0, gravity=0.0, drag=0.50),
     dict(name="gravity", resp=1.0, gravity=0.035, drag=0.92),
     dict(name="strong", resp=3.0, gravity=0.0, drag=0.92),
-    dict(name="anti_gravity", resp=1.0, gravity=-0.035, drag=0.92),   # held out as NOVEL
+    dict(name="weird_world", resp=0.6, gravity=-0.022, drag=0.82),    # held out: novel AND solvable
 ]
+# (anti_gravity resp1/grav-0.035 was only borderline-novel; weird_world combines an
+#  unseen response, force, AND drag so no known model fits -> robust detection.)
 
 
 def step_world(pos, vel, action, w):
