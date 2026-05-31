@@ -49,6 +49,7 @@ def main():
     p.add_argument("--num-envs", type=int, default=256)
     p.add_argument("--img", type=int, default=48)
     p.add_argument("--eval-every", type=int, default=25)
+    p.add_argument("--shaping", type=float, default=0.1)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
@@ -67,7 +68,8 @@ def main():
               flush=True)
     t0 = time.perf_counter()
 
-    env = DeviceVecFlappy(args.num_envs, img=args.img, max_steps=600, seed=args.seed)
+    env = DeviceVecFlappy(args.num_envs, img=args.img, max_steps=600,
+                          shaping=args.shaping, seed=args.seed)
     net = ConvPPONet(env.img_hw, env.action_dim, hidden=256)
     ppo = DiscretePPO(env.obs_dim, env.action_dim, entropy=0.02, net=net)
     curve = [(0, round(eval_policy(ppo_act(ppo), seed=1), 2))]

@@ -1,0 +1,60 @@
+{
+  "random": 0.0,
+  "heuristic": 5.83203125,
+  "curve": [
+    [
+      0,
+      3.5
+    ],
+    [
+      25,
+      0.0
+    ],
+    [
+      50,
+      0.0
+    ],
+    [
+      75,
+      0.0
+    ],
+    [
+      100,
+      0.0
+    ],
+    [
+      125,
+      0.0
+    ],
+    [
+      150,
+      0.0
+    ],
+    [
+      175,
+      0.0
+    ],
+    [
+      200,
+      0.0
+    ],
+    [
+      225,
+      0.0
+    ],
+    [
+      250,
+      0.0
+    ],
+    [
+      275,
+      0.0
+    ],
+    [
+      300,
+      0.0
+    ]
+  ],
+  "final": 0.0,
+  "verdict": "PARTIAL \u2014 Flappy random 0.0, heuristic 5.8, trained 3.5->0.0 pipes. Env built + runs; learning/tuning may need another pass."
+}

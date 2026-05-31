@@ -5308,3 +5308,25 @@ developmental learning.
   importantly, the first genuinely DISSIMILAR target for the future cross-game
   accumulation tests (which the 3-game cluster could not support). Env + script +
   prereg committed BEFORE the full training run; chronology asserted.
+
+- **2026-05-31 (v34 RESULT — new game BUILT + validated winnable, but vanilla PPO
+  does NOT learn it; honest partial).** craft_v6_out/v34*_run.log. DeviceVecFlappy
+  (gravity+timing) is added to the substrate and VALIDATED: random 0.00 pipes vs a
+  flap-when-below-gap heuristic 5.83 pipes -> winnable, fair, mechanics + batched
+  render/step correct. BUT a CNN-PPO agent did NOT learn it from pixels across
+  THREE attempts: (a) sparse reward (300 iters) -> 0.00; (b) + dense gap-tracking
+  SHAPING -> 0.00; (c) + a velocity CUE in the frame (render the previous bird
+  position as a blue trail, since a single frame otherwise lacks velocity) -> 0.00.
+  In every case the DETERMINISTIC policy collapses from ~3.5 pipes (untrained, high
+  entropy) to 0.0 as training sharpens it — the classic Flappy hard-exploration
+  LOCAL OPTIMUM ('stop flapping' is locally safer, so the policy converges to a
+  constant action and dies). HONEST verdict: PARTIAL — the env is a real, validated
+  substrate addition (the first STRUCTURALLY-DIFFERENT game: gravity, not
+  paddle-ball/grid), and it usefully exposes that the current vanilla-PPO +
+  effectively-single-frame pipeline cannot crack a hard-exploration timing game in
+  this budget. Deferred fixes (clear, not attempted to keep the night bounded):
+  stronger exploration (entropy schedule or the project's own v7 curiosity/intrinsic
+  motivation), true frame-stacking in the net, reward redesign, or longer training.
+  Not over-tuned unattended; recorded straight. Net for the substrate-diversity goal
+  (review rec #1): a genuinely dissimilar game now EXISTS and is validated; making it
+  learnable is a scoped next task. Env kept (shaping + trail params, default-safe).

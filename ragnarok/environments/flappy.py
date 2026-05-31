@@ -23,7 +23,7 @@ class DeviceVecFlappy:
 
     def __init__(self, num_envs, img=48, max_steps=600, gravity=0.0016,
                  flap=0.026, scroll=0.016, gap_half=0.17, bird_x=0.30,
-                 bird_r=0.045, survive_bonus=0.01, seed=0):
+                 bird_r=0.045, survive_bonus=0.01, shaping=0.0, seed=0):
         self.num_envs = num_envs
         self.H = self.W = img
         self.img_hw = img
@@ -33,10 +33,12 @@ class DeviceVecFlappy:
         self.G, self.FLAP, self.SCROLL = gravity, flap, scroll
         self.GH, self.bird_x, self.bird_r = gap_half, bird_x, bird_r
         self.survive = survive_bonus
+        self.shaping = shaping
         self._gen = torch.Generator(device=DEVICE); self._gen.manual_seed(seed)
         self._ys = (torch.arange(img, device=DEVICE).float() + 0.5) / img   # row centres
         z = torch.zeros(num_envs, device=DEVICE)
         self.by = z + 0.5
+        self.by_prev = z + 0.5        # previous bird y -> rendered as a trail (velocity cue)
         self.vy = z.clone()
         self.pipe_x = z + 1.0
         self.gap_y = self._rand_gap()
@@ -66,16 +68,22 @@ class DeviceVecFlappy:
         gap_mask = (rows_y - self.gap_y.view(N, 1, 1)).abs() <= self.GH  # (N,H,1)
         pipe = col_mask & (~gap_mask) & visible                          # (N,H,W)
         self._img[:, 1] = pipe.float()
-        # bird: yellow block at (bird_x, by)
+        # bird block geometry
         rad = max(1, int(self.bird_r * H))
-        br = (self.by.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
         bc = int(self.bird_x * (W - 1))
         ri = torch.arange(H, device=DEVICE).view(1, H, 1)
         ci = torch.arange(W, device=DEVICE).view(1, 1, W)
+        # trail: PREVIOUS bird position in BLUE -> a single frame now encodes velocity
+        tr = (self.by_prev.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
+        trail = ((ri - tr).abs() <= rad) & ((ci - bc).abs() <= rad)
+        self._img[:, 2] = torch.maximum(self._img[:, 2], trail.float())
+        # bird: yellow block at (bird_x, by), drawn on top
+        br = (self.by.clamp(0, 1) * (H - 1)).long().view(N, 1, 1)
         bird = ((ri - br).abs() <= rad) & ((ci - bc).abs() <= rad)       # (N,H,W)
         bf = bird.float()
         self._img[:, 0] = torch.maximum(self._img[:, 0], bf)
         self._img[:, 1] = torch.maximum(self._img[:, 1], bf)
+        self._img[:, 2] = self._img[:, 2] * (~bird)      # bird overwrites trail (stays yellow)
 
     def reset(self):
         return self.state
@@ -83,11 +91,13 @@ class DeviceVecFlappy:
     def step(self, action):
         N = self.num_envs
         z = torch.zeros(N, device=DEVICE)
+        old_by = self.by.clone()
         flap = action == self.A_FLAP
         # gravity + flap impulse
         self.vy = self.vy + self.G
         self.vy = torch.where(flap, torch.full_like(self.vy, -self.FLAP), self.vy)
         self.by = self.by + self.vy
+        self.by_prev = old_by         # one-step trail -> single frame now encodes velocity
         # scroll pipe
         prev_x = self.pipe_x.clone()
         self.pipe_x = self.pipe_x - self.SCROLL
@@ -101,7 +111,10 @@ class DeviceVecFlappy:
         oob = (self.by <= 0.0) | (self.by >= 1.0)
         dead = hit_pipe | oob
 
-        reward = self.survive * (~dead).float() + passed.float() - dead.float()
+        # dense shaping: reward staying near the current gap centre (default off).
+        near_gap = (1.0 - (self.by - self.gap_y).abs() * 3.0).clamp(min=0.0)
+        reward = (self.survive * (~dead).float() + passed.float() - dead.float()
+                  + self.shaping * near_gap * (~dead).float())
         self.score = self.score + passed.float()
         self.cum_score = self.cum_score + passed.float()
 
@@ -123,6 +136,7 @@ class DeviceVecFlappy:
     def _reset_done(self, done):
         z = torch.zeros(self.num_envs, device=DEVICE)
         self.by = torch.where(done, z + 0.5, self.by)
+        self.by_prev = torch.where(done, z + 0.5, self.by_prev)
         self.vy = torch.where(done, z, self.vy)
         self.pipe_x = torch.where(done, z + 1.0, self.pipe_x)
         self.gap_y = torch.where(done, self._rand_gap(), self.gap_y)
