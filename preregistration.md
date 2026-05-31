@@ -4859,3 +4859,24 @@ developmental learning.
   concept learning (v19 recipe) for human-like sample-efficiency — a large
   multi-session build; every brick is now individually validated AND the
   integration loop assembling them is proven.
+
+
+- **2026-05-31 (v27 SCALE-via-BROAD-VARIETY prereg — the v19 recipe IN GAMES).**
+  scripts/variety_efficiency_v27.py. Single-source cross-GAME transfer failed
+  before (P3 reuse-across-games, v16 multi-game encoder) — the net memorised one
+  game instead of abstracting. v19 found the fix in the concept domain: training
+  over BROAD VARIETY forces the rule, which then generalises zero-shot. v27 tests
+  that recipe in the GAME substrate using a FAMILY of Pong variants (Pong is
+  parameterised: ball_speed, paddle_half, opp_speed, spin). Generate N_train=24
+  random variants + N_test=8 HELD-OUT variants. Train ONE agent over the 24 train
+  variants (a random variant each iteration); separately train a SINGLE-variant
+  agent (same iter budget, one fixed Pong). HYPOTHESIS: the variety-trained agent
+  wins on UNSEEN variants ~ as well as on trained ones (it learned a general Pong
+  skill, not a memorised one), and beats the single-variant agent on those same
+  unseen variants. DECISIVE pass: variety win-rate on unseen >= 0.70 AND >=
+  single-variant win-rate on unseen + 0.10. This is the cross-task efficiency
+  frontier: broad variety -> a reusable skill that transfers to NEW instances for
+  free, the mechanism a knowledge-accumulating agent needs to get sample-efficient
+  with experience. Honest scope: variants share rendering/controls and differ only
+  in physics params, so this proves WITHIN-FAMILY generalisation (the v19 recipe),
+  not cross-genre transfer. Script committed before the run; chronology asserted.
