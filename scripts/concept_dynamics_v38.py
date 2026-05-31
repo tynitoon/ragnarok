@@ -62,7 +62,8 @@ def success(pos, vel, target, task):
 class ReachEnv:
     """Model-free substrate for one task. obs = [pos, vel, target]."""
     def __init__(self, n, task, max_steps=60, seed=0):
-        self.n, self.task, self.max_steps = n, task, max_steps
+        self.n = self.num_envs = n
+        self.task, self.max_steps = task, max_steps
         self.action_dim, self.obs_dim = 3, 3
         self._g = torch.Generator(device=DEVICE); self._g.manual_seed(seed)
         self._reset_all()
@@ -131,25 +132,30 @@ def learn_dynamics(steps, n, gen):
 
 
 @torch.no_grad()
-def plan_step(M, pos, vel, target, task, H=16, S=128):
-    """Random-shooting MPC in the LEARNED model M: pick the action sequence whose
-    rolled-out end best satisfies the task, return its first action."""
+def plan_step(M, pos, vel, target, task, H=20, S=200, iters=3, elite=24):
+    """CEM-MPC in the LEARNED model M: iteratively refine a per-step action
+    distribution toward the elite (lowest-cost) rollouts; return the first action.
+    A strong planner so a perfect dynamics model can solve precise (stop) tasks."""
     n = pos.shape[0]
-    seqs = torch.randint(0, 3, (n, S, H), device=DEVICE)
-    p = pos.view(n, 1).expand(n, S).clone()
-    v = vel.view(n, 1).expand(n, S).clone()
-    for h in range(H):
-        a = seqs[:, :, h]
-        force = (a.float() - 1.0) * FORCE
-        x = torch.stack([p, v, force], -1).reshape(n * S, 3)
-        out = M(x).reshape(n, S, 2)
-        p, v = out[..., 0].clamp(0, 1), out[..., 1]
+    probs = torch.full((n, H, 3), 1.0 / 3.0, device=DEVICE)
     tgt = target.view(n, 1)
-    cost = (p - tgt).abs()
-    if TASKS[task]["stop"]:
-        cost = cost + 2.0 * v.abs()
-    best = cost.argmin(1)                                # (n,)
-    return seqs[torch.arange(n, device=DEVICE), best, 0]
+    stop = TASKS[task]["stop"]
+    for _ in range(iters):
+        samp = torch.multinomial(probs.reshape(n * H, 3), S, replacement=True)
+        seqs = samp.reshape(n, H, S).permute(0, 2, 1).contiguous()    # (n,S,H)
+        p = pos.view(n, 1).expand(n, S).clone()
+        v = vel.view(n, 1).expand(n, S).clone()
+        cost = torch.full((n, S), 1e9, device=DEVICE)
+        for h in range(H):
+            force = (seqs[:, :, h].float() - 1.0) * FORCE
+            out = M(torch.stack([p, v, force], -1).reshape(n * S, 3)).reshape(n, S, 2)
+            p, v = out[..., 0].clamp(0, 1), out[..., 1]
+            sc = (p - tgt).abs() + (2.0 * v.abs() if stop else 0.0)
+            cost = torch.minimum(cost, sc)              # best-along-the-horizon (success is per-step)
+        idx = cost.topk(elite, largest=False, dim=1).indices          # (n,elite)
+        elite_seqs = torch.gather(seqs, 1, idx.unsqueeze(-1).expand(n, elite, H))
+        probs = F.one_hot(elite_seqs, 3).float().mean(1) * 0.9 + (1.0 / 3.0) * 0.1
+    return probs[:, 0, :].argmax(-1)
 
 
 @torch.no_grad()
