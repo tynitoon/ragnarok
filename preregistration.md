@@ -6053,3 +6053,34 @@ large one-time cost. Mechanism real; reliability across the distribution is the 
 (matches survey: large reliable forward transfer is unsolved field-wide). Spawning 3 adversarial
 reviews (methodology/fairness, generalisation/overfitting, strategy/North-Star) before deciding
 direction with owner.
+
+### v45 ADVERSARIAL REVIEW (3 agents) + INDEPENDENT VERIFICATION — 2026-06-01: OVERCLAIM RETRACTED
+3 adversarial reviews (methodology, generalisation, strategy) + my own re-checks DEMOLISH the
+v45 "first reuse result" framing. RETRACTED. Verified findings:
+1. TASK COLLAPSE (decisive): choose_task grants ALL prereqs -> held-out task = "navigate to the
+   goal resource's cell-type and collect". NOT tech-tree reuse (no composition/notion/dynamics).
+   corr(#cell-types, ic_best) ~ -0.49 = signature of a CONTEXTUAL BANDIT over cell-types. AD here
+   re-derives its own paper's bandit/dark-room capability on a new substrate.
+2. MEMORISATION LEAK (verified independently): corr(goal_item_idx, goal_cell_type) = +0.689 across
+   train trees (generator builds DAG in topo order w/ incrementing cell-id) -> model partly reads
+   the target off the goal one-hot, not from in-context reward. (Reviewer's "tree1007 identical in
+   all 96" was WRONG -> 1/96; the leak is the correlation.)
+3. WEAK BAR vs BLIND FLOOR (verified): smart-blind move/collect policy = 0.346 mean; in-context
+   STARTS ~0.25 (below it); the 0.8 bar is only ~0.45 above the non-identifying floor. Real signal
+   exists ONLY where in-context clears ~0.35 and curves climb (Spearman ~+0.97) — genuine in-context
+   identification, but leak-primed and narrow.
+4. MEASUREMENT ASYMMETRY (review #1): in-context success read off the SAME sampled rollout counted
+   as cost, every episode; PPO scored by a SEPARATE deterministic eval every 5 iters -> the ~1.5-2x
+   per-task speedup is largely an ARTIFACT. Frozen NULL (positive:false) was honest; soft "1.7x" not established.
+5. "OVERFITTING" (5/8 p2 -> 3/8 p3) is WITHIN NOISE: Fisher p=0.62, McNemar p=0.625. 1 seed / 8
+   trees -> NO reliability claim supportable.
+=> HONEST VERDICT: v45 = partial, leak-contaminated IN-CONTEXT CELL-TYPE IDENTIFICATION on a
+scaffolded task (a known AD capability), NOT skill/knowledge reuse, NOT a North-Star advance.
+Discipline note (strategy review): "reuse" scope-crept toward tractability across the whole arc
+(dropped pixels, dropped cross-game, dropped composition).
+*** STRUCTURAL INSIGHT (project-level): AD must distil PPO learning-histories -> it can only
+amortise tasks PPO ALREADY SOLVES (the EASY regime where v44 showed reuse doesn't pay). On the
+HARD regime (where reuse matters), PPO can't solve it -> no source histories -> AD can't bootstrap.
+AD RELOCATES the v44 boundary; it does NOT break it. ***
+Credit (real): honest JSON (positive:false), fair-ish baseline, frozen mechanism, stopping rule
+honored -> NOT a dishonest strawman like v38/v43. Next: decide direction with owner.
