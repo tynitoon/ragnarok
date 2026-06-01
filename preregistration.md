@@ -6135,3 +6135,15 @@ generalises to novel composites" (v48c). Those are follow-ups ONLY if v48a holds
 ### Anti-v45 traps: no eval-granting; matched compute; matched reward info; strong (curiosity)
 flat baseline; >= 3 seeds; continuous metric; adversarial review BEFORE any positive claim;
 audit for leaks/shortcuts (the manager sees only symbolic [inv,unlocked], never an oracle plan).
+
+### v48 SEED-0 PILOT — 2026-06-01: matched compute DEFLATES the hierarchy advantage (the prereg worked)
+Skills trained (wood 0.93/stone 0.95/coal 0.93/iron 0.95). At MATCHED 37.8M primitive steps:
+REUSE iron_pickaxe 0.752 vs FLAT 0.543. => the M-series "flat 0.11" was an UNMATCHED-COMPUTE
+artifact: given the SAME budget, flat PPO+curiosity reaches 0.54. NULL at the frozen bar (reuse
+not >=0.8, AND flat not <=0.2). Crucially the bar fails on the FLAT side (0.54) -> config-
+independent of reuse. Honest caveats: (a) frozen reuse config (collect_target=2, mgr_iters=150)
+may under-sell reuse (M7 cited ~1.0) — NOT tuning post-hoc (v38/v39 sin); (b) reuse budget
+inflated by option-execution during manager training -> gives flat a large budget. The FLAT-is-
+strong finding is robust regardless of reuse's exact number. 2ND matched-compute deflation after
+v44 -> the project's reuse advantages shrink under fair accounting. 1 seed; decide with owner:
+confirm seeds 1-2 (~3.7h) for the rigorous >=3-seed record, or consolidate the honest pattern.
