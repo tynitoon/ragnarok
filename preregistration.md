@@ -6017,3 +6017,20 @@ PILOT-STAGE next levers (SCALE/coverage only, mechanism FROZEN, disclosed): trai
 (cover the distribution — likely main cause of 5/8 held-out failures), ctx 128->256 (accumulate
 cross-episode evidence for harder identification), distill 5000->8000, eval 24->32, src 80->60
 (cut one-time cost). Re-pilot 1 seed; if reliability rises with margin, FIX config + scored 3 seeds.
+
+### v45 PILOT-2 (seed 0, SCALED: 64 trees, ctx 256, distill 8000) — 2026-06-01: reliability UP (5/8), still NULL at frozen bar
+Held-out in-context MASTERED 5/8 (up from 3/8): 1002(0.82@16ep/4096), 1003(0.90@21/5376),
+1004(1.0@10/2560), 1005(0.91@14/3584), 1007(1.0@8/2048). Avg in-context 3533 vs scratch
+5992 ep (~1.7x). Strict <=0.5x met on 2/5 (1002 0.49x, 1004 0.43x). FAILED 3/8 (per-episode
+curves logged): 1001 plateaus ~0.40 (genuine identification failure), 1000 ~0.72 and 1006
+~0.55 (climb then plateau below 0.8). => coverage+context levers worked (reliability 3/8->5/8)
+as diagnosed; NULL at frozen bar (needs ALL <=0.5x). One-time distill cost grew to 2.63M (more
+trees) -> break-even ~1070 tasks (amortisation WORSENS with coverage — inherent tension; this
+is the developmental "childhood-investment" framing, disclosed not hidden).
+NEXT (pilot-3): push coverage 64->96 + model d=160/5L + distill 10k (test capacity ceiling on
+the 3 plateau trees), src 50 to trim one-time cost.
+*** STOPPING RULE (anti compute-sink, anti goalpost-chase): if pilot-3 does NOT reach >=7/8
+mastered with avg <=0.5x, the clean preregistered win is NOT reliably reachable at single-GPU
+scale -> REPORT THE HONEST PARTIAL (mechanism works within-domain, masters the majority of
+unseen tech-trees ~1.7x faster gradient-free — the project's FIRST real reuse result) + spawn
+reviews, decide with owner. No endless scaling. ***
