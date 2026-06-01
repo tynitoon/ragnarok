@@ -6084,3 +6084,54 @@ HARD regime (where reuse matters), PPO can't solve it -> no source histories -> 
 AD RELOCATES the v44 boundary; it does NOT break it. ***
 Credit (real): honest JSON (positive:false), fair-ish baseline, frozen mechanism, stopping rule
 honored -> NOT a dishonest strawman like v38/v43. Next: decide direction with owner.
+
+## PREREGISTRATION v48 — Compositional reuse reaches a HARD target where flat RL cannot, FAIRLY
+**Date committed:** 2026-06-01. CHRONOLOGY ASSERTION: written/committed BEFORE any v48 code.
+FROZEN per standing rule. Owner chose this direction (composition on hard tasks) after the v45
+reckoning showed AD only RELOCATES the v44 boundary (can amortise only PPO-solvable tasks).
+
+MOTIVATION: our OWN v44 boundary says reuse pays when the task is too hard to learn directly.
+Compositional reuse is exactly that regime (reach a depth a flat agent never touches, by reusing
+learned skills) — and AD structurally cannot go there. The existing M4/M5/v7 results SUGGEST this
+works but FAIL v45-level rigour: M4 composition is SCRIPTED (_choose_target + craft logic hand-
+coded); M5 learns the order but the OPTION SET + craft behaviours are given; BOTH cite "flat PPO
+0.11" WITHOUT matched compute and at 1 seed. v48 makes the claim bulletproof or kills it.
+
+### H (single confirmatory hypothesis)
+On CraftWorld, at MATCHED total environment experience and MATCHED reward signal, a HIERARCHICAL
+agent that learns collect-skills and learns a manager to COMPOSE them solves the depth-6 target
+make_iron_pickaxe END-TO-END from EMPTY inventory (success >= 0.8), while a FLAT from-scratch
+PPO+curiosity agent given the SAME total budget stays at <= 0.2 — reliably across >= 3 seeds.
+
+### Arms (FROZEN)
+- REUSE/HIERARCHICAL: (1) learn the 4 goal-conditioned collect skills (prereqs granted DURING
+  each skill's training — counted); (2) learn a manager (PPO over option macro-steps, run-until-
+  achieved / M7-style) to compose them. EVAL: end-to-end in the FULL env from EMPTY inventory,
+  NO grants — the agent must EXECUTE the full chain. iron_pickaxe completion.
+- FLAT: PPO + per-item novelty/curiosity bonus on the FULL env with sparse first-time-achievement
+  rewards, run until it consumes the SAME total PRIMITIVE ENV STEPS as the reuse arm (skills +
+  manager training). Re-RUN (not cited). Same end-to-end eval. iron_pickaxe completion.
+
+### FAIR ACCOUNTING (FROZEN — the v45 lesson)
+- Unit = total PRIMITIVE environment steps (env.step x num_envs), summed over ALL reuse-arm
+  training (every skill + manager) and matched exactly for the flat arm. Eval steps excluded for
+  both (identical eval protocol). No "free" skill compute.
+- Matched INFORMATION: both arms get the same per-achievement sparse rewards; flat also gets the
+  curiosity bonus (its best shot — NOT a strawman). Both see the full action space.
+
+### Decision rule (FROZEN)
+POSITIVE iff reuse iron_pickaxe >= 0.8 AND flat iron_pickaxe <= 0.2, on EVERY one of >= 3 seeds
+(report mean/std + per-seed). NULL/CHECK otherwise (e.g., if flat cracks it at matched compute,
+hierarchy gives no fair advantage here -> honest, important).
+
+### HONEST SCOPE (stated up-front to pre-empt the scope-creep critique)
+This tests TEMPORAL ABSTRACTION + SKILL REUSE, fairly. The option SET = the env's achievements,
+given to BOTH arms via the reward signal (same information); the LEARNED content = the navigation
+skills + the composition order; craft actions are env primitives. The claim is "reuse-via-
+hierarchy makes a too-hard-to-learn-directly task reachable at matched compute", NOT "the agent
+autonomously discovers the decomposition" (that is v48b: v7 autonomous discovery) NOR "it
+generalises to novel composites" (v48c). Those are follow-ups ONLY if v48a holds.
+
+### Anti-v45 traps: no eval-granting; matched compute; matched reward info; strong (curiosity)
+flat baseline; >= 3 seeds; continuous metric; adversarial review BEFORE any positive claim;
+audit for leaks/shortcuts (the manager sees only symbolic [inv,unlocked], never an oracle plan).
