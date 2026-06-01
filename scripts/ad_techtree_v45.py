@@ -307,7 +307,8 @@ def run_seed(seed, cfg, args):
 
         rows.append(dict(tree=hs, ic_best=round(max(frac), 3),
                          ic_ep_per_env=ic_ep_per_env, ic_total_episodes=ic_total,
-                         base_episodes=base_ep, base_final=round(base_final, 3)))
+                         base_episodes=base_ep, base_final=round(base_final, 3),
+                         ic_curve=[round(f, 2) for f in frac]))   # per-episode (diagnose)
     return dict(seed=seed, distill_loss=round(dloss, 4),
                 distill_source_episodes=src_eps, rows=rows)
 
@@ -384,6 +385,24 @@ def main():
 
     wins = [seed_win(r) for r in runs]
     positive = all(wins) and len(wins) == len(args.seeds)
+
+    # ---- honest amortisation accounting (the review's main attack surface) ----
+    base_eps = [row["base_episodes"] for r in runs for row in r["rows"] if row["base_episodes"]]
+    ic_eps = [row["ic_total_episodes"] for r in runs for row in r["rows"] if row["ic_total_episodes"]]
+    n_trees = sum(len(r["rows"]) for r in runs)
+    D = sum(r["distill_source_episodes"] for r in runs) / max(1, len(runs))
+    avg_base = (sum(base_eps) / len(base_eps)) if base_eps else None
+    avg_ic = (sum(ic_eps) / len(ic_eps)) if ic_eps else None
+    breakeven = (round(D / (avg_base - avg_ic)) if avg_ic and avg_base and avg_base > avg_ic
+                 else None)
+    amort = dict(in_context_mastered=len(ic_eps), held_out_total=n_trees,
+                 avg_in_context_episodes=avg_ic, avg_scratch_episodes=avg_base,
+                 one_time_distill_episodes=round(D), breakeven_tasks=breakeven)
+    print(f"  AMORTISE: in-context mastered {len(ic_eps)}/{n_trees} held-out | avg in-context "
+          f"{None if avg_ic is None else round(avg_ic)} vs scratch "
+          f"{None if avg_base is None else round(avg_base)} ep/task | one-time distill "
+          f"{round(D)} ep -> TOTAL-compute break-even ~{breakeven} held-out tasks", flush=True)
+
     verdict = (
         "AD IN-CONTEXT REUSE POSITIVE — on held-out procedural tech-trees the distilled "
         "transformer masters in <= half the ENVIRONMENT EPISODES of from-scratch PPO, "

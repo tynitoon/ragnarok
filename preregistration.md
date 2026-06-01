@@ -6001,3 +6001,19 @@ improvement is visible in-context). Trained by autoregressive next-ACTION predic
 Tiny config (few trees, short PPO, small transformer) end-to-end: log streams -> distil ->
 in-context rollout produces actions and a non-degenerate episodes-to-mastery for both arms.
 Confirms the pipeline runs; does NOT tune the mechanism to pass.
+### v45 PILOT (seed 0, original config) — result 2026-06-01: PROMISING PARTIAL (NULL at frozen bar, honest)
+Config: 24 train / 8 held-out procedural tech-trees, src 80 iters, ctx=128, distill 5000,
+num_envs=256, eval 24 ep. Held-out (unseen seeds): in-context MASTERED 3/8 trees gradient-
+free (0.95 / 0.84 / 1.0) in 7-19 episodes/env, ~1.9-2.3x fewer ENV EPISODES than from-scratch
+PPO (3328 vs 6277; 4864 vs 9082; 1792 vs 4049). FAILED to master 5/8 (best 0.29-0.68).
+=> By the FROZEN decision rule (in-context <= 0.5x scratch on EVERY held-out tree) this is a
+NULL — reported as such by the script (no goalpost-moving). BUT it is the FIRST real in-context
+reuse signal in the whole project: distillation of learning-histories generalises to UNSEEN
+tech-trees and makes a NEW task faster, fairly, per-task. HONEST CAVEAT (review will hammer):
+one-time distillation cost = 1.57M source episodes; per-task saving ~3000 ep -> TOTAL compute
+breaks even only after ~520 held-out tasks. The per-task (foundation-model-style) framing is
+the legitimate North-Star one, but the one-time cost must be disclosed + break-even reported.
+PILOT-STAGE next levers (SCALE/coverage only, mechanism FROZEN, disclosed): train_trees 24->64
+(cover the distribution — likely main cause of 5/8 held-out failures), ctx 128->256 (accumulate
+cross-episode evidence for harder identification), distill 5000->8000, eval 24->32, src 80->60
+(cut one-time cost). Re-pilot 1 seed; if reliability rises with margin, FIX config + scored 3 seeds.
