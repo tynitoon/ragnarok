@@ -6034,3 +6034,22 @@ mastered with avg <=0.5x, the clean preregistered win is NOT reliably reachable 
 scale -> REPORT THE HONEST PARTIAL (mechanism works within-domain, masters the majority of
 unseen tech-trees ~1.7x faster gradient-free — the project's FIRST real reuse result) + spawn
 reviews, decide with owner. No endless scaling. ***
+
+### v45 PILOT-3 (seed 0, 96 trees, d=160/5L, distill 10k) — 2026-06-01: REGRESSION (3/8) = OVERFITTING; STOPPING RULE TRIGGERED
+Held-out in-context mastered 3/8 (1000 0.85@22, 1004 0.97@14, 1007 0.98@10) — DOWN from
+pilot-2's 5/8 DESPITE LOWER distill loss (0.89 vs 1.08). Classic overfitting: bigger model +
+more coverage + more distillation fit the SOURCE better but GENERALISED WORSE to held-out.
+Borderline trees flip across configs (1002/1003/1005 passed in p2, fail in p3 at 0.75/0.77/0.69;
+1000 failed in p2, passes in p3). 1001 & 1006 fail in ALL 3 pilots (~0.3 — persistent hard
+identification). avg in-context 3925 vs scratch 6168 (~1.57x). break-even ~1266.
+=> DECISIVE: the clean preregistered win (>=7/8 @ <=0.5x, reliable) is NOT reachable by scaling
+at single-GPU scale; capacity/coverage do NOT monotonically help — they OVERFIT. STOPPING RULE
+(pre-committed) TRIGGERED -> NOT launching the 6-9h scored run.
+HONEST PARTIAL (the v45 result, pending adversarial review): in-context distillation of learning-
+histories yields a frozen policy that masters ROUGHLY HALF (3-5/8, high variance, 1 seed) of
+UNSEEN procedural tech-trees gradient-free, ~1.5-2x faster than from-scratch PPO — the project's
+FIRST real reuse-makes-new-task-faster signal — but NOT uniformly reliable, config-sensitive,
+large one-time cost. Mechanism real; reliability across the distribution is the open problem
+(matches survey: large reliable forward transfer is unsolved field-wide). Spawning 3 adversarial
+reviews (methodology/fairness, generalisation/overfitting, strategy/North-Star) before deciding
+direction with owner.
