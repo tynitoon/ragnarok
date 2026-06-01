@@ -5885,3 +5885,32 @@ developmental learning.
   that is the important result "factored reuse is not a net env-sample win at fair
   accounting". If POSITIVE: adversarial review BEFORE reporting. FROZEN; committed
   before run.
+
+- **2026-05-31 (v44 RESULT — the DECISIVE fair NEGATIVE that closes the arc).**
+  craft_v6_out/v44_model_based_learned.json. With MB forced to LEARN its landing
+  model (no oracle), and the eval fixed (randomised seeds, finals VARY across seeds):
+  the learned model became accurate (landing-MSE 0.35/0.63/0.39) -- yet MB reaches 10
+  lines at 153,600 env interactions EVERY seed while MF (end-to-end PPO) reaches it
+  at 92,160/122,880/92,160 and ends HIGHER (~15 vs ~12). So MODEL-FREE is MORE
+  sample-efficient than model-based here. *** DECISIVE HONEST CONCLUSION (closes the
+  whole reuse arc): at FAIR accounting -- the agent learns its own model -- the
+  "prior knowledge / model -> fewer trials" capability does NOT materialise on these
+  (learnable) substrates. The reason: learning an accurate model COSTS interactions
+  (MB plays badly while L is still inaccurate), and that overhead is NOT repaid when
+  model-free can learn the task directly. Every apparent "win" in the arc required
+  GIVING the agent the hard part for free: v38/v43 used an ORACLE model; v17b used a
+  given/accurate landing + hand-coded scoring. Remove the free lunch -> no win, and
+  model-free actually wins. *** This is consistent with all 5 notion-as-feature nulls
+  (scratch learns from raw obs) and the v12-C pixel-world-model negative. BOUNDED
+  claim (honest, not over-stated): with a FAIR lean model-based agent on a
+  model-free-LEARNABLE task, there is NO net env-sample-efficiency win; model-based
+  would only pay where model-free genuinely CANNOT learn (sparse / very-long-horizon
+  / unlearnable-directly) -- a regime not present in our substrates. A much stronger
+  planner/value might shift the numbers, but the model-learning-overhead logic is
+  general. NET for the owner's thesis: "more knowledge -> fewer trials" is real ONLY
+  when the knowledge is the EXPENSIVE-to-rederive part AND the task is otherwise too
+  hard to learn directly (v17b's regime); it does NOT hold as a general, fair,
+  reproducible mechanism on learnable tasks. This is the most important result of the
+  investigation -- a clean, fair, decisive boundary, worth more than a forced
+  positive. (Caveat: MB-as-implemented; a frontier planner on a genuinely-unlearnable
+  task is the only remaining place a fair win could live.)

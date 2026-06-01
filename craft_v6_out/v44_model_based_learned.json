@@ -1,0 +1,35 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "landing_mse": 0.349,
+      "mb_interactions": 153600,
+      "mb_final": 12.52,
+      "mf_interactions": 92160,
+      "mf_final": 14.18
+    },
+    {
+      "seed": 1,
+      "landing_mse": 0.632,
+      "mb_interactions": 153600,
+      "mb_final": 12.03,
+      "mf_interactions": 122880,
+      "mf_final": 14.75
+    },
+    {
+      "seed": 2,
+      "landing_mse": 0.389,
+      "mb_interactions": 153600,
+      "mb_final": 11.78,
+      "mf_interactions": 92160,
+      "mf_final": 17.31
+    }
+  ],
+  "finals_vary": true,
+  "verdict": "PARTIAL/NEG \u2014 mb_ok=True, fewer=False, finals_vary=True; rows=[{'seed': 0, 'landing_mse': 0.349, 'mb_interactions': 153600, 'mb_final': 12.52, 'mf_interactions': 92160, 'mf_final': 14.18}, {'seed': 1, 'landing_mse': 0.632, 'mb_interactions': 153600, 'mb_final': 12.03, 'mf_interactions': 122880, 'mf_final': 14.75}, {'seed': 2, 'landing_mse': 0.389, 'mb_interactions': 153600, 'mb_final': 11.78, 'mf_interactions': 92160, 'mf_final': 17.31}]. If null, learning the factored model is NOT a net env-sample win -> honest, important."
+}

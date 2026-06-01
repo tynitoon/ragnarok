@@ -184,3 +184,17 @@ oracle), so BOTH pay to learn the dynamics; randomised eval seeds + mean/std;
 compute on a 2nd axis (count the lookahead); MF run to its v15 regime or matched
 compute. Question: is learning a LEAN FACTORED model more env-sample-efficient than
 end-to-end, AFTER counting planning cost? Honest either way. THIS is the bar.
+
+
+## UPDATE 2026-05-31 (v44 — DECISIVE fair negative; closes the reuse arc)
+v44 (MB LEARNS its model, no oracle, eval fixed): MB reaches 10 lines @ 153.6k
+interactions; MF (end-to-end) @ ~92-123k and ends higher. => model-free is MORE
+sample-efficient. At FAIR accounting, "prior knowledge -> fewer trials" does NOT
+hold on learnable substrates: learning an accurate model costs interactions that
+aren't repaid when MF can learn directly. Every prior "win" (v38/v43 oracle, v17b
+given-model+hand-scoring) hid this. The capability is real ONLY when the knowledge
+is expensive-to-rederive AND the task is too hard to learn directly (v17b's narrow
+regime). The honest boundary of the whole reuse investigation.
+ONLY remaining place a FAIR win could live: a task model-free genuinely CANNOT learn
+(sparse / very-long-horizon) + a strong planner. That, or accept the bounded honest
+conclusion. Decide with the owner.
