@@ -5870,3 +5870,18 @@ developmental learning.
   its v15-known regime (or cap both at matched compute). Then the real question --
   is learning a LEAN FACTORED model more env-sample-efficient than learning
   end-to-end, accounting for planning cost -- is answered honestly either way.
+
+- **2026-05-31 (v44 prereg — FAIR model-based with a LEARNED model; FROZEN).**
+  scripts/model_based_learned_v44.py. Addresses every v43-review issue: MB LEARNS the
+  landing model (LandingNet: board image -> landing per placement; label =
+  placement_landings, the gravity+collision hard part; self-supervised on OBSERVED
+  boards), then plans via metrics_at(L)->V->greedy (no oracle evaluate_placements).
+  MF = PPO end-to-end. Eval seed RANDOMISED + averaged (kills the v43 deterministic
+  N=1); landing-MSE reported; MF run to 400 iters; interactions counted identically.
+  Metric: lines vs ENV INTERACTIONS, threshold 10, 3 seeds, finals must VARY across
+  seeds. HYPOTHESIS: learning a LEAN FACTORED model (the landing) is more
+  env-sample-efficient than end-to-end (MB reaches threshold in <= half MF's
+  interactions). HONEST either way: if NULL (learning L costs as much as it saves),
+  that is the important result "factored reuse is not a net env-sample win at fair
+  accounting". If POSITIVE: adversarial review BEFORE reporting. FROZEN; committed
+  before run.
