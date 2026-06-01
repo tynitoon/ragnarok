@@ -5914,3 +5914,90 @@ developmental learning.
   investigation -- a clean, fair, decisive boundary, worth more than a forced
   positive. (Caveat: MB-as-implemented; a frontier planner on a genuinely-unlearnable
   task is the only remaining place a fair win could live.)
+
+
+---
+
+## PREREGISTRATION v45 — Algorithm Distillation on PROCEDURAL tech-trees (in-context reuse, FAIR)
+
+**Date committed:** 2026-06-01. **CHRONOLOGY ASSERTION:** this entry is written and
+committed BEFORE any v45 code is written or run. FROZEN per standing rule — if the smoke
+shows the registered design fails, that is a NEGATIVE to report, not a licence to edit the
+mechanism and re-run under this prereg. Any change after first run = dated amendment below.
+
+**Motivation (from the 2026-06-01 deep literature survey, RESEARCH_DIRECTION.md):** the
+ONLY evidence-backed mechanism that escapes all our nulls is in-context RL / Algorithm
+Distillation (AD). It distils ACROSS-EPISODE LEARNING HISTORIES (where competence visibly
+improves) into a causal transformer that then improves IN-CONTEXT (gradient-free) on a NEW
+task from the same distribution. Reuse is the LEARNING ALGORITHM amortised over a task
+DISTRIBUTION — not a notion-as-feature (v36-42 nulls) nor a model-to-plan (v43/44).
+
+### H (single confirmatory hypothesis)
+On HELD-OUT procedural tech-trees (unseen generator seeds), a causal transformer distilled
+from from-scratch PPO learning-histories on TRAIN trees reaches the goal in measurably
+FEWER ENVIRONMENT EPISODES, improving IN-CONTEXT (gradient-free, no weight updates), than
+from-scratch PPO on the same held-out tree — reliably across >=3 seeds, at FAIR accounting.
+
+### Substrate (FROZEN)
+- `DeviceVecTechTree` (v10) with `gen_tree(seed)`. Task family = goal-conditioned single
+  step in the v7 style: for a (tree, target-item) the agent is GRANTED all of the target's
+  prerequisites and must obtain the target (navigate to the right cell-type(s), collect
+  missing direct inputs, execute the craft) — reward +1 and terminate on the target.
+  This is proven PPO-masterable (v7 trains exactly these per-node skills).
+- **Tree-agnostic I/O:** obs padded to a fixed `max_cells`; action space padded to a fixed
+  `max_actions` (= 5 + max craft actions over the generator config), so ONE transformer
+  serves all trees. Goal passed as the goal one-hot already in obs (goal_conditioned).
+- **Train / test split:** generator seeds partitioned DISJOINTLY. Train trees = seeds
+  {0..K-1}; held-out test trees = seeds {K..K+H-1}. No test tree (or its node) ever appears
+  in distillation data. H >= 5 held-out trees.
+
+### Source data (FROZEN): the AD learning-histories
+For each TRAIN (tree, target) run from-scratch PPO (the project's `DiscretePPO`) and LOG the
+full ordered across-episode stream of (obs_t, action_t, reward_t, done_t) over the WHOLE
+training run (incompetent -> competent). This stream MUST exhibit learning progress (it does
+by construction). These ordered streams are the only AD training data.
+
+### AD model (FROZEN mechanism)
+Causal (decoder-only) transformer over the token sequence (..., obs_t, action_t, reward_t,
+obs_{t+1}, ...) spanning MULTIPLE consecutive episodes (context length >= a few episodes so
+improvement is visible in-context). Trained by autoregressive next-ACTION prediction
+(cross-entropy) on the train streams. No environment interaction during distillation.
+
+### Evaluation (FROZEN)
+- **In-context arm:** on each held-out tree, roll the transformer forward feeding its OWN
+  growing across-episode history (gradient-free; weights frozen). Measure EPISODES-to-mastery.
+- **Baseline arm:** from-scratch PPO (identical config to the source learner) on the same
+  held-out tree. Measure EPISODES-to-mastery.
+- **Mastery:** success >= 0.8 over a fixed eval batch (>=256 envs), measured identically for
+  both arms.
+
+### Fair accounting (FROZEN — addresses the survey's two fairness traps)
+1. **Unit = ENVIRONMENT EPISODES** for both arms (not gradient steps), with IDENTICAL batch
+   size / num_envs in both arms, so AD is NOT credited for parallel-actor amortisation (the
+   known AD critique). Per-tree headline = in-context episodes vs from-scratch PPO episodes.
+2. **One-time distillation cost DISCLOSED and AMORTISED:** report total source episodes
+   (sum over train trees) + transformer train compute, divided by H held-out trees served.
+   The headline win is the PER-HELD-OUT-TREE in-context vs from-scratch comparison, with the
+   amortised one-time cost stated alongside (honest, not hidden).
+
+### Decision rule (FROZEN)
+- **POSITIVE** iff, on the held-out set, in-context episodes-to-mastery <= 0.5 x from-scratch
+  PPO episodes-to-mastery, on EVERY one of >=3 seeds (or a clearly-stated effect size with
+  bootstrap CIs that excludes parity). Then: spawn 3-4 adversarial reviews BEFORE reporting.
+- **NULL** otherwise — reported honestly: AD-style in-context reuse does not transfer to
+  curriculum/search-structured tasks at fair accounting. Important either way.
+
+### Pre-registered risks / honest caveats
+- Within-domain ONLY: a positive here does NOT claim cross-game reuse (the survey says
+  cross-domain in-context RL is unsolved). It is the honest stepping stone.
+- If from-scratch PPO masters the held-out task TOO cheaply, there is nothing to amortise ->
+  likely null; tree size / grid / view are set so the per-node task takes meaningful
+  exploration (report the from-scratch episode cost so the regime is transparent).
+- Hyperparameters (model size, context length, num_envs, tree config K/H) are set for
+  tractability by the SMOKE test and then FIXED + DISCLOSED before the scored run; the
+  MECHANISM, BASELINE, METRIC, and DECISION RULE above are frozen now and not negotiable.
+
+### Smoke test (plumbing only, not scored)
+Tiny config (few trees, short PPO, small transformer) end-to-end: log streams -> distil ->
+in-context rollout produces actions and a non-degenerate episodes-to-mastery for both arms.
+Confirms the pipeline runs; does NOT tune the mechanism to pass.

@@ -198,3 +198,54 @@ regime). The honest boundary of the whole reuse investigation.
 ONLY remaining place a FAIR win could live: a task model-free genuinely CANNOT learn
 (sparse / very-long-horizon) + a strong planner. That, or accept the bounded honest
 conclusion. Decide with the owner.
+
+
+## UPDATE 2026-06-01 (deep literature survey — the MISSED angle: in-context RL / Algorithm Distillation)
+Ran a verified multi-agent literature survey (2022-2026; 28 primary sources; 25 claims
+3-vote adversarially verified, 16 confirmed). Three conclusions:
+
+1. **Our v44 boundary IS the field consensus, not our failure.** At fair accounting,
+   cross-task forward transfer in deep RL is near-zero/negative (CORA / Powers 2022),
+   frozen visual pretraining (PVR / R3M / VC-1) is NOT better than from-scratch OOD
+   (arXiv 2411.10175), and every reported "win" (XTRA +23%, DUSDi, CKA-RL +8%) HIDES
+   uncounted pretraining / reward-free data — existence-proofs, NOT fair refutations.
+   Large reliable forward transfer is an OPEN problem. We re-derived the real frontier.
+2. **Heavy world-models are NOT the reuse mechanism (owner's RSSM hint corroborated).**
+   DreamerV3 trains each agent FROM SCRATCH (generality + a compute scaling law, not
+   transfer); TD-MPC2 multi-task is CO-TRAINING, held-out only ~2x. Bet LEAN for REUSE.
+3. **THE missed angle, with real (within-domain) evidence: in-context RL / Algorithm
+   Distillation (AD).** AD distils ACROSS-EPISODE LEARNING HISTORIES (where competence
+   visibly improves) into a causal transformer; on a NEW task from the same distribution
+   it improves IN-CONTEXT, gradient-free. Why it escapes ALL our nulls: the reusable
+   object is neither a notion-as-feature (v36-42 nulls) nor a model-to-plan (v43/44) — it
+   is THE LEARNING ALGORITHM ITSELF, amortised over a task DISTRIBUTION. KEY REFRAME of
+   our whole arc: we tested reuse on SINGLE source->target pairs (exactly where the field
+   ALSO nulls); AD's wins live in reuse AMORTISED over a distribution. Gated by
+   LEARNING-PROGRESS in the data (expert-only distillation fails — Gato-style). Within-
+   domain ONLY (cross-domain deferred/unsolved) -> a tech-tree-family positive does NOT
+   claim cross-game yet; it is the honest stepping stone.
+
+### NEW PLAN (replaces "accept the bounded conclusion"; ordered, review between each)
+- **v45 (PRIMARY): Algorithm Distillation on PROCEDURAL tech-trees.** Use v10's
+  DeviceVecTechTree.gen_tree(seed) to make a DISTRIBUTION of random tech-trees. Log
+  from-scratch PPO learning histories on TRAIN trees; distil into a causal transformer;
+  test gradient-free IN-CONTEXT mastery on HELD-OUT trees (unseen seeds) vs from-scratch
+  PPO. FAIR: count distillation as a ONE-TIME cost AMORTISED over the held-out set;
+  per-tree compare in-context episodes vs from-scratch PPO episodes; control the
+  "amortising-parallel-actors" artifact (single-stream fair accounting); >=3 seeds;
+  FROZEN at prereg. Falsifiable null = no in-context speedup. The developmental thesis
+  made concrete: the agent's own history of getting better becomes the reusable knowledge
+  that makes the next tree faster.
+- **v46 (characterise the boundary): model-based vs model-free crossover** in the regime
+  reuse already paid (deep sparse tech-tree) vs how much expensive sub-structure is SHARED
+  across tasks — maps WHERE the v44 boundary sits.
+- **v47 (rigour harness): adopt the Continual-World forward-transfer protocol** as the
+  standard metric; re-test a factored representation with pretraining COUNTED.
+- **AVOID (disproven by us AND the field):** blind PVR / encoder transfer across different
+  games; a static predicted-dynamics feature handed to model-free RL; oracle-dynamics planning.
+
+### DEFINITION OF AN AD POSITIVE (the bar for v45)
+On HELD-OUT procedural tech-trees, the distilled transformer reaches mastery in measurably
+fewer ENVIRONMENT EPISODES in-context (gradient-free) than from-scratch PPO, reliably
+(>=3 seeds), with distillation compute reported and amortised over the held-out set, and
+the parallel-actor artifact controlled. Positive + reviewed = come back to the owner.
