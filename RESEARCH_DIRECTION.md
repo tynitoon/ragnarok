@@ -170,3 +170,17 @@ knowledge"; it is real (v17b) but was overstated in v38 -- so the job is a RIGOR
 review-proof re-demonstration, not a new mechanism. Lean model (per owner's RSSM hint),
 not heavy world-model. Substrate: Tetris (placement planning via learned landing) or
 the inertial reach (planning under inertia). v43 = that, fairly.
+
+
+## UPDATE 2026-05-31 (v43 reviewed -> retracted): the ORACLE is the strawman; v44 = LEARNED dynamics
+v43 (model-based Tetris) looked positive (MB 56 vs MF 15 lines) but the adversarial
+review (re-ran the code) killed it: MB was handed the ANALYTIC dynamics (the hard
+part), the "learned value" is cosmetic (a hand-coded heuristic matches it), "3 seeds"
+was a deterministic-eval N=1, planning compute was hidden, and MF was truncated at
+~10% of its known regime. = the v38 strawman again. The review caught it BEFORE it
+was reported -> discipline working.
+v44 (the real test): MB scores placements from a LEARNED landing model (not the
+oracle), so BOTH pay to learn the dynamics; randomised eval seeds + mean/std;
+compute on a 2nd axis (count the lookahead); MF run to its v15 regime or matched
+compute. Question: is learning a LEAN FACTORED model more env-sample-efficient than
+end-to-end, AFTER counting planning cost? Honest either way. THIS is the bar.

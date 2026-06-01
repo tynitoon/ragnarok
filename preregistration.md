@@ -5845,3 +5845,28 @@ developmental learning.
   mb_interactions <= 0.5*mf_interactions. HONEST staging (disclosed): dynamics is
   analytic to isolate value-learning efficiency; learned-dynamics is the follow-up.
   If POSITIVE: adversarial review BEFORE reporting. Committed BEFORE the run; FROZEN.
+
+- **2026-05-31 (v43 REVIEWED -> RETRACTED as a strawman; the discipline WORKED).**
+  Per the standing rule, ran the adversarial review BEFORE reporting v43 as a
+  positive. The reviewer (who RE-RAN the code) killed it: (1) the "learned value"
+  is COSMETIC -- a hand-coded heuristic (10*lines-holes-0.1*height-100*dead) scores
+  55.38 vs the TD-learned 56.08, so "learned not hand-coded" is NOT a fairness fix;
+  the TD value just rediscovers the Dellacherie afterstate heuristic; (2) MB is
+  handed the ANALYTIC ORACLE dynamics (evaluate_placements = the full drop-search =
+  THE HARD PART of Tetris) -> same circular advantage as v38; (3) "3 seeds" is
+  effectively N=1: eval_lines hardcodes env-seed=9 + greedy -> identical
+  deterministic playout -> identical 56.08 every seed; seed-1's "0 interactions" is
+  a lucky random V-init (untrained MB scores 0.0/6.98/1.38 across seeds); (4)
+  planning compute (32-way lookahead every step) hidden under "interactions"; (5)
+  MF cut at ~410k interactions, but v15 showed this same PPO needs ~4.1M to reach
+  ~63 lines -> "MB 56 vs MF 15" is a TRUNCATED-BUDGET artifact, not a ceiling
+  difference. VERDICT: strawman, same as v38; RETRACTED (not reported to owner as a
+  positive -- the review caught it first, unlike v38). It is the known result "a
+  1-ply analytic afterstate heuristic beats undertrained pixel-PPO". *** The
+  DEFENSIBLE experiment (v44): REMOVE THE ORACLE. MB must score placements from a
+  LEARNED landing/dynamics model (placement_landings -> metrics_at hooks exist),
+  so BOTH agents pay to learn the dynamics; randomise the eval seed (mean+/-std over
+  real N>=3); add a wall-clock / model-call axis (count the lookahead); run MF to
+  its v15-known regime (or cap both at matched compute). Then the real question --
+  is learning a LEAN FACTORED model more env-sample-efficient than learning
+  end-to-end, accounting for planning cost -- is answered honestly either way.
