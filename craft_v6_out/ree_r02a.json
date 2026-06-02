@@ -1,0 +1,38 @@
+{
+  "random": 0.1932479590177536,
+  "oracle": 0.906286358833313,
+  "curve": [
+    {
+      "step": 300,
+      "catch": 1.0,
+      "g": 0.00392,
+      "residual": 0.1978
+    },
+    {
+      "step": 600,
+      "catch": 1.0,
+      "g": 0.00392,
+      "residual": 0.1934
+    },
+    {
+      "step": 900,
+      "catch": 1.0,
+      "g": 0.00392,
+      "residual": 0.1928
+    },
+    {
+      "step": 1200,
+      "catch": 1.0,
+      "g": 0.00392,
+      "residual": 0.1904
+    },
+    {
+      "step": 1500,
+      "catch": 1.0,
+      "g": 0.00393,
+      "residual": 0.1937
+    }
+  ],
+  "ok": true,
+  "verdict": "GRAVITY-LAW CONTROL (r0.2a) \u2014 the agent DISCOVERS g=0.00393 (true 0.004, residual 0.1937) and intercepts by rolling out the law: catch 1.00 vs random 0.19, approaching ORACLE 0.91. Stable. The expensive landing-invariant is captured as ONE refutable law. Next r0.2b: REUSE it vs from-scratch + fair PPO."
+}

@@ -87,3 +87,16 @@ that is the North Star, on the regime where reuse genuinely pays, with reliabili
 - Risks: perception/grammar are hand-started in r0.1 (a stepping stone, removed by r0.4); law
   induction can be brittle; the "expensive-invariant" task must be designed honestly (not rigged).
 - Rigor kept: fair baselines, matched compute, >=3 seeds, adversarial review before any claim.
+
+---
+## r0.2a RESULT + honest caveat (2026-06-01)
+The agent discovers g (0.00393 vs true 0.004) and intercepts at 1.00 (random 0.19, oracle 0.91),
+STABLE. BUT the LAW FORM (discrete kinematics + reflective bounce) is HAND-CODED in predict_landing;
+the agent only fits the parameter g. So r0.2a is model-based control with a GIVEN model + 1 fitted
+param = the v36/v43 "given-the-hard-part" trap, and reusing g (one scalar) would be trivial.
+=> The genuine Refutation test (r0.2b): the agent must DISCOVER THE LAW FORM itself, by falsifying
+candidates from a small grammar (constant-velocity vs constant-acceleration vs damping) AND
+discover the reflective-bounce conditional from where the main law breaks. Only then is the reused
+invariant non-trivial. Honest deep pattern to watch: reliable reuse pays only for EXPENSIVE
+invariants; discovering expensive invariants = program/theory induction (the field's open problem);
+whenever the form is given, reuse is trivial. r0.2b tests how far genuine form-discovery gets.
