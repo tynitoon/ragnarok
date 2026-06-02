@@ -288,13 +288,19 @@ def main():
     for depth in args.depths:
         for seed in args.seeds:
             spec, true_depth = make_spec(seed, depth)
+            tphase = time.perf_counter()
             skill, sk_steps = train_nav_skill(spec, cfg, seed)
+            t_sk = time.perf_counter() - tphase; tphase = time.perf_counter()
             nav_s = nav_success(skill, spec, cfg, seed)
             mgr, mgr_steps = train_manager(spec, skill, cfg, seed)
+            t_mgr = time.perf_counter() - tphase; tphase = time.perf_counter()
             compose_total = sk_steps + mgr_steps
             flat, flat_steps = train_flat(spec, cfg, compose_total, seed)
+            t_flat = time.perf_counter() - tphase; tphase = time.perf_counter()
             comp = eval_target(mgr, spec, cfg, seed, "compose", skill=skill)
             flt = eval_target(flat, spec, cfg, seed, "flat")
+            print(f"    [timing] skill {t_sk:.0f}s | mgr {t_mgr:.0f}s | flat {t_flat:.0f}s "
+                  f"| eval {time.perf_counter()-tphase:.0f}s | compose_steps {compose_total/1e6:.1f}M", flush=True)
             row = dict(depth_level=depth, true_depth=int(true_depth), seed=seed,
                        n_items=spec["n_items"], nav_skill_success=round(nav_s, 3),
                        skill_steps=sk_steps, mgr_steps=mgr_steps, compose_steps=compose_total,

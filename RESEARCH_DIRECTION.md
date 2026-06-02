@@ -340,3 +340,19 @@ is now cooking in the BACKGROUND (~4-6h); results -> craft_v6_out/v49_depth_scal
 needs either a vectorised rollout (no Python per-step loop) or many GPU-hours. Honest odds (per reviews):
 ~35% a crossover appears (bounded within-family positive), ~55% null (fair flat keeps pace) — neither
 is the cross-game-from-pixels grail, which the 3 reviews judge most plausibly a WALL at this scope.
+
+## v49 RESULT (depth 3, seed 0) — directional signal, but NOT a clean/convincing positive
+First (and only, in-session) data point: COMPOSE 0.64 vs FLAT 0.00 at depth 3 (7.1M matched primitive
+steps; nav-skill 0.91). Timing: skill 100s / mgr 387s / flat 553s = ~18 min/config (manager option
+rollouts consume ~5.9M steps -> the matched flat trains long). DIRECTIONALLY reuse-pays (compose >>
+flat), BUT fails the bar honestly:
+- Compose 0.64 < the frozen 0.8 (manager not reliable even shallow).
+- FLAT 0.00 at depth 3 is NOT a credible "strong fair flat" -> flat can't discover deep crafting AT
+  ALL, so there is no honest shallow-succeeds/deep-fails DEPTH crossover (flat fails at the shallowest
+  craft depth, independent of D). This is exactly the weak-baseline trap that deflated v48->v44/v48; a
+  0.00 flat inflates the gap and a reviewer rejects it.
+=> v49 does NOT yield a clean preregistered crossover without slow flat-hardening (count-based
+exploration / target-directed shaping), each iteration ~18 min, a full fair sweep ~4-6h, and per all
+prior evidence most likely landing at "bounded within-family at best." Combined with the perception
+arc + the 3 reviews: the cross-game-from-pixels GRAIL is, at this lab's scope, most plausibly a WALL.
+The project's defensible value remains the precise BOUNDARY MAP + the bounded honest positives.
