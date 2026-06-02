@@ -1,0 +1,148 @@
+{
+  "curve": [
+    {
+      "step": 200,
+      "mse": 0.00236,
+      "dyn_mse": 0.02141,
+      "top_mse": 0.0226,
+      "K": 4
+    },
+    {
+      "step": 400,
+      "mse": 0.00181,
+      "dyn_mse": 0.01683,
+      "top_mse": 0.01738,
+      "K": 9
+    },
+    {
+      "step": 600,
+      "mse": 0.00144,
+      "dyn_mse": 0.01348,
+      "top_mse": 0.01439,
+      "K": 14
+    },
+    {
+      "step": 800,
+      "mse": 0.00121,
+      "dyn_mse": 0.00565,
+      "top_mse": 0.0149,
+      "K": 15
+    },
+    {
+      "step": 1000,
+      "mse": 0.00104,
+      "dyn_mse": 0.00978,
+      "top_mse": 0.01091,
+      "K": 17
+    },
+    {
+      "step": 1200,
+      "mse": 0.00098,
+      "dyn_mse": 0.00889,
+      "top_mse": 0.00945,
+      "K": 14
+    },
+    {
+      "step": 1400,
+      "mse": 0.00092,
+      "dyn_mse": 0.00826,
+      "top_mse": 0.00915,
+      "K": 12
+    },
+    {
+      "step": 1600,
+      "mse": 0.00086,
+      "dyn_mse": 0.00325,
+      "top_mse": 0.01056,
+      "K": 13
+    },
+    {
+      "step": 1800,
+      "mse": 0.00077,
+      "dyn_mse": 0.00672,
+      "top_mse": 0.00773,
+      "K": 13
+    },
+    {
+      "step": 2000,
+      "mse": 0.00071,
+      "dyn_mse": 0.00728,
+      "top_mse": 0.00722,
+      "K": 12
+    },
+    {
+      "step": 2200,
+      "mse": 0.0006,
+      "dyn_mse": 0.0058,
+      "top_mse": 0.00683,
+      "K": 12
+    },
+    {
+      "step": 2400,
+      "mse": 0.00075,
+      "dyn_mse": 0.00276,
+      "top_mse": 0.00953,
+      "K": 12
+    },
+    {
+      "step": 2600,
+      "mse": 0.00065,
+      "dyn_mse": 0.00642,
+      "top_mse": 0.00637,
+      "K": 12
+    },
+    {
+      "step": 2800,
+      "mse": 0.0006,
+      "dyn_mse": 0.00538,
+      "top_mse": 0.00617,
+      "K": 12
+    },
+    {
+      "step": 3000,
+      "mse": 0.00056,
+      "dyn_mse": 0.00544,
+      "top_mse": 0.00577,
+      "K": 12
+    },
+    {
+      "step": 3200,
+      "mse": 0.00061,
+      "dyn_mse": 0.00239,
+      "top_mse": 0.00836,
+      "K": 12
+    },
+    {
+      "step": 3400,
+      "mse": 0.00059,
+      "dyn_mse": 0.00555,
+      "top_mse": 0.00583,
+      "K": 12
+    },
+    {
+      "step": 3600,
+      "mse": 0.00056,
+      "dyn_mse": 0.00517,
+      "top_mse": 0.00536,
+      "K": 12
+    },
+    {
+      "step": 3800,
+      "mse": 0.00057,
+      "dyn_mse": 0.0052,
+      "top_mse": 0.00525,
+      "K": 12
+    },
+    {
+      "step": 4000,
+      "mse": 0.00056,
+      "dyn_mse": 0.00238,
+      "top_mse": 0.00795,
+      "K": 12
+    }
+  ],
+  "drop": 0.8888369920597852,
+  "plateaued": true,
+  "ok": true,
+  "verdict": "NG CORE WORKS (v0.1) \u2014 dynamic prediction error fell 89% while the notion library grew then PLATEAUED at K=12 (a few reused notions compose to explain Pong's dynamics). The compositional-compression core runs on pixels. Next: v0.2 forced cross-world reuse."
+}
