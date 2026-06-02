@@ -24,12 +24,14 @@ class DeviceVecProjectileCatch:
     A_STAY, A_UP, A_DOWN = 0, 1, 2
 
     def __init__(self, num_envs, concept=None, gravity=0.004, catcher_speed=0.035,
-                 tol=0.08, x_plane=0.97, max_steps=70, img=0, sparse=False, seed=0):
+                 tol=0.08, x_plane=0.97, max_steps=70, img=0, sparse=False, drag=0.0,
+                 seed=0):
         self.num_envs = num_envs
         self.concept = concept
         self.img = img
         self.sparse = sparse
         self.g, self.cs, self.tol = gravity, catcher_speed, tol
+        self.drag = drag                          # vertical air resistance: vy *= (1-drag) - g
         self.x_plane, self.max_steps = x_plane, max_steps
         self.action_dim = 3
         if img > 0:
@@ -105,7 +107,7 @@ class DeviceVecProjectileCatch:
         move = (action == self.A_UP).float() - (action == self.A_DOWN).float()
         self.cy = (self.cy + move * self.cs).clamp(0.0, 1.0)
         # advance ball physics
-        self.bvy = self.bvy - self.g
+        self.bvy = self.bvy * (1.0 - self.drag) - self.g
         self.bx = self.bx + self.bvx
         self.by = self.by + self.bvy
         lo = self.by < 0; hi = self.by > 1
