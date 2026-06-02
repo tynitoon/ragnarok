@@ -118,3 +118,14 @@ WARM-START Pong->Breakout; the edge is an init head-start that does NOT persist 
 True, small, known. The decisive test (next): CONVERGED/CNN baseline + NOVEL-dynamics target +
 metric = new-notions-to-reach-error-epsilon and FINAL error (not AUC), >=3 seeds. And the original
 bet (forced reuse via ACTING through notions) must actually be built+tested, or it is just RIMs.
+
+---
+## DECISION (owner, 2026-06-01): pursue OPTION 1 (forced-acting), fallback OPTION 2 (radical-originality)
+Owner chose to TRY option 1 = build v0.3 (the agent ACTS only through composed notions: control +
+intrinsic drives + open-ended growth), with the reviewers' rigor (metric = new-notions-to-competence
++ FINAL competence, NOT AUC; CONVERGED baseline; NOVEL dynamics; >=3 seeds; adversarial review).
+*** IF v0.3 FAILS -> OPTION 2 = design something MORE radically original (the recurring failure,
+flagged by owner + 2 reviews this session, is re-deriving known methods: AD, then RIMs). REMEMBER. ***
+v0.3 enabler: notions need a context DETECTOR (predict which notion applies from context, with no
+future target) so the agent can ACT by planning forward through notions. Added: per-notion context
+centroids + NotionLibrary.predict(ctx) (context-bound forward prediction). Substrate: Catcher.
