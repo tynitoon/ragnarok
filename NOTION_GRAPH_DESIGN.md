@@ -92,3 +92,29 @@ If the notion-library reuses across worlds where the monolith does not, the STRU
 We accept these — it is a hard *original* bet that targets the exact failure we mapped,
 not a re-derivation of known work. Rigor (>=3 seeds, fair baselines, no leaks, review)
 is kept — to keep our OWN ideas honest.
+
+---
+## v0.2 RESULT — honest verdict after 3 adversarial reviews (2026-06-01)
+The 3-seed cross-world result (library warm-gain +31% vs monolith +17%) was put to adversarial
+review. VERDICT: the "forced compositional reuse works" framing is RETRACTED. Findings:
+- It is a WARM-START, NOT durable reuse: at the ASYMPTOTE, warm final error >= scratch on 2/3
+  seeds (s1 0.00446 vs 0.00372; s2 0.00610 vs 0.00490). The +31% AUC is the first-window head-
+  start (Pong notions already render Breakout's ball/paddle); the from-scratch library erases it
+  in ~2k steps. AUC rewards head-starts -> wrong metric.
+- The monolith baseline is UNDERTRAINED (a single per-patch MLP that never converges, 2-2.7x
+  worse) = a strawman, the mirror of the retracted v38/v43 oracle. The design doc promised a CNN
+  monolith; the implemented one is an MLP. So "structure reuses" is only shown vs a weak flat MLP.
+- "Reuse 80-92%" is mostly APPEARANCE similarity (near-identical white-ball sprite), not
+  compositional DYNAMICS reuse. The genuinely-new dynamics (brick collisions) = the 5-7 minted
+  notions, small and unexamined.
+- NOVELTY: the prediction core is close to KNOWN work — hard-assignment Mixture-of-Experts
+  (Jacobs&Jordan'91), VQ codebook dynamics (van den Oord'17), Resource-Allocating Networks
+  (Platt'91 = mint-on-residual/prune), and especially Recurrent Independent Mechanisms (Goyal'19)
+  which ALREADY claim modular dynamics primitives transfer better than a monolith. ~10-15% is ours
+  (the forced-reuse framing + the patch-tiled mint/prune-on-pixels integration), and the genuinely
+  original part (agent acts ONLY through composed notions) is UNTESTED (no control in v0.1/v0.2).
+=> HONEST MINIMAL CLAIM: a hard-binding mixture transfers shared-appearance primitives as a
+WARM-START Pong->Breakout; the edge is an init head-start that does NOT persist to the asymptote.
+True, small, known. The decisive test (next): CONVERGED/CNN baseline + NOVEL-dynamics target +
+metric = new-notions-to-reach-error-epsilon and FINAL error (not AUC), >=3 seeds. And the original
+bet (forced reuse via ACTING through notions) must actually be built+tested, or it is just RIMs.
