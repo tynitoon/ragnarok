@@ -152,3 +152,15 @@ that held on gravity; on a violator (damping), does the agent REFUTE + adapt (vs
 that mis-applies the stale law and fails)? Report refute-detection + post-refute recovery, >=3 seeds.
 If clean refute-and-adapt-where-blind-fails -> first genuine contribution. Else -> falsified on
 state, stop. (r0.4 below.)
+
+---
+## r0.4 RESULT — 2026-06-01: falsification works perfectly but is BEHAVIORALLY INERT (definitive)
+Tight tolerance (0.03), gravity/damping stream, 3 seeds. The falsification works PERFECTLY: survivor
+correct 15/15 (const_acc on gravity, damp on damping), refuted=True correctly on every law-change.
+BUT REFUT = BLIND = ORACLE = 1.00 on EVERY task even at tight tolerance: CLOSED-LOOP control
+(re-predict+move each step) is robust to an approximate law (the wrong form's short-horizon
+prediction converges as the ball nears the plane). So reliability-by-falsification is REAL but gives
+ZERO control advantage over blind reuse. => The Refutation Engine's SOLE novel claim ("reliability
+PAYS") is FALSIFIED on state. With the 3 reviews (SINDy+RLS+MPC+RANSAC; r0.2c reuse was hardcoded-
+not-reuse; artifact number), the Refutation Engine — like option 1 (NG) and all 48 versions — does
+NOT crack the grail. Definitive end of this line.

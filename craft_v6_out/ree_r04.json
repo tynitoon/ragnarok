@@ -1,0 +1,183 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "stream": [
+    "grav",
+    "grav",
+    "damp",
+    "grav",
+    "damp"
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "task": 0,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 0,
+      "task": 1,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 0,
+      "task": 2,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 0,
+      "task": 3,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 0,
+      "task": 4,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 1,
+      "task": 0,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 1,
+      "task": 1,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 1,
+      "task": 2,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 1,
+      "task": 3,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 1,
+      "task": 4,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 2,
+      "task": 0,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 2,
+      "task": 1,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": false,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 2,
+      "task": 2,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 2,
+      "task": 3,
+      "kind": "grav",
+      "survivor": "const_acc",
+      "true_form": "const_acc",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    },
+    {
+      "seed": 2,
+      "task": 4,
+      "kind": "damp",
+      "survivor": "damp",
+      "true_form": "damp",
+      "refuted": true,
+      "refutation": 1.0,
+      "blind": 1.0,
+      "oracle": 1.0
+    }
+  ],
+  "positive": false,
+  "verdict": "PARTIAL/CHECK \u2014 correct_form=True, refut>blind on violators=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]. See rows. If blind ~ refutation, the violating task isn't violating enough / forms degenerate; if survivor wrong, falsification fails."
+}

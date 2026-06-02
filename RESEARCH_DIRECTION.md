@@ -273,3 +273,23 @@ BEST REMAINING GRAIL BET (untested fairly): does a learned SKILL LIBRARY let the
 deep targets (held-out goals it was NOT built for) faster/at-all than flat-from-scratch, at FAIR
 AMORTISED accounting? Only untested regime combining what AD cannot (reach depth) with the North-Star
 core (reuse on the NEW), amortising the library ("childhood") over many novel goals.
+
+## UPDATE 2026-06-01 (DEFINITIVE session conclusion — both original architectures explored, grail MAPPED not cracked)
+Owner directed building our OWN AI after the survey showed known methods deflate (our v44 negative =
+field consensus). Two genuinely-different original architectures, built + rigorously reviewed:
+- OPTION 1 NOTION GRAPH (forced reuse via composing a self-growing notion library): v0.1 predicts
+  from pixels (works); v0.2 cross-world reuse RETRACTED by 3 reviews (warm-start, strawman baseline,
+  ~RIMs/MoE); v0.3 control emerged but the growing mixture COLLAPSES (dead-expert = known MoE problem).
+- OPTION 2 REFUTATION ENGINE (knowledge = refutable invariants, discovered by falsification): r0.1
+  stable law-control; r0.2b discovers the gravity FORM by falsification (state); r0.2c "reuse 56-144x"
+  RETRACTED (hardcoded rollout not reuse; artifact; = SINDy+RLS+MPC); r0.3 pixel-control works but
+  precise discovery gated by perception noise; r0.4 falsification perfect (15/15) but BEHAVIORALLY
+  INERT (reliability gives zero control advantage — closed-loop robust to the wrong law).
+DEFINITIVE HONEST CONCLUSION: neither original architecture cracks the grail. The grail (general
+reliable reuse from pixels) is gated by TWO genuine OPEN PROBLEMS — (1) learned PERCEPTION of the
+right quantities, (2) INDUCTION of expensive structure/laws — confirmed from ~10 independent angles,
+each time killing our own overclaim via adversarial review. The real contribution = a PRECISE MAP of
+why reliable developmental reuse is hard + two coherent original architectures that reveal where the
+wall is + genuine bounded positives (pixels v15; recognise+accumulate v25/26; autonomous
+curriculum+composition v7). Further progress requires attacking the two open problems directly
+(frontier research), not more mechanism variations.
