@@ -1,0 +1,37 @@
+{
+  "random_catch": 3.25,
+  "curve": [
+    {
+      "step": 300,
+      "catch": 10.0,
+      "theta": 0.0351,
+      "residual": 0.1449
+    },
+    {
+      "step": 600,
+      "catch": 10.0,
+      "theta": 0.0355,
+      "residual": 0.1914
+    },
+    {
+      "step": 900,
+      "catch": 10.0,
+      "theta": 0.0354,
+      "residual": 0.2188
+    },
+    {
+      "step": 1200,
+      "catch": 10.0,
+      "theta": 0.0355,
+      "residual": 0.2264
+    },
+    {
+      "step": 1500,
+      "catch": 10.0,
+      "theta": 0.0356,
+      "residual": 0.2071
+    }
+  ],
+  "ok": true,
+  "verdict": "REFUTATION-LAW CONTROL (r0.1) \u2014 the agent acts via ONE refutable controllability law (theta=0.0356, residual=0.2071); it catches 10.00 vs random 3.25 (3.1x) and is STABLE (no collapse, unlike NG v0.3a). Next r0.2: REUSE the law on Pong/Breakout."
+}
