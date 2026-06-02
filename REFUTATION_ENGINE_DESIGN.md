@@ -100,3 +100,16 @@ discover the reflective-bounce conditional from where the main law breaks. Only 
 invariant non-trivial. Honest deep pattern to watch: reliable reuse pays only for EXPENSIVE
 invariants; discovering expensive invariants = program/theory induction (the field's open problem);
 whenever the form is given, reuse is trivial. r0.2b tests how far genuine form-discovery gets.
+
+---
+## r0.2c RESULT — 2026-06-01: reused law >> model-free (robust), self-bounded honestly
+Reused (falsification-verified) const-acc+bounce law reaches catch>=0.8 in 5,120 interactions on
+EVERY gravity (0.003/0.0045/0.006) and EVERY seed (9/9), vs model-free PPO-from-scratch 287k-737k
+interactions -> speedup 56-144x, every cell. RELIABLE by construction (form refuted-or-kept).
+SELF-BOUNDED (before any review, per discipline): (a) it is model-based (rollout-to-landing largely
+HAND-CODED) vs model-free = the KNOWN "having the right model crushes model-free on hard exploration"
+= our own v36; (b) the reused invariant (the const-acc FORM) is CHEAP to discover (3-candidate
+grammar); (c) velocity perception is STATE, not pixels. So the 56-144x is real but mostly the known
+model-helps effect; the GENUINELY-novel contribution is the falsification-discovery + reliability-by-
+construction framework, NOT the speedup magnitude. r0.3 = do it FROM PIXELS (remove the state hand-
+engineering) -> the real North-Star test.
