@@ -1,6 +1,7 @@
 {
   "seeds": [
-    0
+    1,
+    2
   ],
   "cfg": {
     "num_envs": 256,
@@ -23,43 +24,78 @@
   },
   "rows": [
     {
-      "seed": 0,
+      "seed": 1,
       "skill_success": {
-        "wood": 0.93,
-        "stone": 0.95,
-        "coal": 0.93,
-        "iron": 0.95
+        "wood": 0.94,
+        "stone": 0.94,
+        "coal": 0.9,
+        "iron": 0.92
       },
-      "reuse_steps": 37765120,
-      "reuse_ipick": 0.752,
+      "reuse_steps": 37683200,
+      "reuse_ipick": 0.705,
       "reuse_profile": [
         0.94,
         0.94,
         0.94,
-        0.87,
+        0.9,
         0.79,
         0.79,
-        0.75,
-        0.75,
-        0.75
+        0.71,
+        0.71,
+        0.71
       ],
-      "flat_steps": 37765120,
-      "flat_ipick": 0.543,
+      "flat_steps": 37683200,
+      "flat_ipick": 0.549,
       "flat_profile": [
         0.87,
         0.87,
-        0.85,
-        0.77,
-        0.65,
-        0.76,
-        0.75,
-        0.61,
-        0.54
+        0.86,
+        0.79,
+        0.63,
+        0.79,
+        0.78,
+        0.66,
+        0.55
+      ]
+    },
+    {
+      "seed": 2,
+      "skill_success": {
+        "wood": 0.91,
+        "stone": 0.93,
+        "coal": 0.95,
+        "iron": 0.9
+      },
+      "reuse_steps": 37683200,
+      "reuse_ipick": 0.729,
+      "reuse_profile": [
+        0.92,
+        0.92,
+        0.92,
+        0.86,
+        0.82,
+        0.82,
+        0.73,
+        0.73,
+        0.73
+      ],
+      "flat_steps": 37683200,
+      "flat_ipick": 0.514,
+      "flat_profile": [
+        0.95,
+        0.95,
+        0.94,
+        0.81,
+        0.7,
+        0.74,
+        0.8,
+        0.58,
+        0.51
       ]
     }
   ],
   "positive": false,
-  "verdict": "NULL/CHECK \u2014 reuse [0.752] vs flat [0.543]. If flat cracks it or reuse is unreliable, hierarchy gives no fair advantage here -> honest.",
+  "verdict": "NULL/CHECK \u2014 reuse [0.705, 0.729] vs flat [0.549, 0.514]. If flat cracks it or reuse is unreliable, hierarchy gives no fair advantage here -> honest.",
   "ach_names": [
     "collect_wood",
     "make_table",

@@ -1,0 +1,74 @@
+{
+  "seeds": [
+    0
+  ],
+  "cfg": {
+    "num_envs": 256,
+    "grid": 9,
+    "view": 5,
+    "max_steps": 100,
+    "rollout": 32,
+    "hidden": 256,
+    "entropy": 0.02,
+    "skill_cap": 70,
+    "K": 20,
+    "option_timeout": 40,
+    "collect_target": 2,
+    "macro_budget": 24,
+    "mgr_iters": 150,
+    "mgr_entropy": 0.03,
+    "flat_max_steps": 400,
+    "flat_entropy": 0.05,
+    "eval_budget": 1000
+  },
+  "rows": [
+    {
+      "seed": 0,
+      "skill_success": {
+        "wood": 0.93,
+        "stone": 0.95,
+        "coal": 0.93,
+        "iron": 0.95
+      },
+      "reuse_steps": 37765120,
+      "reuse_ipick": 0.752,
+      "reuse_profile": [
+        0.94,
+        0.94,
+        0.94,
+        0.87,
+        0.79,
+        0.79,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "flat_steps": 37765120,
+      "flat_ipick": 0.543,
+      "flat_profile": [
+        0.87,
+        0.87,
+        0.85,
+        0.77,
+        0.65,
+        0.76,
+        0.75,
+        0.61,
+        0.54
+      ]
+    }
+  ],
+  "positive": false,
+  "verdict": "NULL/CHECK \u2014 reuse [0.752] vs flat [0.543]. If flat cracks it or reuse is unreliable, hierarchy gives no fair advantage here -> honest.",
+  "ach_names": [
+    "collect_wood",
+    "make_table",
+    "make_wood_pickaxe",
+    "collect_stone",
+    "collect_coal",
+    "make_stone_pickaxe",
+    "make_furnace",
+    "collect_iron",
+    "make_iron_pickaxe"
+  ]
+}

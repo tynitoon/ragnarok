@@ -249,3 +249,27 @@ On HELD-OUT procedural tech-trees, the distilled transformer reaches mastery in 
 fewer ENVIRONMENT EPISODES in-context (gradient-free) than from-scratch PPO, reliably
 (>=3 seeds), with distillation compute reported and amortised over the held-out set, and
 the parallel-actor artifact controlled. Positive + reviewed = come back to the owner.
+
+## UPDATE 2026-06-01 (v45 + v48: two more matched-compute deflations; the honest boundary, consolidated)
+- v45 (Algorithm Distillation / in-context RL — the survey #1 idea): RETRACTED as a reuse result.
+  3 adversarial reviews + independent checks: held-out task COLLAPSED to a contextual bandit over
+  cell-types (prereqs granted), memorisation leak (corr +0.69), the speedup an artifact of
+  asymmetric measurement, "overfitting" within noise. STRUCTURAL: AD only amortises PPO-solvable
+  tasks -> it RELOCATES the v44 boundary, does not break it.
+- v48 (compositional reuse vs flat, MATCHED compute, 3 seeds): reuse 0.73+/-0.02 vs flat 0.54+/-0.02
+  on iron_pickaxe. REAL but MODEST reliable edge. The M-series/v7 "flat 0.11" was UNMATCHED-COMPUTE;
+  at equal compute flat reaches 0.54. NULL at the decisive bar (fails on flat side).
+
+CONSOLIDATED HONEST BOUNDARY (what 48 versions establish): under FAIR matched-compute accounting,
+every LARGE reuse advantage shrinks to modest-or-null. Surviving "wins" gave the hard part for free
+(v17b: given landing + hand-scoring) or used unmatched compute (M-series). Reuse pays only in the
+narrow regime where the knowledge is EXPENSIVE-to-rederive AND the task too hard to learn directly —
+and that regime is hard to hit FAIRLY: grant the decomposition and you gave the answer; withhold it
+and flat is competitive. Matches the field consensus (survey: cross-domain reuse unsolved).
+GENUINELY WORKS (fair): learn from pixels (v15); recognise known games + sublinear accumulation
+(v25/26); AUTONOMOUS curriculum discovery + skill-library construction (v7) — value = autonomy/open-
+endedness, not beating flat on one target.
+BEST REMAINING GRAIL BET (untested fairly): does a learned SKILL LIBRARY let the agent solve NOVEL
+deep targets (held-out goals it was NOT built for) faster/at-all than flat-from-scratch, at FAIR
+AMORTISED accounting? Only untested regime combining what AD cannot (reach depth) with the North-Star
+core (reuse on the NEW), amortising the library ("childhood") over many novel goals.

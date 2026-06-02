@@ -6147,3 +6147,13 @@ inflated by option-execution during manager training -> gives flat a large budge
 strong finding is robust regardless of reuse's exact number. 2ND matched-compute deflation after
 v44 -> the project's reuse advantages shrink under fair accounting. 1 seed; decide with owner:
 confirm seeds 1-2 (~3.7h) for the rigorous >=3-seed record, or consolidate the honest pattern.
+
+### v48 CONFIRMED (seeds 0,1,2) — 2026-06-01: matched-compute deflation, RELIABLE
+Reuse iron_pickaxe [0.752, 0.705, 0.729] (0.73+/-0.02) vs FLAT [0.543, 0.549, 0.514] (0.54+/-0.02)
+at MATCHED 37.7M primitive steps, 3/3 seeds. Reuse > flat every seed (gap ~0.19, low variance) =>
+REAL but MODEST, reliable advantage. NULL at the frozen bar (reuse not >=0.8, AND flat not <=0.2 —
+fails decisively on the FLAT side). HEADLINE: the M-series/v7 "flat 0.11" was an UNMATCHED-COMPUTE
+artifact; at the same 37.7M steps flat PPO+curiosity reaches 0.54 and the hierarchy edge shrinks to
+~0.19. 2nd matched-compute deflation after v44, confirmed >=3 seeds. Caveat: frozen reuse config
+(collect_target=2) may be conservative (M7 cited ~1.0); the ROBUST finding is flat=0.54 (baseline
+deflation), independent of reuse's exact number.
