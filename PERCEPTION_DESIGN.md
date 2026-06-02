@@ -96,6 +96,29 @@ slots/patch/motion cannot fix a missing temporal-consistency mechanism.
 -> percept v0.4: **temporal object permanence** — carry slot state across frames (SAVi/SQAIR-style) so
 the slot that binds the ball keeps tracking it. Still learned, no labels (self-supervised over video).
 
+## RESULT percept v0.4 (temporal recurrent tracker) — finicky, did NOT converge
+
+Carried slot-attention + GRU transition + sprite renderer, trained on video. recon barely moved
+(0.76 -> 0.74 over 1500 steps; feed-forward v0.2 dropped 15x in 2000), slots COLLAPSED (final per-slot
+all ~0.32 from ball — every slot near the center, none binding), ball err 0.32 > fair 0.26. Recurrent
+slot models (SAVi/SQAIR-class) are known to need ~100k steps + careful init/warmup; not crackable in a
+quick single-GPU budget. NEGATIVE here (a tuning problem, not disproof of permanence — but not worth
+grinding finicky recurrence).
+
+## DECISION (ownership) — the root cause + the right tool
+
+Across v0.1-v0.4 the consistent root cause is **object IDENTITY / permanence**: permutation-free slots
+(attention OR explicit sprites) partition by region, so a roaming object has no stable slot; recurrence
+would fix it but is finicky. The structural fix that AVOIDS both pitfalls: **channel-indexed
+keypoints** — a CNN outputs K heatmaps, one per FIXED output channel, position = spatial soft-argmax.
+Keypoint k is the SAME channel every frame, so identity is stable BY CONSTRUCTION (no assignment, no
+recurrence). Trained unsupervised by CROSS-FRAME reconstruction (Jakab 2018 / Transporter, Kulkarni
+2019): reconstruct frame x' using APPEARANCE from a different frame x but GEOMETRY (keypoints) from x',
+which forces keypoints onto what MOVES (the ball, paddles). This is the standard, feed-forward (fast)
+tool for unsupervised object keypoints on moving scenes (validated on Atari in the literature). ->
+percept v0.5. A SOLID multi-game unsupervised keypoint result is the perception foundation the owner
+asked for, and the first reviewable positive on this from-scratch path.
+
 ## Roadmap (build upward only after each lock holds + adversarial review)
 1. [in test] Perception: stable object slots from pixels, Pong, 3 seeds. -> then 2nd game.
 2. Relational dynamics: predict next slots from (slots, action) with per-object + pairwise-relational

@@ -30,9 +30,12 @@ class SlotAttention(nn.Module):
         self.norm_slots = nn.LayerNorm(dim)
         self.norm_mlp = nn.LayerNorm(dim)
 
-    def forward(self, inputs):                                   # (N, P, D)
+    def forward(self, inputs, init_slots=None):                  # (N, P, D)
         N, P, D = inputs.shape
-        slots = self.mu + self.logsigma.exp() * torch.randn(N, self.num_slots, D, device=inputs.device)
+        if init_slots is None:                                   # t=0: sample from learned prior
+            slots = self.mu + self.logsigma.exp() * torch.randn(N, self.num_slots, D, device=inputs.device)
+        else:                                                    # t>0: CARRY previous slots (permanence)
+            slots = init_slots
         inputs = self.norm_in(inputs)
         k, v = self.to_k(inputs), self.to_v(inputs)
         attn_vis = None

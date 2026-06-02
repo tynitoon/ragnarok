@@ -6234,3 +6234,39 @@ stability > 0.8). Report secondary decomposition. NULL/PARTIAL otherwise.
 
 ### Anti-traps: reconstruction-only (no label in training); FAIR min-over-K baseline; FIXED-slot (not
 per-frame) error; explicit stability requirement; >= 3 seeds; adversarial review BEFORE reporting to owner.
+
+## PREREGISTRATION percept-v0.5 — LOCK #1 via unsupervised channel-indexed KEYPOINTS
+**Date committed:** 2026-06-02. CHRONOLOGY: written BEFORE the 3-seed full run (only debugging smokes
+prior). FROZEN. v0.1-v0.4 failed to bind the 2D-moving ball (identity/permanence: permutation-free
+slots partition by region; recurrence finicky). v0.5 uses CHANNEL-INDEXED keypoints (identity stable
+by construction) + cross-frame reconstruction (Jakab/Transporter) + motion-weighted loss (the tiny
+ball drives little pixel loss otherwise).
+
+### H (primary, load-bearing)
+Trained unsupervised (reconstruct x_tgt from appearance(x_src)+geometry(keypoints of x_tgt), loss
+weighted by brightness + motion |x_tgt-x_src|), a FIXED keypoint CHANNEL's position (read from a
+SINGLE frame at test) tracks the 2D-moving ball with mean err < 0.06 AND < 0.5x(fair min-over-K random
+baseline) AND that channel is the per-frame closest in > 80% of frames, on >= 3 seeds.
+
+### Mechanism (FROZEN)
+- KeypointNet: appear-enc Conv(3->32->64, s2 x2)->12x12; key-enc Conv(3->32->64,s2x2)->Conv(64->K,1)
+  ->K heatmaps->spatial soft-argmax->K positions; geometry = Gaussian maps (sigma=0.08); decoder
+  Conv(feat+K)->up->up->3ch sigmoid. K=4, img=48, gap=2, motion-w=4.0, Adam lr 3e-4, bs 64, 6000 steps.
+- Eval (FROZEN): fixed channel = argmin per-channel MEAN ball-err; stability = frac frames per-frame
+  argmin==fixed; FAIR baseline = E[min over K random pts]. Test keypoints from a SINGLE frame.
+
+### Decision rule
+POSITIVE iff primary H on >= 3 seeds. Then REQUIRED before any "general perception" claim: replicate
+on a 2nd game with multiple movers, + adversarial review.
+
+### Honest caveats (pre-committed)
+- Motion weighting emphasises the fast BALL; slow PADDLES may NOT bind under this config (smoke: ball
+  0.048 but paddle keypoints ~0.4). The BALL (hard, 2D-moving, load-bearing) is the claim; a unified
+  all-object percept needs a complementary mechanism for quasi-static objects (sprite-AE bound those).
+- "Find the bright/moving thing" IS valid object perception for a salient object, but generality is
+  unproven until the 2nd-game replication.
+- Perception is NECESSARY-NOT-SUFFICIENT: no reuse/generalisation claim is made here.
+
+### Anti-traps: motion is a TRAINING signal only (test keypoints from a single frame, no motion input);
+FAIR min-over-K baseline; FIXED-channel error; >= 3 seeds; 2nd-game replication + adversarial review
+required before reporting any positive to the owner.
