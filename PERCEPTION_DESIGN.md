@@ -139,3 +139,25 @@ direction; the gap is init-sensitivity (which channel commits to the ball). POST
 failing seed 1 -> 0.037 err, 0.86 stable (rescued; a paddle also binds). More channels reliably give
 the ball a dedicated one. Since K=8 was found post-hoc, it needs a FRESH preregistered multi-seed test
 (v0.6) before any "reliable" claim — recorded here, not claimed.
+
+## RESULT percept v0.6 (K=8 reliability + Breakout) — NEGATIVE; perception is a NON-BOTTLENECK
+Pong K=8, 5 seeds: ball ERROR low (0.040-0.059) but the frozen stability bar passes on only 1/5 seeds
+(0.38/0.64/0.38/0.85/0.61) — redundant channels (2-3 keypoints cluster on the salient ball) tank the
+argmin-stability, and the low error is obtained via ORACLE channel selection (ground-truth picks which
+of 8 channels is "the ball"; label-free you don't know). Breakout, 3 seeds: mover err 0.21/0.21/0.13
+~ RANDOM (fair 0.17) — every channel equidistant; FAILS to bind the ball entirely on a 2nd game. The
+frozen v0.6 criterion (5/5 Pong + 3/3 Breakout) is DECISIVELY NOT MET. **percept v0.6 = NEGATIVE.**
+
+### CORRECTION (honesty) — earlier verdict strings were OVERCLAIMS
+The JSON "UNSUPERVISED KEYPOINTS BIND THE BALL / cracked the permanence problem" strings fire only via
+oracle (label-based) channel selection while the code's own `ok` gate is FALSE on those runs. They
+should read: keypoints reproduce (Jakab/Transporter) but DO NOT reliably or generally bind the ball.
+
+### The decisive point (3 adversarial reviews, unanimous)
+A ~5-line WHITE-CENTROID detector already EXISTS and is DEPLOYED in this repo (REE r0.1/r0.3,
+`scripts/ree_r0*.py`): the Pong ball is the unique pure-white blob, so the centroid is exact (err~0,
+stability 1.0, zero training) and already drives pixel control at ~0.87-of-oracle. It DOMINATES the
+keypoint net (which is slower, more code, less accurate, less stable, label-needing, Pong-only).
+=> For these simple sprite (blob-separable) games, PERCEPTION IS NOT THE BOTTLENECK. The 6-iteration
+perception arc solved a largely SELF-IMPOSED problem. percept v0.1-v0.6 retired as a NEGATIVE/dead-end
+for the grail; KeypointNet kept on the shelf only for a future NON-blob regime (untested).

@@ -293,3 +293,37 @@ why reliable developmental reuse is hard + two coherent original architectures t
 wall is + genuine bounded positives (pixels v15; recognise+accumulate v25/26; autonomous
 curriculum+composition v7). Further progress requires attacking the two open problems directly
 (frontier research), not more mechanism variations.
+
+## PHASE GATE (2026-06-02) — from-scratch perception arc CLOSED; 3 adversarial reviews converge
+
+The from-scratch pivot started with the perception core (owner: "perception first, build nothing on
+top until solid"). Six iterations (percept v0.1-v0.6): slot-attention, sprite-AE, +motion, recurrent
+tracker, channel-indexed keypoints, K=8 reliability. Net: NEGATIVE for the grail. Honest reasons:
+(1) it never reliably/generally bound the ball (1/5 Pong seeds at the frozen bar; 0/3 Breakout ~random;
+low error only via oracle channel selection); (2) MORE IMPORTANTLY, perception is a NON-BOTTLENECK for
+these blob-separable games — a 5-line white-centroid (already deployed in REE r0.3, pixel control
+~0.87-of-oracle) dominates anything learned. We solved a self-imposed problem.
+
+THREE adversarial reviews (perception / strategy / missed-angles), unanimous:
+- STOP perfecting perception; use the existing reliable object extractor; pivot effort to REUSE.
+- The object-centric -> relational-world-model -> cross-game reuse BET will most likely REPRODUCE our
+  prior nulls (#2 handed-features redundant, #4 closed-loop robust to wrong models, #6 shared-dynamics
+  deflated) because those failure modes are REPRESENTATION-INVARIANT. ~15-20% it gives a fair positive.
+- The cross-game-from-pixels grail is, at this lab's scope, most plausibly a WALL. The project's real,
+  defensible contribution is the PRECISE MAP of why + the bounded honest positives (pixels v15,
+  recognize+accumulate v25/26, autonomous curriculum v7).
+- HIGHEST-EV remaining shots (both deliver WITHIN-FAMILY reuse, not the cross-game grail):
+  1) v49 DEPTH-SCALING crossover (preregistered, NEVER RUN; substrate ready today via v10/tech_tree).
+     Find depth D* where a FAIR strong-flat collapses (<=0.2) while library-composition holds (>=0.8),
+     with the library AMORTISED over MANY held-out targets (v48 amortised over ONE — its key flaw).
+     HARDEN (or it retracts like v43/v45): (a) compose arm must NOT be handed the DAG/decomposition;
+     (b) STRONG flat baseline (tuned exploration), so a collapse isn't a PPO artifact; (c) leak-fixed
+     generator (shuffle cell<->item) + memorization-correlation gate checked BEFORE reading results.
+     ~30-40% convincing positive; ~55-60% clean NULL that completes the boundary map (still valuable).
+  2) "CHILDHOOD AMORTISATION": distribution-level skill-library reuse over a STREAM of novel deep goals,
+     scored by the integral of (flat - warm) cost over the held-out distribution (the one regime where
+     the field's FAIR wins live). ~30-35%. Successor if v49 nulls.
+
+DECISION REQUIRED FROM OWNER: this reverses the most-recent explicit steer (from-scratch model, pixels,
+perception-first). Options: (A) pivot to v49 hardened; (B) push an original PIXEL reuse idea anyway
+(honours the pivot, ~15-20%); (C) accept the "likely a wall" map and consolidate the bounded positives.

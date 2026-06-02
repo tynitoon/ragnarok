@@ -1,0 +1,136 @@
+{
+  "fair_random": 0.182794988155365,
+  "curve": [
+    {
+      "step": 500,
+      "recon": 0.12422,
+      "fixed_slot": 2,
+      "fixed_err": 0.0508,
+      "perframe_err": 0.0479,
+      "stability": 0.875
+    },
+    {
+      "step": 1000,
+      "recon": 0.10836,
+      "fixed_slot": 2,
+      "fixed_err": 0.045,
+      "perframe_err": 0.0423,
+      "stability": 0.897
+    },
+    {
+      "step": 1500,
+      "recon": 0.08688,
+      "fixed_slot": 2,
+      "fixed_err": 0.0415,
+      "perframe_err": 0.0397,
+      "stability": 0.893
+    },
+    {
+      "step": 2000,
+      "recon": 0.07304,
+      "fixed_slot": 2,
+      "fixed_err": 0.0412,
+      "perframe_err": 0.0392,
+      "stability": 0.886
+    },
+    {
+      "step": 2500,
+      "recon": 0.06077,
+      "fixed_slot": 2,
+      "fixed_err": 0.0407,
+      "perframe_err": 0.0386,
+      "stability": 0.884
+    },
+    {
+      "step": 3000,
+      "recon": 0.05964,
+      "fixed_slot": 2,
+      "fixed_err": 0.0408,
+      "perframe_err": 0.0386,
+      "stability": 0.888
+    },
+    {
+      "step": 3500,
+      "recon": 0.06651,
+      "fixed_slot": 2,
+      "fixed_err": 0.0387,
+      "perframe_err": 0.0362,
+      "stability": 0.856
+    },
+    {
+      "step": 4000,
+      "recon": 0.07085,
+      "fixed_slot": 2,
+      "fixed_err": 0.0391,
+      "perframe_err": 0.0364,
+      "stability": 0.858
+    },
+    {
+      "step": 4500,
+      "recon": 0.07452,
+      "fixed_slot": 2,
+      "fixed_err": 0.0394,
+      "perframe_err": 0.0371,
+      "stability": 0.873
+    },
+    {
+      "step": 5000,
+      "recon": 0.06882,
+      "fixed_slot": 2,
+      "fixed_err": 0.0405,
+      "perframe_err": 0.0381,
+      "stability": 0.868
+    },
+    {
+      "step": 5500,
+      "recon": 0.06127,
+      "fixed_slot": 2,
+      "fixed_err": 0.0398,
+      "perframe_err": 0.0374,
+      "stability": 0.862
+    },
+    {
+      "step": 6000,
+      "recon": 0.06128,
+      "fixed_slot": 2,
+      "fixed_err": 0.0398,
+      "perframe_err": 0.0371,
+      "stability": 0.848
+    }
+  ],
+  "ok": true,
+  "verdict": "UNSUPERVISED KEYPOINTS BIND THE BALL (percept v0.5) \u2014 fixed keypoint 2 tracks the 2D-moving ball at 0.040 (fair 0.183), stability 85%. Channel-indexed identity cracked the permanence problem. Confirm >=3 seeds + 2nd game + review.",
+  "final": {
+    "per_slot": [
+      0.3164,
+      0.3149,
+      0.0398,
+      0.3158,
+      0.3131,
+      0.3157,
+      0.0758,
+      0.0684
+    ],
+    "fixed_slot": 2,
+    "fixed_err": 0.0398,
+    "perframe_err": 0.0371,
+    "stability": 0.848,
+    "decomp": [
+      {
+        "name": "ball",
+        "slot": 2,
+        "err": 0.0398
+      },
+      {
+        "name": "padL",
+        "slot": 5,
+        "err": 0.4498
+      },
+      {
+        "name": "padR",
+        "slot": 6,
+        "err": 0.4331
+      }
+    ]
+  }
+}

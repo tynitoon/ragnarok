@@ -1,0 +1,136 @@
+{
+  "fair_random": 0.18246446549892426,
+  "curve": [
+    {
+      "step": 500,
+      "recon": 0.11814,
+      "fixed_slot": 0,
+      "fixed_err": 0.0587,
+      "perframe_err": 0.0499,
+      "stability": 0.469
+    },
+    {
+      "step": 1000,
+      "recon": 0.09809,
+      "fixed_slot": 0,
+      "fixed_err": 0.0579,
+      "perframe_err": 0.0476,
+      "stability": 0.417
+    },
+    {
+      "step": 1500,
+      "recon": 0.08981,
+      "fixed_slot": 4,
+      "fixed_err": 0.058,
+      "perframe_err": 0.0492,
+      "stability": 0.266
+    },
+    {
+      "step": 2000,
+      "recon": 0.0894,
+      "fixed_slot": 0,
+      "fixed_err": 0.0543,
+      "perframe_err": 0.0468,
+      "stability": 0.451
+    },
+    {
+      "step": 2500,
+      "recon": 0.06573,
+      "fixed_slot": 4,
+      "fixed_err": 0.0581,
+      "perframe_err": 0.0478,
+      "stability": 0.299
+    },
+    {
+      "step": 3000,
+      "recon": 0.09577,
+      "fixed_slot": 0,
+      "fixed_err": 0.0588,
+      "perframe_err": 0.048,
+      "stability": 0.382
+    },
+    {
+      "step": 3500,
+      "recon": 0.06048,
+      "fixed_slot": 4,
+      "fixed_err": 0.0591,
+      "perframe_err": 0.0483,
+      "stability": 0.3
+    },
+    {
+      "step": 4000,
+      "recon": 0.06122,
+      "fixed_slot": 0,
+      "fixed_err": 0.0612,
+      "perframe_err": 0.0499,
+      "stability": 0.367
+    },
+    {
+      "step": 4500,
+      "recon": 0.05208,
+      "fixed_slot": 0,
+      "fixed_err": 0.0639,
+      "perframe_err": 0.0506,
+      "stability": 0.344
+    },
+    {
+      "step": 5000,
+      "recon": 0.06193,
+      "fixed_slot": 4,
+      "fixed_err": 0.0577,
+      "perframe_err": 0.0467,
+      "stability": 0.355
+    },
+    {
+      "step": 5500,
+      "recon": 0.05844,
+      "fixed_slot": 4,
+      "fixed_err": 0.0592,
+      "perframe_err": 0.0484,
+      "stability": 0.369
+    },
+    {
+      "step": 6000,
+      "recon": 0.06409,
+      "fixed_slot": 4,
+      "fixed_err": 0.0595,
+      "perframe_err": 0.049,
+      "stability": 0.381
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 ball err 0.059 (fair 0.182), stability 38%, per-kp [0.0654, 0.0703, 0.3263, 0.3278, 0.0595, 0.3294, 0.3285, 0.3286]. Keypoints not binding the ball on this config.",
+  "final": {
+    "per_slot": [
+      0.0654,
+      0.0703,
+      0.3263,
+      0.3278,
+      0.0595,
+      0.3294,
+      0.3285,
+      0.3286
+    ],
+    "fixed_slot": 4,
+    "fixed_err": 0.0595,
+    "perframe_err": 0.049,
+    "stability": 0.381,
+    "decomp": [
+      {
+        "name": "ball",
+        "slot": 4,
+        "err": 0.0595
+      },
+      {
+        "name": "padL",
+        "slot": 5,
+        "err": 0.4344
+      },
+      {
+        "name": "padR",
+        "slot": 6,
+        "err": 0.4014
+      }
+    ]
+  }
+}
