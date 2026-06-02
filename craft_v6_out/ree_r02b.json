@@ -1,0 +1,45 @@
+{
+  "random": 0.1932479590177536,
+  "oracle": 0.906286358833313,
+  "curve": [
+    {
+      "step": 600,
+      "catch": 1.0,
+      "form": "const_acc",
+      "residuals": {
+        "const_acc": 4e-06,
+        "const_vel": 1.9e-05,
+        "damp": 1.9e-05
+      },
+      "theta": -0.00392,
+      "bounce": true
+    },
+    {
+      "step": 1200,
+      "catch": 1.0,
+      "form": "const_acc",
+      "residuals": {
+        "const_acc": 4e-06,
+        "const_vel": 1.9e-05,
+        "damp": 1.9e-05
+      },
+      "theta": -0.00392,
+      "bounce": true
+    },
+    {
+      "step": 1800,
+      "catch": 1.0,
+      "form": "const_acc",
+      "residuals": {
+        "const_acc": 4e-06,
+        "const_vel": 1.9e-05,
+        "damp": 1.9e-05
+      },
+      "theta": -0.00393,
+      "bounce": true
+    }
+  ],
+  "discovered_gravity": true,
+  "ok": true,
+  "verdict": "LITTLE SCIENTIST (r0.2b) \u2014 the agent DISCOVERED the law form by falsification: 'const_acc' (theta=-0.00393, bounce=True) won over const-vel/damp, and intercepts 1.00 (rnd 0.19, oracle 0.91). The gravity+bounce INVARIANT was discovered, not given. Next: REUSE it across gravities vs fair PPO."
+}
