@@ -1,0 +1,18 @@
+{
+  "seeds": [
+    0
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "shared_warm": 2.7e-05,
+      "shared_scratch": 3.2e-05,
+      "mono_warm": 2.6e-05,
+      "mono_scratch": 3.1e-05,
+      "shared_gain": 0.146,
+      "mono_gain": 0.151
+    }
+  ],
+  "positive": false,
+  "verdict": "PARTIAL/CHECK \u2014 shared gains [0.146] vs mono [0.151], durable=True, structure=False. If shared~mono or warm>scratch, the shared structure gives no durable reuse here."
+}
