@@ -6189,3 +6189,48 @@ even composition gives no fair necessity -> boundary complete, consolidate.
 
 ### Anti-traps: leak-fixed generator; matched compute; fair (shaped+curiosity) flat; no eval-grant;
 >=3 seeds; continuous success(D) curves not pass/fail; adversarial review before any positive.
+
+## PREREGISTRATION percept-v0.2 — LOCK #1: unsupervised object-centric PERCEPTION from pixels
+**Date committed:** 2026-06-02. CHRONOLOGY ASSERTION: written BEFORE the multi-seed run (the only
+smoke runs prior were for debugging the renderer, not for the claim). FROZEN.
+Context: the from-scratch-model pivot. Owner chose "start with the perception core". Slot-attention
+(percept v0.1) FAILED to bind objects on our sparse sprite scenes (ball-err WORSENED 0.21->0.26,
+masks bloated to ~half the frame). New approach (percept v0.2): an EXPLICIT SPRITE autoencoder where
+each of K slots is (position x,y ; presence ; a small appearance patch), composited by a
+differentiable spatial-transformer renderer; trained ONLY by reconstruction. The position BOTTLENECK
+forces each slot to localise to one object.
+
+### H (primary)
+Trained on reconstruction ONLY (no labels), the SpriteAE yields a STABLE object representation: there
+exists a FIXED slot whose predicted position tracks the 2D-moving Pong ball with mean error
+< 0.5 x (FAIR min-over-K random baseline) AND < 0.06 (abs), AND that fixed slot is the per-frame
+closest-to-ball slot in > 80% of frames (stable binding, not a per-frame min-trick), on >= 3 seeds.
+
+### H (secondary)
+The scene DECOMPOSES: a greedy distinct-slot assignment maps ball + left paddle + right paddle to
+THREE DISTINCT slots, each at < 0.06 error -> genuine unsupervised scene decomposition, not mere
+ball-saliency.
+
+### Mechanism (FROZEN — no tuning-to-pass after this line)
+- SpriteAE: K=4 slots, img=48, patch=14, enc Conv(3->32->64->128 stride2 x3)->Linear(dim=256), heads
+  {pos sigmoid, presence sigmoid, appearance patch sigmoid}; write spatial-transformer (affine_grid +
+  grid_sample, padding zeros) places each patch at its pos with fixed scale=patch/img; composite =
+  sum_k presence_k * placed_k, clamped [0,1].
+- Loss: foreground-weighted recon (w = amax_over_channels + 0.02) + 0.001 * mean(presence). Adam
+  lr 3e-4, grad-clip 1.0, bs 128, steps 6000.
+- Eval (FROZEN): fixed-slot err (slot = argmin of per-slot MEAN error), stability (frac of frames
+  whose per-frame argmin == that fixed slot), FAIR baseline = E[min over K random points to ball].
+
+### Decision rule
+POSITIVE iff the primary H holds on >= 3 seeds (fixed-slot ball err < 0.5xfair AND < 0.06 AND
+stability > 0.8). Report secondary decomposition. NULL/PARTIAL otherwise.
+
+### Honest caveats (pre-committed, must appear in any report)
+- Paddle x is CONSTANT (0.06 / 0.94), so paddle binding is EASIER than the ball (only y varies); the
+  BALL (moves in 2D across the whole field) is the load-bearing claim. Paddles are a bonus.
+- This de-risks PERCEPTION ONLY. It is NECESSARY-NOT-SUFFICIENT: it does NOT show reuse/generalisation.
+  Whether object-centric perception enables reliable reuse where a monolithic encoder failed (our own
+  prior nulls) is the NEXT experiment, not claimed here.
+
+### Anti-traps: reconstruction-only (no label in training); FAIR min-over-K baseline; FIXED-slot (not
+per-frame) error; explicit stability requirement; >= 3 seeds; adversarial review BEFORE reporting to owner.
