@@ -327,3 +327,16 @@ THREE adversarial reviews (perception / strategy / missed-angles), unanimous:
 DECISION REQUIRED FROM OWNER: this reverses the most-recent explicit steer (from-scratch model, pixels,
 perception-first). Options: (A) pivot to v49 hardened; (B) push an original PIXEL reuse idea anyway
 (honours the pivot, ~15-20%); (C) accept the "likely a wall" map and consolidate the bounded positives.
+
+## v49 STATUS (2026-06-03) — mechanism BUILT + reusable primitive DE-RISKED, but COMPUTE-BOUND
+The hard part of the depth-scaling experiment is solved: the reusable nav-collect skill WORKS reliably
+(0.96-0.99 success, generalises across procedural trees at depths 3 AND 7) once the target type is
+BROADCAST as spatial channels into the CNN (the fix that took it 0.25->0.99). Manager + strong-flat +
+fair matched-step accounting are implemented. BUT the full sweep is COMPUTE-INTRACTABLE to iterate on
+this single GPU: the manager's nested option-rollout (macro-steps x option inner-steps x iters, each a
+sequential CNN forward + Python env.step) runs at ~15% GPU util, >20 min per config. Could not extract
+a single (compose, flat) data point in-session. The real multi-seed run (depths 3,5,7,9 x seeds 0,1,2)
+is now cooking in the BACKGROUND (~4-6h); results -> craft_v6_out/v49_depth_scaling.json. A proper run
+needs either a vectorised rollout (no Python per-step loop) or many GPU-hours. Honest odds (per reviews):
+~35% a crossover appears (bounded within-family positive), ~55% null (fair flat keeps pace) — neither
+is the cross-game-from-pixels grail, which the 3 reviews judge most plausibly a WALL at this scope.
