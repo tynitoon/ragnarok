@@ -1,0 +1,89 @@
+# Ragnarok — OPTION 2: the REFUTATION ENGINE (radically different bet)
+
+*Designed 2026-06-01 after option 1 (Notion Graph) showed control can emerge but stabilising a
+growing hard-mixture is known MoE territory. This is deliberately NOT a gradient-trained
+statistical predictor/policy/mixture — it is a developmental "little scientist".*
+
+---
+
+## WHY THIS, derived from our own 48-version + this-session map
+Two hard-won facts:
+1. **Every reuse attempt reused SURFACE STATISTICS** (features, weights, experts, dynamics-models)
+   — which transfer poorly or only as a warm-start, because they are tied to the source task's
+   surface, not to what is TRUE across tasks.
+2. **Reuse only PAYS (v44 boundary) when the knowledge is EXPENSIVE to rederive AND the task is
+   too hard to learn directly.** Cheap-to-rederive knowledge (e.g. "right moves paddle right") gives
+   only a warm-start, because from-scratch learning is also cheap.
+
+> **The radical bet: knowledge = REFUTABLE INVARIANTS (laws), discovered by actively SEEKING TO
+> BREAK them, and kept only while they survive. Reuse is reliable BY CONSTRUCTION — an invariant
+> that survived thousands of refutation attempts is TRUE across contexts, so it holds in a new one.
+> And we target invariants that are EXPENSIVE to find (require search / long horizon / many
+> samples), so reusing them genuinely pays.**
+
+This is the opposite of statistical averaging: a law is not "usually right", it is **either
+unrefuted or dead**. Survivors are context-invariant; that is exactly what reliable reuse needs.
+
+---
+
+## WHAT KNOWLEDGE IS
+A **law** = a refutable relation among QUANTITIES, their changes, and ACTIONS, with parameters and
+a confidence that is earned by survival, e.g.:
+- controllability: `Δq_i ≈ θ · a`  (action a changes quantity q_i)
+- kinematics / conservation: `q_i(t+1) ≈ q_i(t) + v_i`, `q_i + q_j ≈ const`
+- predicates / preconditions: `event ⟺ φ(q)`  (e.g. catch ⟺ |paddle−fruit| < tol)
+- COMPOSITE / EXPENSIVE laws: multi-step or conditional invariants that take long experience to
+  verify (these are the ones whose reuse pays).
+A law lives in an abstract quantity-space, so it is **detached from pixels' surface** — it can hold
+in a totally different-looking world if that world has the same underlying mechanism.
+
+## THE ENGINE (developmental, Popperian)
+1. **Perceive** quantities q from the frame (v0: simple colour-blob centroids — a stepping stone;
+   learned perception later).
+2. **Hold** a population of candidate laws (from a small generative grammar of relations).
+3. **Test & refute**: every step, score each law's residual on the new data. Confidence rises while
+   it holds; a law that fails beyond tolerance is **refuted** (killed or split into conditional laws).
+4. **REFUTATION-SEEKING CURIOSITY** (the original exploration engine): the agent acts to go where its
+   current laws are MOST UNCERTAIN / most likely to break — it hunts its own theory's boundaries,
+   not generic novelty. This finds invariants (and their limits) fast.
+5. **Act** by applying surviving laws: predict each action's effect on the goal-relevant quantity,
+   pick the action that achieves the goal. Control flows through trusted laws.
+6. **Reuse**: in a new task, re-test existing laws; the ones that still hold are TRUSTED immediately
+   (no relearning); only the genuinely-new part of the world needs new laws.
+
+## WHY REUSE IS RELIABLE *AND* PAYS (the two things that killed everything before)
+- **Reliable**: survivors are unrefuted-across-contexts -> they hold in the new context if the
+  mechanism is shared (true, not similar). No warm-start-that-fades.
+- **Pays**: we deliberately target EXPENSIVE-to-derive invariants (the v44 regime). Re-deriving a
+  hard invariant from scratch costs much search; reusing a trusted one is free.
+
+---
+
+## DECISIVE TEST (must beat the v44 boundary, fairly)
+A task family where the goal-relevant invariant is EXPENSIVE to find from scratch (long horizon /
+hidden / needs many interventions) but SHARED across the family. Measure: a refutation-agent that
+already holds the invariant solves a NEW family member in far fewer interactions than from-scratch
+(which must re-derive it) — AND than a strong model-free baseline at MATCHED compute, >=3 seeds.
+If a reused invariant makes a too-hard-to-learn-directly task solvable where from-scratch fails ->
+that is the North Star, on the regime where reuse genuinely pays, with reliability by construction.
+
+## MINIMAL BUILD PLAN (incremental, tested before scaling)
+- **r0.1** — perception (colour-blob quantities) + a few hand-grammar laws (controllability,
+  kinematics) tested+refuted online on Catcher; the agent ACTS via surviving laws and catches
+  reliably (stable, unlike NG v0.3a's collapse — laws don't "collapse", they're refuted or kept).
+- **r0.2** — REUSE: carry the laws to Pong/Breakout; the controllability/kinematics laws survive
+  re-testing -> immediate control; only new laws (bricks/scoring) are added. vs from-scratch + a
+  fair model-free baseline, on an EXPENSIVE-invariant task.
+- **r0.3** — refutation-seeking curiosity replaces hand-exploration; the agent discovers law
+  boundaries autonomously.
+- **r0.4** — learned perception + law-grammar induction (remove the hand-started scaffolding).
+
+## HONEST NOVELTY & RISKS (no overclaiming this time)
+- Relatives exist: symbolic regression / equation discovery (Eureqa, AI-Feynman), causal discovery,
+  optimal-experiment-design/active learning, Popperian/"artificial scientist" agents. The original
+  integration is: an EMBODIED DEVELOPMENTAL CONTROL agent whose representation IS a refuted-or-kept
+  invariant set, with REFUTATION-SEEKING curiosity, explicitly aimed at the expensive-invariant
+  reuse regime. We will cite relatives and not claim more than the integration.
+- Risks: perception/grammar are hand-started in r0.1 (a stepping stone, removed by r0.4); law
+  induction can be brittle; the "expensive-invariant" task must be designed honestly (not rigged).
+- Rigor kept: fair baselines, matched compute, >=3 seeds, adversarial review before any claim.
