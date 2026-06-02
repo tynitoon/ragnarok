@@ -1,0 +1,36 @@
+{
+  "random": 0.19054241478443146,
+  "oracle": 0.902642548084259,
+  "curve": [
+    {
+      "step": 700,
+      "catch": 0.852,
+      "g_est": -1e-05,
+      "accel": true,
+      "res_ratio": 0.365
+    },
+    {
+      "step": 1400,
+      "catch": 0.85,
+      "g_est": 1e-05,
+      "accel": true,
+      "res_ratio": 0.365
+    },
+    {
+      "step": 2100,
+      "catch": 0.85,
+      "g_est": 1e-05,
+      "accel": true,
+      "res_ratio": 0.365
+    },
+    {
+      "step": 2200,
+      "catch": 0.85,
+      "g_est": 1e-05,
+      "accel": true,
+      "res_ratio": 0.365
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 accel=True g_est=1e-05 (true 0.004) catch 0.85 (rnd 0.19, oracle 0.90) res_ratio=0.365."
+}

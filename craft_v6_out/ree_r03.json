@@ -1,0 +1,37 @@
+{
+  "random": 0.19054241478443146,
+  "oracle": 0.902642548084259,
+  "curve": [
+    {
+      "step": 600,
+      "catch": 0.884,
+      "form": "damp",
+      "theta": -0.00288,
+      "bounce": false
+    },
+    {
+      "step": 1200,
+      "catch": 0.885,
+      "form": "damp",
+      "theta": -0.00289,
+      "bounce": false
+    },
+    {
+      "step": 1800,
+      "catch": 0.886,
+      "form": "damp",
+      "theta": -0.0029,
+      "bounce": false
+    },
+    {
+      "step": 2000,
+      "catch": 0.887,
+      "form": "damp",
+      "theta": -0.0029,
+      "bounce": false
+    }
+  ],
+  "discovered": false,
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 form='damp' theta=-0.0029 catch 0.89 (rnd 0.19, oracle 0.90). Pixel noise may blur the form; tune perception/xp."
+}

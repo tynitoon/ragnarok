@@ -113,3 +113,23 @@ grammar); (c) velocity perception is STATE, not pixels. So the 56-144x is real b
 model-helps effect; the GENUINELY-novel contribution is the falsification-discovery + reliability-by-
 construction framework, NOT the speedup magnitude. r0.3 = do it FROM PIXELS (remove the state hand-
 engineering) -> the real North-Star test.
+
+---
+## r0.3 / r0.3b (FROM PIXELS) — 2026-06-01: control works, precise discovery gated by perception
+From raw 48px frames (colour-blob perception) the agent perceives the ball, predicts landing, and
+INTERCEPTS at ~0.85-0.89 (random 0.19, oracle 0.90) — control from pixels WORKS. BUT precise
+law-discovery is gated by perception sub-problems:
+- r0.3: per-step falsification picks the WRONG form ('damp' not 'const_acc') because pixel
+  quantisation noise (~0.02) swamps the true per-step Delta(vy) (~0.004).
+- r0.3b: windowed parabola-fit DETECTS acceleration (quad/lin residual 0.365) but g-extraction
+  cancels to ~0 because reflective BOUNCES fold the trajectory (positive curvature at the fold
+  cancels the negative curvature of smooth arcs) -> needs trajectory SEGMENTATION at bounces.
+Control is robust to the imperfect law; precise discovery needs real perception/signal-processing.
+=> HONEST META (whole session, all angles): the Refutation Engine works CLEANLY on clean quantities
+(state: discover + reuse laws, 56-144x vs model-free) and DEGRADES on the perception sub-problem
+(pixels). It genuinely advances the FRAMING (reliability-by-construction via falsification; stable,
+no collapse) but the grail remains gated by the SAME open problems mapped all session: learned
+PERCEPTION of the right quantities + INDUCTION of expensive structure. Defensible positive = the
+STATE-mode developmental scientist (discovers physical laws by falsification, reuses them reliably
+across a task family, vastly out-samples model-free RL). Pixels-precise-discovery is future work
+(segmentation/denoising), not a grail blocker we can hand-wave.
