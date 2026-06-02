@@ -133,3 +133,22 @@ PERCEPTION of the right quantities + INDUCTION of expensive structure. Defensibl
 STATE-mode developmental scientist (discovers physical laws by falsification, reuses them reliably
 across a task family, vastly out-samples model-free RL). Pixels-precise-discovery is future work
 (segmentation/denoising), not a grail blocker we can hand-wave.
+
+---
+## r0.2c RETRACTED + 3 adversarial reviews (2026-06-01)
+3 reviews (methodology / novelty / strategy) DEMOLISHED the r0.2c "56-144x reuse" headline:
+- r0.2c GravInterceptor does NOT reuse a discovered law: const-acc+bounce is HAND-CODED in
+  landing(); only scalar theta is re-fit from scratch each world. "Reuses its discovered law"
+  is FALSE at the code level = our own retracted v36/v43 (model-based-given vs model-free).
+- "5,120 interactions" = chunk*num_envs (eval-cadence floor); theta=0 (NO law) passes 2/3 cells
+  -> the invariant is barely load-bearing. The 56-144x is an artifact + info-unmatched baseline.
+- NOVELTY: it is SINDy + recursive-least-squares + adaptive MPC + RANSAC inlier gate + ballistic
+  LS, in Popperian language. "Reliability by falsification" = re-label of model-selection-by-residual.
+  No guarantee/version-space/PAC bound. Refutation-seeking curiosity is named but NOT implemented.
+- The SOLE potentially-novel claim (reliability by construction) is UNTESTED: no law-violating task
+  is ever on trial; where the selector ran for real (pixels r0.3/r0.3b) it picked the WRONG law.
+=> RETRACT r0.2c. THE decisive next test (unanimous): LAW-VIOLATING tasks. Carry a const-acc law
+that held on gravity; on a violator (damping), does the agent REFUTE + adapt (vs a BLIND ablation
+that mis-applies the stale law and fails)? Report refute-detection + post-refute recovery, >=3 seeds.
+If clean refute-and-adapt-where-blind-fails -> first genuine contribution. Else -> falsified on
+state, stop. (r0.4 below.)
