@@ -6157,3 +6157,35 @@ artifact; at the same 37.7M steps flat PPO+curiosity reaches 0.54 and the hierar
 ~0.19. 2nd matched-compute deflation after v44, confirmed >=3 seeds. Caveat: frozen reuse config
 (collect_target=2) may be conservative (M7 cited ~1.0); the ROBUST finding is flat=0.54 (baseline
 deflation), independent of reuse's exact number.
+
+## PREREGISTRATION v49 — DEPTH-SCALING boundary: where does a fair flat break but composition hold?
+**Date committed:** 2026-06-01. CHRONOLOGY ASSERTION: written BEFORE any v49 code. FROZEN.
+Owner chose "tenter le dernier pari". Designing it surfaced the core knot: on depth-6 CraftWorld a
+FAIRLY-equipped flat reaches 0.54 (v48) -> not out of reach -> any CraftWorld v49 reduces to v48's
+modest edge UNLESS flat is unfairly handicapped. The only honest+decisive test is DEPTH SCALING:
+hierarchy's principled advantage is that the manager's composition problem grows LINEARLY with depth
+while flat's credit-assignment grows EXPONENTIALLY -> there should exist a depth D where a fair flat
+breaks but amortised composition holds.
+
+### H
+On procedural tech-trees of increasing target depth D, with BOTH arms given per-achievement shaping
++ matched compute, there exists a depth D* beyond which flat-from-scratch success collapses (-> ~0)
+while library-composition success stays high (>=0.8) -- demonstrating that compositional reuse is
+NECESSARY (not merely modestly better) for sufficiently deep targets, FAIRLY.
+
+### Design (FROZEN)
+- Substrate: DeviceVecTechTree (procedural), depth controlled via n_items / chain length. LEAK FIX:
+  shuffle the cell-id<->item assignment so the v45 index->cell correlation is destroyed (no shortcut).
+- Sweep target depth D over a range (e.g. 3,5,7,9,12). For each D, >=3 trees/seeds.
+- LIBRARY/COMPOSE arm: learn tree-agnostic goal-conditioned sub-skills (collect/craft) ONCE per tree
+  (counted), then a manager composes them to the depth-D target. End-to-end eval from empty inv.
+- FLAT arm: PPO + per-achievement shaping + curiosity, MATCHED total primitive-step budget, same eval.
+- Metric: success(D) for both arms; find D* = crossover. >=3 seeds; report curves + crossover with CIs.
+
+### Decision rule
+POSITIVE iff there is a clear D* where flat <=0.2 AND compose >=0.8 reliably (>=3 seeds) -> reuse
+necessary for deep targets, fairly. NULL iff flat tracks compose at all depths (no crossover) ->
+even composition gives no fair necessity -> boundary complete, consolidate.
+
+### Anti-traps: leak-fixed generator; matched compute; fair (shaped+curiosity) flat; no eval-grant;
+>=3 seeds; continuous success(D) curves not pass/fail; adversarial review before any positive.
