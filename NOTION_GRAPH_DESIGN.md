@@ -129,3 +129,19 @@ flagged by owner + 2 reviews this session, is re-deriving known methods: AD, the
 v0.3 enabler: notions need a context DETECTOR (predict which notion applies from context, with no
 future target) so the agent can ACT by planning forward through notions. Added: per-notion context
 centroids + NotionLibrary.predict(ctx) (context-bound forward prediction). Substrate: Catcher.
+
+---
+## v0.3a STATUS (forced-acting on Catcher) — 2026-06-01: control EMERGES but library UNSTABLE
+The agent acts ONLY through its notions (no policy net): it plans 1-step, predicting the next
+frame per action via context-bound notions, decodes paddle-vs-fruit, picks the best action.
+- FIX 1 (foreground-weighted loss): without it, per-patch MSE is dominated by the black
+  background -> notions predict "all black" -> control = random. WITH it, control EMERGED:
+  catch 4.31-5.05 vs random 3.03 (~1.5-1.7x), notions K grew to ~9.
+- FAILURE: the library is UNSTABLE — mint-BURSTS then PRUNE-COLLAPSES (K 9->1), and control
+  swings (5.05 -> 2.58). Foreground-weighted usage did not fix it. This is the classic
+  DEAD-EXPERT / growing-mixture-collapse problem.
+=> HONEST FORK (per the owner's pre-authorised fallback): stabilising a growing hard-mixture is
+itself KNOWN MoE territory (load-balancing, dead-expert revival, careful init). If fixing v0.3a
+means re-deriving MoE-stability tricks, that is the "back to known methods" trap -> trigger
+OPTION 2 (design something more radically original). Decision pending with owner. Control DID
+emerge through notions (real, ours) — the open problem is the developmental library dynamics.
