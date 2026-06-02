@@ -6295,3 +6295,39 @@ Then adversarial review BEFORE reporting to owner. PARTIAL if 4/5 or Breakout we
 >80%). Motion weighting targets the MOVER; quasi-static objects need a complement. Perception is
 NECESSARY-NOT-SUFFICIENT: no reuse claim. Anti-traps: fresh prereg (K=8 found post-hoc in v0.5);
 5 seeds; 2nd game; fair baseline; single-frame test; adversarial review before reporting.
+
+## PREREGISTRATION v49 — DEPTH-SCALING crossover (reuse pivot; mechanism FROZEN)
+**Date committed:** 2026-06-03. CHRONOLOGY: written after the MECHANISM was de-risked (nav-collect
+skill viable: 0.96-0.99 across procedural trees, depths 3 & 7) but BEFORE the confirmatory multi-seed
+run. The 1-seed depth sweep is an engineering signal-check (does a crossover exist / is the run worth
+the GPU hours), NOT the claim. FROZEN mechanism below; no tuning-to-pass between here and the multi-seed result.
+
+### H (primary)
+On PROCEDURAL tech-trees of increasing target depth D, with BOTH arms at MATCHED primitive-step compute,
+there is a depth D* beyond which a FAIR STRONG flat baseline collapses (success <= 0.2) while the
+COMPOSE arm (a reusable nav-collect skill + a manager that DISCOVERS the order) stays high (>= 0.8),
+on >= 3 seeds -> compositional reuse is NECESSARY (not merely modestly better) for deep targets, fairly.
+NULL iff flat tracks compose at all reachable depths (no crossover) -> boundary complete.
+
+### Mechanism (FROZEN)
+- Substrate: DeviceVecTechTree, depth via n_items {3:6,5:10,7:14,9:18,12:26}; grid=7, view=13 (FULL
+  observability => difficulty is COMPOSITION, not partial-obs nav); MAX_CELLS=24.
+- LIBRARY (compose): ONE tree-agnostic nav-collect skill (nav_goal='random', tools granted so gating is
+  a composition concern), TechTreeConvNet with the TARGET TYPE BROADCAST as spatial channels (the fix
+  that took nav 0.25->0.99). Cost counted in primitive steps.
+- MANAGER (compose): pursues items (resource->run nav skill until collected; craft->emit craft action);
+  obs = [inv, unlocked] symbolic; PPO DISCOVERS the order (NOT handed the DAG). Cost counted.
+- FLAT (baseline): SAME TechTreeConvNet class, per-achievement novelty shaping + high entropy
+  exploration, trained to the MATCHED total primitive-step budget (skill+manager). Same eval.
+- Metric: fraction unlocking the deepest target item; compose vs flat; find D* crossover. >= 3 seeds.
+
+### Decision rule
+POSITIVE iff exists D* with flat <= 0.2 AND compose >= 0.8 across all its seeds. NULL iff no such D*.
+
+### Honest caveats (pre-committed)
+- A POSITIVE proves WITHIN-FAMILY necessity (hierarchy/options needed for deep sparse credit assignment
+  on procedural tech-trees) — a rigorous, fairly-measured result, but NOT the cross-game-from-pixels
+  grail. A NULL completes the reuse boundary map (even deep targets are within a fair flat's reach).
+- Anti-traps: matched compute (primitive steps, both arms); STRONG flat (shaping+entropy, same CNN);
+  manager NOT given the DAG; full-obs nav so the test is about depth not perception; >= 3 seeds;
+  adversarial review before reporting any positive.
