@@ -6270,3 +6270,28 @@ on a 2nd game with multiple movers, + adversarial review.
 ### Anti-traps: motion is a TRAINING signal only (test keypoints from a single frame, no motion input);
 FAIR min-over-K baseline; FIXED-channel error; >= 3 seeds; 2nd-game replication + adversarial review
 required before reporting any positive to the owner.
+
+## PREREGISTRATION percept-v0.6 — RELIABILITY of keypoint ball-perception (K=8, 5 seeds + 2nd game)
+**Date committed:** 2026-06-02. CHRONOLOGY: written BEFORE the v0.6 runs. FROZEN. v0.5 (K=4) bound the
+ball sharply on 2/3 seeds; a POST-HOC K=8 probe rescued the 3rd. v0.6 tests whether K=8 is RELIABLE
+across more seeds + generalises to a 2nd game, with everything else identical to the v0.5 frozen mech.
+
+### H (primary — reliability)
+With K=8 keypoints (only change vs v0.5 frozen mech: gap=2, sigma=0.08, motion-w=4, lr 3e-4, 6000
+steps, motion-weighted cross-frame recon, single-frame test keypoints), a FIXED keypoint channel
+tracks the 2D-moving Pong ball with err < 0.06 AND < 0.5x(fair min-over-8 baseline) AND stability
+> 0.8 on ALL 5 seeds (0..4).
+
+### H (secondary — generality)
+Same mechanism on BREAKOUT (different layout: bricks/walls, 2D-moving ball) binds the ball (same bar)
+on >= 3 seeds -> perception is general, not Pong-specific.
+
+### Decision rule
+POSITIVE (perception lock de-risked) iff primary on 5/5 seeds AND secondary on >= 3/3 Breakout seeds.
+Then adversarial review BEFORE reporting to owner. PARTIAL if 4/5 or Breakout weaker; NEGATIVE if <4/5.
+
+### Honest caveats (pre-committed): more channels = more chances one lands near the ball -> guarded by
+(a) the FAIR min-over-8 baseline and (b) stability (a spreading model would track at ~1/8=12%, not
+>80%). Motion weighting targets the MOVER; quasi-static objects need a complement. Perception is
+NECESSARY-NOT-SUFFICIENT: no reuse claim. Anti-traps: fresh prereg (K=8 found post-hoc in v0.5);
+5 seeds; 2nd game; fair baseline; single-frame test; adversarial review before reporting.

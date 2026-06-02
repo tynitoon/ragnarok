@@ -125,3 +125,17 @@ asked for, and the first reviewable positive on this from-scratch path.
    structure; validate prediction. The substrate where reuse might pay.
 3. Reuse test: does the relational model transfer across games FAIRLY (counting all compute), beating
    a monolithic baseline — the thing every prior mechanism failed. Only this would touch the grail.
+
+## RESULT percept v0.5 (keypoints + motion, K=4, 3 seeds) — PARTIAL (2/3), frozen bar not met
+| seed | ball err | stability |
+|------|----------|-----------|
+| 0 | 0.051 | 0.91 |
+| 1 | 0.133 | 0.64 |
+| 2 | 0.043 | 0.92 |
+2/3 seeds bind the ball SHARPLY (0.043-0.051, ~92%) — far better than v0.1-v0.4 and than v0.2's 2/3
+near-random. But the frozen criterion requires ALL >=3 seeds; seed 1 (0.133, 0.64) misses. So v0.5 =
+PARTIAL: promising, NOT yet reliable. Channel-indexed identity + motion weighting is the right
+direction; the gap is init-sensitivity (which channel commits to the ball). POST-HOC probe: K=8 on the
+failing seed 1 -> 0.037 err, 0.86 stable (rescued; a paddle also binds). More channels reliably give
+the ball a dedicated one. Since K=8 was found post-hoc, it needs a FRESH preregistered multi-seed test
+(v0.6) before any "reliable" claim — recorded here, not claimed.
