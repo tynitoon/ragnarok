@@ -116,10 +116,11 @@ class RouterEnv:
         is_craft = self.item_is_craft[g]; cell_of = self.item_cell[g]; craft_act = self.item_craft_act[g]
         start = self.base.inv[ar, g].float()
         done_opt = torch.zeros(N, dtype=torch.bool, device=DEVICE)
+        det = not self.cfg.get("skill_stochastic", False)   # stochastic skill escapes deterministic loops
         for t in range(self.option_timeout):
             ego = self.base.state[:, :self.ego_dim]
             goh = F.one_hot(cell_of, MAX_CELLS).float()
-            a_skill = self.skill.act(torch.cat([ego, goh], -1), deterministic=True)
+            a_skill = self.skill.act(torch.cat([ego, goh], -1), deterministic=det)
             a = torch.where(is_craft, craft_act, a_skill)
             _, r, _, _, _ = self.base.step(a); self._prim += N
             rew += r * (~done_opt).float()
@@ -181,16 +182,15 @@ def greedy_master_rate(spec, skill, cfg, seed, n=256, detail=False):
     env = RouterEnv(n, spec, skill, cfg, seed=seed + 9)
     target = spec["target"]
     got = torch.zeros(n, dtype=torch.bool, device=DEVICE)
+    maxach = 0.0
     obs = env.state
     for _ in range(cfg["macro_budget"]):
         obs, _, _, _, _ = env.step(greedy_act(obs))
         got |= env.base.unlocked[:, target]
+        maxach = max(maxach, float(env.base.unlocked.float().sum(-1).mean()))  # mean #items made (pre-reset)
     rate = float(got.float().mean())
     if detail:
-        # mean fraction of the target's prerequisite-closure unlocked (how far does it get?)
-        frac = float(env.base.unlocked.float().mean())   # mean fraction of ALL items unlocked
-        depth_t = spec["depth"][target]
-        return rate, round(frac, 3), int(depth_t)
+        return rate, round(maxach, 2), int(spec["depth"][target])   # (rate, mean #items unlocked, depth)
     return rate
 
 
@@ -215,6 +215,7 @@ def main():
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
     p.add_argument("--greedy-only", action="store_true", help="train skill, eval GREEDY composition only")
+    p.add_argument("--skill-stochastic", action="store_true", help="sample skill actions in options (escape loops)")
     args = p.parse_args()
     if args.smoke:
         args.n_train_trees, args.n_heldout, args.skill_iters, args.router_iters = 4, 3, 150, 150
@@ -222,6 +223,7 @@ def main():
     cfg = {k: getattr(args, k) for k in
            ("num_envs", "grid", "view", "n_resource", "rollout", "entropy", "nav_max_steps",
             "skill_iters", "router_iters", "mgr_entropy", "macro_budget", "option_timeout")}
+    cfg["skill_stochastic"] = args.skill_stochastic
     os.makedirs(args.out_dir, exist_ok=True)
     ni = N_ITEMS_FOR_DEPTH[args.depth]
     train_specs = [gen_tree(1000 + i, n_items=ni) for i in range(args.n_train_trees)]

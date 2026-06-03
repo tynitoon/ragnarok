@@ -395,3 +395,25 @@ learnable/easy:
   planner solves NEW shallow tasks cheaply; deep tasks are gated by per-step execution reliability that
   general skills lack. The grail (reliably master arbitrary NEW tasks from reuse) is blocked here by
   compositional execution reliability, not by perception or by composition LOGIC.
+
+## v51 — ATTACKED the composition-reliability barrier (stochastic skill + ample budget) — CONFIRMED genuine
+Attacked the deep-composition barrier directly:
+- stochastic skill in options (escape deterministic loops) + option_timeout 60: depth 7 held-out still ~0.01.
+- ample macro_budget 50 + fixed instrumentation (#items unlocked): SHARP cliff confirmed — depth<=5 masters
+  (train d4-d5: 0.95-1.0), depth>=6 collapses. One train d6 reached 0.73 (so deep CAN work with a good
+  skill+budget), but ALL held-out deep (d5-8) fail. Greedy makes PROGRESS (unlocks ~5-12 of ~14 items)
+  then gets STUCK partway. Failures track per-tree SKILL WEAKNESS on specific resource types (held-out
+  tree with nav 0.496 -> 1.36 items, 0.0 master).
+- CONCLUSION (firm): the barrier is PER-RESOURCE-TYPE SKILL RELIABILITY on held-out trees. A general
+  (transferred) skill is ~0.87-0.94 on AVERAGE but weak on SOME types on SOME trees; deep targets that
+  need a weak-type collect fail, and the failure stops the whole chain. Neither stochastic execution nor
+  ample budget cracks it. To crack deep compositional reuse one needs a skill UNIFORMLY reliable across
+  ALL resource types (a perception-robustness problem), not just high-on-average.
+
+### NIGHT SYNTHESIS (option 2 fully explored)
+- CLEAN POSITIVE: one childhood skill transfers zero-shot to held-out procedural trees (nav 0.94).
+- BOUNDED POSITIVE: reused skill + general forward-chaining masters SHALLOW (depth<=4-5) held-out tasks (~0.7).
+- HARD WALL: DEEP held-out tasks fail on per-type skill reliability (attacked directly; doesn't crack).
+- This precisely locates the grail blocker at COMPOSITIONAL EXECUTION RELIABILITY (uniform per-step
+  skill reliability), distinct from perception (works), composition logic (works), and the reuse
+  economics (real-but-modest). Consistent with the 3 reviews: grail is a genuine research wall here.
