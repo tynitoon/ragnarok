@@ -417,3 +417,20 @@ Attacked the deep-composition barrier directly:
 - This precisely locates the grail blocker at COMPOSITIONAL EXECUTION RELIABILITY (uniform per-step
   skill reliability), distinct from perception (works), composition logic (works), and the reuse
   economics (real-but-modest). Consistent with the 3 reviews: grail is a genuine research wall here.
+
+## *** v51 — DEEP COMPOSITIONAL REUSE WORKS (deadlock fix) — needs verification/review ***
+The whole deep-composition failure was a GREEDY BUG, not a fundamental barrier: the planner used
+"craftable & ~UNLOCKED" -> once an intermediate craft was made then CONSUMED as an input to two items,
+it was never re-crafted -> second consumer/goal stalled ("makes ~all items but not the target"). Fix:
+"craftable & ~IN_INV" (re-craft consumed intermediates).
+RESULT (depth 7, 8 train / 6 held-out, skill 0.95, stochastic options, macro 45): greedy held-out
+master jumped 0.16 -> **0.98** — EVERY held-out tree (depths 4-8) mastered (0.87-1.0), unlocking ~all
+items incl. the deep target. So: ONE childhood skill (transfers zero-shot 0.95) + GENERAL
+forward-chaining over OBSERVABLE affordances (no DAG granted) MASTERS arbitrary NEW DEEP procedural
+tasks with ZERO adulthood learning = the developmental-reuse thesis, demonstrated.
+HONEST CAVEATS / TODO before claiming: (1) the composition planner is FIXED (general, observable-only,
+not tree-specific) — the LEARNED+reused part is the skill; a learned router should now also work since
+the strategy is known-correct. (2) VERIFY robustness on fresh seeds. (3) ADVERSARIAL REVIEW (env too
+easy? forward-chaining trivial on any DAG? fair vs from-scratch?). (4) Re-test the v50 AMORTISATION
+(warm reused-skill+planner MASTERS held-out cheaply now -> clean childhood amortisation). DO NOT
+overclaim before (2)-(4).

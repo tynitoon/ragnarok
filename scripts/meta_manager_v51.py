@@ -172,7 +172,9 @@ def greedy_act(state):
         f[..., 0], f[..., 1], f[..., 2], f[..., 3], f[..., 4], f[..., 6])
     score = torch.full_like(in_inv, -1e9)
     score = torch.where((collectable > 0.5) & (in_inv < 0.5), torch.full_like(score, 1.0), score)
-    score = torch.where((craftable > 0.5) & (unlocked < 0.5), torch.full_like(score, 2.0), score)
+    # re-craft items not currently held (consumed intermediates) — NOT "~unlocked" (that deadlocks when
+    # a craft is an input to two things: made once, consumed, never re-made -> second consumer/goal stalls)
+    score = torch.where((craftable > 0.5) & (in_inv < 0.5), torch.full_like(score, 2.0), score)
     score = torch.where((is_goal > 0.5) & (craftable > 0.5), torch.full_like(score, 3.0), score)
     return score.masked_fill(valid < 0.5, -1e9).argmax(-1)
 
