@@ -464,3 +464,24 @@ is largely an ARTIFACT, not a grail positive:
   learned composer already fails on the EASY substrate, so expectations are low.
 - 5th discipline-caught overclaim this session. The pattern holds: reliable LEARNED reuse of
   composition is the wall; perception/skill transfer is the one real (modest) positive.
+
+## v52 — FAIR amortisation (reviews' #1 ask) — the HONEST option-2 positive (modest)
+WARM (childhood skill once + greedy) vs SCRATCH (fresh per-tree skill + SAME greedy), depth 7, 4 held-out:
+- Both arms MASTER held-out trees: WARM 0.99, SCRATCH 0.99 (so it's a fair COST comparison, not capability).
+- C_lib = 3.28M (childhood, 8 trees, once) vs C_skill = 2.46M PER fresh tree -> warm cumulative crosses
+  below scratch after ~1.3 tasks. So childhood skill-training AMORTISES over a stream of new tasks.
+- HONEST framing: REAL but MODEST. Childhood saves the one-time skill-relearning cost; it does NOT
+  enable anything scratch can't (scratch masters too); composition is a FIXED trivially-correct planner
+  (not learned). This is "reuse of perception/skill amortises", the smallest honest reuse claim — NOT
+  "the agent learns to reuse composition" (that failed: learned router 0.003).
+
+## OPTION 2 — CONCLUDED (honest)
+Net result of the night's option-2 exploration:
++ Childhood nav-collect skill transfers zero-shot to held-out procedural trees (~0.95).
++ That skill amortises (train once, reuse over a stream; break-even ~1.3 tasks) — fair, both arms master.
+- Deep "mastery 0.98" was an ARTIFACT (trivial forward-chaining on a no-scarcity DAG) — retracted.
+- LEARNED composition reuse FAILED (0.003) — the real grail blocker, unchanged.
+=> Modest, fair, real reuse positive (skill amortisation). The grail (reliable LEARNED reuse of
+composition on tasks where it's actually hard) remains a wall. Next honest grail test = a HARDER
+substrate (scarcity/irreversibility/partial-obs, no affordance oracle) where greedy is NOT optimal and
+a LEARNED composer is REQUIRED — owner's strategic call (big build, low odds per the learned-router 0.003).
