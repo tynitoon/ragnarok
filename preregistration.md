@@ -6331,3 +6331,40 @@ POSITIVE iff exists D* with flat <= 0.2 AND compose >= 0.8 across all its seeds.
 - Anti-traps: matched compute (primitive steps, both arms); STRONG flat (shaping+entropy, same CNN);
   manager NOT given the DAG; full-obs nav so the test is about depth not perception; >= 3 seeds;
   adversarial review before reporting any positive.
+
+## PREREGISTRATION v50 — CHILDHOOD AMORTISATION (mechanism de-risked; confirmatory run)
+**Date committed:** 2026-06-03. CHRONOLOGY: written after the MECHANISM was de-risked (childhood skill
+GENERALISES to held-out trees, nav 0.83-0.91; exploratory 2-tree run: WARM 3.32M masters a held-out
+tree at 0.86 vs SCRATCH 4.46M -> warm cheaper per task, break-even ~3 trees) but BEFORE the multi-tree
+confirmatory run. FROZEN mechanism; no tuning-to-pass after this line.
+
+### H (primary)
+One reusable nav-collect skill learned in CHILDHOOD on a DISTRIBUTION of N_train procedural trees
+generalises to HELD-OUT (disjoint) trees, and a manager REUSING it masters those held-out trees. The
+CUMULATIVE warm cost (childhood once + per-task managers) crosses BELOW the from-SCRATCH cost (fresh
+skill + manager PER task) within the held-out stream -> childhood AMORTISES; reuse over a distribution
+makes new tasks cheaper. (warm masters >= 80% of held-out AND break-even reached AND mean per-task
+warm < mean per-task scratch.)
+
+### Mechanism (FROZEN)
+- CHILDHOOD: nav-collect skill = TechTreeConvNet (broadcast target-type as spatial channels), 5 actions
+  (move+collect, constant across trees), tools granted (gating is a composition concern), trained on
+  N_train trees (rotated). Cost C_lib counted ONCE.
+- ADULTHOOD per held-out tree: WARM = manager (DiscretePPO over item-options, run-until-achieved, NOT
+  given the DAG) reusing the childhood skill, trained until target-success >= thresh or budget. SCRATCH
+  = a FRESH skill trained on THAT tree (cost counted) + a manager (same config). Cost = primitive steps
+  to threshold. Held-out trees DISJOINT from train trees (seeds 5000+ vs 1000+).
+- Metric: per-tree warm vs scratch cost; cumulative warm (C_lib + sum managers) vs scratch; break-even.
+
+### Decision rule
+POSITIVE iff warm-master-rate >= 0.8 AND cumulative warm < cumulative scratch within the stream AND
+mean warm < mean scratch. 1 seed = preliminary; >= 3 seeds = firm.
+
+### Honest caveats (pre-committed)
+- This is WARM vs SCRATCH (both hierarchical) — it isolates the CHILDHOOD amortisation (reuse-of-skill
+  vs relearn-per-task over a distribution). It is WITHIN-FAMILY (procedural tech-trees), NOT the
+  cross-game-from-pixels grail. The reused general skill is slightly weaker than a fresh specialised
+  one (eats part of the saving) — honest. FLAT (end-to-end, no hierarchy) is the separate v49 question
+  (flat struggles with deep crafting); reported separately if run.
+- Anti-traps: held-out DISJOINT from train; C_lib counted once (amortised honestly); fresh-skill cost
+  counted per scratch tree; identical manager config both arms; same success threshold; >=3 seeds for firm.
