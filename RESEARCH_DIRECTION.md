@@ -434,3 +434,33 @@ the strategy is known-correct. (2) VERIFY robustness on fresh seeds. (3) ADVERSA
 easy? forward-chaining trivial on any DAG? fair vs from-scratch?). (4) Re-test the v50 AMORTISATION
 (warm reused-skill+planner MASTERS held-out cheaply now -> clean childhood amortisation). DO NOT
 overclaim before (2)-(4).
+
+## *** RETRACTION of the v51 "0.98 breakthrough" — 2 adversarial reviews DEMOLISHED it ***
+I over-claimed "deep compositional reuse works (0.98)". Two adversarial reviews (correctly) showed it
+is largely an ARTIFACT, not a grail positive:
+1. Forward-chaining is LOGICALLY GUARANTEED on this substrate (reviewer proved 1000/1000 with unlimited
+   budget): gen_tree builds ACYCLIC DAGs with NON-SCARCE resources (cells re-collectable), so
+   topological forward-chaining cannot fail. The 0.98 = "we implemented forward-chaining correctly",
+   not reuse. The 0.16->0.98 "fix" was de-deadlocking the planner, not a reuse discovery.
+2. The composition is HAND-CODED. The LEARNED router (the interesting version) FAILED: 0.003 zero-shot
+   (1% train) in the SAME file. 0.98 stands in for a failed learned composer.
+3. NO reuse/efficiency baseline exists (no from-scratch, no relearn-skill; v50 amortisation never
+   completed; v49 flat=0.00 is degenerate). Mastery-rate is a CAPABILITY metric, not a REUSE metric.
+   With a fixed planner + transferred skill, per-tree adulthood cost ~0 in BOTH warm & scratch -> the
+   only possible saving is the one-time skill cost = the smallest/least-interesting reuse claim.
+4. Substrate too EASY to be grail-relevant: full-obs, no scarcity/irreversibility/search; greedy over
+   observable affordances (which ARE the DAG re-expressed) is trivially optimal. Real difficulty is
+   per-step skill reliability, NOT planning.
+
+### Honest status (corrected)
+- CLEAN-ish POSITIVE: a nav-collect skill transfers zero-shot across procedural trees (~0.95). REAL but
+  MODEST and ALREADY KNOWN (v49/v50); "transfer across trees" is thin (nav task identical per tree).
+- The 0.98 "masters new deep tasks" is NEAR-TRIVIAL (guaranteed forward-chaining + dense-grid incidental
+  collection + standing in for a FAILED learned composer). NOT the grail.
+- LEARNED composition (the real developmental question) FAILED again (0.003) — the open problem.
+- The grail-relevant test (per reviews): a HARDER substrate (scarcity/irreversibility/partial-obs, no
+  affordance oracle, 20+ chains) where greedy is NOT trivially optimal, and ask whether a LEARNED
+  composer transfers + beats from-scratch on COST-TO-MASTER. That is the honest next experiment; the
+  learned composer already fails on the EASY substrate, so expectations are low.
+- 5th discipline-caught overclaim this session. The pattern holds: reliable LEARNED reuse of
+  composition is the wall; perception/skill transfer is the one real (modest) positive.
