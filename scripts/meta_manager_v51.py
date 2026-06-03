@@ -163,6 +163,37 @@ def master_rate(ppo, spec, skill, cfg, seed, n=256):
     return float(unlocked.float().mean())
 
 
+def greedy_act(state):
+    """FIXED forward-chaining over OBSERVABLE affordances (no learning, no DAG): collect a needed
+    resource not yet held; craft anything craftable not yet made; pursue the goal if craftable."""
+    f = state.reshape(-1, MAX_ITEMS, N_FEAT)
+    in_inv, unlocked, craftable, collectable, is_goal, valid = (
+        f[..., 0], f[..., 1], f[..., 2], f[..., 3], f[..., 4], f[..., 6])
+    score = torch.full_like(in_inv, -1e9)
+    score = torch.where((collectable > 0.5) & (in_inv < 0.5), torch.full_like(score, 1.0), score)
+    score = torch.where((craftable > 0.5) & (unlocked < 0.5), torch.full_like(score, 2.0), score)
+    score = torch.where((is_goal > 0.5) & (craftable > 0.5), torch.full_like(score, 3.0), score)
+    return score.masked_fill(valid < 0.5, -1e9).argmax(-1)
+
+
+@torch.no_grad()
+def greedy_master_rate(spec, skill, cfg, seed, n=256, detail=False):
+    env = RouterEnv(n, spec, skill, cfg, seed=seed + 9)
+    target = spec["target"]
+    got = torch.zeros(n, dtype=torch.bool, device=DEVICE)
+    obs = env.state
+    for _ in range(cfg["macro_budget"]):
+        obs, _, _, _, _ = env.step(greedy_act(obs))
+        got |= env.base.unlocked[:, target]
+    rate = float(got.float().mean())
+    if detail:
+        # mean fraction of the target's prerequisite-closure unlocked (how far does it get?)
+        frac = float(env.base.unlocked.float().mean())   # mean fraction of ALL items unlocked
+        depth_t = spec["depth"][target]
+        return rate, round(frac, 3), int(depth_t)
+    return rate
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--depth", type=int, default=7)
@@ -183,6 +214,7 @@ def main():
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
+    p.add_argument("--greedy-only", action="store_true", help="train skill, eval GREEDY composition only")
     args = p.parse_args()
     if args.smoke:
         args.n_train_trees, args.n_heldout, args.skill_iters, args.router_iters = 4, 3, 150, 150
@@ -198,6 +230,22 @@ def main():
           f"{args.n_heldout} held-out | childhood: nav skill + TRANSFERABLE router", flush=True)
     t0 = time.perf_counter()
     skill, c_skill = train_childhood(train_specs, cfg, args.seed)
+    if args.greedy_only:
+        nav_ho = [round(nav_success_on(skill, s, cfg, args.seed), 3) for s in heldout]
+        gtr = [greedy_master_rate(s, skill, cfg, args.seed, detail=True) for s in train_specs]
+        gho = [greedy_master_rate(s, skill, cfg, args.seed, detail=True) for s in heldout]
+        print(f"  nav skill on held-out: {nav_ho} (mean {sum(nav_ho)/len(nav_ho):.2f})", flush=True)
+        print(f"  GREEDY (forward-chaining + reused nav skill) [rate, frac-items-unlocked, target-depth]:", flush=True)
+        print(f"    TRAIN:    {gtr}", flush=True)
+        print(f"    HELD-OUT: {gho}", flush=True)
+        mr = sum(x[0] for x in gho) / len(gho)
+        mf = sum(x[1] for x in gho) / len(gho)
+        print(f"  -> greedy held-out master {mr:.2f}, mean items-unlocked {mf:.2f} "
+              f"({'EASY' if mr>=0.8 else 'progress but no goal' if mf>0.3 else 'stuck early'}) "
+              f"| {time.perf_counter()-t0:.0f}s", flush=True)
+        with open(os.path.join(args.out_dir, "v51_greedy.json"), "w") as f:
+            json.dump(dict(depth=args.depth, nav_heldout=nav_ho, greedy_train=gtr, greedy_heldout=gho), f, indent=2)
+        return
     router, c_router = train_router(train_specs, skill, cfg, args.seed)
     c_lib = c_skill + c_router
     tr_master = [round(master_rate(router, s, skill, cfg, args.seed), 3) for s in train_specs]

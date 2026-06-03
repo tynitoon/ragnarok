@@ -372,3 +372,26 @@ TREE-AGNOSTIC observable per-item features (in_inv/unlocked/craftable_now/collec
 is_resource), permutation-invariant. Bet: distribution-training escapes the single-tree local optima
 (robust) AND the strategy TRANSFERS zero-shot to held-out trees -> the agent's WHOLE policy
 (skill+composition) reuses -> dramatic amortisation. (Also = the owner's brain-inspired router idea.)
+
+## v51 / GREEDY (night 2026-06-03) — composition-RELIABILITY barrier precisely located
+After v50 (skill transfers 0.94 but per-tree manager unreliable), tested whether composition is
+learnable/easy:
+- LEARNED ROUTER (tree-agnostic per-item features, permutation-invariant, trained on the distribution):
+  masters only ~1% even on TRAIN trees at 150 iters — severely under-trained / hard credit assignment.
+- GREEDY forward-chaining over OBSERVABLE affordances (collect-what's-collectable / craft-what's-
+  craftable / pursue-goal; a fixed tree-agnostic planner, no DAG granted) + the reused nav skill:
+    * depth 3 (shallow): masters HELD-OUT trees ~0.69 (range 0.31-0.98) — REUSE WORKS for new shallow tasks.
+    * depth 5: ~0.13.  depth 7: ~0.01 — FAILS, even with ample option budget (option_timeout 35).
+- Diagnosis: the barrier is COMPOSITIONAL EXECUTION RELIABILITY. Per-step skill success (~0.94, lower
+  on some resource-types) COMPOUNDS over the deep chain (0.94^~10 plus extra failures -> ~0). It is NOT
+  the composition LOGIC (greedy is correct) nor the option budget; it is that reliably executing a LONG
+  chain needs near-perfect per-step skills, which a GENERAL (transferred) skill doesn't have.
+
+### Honest synthesis (the precise reuse boundary, refined)
+- PERCEPTION/SKILL reuse: WORKS — one childhood skill transfers zero-shot to held-out procedural trees (0.94).
+- COMPOSITIONAL reuse into NEW tasks: works for SHALLOW targets (transferred skill + general forward-
+  chaining masters held-out depth-3 ~0.69), BREAKS for DEEP targets (compounding per-step unreliability).
+- This refines the project-wide "reuse is real but bounded": a reusable skill + a general (even fixed)
+  planner solves NEW shallow tasks cheaply; deep tasks are gated by per-step execution reliability that
+  general skills lack. The grail (reliably master arbitrary NEW tasks from reuse) is blocked here by
+  compositional execution reliability, not by perception or by composition LOGIC.
