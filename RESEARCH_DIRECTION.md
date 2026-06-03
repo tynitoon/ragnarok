@@ -356,3 +356,19 @@ exploration / target-directed shaping), each iteration ~18 min, a full fair swee
 prior evidence most likely landing at "bounded within-family at best." Combined with the perception
 arc + the 3 reviews: the cross-game-from-pixels GRAIL is, at this lab's scope, most plausibly a WALL.
 The project's defensible value remains the precise BOUNDARY MAP + the bounded honest positives.
+
+## v50 RESULT (childhood amortisation, depth 7, 8 train / 5 held-out) — NEGATIVE; manager is the blocker
+The CHILDHOOD SKILL transfers cleanly (nav 0.94 on held-out trees — a real positive on the skill).
+BUT the per-tree composition MANAGER is UNRELIABLE: warm masters held-out trees only ~1/4
+(tree0 d5: 0.76 YES; tree1 d6, tree2 d5, tree3 d4: 0.00 NO), and SCRATCH fails identically — so a
+PPO-over-options manager trained on a SINGLE procedural tree (~100 iters, sparse reward) gets STUCK
+regardless of target depth (fails even d4). Amortisation is moot when the agent can't reliably master
+the new task. The skill-only "childhood" saving (the ~1.6M skill cost) is real but small vs the
+manager cost, and break-even (~9 trees) is never reached because mastery fails. **v50 = NEGATIVE: the
+COMPOSITION (manager), not perception/skill, is the reliability blocker.**
+
+-> v51: a TRANSFERABLE ROUTER (meta-manager) trained across the childhood DISTRIBUTION of trees, on
+TREE-AGNOSTIC observable per-item features (in_inv/unlocked/craftable_now/collectable_now/is_goal/
+is_resource), permutation-invariant. Bet: distribution-training escapes the single-tree local optima
+(robust) AND the strategy TRANSFERS zero-shot to held-out trees -> the agent's WHOLE policy
+(skill+composition) reuses -> dramatic amortisation. (Also = the owner's brain-inspired router idea.)
