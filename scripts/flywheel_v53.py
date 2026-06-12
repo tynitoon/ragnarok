@@ -231,6 +231,7 @@ def main():
     p.add_argument("--temp", type=float, default=1.0)
     p.add_argument("--thresh", type=float, default=0.6)
     p.add_argument("--arm", choices=["A", "B", "both"], default="both")
+    p.add_argument("--resume", action="store_true", help="resume from per-task checkpoints if present")
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--out-dir", default="craft_v6_out")
     p.add_argument("--smoke", action="store_true")
@@ -269,15 +270,34 @@ def main():
 
     results = dict(seed=args.seed, depth=args.depth, c_skill=c_skill, A=[], B=[])
     ckpt_path = os.path.join(args.out_dir, f"v53_flywheel_s{args.seed}.json")
+    ckpt_pt = os.path.join(args.out_dir, f"v53_ckpt_s{args.seed}.pt")
 
     def _ckpt():
         with open(ckpt_path, "w") as f:
             json.dump(results, f, indent=2)
 
+    done_A, done_B = -1, set()
+    if args.resume and os.path.exists(ckpt_path):
+        with open(ckpt_path) as f:
+            prev = json.load(f)
+        results["A"], results["B"] = prev.get("A", []), prev.get("B", [])
+        done_A = max([r["task"] for r in results["A"]], default=-1)
+        done_B = {r["task"] for r in results["B"]}
+        print(f"  RESUME: arm-A tasks <= {done_A} already done, arm-B {sorted(done_B)} done", flush=True)
+
     if args.arm in ("A", "both"):
         print("\n  === ARM A (flywheel: lifelong buffer + persistent composer) ===", flush=True)
         composer, buf = Composer(), Buffer()
+        if args.resume and done_A >= 0 and os.path.exists(ckpt_pt):
+            st = torch.load(ckpt_pt, map_location=DEVICE)
+            composer.net.load_state_dict(st["net"])
+            composer.opt.load_state_dict(st["opt"])
+            n = st["buf_s"].shape[0]
+            buf.s[:n], buf.a[:n], buf.n, buf.ptr = st["buf_s"], st["buf_a"], n, n % buf.cap
+            print(f"  RESUME: composer + buffer ({n} samples) restored", flush=True)
         for k, spec in enumerate(stream):
+            if k <= done_A:
+                continue
             r = run_task(spec, skill, composer, buf, cfg, args.seed + 11 * k + 1)
             r.update(task=k, true_depth=int(spec["depth"][spec["target"]]))
             results["A"].append(r)
@@ -285,6 +305,8 @@ def main():
                   f"cost {r['cost']/1e6:.2f}M | mastered {r['mastered']} ({r['final']:.2f}) | "
                   f"{time.perf_counter()-t0:.0f}s", flush=True)
             _ckpt()
+            torch.save(dict(net=composer.net.state_dict(), opt=composer.opt.state_dict(),
+                            buf_s=buf.s[:buf.n].clone(), buf_a=buf.a[:buf.n].clone()), ckpt_pt)
         ho = [round(eval_master(s, skill, composer, cfg, args.seed + 777), 3) for s in heldout]
         hoa = [round(eval_master(s, skill, composer, cfg, args.seed + 777, ablate_goal=True), 3)
                for s in heldout]
@@ -296,6 +318,8 @@ def main():
     if args.arm in ("B", "both"):
         print("\n  === ARM B (amnesic control: fresh composer+buffer per task) ===", flush=True)
         for k in B_TASKS:
+            if k in done_B:
+                continue
             r = run_task(stream[k], skill, Composer(), Buffer(), cfg, args.seed + 11 * k + 1)
             r.update(task=k, true_depth=int(stream[k]["depth"][stream[k]["target"]]))
             results["B"].append(r)
