@@ -269,15 +269,16 @@ def main():
           f"{time.perf_counter()-t0:.0f}s", flush=True)
 
     results = dict(seed=args.seed, depth=args.depth, c_skill=c_skill, A=[], B=[])
-    ckpt_path = os.path.join(args.out_dir, f"v53_flywheel_s{args.seed}.json")
-    ckpt_pt = os.path.join(args.out_dir, f"v53_ckpt_s{args.seed}.pt")
+    tag = f"_d{args.depth}" + ("_smoke" if args.smoke else "")        # config-specific files: a smoke
+    ckpt_path = os.path.join(args.out_dir, f"v53_flywheel{tag}_s{args.seed}.json")  # can never pollute
+    ckpt_pt = os.path.join(args.out_dir, f"v53_ckpt{tag}_s{args.seed}.pt")          # a confirmatory resume
 
     def _ckpt():
         with open(ckpt_path, "w") as f:
             json.dump(results, f, indent=2)
 
     done_A, done_B = -1, set()
-    if args.resume and os.path.exists(ckpt_path):
+    if args.resume and os.path.exists(ckpt_path) and os.path.exists(ckpt_pt):   # BOTH or fresh
         with open(ckpt_path) as f:
             prev = json.load(f)
         results["A"], results["B"] = prev.get("A", []), prev.get("B", [])
