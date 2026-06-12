@@ -198,7 +198,7 @@ def run_task(spec, skill, composer, buf, cfg, seed):
         loss = composer.train_steps(buf, cfg["train_steps_per_round"])
         final = eval_master(spec, skill, composer, cfg, seed)
         rounds += 1
-        if rounds % 4 == 0:
+        if rounds % 2 == 0:
             print(f"      round {rounds:>3} | prim {env._prim/1e6:.2f}M | buf {buf.n} | "
                   f"loss {loss:.3f} | master {final:.2f}", flush=True)
         if final >= cfg["thresh"]:
@@ -268,6 +268,11 @@ def main():
           f"{time.perf_counter()-t0:.0f}s", flush=True)
 
     results = dict(seed=args.seed, depth=args.depth, c_skill=c_skill, A=[], B=[])
+    ckpt_path = os.path.join(args.out_dir, f"v53_flywheel_s{args.seed}.json")
+
+    def _ckpt():
+        with open(ckpt_path, "w") as f:
+            json.dump(results, f, indent=2)
 
     if args.arm in ("A", "both"):
         print("\n  === ARM A (flywheel: lifelong buffer + persistent composer) ===", flush=True)
@@ -279,12 +284,14 @@ def main():
             print(f"    [A] task {k} (d{r['true_depth']}): zero-shot {r['zero_shot']:.2f} | "
                   f"cost {r['cost']/1e6:.2f}M | mastered {r['mastered']} ({r['final']:.2f}) | "
                   f"{time.perf_counter()-t0:.0f}s", flush=True)
+            _ckpt()
         ho = [round(eval_master(s, skill, composer, cfg, args.seed + 777), 3) for s in heldout]
         hoa = [round(eval_master(s, skill, composer, cfg, args.seed + 777, ablate_goal=True), 3)
                for s in heldout]
         results["heldout_zero_shot"] = ho
         results["heldout_goal_ablated"] = hoa
         print(f"    [A] HELD-OUT zero-shot: {ho} | goal-ablated: {hoa}", flush=True)
+        _ckpt()
 
     if args.arm in ("B", "both"):
         print("\n  === ARM B (amnesic control: fresh composer+buffer per task) ===", flush=True)
@@ -295,6 +302,7 @@ def main():
             print(f"    [B] task {k} (d{r['true_depth']}): cost {r['cost']/1e6:.2f}M | "
                   f"mastered {r['mastered']} ({r['final']:.2f}) | {time.perf_counter()-t0:.0f}s",
                   flush=True)
+            _ckpt()
 
     # FROZEN criteria (prereg v53)
     verdict = "incomplete (single arm)"
