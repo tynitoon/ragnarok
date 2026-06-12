@@ -6368,3 +6368,58 @@ mean warm < mean scratch. 1 seed = preliminary; >= 3 seeds = firm.
   (flat struggles with deep crafting); reported separately if run.
 - Anti-traps: held-out DISJOINT from train; C_lib counted once (amortised honestly); fresh-skill cost
   counted per scratch tree; identical manager config both arms; same success threshold; >=3 seeds for firm.
+
+## PREREGISTRATION v53 — SELF-IMITATION FLYWHEEL (the mechanism demo, owner GO 2026-06-12)
+**Date committed:** 2026-06-12. CHRONOLOGY ASSERTION: written BEFORE any v53 code or run. FROZEN.
+Context: v51 located the wall precisely — LEARNED composition via sparse-reward RL fails (router 0.003)
+even though greedy proves the correct strategy IS expressible in the observable per-item features (so
+representation sufficiency is established; the variable under test is purely the LEARNING SIGNAL).
+v53 changes the signal, not the architecture: hindsight SELF-IMITATION (GCSL-style relabeling — known
+tool, used as a brick) on a LIFELONG buffer across a STREAM of tasks. Thesis under test: the agent's
+own accumulated successes make later NEW tasks cheaper — the compounding loop ("childhood"), with
+composition LEARNED end-to-end (no hand-coded planner at deployment).
+
+### H
+On a stream of K=10 procedural trees (depth~7 family; disjoint from skill-training trees), an agent
+whose composer is trained ONLY by hindsight imitation of its OWN successful trajectories accumulated
+across tasks (Arm A, flywheel) shows COMPOUNDING — later tasks cost markedly less / are mastered
+zero-shot — unlike an amnesic control (Arm B: identical mechanism, composer+buffer RESET per task).
+
+### Mechanism (FROZEN)
+- Shared by both arms: the childhood nav-collect skill (8 trees, seeds 1000+, frozen; identical in
+  both arms so its cost cancels in the comparison). Option semantics as v51 (run-until-collected,
+  stochastic skill, option_timeout 40).
+- Composer: PerItemRouter (per-item OBSERVABLE features, permutation-invariant — v51 architecture,
+  unchanged). NO RL, NO value: trained by cross-entropy on hindsight-relabeled (state, goal=X, action)
+  samples — every item X first-unlocked at step t in an episode relabels the prefix (steps <= t) as
+  demonstrations for goal X (goal column rewritten to X).
+- Deployment per task: explore with the CURRENT composer (softmax temp 1.0 + eps 0.05 random-valid).
+  Round = 4 episodes x 256 envs (macro_budget 20); after each round add relabeled samples (cap 8192/ep)
+  to the buffer (cap 400k FIFO) and take 300 CE steps (bs 512, Adam 3e-4); then eval DETERMINISTIC
+  master-rate on the task target (256 eval envs, not counted). Task done when >= 0.6 or budget
+  5M primitive steps. ZERO-SHOT eval before any task data; if >= 0.6 -> cost(task) = 0 (skip).
+- Arm B (amnesic control): same everything, fresh composer+buffer per task; run on tasks {0,3,6,9}.
+- Cost = primitive env-steps consumed by deployment (eval excluded; convention identical both arms).
+
+### Decision rule (FROZEN)
+POSITIVE iff (1 seed = exploratory; >= 3 seeds = firm):
+1. Arm A masters >= 8/10 stream tasks within budget;
+2. COMPOUNDING: mean cost over tasks 7-9 <= 0.5 x mean cost over tasks 0-2, OR mean zero-shot over
+   tasks 7-9 >= 0.5 while mean zero-shot over tasks 0-2 < 0.2;
+3. SEPARATION: Arm A mean cost on tasks {6,9} < 0.6 x Arm B mean cost on tasks {6,9}.
+Also REPORT (not gates): end-of-stream zero-shot on 4 HELD-OUT trees (seeds 9000+); goal-ablation
+probe at eval (does the composer actually use the goal? mechanism note). NULL/PARTIAL recorded honestly.
+Calibration note: a reduced-scale smoke validates CODE ONLY (relabeling produces data, loss falls);
+budget/thresholds above are frozen NOW, before any Arm A observation. Any mechanism repair forced by a
+smoke-discovered BUG will be documented here as an addendum BEFORE the confirmatory run.
+
+### Honest caveats (pre-committed)
+- This substrate is greedy-solvable (v51 reviews) -> MASTERY alone proves nothing. The claim is the
+  COMPOUNDING CURVE (cost / zero-shot vs task index) of a LEARNED-from-own-data composer vs the amnesic
+  control. Greedy 0.98 is the known ceiling, reported as context only.
+- Within-ONE-family compounding (procedural trees) = the MECHANISM demo the owner chose; NOT cross-
+  domain, magnitude bounded by breadth/compute (stated to owner, accepted).
+- The composer may learn goal-agnostic forward-chaining (sufficient here); the goal-ablation probe
+  reports this honestly as mechanism colour, not a kill criterion.
+- Hindsight relabeling is a known tool (GCSL family); the contribution claimed is the measured
+  compounding-over-a-task-stream loop under fair accounting, not the brick's novelty.
