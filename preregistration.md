@@ -6423,3 +6423,43 @@ smoke-discovered BUG will be documented here as an addendum BEFORE the confirmat
   reports this honestly as mechanism colour, not a kill criterion.
 - Hindsight relabeling is a known tool (GCSL family); the contribution claimed is the measured
   compounding-over-a-task-stream loop under fair accounting, not the brick's novelty.
+
+## PREREGISTRATION v54 — CLEAN MEASUREMENT of compounding (frozen before code, 2026-06-13)
+v53 was NULL but the statistical review showed it was largely a MEASUREMENT failure: task difficulty
+(prerequisite-closure size, 8..27 productions, some INFEASIBLE in the macro budget) swamped a possibly-
+real small compounding signal; the confound-free same-task A-vs-B delta was positive 2/3. v54 removes
+the confound by DESIGN and measures with statistics. NO mechanism change vs v53 (same self-imitation
+composer, buffer, options) — only the TASK DISTRIBUTION is controlled and the CONTROL is run on EVERY task.
+
+### Fixes (the only changes vs v53)
+- UNIFORM, FEASIBLE difficulty: from a large candidate pool, keep only trees whose target production-
+  count (recursive: resource=1; craft=1+sum(inputs), tools added once) is in a fixed BAND [10,16], all
+  << macro_budget (raised to 40 so NOTHING is budget-infeasible). Stream N=16 such tasks; held-out = 4.
+- Amnesic control B run on EVERY task (not 4), so the confound-free delta is measured everywhere.
+- 3 seeds; report per-seed curves + across-seed spread (the CI).
+
+### H (primary — the confound-free claim)
+On a stream of UNIFORM-difficulty feasible tasks, accumulated self-imitation experience makes NEW tasks
+cheaper to master: per-task benefit Delta_k = cost_B(k) - cost_A(k) (B amnesic, A accumulating; same
+task so difficulty cancels) has mean > 0 across the stream, on >= 3 seeds, with consistent sign.
+
+### H (secondary — compounding shape)
+cost_A falls over the stream: mean cost_A(second half) < 0.6 x mean cost_A(first half), OR mean
+zero-shot_A(second half) >= 0.5 while first half < 0.2 — on >= 3 seeds. (Tasks uniform, so this is a
+clean compounding signal, not a difficulty gradient.)
+
+### Mechanism (FROZEN, = v53)
+Composer PerItemRouter trained ONLY by hindsight-relabeled cross-entropy on the agent's own successful
+trajectories; lifelong buffer (A) vs fresh-per-task (B). Deploy: rounds of 4 ep x 256 envs, 300 CE
+steps/round, eval deterministic master-rate on the target, mastered >= 0.6, budget 3M primitive
+steps/task (uniform tasks need less), zero-shot eval before task data (cost 0 if >= 0.6). macro_budget
+40, option_timeout 40, stochastic skill. Childhood nav skill (8 trees) frozen, shared, identical both arms.
+
+### Decision rule (FROZEN)
+POSITIVE iff primary H (mean Delta>0, >=3 seeds, consistent) AND secondary H (compounding shape, >=3
+seeds). PARTIAL if primary only. NULL otherwise. Report per-seed Delta, cost_A curve, zero-shot curve,
+held-out zero-shot, with the across-seed spread. Honest caveats pre-committed: a POSITIVE here =
+WITHIN-FAMILY compounding on uniform procedural tasks (the mechanism demo), NOT cross-domain/magnitude;
+B mastering everything means the claim is "experience makes new tasks CHEAPER", not "enables". This is
+the LAST option-2 experiment: NULL here closes the arc (compounding not robustly measurable at this
+scale even with clean design); POSITIVE here is the honest, modest, real Kitty-Hawk result.
