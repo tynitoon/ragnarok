@@ -1,0 +1,147 @@
+{
+  "seed": 2,
+  "depth": 7,
+  "c_skill": 3276800,
+  "A": [
+    {
+      "zero_shot": 0.0,
+      "cost": 819200,
+      "mastered": true,
+      "final": 0.957,
+      "rounds": 1,
+      "task": 0,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.012,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.0,
+      "rounds": 7,
+      "task": 1,
+      "true_depth": 6
+    },
+    {
+      "zero_shot": 0.82,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.82,
+      "rounds": 0,
+      "task": 2,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 1.0,
+      "cost": 0,
+      "mastered": true,
+      "final": 1.0,
+      "rounds": 0,
+      "task": 3,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.992,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.992,
+      "rounds": 0,
+      "task": 4,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.004,
+      "rounds": 7,
+      "task": 5,
+      "true_depth": 8
+    },
+    {
+      "zero_shot": 0.453,
+      "cost": 3276800,
+      "mastered": true,
+      "final": 0.711,
+      "rounds": 4,
+      "task": 6,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.027,
+      "cost": 819200,
+      "mastered": true,
+      "final": 0.93,
+      "rounds": 1,
+      "task": 7,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.34,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.398,
+      "rounds": 7,
+      "task": 8,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.93,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.93,
+      "rounds": 0,
+      "task": 9,
+      "true_depth": 6
+    }
+  ],
+  "B": [
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.918,
+      "rounds": 2,
+      "task": 0,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.027,
+      "rounds": 7,
+      "task": 3,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 819200,
+      "mastered": true,
+      "final": 0.957,
+      "rounds": 1,
+      "task": 6,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.969,
+      "rounds": 2,
+      "task": 9,
+      "true_depth": 6
+    }
+  ],
+  "heldout_zero_shot": [
+    0.0,
+    0.898,
+    0.957,
+    0.016
+  ],
+  "heldout_goal_ablated": [
+    0.0,
+    0.98,
+    0.996,
+    0.0
+  ]
+}

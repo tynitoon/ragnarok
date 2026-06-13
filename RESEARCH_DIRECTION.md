@@ -505,3 +505,29 @@ not depth). Findings (honest, integrated):
 - Recommendations adopted: lead with same-task A-vs-B; flag t1/t5/ho0 as budget-infeasible by
   construction; seeds 1-2 stay FROZEN (replication of the prereg protocol, no mid-replication change);
   a post-hoc EXPLORATORY envelope diagnostic (macro_budget raised) only AFTER seeds, clearly labeled.
+
+## v53 — VERDICT FINAL (3 seeds, frozen prereg): NULL — compounding does NOT robustly replicate
+seed0 POSITIVE (8/10, compounding T, sep T) | seed1 PARTIAL (7/10, comp F, sep T) | seed2 NULL (7/10,
+comp F, sep F: A 1.64M > B 1.23M on late tasks — experienced agent cost MORE than amnesic). => 1/3 on
+the frozen criterion; even the confound-free same-task A-vs-B separation is 2/3 with one REVERSAL.
+The seed-0 "flywheel compounds" headline was LUCK (which random trees landed early vs late). RETRACTED.
+
+### What IS real (honest, salvageable)
+- Self-imitation (hindsight CE) makes the composer LEARNABLE where sparse-reward RL gave 0.003: it
+  masters 7-8/10 stream tasks and transfers zero-shot to IN-ENVELOPE held-out trees (~0.9). Real,
+  clean finding about the LEARNING SIGNAL (CE-on-own-successes >> RL for this composition) — the thing
+  predicted. But this is "self-imitation learns + transfers to similar tasks", NOT a developmental
+  COMPOUNDING loop.
+### What is NULL
+- The thesis "accumulated experience makes each NEW task progressively cheaper, reliably" does NOT
+  replicate. Seed-to-seed difficulty variance (closure-size, the ~19-production feasibility cliff)
+  SWAMPS the compounding signal at this scale/stream length. The effect is real-but-fragile, not robust.
+
+### The honest scientific conclusion (the actual result of the night)
+At THIS scale (10-task stream, single GPU), the compounding signal exists but is DOMINATED by task-
+difficulty noise -> not robustly measurable. Averaging it out needs a much longer/broader task stream
+(more compute) -- i.e. the magnitude-needs-scale conclusion, now QUANTIFIED: the per-task difficulty
+variance is larger than the per-task compounding gain on a 10-task procedural stream. Consistent with
+the whole project: mechanism plausible, magnitude gated by breadth/compute we do not have. v53 closes
+the option-2 arc honestly. No clean grail positive; the defensible deliverables remain the bounded
+positives + this precise map of why compounding is fragile at small scale.
