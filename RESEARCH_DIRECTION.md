@@ -485,3 +485,23 @@ Net result of the night's option-2 exploration:
 composition on tasks where it's actually hard) remains a wall. Next honest grail test = a HARDER
 substrate (scarcity/irreversibility/partial-obs, no affordance oracle) where greedy is NOT optimal and
 a LEARNED composer is REQUIRED — owner's strategic call (big build, low odds per the learned-router 0.003).
+
+## v53 — REVIEW STATISTIQUE (confound de difficulté) — verdict: PARTIELLEMENT confondu, MAIS l'effet tient
+Reviewer reproduced the stream trees exactly and computed true difficulty (prerequisite-CLOSURE size,
+not depth). Findings (honest, integrated):
+- The headline early-vs-late contrast (2.73M->0) is INFLATED: task 1 (27 ops) is STRUCTURALLY
+  INFEASIBLE within the ~19-production effective macro budget (its 5.73M = guaranteed budget
+  exhaustion, 70% of the early mean); late bucket happens to contain small closures. Cost tracks
+  closure size within the feasible envelope (t2, 13 ops, was already FREE at position 2).
+- BUT the effect SURVIVES difficulty control: feasible-early vs late still falls (2.46M -> 0+0+0), and
+  the CLEANEST evidence is the SAME-TASK A-vs-B deltas (difficulty cancels by construction):
+    t9 (d6, 16 ops, hardest mastered): B fresh zs 0.000 + 1.64M to master | A experienced zs 0.734, FREE
+    t6: A 2.46M vs B 4.92M | t3: A 0.82M vs B 1.64M | (t0 calibrates seed noise: A 2.46 vs B 1.64)
+- ENVELOPE LIMIT (the important negative): the flywheel generalizes WITHIN the feasible envelope but
+  never EXPANDS it — nothing above the ~19-production cliff was ever solved (t1 27 ops, t5/ho0).
+  "Late tasks are free" = TRUE. "Compounds into progressively DEEPER competence" = NOT shown.
+- ho3 warning: easiest held-out tree (7 ops) scores 0.121 goal-conditioned vs 0.605 goal-ABLATED ->
+  the goal head can actively hurt; what transfers is largely a goal-agnostic unlock-everything habit.
+- Recommendations adopted: lead with same-task A-vs-B; flag t1/t5/ho0 as budget-infeasible by
+  construction; seeds 1-2 stay FROZEN (replication of the prereg protocol, no mid-replication change);
+  a post-hoc EXPLORATORY envelope diagnostic (macro_budget raised) only AFTER seeds, clearly labeled.
