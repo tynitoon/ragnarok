@@ -531,3 +531,53 @@ variance is larger than the per-task compounding gain on a 10-task procedural st
 the whole project: mechanism plausible, magnitude gated by breadth/compute we do not have. v53 closes
 the option-2 arc honestly. No clean grail positive; the defensible deliverables remain the bounded
 positives + this precise map of why compounding is fragile at small scale.
+
+---
+
+## v54 — CLEAN MEASUREMENT: verdict PARTIAL, and the mechanism is NOT compounding (2026-06-13/14)
+
+Prereg frozen before code (4cd880f); interpretation locked before any seed finished, after a 4-agent
+adversarial design audit (5b21e2d). All 3 seeds ran UNINTERRUPTED (no resume -> counterfactually clean).
+Design: uniform-feasible tasks only (target production-count band [10,16], macro_budget 40 so nothing is
+budget-infeasible), stream N=16, amnesic control B on EVERY task, mechanism identical to v53.
+
+### Result per the FROZEN rule: PARTIAL (primary yes 3/3, secondary 1/3)
+- PRIMARY (confound-free, same-task Delta_k = cost_B - cost_A): POSITIVE on 3/3 seeds, NO reversal.
+  mean Delta = +1.95M / +1.95M / +2.15M primitives; B>A on 13/16, 14/16, 15/16 tasks.
+  This is a genuine improvement over v53 (1/3 with a reversal) -- the confound removal WORKED.
+- SECONDARY (cost_A declines over the stream): 1/3 seeds only -> frozen rule gives PARTIAL, not POSITIVE.
+
+### Why the secondary failed -- and why that is the REAL finding
+The data is a STEP, not a curve. On all 3 seeds: task 0 costs A full price (1.64M, zero-shot 0.00);
+from task 1 onward A zero-shots almost everything (cost 0) while B, cold each time, pays 1.64-3.28M.
+The secondary fails precisely BECAUSE there is no gradual decline: A is already at ~0 by task 1.
+=> The mechanism is ONE-SHOT GENERALISATION across a narrow family of procedural trees, NOT the
+   lifelong "flywheel" accumulation the v53/v54 framing assumed. The 16-task accumulation appears to
+   contribute nothing beyond task 0. The "flywheel / lifelong buffer" narrative is NOT supported.
+
+### Goal-ablation diagnostic (post-hoc, locked in advance): GOAL-AGNOSTIC 3/3
+Final Arm-A composer, held-out + stream, conditioned vs goal-ABLATED:
+  seed0 held 0.683 vs 0.727 (abl) | seed1 0.861 vs 0.861 | seed2 0.996 vs 0.997; stream ~identical.
+The composer IGNORES the goal. Interpretation lock #1 CONFIRMED: the positive Delta is a warm-started,
+goal-BLIND "unlock-everything" reflex converging in fewer rounds -- NOT goal-directed experience transfer.
+
+### What is honestly TRUE
+- A ENABLES, not merely accelerates: on several tasks B (cold) FAILS to master within the 3M budget while
+  A zero-shots them (s0 t12,t15; s1 t9,t13,t14,t15; s2 t15).
+- Not trivial: hard trees exist where BOTH arms fail (t3, t9 at pc15), so the band is not "all easy".
+- Defensible claim, and the ONLY one: "a composer trained by hindsight self-imitation on ONE procedural
+  tech-tree task generalises zero-shot to a family of same-band trees, mastering trees a from-scratch
+  composer cannot crack in 3M steps -- via a goal-blind unlock-everything policy."
+- NOT claimable: developmental compounding, accumulated experience making new tasks progressively
+  cheaper, goal-directed transfer. (Would be the 7th overclaim of a family retracted 6 times.)
+
+### Open questions a v55 would settle (NOT run)
+1. Is task 0 sufficient? Arm A with the buffer FROZEN after task 0 -- if Delta survives, accumulation is
+   provably irrelevant and the honest headline is one-shot generalisation, full stop.
+2. Foreign-buffer control: warm-start on equal-volume demos from a DIFFERENT tree family. Delta surviving
+   => the gain is generic data, not task-relevant experience.
+3. Envelope width: how far out of the [10,16] band does the zero-shot reflex hold?
+
+### Status of the option-2 arc
+v53 closed it as NULL; v54 re-opens a NARROWER, cleaner positive: not compounding, but robust one-shot
+in-family generalisation of a goal-blind composition reflex. Real, modest, and correctly framed.

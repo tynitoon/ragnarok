@@ -1,0 +1,199 @@
+{
+  "seed": 1,
+  "depth": 7,
+  "c_skill": 3276800,
+  "stream_pc": [
+    16,
+    10,
+    12,
+    15,
+    12,
+    10,
+    15,
+    11,
+    14,
+    15,
+    12,
+    10,
+    16,
+    15,
+    13,
+    15
+  ],
+  "rows": [
+    {
+      "task": 0,
+      "pc": 16,
+      "zs_A": 0.0,
+      "cost_A": 1638400,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 0
+    },
+    {
+      "task": 1,
+      "pc": 10,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": true,
+      "delta": 3276800
+    },
+    {
+      "task": 2,
+      "pc": 12,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": true,
+      "delta": 3276800
+    },
+    {
+      "task": 3,
+      "pc": 15,
+      "zs_A": 0.344,
+      "cost_A": 3276800,
+      "master_A": false,
+      "cost_B": 3276800,
+      "master_B": false,
+      "delta": 0
+    },
+    {
+      "task": 4,
+      "pc": 12,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 5,
+      "pc": 10,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 6,
+      "pc": 15,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 7,
+      "pc": 11,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 8,
+      "pc": 14,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 9,
+      "pc": 15,
+      "zs_A": 0.582,
+      "cost_A": 1638400,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": false,
+      "delta": 1638400
+    },
+    {
+      "task": 10,
+      "pc": 12,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": true,
+      "delta": 3276800
+    },
+    {
+      "task": 11,
+      "pc": 10,
+      "zs_A": 0.98,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 12,
+      "pc": 16,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 1638400
+    },
+    {
+      "task": 13,
+      "pc": 15,
+      "zs_A": 0.586,
+      "cost_A": 1638400,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": false,
+      "delta": 1638400
+    },
+    {
+      "task": 14,
+      "pc": 13,
+      "zs_A": 0.973,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": false,
+      "delta": 3276800
+    },
+    {
+      "task": 15,
+      "pc": 15,
+      "zs_A": 1.0,
+      "cost_A": 0,
+      "master_A": true,
+      "cost_B": 3276800,
+      "master_B": false,
+      "delta": 3276800
+    }
+  ],
+  "heldout_zero_shot": [
+    1.0,
+    0.023,
+    1.0,
+    0.188
+  ],
+  "cost_A_early": 614400.0,
+  "cost_A_late": 409600.0,
+  "zs_early": 0.793,
+  "zs_late": 0.8901249999999999,
+  "mean_delta": 1945600.0,
+  "pos_delta_frac": 0.875,
+  "primary": true,
+  "secondary": false
+}
