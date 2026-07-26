@@ -6607,3 +6607,31 @@ irreversibility and a shared latent grammar across worlds, or an honest close of
 bounded positives we actually own (childhood nav-skill transfer ~0.95; its amortisation at break-even ~1.3
 tasks).
 
+
+### AMENDMENT 1 to v55 (2026-07-26, BEFORE any arm was run â€” outcome-blind, power-only)
+Discovered while implementing, before a single training step: my `blind_cost` breaks ties RANDOMLY and
+Monte-Carlo averages (200 rollouts). That is deliberate â€” index-order tie-breaking is exactly the
+shortcut M4 exists to deny, and random ties make blind(g) permutation-invariant. The design audit's
+listed blind values used index-order tie-breaking, so they differ. Under the FROZEN stratum rule
+(blind(g) > macro_budget = 26) the realized GOAL-NECESSARY strata of the three pre-registered worlds are
+3002 -> 5 goals, 3006 -> 1 goal, 3014 -> 2 goals. n = 1 and n = 2 cannot support the per-seed predictions.
+
+CHANGE (mechanical, fixed before running, applied blind to any outcome): scan world seeds ascending from
+3000; keep a world iff n_resource_types <= 8 AND it has >= 4 GOAL-NECESSARY goals under the unchanged
+stratum rule. Take the FIRST THREE as the seed worlds and the NEXT THREE as arm-C foreign worlds.
+Realized (frozen now, before any run):
+  seed 0 -> world 3002 (5 GOAL-NECESSARY, pc 3,5,6,7,17)
+  seed 1 -> world 3003 (4 GOAL-NECESSARY, pc 6,12,14,20)
+  seed 2 -> world 3016 (4 GOAL-NECESSARY, pc 9,9,10,16)
+  arm-C foreign worlds: 3019 / 3021 / 3024. Nav-gate fallback: next qualifying seed ascending
+  (3041, 3048, 3050, 3059), skipping worlds already in use.
+Scan result for the record: 10 of the first 59 seeds qualify (3002, 3003, 3016, 3019, 3021, 3024, 3041,
+3048, 3050, 3059).
+
+WHY THIS IS NOT TUNING-TO-PASS: no arm has been run, so nothing about any outcome is known; the change is
+a POWER requirement (stratum size), not an effect-size or threshold choice; the selection rule is
+mechanical and ascending, not hand-picked; and arms A and B face IDENTICAL goals in the same world, so
+world choice cannot bias the paired primary comparison in either direction. Everything else in the v55
+prereg â€” mechanism M1-M9, arms, budgets, thresholds, admission rule, stratum rule, predictions, decision
+rule, caveats, kill criteria â€” is UNCHANGED.
+
