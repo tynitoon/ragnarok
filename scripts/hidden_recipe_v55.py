@@ -436,7 +436,7 @@ def nav_gate(skill, spec, cfg, seed, n=256):
 
 # ---------------------------------------------------------------- one goal-task
 
-def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7):
+def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7, r_max=None):
     """Train on ONE commanded goal until mastered or R_max rounds.
 
     M7 — v53/v54 returned cost=0 on zero-shot success WITHOUT collecting anything, so the lifelong
@@ -445,8 +445,8 @@ def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7
     env = HiddenEnv(cfg["num_envs"], spec, skill, cfg, seed=seed, goal=goal, hidden=hidden)
     env._prim = 0
     zs = eval_goal(spec, skill, composer, cfg, seed, goal, hidden)
-    master, rounds = zs, 0
-    for r in range(cfg["r_max"]):
+    master, rounds, n_eval = zs, 0, 1
+    for r in range(r_max if r_max is not None else cfg["r_max"]):
         for _ in range(cfg["episodes_per_round"]):
             s, a, us = collect_episode(env, composer, cfg["epsilon"], cfg["temp"], goal)
             ss, aa = relabel(s, a, us, cfg["max_samples_per_ep"], gamma=gamma)
@@ -455,7 +455,10 @@ def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7
         composer.train_steps(buf, cfg["train_steps_per_round"])
         rounds = r + 1
         master = eval_goal(spec, skill, composer, cfg, seed, goal, hidden)
+        n_eval += 1
         if master >= cfg["thresh"]:
             break
-    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, prim=env._prim,
+    ev = n_eval * 256 * cfg["macro_budget"] * cfg["option_timeout"]   # eval cost, counted honestly
+    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, prim=env._prim + ev,
+                collect_prim=env._prim, eval_prim=ev, n_eval=n_eval,
                 master=round(master, 3), mastered=bool(master >= cfg["thresh"]))
