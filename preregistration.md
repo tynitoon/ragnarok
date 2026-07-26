@@ -6635,3 +6635,80 @@ world choice cannot bias the paired primary comparison in either direction. Ever
 prereg â€” mechanism M1-M9, arms, budgets, thresholds, admission rule, stratum rule, predictions, decision
 rule, caveats, kill criteria â€” is UNCHANGED.
 
+
+### KILL-0 FEASIBILITY GATE â€” PASSED (2026-07-26, before the confirmatory arms)
+World 3002, easiest admitted goal 6 (pc 3), arm-A mechanism, hidden recipes, no affordance oracle:
+**master 1.00 in 2 rounds -> PROCEED**. KILL-1 does not fire at the gate. Hidden-recipe composition IS
+learnable by hindsight self-imitation at this scale. (The gate's JSON writer crashed on a TypeError at
+run_v55.py:114 AFTER printing the result; the value is transcribed verbatim from craft_v6_out/v55_gate.log
+and the writer is fixed. The gate was not re-run: KILL-0 is one-shot and already satisfied.)
+
+### AMENDMENT 2 to v55 (2026-07-26, BEFORE any confirmatory arm ran â€” outcome-blind)
+A 3-agent read-only fidelity audit of the implementation against this prereg returned GO-AFTER-FIXES.
+NO arm, budget, threshold, world, admission rule, stratum boundary, mechanism element or decision rule is
+changed. Recorded here are (a) the repairs applied, (b) the deviations that remain, (c) limitations that
+bind the report whatever the outcome.
+
+**(a) Repairs applied before launch â€” each fixes code that failed to implement this prereg, or strengthens
+a control against the treatment; none can tune the experiment toward a result.**
+1. Crash at run_v55.py:114 (the gate's own result writer) fixed.
+2. Resume could silently TRUNCATE an arm (guards tested key presence, not completion), which would also
+   corrupt arm C's volume target and arm E's budget. Arms now carry `complete`; guards require it.
+3. Arm C ran only the GOAL-NECESSARY goals while A/B/D ran the full stream, so "A > C" conflated buffer
+   PROVENANCE with stream LENGTH â€” biased toward passing P4, a POSITIVE conjunct. C now runs the full
+   stream. The env seed is now a function of GOAL IDENTITY, not list position, so every arm meets the same
+   grids and the same eval grids for the same goal.
+4. P2 was half-implemented: only S_A was computed, while P2 as frozen is a conjunction with S_D < 0.10 and
+   PARTIAL-MECHANISM is defined by full P2. Arm D's per-goal composers are now retained and S_D computed.
+5. The "shared frozen childhood skill in all arms" invariant broke on any resume (retrained unconditionally,
+   never persisted, CUDA conv backward not bit-reproducible). The skill is now saved and reloaded per seed.
+6. Instrumentation for statistics this prereg already BINDS the report to but never recorded: the
+   failed-attempt split (attempts, failures, repeats on already-succeeded items, first-try-correct) and the
+   per-round count of demos actually reaching each goal. Pure logging, no behavioural change.
+7. The frozen decision rule is now evaluated IN CODE (scripts/score_v55.py, committed before the
+   confirmatory arms), verified to REFUSE invalid data. Analysis-time choices: none.
+
+**(b) Deviations from the frozen text that remain, disclosed rather than edited (a mechanism edit at this
+point is the larger risk).**
+- M5 says "sample the goal per-env at reset"; the implementation commands ONE goal to all 256 envs per
+  episode. Goal diversity in training therefore comes solely from the M6 hindsight relabel. This applies
+  IDENTICALLY to every arm and biases AGAINST P2 (behaviour is less goal-caused than per-env sampling would
+  make it), so it cannot manufacture a positive.
+- `prim` mixes exactly-measured collection primitives with analytically-charged eval primitives. Arm E's
+  round budget is derived from that mixed series and therefore OVER-grants E by roughly 1.25x â€” conservative
+  for P6 (a stronger E makes P6 harder to pass). Not corrected downward; direction stated.
+- The nav gate certifies 40 deterministic primitive steps with respawn, while an option gets 16 stochastic
+  steps from the agent's persistent position. The >= 0.85 rule is computed on the 40-step vector exactly as
+  frozen; the in-run first-try-correct rate is reported as the realized per-option reliability.
+
+**(c) Pre-committed limitations that bind the report whatever the outcome.**
+- CREDIT ASSIGNMENT IS ANTI-CORRELATED WITH THE PRIMARY STRATUM. M6 keeps a hindsight sample at lag L with
+  probability 0.7^L (0.028 at L=10), while a GOAL-NECESSARY goal is by construction one whose behaviour must
+  diverge many macro steps before the payoff; and relabel emits nothing for a goal never unlocked. Any real
+  A-over-B effect is expected on the SHALLOW GOAL-NECESSARY goals. gamma is FROZEN and is not adjusted.
+- THE STRATUM CONTROLS GOAL-BLIND SEARCH COST, NOT LEARNABILITY FOR A GOAL-CONDITIONED LEARNER. blind(g) > 26
+  says a blind sweep cannot afford g; it says nothing about arm B, which receives the goal embedding and the
+  same hindsight rule. Four of world 3002's five GOAL-NECESSARY goals have 3-7-step plans. A P1 failure driven
+  by B mastering those is a boundary-calibration limit and may NOT be reported as "memory does not pay".
+- MemoryNet cannot do WITHIN-EPISODE cross-item inference: the pooled context is weighted by inventory only,
+  so the attempt history reaches item i's logit exclusively through item i's own row. "Do not re-pick i, it
+  just failed" is representable; "j failed, therefore try k" is not. Cross-item structure is learned OFFLINE
+  into the embedding table across episodes. The report must say "discovered across episodes and stored in
+  weights", never "exploited online within an episode".
+- KILL-1 CONFLATES "GOAL-BLIND REFLEX" WITH "LEARNED NOTHING": S is bounded above by mean own[Y], so S_A < 0.10
+  fires automatically whenever A is simply incompetent on the probe goals. The scorer prints mean(A_own)
+  beside it and refuses the reflex reading when mean(A_own) < 0.30.
+- A's 2M FIFO is not lossless over the frozen budget (worst case ~3.6M samples), so "lifelong buffer" may mean
+  "sliding window". The scorer reports whether the cap was hit.
+- Once arm C runs the full stream, its own-world samples progressively evict foreign ones, weakening P4's
+  contrast in the CONSERVATIVE direction (harder for A to beat C). The realized foreign ratio is reported.
+
+**Pre-registered expected uninformative outcome and its diagnostic.** The most likely uninformative result is
+a shared near-null on the GOAL-NECESSARY stratum that splits by depth: B masters the shallow ones (pushing
+mrate(B) above P1's 0.30 ceiling) while neither A nor B masters the deep ones (exploration never unlocks
+them, and the M6 discount destroys what long-lag signal exists) -> NULL for stratum-definition and
+credit-assignment reasons rather than because memory does not pay. The pre-committed diagnostic is the
+per-goal round-1 demo count, read as a 2x2 against mastery: B many demos + masters => stratum-calibration
+limit; BOTH ~0 demos and neither masters => NO-SIGNAL, a measurement limit; A has demos where B has ~0 and A
+masters where B does not => the real result this run exists to find.
+

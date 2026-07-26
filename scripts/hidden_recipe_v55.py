@@ -146,6 +146,7 @@ class HiddenEnv(RouterEnv):
 
     def __init__(self, num_envs, spec, skill, cfg, seed=0, goal=None, hidden=True):
         self._goal0, self.hidden = goal, hidden
+        self._att = self._fail = self._repeat_prev_succ = self._first_try_ok = 0
         super().__init__(num_envs, spec, skill, cfg, seed=seed)
 
     def reset(self):
@@ -212,6 +213,11 @@ class HiddenEnv(RouterEnv):
                 break
         # the honest outcome signal the agent gets: did I actually OBTAIN one more of item g?
         obtained = (self.base.inv[ar, g].float() >= start + 1)
+        prev_tried, prev_succ = self.tried[ar, g], self.succ[ar, g]
+        self._att += N                                          # pre-committed deflating-explanation stats
+        self._fail += int((~obtained).sum())
+        self._repeat_prev_succ += int((prev_succ > 0.5).sum())
+        self._first_try_ok += int((obtained & (prev_tried < 0.5)).sum())
         self.tried[ar, g] = 1.0
         self.succ[ar, g] = obtained.float()
         self.post_unlocked = self.base.unlocked.clone()        # BEFORE any truncation reset
@@ -291,7 +297,7 @@ class Composer:
             logits, _ = self.net(s)
             loss = F.cross_entropy(logits, a)
             self.opt.zero_grad(); loss.backward(); self.opt.step()
-            tot += float(loss)
+            tot += float(loss.detach())
         return tot / n_steps
 
 
@@ -445,13 +451,16 @@ def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7
     env = HiddenEnv(cfg["num_envs"], spec, skill, cfg, seed=seed, goal=goal, hidden=hidden)
     env._prim = 0
     zs = eval_goal(spec, skill, composer, cfg, seed, goal, hidden)
-    master, rounds, n_eval = zs, 0, 1
+    master, rounds, n_eval, demos = zs, 0, 1, []
     for r in range(r_max if r_max is not None else cfg["r_max"]):
+        d = 0
         for _ in range(cfg["episodes_per_round"]):
             s, a, us = collect_episode(env, composer, cfg["epsilon"], cfg["temp"], goal)
+            d += int((us[:, goal] >= 0).sum())          # demos actually reaching THIS goal
             ss, aa = relabel(s, a, us, cfg["max_samples_per_ep"], gamma=gamma)
             if ss is not None:
                 buf.add(ss, aa)
+        demos.append(d)
         composer.train_steps(buf, cfg["train_steps_per_round"])
         rounds = r + 1
         master = eval_goal(spec, skill, composer, cfg, seed, goal, hidden)
@@ -460,5 +469,7 @@ def run_goal(spec, skill, composer, buf, cfg, seed, goal, hidden=True, gamma=0.7
             break
     ev = n_eval * 256 * cfg["macro_budget"] * cfg["option_timeout"]   # eval cost, counted honestly
     return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, prim=env._prim + ev,
-                collect_prim=env._prim, eval_prim=ev, n_eval=n_eval,
+                collect_prim=env._prim, eval_prim=ev, n_eval=n_eval, demos_per_round=demos,
+                att=env._att, fail=env._fail, repeat_prev_succ=env._repeat_prev_succ,
+                first_try_ok=env._first_try_ok, buf_n=buf.n,
                 master=round(master, 3), mastered=bool(master >= cfg["thresh"]))
