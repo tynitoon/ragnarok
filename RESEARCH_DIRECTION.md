@@ -581,3 +581,21 @@ goal-BLIND "unlock-everything" reflex converging in fewer rounds -- NOT goal-dir
 ### Status of the option-2 arc
 v53 closed it as NULL; v54 re-opens a NARROWER, cleaner positive: not compounding, but robust one-shot
 in-family generalisation of a goal-blind composition reflex. Real, modest, and correctly framed.
+
+### POST-v54 DIAGNOSIS: the metric was SELF-DEFEATING (2026-07-26)
+flywheel_v53.py:186-188 — run_task returns EARLY (cost=0) whenever zero-shot >= thresh, collecting NO
+episodes and adding NOTHING to the buffer. In v54, A zero-shots from task 1 onward => THE LIFELONG BUFFER
+STOPPED GROWING AFTER THE FIRST 1-3 TASKS. The "frozen-buffer ablation" we were about to spend GPU on had
+already run implicitly: accumulation past the first tasks never happened.
+
+Consequence, and the real lesson of v53+v54: with "cost-to-master" as the metric on a fixed-difficulty task
+family, COMPOUNDING IS UNOBSERVABLE BY CONSTRUCTION. Success removes the learning signal (cost saturates at
+0), so no amount of stream length can reveal accumulation. v53's NULL and v54's PARTIAL were not measuring
+the mechanism's absence — they were measuring a design that cannot express it. This also explains the
+goal-agnosticism: a task family where one reflex solves everything never forces the goal to be used.
+
+=> Any future design must satisfy: (1) difficulty TRACKS ability (no saturation), (2) memory is NECESSARY
+(one reflex must not cover the family), (3) the goal must be load-bearing. This, combined with our proven
+boundary ("reuse pays only when knowledge is expensive-to-rederive AND the task is too hard to learn
+directly"), is why v49-v54 were on the wrong side of our own map: they tested reuse on directly-learnable
+tasks. v55 is designed on the RIGHT side of it (see preregistration.md).
