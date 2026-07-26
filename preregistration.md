@@ -6473,3 +6473,137 @@ The audit found NO measurement-invalidating bug — the primary Delta_k (same-ta
 5. RESUME INTEGRITY. Two resume-only defects (buffer FIFO write-ptr reset to 0 on a full 400K buffer at clean_compound_v54.py:135; global-RNG stream shift after skipped tasks) make a RESUMED seed off-counterfactual. Trust only seeds that ran UNINTERRUPTED end-to-end; re-run fresh (or flag) any seed resumed across a full-buffer crash. Primary Delta SIGN stays fair even on resume (env grids per-task, identical A vs B), but reproducibility/secondary do not.
 6. POST-HOC DIAGNOSTIC (does NOT touch the frozen run). After the stream, on the final Arm-A composer, eval_master(ablate_goal=True) vs False on held-out + stream specs (scripts/goal_ablation_v54.py). If ablated >= conditioned (as in v53), it CONFIRMS the cheapening is a goal-blind reflex, locking interpretation #1.
 7. v55 (only if a positive appears AND the strong claim is wanted; NOT required to ship v54). Add an A-with-FOREIGN-buffer arm (warm-start on equal-volume demos from a DIFFERENT tree family). Delta surviving the foreign buffer => the gain is generic data, not task experience (kills strong claim); Delta vanishing only without task-relevant demos => strong claim earned.
+
+---
+
+# PREREGISTRATION v55 â€” HIDDEN-RECIPE PERSISTENT WORLD (FROZEN 2026-07-26, BEFORE ANY CODE)
+
+## Root cause of the v49-v54 arc (verified in code, not inferred)
+meta_manager_v51.py:96-102 computes `craftable_now`/`collectable_now` from the TRUE recipe tensors
+(`base.craft_in`, `craft_tool`, `res_tool`) and writes them into the observation EVERY step: the recipe
+DAG is evaluated for the agent and handed over for free. tech_tree.py:53 sets `target = argmax(depth)`
+and meta_manager_v51.py:103 hardcodes exactly ONE goal per tree, always the deepest item. Therefore a
+goal-blind "craft whatever is craftable" reflex reaches the target BY DEFINITION and is never penalized
+anywhere in the pipeline. Consequences, all now explained by this one fact:
+ - nothing is EXPENSIVE-TO-REDERIVE => no memory can pay more than a warm-start (v53 NULL, v54 PARTIAL);
+ - the goal is never load-bearing => composer goal-agnostic 3/3 (v54_goal_ablation.json);
+ - relabel (flywheel_v53.py:152-165) returns the same label for every hindsight goal from an identical
+   state, so goal-INVARIANCE is the exact cross-entropy optimum â€” the loss itself teaches goal-blindness.
+v49-v54 tested reuse on the wrong side of our own proven boundary ("reuse pays only when knowledge is
+expensive-to-rederive AND the task is too hard to learn directly"). v55 is the first test on the right side.
+
+## Design (arbitrated by a 4-agent adversarial audit; the depth-ladder alternative was REJECTED)
+ONE PERSISTENT WORLD per seed; the task stream is ~11 DIFFERENT GOALS inside it, in ascending exact
+symbolic difficulty. The recipe DAG is HIDDEN: it must be DISCOVERED by paying for failed option attempts
+and REMEMBERED across goals. macro_budget is set so a goal-blind sweep is provably unaffordable on the
+deepest goals, making the goal load-bearing for the first time.
+
+### Mechanism changes (each NECESSARY, not tuning; frozen)
+M1 REMOVE THE AFFORDANCE ORACLE: delete features 2/3 (craftable_now, collectable_now); replace with the
+   agent's OWN within-episode attempt outcomes [tried_this_episode, last_attempt_succeeded]. N_FEAT stays 7.
+M2 SOMEWHERE TO STORE MEMORY: PerItemRouter scores item i from item i's own features alone and cannot
+   represent "craft 7 because I hold 3 and 5". Add nn.Embedding(MAX_ITEMS,16) per-item identity +
+   inventory-weighted pooled context + goal-item embedding into the shared scorer. The embedding table IS
+   the remembered world-knowledge and is directly inspectable.
+M3 ONE PERSISTENT WORLD PER SEED; tasks are different GOALS in it (memory can only pay if tasks share
+   rederivable knowledge; independent random trees share none).
+M4 RANDOMLY PERMUTE ITEM INDICES PER WORLD: gen_tree emits items in topological order (tech_tree.py:33-45),
+   so "attempt items in index order" would solve any tree with zero knowledge and masquerade as memory.
+M5 MULTI-GOAL DEPLOYMENT: sample the goal per-env at reset from the admitted set instead of the hardcoded
+   f[:, self.target, 4] = 1.0.
+M6 GOAL-DISCRIMINATIVE RELABEL: include hindsight sample (t,n,X) with probability gamma^(unlockstep[X]-t),
+   gamma=0.7, instead of every X uniformly.
+M7 DELETE THE ZERO-SHOT EARLY RETURN (flywheel_v53.py:186-188): always collect >= 1 round on every goal for
+   every arm, charged to that arm, so the buffer cannot silently stop growing (the v54 self-defeating metric).
+M8 RE-SCALE THE COST QUANTUM: option_timeout 40->16, macro_budget 40->26, budget = R_max 10 ROUNDS, cost
+   reported in rounds (v54's cost took only 3 distinct values across all seeds; v51 ran timeout 12 /
+   budget 18 with greedy held-out master 0.98-1.00, so 16/26 is safe on this frozen skill).
+M9 BUFFER CAP 400k -> 2M and fix the resume FIFO write-ptr defect (clean_compound_v54.py:135).
+
+### Worlds, ladder, budget (frozen)
+Worlds: seed 0 -> gen_tree(3002) [n_res 6, 11 goals, pc 3,3,3,4,5,6,7,7,10,11,17; blind 3,34,6,43,11,31,
+16,32,21,35,36 -> 6 GOAL-NECESSARY]; seed 1 -> 3006 [4 GOAL-NECESSARY]; seed 2 -> 3014 [6 GOAL-NECESSARY].
+FOREIGN worlds (arm C): 3004 / 3012 / 3036. Fallback list if the nav gate fails: 3036, 3012, 3004, then
+next qualifying seed ascending from 3000.
+Difficulty (exact, symbolic, computed before the run): pc(g) = production_count of g's closure
+(clean_compound_v54.py:45-49); blind(g) = macro steps for v51 greedy_act with the is_goal rule removed.
+Admission: depth(g) >= 2 AND pc(g) <= 20. STRATA: GOAL-NECESSARY = {g : blind(g) > macro_budget} (PRIMARY
+axis), GOAL-OPTIONAL = rest. Per-goal cap R_max = 10 rounds (1 round = 4 ep x 26 x 16 x 256 = 0.426M
+primitives; 1 eval = 0.106M). Master threshold 0.6 (unchanged). Unmastered goals recorded at R_max
+(right-censored); MASTER-RATE, not cost, is the primary statistic.
+PRE-RUN NAV GATE (only permitted pre-run action): per-cell-type nav success >= 0.85 min-over-types on the
+chosen world, else advance the fallback list. Report the per-type vector with the results.
+
+### Arms
+A accumulating (one composer+buffer across all goals in the world) | B amnesic (fresh per goal, same hidden
+observation, paired same-goal so difficulty cancels) | D STRONG baseline (UNMODIFIED v54 mechanism WITH the
+affordance oracle restored, fresh per goal â€” strictly better informed than A; quantifies A's memory in units
+of "the granted DAG" and blocks the v49 weak-baseline trap) | C foreign-memory (equal-VOLUME buffer from a
+different world) | E compute-matched (fresh composer, A's TOTAL cumulative spend, on the hardest
+GOAL-NECESSARY goal). Shared frozen childhood skill in all arms.
+
+### Falsifiable predictions
+P1 ENABLEMENT: on GOAL-NECESSARY, A masters >= 70% while B <= 30%, 3/3 seeds.
+P2 GOAL BECOMES LOAD-BEARING (the sharp test v54 structurally could not fire): goal-swap separation
+   S = mean over (X,Y) of [P(unlock Y | commanded Y) - P(unlock Y | commanded X)] >= 0.30 for A on 3/3
+   seeds, while the same probe on D gives S < 0.10. (Today's analogous value is ~0.)
+P3 REGIME SPECIFICITY: on GOAL-OPTIONAL, A and D differ by < 0.15. If A beats D uniformly everywhere, it
+   is a generic warm-start, not remembered world-knowledge.
+P4 WORLD-KNOWLEDGE NOT GENERIC DATA: A masters >= 2 more GOAL-NECESSARY goals than foreign-memory C, 3/3.
+P5 THE COMPOUNDING CURVE (measurable at last, cost floors at 1 round instead of saturating at 0):
+   cost_A in rounds falls with presentation index, pooled Spearman rho < -0.4 over 3 seeds.
+P6 COMPUTE IS NOT THE EXPLANATION: compute-matched E fails the hardest GOAL-NECESSARY goal on >= 2/3 seeds
+   while A masters it.
+
+### Decision rule (FROZEN; evaluated only on the pre-registered GOAL-NECESSARY stratum)
+POSITIVE iff ALL FIVE: (1) P1; (2) P2 S_A >= 0.30 on 3/3; (3) A's master count >= D's on 3/3; (4) P4; (5) P6.
+PARTIAL-MECHANISM iff P2 holds 3/3 but P1 or the C/D/E controls fail (the composer became genuinely
+goal-directed â€” a real new finding that flips v54 â€” without the enablement result).
+PARTIAL-ENABLEMENT iff P1 holds 3/3 but P2 fails; claimable ONLY as "discovered-and-remembered recipes
+enable otherwise-unreachable goals via a still-goal-blind policy".
+NULL otherwise. Pooled test = sign test over goals x seeds under the per-seed 3/3 consistency requirement.
+NO arm, budget, threshold, world, admission rule, stratum boundary or mechanism element may change after
+this commit. GPU HARD CAP 32 hours (est. 16-26): if exceeded, abort and report what completed â€” extending
+mid-run silently changes the compute-matching between arms.
+
+### Pre-committed caveats (bind the report regardless of outcome)
+- WITHIN-WORLD ONLY by design (per-item embeddings are world-specific). Cross-world transfer is OUT OF
+  SCOPE and may not be claimed. A positive reads "remembers THIS world's rules well enough to reach goals
+  it otherwise cannot", never "transfers across worlds".
+- n = 3 WORLDS: seed variance mixes init and world variance and is not a CI over worlds in general.
+- Shared frozen nav skill is a common failure axis for all arms; the >= 0.85 gate bounds it, residual
+  per-type reliability caps every arm and must be reported.
+- The stratum boundary is CALIBRATED (via greedy_act as reference blind policy), not proven.
+- RESOURCES REMAIN INFINITE, DAG REMAINS ACYCLIC (tech_tree.py never writes self.grid on collect). v55
+  makes the RECIPES unknown, not the PLANNING hard. A positive is about remembering rules, never about
+  search, scarcity or irreversibility. Depletion deliberately NOT added: one variable at a time.
+- RIGHT-CENSORING at R_max: cost differences are lower bounds; master-rate is primary.
+- PRE-COMMITTED DEFLATING EXPLANATION: A's advantage could be a learned RETRY policy over a flaky nav skill
+  rather than recipe memory. We will report, for A on GOAL-NECESSARY, the fraction of macro steps that are
+  failed attempts, split into (a) repeats on already-succeeded item types and (b) first-time-correct
+  ordering of never-before-needed items. If the advantage lives entirely in (a), the claim drops to
+  "execution-reliability memory".
+- ARM D HAS STRICTLY MORE INFORMATION THAN A: if A merely ties D, the maximum honest claim is
+  "discovered-and-remembered knowledge recovers exactly the value of the granted DAG".
+- A shared null across A, B and D is a LIVE outcome (v51 showed sparse-RL composition fails at 0.003 even
+  WITH the oracle). It is a real negative result and triggers the kill criterion, NOT a redesign.
+- v49 MUST NOT BE CITED as prior evidence: craft_v6_out/v49_depth_scaling.json contains ONE row and its own
+  `verdict` string contradicts its own data. Flagged for correction by the owner; not cited here.
+
+### KILL CRITERIA (end the line; do NOT produce a v56 iteration)
+KILL-0 FEASIBILITY GATE (the only permitted pre-run experiment, one shot): run arm A's mechanism on the
+  easiest goal of world 3002 (pc 3) for at most 10 rounds. If master < 0.6, v55 reports "hidden-recipe
+  composition is not learnable by hindsight self-imitation at this scale" and KILL-1 fires immediately.
+  NO mechanism tuning is permitted after this gate under any outcome.
+KILL-1 GOAL-DIRECTEDNESS UNREACHABLE: after M1+M2+M5+M6 and a budget under which a blind sweep is
+  unaffordable, S_A < 0.10 on 3/3 seeds. Every mechanism that could make the goal load-bearing has then
+  been applied at once and the composer is still a blind reflex â€” a property of the substrate and the
+  learning rule; no ladder, budget, depth or seed count changes it.
+KILL-2 MEMORY BUYS NOTHING ON THE RIGHT SIDE OF OUR BOUNDARY: A's GOAL-NECESSARY master count <= B's on
+  >= 2/3 seeds. The thesis would then have been tested for the first time where knowledge IS
+  expensive-to-rederive and the task IS too hard to learn directly, and failed.
+On any kill, the correct next move is NOT another tech-tree experiment: either a substrate with genuine
+irreversibility and a shared latent grammar across worlds, or an honest close of the arc with the two
+bounded positives we actually own (childhood nav-skill transfer ~0.95; its amortisation at break-even ~1.3
+tasks).
+
