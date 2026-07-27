@@ -6712,3 +6712,108 @@ per-goal round-1 demo count, read as a 2x2 against mastery: B many demos + maste
 limit; BOTH ~0 demos and neither masters => NO-SIGNAL, a measurement limit; A has demos where B has ~0 and A
 masters where B does not => the real result this run exists to find.
 
+
+---
+
+# PREREGISTRATION v57 â€” HONEST CREDIT (FROZEN 2026-07-27, before any confirmatory arm)
+
+## Why there is one more experiment, and only one
+The leak meter (scripts/leak_meter_v57.py, zero GPU, over the committed v55 JSONs) measured that at depth
+(pc>=10) the median share of collected training samples concerning the COMMANDED goal is **0.31%**. So
+99.69% of every gradient step at depth was about something we never asked for. Consequence: **no
+"from-scratch" control this project has ever run was knowledge-free** â€” our own loss function handed it a
+free ascending curriculum. That includes v55's arm E, the sole basis of v55's published deflation
+("memory buys SPEED, not POSSIBILITY"), which is therefore unsupported until re-tested. The repair is in
+the loss, not the world: credit ONLY the commanded goal.
+
+## Gate result (already run, 1.5 GPU-h, world 3002 seed 0 â€” n=1, NOT evidence for the hypothesis)
+Arm A shallow 5/5 mastered under the fixed rule (v55 leaky rule: 5/5) => the fix does not break the agent,
+KILL-1 did not fire. Deep probes: goal 4 (pc 11) â€” A mastered 0.85 in 4 rounds; K (knowledge-free)
+collected **0 demos in all 10 rounds** (10,240 env-episodes, never once reached the goal). Goal 12 (pc 10)
+â€” A failed within 10 rounds though igniting (demos 18->996), K collected 1 demo total. Also honest: A LOST
+goal 12, which it mastered in 6 rounds under the leaky rule. The fix makes the task harder for every arm.
+
+## Substrate and mechanism (FROZEN)
+Existing persistent-world hidden-recipe tech tree (scripts/hidden_recipe_v55.py, unmodified). Worlds
+3002 / 3003 / 3016 = seeds 0 / 1 / 2, exactly as v55; per-seed frozen childhood skill RELOADED from
+craft_v6_out/v55_skill_s{0,1,2}.pt (never retrained). Item indices permuted per world by permute_spec, so
+the "attempt items in index order" confound is already controlled and no separate arm is needed for it.
+Admission unchanged: depth(g)>=2 and pc(g)<=20; stream presented ascending by pc.
+cfg unchanged from v55: num_envs 256, macro_budget 26, option_timeout 16, episodes_per_round 4,
+train_steps_per_round 300, max_samples_per_ep 8192, epsilon 0.05, temp 1.0, thresh 0.60, gamma 0.7.
+
+THE ONE CHANGE, applied IDENTICALLY to every arm (scripts/credit_fix_v57.py):
+  relabel_commanded â€” hindsight toward ONLY the commanded goal, same geometric recency weight
+  gamma^(u-t); every incidentally-unlocked item DISCARDED.
+Plus the v56 instrument fix at eval for EVERY arm (never argmax into an item already attempted-and-failed
+this episode), so mastery is not an arm-dependent lower bound.
+
+## Strata (frozen, structural, computed before the run)
+DEEP = {g : pc(g) >= 10}. SHALLOW = {g : pc(g) < 10}. pc = prod_count, permutation-invariant.
+STARVED = a DEEP cell where arm K's TOTAL demos over all 10 rounds <= 50.
+
+## Arms
+A  ACCUMULATING â€” one composer + one buffer across the whole ascending stream. R_max=10 per goal.
+K  KNOWLEDGE-FREE â€” fresh composer + fresh buffer at every goal, identical per-goal budget R_max=10,
+   identical observation, identical credit rule. The first genuinely knowledge-free control in this project.
+U  BUDGET CONTROL â€” fresh composer + buffer, R_max=60 (6x K's per-goal budget, and >=1.5x arm A's ENTIRE
+   cumulative round count for that world), run on the ONE deepest goal per world that A mastered and where
+   K was STARVED. Answers: is the gap merely budget?
+
+## Predictions (frozen, with numbers)
+P1 REPLICATION GATE â€” arm A masters >= 80% of SHALLOW goals, on 3/3 worlds. If this fails the credit fix
+   broke the agent and the run is VOID, not reinterpreted.
+P2 STARVATION â€” on DEEP goals, arm K is STARVED (total demos <= 50 over 10 rounds) on >= 2/3 of the deep
+   cells in each world, on 3/3 worlds.
+P3 CONTRAST â€” on the STARVED deep cells, arm A masters >= 50% of them, on 3/3 worlds.
+P4 NOT-JUST-BUDGET â€” arm U masters <= 1/3 of the goals it is run on (i.e. <= 1 of 3).
+P5 DEFLATION CHECK (descriptive, pre-committed): report A's and K's first-try-correct rate on DEEP goals.
+   If A's advantage co-occurs with a lower repeat rate but NO higher first-try-correct rate, the claim
+   drops to "execution-reliability memory" and the word "knowledge" is removed from the headline.
+
+## Decision rule (FROZEN, evaluated mechanically by scripts/score_v57.py, committed before any arm runs)
+VOID                   iff P1 fails.
+POSITIVE               iff P1 AND P2 AND P3 AND P4.
+PARTIAL-AMORTISATION   iff P1 AND P2 AND P3 AND NOT P4.
+NULL                   otherwise.
+No threshold moves, no arm is extended, no cell is dropped, no stratum is re-cut after any number is seen.
+
+## Claim ceiling (binding on every outcome)
+A POSITIVE licenses EXACTLY: "In a persistent world whose recipes must be discovered by failing, an agent
+that accumulated its own discovered knowledge masters deep goals for which a genuinely knowledge-free
+agent â€” same observations, same credit rule â€” receives essentially NO learning signal at all, and 6x the
+budget does not close the gap."
+It does NOT license: "impossible" (we measure absence of signal AT OUR BUDGET, not zero probability),
+cross-world transfer (per-item embeddings are world-specific; out of scope by design), any causal claim
+about CHAIN LENGTH (pc is collinear with max item multiplicity at r=0.979 over the 31 v55 goals â€” depth
+and multiplicity are not separable in this generator), or "the agent discovered its own curriculum".
+A PARTIAL-AMORTISATION licenses only: "memory buys a large but finite speed-up; the from-scratch path
+exists at >=6x cost."
+
+## Pre-committed caveats
+- n = 3 worlds. Seed variance mixes network-init with world variance; it is not a CI over worlds.
+- The DEEP/SHALLOW boundary at pc=10 is calibrated from the v55 record and the gate, not proven.
+- The shared frozen nav skill is a common failure axis capping every arm (per-cell-type 0.914/0.996/0.895).
+- The composer sees (inv>0), not inventory counts; mastery is known to collapse at max-multiplicity>=4.
+  Unrepaired on purpose â€” fixing it changes what every arm trains on and destroys comparability with v55.
+- Right-censoring at R_max: any cost difference is a lower bound; MASTERY and DEMO COUNT are primary,
+  cost is descriptive only.
+- Resources remain infinite and the DAG acyclic: this is about remembering RULES, never about scarcity or
+  irreversibility. Literal NECESSITY remains false by construction on any world that resets each episode.
+- The credit fix costs every arm: in the gate, arm A LOST a deep goal it had mastered under the leaky rule.
+
+## KILL CRITERIA â€” each ENDS the North Star line. None licenses a v58.
+KILL-1  P1 fails => the credit fix breaks the agent; a knowledge-free control is not constructible here. END.
+KILL-2  Arm A masters < 1/3 of DEEP goals on >= 2/3 of worlds => under honest credit nobody learns at
+        depth; the question is not answerable on this substrate. END.
+KILL-3  P4 fails (arm U closes the gap) => memory buys a finite factor, not possibility. END, and publish
+        that next to v55's NULL.
+STANDING PROHIBITIONS, frozen: no bigger world, no longer chain, no new substrate, no re-cut stratum, no
+moved threshold, no extended arm. Any deviation voids the run. Whatever the outcome, v57 is the LAST
+experiment in this arc.
+
+## Budget
+Hard cap 20 GPU-hours (the project cap is 32; v55 used 19.2). Estimated ~13h: A+K over ~11 goals x 3
+worlds (~7h, extrapolated from the gate's 1.5h for 7 goals x 2 arms on one world) plus U at 60 rounds on
+one goal per world (~5.5h). If the cap is reached, abort and report what completed; do not extend mid-run.
+
