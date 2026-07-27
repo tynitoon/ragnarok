@@ -599,3 +599,64 @@ goal-agnosticism: a task family where one reflex solves everything never forces 
 boundary ("reuse pays only when knowledge is expensive-to-rederive AND the task is too hard to learn
 directly"), is why v49-v54 were on the wrong side of our own map: they tested reuse on directly-learnable
 tasks. v55 is designed on the RIGHT side of it (see preregistration.md).
+
+---
+
+## v55 — HIDDEN-RECIPE PERSISTENT WORLD: FROZEN VERDICT **NULL** (no kill criterion fired) — 2026-07-27
+
+First test on the RIGHT side of our own boundary (knowledge expensive-to-rederive: recipes HIDDEN, must be
+discovered by paying for failed attempts and remembered). Prereg frozen d868bea + AMENDMENTS 1-2; scorer
+(scripts/score_v55.py) committed BEFORE the confirmatory arms; 3 seeds, 3 worlds, 5 arms, all VALID.
+
+### Frozen verdict: NULL. Neither KILL-1 nor KILL-2 fired.
+P1 0/3, P2 1/3, P4 0/3, C3 1/3, P6 0/3. **P2a 3/3 TRUE. P3 3/3 TRUE.** P5 pooled rho +0.343 (stream is
+ascending difficulty -> uninformative, as pre-registered).
+
+### What replicated 3/3 and is genuinely NEW
+**THE GOAL BECAME LOAD-BEARING.** Goal-swap separation S_A = 0.301 / 0.417 / 0.748 across the three worlds,
+versus ~0 in v54 (where goal-ablation never hurt and twice helped). Removing the affordance oracle FLIPPED
+the composer from a goal-blind unlock-everything reflex into a genuinely goal-dependent policy. On world
+3016 the contrast is clean on both sides: S_A 0.748 while the oracle arm D sits at 0.068. This is the sharp
+test v54 was structurally incapable of firing, and it passed everywhere. Not competence-bounded
+(mean own[Y] = 0.80 / 0.75 / 0.75, well above the 0.30 floor).
+
+### The cost effect is large, and its mechanism is measured
+Per-goal round-1 demo counts on GOAL-NECESSARY goals, accumulating arm A vs amnesic arm B:
+  888 vs 5 | 783 vs 2 | 937 vs 13 | 980 vs 16 | 512 vs 50 | 448 vs 23 | 891 vs 8
+Memory -> competence -> more learning signal -> more competence. On world 3016 A masters the three
+reachable NEC goals in 1, 1, 1 rounds where B needs 8, 6, 7. On worlds 3002/3003 A ZERO-SHOTS goals
+(cost 0) that B never reaches inside its 10-round budget.
+The pre-committed DEFLATING check came out FOR the memory reading: A's first-try-correct rate is
+0.24/0.19/0.22 vs B's 0.12/0.12/0.13 — A picks the right item first time about twice as often, so the
+advantage is NOT mere execution-reliability/retry memory. It is recipe knowledge.
+
+### Why the frozen rule still says NULL — three honest reasons, none of them re-litigated
+1. P1 requires A >= 0.70 AND B <= 0.30 on the same seed. Failures differ per seed (s0: A .80/B .40;
+   s1: A .50/B .25; s2: A .75/B .75). With only 4-5 goals in the stratum, B mastering one extra goal moves
+   it 0.25 -> 0.50: the 0.30 threshold is not resolvable at that n. A calibration failure of MY threshold.
+2. **ARM E IS THE REAL DEFLATION AND IT MATTERS.** On world 3016 the compute-matched from-scratch arm
+   MASTERED the hardest goal (13) at 1.00 in 28 rounds — the very goal A failed within its 10-round budget.
+   So the hard goals are NOT unreachable without memory; they are unreachable within a fixed per-goal
+   budget. The honest claim is therefore AMORTISATION (much cheaper), NOT ENABLEMENT. "A enables what B
+   cannot" is refuted by our own control.
+3. C3 1/3: arm D (recipes GRANTED) beats A on 2 of 3 worlds. Discovered-and-remembered knowledge recovers
+   MOST but not all of the value of the granted DAG.
+P4 0/3 is UNINFORMATIVE by our own design flaw (flagged in AMENDMENT 2 before the run): arm C accumulates
+own-world experience too, so it is "A with a foreign prefix", not a clean provenance control. We therefore
+CANNOT claim the knowledge is world-specific.
+
+### The defensible claim (and its ceiling)
+"In a persistent world whose recipes must be DISCOVERED by failing, a composer that accumulates its own
+hindsight experience (a) makes new goals dramatically cheaper — frequently zero-shot where an amnesic
+composer with identical observations needs 6-8 rounds — and (b) becomes genuinely GOAL-DIRECTED (S_A
+0.30-0.75, 3/3 worlds) where the same mechanism with the recipes granted was goal-blind (v54, 3/3)."
+NOT claimable: enablement (arm E refutes it), world-specificity (arm C cannot test it), beating the
+granted DAG (C3 1/3), cross-world transfer (out of scope by design), compounding curve (P5 uninformative).
+
+### Status of the line
+The frozen verdict is NULL but NO kill criterion fired: goal-directedness is reachable on this substrate
+(KILL-1 refuted decisively, 3/3), and memory is not worthless on the right side of the boundary (KILL-2
+fired on only 1/3). The wall we actually hit is that at this scale the hard goals stay learnable from
+scratch given enough compute, so what memory buys is SPEED, not POSSIBILITY. Any successor must make
+re-derivation genuinely unaffordable (irreversibility, scarcity, or a horizon where from-scratch cannot
+converge at all) rather than merely expensive.
