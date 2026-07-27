@@ -748,3 +748,36 @@ regardless of which goal was commanded, so every "from-scratch" control this pro
 a free ascending curriculum. That includes v55's arm E, the sole basis of v55's "memory buys speed, not
 possibility" deflation. **v55's published NULL rests on a contaminated control.** The repair is ~20 lines,
 on a pipeline already validated end-to-end. See the v57 prereg.
+
+### v57 STEP 1 — THE LEAK METER: 99.69% of every gradient step was about something we never asked for
+Pure accounting over the committed v55 JSONs, zero GPU (scripts/leak_meter_v57.py). Commanded-goal
+samples per goal ~= S * sum(demos_per_round) with S = 1/(1-gamma) = 3.33 at gamma=0.7 — S is the LIMIT,
+so every figure below is a LOWER BOUND on the leak.
+
+  COMMANDED-GOAL SHARE OF COLLECTED TRAINING SAMPLES, by task depth (72 arm-goal cells, arms A/B/D):
+      pc <= 5    36 cells   median 14.54%
+      pc 6-9     27 cells   median  6.81%
+      pc 10-13   15 cells   median  0.31%
+      pc >= 14   15 cells   median  0.12%
+  AT DEPTH (pc >= 10, 30 cells): median commanded-goal share **0.31%**.
+
+The goal signal does not merely weaken with depth — it collapses by ~50x between the shallow and deep
+bands, and vanishes exactly where the interesting goals are. Under the v55 rule, essentially ALL learning
+at depth was incidental: the agent was trained on whatever it happened to stumble into, which for a
+"from-scratch" control is a free ascending curriculum handed to it by our own loss function.
+
+CONSEQUENCES, stated plainly:
+1. **No control this project has ever run, on any version, was knowledge-free.** That includes v55's arm
+   E. v55's published deflation ("the hard goals are NOT unreachable without memory; memory buys SPEED,
+   not POSSIBILITY") rests on a contaminated control and must be treated as unsupported until re-tested.
+2. It explains the whole v49-v55 arc more economically than any previous hypothesis, including the
+   affordance oracle: with 0.31% of the signal carrying goal information at depth, a goal-conditioned
+   policy was barely trainable there at all.
+3. It re-reads v55's genuine positive: goal-swap separation .30/.42/.75 was achieved while only ~0.3% of
+   the deep signal was goal-specific — i.e. that result was carried by the SHALLOW goals (14.5% share).
+4. KILL-2 PRECURSOR IS LIVE (pre-committed floor: 5%). The v57 gate must now demonstrate that the FIXED
+   rule — credit ONLY the commanded goal — opens a usable channel at depth. The arithmetic is brutal and
+   is the whole risk of v57: at depth the demo count is ~5-23 per round out of 1024 env-episodes, so
+   commanded-only credit yields ~20-80 samples/round against the current 8k-33k. If that starves every
+   arm, KILL-1 fires, a knowledge-free control is NOT constructible in this codebase, and the line ends
+   there having spent ~1 GPU-hour.
