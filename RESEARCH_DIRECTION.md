@@ -660,3 +660,52 @@ fired on only 1/3). The wall we actually hit is that at this scale the hard goal
 scratch given enough compute, so what memory buys is SPEED, not POSSIBILITY. Any successor must make
 re-derivation genuinely unaffordable (irreversibility, scarcity, or a horizon where from-scratch cannot
 converge at all) rather than merely expensive.
+
+### INSTRUMENT CHECK on v55's outcome variable — KILL-A does NOT fire (2026-07-27)
+A read-only audit proved, from the code, that v55's deterministic eval has an ABSORBING STATE: the
+composer's whole observation is (inv>0, unlocked, tried, succ, goal, is_res, is_valid), so after a second
+consecutive failed attempt on an item the observation is BIT-IDENTICAL and argmax repeats forever —
+a trap training (temp 1.0, eps 0.05) can never enter. Reported mastery was therefore a LOWER BOUND.
+scripts/instrument_check_v56.py masks already-failed items out of the argmax AT EVAL ONLY (identical for
+every arm, no training/data/threshold change) and re-evaluates the three committed arm-A checkpoints on
+all 31 admitted goals.
+
+RESULT: **1 of 31 mastery verdicts flips**. Pre-committed KILL-A (>=10) does NOT fire — v55's readout
+stands. The single flip is dramatic and worth stating: seed 1, goal 2 (pc 12, GOAL-NECESSARY),
+**0.000 -> 1.000**. The agent was fully competent and the instrument reported total failure.
+Seed 2 was systematically pessimistic without flipping verdicts (+0.133, +0.109, +0.172, +0.113).
+Nav re-measured at option_timeout=16 (the horizon that actually binds every option, vs the
+nav_max_steps=40 that v55's validity criterion V3 certified): 0.914 / 0.996 / 0.895 — identical to the
+40-step numbers, so KILL-B does not fire either.
+Effect on the record: arm A's GOAL-NECESSARY mastery becomes 4/5, 3/4, 3/4 (rates .80/.75/.75, all above
+P1's 0.70 bar). Arm B was NOT re-evaluated — its per-goal composers were discarded by design — so P1
+CANNOT be re-scored and **v55's committed NULL verdict stands unchanged**. This is an instrument check,
+not a rescue.
+
+### DECISION after the v56 design audit: the tech-tree substrate is EXHAUSTED for the North Star
+A 4-agent audit rejected the proposed v56 (scale the world until search fails + test learning ORDER) on
+three verified grounds, and the third is structural rather than budgetary:
+1. The "from-scratch" control is not one AT ANY SCALE. relabel credits every item unlocked in an episode
+   regardless of what was commanded, so a DIRECT arm builds its own ascending curriculum for free —
+   v55's arm E is the proof (0 -> 8 -> 7 -> ... -> 577 demos over 28 rounds, then mastery). Scale changes
+   the constant, not the verdict. This also retro-weakens v55's own "arm E refutes enablement" reading:
+   arm E was never a knowledge-free control.
+2. An ORDER manipulation has no channel: on the hard goals, at most 0.00-4.82% of each round's
+   9,000-15,000 collected samples can carry any information about which goal was commanded.
+3. **NECESSITY IS FALSE BY CONSTRUCTION HERE.** HiddenEnv.step calls base._reset_done on truncation,
+   which zeroes inventory and unlocked and resamples the grid, and clears tried/succ. Every episode starts
+   in a fresh world with macro_budget option-slots; nothing accumulates in the WORLD, only in the agent's
+   weights. So any goal needing <= macro_budget productions has strictly positive probability under a
+   uniform macro policy and IS reachable from scratch given enough episodes. "No amount of from-scratch
+   effort substitutes for having learned the prerequisites" cannot be true here for any goal any arm can
+   solve. No world size, chain length or presentation order repairs this.
+4. Worse, where search DOES fail the knowledge is also insufficient: at max-multiplicity >=4 the ORACLE
+   arm (recipe DAG granted free every step) masters only 3/6. v55 spent its entire compute-matched
+   control in exactly that dead zone.
+CONSEQUENCE: the owner's hypothesis ("it must learn the basics first, like maths") is not testable on this
+substrate — not for want of scale, but because the world resets every episode. Testing it requires
+IRREVERSIBILITY: mistakes that permanently cost something. Next substrate under evaluation: Crafter
+(2D open-world survival, 22-achievement prerequisite tree, procedural, hunger/mobs/DEATH, a standard
+public benchmark — so a result there cannot be dismissed as a world we engineered to make our claim true).
+First measured facts: 64x64 RGB obs, 17 actions, 66 env-steps/s single-core CPU, and death is real
+(17 episode terminations in 3000 random steps).

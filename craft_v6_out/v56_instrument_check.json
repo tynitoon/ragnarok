@@ -1,0 +1,382 @@
+{
+  "note": "INSTRUMENT CHECK only \u2014 v55's committed NULL verdict stands and is not re-scored",
+  "thresh": 0.6,
+  "seeds": {
+    "0": {
+      "world": 3002,
+      "nav40": {
+        "1": 0.914,
+        "4": 0.914,
+        "5": 0.914,
+        "6": 0.965,
+        "2": 0.992,
+        "3": 0.965
+      },
+      "nav16": {
+        "1": 0.914,
+        "4": 0.914,
+        "5": 0.914,
+        "6": 0.965,
+        "2": 0.992,
+        "3": 0.965
+      },
+      "rows": [
+        {
+          "goal": 6,
+          "pc": 3,
+          "blind": 5.1,
+          "necessary": false,
+          "committed": 0.965,
+          "repaired": 0.98,
+          "delta": 0.015,
+          "flipped": false
+        },
+        {
+          "goal": 13,
+          "pc": 3,
+          "blind": 6.6,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.973,
+          "delta": -0.027,
+          "flipped": false
+        },
+        {
+          "goal": 2,
+          "pc": 3,
+          "blind": 28.4,
+          "necessary": true,
+          "committed": 0.996,
+          "repaired": 0.957,
+          "delta": -0.039,
+          "flipped": false
+        },
+        {
+          "goal": 7,
+          "pc": 4,
+          "blind": 11.4,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.961,
+          "delta": -0.039,
+          "flipped": false
+        },
+        {
+          "goal": 3,
+          "pc": 5,
+          "blind": 27.6,
+          "necessary": true,
+          "committed": 0.996,
+          "repaired": 0.973,
+          "delta": -0.023,
+          "flipped": false
+        },
+        {
+          "goal": 11,
+          "pc": 6,
+          "blind": 37.8,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 0.949,
+          "delta": -0.051,
+          "flipped": false
+        },
+        {
+          "goal": 8,
+          "pc": 7,
+          "blind": 10.4,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.969,
+          "delta": -0.031,
+          "flipped": false
+        },
+        {
+          "goal": 1,
+          "pc": 7,
+          "blind": 38.7,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 0.953,
+          "delta": -0.047,
+          "flipped": false
+        },
+        {
+          "goal": 12,
+          "pc": 10,
+          "blind": 15.8,
+          "necessary": false,
+          "committed": 0.992,
+          "repaired": 0.961,
+          "delta": -0.031,
+          "flipped": false
+        },
+        {
+          "goal": 4,
+          "pc": 11,
+          "blind": 21.3,
+          "necessary": false,
+          "committed": 0.953,
+          "repaired": 0.922,
+          "delta": -0.031,
+          "flipped": false
+        },
+        {
+          "goal": 9,
+          "pc": 17,
+          "blind": 29.4,
+          "necessary": true,
+          "committed": 0.0,
+          "repaired": 0.0,
+          "delta": 0.0,
+          "flipped": false
+        }
+      ],
+      "flips": 0,
+      "mastered_committed": 10,
+      "mastered_repaired": 10
+    },
+    "1": {
+      "world": 3003,
+      "nav40": {
+        "2": 0.996,
+        "1": 1.0
+      },
+      "nav16": {
+        "2": 0.996,
+        "1": 1.0
+      },
+      "rows": [
+        {
+          "goal": 6,
+          "pc": 4,
+          "blind": 8.2,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 1.0,
+          "delta": 0.0,
+          "flipped": false
+        },
+        {
+          "goal": 9,
+          "pc": 4,
+          "blind": 9.1,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 1.0,
+          "delta": 0.0,
+          "flipped": false
+        },
+        {
+          "goal": 5,
+          "pc": 4,
+          "blind": 12.7,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 1.0,
+          "delta": 0.0,
+          "flipped": false
+        },
+        {
+          "goal": 10,
+          "pc": 6,
+          "blind": 31.8,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 1.0,
+          "delta": 0.0,
+          "flipped": false
+        },
+        {
+          "goal": 4,
+          "pc": 7,
+          "blind": 13.2,
+          "necessary": false,
+          "committed": 0.988,
+          "repaired": 1.0,
+          "delta": 0.012,
+          "flipped": false
+        },
+        {
+          "goal": 13,
+          "pc": 10,
+          "blind": 21.9,
+          "necessary": false,
+          "committed": 0.996,
+          "repaired": 1.0,
+          "delta": 0.004,
+          "flipped": false
+        },
+        {
+          "goal": 2,
+          "pc": 12,
+          "blind": 37.8,
+          "necessary": true,
+          "committed": 0.0,
+          "repaired": 1.0,
+          "delta": 1.0,
+          "flipped": true
+        },
+        {
+          "goal": 0,
+          "pc": 14,
+          "blind": 49.1,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 1.0,
+          "delta": 0.0,
+          "flipped": false
+        },
+        {
+          "goal": 7,
+          "pc": 20,
+          "blind": 57.7,
+          "necessary": true,
+          "committed": 0.0,
+          "repaired": 0.0,
+          "delta": 0.0,
+          "flipped": false
+        }
+      ],
+      "flips": 1,
+      "mastered_committed": 7,
+      "mastered_repaired": 8
+    },
+    "2": {
+      "world": 3016,
+      "nav40": {
+        "1": 0.922,
+        "4": 0.969,
+        "3": 0.973,
+        "6": 0.973,
+        "2": 0.984,
+        "5": 0.895
+      },
+      "nav16": {
+        "1": 0.922,
+        "4": 0.969,
+        "3": 0.973,
+        "6": 0.973,
+        "2": 0.984,
+        "5": 0.895
+      },
+      "rows": [
+        {
+          "goal": 7,
+          "pc": 4,
+          "blind": 4.0,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.996,
+          "delta": -0.004,
+          "flipped": false
+        },
+        {
+          "goal": 11,
+          "pc": 4,
+          "blind": 15.3,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.949,
+          "delta": -0.051,
+          "flipped": false
+        },
+        {
+          "goal": 5,
+          "pc": 4,
+          "blind": 16.9,
+          "necessary": false,
+          "committed": 1.0,
+          "repaired": 0.965,
+          "delta": -0.035,
+          "flipped": false
+        },
+        {
+          "goal": 3,
+          "pc": 5,
+          "blind": 18.1,
+          "necessary": false,
+          "committed": 0.855,
+          "repaired": 0.988,
+          "delta": 0.133,
+          "flipped": false
+        },
+        {
+          "goal": 9,
+          "pc": 8,
+          "blind": 11.2,
+          "necessary": false,
+          "committed": 0.883,
+          "repaired": 0.992,
+          "delta": 0.109,
+          "flipped": false
+        },
+        {
+          "goal": 12,
+          "pc": 9,
+          "blind": 12.5,
+          "necessary": false,
+          "committed": 0.816,
+          "repaired": 0.988,
+          "delta": 0.172,
+          "flipped": false
+        },
+        {
+          "goal": 4,
+          "pc": 9,
+          "blind": 30.4,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 0.992,
+          "delta": -0.008,
+          "flipped": false
+        },
+        {
+          "goal": 2,
+          "pc": 9,
+          "blind": 34.4,
+          "necessary": true,
+          "committed": 1.0,
+          "repaired": 0.973,
+          "delta": -0.027,
+          "flipped": false
+        },
+        {
+          "goal": 8,
+          "pc": 10,
+          "blind": 27.1,
+          "necessary": true,
+          "committed": 0.969,
+          "repaired": 0.973,
+          "delta": 0.004,
+          "flipped": false
+        },
+        {
+          "goal": 0,
+          "pc": 16,
+          "blind": 13.2,
+          "necessary": false,
+          "committed": 0.867,
+          "repaired": 0.98,
+          "delta": 0.113,
+          "flipped": false
+        },
+        {
+          "goal": 13,
+          "pc": 16,
+          "blind": 31.1,
+          "necessary": true,
+          "committed": 0.0,
+          "repaired": 0.0,
+          "delta": 0.0,
+          "flipped": false
+        }
+      ],
+      "flips": 0,
+      "mastered_committed": 10,
+      "mastered_repaired": 10
+    }
+  },
+  "total_flips": 1,
+  "kill_a": false
+}
