@@ -709,3 +709,42 @@ IRREVERSIBILITY: mistakes that permanently cost something. Next substrate under 
 public benchmark — so a result there cannot be dismissed as a world we engineered to make our claim true).
 First measured facts: 64x64 RGB obs, 17 actions, 66 env-steps/s single-core CPU, and death is real
 (17 episode terminations in 3000 random steps).
+
+### RETRACTION — the Crafter pivot justification above is WRONG on both of its premises (2026-07-27)
+Written the same day, before any Crafter code was built, after a 4-agent design audit whose two decisive
+facts I then verified myself in the installed package. Both retracted claims are MINE.
+
+**(1) "Crafter has real irreversibility" — FALSE.** crafter/env.py:70-80 `reset()` calls
+`self._world.reset(seed=hash((self._seed, self._episode))...)`, constructs a fresh `objects.Player`,
+sets `self._unlocked = set()` and calls `worldgen.generate_world(...)`. Crafter regenerates the world
+EVERY EPISODE — line-for-line the same structure I used two paragraphs above to declare our OWN substrate
+exhausted. The "17 deaths in 3000 random steps" I quoted measures INTRA-episode death, which the reset
+then undoes. The pivot's entire stated justification does not exist.
+
+**(2) "A random agent NEVER reaches these 14 achievements" — SAMPLING NOISE at its most load-bearing
+point.** crafter/data.yaml: `wood_pickaxe: {uses: {wood: 1}, nearby: [table]}` and
+`wood_sword: {uses: {wood: 1}, nearby: [table]}` are BYTE-IDENTICAL. My n=1 40k-step probe put wood_sword
+on the "found by luck" side (step 36975) and wood_pickaxe on the "never" side — and wood_pickaxe is the
+UNIQUE gateway to the whole deep tree (`collect.stone.require` and `collect.coal.require` are both
+`{wood_pickaxe: 1}`). A proper probe (180 episodes/arm) got 125/180 for each. The single boundary the
+experiment would have been built on was a coin flip. All three grounding agents caught it independently.
+
+**(3) Crafter is on the WRONG side of our own boundary, measured.** Uniform-random policy, materials in
+hand: make_iron_pickaxe (the deepest recipe — three materials at once, adjacent to BOTH table and furnace)
+succeeds in 23.9% of episodes; place_furnace 89.4%; make_stone_pickaxe 55.6%. Same random policy, all six
+tools in hand but no materials: collect_iron 0/180, collect_coal 1.1%, collect_stone 6.1%. Executing the
+deepest recipe by chance is ~4x more likely than walking to the rock it needs. Crafter's tech tree is a
+NAVIGATION-AND-SURVIVAL problem wearing a recipe DAG as a costume; the knowledge is CHEAP to rederive,
+which is exactly the v49-v54 dead zone (RESEARCH_DIRECTION.md: "reuse pays only when the knowledge is
+expensive-to-rederive AND the task is too hard to learn directly").
+
+**(4) The throughput figure was also wrong**: 66 env-steps/s is ~90% worldgen (reset costs 2-9s because
+numba is absent and opensimplex runs pure Python). With a world-pool restore across 6 processes: ~2400
+steps/s. Crafter is CHEAP and UNINFORMATIVE. Cost was never the reason to say no.
+
+CONSEQUENCE: no substrate migration. The defect that has actually been killing this arc is in OUR LOSS
+FUNCTION, not in any world — `relabel` (hidden_recipe_v55.py) credits every item unlocked in an episode
+regardless of which goal was commanded, so every "from-scratch" control this project has ever run was fed
+a free ascending curriculum. That includes v55's arm E, the sole basis of v55's "memory buys speed, not
+possibility" deflation. **v55's published NULL rests on a contaminated control.** The repair is ~20 lines,
+on a pipeline already validated end-to-end. See the v57 prereg.
