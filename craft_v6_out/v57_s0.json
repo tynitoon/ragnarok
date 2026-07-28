@@ -1,0 +1,877 @@
+{
+  "seed": 0,
+  "world": 3002,
+  "admitted": [
+    [
+      6,
+      3,
+      5.11
+    ],
+    [
+      13,
+      3,
+      6.59
+    ],
+    [
+      2,
+      3,
+      28.35
+    ],
+    [
+      7,
+      4,
+      11.43
+    ],
+    [
+      3,
+      5,
+      27.61
+    ],
+    [
+      11,
+      6,
+      37.76
+    ],
+    [
+      8,
+      7,
+      10.36
+    ],
+    [
+      1,
+      7,
+      38.7
+    ],
+    [
+      12,
+      10,
+      15.79
+    ],
+    [
+      4,
+      11,
+      21.26
+    ],
+    [
+      9,
+      17,
+      29.35
+    ]
+  ],
+  "deep": [
+    12,
+    4,
+    9
+  ],
+  "arms": {
+    "A": {
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 638976,
+          "collect_prim": 425984,
+          "eval_prim": 212992,
+          "demos_per_round": [
+            223
+          ],
+          "samples_per_round": [
+            742
+          ],
+          "att": 26624,
+          "fail": 21226,
+          "repeat_prev_succ": 2641,
+          "first_try_ok": 2436,
+          "buf_n": 742,
+          "master": 0.977,
+          "mastered": true
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 638976,
+          "collect_prim": 425984,
+          "eval_prim": 212992,
+          "demos_per_round": [
+            582
+          ],
+          "samples_per_round": [
+            1906
+          ],
+          "att": 26624,
+          "fail": 18569,
+          "repeat_prev_succ": 4039,
+          "first_try_ok": 3622,
+          "buf_n": 2648,
+          "master": 0.957,
+          "mastered": true
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.895,
+          "rounds": 1,
+          "prim": 638976,
+          "collect_prim": 425984,
+          "eval_prim": 212992,
+          "demos_per_round": [
+            986
+          ],
+          "samples_per_round": [
+            2924
+          ],
+          "att": 26624,
+          "fail": 15299,
+          "repeat_prev_succ": 6446,
+          "first_try_ok": 4611,
+          "buf_n": 5572,
+          "master": 0.934,
+          "mastered": true
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "prim": 1171456,
+          "collect_prim": 851968,
+          "eval_prim": 319488,
+          "demos_per_round": [
+            309,
+            948
+          ],
+          "samples_per_round": [
+            1037,
+            3107
+          ],
+          "att": 53248,
+          "fail": 31668,
+          "repeat_prev_succ": 11929,
+          "first_try_ok": 8537,
+          "buf_n": 9716,
+          "master": 0.961,
+          "mastered": true
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "prim": 1703936,
+          "collect_prim": 1277952,
+          "eval_prim": 425984,
+          "demos_per_round": [
+            243,
+            913,
+            1017
+          ],
+          "samples_per_round": [
+            768,
+            3001,
+            3262
+          ],
+          "att": 79872,
+          "fail": 39764,
+          "repeat_prev_succ": 23508,
+          "first_try_ok": 14708,
+          "buf_n": 16747,
+          "master": 0.906,
+          "mastered": true
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 9,
+          "prim": 4898816,
+          "collect_prim": 3833856,
+          "eval_prim": 1064960,
+          "demos_per_round": [
+            46,
+            78,
+            117,
+            196,
+            399,
+            793,
+            992,
+            1009,
+            1021
+          ],
+          "samples_per_round": [
+            152,
+            260,
+            375,
+            639,
+            1322,
+            2618,
+            3281,
+            3270,
+            3279
+          ],
+          "att": 239616,
+          "fail": 140879,
+          "repeat_prev_succ": 53527,
+          "first_try_ok": 38521,
+          "buf_n": 31943,
+          "master": 0.918,
+          "mastered": true
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.0,
+          "rounds": 9,
+          "prim": 4898816,
+          "collect_prim": 3833856,
+          "eval_prim": 1064960,
+          "demos_per_round": [
+            176,
+            523,
+            945,
+            1009,
+            1016,
+            1019,
+            1024,
+            1019,
+            1021
+          ],
+          "samples_per_round": [
+            593,
+            1721,
+            3111,
+            3287,
+            3299,
+            3299,
+            3271,
+            3278,
+            3281
+          ],
+          "att": 239616,
+          "fail": 106916,
+          "repeat_prev_succ": 78551,
+          "first_try_ok": 47943,
+          "buf_n": 57083,
+          "master": 0.957,
+          "mastered": true
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 6,
+          "prim": 3301376,
+          "collect_prim": 2555904,
+          "eval_prim": 745472,
+          "demos_per_round": [
+            58,
+            154,
+            364,
+            676,
+            870,
+            992
+          ],
+          "samples_per_round": [
+            203,
+            513,
+            1211,
+            2261,
+            2879,
+            3271
+          ],
+          "att": 159744,
+          "fail": 102506,
+          "repeat_prev_succ": 23604,
+          "first_try_ok": 27648,
+          "buf_n": 67421,
+          "master": 0.965,
+          "mastered": true
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            22,
+            36,
+            39,
+            95,
+            202,
+            362,
+            573,
+            749,
+            908,
+            973
+          ],
+          "samples_per_round": [
+            69,
+            113,
+            120,
+            307,
+            681,
+            1201,
+            1904,
+            2535,
+            3027,
+            3240
+          ],
+          "att": 266240,
+          "fail": 171091,
+          "repeat_prev_succ": 46677,
+          "first_try_ok": 43764,
+          "buf_n": 80618,
+          "master": 0.0,
+          "mastered": false
+        },
+        {
+          "goal": 4,
+          "zero_shot": 0.0,
+          "rounds": 5,
+          "prim": 2768896,
+          "collect_prim": 2129920,
+          "eval_prim": 638976,
+          "demos_per_round": [
+            90,
+            155,
+            261,
+            385,
+            653
+          ],
+          "samples_per_round": [
+            309,
+            500,
+            844,
+            1327,
+            2196
+          ],
+          "att": 133120,
+          "fail": 77921,
+          "repeat_prev_succ": 22633,
+          "first_try_ok": 27122,
+          "buf_n": 85794,
+          "master": 0.852,
+          "mastered": true
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "samples_per_round": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "att": 266240,
+          "fail": 188754,
+          "repeat_prev_succ": 30159,
+          "first_try_ok": 44603,
+          "buf_n": 85794,
+          "master": 0.0,
+          "mastered": false
+        }
+      ],
+      "complete": true
+    },
+    "K": {
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 638976,
+          "collect_prim": 425984,
+          "eval_prim": 212992,
+          "demos_per_round": [
+            224
+          ],
+          "samples_per_round": [
+            732
+          ],
+          "att": 26624,
+          "fail": 21212,
+          "repeat_prev_succ": 2708,
+          "first_try_ok": 2468,
+          "buf_n": 732,
+          "master": 0.977,
+          "mastered": true
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "prim": 1171456,
+          "collect_prim": 851968,
+          "eval_prim": 319488,
+          "demos_per_round": [
+            216,
+            969
+          ],
+          "samples_per_round": [
+            716,
+            3024
+          ],
+          "att": 53248,
+          "fail": 39782,
+          "repeat_prev_succ": 7535,
+          "first_try_ok": 5472,
+          "buf_n": 3740,
+          "master": 0.957,
+          "mastered": true
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 638976,
+          "collect_prim": 425984,
+          "eval_prim": 212992,
+          "demos_per_round": [
+            170
+          ],
+          "samples_per_round": [
+            573
+          ],
+          "att": 26624,
+          "fail": 21290,
+          "repeat_prev_succ": 2637,
+          "first_try_ok": 2405,
+          "buf_n": 573,
+          "master": 0.926,
+          "mastered": true
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "prim": 1171456,
+          "collect_prim": 851968,
+          "eval_prim": 319488,
+          "demos_per_round": [
+            67,
+            658
+          ],
+          "samples_per_round": [
+            236,
+            2170
+          ],
+          "att": 53248,
+          "fail": 41685,
+          "repeat_prev_succ": 5579,
+          "first_try_ok": 4519,
+          "buf_n": 2406,
+          "master": 0.961,
+          "mastered": true
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "prim": 1171456,
+          "collect_prim": 851968,
+          "eval_prim": 319488,
+          "demos_per_round": [
+            50,
+            950
+          ],
+          "samples_per_round": [
+            189,
+            3134
+          ],
+          "att": 53248,
+          "fail": 35583,
+          "repeat_prev_succ": 9390,
+          "first_try_ok": 6381,
+          "buf_n": 3323,
+          "master": 0.926,
+          "mastered": true
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            17,
+            10,
+            30,
+            424,
+            938,
+            966,
+            969,
+            986,
+            997,
+            995
+          ],
+          "samples_per_round": [
+            49,
+            31,
+            98,
+            1405,
+            3071,
+            3160,
+            3081,
+            3138,
+            3127,
+            3169
+          ],
+          "att": 266240,
+          "fail": 169814,
+          "repeat_prev_succ": 55670,
+          "first_try_ok": 31139,
+          "buf_n": 20329,
+          "master": 0.0,
+          "mastered": false
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.0,
+          "rounds": 4,
+          "prim": 2236416,
+          "collect_prim": 1703936,
+          "eval_prim": 532480,
+          "demos_per_round": [
+            7,
+            49,
+            76,
+            920
+          ],
+          "samples_per_round": [
+            23,
+            160,
+            256,
+            3022
+          ],
+          "att": 106496,
+          "fail": 82149,
+          "repeat_prev_succ": 11260,
+          "first_try_ok": 10523,
+          "buf_n": 3461,
+          "master": 0.941,
+          "mastered": true
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            4,
+            3,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "samples_per_round": [
+            14,
+            11,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "att": 266240,
+          "fail": 257452,
+          "repeat_prev_succ": 3222,
+          "first_try_ok": 5062,
+          "buf_n": 27,
+          "master": 0.0,
+          "mastered": false
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "samples_per_round": [
+            0,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "att": 266240,
+          "fail": 232000,
+          "repeat_prev_succ": 11301,
+          "first_try_ok": 21917,
+          "buf_n": 6,
+          "master": 0.0,
+          "mastered": false
+        },
+        {
+          "goal": 4,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "samples_per_round": [
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "att": 266240,
+          "fail": 253630,
+          "repeat_prev_succ": 5566,
+          "first_try_ok": 6404,
+          "buf_n": 3,
+          "master": 0.0,
+          "mastered": false
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.0,
+          "rounds": 10,
+          "prim": 5431296,
+          "collect_prim": 4259840,
+          "eval_prim": 1171456,
+          "demos_per_round": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "samples_per_round": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "att": 266240,
+          "fail": 212478,
+          "repeat_prev_succ": 26865,
+          "first_try_ok": 24197,
+          "buf_n": 0,
+          "master": 0.0,
+          "mastered": false
+        }
+      ],
+      "complete": true
+    },
+    "U": [
+      {
+        "goal": 4,
+        "zero_shot": 0.0,
+        "rounds": 60,
+        "prim": 32055296,
+        "collect_prim": 25559040,
+        "eval_prim": 6496256,
+        "demos_per_round": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "samples_per_round": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "att": 1597440,
+        "fail": 1514599,
+        "repeat_prev_succ": 35240,
+        "first_try_ok": 40957,
+        "buf_n": 7,
+        "master": 0.0,
+        "mastered": false,
+        "r_max": 60
+      }
+    ]
+  },
+  "elapsed_s": 16186
+}

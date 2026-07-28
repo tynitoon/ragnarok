@@ -781,3 +781,62 @@ CONSEQUENCES, stated plainly:
    commanded-only credit yields ~20-80 samples/round against the current 8k-33k. If that starves every
    arm, KILL-1 fires, a knowledge-free control is NOT constructible in this codebase, and the line ends
    there having spent ~1 GPU-hour.
+
+---
+
+## v57 — HONEST CREDIT: FROZEN VERDICT **NULL** (2026-07-27). The arc ends here, as pre-committed.
+Prereg + scorer frozen and committed BEFORE any confirmatory arm (86ad215). 3 worlds, 3 arms, complete.
+The one mechanism change: credit ONLY the commanded goal, applied identically to every arm.
+
+### The frozen predictions
+P1 replication gate  3/3 TRUE  — arm A masters 100% of shallow goals; the credit fix does NOT break the agent.
+P4 not-just-budget   TRUE      — arm U (fresh, 6x budget) mastered 0/3, collecting 1, 1 and 2 demos in total.
+P2 starvation        1/3 FALSE — K is starved on 3/3 deep cells in world 3002, but only 2/4 and 1/3 elsewhere.
+P3 contrast          2/3 FALSE — A masters >=50% of starved cells in 3003 and 3016, but 1/3 in 3002.
+=> VERDICT NULL. No kill criterion fired (P1 held, A masters >=1/3 of deep goals everywhere, P4 held).
+
+### What is in the data, stated as EXPLORATORY because the prereg did not predict it
+The starvation phenomenon is real and appears in ALL THREE worlds, on 6 cells:
+  world 3002 goal 1  (pc  7): A mastered 0.96 in 6r with 3114 demos | K 0.00, **8 demos in 10 rounds**
+  world 3002 goal 4  (pc 11): A mastered 0.85 in 5r                 | K 0.00, 1 demo | U at 6x: 0.00, 1 demo
+  world 3003 goal 2  (pc 12): A mastered 1.00 in 9r with 2732 demos | K 0.00, 1 demo | U at 6x: 0.00, 1 demo
+  world 3016 goal 13 (pc 16): A mastered 0.86 in 9r with 2904 demos | K 0.00, 1 demo | U at 6x: 0.00, 2 demos
+A knowledge-free agent collects ~1 learning signal in 10,240 env-episodes, and SIX TIMES the budget yields
+1-2. It never gets off the ground, while an agent that accumulated its own discovered knowledge in the same
+world masters the goal. **This refutes v55's deflation**: "the from-scratch path exists at more cost" is
+false wherever starvation occurs — arm U is the honest successor to the contaminated arm E, and it failed.
+
+P5 (pre-committed deflation check) favours the KNOWLEDGE reading, 3/3: A's first-try-correct rate is
+0.174 / 0.205 / 0.202 versus K's 0.066 / 0.061 / 0.072 — roughly 3x. A's repeat rate is sometimes HIGHER
+than K's (0.267 vs 0.090 in world 3003), so the advantage is not fewer retries; A picks the right item
+first. The claim does not drop to "execution-reliability memory".
+
+### WHY IT IS NULL, and why I am not allowed to rescue it
+My a-priori stratum (DEEP = pc >= 10) does not predict where starvation actually occurs. It happens at
+pc 7 in world 3002 (a SHALLOW cell by my own definition) and does NOT happen at pc 10, 14 and 16 in the
+other worlds, where K masters comfortably (224, 1046, 3278 demos). pc is simply not the variable that
+governs whether an exploring agent ever stumbles onto a goal. This is the THIRD time a mis-calibrated
+stratum has cost a verdict (v54's difficulty band, v55's blind-cost stratum, now this).
+The prereg forbids re-cutting the stratum after seeing results, and the phenomenon above was NOT
+predicted, so it is EXPLORATORY. Confirming it would need a new preregistration with a starvation
+predictor chosen in advance — and the arc is pre-committed closed. It stays exploratory. Permanently.
+
+### Also honest
+- The accumulating arm is sometimes WORSE than the amnesic one on easy goals (world 3016: 0.61 vs 0.85,
+  0.85 vs 0.97, 0.85 vs 0.98). Interference in a shared network is a real cost of accumulation.
+- Arm A also fails where nobody has signal (world 3002 goal 9, pc 17: both arms 0 demos).
+- The credit fix costs every arm: A lost world 3002's goal 12, which it mastered in 6 rounds under the
+  leaky rule.
+
+### CLOSING THE NORTH STAR ARC
+v57 was pre-registered as the last experiment. It is NULL. Per the standing prohibition there is no v58,
+no bigger world, no longer chain, no new substrate. What the project owns, after adversarial audit:
+  1. A childhood navigation skill that transfers ~0.95 zero-shot to unseen procedural worlds.
+  2. Hindsight self-imitation makes composition LEARNABLE where sparse-reward RL sat at 0.003.
+  3. An agent that discovers hidden recipes by failing (mastery 1.00 in 2 rounds, no oracle).
+  4. Goal-directedness restored 3/3 (goal-swap separation .30/.42/.75 vs ~0) by removing the oracle.
+  5. A large, mechanism-explained cost effect, with the deflation check favouring knowledge over execution.
+  6. A precise map of FOUR instrument defects that make this class of question hard to measure: the
+     affordance oracle, the self-destructing cost metric, the argmax absorbing state, and the credit leak
+     (99.69% of gradient steps at depth were about something never asked for).
+Three frozen NULLs, published with their numbers. No overclaim survives in the record.
