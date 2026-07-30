@@ -1,0 +1,127 @@
+{
+  "world": 4000,
+  "nav": {
+    "3": 0.996,
+    "1": 0.992,
+    "4": 0.969,
+    "2": 0.992
+  },
+  "goals": [
+    9,
+    7,
+    4,
+    3
+  ],
+  "rows": [
+    {
+      "goal": 9,
+      "zero_shot": 0.0,
+      "rounds": 1,
+      "attempts": 192,
+      "first_demo_attempt": 48,
+      "collect_prim": 786432,
+      "eval_prim": 249856,
+      "n_eval": 2,
+      "demos_per_round": [
+        563
+      ],
+      "samples_per_round": [
+        1852
+      ],
+      "att": 49152,
+      "master": 0.977,
+      "mastered": true,
+      "buf_n": 1852
+    },
+    {
+      "goal": 7,
+      "zero_shot": 0.23,
+      "rounds": 2,
+      "attempts": 384,
+      "first_demo_attempt": 48,
+      "collect_prim": 1572864,
+      "eval_prim": 571392,
+      "n_eval": 3,
+      "demos_per_round": [
+        954,
+        1023
+      ],
+      "samples_per_round": [
+        3231,
+        3360
+      ],
+      "att": 98304,
+      "master": 0.988,
+      "mastered": true,
+      "buf_n": 8443
+    },
+    {
+      "goal": 4,
+      "zero_shot": 0.539,
+      "rounds": 1,
+      "attempts": 192,
+      "first_demo_attempt": 48,
+      "collect_prim": 786432,
+      "eval_prim": 368640,
+      "n_eval": 2,
+      "demos_per_round": [
+        1018
+      ],
+      "samples_per_round": [
+        3391
+      ],
+      "att": 49152,
+      "master": 0.984,
+      "mastered": true,
+      "buf_n": 11834
+    },
+    {
+      "goal": 3,
+      "zero_shot": 0.875,
+      "rounds": 1,
+      "attempts": 192,
+      "first_demo_attempt": 48,
+      "collect_prim": 786432,
+      "eval_prim": 380928,
+      "n_eval": 2,
+      "demos_per_round": [
+        975
+      ],
+      "samples_per_round": [
+        3253
+      ],
+      "att": 49152,
+      "master": 0.961,
+      "mastered": true,
+      "buf_n": 15087
+    }
+  ],
+  "probe": [
+    {
+      "goal": 9,
+      "with_store": 0.984,
+      "zero_store": 0.027
+    },
+    {
+      "goal": 7,
+      "with_store": 0.992,
+      "zero_store": 0.0
+    },
+    {
+      "goal": 4,
+      "with_store": 0.977,
+      "zero_store": 0.0
+    },
+    {
+      "goal": 3,
+      "with_store": 0.965,
+      "zero_store": 0.0
+    }
+  ],
+  "mastery": 1.0,
+  "store_drop_rel": 0.993,
+  "q1_can_learn": true,
+  "q2_reads_store": true,
+  "passed": true,
+  "elapsed_s": 1148
+}
