@@ -199,3 +199,74 @@ eval-only via `zero_store`; G exists as `evidence_policy`; M/Mdeg/F6/D are Step-
 **Remaining to build in Step 5:** the confirmatory runner itself (pretraining M and Mdeg, the held-out
 evaluation with frozen weights, arms Z/G/F6/D, detached execution with resume, per-goal JSON). Nothing of
 it exists yet, by design.
+
+---
+
+## 8. VERIFICATION VERDICT: **NO-GO — REDESIGN REQUIRED**. The frozen v58 prereg is VOID. Do not run it.
+(3-agent adversarial audit, 2026-07-31; the fatal item independently re-derived and CONFIRMED below.)
+
+### FATAL — censoring is asymmetric and lands only on the treatment
+Arm M is FROZEN at test (zero gradient steps) while F trains in-world. A goal M's frozen weights cannot
+crack burns the full censored budget (r_max x 192), which exceeds M's ENTIRE above-floor allowance.
+Re-derived here on the exact held-out set (worlds 6000/6001/6002 admit 10/8/9 = 27 goals; floor 5184;
+F ~ 8928 from the calibration's 331 attempts/goal):
+    M masters 27/27 in one round each  -> M/F 0.581  -> P1 PASSES
+    M masters 26/27, censored on 1     -> M/F 0.774  -> **published REFUTED**
+    M masters 25/27, censored on 2     -> M/F 0.968  -> REFUTED
+So a frozen-weight agent that mastered 26 of 27 unseen goals in a SINGLE round each — an extraordinary
+result — would be published verbatim as "indistinguishable from another fresh run. Arc closed."
+**P1 as frozen is not a cost test; it is "M must be flawless on 27/27", and the arithmetic already
+predicts a fourth frozen NULL.**
+
+### MAJOR — the threshold was fitted on the wrong unit
+P1_MAX_RATIO 0.712 = 0.95 x the SINGLE-world null minimum (0.750), but score_v58.py applies it to a
+3-world POOLED ratio. Pooling averages out world noise, so the pooled null is materially tighter
+(audit's recomputation: pooled min 0.800-0.853). REFUTE_RATIO 0.750 therefore sits BELOW the pooled
+null's own minimum: a genuine 20% saving (M/F 0.800), clearly outside the null, would be published as
+REFUTED. With only 2 calibration worlds the 3-world pooled null cannot be estimated at all.
+
+### MAJOR — half the cost metric is dead weight
+26 of 54 calibration goal-runs had zero_shot >= thresh on arrival and STILL paid a mandatory full round
+(run_goal_v58 computes zero_shot then enters the loop unconditionally). On those goals M cannot win by
+any amount. NOTE: the mandatory round is LOAD-BEARING and must not be naively deleted — v53/v54 returned
+cost 0 on zero-shot success, the buffer stopped growing, and compounding became unobservable
+(hidden_recipe_v55.py documents this). The repair must be elsewhere.
+
+### MAJOR — my own discipline slip, caught by the audit
+The first-demo statistic was redefined INSIDE the freeze commit (`git diff 5f69ad3 d215dae --
+scripts/evidence_net_v58.py`). Calibration measured the episode-granular version; the committed code
+emits a within-episode statistic whose null has NEVER been measured. It was documented as "logging only",
+and while P2 is None it cannot reach the verdict path — but it silently re-arms the moment anyone sets
+P2_MIN_WINRATE. The artifact's null and the code's statistic no longer refer to the same quantity.
+
+### The P2 block was LOAD-BEARING, and blocking it was correct
+Had the calibration's fitted P2_MIN_WINRATE = 0.6 been copied as calibrate_v58.py instructed, the scorer
+would have emitted REFUTED on EVERY possible outcome (all goals tie -> wins = losses = 0 -> win/loss 0.0
+< REFUTE_MIN_WIN_LOSS 1.5). That 0.6 was derived from calibrate_v58.py's zero-non-tied-goals SENTINEL
+(`return wins/n if n else 0.5`), not from a distribution. It must never be copied.
+RULING on P2: do not freeze it, and do not fit it from existing data. Re-measure in calibration v2 with a
+CONTINUOUS paired statistic (mean paired log-ratio of round-0 demo counts, or paired difference in
+`discovery.median_step` / `discovery.frac`) — a win rate is dead on arrival because its own null already
+reached 0.846 and 26% of pairs tie from ceiling saturation. `min_step` must NOT be used (it saturates low
+at 256 envs). Delete P2_MIN_WIN_LOSS and REFUTE_MIN_WIN_LOSS with it. Dropping P2 from SUPPORTED by
+amendment was considered and REJECTED: it is P1's fine-resolution backup, and P1 is the conjunct being
+ruled underpowered.
+
+### Required redesign, in the audit's leverage order (~5-7 GPU-h for calibration v2)
+1. **Reduce num_envs below 256.** Highest leverage: it attacks the root cause — a FRESH agent currently
+   reaches the goal in 700-1024 of 1024 env-episodes at first exposure, so discovery is nearly free and
+   there is almost nothing for transfer to buy — and it simultaneously fixes the P2 degeneracy (the
+   min-over-256-envs trigger is why all 54 first-demo values were exactly 48).
+2. **Cap per-goal censoring** (e.g. 3 rounds), or exclude censored goals from the cost sum and report
+   "M failed k goals" as a separate PRE-REGISTERED line, so one frozen-arm miss cannot manufacture a
+   REFUTED.
+3. **Harder / deeper held-out worlds**, so difficulty tracks ability.
+4. **Re-fit P1 on the POOLED unit** over 3 calibration worlds x 3 inits, and replace calibrate_v58.py's
+   bare binary saturation guard (`p1_thr < best_reachable`, which passed by only 0.069 on a statistic
+   quantised at 0.0215 per round) with an explicit margin requirement.
+
+### Status
+Steps 1-3 stand: the EvidenceStore, the identity-free EvidenceNet, and GATE K1 (mastery 4/4, store-zeroed
+drop 0.99) are unaffected and remain valid. What is void is the Step-4 MEASUREMENT DESIGN — P1's metric,
+its threshold's unit, and P2. Step 5 must not run until calibration v2 lands. No confirmatory GPU has
+been spent, which is exactly what the gate-before-spend discipline exists to achieve.
