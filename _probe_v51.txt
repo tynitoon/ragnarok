@@ -1,0 +1,39 @@
+SKILL_DONE 339 s
+TREE 5005 d8 nav=0.516 final_master=0.0
+   m 0 unlocked= 0.81 d=+0.81 tgt=0.00
+   m 1 unlocked= 1.20 d=+0.38 tgt=0.00
+   m 2 unlocked= 1.58 d=+0.38 tgt=0.00
+   m 3 unlocked= 1.58 d=+0.00 tgt=0.00
+   m 4 unlocked= 1.82 d=+0.24 tgt=0.00
+   m 5 unlocked= 2.12 d=+0.30 tgt=0.00
+   m 6 unlocked= 2.19 d=+0.06 tgt=0.00
+   m 7 unlocked= 2.22 d=+0.03 tgt=0.00
+   m 8 unlocked= 2.31 d=+0.09 tgt=0.00
+   m 9 unlocked= 2.41 d=+0.09 tgt=0.00
+   m10 unlocked= 2.50 d=+0.09 tgt=0.00
+   m11 unlocked= 2.57 d=+0.07 tgt=0.00
+   m12 unlocked= 2.63 d=+0.06 tgt=0.00
+   m13 unlocked= 2.70 d=+0.06 tgt=0.00
+   m14 unlocked= 2.73 d=+0.03 tgt=0.00
+   m15 unlocked= 2.78 d=+0.05 tgt=0.00
+   m16 unlocked= 2.84 d=+0.06 tgt=0.00
+   m17 unlocked= 0.00 d=-2.84 tgt=0.00
+TREE 5001 d6 nav=0.895 final_master=0.0
+   m 0 unlocked= 0.88 d=+0.88 tgt=0.00
+   m 1 unlocked= 1.77 d=+0.88 tgt=0.00
+   m 2 unlocked= 1.77 d=+0.00 tgt=0.00
+   m 3 unlocked= 2.62 d=+0.85 tgt=0.00
+   m 4 unlocked= 3.47 d=+0.85 tgt=0.00
+   m 5 unlocked= 3.82 d=+0.35 tgt=0.00
+   m 6 unlocked= 4.17 d=+0.35 tgt=0.00
+   m 7 unlocked= 4.66 d=+0.48 tgt=0.00
+   m 8 unlocked= 5.14 d=+0.48 tgt=0.00
+   m 9 unlocked= 5.48 d=+0.34 tgt=0.00
+   m10 unlocked= 5.52 d=+0.05 tgt=0.00
+   m11 unlocked= 5.53 d=+0.01 tgt=0.00
+   m12 unlocked= 5.62 d=+0.09 tgt=0.00
+   m13 unlocked= 5.91 d=+0.30 tgt=0.00
+   m14 unlocked= 6.01 d=+0.09 tgt=0.00
+   m15 unlocked= 6.41 d=+0.41 tgt=0.00
+   m16 unlocked= 6.73 d=+0.31 tgt=0.00
+   m17 unlocked= 0.00 d=-6.73 tgt=0.00

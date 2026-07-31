@@ -1,5 +1,5 @@
 {
-  "seeds": 5,
+  "seeds": 2,
   "runs": [
     {
       "mastered_count": 9,
@@ -7,62 +7,14 @@
         "wood",
         "table",
         "wood_pickaxe",
-        "coal",
         "stone",
         "furnace",
-        "stone_pickaxe",
-        "iron",
-        "iron_pickaxe"
-      ],
-      "dag_ok": true,
-      "reached_ipick": true
-    },
-    {
-      "mastered_count": 9,
-      "order": [
-        "wood",
-        "table",
-        "wood_pickaxe",
         "coal",
-        "stone",
-        "furnace",
         "stone_pickaxe",
-        "iron",
-        "iron_pickaxe"
+        "iron_pickaxe",
+        "iron"
       ],
-      "dag_ok": true,
-      "reached_ipick": true
-    },
-    {
-      "mastered_count": 9,
-      "order": [
-        "wood",
-        "table",
-        "wood_pickaxe",
-        "stone",
-        "coal",
-        "furnace",
-        "stone_pickaxe",
-        "iron",
-        "iron_pickaxe"
-      ],
-      "dag_ok": true,
-      "reached_ipick": true
-    },
-    {
-      "mastered_count": 9,
-      "order": [
-        "wood",
-        "table",
-        "wood_pickaxe",
-        "stone",
-        "coal",
-        "furnace",
-        "stone_pickaxe",
-        "iron",
-        "iron_pickaxe"
-      ],
-      "dag_ok": true,
+      "dag_ok": false,
       "reached_ipick": true
     },
     {
@@ -82,8 +34,8 @@
       "reached_ipick": true
     }
   ],
-  "n_full": 5,
-  "n_dag": 5,
-  "n_ipick": 5,
-  "verdict": "AUTONOMOUS DISCOVERY WORKS (robust) \u2014 every seed discovers its own curriculum and masters the FULL tree via a DAG-valid order, no goals given; far past curiosity-flat."
+  "n_full": 2,
+  "n_dag": 1,
+  "n_ipick": 2,
+  "verdict": "PARTIAL \u2014 full 2/2, dag 1/2."
 }

@@ -1,0 +1,23 @@
+{
+  "seed": 0,
+  "depth": 5,
+  "c_skill": 2048000,
+  "stream_pc": [
+    16,
+    16,
+    10,
+    12
+  ],
+  "rows": [
+    {
+      "task": 0,
+      "pc": 16,
+      "zs_A": 0.0,
+      "cost_A": 1638400,
+      "master_A": true,
+      "cost_B": 1638400,
+      "master_B": true,
+      "delta": 0
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "depth": 7,
+  "c_lib": 1920000,
+  "train_master": [
+    0.0,
+    0.035,
+    0.0,
+    0.0
+  ],
+  "heldout_master": [
+    0.0,
+    0.0,
+    0.008
+  ],
+  "zeroshot": 0.0026666666666666666,
+  "ok": false,
+  "verdict": "PARTIAL \u2014 router zero-shot held-out master 0% (train 1%). Composition does not transfer cleanly; tune router_iters/features/diversity."
+}

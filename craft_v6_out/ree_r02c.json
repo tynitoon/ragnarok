@@ -1,79 +1,19 @@
 {
   "seeds": [
-    0,
-    1,
-    2
+    0
   ],
   "gravities": [
-    0.003,
-    0.0045,
-    0.006
+    0.004
   ],
   "rows": [
     {
       "seed": 0,
-      "g": 0.003,
+      "g": 0.004,
       "law_inter": 5120,
-      "ppo_inter": 491520,
-      "speedup": 96.0
-    },
-    {
-      "seed": 0,
-      "g": 0.0045,
-      "law_inter": 5120,
-      "ppo_inter": 450560,
-      "speedup": 88.0
-    },
-    {
-      "seed": 0,
-      "g": 0.006,
-      "law_inter": 5120,
-      "ppo_inter": 327680,
-      "speedup": 64.0
-    },
-    {
-      "seed": 1,
-      "g": 0.003,
-      "law_inter": 5120,
-      "ppo_inter": 573440,
-      "speedup": 112.0
-    },
-    {
-      "seed": 1,
-      "g": 0.0045,
-      "law_inter": 5120,
-      "ppo_inter": 286720,
-      "speedup": 56.0
-    },
-    {
-      "seed": 1,
-      "g": 0.006,
-      "law_inter": 5120,
-      "ppo_inter": 409600,
-      "speedup": 80.0
-    },
-    {
-      "seed": 2,
-      "g": 0.003,
-      "law_inter": 5120,
-      "ppo_inter": 327680,
-      "speedup": 64.0
-    },
-    {
-      "seed": 2,
-      "g": 0.0045,
-      "law_inter": 5120,
-      "ppo_inter": 286720,
-      "speedup": 56.0
-    },
-    {
-      "seed": 2,
-      "g": 0.006,
-      "law_inter": 5120,
-      "ppo_inter": 737280,
-      "speedup": 144.0
+      "ppo_inter": 368640,
+      "speedup": 72.0
     }
   ],
-  "positive": true,
-  "verdict": "REUSED LAW >> MODEL-FREE (r0.2c) \u2014 across the gravity family, the agent REUSES its discovered (falsification-verified) constant-acceleration+bounce law (re-fit only theta) and reaches competence in [5120, 5120, 5120, 5120, 5120, 5120, 5120, 5120, 5120] interactions vs PPO-from-scratch [491520, 450560, 327680, 573440, 286720, 409600, 327680, 286720, 737280] (speedups [96.0, 88.0, 64.0, 112.0, 56.0, 80.0, 64.0, 56.0, 144.0]), every world. A discovered, reliable invariant reuses across a task family and vastly out-samples model-free RL. Honest bounds: state obs, hand-given grammar. REVIEW before reporting."
+  "positive": false,
+  "verdict": "PARTIAL/CHECK \u2014 law [5120] vs ppo [368640], law_wins=True. See rows."
 }

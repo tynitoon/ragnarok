@@ -1,0 +1,235 @@
+{
+  "seed": 0,
+  "world": 3002,
+  "foreign": 3019,
+  "nav": {
+    "1": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": 0.0,
+    "2": 0.0,
+    "3": 0.0
+  },
+  "c_skill": 5120,
+  "admitted": [
+    [
+      6,
+      3,
+      5.11
+    ],
+    [
+      13,
+      3,
+      6.59
+    ],
+    [
+      2,
+      3,
+      28.35
+    ],
+    [
+      7,
+      4,
+      11.43
+    ],
+    [
+      3,
+      5,
+      27.61
+    ],
+    [
+      11,
+      6,
+      37.76
+    ],
+    [
+      8,
+      7,
+      10.36
+    ],
+    [
+      1,
+      7,
+      38.7
+    ],
+    [
+      12,
+      10,
+      15.79
+    ],
+    [
+      4,
+      11,
+      21.26
+    ],
+    [
+      9,
+      17,
+      29.35
+    ]
+  ],
+  "necessary": [
+    2
+  ],
+  "arms": {
+    "A": {
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": false
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": false
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.219,
+          "mastered": false,
+          "necessary": true
+        }
+      ],
+      "total_prim": 798720
+    },
+    "B": {
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": false
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": false
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.336,
+          "mastered": false,
+          "necessary": true
+        }
+      ],
+      "total_prim": 798720
+    },
+    "D": {
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": false
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.98,
+          "mastered": true,
+          "necessary": false
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": true
+        }
+      ],
+      "total_prim": 798720
+    },
+    "C_foreign_buffer": {
+      "n": 3746,
+      "target": 3702,
+      "episodes": 18
+    },
+    "C": {
+      "rows": [
+        {
+          "goal": 2,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "prim": 266240,
+          "collect_prim": 53248,
+          "eval_prim": 212992,
+          "n_eval": 2,
+          "master": 0.0,
+          "mastered": false,
+          "necessary": true
+        }
+      ],
+      "total_prim": 266240
+    }
+  },
+  "swap": {
+    "A": 0.1393,
+    "A_own": {
+      "6": 0.0,
+      "13": 0.21484375,
+      "2": 0.203125
+    },
+    "goals": [
+      6,
+      13,
+      2
+    ]
+  },
+  "elapsed_s": 210
+}

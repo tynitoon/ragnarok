@@ -1,0 +1,39 @@
+{
+  "depth": 7,
+  "c_lib": 3276800,
+  "rows": [
+    {
+      "tree": 0,
+      "depth": 5,
+      "warm_master": 1.0,
+      "scratch_master": 1.0,
+      "c_skill_fresh": 2457600
+    },
+    {
+      "tree": 1,
+      "depth": 6,
+      "warm_master": 0.98,
+      "scratch_master": 0.949,
+      "c_skill_fresh": 2457600
+    },
+    {
+      "tree": 2,
+      "depth": 5,
+      "warm_master": 0.988,
+      "scratch_master": 1.0,
+      "c_skill_fresh": 2457600
+    },
+    {
+      "tree": 3,
+      "depth": 4,
+      "warm_master": 1.0,
+      "scratch_master": 1.0,
+      "c_skill_fresh": 2457600
+    }
+  ],
+  "warm_master": 0.992,
+  "scratch_master": 0.98725,
+  "mean_c_skill": 2457600.0,
+  "breakeven_trees": 1.3333333333333333,
+  "verdict": "FAIR SKILL-AMORTISATION \u2014 both arms MASTER held-out trees (warm 0.99, scratch 0.99) via the same greedy planner; childhood pays C_lib=3.28M ONCE vs fresh 2.46M PER tree -> warm cumulative < scratch after ~1.3 trees. This is REAL but MODEST reuse (only the one-time skill cost is amortised; composition is a fixed trivially-correct planner, not learned/reused)."
+}

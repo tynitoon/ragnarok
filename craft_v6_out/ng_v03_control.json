@@ -1,0 +1,22 @@
+{
+  "random_catch": 3.03125,
+  "curve": [
+    {
+      "step": 400,
+      "catch": 4.31,
+      "K": 9
+    },
+    {
+      "step": 800,
+      "catch": 5.05,
+      "K": 1
+    },
+    {
+      "step": 1200,
+      "catch": 2.58,
+      "K": 1
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 final catch 2.58 vs random 3.03, rose=False, K=1. Tune planning/decoder/explore."
+}

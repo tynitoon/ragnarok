@@ -1,0 +1,158 @@
+{
+  "seed": 0,
+  "depth": 7,
+  "c_skill": 3276800,
+  "A": [
+    {
+      "zero_shot": 0.0,
+      "cost": 2457600,
+      "mastered": true,
+      "final": 0.781,
+      "rounds": 3,
+      "task": 0,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.023,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.0,
+      "rounds": 7,
+      "task": 1,
+      "true_depth": 6
+    },
+    {
+      "zero_shot": 0.941,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.941,
+      "rounds": 0,
+      "task": 2,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.039,
+      "cost": 819200,
+      "mastered": true,
+      "final": 0.992,
+      "rounds": 1,
+      "task": 3,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.703,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.703,
+      "rounds": 0,
+      "task": 4,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.27,
+      "cost": 5734400,
+      "mastered": false,
+      "final": 0.262,
+      "rounds": 7,
+      "task": 5,
+      "true_depth": 8
+    },
+    {
+      "zero_shot": 0.34,
+      "cost": 2457600,
+      "mastered": true,
+      "final": 0.645,
+      "rounds": 3,
+      "task": 6,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.77,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.77,
+      "rounds": 0,
+      "task": 7,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.672,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.672,
+      "rounds": 0,
+      "task": 8,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.734,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.734,
+      "rounds": 0,
+      "task": 9,
+      "true_depth": 6
+    }
+  ],
+  "B": [
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.992,
+      "rounds": 2,
+      "task": 0,
+      "true_depth": 5
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.941,
+      "rounds": 2,
+      "task": 3,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 4915200,
+      "mastered": true,
+      "final": 0.91,
+      "rounds": 6,
+      "task": 6,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.977,
+      "rounds": 2,
+      "task": 9,
+      "true_depth": 6
+    }
+  ],
+  "heldout_zero_shot": [
+    0.0,
+    0.988,
+    0.949,
+    0.121
+  ],
+  "heldout_goal_ablated": [
+    0.0,
+    0.977,
+    0.969,
+    0.605
+  ],
+  "mastered_A": 8,
+  "cost_early": 2730666.6666666665,
+  "cost_late": 0.0,
+  "zs_early": 0.3213333333333333,
+  "zs_late": 0.7253333333333334,
+  "a_sep": 1228800.0,
+  "b_sep": 3276800.0,
+  "compounding": true,
+  "separation": true,
+  "positive": true,
+  "verdict": "FLYWHEEL COMPOUNDS (v53, seed 0) \u2014 mastered 8/10; cost early 2.73M -> late 0.00M; zero-shot 0.32 -> 0.73; A 1.23M vs amnesic B 3.28M on late tasks. The agent's own accumulated successes make NEW tasks cheaper, composition LEARNED. ADVERSARIAL REVIEW + seeds 1-2 before believing."
+}

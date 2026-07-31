@@ -1,0 +1,44 @@
+{
+  "seed": 0,
+  "depth": 5,
+  "c_skill": 2048000,
+  "A": [
+    {
+      "zero_shot": 0.0,
+      "cost": 1638400,
+      "mastered": true,
+      "final": 0.926,
+      "rounds": 2,
+      "task": 0,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.945,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.945,
+      "rounds": 0,
+      "task": 1,
+      "true_depth": 4
+    },
+    {
+      "zero_shot": 0.953,
+      "cost": 0,
+      "mastered": true,
+      "final": 0.953,
+      "rounds": 0,
+      "task": 2,
+      "true_depth": 4
+    }
+  ],
+  "B": [],
+  "heldout_zero_shot": [
+    0.875,
+    0.965
+  ],
+  "heldout_goal_ablated": [
+    0.852,
+    0.957
+  ],
+  "verdict": "incomplete (single arm)"
+}

@@ -1,0 +1,175 @@
+{
+  "fair_random": 0.25251665711402893,
+  "curve": [
+    {
+      "step": 500,
+      "recon": 0.0987,
+      "per_slot": [
+        0.4627,
+        0.3705,
+        0.555,
+        0.4034
+      ],
+      "fixed_slot": 1,
+      "fixed_err": 0.3705,
+      "perframe_err": 0.1956,
+      "stability": 0.498
+    },
+    {
+      "step": 1000,
+      "recon": 0.07531,
+      "per_slot": [
+        0.4613,
+        0.2738,
+        0.4669,
+        0.4048
+      ],
+      "fixed_slot": 1,
+      "fixed_err": 0.2738,
+      "perframe_err": 0.1164,
+      "stability": 0.555
+    },
+    {
+      "step": 1500,
+      "recon": 0.01692,
+      "per_slot": [
+        0.4685,
+        0.2971,
+        0.2629,
+        0.4115
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2629,
+      "perframe_err": 0.0592,
+      "stability": 0.462
+    },
+    {
+      "step": 2000,
+      "recon": 0.01092,
+      "per_slot": [
+        0.4704,
+        0.2901,
+        0.262,
+        0.4118
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.262,
+      "perframe_err": 0.0601,
+      "stability": 0.451
+    },
+    {
+      "step": 2500,
+      "recon": 0.00622,
+      "per_slot": [
+        0.4678,
+        0.2827,
+        0.2532,
+        0.4104
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2532,
+      "perframe_err": 0.0546,
+      "stability": 0.454
+    },
+    {
+      "step": 3000,
+      "recon": 0.00822,
+      "per_slot": [
+        0.4673,
+        0.2787,
+        0.2394,
+        0.4093
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2394,
+      "perframe_err": 0.0536,
+      "stability": 0.457
+    },
+    {
+      "step": 3500,
+      "recon": 0.00516,
+      "per_slot": [
+        0.4681,
+        0.28,
+        0.2332,
+        0.4106
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2332,
+      "perframe_err": 0.0545,
+      "stability": 0.458
+    },
+    {
+      "step": 4000,
+      "recon": 0.00581,
+      "per_slot": [
+        0.4693,
+        0.2768,
+        0.2294,
+        0.4117
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2294,
+      "perframe_err": 0.0548,
+      "stability": 0.458
+    },
+    {
+      "step": 4500,
+      "recon": 0.00478,
+      "per_slot": [
+        0.4644,
+        0.269,
+        0.2191,
+        0.4075
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2191,
+      "perframe_err": 0.0517,
+      "stability": 0.462
+    },
+    {
+      "step": 5000,
+      "recon": 0.00551,
+      "per_slot": [
+        0.4709,
+        0.2731,
+        0.2181,
+        0.4118
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2181,
+      "perframe_err": 0.0565,
+      "stability": 0.468
+    },
+    {
+      "step": 5500,
+      "recon": 0.00561,
+      "per_slot": [
+        0.4683,
+        0.2699,
+        0.2048,
+        0.4104
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2048,
+      "perframe_err": 0.0539,
+      "stability": 0.491
+    },
+    {
+      "step": 6000,
+      "recon": 0.00431,
+      "per_slot": [
+        0.4692,
+        0.2622,
+        0.2043,
+        0.4109
+      ],
+      "fixed_slot": 2,
+      "fixed_err": 0.2043,
+      "perframe_err": 0.0504,
+      "stability": 0.479
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 fixed-slot err 0.204 (fair-random 0.253), stability 48%, per-frame 0.050, per-slot [0.4692, 0.2622, 0.2043, 0.4109]. If fixed_err>>per_frame or stability low, binding is not stable; tune slots/patch/scale/lr."
+}

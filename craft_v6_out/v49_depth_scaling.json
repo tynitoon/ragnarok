@@ -1,0 +1,20 @@
+{
+  "rows": [
+    {
+      "depth_level": 3,
+      "true_depth": 3,
+      "seed": 0,
+      "n_items": 6,
+      "nav_skill_success": 0.906,
+      "skill_steps": 1146880,
+      "mgr_steps": 5913600,
+      "compose_steps": 7060480,
+      "flat_steps": 7061504,
+      "compose": 0.643,
+      "flat": 0.0
+    }
+  ],
+  "crossover": null,
+  "positive": false,
+  "verdict": "NO CROSSOVER (clean NULL) \u2014 flat tracks composition at all tested depths [3]; even deep procedural targets are within reach of a fair, shaped, well-explored flat. The reuse boundary is complete on this substrate."
+}

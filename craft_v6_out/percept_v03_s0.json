@@ -1,0 +1,193 @@
+{
+  "fair_random": 0.2730181813240051,
+  "curve": [
+    {
+      "step": 166,
+      "recon": 0.4388,
+      "per_slot": [
+        0.195,
+        0.4426,
+        0.3208
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.195,
+      "perframe_err": 0.0692,
+      "stability": 0.572
+    },
+    {
+      "step": 332,
+      "recon": 0.31663,
+      "per_slot": [
+        0.1813,
+        0.4406,
+        0.3546
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1813,
+      "perframe_err": 0.0683,
+      "stability": 0.564
+    },
+    {
+      "step": 498,
+      "recon": 0.29948,
+      "per_slot": [
+        0.1789,
+        0.4385,
+        0.3594
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1789,
+      "perframe_err": 0.0727,
+      "stability": 0.587
+    },
+    {
+      "step": 664,
+      "recon": 0.26442,
+      "per_slot": [
+        0.1522,
+        0.4377,
+        0.3545
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1522,
+      "perframe_err": 0.0607,
+      "stability": 0.612
+    },
+    {
+      "step": 830,
+      "recon": 0.27074,
+      "per_slot": [
+        0.1489,
+        0.4385,
+        0.3572
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1489,
+      "perframe_err": 0.0645,
+      "stability": 0.643
+    },
+    {
+      "step": 996,
+      "recon": 0.23384,
+      "per_slot": [
+        0.1455,
+        0.4361,
+        0.3558
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1455,
+      "perframe_err": 0.0648,
+      "stability": 0.629
+    },
+    {
+      "step": 1162,
+      "recon": 0.25206,
+      "per_slot": [
+        0.1419,
+        0.4392,
+        0.3561
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1419,
+      "perframe_err": 0.0673,
+      "stability": 0.627
+    },
+    {
+      "step": 1328,
+      "recon": 0.22369,
+      "per_slot": [
+        0.135,
+        0.4376,
+        0.3587
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.135,
+      "perframe_err": 0.0659,
+      "stability": 0.639
+    },
+    {
+      "step": 1494,
+      "recon": 0.24898,
+      "per_slot": [
+        0.1354,
+        0.4386,
+        0.3594
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1354,
+      "perframe_err": 0.0703,
+      "stability": 0.635
+    },
+    {
+      "step": 1660,
+      "recon": 0.24245,
+      "per_slot": [
+        0.1281,
+        0.436,
+        0.3616
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1281,
+      "perframe_err": 0.0668,
+      "stability": 0.667
+    },
+    {
+      "step": 1826,
+      "recon": 0.21929,
+      "per_slot": [
+        0.1241,
+        0.4384,
+        0.3645
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1241,
+      "perframe_err": 0.0666,
+      "stability": 0.685
+    },
+    {
+      "step": 1992,
+      "recon": 0.24379,
+      "per_slot": [
+        0.1235,
+        0.4369,
+        0.3649
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1235,
+      "perframe_err": 0.0677,
+      "stability": 0.688
+    },
+    {
+      "step": 2000,
+      "recon": 0.23563,
+      "per_slot": [
+        0.1276,
+        0.438,
+        0.3607
+      ],
+      "fixed_slot": 0,
+      "fixed_err": 0.1276,
+      "perframe_err": 0.068,
+      "stability": 0.66
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 ball err 0.128 (fair-random 0.273), stability 66%, per-slot [0.1276, 0.438, 0.3607]. Motion weighting insufficient.",
+  "decomp": [
+    {
+      "name": "ball",
+      "slot": 0,
+      "fixed_err": 0.1276
+    },
+    {
+      "name": "padL",
+      "slot": 2,
+      "fixed_err": 0.1269
+    },
+    {
+      "name": "padR",
+      "slot": 1,
+      "fixed_err": 0.0232
+    }
+  ]
+}

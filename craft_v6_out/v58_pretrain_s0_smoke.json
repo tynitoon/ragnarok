@@ -1,0 +1,50 @@
+{
+  "seed": 0,
+  "M_samples": 6,
+  "Mdeg_samples": 24,
+  "M_log": [
+    {
+      "world": 4000,
+      "goal": 9,
+      "rounds": 1,
+      "cost": 48,
+      "mastered": false,
+      "master": 0.0
+    },
+    {
+      "world": 4000,
+      "goal": 7,
+      "rounds": 1,
+      "cost": 48,
+      "mastered": false,
+      "master": 0.0
+    },
+    {
+      "world": 4000,
+      "goal": 4,
+      "rounds": 1,
+      "cost": 48,
+      "mastered": false,
+      "master": 0.0
+    },
+    {
+      "world": 4000,
+      "goal": 3,
+      "rounds": 1,
+      "cost": 48,
+      "mastered": false,
+      "master": 0.0
+    }
+  ],
+  "Mdeg_log": [
+    {
+      "world": 9000,
+      "goal": 4,
+      "rounds": 1,
+      "cost": 48,
+      "mastered": false,
+      "master": 0.0
+    }
+  ],
+  "elapsed_s": 521
+}

@@ -1,0 +1,31 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "rows": [
+    {
+      "seed": 0,
+      "mb_interactions": 20480,
+      "mb_final": 56.08,
+      "mf_interactions": 61440,
+      "mf_final": 14.17
+    },
+    {
+      "seed": 1,
+      "mb_interactions": 0,
+      "mb_final": 56.08,
+      "mf_interactions": 61440,
+      "mf_final": 15.26
+    },
+    {
+      "seed": 2,
+      "mb_interactions": 20480,
+      "mb_final": 56.08,
+      "mf_interactions": 61440,
+      "mf_final": 15.3
+    }
+  ],
+  "verdict": "MODEL-BASED SAMPLE-EFFICIENCY (fair) \u2014 having the dynamics, the model-based agent reaches the line-threshold in <= half the ENV INTERACTIONS of model-free every seed (mb,mf interactions [(20480, 61440), (0, 61440), (20480, 61440)]). Prior knowledge (the dynamics) -> fewer trials, both on env reward, learned value (no hand-coded scoring). REVIEW before reporting; then learned-dynamics follow-up."
+}

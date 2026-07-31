@@ -1,0 +1,79 @@
+{
+  "random_baseline": 0.4619431793689728,
+  "curve": [
+    {
+      "step": 1250,
+      "recon": 0.11059,
+      "ball_err": 0.2142,
+      "ball_slot_mass": 1019.964
+    },
+    {
+      "step": 2500,
+      "recon": 0.07184,
+      "ball_err": 0.2142,
+      "ball_slot_mass": 1459.6584
+    },
+    {
+      "step": 3750,
+      "recon": 0.02236,
+      "ball_err": 0.2385,
+      "ball_slot_mass": 1618.2987
+    },
+    {
+      "step": 5000,
+      "recon": 0.01627,
+      "ball_err": 0.2488,
+      "ball_slot_mass": 1874.611
+    },
+    {
+      "step": 6250,
+      "recon": 0.01446,
+      "ball_err": 0.2552,
+      "ball_slot_mass": 2005.5164
+    },
+    {
+      "step": 7500,
+      "recon": 0.01463,
+      "ball_err": 0.2518,
+      "ball_slot_mass": 1936.2257
+    },
+    {
+      "step": 8750,
+      "recon": 0.01546,
+      "ball_err": 0.2571,
+      "ball_slot_mass": 2041.5557
+    },
+    {
+      "step": 10000,
+      "recon": 0.01254,
+      "ball_err": 0.2599,
+      "ball_slot_mass": 2137.9316
+    },
+    {
+      "step": 11250,
+      "recon": 0.01291,
+      "ball_err": 0.2617,
+      "ball_slot_mass": 2168.4788
+    },
+    {
+      "step": 12500,
+      "recon": 0.01103,
+      "ball_err": 0.2631,
+      "ball_slot_mass": 2182.6021
+    },
+    {
+      "step": 13750,
+      "recon": 0.01056,
+      "ball_err": 0.2618,
+      "ball_slot_mass": 2167.9192
+    },
+    {
+      "step": 15000,
+      "recon": 0.01097,
+      "ball_err": 0.2613,
+      "ball_slot_mass": 2148.6743
+    }
+  ],
+  "ok": false,
+  "verdict": "PARTIAL/CHECK \u2014 ball-tracking err 0.261 (random 0.462), recon 0.01097. Slots not yet binding the ball cleanly; tune slots/dim/lr/steps."
+}

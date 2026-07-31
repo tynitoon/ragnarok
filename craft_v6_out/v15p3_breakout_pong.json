@@ -1,0 +1,41 @@
+{
+  "source": "breakout",
+  "target": "pong",
+  "transfer": {
+    "auc": -6.500390529632568,
+    "final": -6.500390529632568,
+    "steps": null,
+    "curve": [
+      [
+        5,
+        10240,
+        -6.500390529632568
+      ],
+      [
+        10,
+        20480,
+        -6.500390529632568
+      ]
+    ]
+  },
+  "scratch": {
+    "auc": -6.1734373569488525,
+    "final": -6.500390529632568,
+    "steps": null,
+    "curve": [
+      [
+        5,
+        10240,
+        -5.846484184265137
+      ],
+      [
+        10,
+        20480,
+        -6.500390529632568
+      ]
+    ]
+  },
+  "auc_gain": -0.3269531726837158,
+  "speedup": null,
+  "verdict": "NO CROSS-GAME GAIN \u2014 breakout->pong: AUC gain -0.33, speedup n/a. Reuse did not help here (single-source encoder may over-specialize, cf. v13)."
+}
