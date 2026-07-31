@@ -119,3 +119,83 @@ KILLS: K1/K2 above; K3 = REFUTED per frozen rule -> published NULL, arc closed; 
 8. Thresholds in the committed scorer match the calibration fit; no number changed after Step 4.
 9. Gate/calibration/confirmatory artifacts saved as JSON with resume support; runs detached.
 10. The seven arms match the table; D never contaminates a meta arm; Z is eval-only.
+
+---
+
+## 7. HANDOFF — status at the end of Step 4 (2026-07-31, Opus 5)
+
+Steps 2, 3 and 4 are DONE and committed. **No confirmatory GPU has been spent.** Step 5 is deliberately
+NOT started: it is gated on the verification pass, as agreed.
+
+| step | state | commit |
+|---|---|---|
+| 1 EvidenceStore + tests + demo | done | `db9a8ba` |
+| 2 EvidenceNet + hardening + tests | done | `2be71e8` |
+| 3 GATE K1 | **PASSED** | `5f69ad3` |
+| 4 calibration, thresholds fitted, prereg frozen | done | `d215dae` |
+
+### Results
+GATE K1 (world 4000): mastery 4/4, including pc 11 and 12 in ONE round — the depths at which ARC 1's
+amnesic arm starved outright. Zeroing the evidence half of the observation drops the SAME trained weights
+from ~0.98 to ~0.00 (relative drop 0.99): the policy is almost nothing without its store, which is the
+separation portability requires.
+CALIBRATION (arm F only, worlds 5000/5001 x 3 inits, 9/9 mastered everywhere): stream costs
+[3072,3840,2880] and [2496,2688,2880]; between-world median ratio 1.14 so **K2 did not fire**; null F/F
+ratio min 0.750 / median 1.002 / max 1.333. Headroom: F sits at 1.78x and 1.56x the metric's hard floor,
+so the best M/F physically reachable is 0.562-0.643 — P1 is demanding but NOT saturated.
+FROZEN in `scripts/score_v58.py`: `P1_MAX_RATIO = 0.712`, `REFUTE_RATIO = 0.750`. Measured, not chosen.
+
+### THE TWO DECISIONS LEFT TO THE VERIFIER
+
+**(a) P2 is BLOCKED and must be ruled on.** Its specified statistic (attempts-to-first-demo) had ZERO
+resolution: all 54 calibration values were exactly 48, one episode, because with 256 parallel envs some
+env always reaches the goal inside the first episode. Freezing it would have put a permanently-false
+conjunct inside SUPPORTED, making success unreachable by construction — the D2 defect class, in the very
+prediction meant to be P1's fine-resolution backup. It was NOT silently redefined: picking a statistic
+after seeing calibration data is exactly what cost v54, v55 and v57 their verdicts.
+Evidence already gathered so the ruling needs no new GPU:
+  - candidate "round-1 demo count" (already recorded): pooled null win rates over 18 goals are
+    0.846/0.667/0.154/0.467/0.333/0.533 -> any valid threshold must exceed ~0.90; and 16/54 goals (30%)
+    sit at the 1024/1024 ceiling at first exposure, i.e. tied by saturation.
+  - INSTRUMENTATION HAS BEEN FIXED (logging only, no statistic chosen): every goal now records a
+    `discovery` dict — fraction of envs reaching the goal at first exposure (resolution 1/num_envs) and
+    the min/median within-episode macro-step — and `first_demo_attempt` now has within-episode
+    resolution. Verified on a live smoke: values 24 and 26 (not the old constant 48), fracs 0.44 and
+    0.63, median steps 32 and 37. A future calibration can fit a threshold on these without the ceiling.
+  - NOTE for the ruling: with 256 envs `min_step` will itself saturate low (some env gets lucky early);
+    `median_step` and `frac` are the ones that keep resolution.
+The scorer reports P1/P3/P4/P5/P6 and can return REFUTED, but REFUSES to return SUPPORTED while
+`P2_MIN_WINRATE is None` — verified by running it.
+
+**(b) Is the experiment adequately powered?** Disclosed before the run, not after: arm F — a FRESH agent
+— already masters 9/9 goals on both calibration worlds and reaches the commanded goal in 700-1024 of 1024
+env-episodes at FIRST exposure, on goals up to pc 16. There may be too little headroom for a genuine
+cross-world transfer effect to clear P1. If the verifier judges it underpowered, the fixes to weigh are
+harder held-out worlds, fewer parallel envs (so discovery is not nearly free), or restructuring the
+primary around discovery quality rather than cost.
+
+### One documented deviation, measured not asserted
+Section 3 of this plan says permute cell IDs into 1..MAX_CELLS-2. The frozen childhood nav skill has only
+ever seen cell IDs 1..9 (measured across its 8 training trees) and consumes the target cell type as a
+one-hot, so the literal instruction would feed it positions it never trained on and collapse navigation
+for EVERY arm, treatment and controls alike. `permute_spec_v58` permutes WITHIN each world's used set,
+which still decorrelates cell ID from gen_tree's creation order — the stated purpose. `test_net_v58.py`
+test [5] measures both ways on three worlds: max degradation +0.032, all still clearing the 0.85 nav
+gate. The composer never observes cell IDs at all, so the shortcut was dormant at policy level anyway.
+The verifier should accept or reject this explicitly.
+
+### Self-audit against section 6
+1 frozen ARC-1 files untouched (all new code in `*_v58.py`) — OK. 2 no embeddings, no MAX_ITEMS-shaped
+parameter, leak test extended to the NET INPUT — OK, tested. 3 commanded-only credit in every training
+path — OK (`relabel_commanded_v58` is the only relabel used). 4 per-env stores, per-world buffers, store
+persists across truncation and resets on world entry — OK, tested. 5 uint8 quantisation identical on
+write and read, binary half exact — OK, tested. 6 `permute_spec_v58` used in gate and calibration; the
+Step-5 runner does not exist yet and MUST use it. 7 equal budgets / eval cost counted / INSTR_MASK at
+every eval — implemented in `run_goal_v58` and `ComposerV58.act`; the M-vs-F budget equality is a Step-5
+runner property and is NOT yet enforced in code. 8 scorer constants match the calibration JSON — OK.
+9 JSON artifacts + resume — calibration has both; the Step-5 runner will need them. 10 arms — Z is
+eval-only via `zero_store`; G exists as `evidence_policy`; M/Mdeg/F6/D are Step-5 work, not yet written.
+
+**Remaining to build in Step 5:** the confirmatory runner itself (pretraining M and Mdeg, the held-out
+evaluation with frozen weights, arms Z/G/F6/D, detached execution with resume, per-goal JSON). Nothing of
+it exists yet, by design.
