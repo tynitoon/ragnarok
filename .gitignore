@@ -46,3 +46,7 @@ bandb_verdict.json
 # Pilot runtime working dirs (rebuildable)
 pilot_skills/
 skills_wiring_test/
+
+# checkpoint dirs (les .pt sont déjà ignorés, ceci couvre les dossiers)
+ragnarok_agent/
+recal_ckpt/

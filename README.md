@@ -65,6 +65,7 @@ scripts/
   *_v49..v57.py         ← ARC 1, closed: the necessity arc that returned three NULLs
   *_v10..v48.py         ← historical: pixels, world models, notion libraries, arcade games
   play_*.py, demo.py    ← watchable demos
+scripts/INDEX.md        ← what every script is, and where the archived ones went
 ragnarok/               ← the reusable library: environments, learning, infrastructure
 craft_v6_out/           ← results of record. JSONs are tracked; *.pt checkpoints are gitignored
                           (1.7 GB on disk, none of it in the repo)
