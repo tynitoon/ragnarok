@@ -20,10 +20,14 @@ import os
 
 # ---------------------------------------------------------------- FITTED AT CALIBRATION (Step 4)
 # Filled in from craft_v6_out/v58_calibration.json -> "fitted". Never edited afterwards.
-P1_MAX_RATIO = 0.712       # FITTED: 0.95 x the lowest ratio the null ever produced (0.750)
-REFUTE_RATIO = 0.750       # FITTED: at or above the null's minimum, M is indistinguishable from a
-                           #         second fresh run (null median 1.002, max 1.333)
-CALIBRATION_STAMP = "v58_calibration.json / 2 worlds x 3 inits / K2 1.14x / null min 0.750"
+# VOIDED 2026-07-31 by the verification audit (ARC2_PLAN section 8). The 0.712/0.750 values were fitted
+# on the SINGLE-world null but applied to a POOLED ratio (wrong unit), and the raw-attempts metric they
+# governed had a fatal censoring asymmetry (one frozen-arm miss manufactured a REFUTED). They must be
+# re-fitted by scripts/calibrate2_v58.py on the pooled unit, over the SCORED cost (see run_goal_v58's
+# score-vs-spend split), and re-frozen here in the same commit as the amended prereg.
+P1_MAX_RATIO = None
+REFUTE_RATIO = None
+CALIBRATION_STAMP = "VOID — awaiting calibration v2 (see ARC2_PLAN sections 8-9)"
 
 # P2 IS BLOCKED — NOT fitted, deliberately. Calibration proved the specified statistic
 # (attempts-to-first-demo) has ZERO resolution: all 54 measured values were exactly 48, one episode,

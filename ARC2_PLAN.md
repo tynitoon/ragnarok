@@ -270,3 +270,38 @@ Steps 1-3 stand: the EvidenceStore, the identity-free EvidenceNet, and GATE K1 (
 drop 0.99) are unaffected and remain valid. What is void is the Step-4 MEASUREMENT DESIGN — P1's metric,
 its threshold's unit, and P2. Step 5 must not run until calibration v2 lands. No confirmatory GPU has
 been spent, which is exactly what the gate-before-spend discipline exists to achieve.
+
+---
+
+## 9. CALIBRATION v2 DESIGN — frozen before it runs (2026-07-31, Fable 5, verifier resuming ownership)
+
+Implements the section-8 redesign, decisions fixed here BEFORE any measurement:
+
+1. **num_envs 256 -> 64** (training AND eval). Root cause of both the power problem and the P2
+   degeneracy: 256 parallel trials made discovery nearly free (a fresh agent reached the goal in
+   700-1024/1024 episodes at first exposure) and made the first-demo statistic constant (54/54 = 48).
+   At 64 envs each round carries a quarter of the data, so a fresh agent must actually work — opening
+   the headroom a transfer effect needs to be visible in.
+2. **SCORE vs SPEND** (`run_goal_v58.cost`, applied identically to every arm): 0 if mastered on
+   arrival; rounds*192 if mastered; censor_cap(=3)*192 if censored. Kills both the 26/54 dead-weight
+   and the censoring asymmetry (a frozen-arm miss now costs 576, not 1536-1920). SPENDING is
+   unchanged: at least one round is always collected — the v53 buffer-starvation lesson stands.
+3. **Pooled-unit null**: the confirmatory primary is a 3-world pooled cost ratio, so the null is
+   measured as pooled F/F ratios (per world an ordered pair of distinct inits; 6^3 = 216 combos over
+   3 worlds x 3 inits). The v1 error — fitting on the single-world unit — cannot recur by construction.
+4. **P2 candidate = mean paired difference of `discovery.frac`** (resolution 1/64), null measured the
+   same pooled way. `min_step` is banned (saturates low); win rates are dead (26% ceiling ties in v1).
+   The fitted P2_MIN_DFRAC only becomes a SUPPORTED conjunct at the re-freeze, with its measured null
+   printed beside it.
+5. **Margin guard, explicit**: fitted P1 must leave room for at least TWO censored treatment goals
+   (2*3*192 / pooled-F). If it does not, the design is still too tight and the confirmatory run does
+   not start. (v1's guard was a bare binary comparison that passed by 0.069 on a 0.0215-quantised
+   statistic — not fit for purpose.)
+6. Calibration worlds: first 3 of {5000..5005} passing the 0.85 nav gate, chosen mechanically.
+   Held-out worlds 6000-6002 / 7000-7001 remain untouched and unexamined.
+7. The scorer's v1 thresholds are VOIDED in code (score_v58.py refuses to score again). Re-freeze
+   happens in ONE commit: fitted values + amended prereg + scorer, before any confirmatory arm.
+
+Wall-clock note: at 64 envs each F run needs more rounds by design; cap 10h with --resume, relaunch as
+needed. Budget so far: gate ~1.5h + calibration v1 ~4.8h; ceiling 30h stands with the pre-committed trim
+order.

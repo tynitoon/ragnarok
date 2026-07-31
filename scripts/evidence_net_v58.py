@@ -278,7 +278,23 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
         n_eval += 1; ev_prim += evp
         if master >= cfg["thresh"]:
             break
-    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, discovery=discovery,
+    # SCORE vs SPEND (calibration-v2 redesign, ARC2_PLAN section 9). The verification audit proved two
+    # defects in using raw attempts as the cost metric: (a) 26/54 calibration goal-runs were mastered ON
+    # ARRIVAL yet still charged a full mandatory round — dead weight on which no arm can win; (b) a
+    # censored goal charged r_max full rounds, which exceeded a frozen-weight arm's entire above-floor
+    # allowance, so ONE miss manufactured a REFUTED. `cost` is what the scorer reads: 0 if mastered on
+    # arrival, rounds*per_round if mastered, censor_cap*per_round if censored. SPENDING is unchanged —
+    # at least one round is always collected and charged to `attempts` (the v53 lesson: the buffer must
+    # never silently stop growing).
+    per_round = cfg["episodes_per_round"] * cfg["macro_budget"]
+    if zs >= cfg["thresh"]:
+        cost = 0
+    elif master >= cfg["thresh"]:
+        cost = rounds * per_round
+    else:
+        cost = min(rounds, cfg.get("censor_cap", rounds)) * per_round
+    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, discovery=discovery, cost=cost,
+                mastered_on_arrival=bool(zs >= cfg["thresh"]),
                 attempts=env.msteps_total - m0, first_demo_attempt=first_demo_att,
                 collect_prim=env._prim - p0, eval_prim=ev_prim, n_eval=n_eval,
                 demos_per_round=demos, samples_per_round=samples,
@@ -286,10 +302,12 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
                 mastered=bool(master >= cfg["thresh"]), buf_n=buf.n)
 
 
-def cfg_v58(num_envs=256, r_max=10):
-    """Frozen ARC-2 config. macro_budget 48 (ARC2_PLAN section 3), option_timeout 16 as in v57."""
+def cfg_v58(num_envs=256, r_max=10, censor_cap=3):
+    """Frozen ARC-2 config. macro_budget 48 (ARC2_PLAN section 3), option_timeout 16 as in v57.
+    censor_cap: a censored goal contributes at most this many rounds to the SCORED cost (the run still
+    trains for r_max — only the score is capped; ARC2_PLAN section 9)."""
     return dict(num_envs=num_envs, grid=7, view=13, n_resource=4, rollout=32, entropy=0.02,
                 nav_max_steps=40, skill_iters=400, option_timeout=16, macro_budget=48,
                 episodes_per_round=4, train_steps_per_round=300, max_samples_per_ep=8192,
-                epsilon=0.05, temp=1.0, thresh=0.6, r_max=r_max, skill_stochastic=True,
-                mgr_entropy=0.03, router_iters=0)
+                epsilon=0.05, temp=1.0, thresh=0.6, r_max=r_max, censor_cap=censor_cap,
+                skill_stochastic=True, mgr_entropy=0.03, router_iters=0)
