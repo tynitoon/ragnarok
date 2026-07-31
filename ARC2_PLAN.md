@@ -351,3 +351,56 @@ completed runs). GPU budget spent so far: ~6.3h of the 30h ceiling.
    runner. A verification pass (Fable 5 or an adversarial workflow) audits steps 2-4 against this plan,
    THEN the confirmatory launches. This is the same gate-before-spend discipline that caught the fatal
    censoring asymmetry; it stays.
+
+---
+
+## 11. VERIFICATION VERDICT #2: **NO-GO — the re-frozen design is VOID too** (2026-08-01)
+Found by a 3-agent verification pass that RAN the frozen scorer on synthetic outcomes instead of
+reasoning about it. The headline defect was reproduced independently here before being recorded.
+
+### FATAL — a FAILING treatment scores SUPPORTED
+Reproduced verbatim: arm M fails outright (censored) on 6 of 27 held-out goals and masters the other 21
+on arrival; arm F masters 27/27 at the calibration-measured pooled cost 6336. The frozen scorer returns:
+    P1 0.545 (need <= 0.558) True | P2 +0.1389 True | P3 True | P4 4.500 True | P6 6/27 True
+    FROZEN VERDICT: SUPPORTED — "masters a NEW world of that family 45% cheaper"
+CAUSE, and it is MY repair: capping a censored goal at censor_cap=3 rounds (576) fixed v1's asymmetry
+but INVERTED the cost order — a *mastered* goal can cost up to r_max=8 rounds (1536) while a *failed*
+one costs 576. Quitting is cheaper than succeeding slowly, and the frozen arm is structurally the one
+that quits. The scorer PRINTS "censored: M 2" on every world and no predicate reads it. P6 is not in the
+SUPPORTED conjunction, and its strict '>' ties a censored M (576) against a 3-round F (576).
+
+### FATAL — REFUTED is returned on strong true results
+Also executed: M masters 27/27 with zero censoring at a 39.4% saving -> REFUTED (empirical p = 0.0093
+against this project's own 216-combo null). And the most damning cell: M masters ALL 27 unseen goals in
+exactly ONE round each, failing nothing, losing to F on nothing -> ratio 0.818 -> REFUTED,
+"indistinguishable from another fresh run". The instrument cannot separate perfect one-round mastery of
+every unseen world from no transfer at all.
+
+### MAJOR — NULL is not a reachable outcome, and two conjuncts are vacuous
+Band width 0.0290 vs an outcome quantum of 0.0303: at cF=27U the NULL band contains NO integer outcome
+at all. One extra round on one of 27 goals flips SUPPORTED to REFUTED. P4 (Z/M >= 1.5) and P3 returned
+True in EVERY enumerated scenario including cM = cF — they cannot discriminate. And P1 is only passable
+if M masters >= 9 of 27 goals ZERO-SHOT, which the claim ceiling explicitly forbids ever claiming.
+
+### MAJOR — P2's ceiling is below its own threshold
+P2's physical maximum under a LITERALLY PERFECT M is +0.1756/+0.1358/+0.1228 by F draw; deducting the
+3 goals per world where M's store is necessarily empty at world entry gives +0.1288/+0.0867/+0.0695 —
+below the frozen 0.0895 on two of the three draws, against a measured null spanning +/-0.0695.
+
+### What verified CLEAN (recorded so this is not read as distrust of the repairs)
+Repairs 1-4 are real and correctly implemented: the v1 censoring asymmetry is fixed in the direction it
+was found; num_envs 64 is applied throughout; calibrate2 fits on the SAME pooled unit score_v58 consumes,
+so the v1 unit error cannot recur; P2 is genuinely continuous at 1/64 with win rates and min_step gone.
+An independent re-derivation reproduced the calibration artifact exactly. The v1 discipline slip (a
+statistic redefined inside the freeze commit) did NOT recur.
+
+### THE HONEST READ
+Two consecutive measurement designs have now been voided, both for the same underlying reason: **arm F is
+too strong**. A fresh agent masters 87/87 calibration goal-runs with zero censoring and 46% with no
+training at all, so the entire measurable headroom is ~0.68 rounds/goal and the primary is a ratio of two
+small integers (~33 units). Every attempt to make that ratio fair has introduced a new artifact at the
+boundary. This is not a bug to patch a third time — it is the substrate telling us the question is not
+measurable here as posed. Deciding what to do next (harder held-out worlds, a different primary that is
+not a cost ratio, or closing ARC 2 as honestly as ARC 1 was closed) is an OWNER decision, not an
+implementer's. No confirmatory GPU has been spent: ~13h of the 30h ceiling, all of it on gates and
+calibration that produced this finding.
