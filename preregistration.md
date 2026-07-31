@@ -6817,3 +6817,116 @@ Hard cap 20 GPU-hours (the project cap is 32; v55 used 19.2). Estimated ~13h: A+
 worlds (~7h, extrapolated from the gate's 1.5h for 7 goals x 2 arms on one world) plus U at 60 rounds on
 one goal per world (~5.5h). If the cap is reached, abort and report what completed; do not extend mid-run.
 
+
+---
+
+# PREREGISTRATION v58 / ARC 2 â€” EvidenceNet: change world, keep skills
+FROZEN 2026-07-31, at the end of Step 4, BEFORE any confirmatory arm. Thresholds below are MEASURED
+(scripts/calibrate_v58.py -> craft_v6_out/v58_calibration.json), not chosen. One prediction (P2) is
+BLOCKED and explicitly not frozen â€” see the section of that name.
+
+## Claim being tested
+Meta-trained across same-family hidden-recipe worlds, a FROZEN-weight agent that writes its own per-world
+evidence store discovers and masters a NEW world of that family cheaper (attempts-to-master, discovery
+included) than an identical fresh agent â€” same architecture, same store, same credit rule, equal in-world
+budget â€” beyond what generic exploration grammar (arm Mdeg) and memorised generator constants
+(param-shifted worlds) explain, at a disclosed pretraining cost.
+NEVER claimable: enablement (arm F6 guards it), cross-family/cross-domain transfer, symbolic DAG
+induction, zero-shot mastery. DISCLOSED GRANTS, equalised across every arm: the frozen childhood nav
+skill, the item->cell / item->craft-action / is_resource / is_valid action-interface bindings, the
+one-of-each-input family invariant, and the hand-designed evidence-store WRITE SCHEMA (every arm gets the
+identical store, so the claim is "a learned policy over self-gathered evidence", never "the agent invented
+the representation").
+
+## Architecture (frozen)
+Slow weights = identity-free per-slot MLP over [7 observable feats || 10 evidence feats || mean-pooled
+context], 21,250 params, NO nn.Embedding and no parameter shaped to MAX_ITEMS -> portability is
+structural, not hoped for. Fast store = per-env, per-world evidence written by a FIXED rule from the
+agent's own attempt outcomes, persisting across episode truncations, zeroed on world entry. At test the
+weights are FROZEN: every bit of adaptation is a store write. Commanded-only credit (D4 guard) in every
+training path including pretraining; v56 instrument mask at every eval (D3 guard); leak test covering the
+NET INPUT, so an unobserved recipe edit leaves the observation bit-identical (D1 guard).
+
+## Measured facts from Steps 3-4 (already committed, part of the record)
+GATE K1, world 4000: mastery 4/4; zeroing the evidence half drops the SAME weights from ~0.98 to ~0.00
+(relative drop 0.99) -> the policy demonstrably reads the store.
+CALIBRATION, arm F only, worlds 5000/5001 x 3 init seeds, all 9/9 mastered:
+  stream costs [3072, 3840, 2880] and [2496, 2688, 2880]
+  between-world median ratio 1.14  -> K2 does NOT fire (kills at > 2.00)
+  null F/F stream-cost ratio: min 0.750, median 1.002, max 1.333
+  headroom: F sits at 1.78x / 1.56x the metric's hard floor -> best M/F physically reachable 0.562 / 0.643
+
+## Frozen thresholds (measured, hard-coded in scripts/score_v58.py)
+P1_MAX_RATIO = 0.712   (0.95 x the lowest ratio two independent fresh runs ever produced)
+REFUTE_RATIO = 0.750   (at or above the null's minimum, the treatment is indistinguishable from a
+                        second fresh run)
+Structural constants, design not data: P3_FACTOR 2.0, P4_MIN_Z_RATIO 1.5, P6_MAX_LOSS_FRAC 0.25.
+
+## Arms (frozen)
+M accumulating meta-trained on 4 worlds (4000-4003), weights FROZEN at test | F identical architecture
+INCLUDING the identical store, random init, trained in-world at equal env budget | Mdeg pretrained at
+matched volume on the degenerate family (n_items 8, max_inputs 1) = the cheap/grammar-transfer isolator |
+Z arm M with the store zeroed at eval = store-ignoring detector | G hand-coded evidence policy, no
+learning, CPU = headroom reference | F6 fresh at 6x budget on <=2 cells F failed = enablement guard |
+D oracle arm, ceiling reference only, never inside a meta arm.
+Worlds: pretrain 4000-4003, calibration 5000-5001 (already spent), held-out test 6000-6002 (primary) and
+7000-7001 param-shifted (secondary). All disjoint from skill seeds 1000-1007 and ARC-1 worlds.
+
+## Predictions
+P1 pooled M/F stream-cost ratio <= 0.712 over the 3 default held-out worlds.
+P2 BLOCKED â€” not frozen, see below. May not enter the SUPPORTED conjunction until resolved.
+P3 pooled saving (F-M) >= 2.0 x (F-Mdeg), else the effect is cheap grammar transfer.
+P4 Z/M pooled stream cost >= 1.5, else the policy is not reading the store and portability is empty.
+P5 param-shifted M/F <= (P1+1)/2 = 0.856, else the saving is a generator-constants prior.
+P6 M worse than F on <= 25% of paired goals (ARC 1 measured that accumulation can hurt easy goals).
+
+## Decision rule (mechanical, scripts/score_v58.py, committed before any arm)
+SUPPORTED iff P1 and P2 and P3 and P4 â€” UNAVAILABLE while P2 is blocked.
+REFUTED   iff pooled M/F >= 0.750 (indistinguishable from a second fresh run).
+NULL      otherwise. Pre-specified downgrade labels, used verbatim: P3 fails -> "grammar/cheap transfer
+only â€” a meta-RL-101 re-demonstration, not portability"; P5 fails -> "generator-constants prior,
+family-memorisation not procedure"; P4 fails -> K4 "store-ignoring collapse â€” the portability claim dies",
+reported even if P1 passes. Any cell where F6 masters what F could not may never be called enablement.
+
+## P2 IS BLOCKED â€” the one thing Step 4 could not freeze
+The specified statistic (paired attempts-to-first-demo) has ZERO resolution. All 54 calibration values
+were exactly 48 â€” one episode â€” because with 256 parallel envs some env always reaches the goal inside
+the first episode. Freezing it would have placed a permanently-false conjunct inside SUPPORTED and made
+success unreachable by construction: the D2 defect class, in a prediction that existed to be P1's
+fine-resolution backup.
+It was NOT redefined by the implementer on purpose. Choosing a statistic after seeing calibration data is
+precisely what cost v54, v55 and v57 their verdicts, so the replacement is an audit decision.
+Evidence already gathered for that decision, from the existing calibration (no new GPU):
+  - candidate "round-1 demo count" (demos_per_round[0], already recorded): within-world null win rates
+    span 0.0-1.0 at n=9 goals; POOLED over both calibration worlds (18 goals) the null is
+    0.846/0.667/0.154/0.467/0.333/0.533 -> min 0.154, median 0.500, max 0.846, so any valid threshold
+    would have to exceed ~0.90; and 16/54 goals (30%) are already at the 1024/1024 ceiling at first
+    exposure, i.e. tied by saturation.
+  - finer instrumentation has since been ADDED (a logging change only, no metric chosen): each goal now
+    records a `discovery` dict with the fraction of envs reaching the goal at first exposure (resolution
+    1/num_envs) and the min/median within-episode macro-step. A future calibration can fit a threshold on
+    these without the episode-granularity ceiling.
+Until the audit rules, the scorer reports P1/P3/P4/P5/P6 and can return REFUTED, but MAY NOT return
+SUPPORTED.
+
+## Pre-committed caveats
+- POWER IS THE OPEN RISK. Arm F â€” a fresh agent â€” already masters 9/9 goals on both calibration worlds
+  and reaches the commanded goal in 700-1024 of 1024 env-episodes at FIRST exposure, on goals up to
+  pc 16. With so little left to improve, a genuine transfer effect may be too small to clear P1. This is
+  disclosed now, before the run, not after.
+- Within-family only (one gen_tree generator); n=3 default held-out worlds, so seed variance mixes init
+  with world variance and is not a CI over worlds.
+- The frozen nav skill is a common failure axis capping every arm and is a disclosed grant: the claim is
+  composer-level only.
+- attempts-to-master is right-censored at the per-goal budget, so cost differences are lower bounds.
+- DOCUMENTED DEVIATION from ARC2_PLAN section 3: cell IDs are permuted WITHIN each world's used set
+  rather than into 1..MAX_CELLS-2, because the frozen nav skill has only ever seen IDs 1..9 and consumes
+  them as a one-hot; the literal instruction would have collapsed navigation for every arm. Measured on
+  3 worlds: max degradation +0.032, all still clearing the 0.85 nav gate.
+
+## KILL criteria (unchanged from ARC2_PLAN, none licenses a redesign-and-retry)
+K1 gate â€” PASSED. K2 calibration â€” did NOT fire. K3 REFUTED per the frozen rule -> published NULL, arc
+closed. K4 store-ignoring collapse -> published regardless of P1. K5 hard 30 GPU-hour ceiling with the
+pre-committed trim order (drop the 4th pretrain world, then one param-shifted world, then r_max 4->3),
+evaluated at ONE halfway checkpoint only.
+

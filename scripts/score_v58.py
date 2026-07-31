@@ -20,10 +20,20 @@ import os
 
 # ---------------------------------------------------------------- FITTED AT CALIBRATION (Step 4)
 # Filled in from craft_v6_out/v58_calibration.json -> "fitted". Never edited afterwards.
-P1_MAX_RATIO = None        # pooled M/F stream-cost ratio must be <= this
-P2_MIN_WINRATE = None      # paired attempts-to-first-demo win rate must be >= this
-REFUTE_RATIO = None        # M/F at or above this is indistinguishable from another fresh run
-CALIBRATION_STAMP = None   # the calibration json's fingerprint, so drift is detectable
+P1_MAX_RATIO = 0.712       # FITTED: 0.95 x the lowest ratio the null ever produced (0.750)
+REFUTE_RATIO = 0.750       # FITTED: at or above the null's minimum, M is indistinguishable from a
+                           #         second fresh run (null median 1.002, max 1.333)
+CALIBRATION_STAMP = "v58_calibration.json / 2 worlds x 3 inits / K2 1.14x / null min 0.750"
+
+# P2 IS BLOCKED — NOT fitted, deliberately. Calibration proved the specified statistic
+# (attempts-to-first-demo) has ZERO resolution: all 54 measured values were exactly 48, one episode,
+# because with 256 parallel envs some env always reaches the goal in the first episode. Freezing it
+# would put a permanently-false conjunct into the SUPPORTED rule and make success unreachable by
+# construction. Redefining it AFTER seeing calibration data is the exact failure mode that cost v54,
+# v55 and v57 their verdicts, so the replacement is an audit decision, not an implementer's. Evidence
+# for that decision is in the handoff (ARC2_PLAN.md section 7). While this is None the scorer reports
+# P1/P3/P4/P5/P6 but MAY NOT declare SUPPORTED.
+P2_MIN_WINRATE = None
 
 # ---------------------------------------------------------------- STRUCTURAL (design, not data)
 P3_FACTOR = 2.0            # saving over F must be >= this x the saving a degenerate pretrain buys
@@ -74,10 +84,15 @@ def main():
     print("=" * 104)
     print("ARC 2 — EvidenceNet: change world, keep skills | frozen scorer, committed before any arm ran")
     print("=" * 104)
-    if P1_MAX_RATIO is None or P2_MIN_WINRATE is None or REFUTE_RATIO is None:
+    if P1_MAX_RATIO is None or REFUTE_RATIO is None:
         print("REFUSING TO SCORE: thresholds were never fitted. Run scripts/calibrate_v58.py, copy its")
         print("fitted values into this file, and commit BOTH before any confirmatory arm runs.")
         return
+    if P2_MIN_WINRATE is None:
+        print("\n!! P2 IS BLOCKED (see the constant's comment): its specified statistic had zero")
+        print("   resolution at calibration. P1/P3/P4/P5/P6 are reported below, but SUPPORTED cannot")
+        print("   be declared until the audit resolves P2. A confirmatory run may still be scored for")
+        print("   REFUTED, which needs only P1's fitted REFUTE_RATIO.")
     print(f"thresholds (fitted from the measured null, calibration {CALIBRATION_STAMP}):")
     print(f"  P1_MAX_RATIO {P1_MAX_RATIO} | P2_MIN_WINRATE {P2_MIN_WINRATE} | "
           f"REFUTE_RATIO {REFUTE_RATIO}")
@@ -135,7 +150,7 @@ def main():
     wl = wins / max(1, losses)
 
     p1 = ratio <= P1_MAX_RATIO
-    p2 = (wr >= P2_MIN_WINRATE) and (wl >= P2_MIN_WIN_LOSS)
+    p2 = None if P2_MIN_WINRATE is None else ((wr >= P2_MIN_WINRATE) and (wl >= P2_MIN_WIN_LOSS))
     p3 = (cF - cM) >= P3_FACTOR * max(0, cF - cMd)
     p4 = (cZ / max(1, cM)) >= P4_MIN_Z_RATIO
     p6 = (worse / max(1, total)) <= P6_MAX_LOSS_FRAC
@@ -149,17 +164,19 @@ def main():
         print(f"P5 param-shifted M/F {p5_ratio:.3f} (need <= {(P1_MAX_RATIO+1.0)/2.0:.3f}) -> {p5}")
 
     print(f"P1 pooled M/F           {ratio:.3f} (need <= {P1_MAX_RATIO}) -> {p1}")
-    print(f"P2 first-demo win rate  {wr:.3f} ({wins}W/{losses}L, ratio {wl:.2f}) "
-          f"(need >= {P2_MIN_WINRATE} and >= {P2_MIN_WIN_LOSS}x) -> {p2}")
+    print(f"P2 first-demo win rate  {wr:.3f} ({wins}W/{losses}L, ratio {wl:.2f}) -> "
+          f"{'BLOCKED (statistic had zero resolution at calibration)' if p2 is None else p2}")
     print(f"P3 saving vs degenerate (F-M) {cF-cM} vs {P3_FACTOR}x(F-Mdeg) "
           f"{P3_FACTOR*max(0,cF-cMd):.0f} -> {p3}")
     print(f"P4 store-read Z/M       {cZ/max(1,cM):.3f} (need >= {P4_MIN_Z_RATIO}) -> {p4}")
     print(f"P6 M worse on           {worse}/{total} goals (allowed <= {P6_MAX_LOSS_FRAC:.0%}) -> {p6}")
 
-    refuted = (ratio >= REFUTE_RATIO) or (wl < REFUTE_MIN_WIN_LOSS)
-    if p1 and p2 and p3 and p4:
+    refuted = ratio >= REFUTE_RATIO
+    if p2 is None:
+        verdict = "REFUTED" if refuted else "P2-BLOCKED — no SUPPORTED verdict is available"
+    elif p1 and p2 and p3 and p4:
         verdict = "SUPPORTED"
-    elif refuted:
+    elif refuted or (wl < REFUTE_MIN_WIN_LOSS):
         verdict = "REFUTED"
     else:
         verdict = "NULL"

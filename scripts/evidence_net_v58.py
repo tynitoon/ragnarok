@@ -247,14 +247,24 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
     a0, p0, m0 = env._att, env._prim, env.msteps_total
     zs, ev0 = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict())
     master, rounds, n_eval, ev_prim = zs, 0, 1, ev0
-    demos, samples, first_demo_att = [], [], None
+    demos, samples, first_demo_att, discovery = [], [], None, None
     for r in range(r_max if r_max is not None else cfg["r_max"]):
         d = k = 0
         for _ in range(cfg["episodes_per_round"]):
             s, a, us = collect_episode_v58(env, composer, cfg, goal)
             hit = int((us[:, goal] >= 0).sum())
+            if discovery is None:                # FIRST exposure to this goal, fine-grained
+                u = us[:, goal]
+                reach = u[u >= 0]
+                discovery = dict(
+                    frac=round(float((u >= 0).float().mean()), 4),          # resolution 1/num_envs
+                    min_step=(int(reach.min()) + 1) if reach.numel() else None,
+                    median_step=(int(reach.float().median()) + 1) if reach.numel() else None)
             if hit > 0 and first_demo_att is None:
-                first_demo_att = env.msteps_total - m0
+                # within-episode resolution: macro-steps before this episode + step inside it
+                u = us[:, goal]
+                within = int(u[u >= 0].min()) + 1
+                first_demo_att = (env.msteps_total - m0) - env.macro_budget + within
             d += hit
             ss, aa, kept = relabel_commanded_v58(s, a, us, cfg["max_samples_per_ep"], goal)
             k += kept
@@ -268,7 +278,7 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
         n_eval += 1; ev_prim += evp
         if master >= cfg["thresh"]:
             break
-    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds,
+    return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, discovery=discovery,
                 attempts=env.msteps_total - m0, first_demo_attempt=first_demo_att,
                 collect_prim=env._prim - p0, eval_prim=ev_prim, n_eval=n_eval,
                 demos_per_round=demos, samples_per_round=samples,

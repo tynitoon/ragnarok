@@ -1,0 +1,1310 @@
+{
+  "runs": {
+    "5000_0": {
+      "world": 5000,
+      "init": 0,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 354304,
+          "n_eval": 3,
+          "demos_per_round": [
+            711,
+            1016
+          ],
+          "samples_per_round": [
+            2340,
+            3242
+          ],
+          "att": 98304,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 5582
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.348,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 292864,
+          "n_eval": 2,
+          "demos_per_round": [
+            853
+          ],
+          "samples_per_round": [
+            2699
+          ],
+          "att": 49152,
+          "master": 0.848,
+          "mastered": true,
+          "buf_n": 8281
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.324,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 462848,
+          "n_eval": 3,
+          "demos_per_round": [
+            727,
+            1020
+          ],
+          "samples_per_round": [
+            2441,
+            3292
+          ],
+          "att": 98304,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 14014
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 434176,
+          "n_eval": 3,
+          "demos_per_round": [
+            986,
+            1024
+          ],
+          "samples_per_round": [
+            3282,
+            3365
+          ],
+          "att": 98304,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 20661
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.992,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 270336,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3342
+          ],
+          "att": 49152,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 24003
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.012,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 442368,
+          "n_eval": 3,
+          "demos_per_round": [
+            1018,
+            1024
+          ],
+          "samples_per_round": [
+            3335,
+            3396
+          ],
+          "att": 98304,
+          "master": 0.805,
+          "mastered": true,
+          "buf_n": 30734
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.711,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 284672,
+          "n_eval": 2,
+          "demos_per_round": [
+            1007
+          ],
+          "samples_per_round": [
+            3370
+          ],
+          "att": 49152,
+          "master": 0.887,
+          "mastered": true,
+          "buf_n": 34104
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 4,
+          "attempts": 768,
+          "first_demo_attempt": 48,
+          "collect_prim": 3145728,
+          "eval_prim": 806912,
+          "n_eval": 5,
+          "demos_per_round": [
+            846,
+            976,
+            1003,
+            1021
+          ],
+          "samples_per_round": [
+            2887,
+            3217,
+            3338,
+            3338
+          ],
+          "att": 196608,
+          "master": 0.75,
+          "mastered": true,
+          "buf_n": 46884
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.996,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 294912,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3412
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 50296
+        }
+      ]
+    },
+    "5000_1": {
+      "world": 5000,
+      "init": 1,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 532480,
+          "n_eval": 4,
+          "demos_per_round": [
+            710,
+            991,
+            1024
+          ],
+          "samples_per_round": [
+            2329,
+            3250,
+            3157
+          ],
+          "att": 147456,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 8736
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.441,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 294912,
+          "n_eval": 2,
+          "demos_per_round": [
+            793
+          ],
+          "samples_per_round": [
+            2558
+          ],
+          "att": 49152,
+          "master": 0.898,
+          "mastered": true,
+          "buf_n": 11294
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.305,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 395264,
+          "n_eval": 3,
+          "demos_per_round": [
+            722,
+            1022
+          ],
+          "samples_per_round": [
+            2402,
+            3325
+          ],
+          "att": 98304,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 17021
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 399360,
+          "n_eval": 3,
+          "demos_per_round": [
+            958,
+            1021
+          ],
+          "samples_per_round": [
+            3157,
+            3398
+          ],
+          "att": 98304,
+          "master": 0.945,
+          "mastered": true,
+          "buf_n": 23576
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.684,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 268288,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3400
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 26976
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.02,
+          "rounds": 5,
+          "attempts": 960,
+          "first_demo_attempt": 48,
+          "collect_prim": 3932160,
+          "eval_prim": 823296,
+          "n_eval": 6,
+          "demos_per_round": [
+            1012,
+            1024,
+            1024,
+            1024,
+            1024
+          ],
+          "samples_per_round": [
+            3308,
+            3315,
+            3408,
+            3415,
+            3375
+          ],
+          "att": 245760,
+          "master": 0.918,
+          "mastered": true,
+          "buf_n": 43797
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.965,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 286720,
+          "n_eval": 2,
+          "demos_per_round": [
+            1021
+          ],
+          "samples_per_round": [
+            3392
+          ],
+          "att": 49152,
+          "master": 0.98,
+          "mastered": true,
+          "buf_n": 47189
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 4,
+          "attempts": 768,
+          "first_demo_attempt": 48,
+          "collect_prim": 3145728,
+          "eval_prim": 813056,
+          "n_eval": 5,
+          "demos_per_round": [
+            662,
+            970,
+            1015,
+            1022
+          ],
+          "samples_per_round": [
+            2256,
+            3225,
+            3387,
+            3412
+          ],
+          "att": 196608,
+          "master": 0.879,
+          "mastered": true,
+          "buf_n": 59469
+        },
+        {
+          "goal": 12,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 274432,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3381
+          ],
+          "att": 49152,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 62850
+        }
+      ]
+    },
+    "5000_2": {
+      "world": 5000,
+      "init": 2,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 528384,
+          "n_eval": 4,
+          "demos_per_round": [
+            629,
+            993,
+            1024
+          ],
+          "samples_per_round": [
+            2090,
+            3234,
+            3181
+          ],
+          "att": 147456,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 8505
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.586,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 284672,
+          "n_eval": 2,
+          "demos_per_round": [
+            905
+          ],
+          "samples_per_round": [
+            2980
+          ],
+          "att": 49152,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 11485
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 401408,
+          "n_eval": 3,
+          "demos_per_round": [
+            835,
+            1024
+          ],
+          "samples_per_round": [
+            2767,
+            3299
+          ],
+          "att": 98304,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 17551
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 483328,
+          "n_eval": 3,
+          "demos_per_round": [
+            978,
+            1021
+          ],
+          "samples_per_round": [
+            3294,
+            3362
+          ],
+          "att": 98304,
+          "master": 0.98,
+          "mastered": true,
+          "buf_n": 24207
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.621,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 274432,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3257
+          ],
+          "att": 49152,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 27464
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.031,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 458752,
+          "n_eval": 3,
+          "demos_per_round": [
+            1022,
+            1024
+          ],
+          "samples_per_round": [
+            3409,
+            3384
+          ],
+          "att": 98304,
+          "master": 0.973,
+          "mastered": true,
+          "buf_n": 34257
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.879,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 258048,
+          "n_eval": 2,
+          "demos_per_round": [
+            1010
+          ],
+          "samples_per_round": [
+            3348
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 37605
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 495616,
+          "n_eval": 3,
+          "demos_per_round": [
+            768,
+            986
+          ],
+          "samples_per_round": [
+            2576,
+            3279
+          ],
+          "att": 98304,
+          "master": 0.699,
+          "mastered": true,
+          "buf_n": 43460
+        },
+        {
+          "goal": 12,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 292864,
+          "n_eval": 2,
+          "demos_per_round": [
+            1022
+          ],
+          "samples_per_round": [
+            3453
+          ],
+          "att": 49152,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 46913
+        }
+      ]
+    },
+    "5001_0": {
+      "world": 5001,
+      "init": 0,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 440320,
+          "n_eval": 3,
+          "demos_per_round": [
+            297,
+            1001
+          ],
+          "samples_per_round": [
+            992,
+            3258
+          ],
+          "att": 98304,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 4250
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.996,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 333824,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3264
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 7514
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.996,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 342016,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3211
+          ],
+          "att": 49152,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 10725
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 428032,
+          "n_eval": 3,
+          "demos_per_round": [
+            676,
+            955
+          ],
+          "samples_per_round": [
+            2237,
+            3108
+          ],
+          "att": 98304,
+          "master": 0.641,
+          "mastered": true,
+          "buf_n": 16070
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.055,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 622592,
+          "n_eval": 4,
+          "demos_per_round": [
+            987,
+            1020,
+            1024
+          ],
+          "samples_per_round": [
+            3241,
+            3299,
+            3311
+          ],
+          "att": 147456,
+          "master": 0.941,
+          "mastered": true,
+          "buf_n": 25921
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.996,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 305152,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3315
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 29236
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 315392,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3300
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 32536
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.98,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 329728,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3430
+          ],
+          "att": 49152,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 35966
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.656,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 337920,
+          "n_eval": 2,
+          "demos_per_round": [
+            1019
+          ],
+          "samples_per_round": [
+            3327
+          ],
+          "att": 49152,
+          "master": 0.852,
+          "mastered": true,
+          "buf_n": 39293
+        }
+      ]
+    },
+    "5001_1": {
+      "world": 5001,
+      "init": 1,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 468992,
+          "n_eval": 3,
+          "demos_per_round": [
+            279,
+            978
+          ],
+          "samples_per_round": [
+            940,
+            3253
+          ],
+          "att": 98304,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 4193
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.996,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 309248,
+          "n_eval": 2,
+          "demos_per_round": [
+            1023
+          ],
+          "samples_per_round": [
+            3238
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 7431
+        },
+        {
+          "goal": 0,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 342016,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3143
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 10574
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 565248,
+          "n_eval": 4,
+          "demos_per_round": [
+            722,
+            975,
+            1022
+          ],
+          "samples_per_round": [
+            2393,
+            3149,
+            3307
+          ],
+          "att": 147456,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 19423
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.023,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 602112,
+          "n_eval": 4,
+          "demos_per_round": [
+            984,
+            1005,
+            1008
+          ],
+          "samples_per_round": [
+            3243,
+            3303,
+            3274
+          ],
+          "att": 147456,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 29243
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 301056,
+          "n_eval": 2,
+          "demos_per_round": [
+            1011
+          ],
+          "samples_per_round": [
+            3311
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 32554
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.977,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 327680,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3314
+          ],
+          "att": 49152,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 35868
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 337920,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3324
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 39192
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.871,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 346112,
+          "n_eval": 2,
+          "demos_per_round": [
+            975
+          ],
+          "samples_per_round": [
+            3246
+          ],
+          "att": 49152,
+          "master": 0.941,
+          "mastered": true,
+          "buf_n": 42438
+        }
+      ]
+    },
+    "5001_2": {
+      "world": 5001,
+      "init": 2,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 520192,
+          "n_eval": 3,
+          "demos_per_round": [
+            297,
+            1004
+          ],
+          "samples_per_round": [
+            997,
+            3311
+          ],
+          "att": 98304,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 4308
+        },
+        {
+          "goal": 2,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 331776,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3258
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 7566
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.992,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 309248,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3219
+          ],
+          "att": 49152,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 10785
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "attempts": 384,
+          "first_demo_attempt": 48,
+          "collect_prim": 1572864,
+          "eval_prim": 425984,
+          "n_eval": 3,
+          "demos_per_round": [
+            676,
+            951
+          ],
+          "samples_per_round": [
+            2206,
+            3110
+          ],
+          "att": 98304,
+          "master": 0.762,
+          "mastered": true,
+          "buf_n": 16101
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.039,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 591872,
+          "n_eval": 4,
+          "demos_per_round": [
+            935,
+            1009,
+            1019
+          ],
+          "samples_per_round": [
+            3064,
+            3311,
+            3348
+          ],
+          "att": 147456,
+          "master": 0.961,
+          "mastered": true,
+          "buf_n": 25824
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.988,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 282624,
+          "n_eval": 2,
+          "demos_per_round": [
+            1010
+          ],
+          "samples_per_round": [
+            3237
+          ],
+          "att": 49152,
+          "master": 0.996,
+          "mastered": true,
+          "buf_n": 29061
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.992,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 307200,
+          "n_eval": 2,
+          "demos_per_round": [
+            1024
+          ],
+          "samples_per_round": [
+            3311
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 32372
+        },
+        {
+          "goal": 13,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "attempts": 192,
+          "first_demo_attempt": 48,
+          "collect_prim": 786432,
+          "eval_prim": 313344,
+          "n_eval": 2,
+          "demos_per_round": [
+            1023
+          ],
+          "samples_per_round": [
+            3335
+          ],
+          "att": 49152,
+          "master": 0.988,
+          "mastered": true,
+          "buf_n": 35707
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.129,
+          "rounds": 3,
+          "attempts": 576,
+          "first_demo_attempt": 48,
+          "collect_prim": 2359296,
+          "eval_prim": 620544,
+          "n_eval": 4,
+          "demos_per_round": [
+            987,
+            1021,
+            1024
+          ],
+          "samples_per_round": [
+            3319,
+            3448,
+            3462
+          ],
+          "att": 147456,
+          "master": 0.992,
+          "mastered": true,
+          "buf_n": 45936
+        }
+      ]
+    }
+  },
+  "cfg_r_max": 8,
+  "headroom": {
+    "5000": {
+      "floor": 1728,
+      "median_cost": 3072,
+      "ratio": 1.778,
+      "best_possible_M_over_F": 0.562
+    },
+    "5001": {
+      "floor": 1728,
+      "median_cost": 2688,
+      "ratio": 1.556,
+      "best_possible_M_over_F": 0.643
+    }
+  },
+  "best_reachable_ratio": 0.643,
+  "p1_saturated": false,
+  "costs": {
+    "5000": [
+      3072,
+      3840,
+      2880
+    ],
+    "5001": [
+      2496,
+      2688,
+      2880
+    ]
+  },
+  "between_world_ratio": 1.143,
+  "k2_fires": false,
+  "null_ratio": {
+    "min": 0.75,
+    "median": 1.002,
+    "max": 1.333
+  },
+  "null_winrate": {
+    "min": 0.5,
+    "median": 0.5,
+    "max": 0.5
+  },
+  "fitted": {
+    "P1_MAX_RATIO": 0.712,
+    "P2_MIN_WINRATE": 0.6
+  },
+  "elapsed_s": 17231
+}
