@@ -6930,3 +6930,90 @@ closed. K4 store-ignoring collapse -> published regardless of P1. K5 hard 30 GPU
 pre-committed trim order (drop the 4th pretrain world, then one param-shifted world, then r_max 4->3),
 evaluated at ONE halfway checkpoint only.
 
+
+---
+
+# PREREGISTRATION v58 / ARC 2 — AMENDED AND RE-FROZEN 2026-07-31 (supersedes the voided v58 section)
+The earlier v58 prereg was VOIDED by the verification audit (commit aa82655): its cost metric carried a
+fatal censoring asymmetry — one goal the frozen treatment missed cost more than its entire above-floor
+allowance, so 26/27 mastered published as REFUTED — and its threshold was fitted on the single-world
+null while applied to a pooled ratio. Steps 1-3 (EvidenceStore, identity-free EvidenceNet, GATE K1) were
+unaffected and stand. What follows re-freezes the MEASUREMENT DESIGN, before any confirmatory arm.
+
+## Repairs, frozen in ARC2_PLAN section 9 BEFORE calibration v2 measured anything
+- num_envs 256 -> 64 everywhere. Root cause of both the power problem and P2's degeneracy: 256 parallel
+  trials made discovery nearly free, so nothing was left for transfer to buy.
+- SCORE vs SPEND. The outcome variable is a SCORED cost: 0 if the goal was mastered on arrival,
+  rounds*192 if mastered, censor_cap(3)*192 if censored — the identical rule for every arm. Collection
+  is unchanged (>= 1 round always charged), so the v53 buffer-starvation lesson still holds.
+- Thresholds fitted on the POOLED 3-world unit the scorer actually uses.
+- P2 becomes a CONTINUOUS paired statistic: mean over paired goals of (M - F) discovery.frac, the
+  fraction of envs reaching the goal at first exposure. Win rates are dead (26% ceiling ties in v1);
+  min_step is banned (saturates low).
+- Explicit margin guard: the fitted P1 must leave room for at least two censored treatment goals.
+
+## Calibration v2 — MEASURED (craft_v6_out/v58_calibration2.json)
+Arm F only, worlds 5000/5001/5002 (chosen mechanically by nav gate) x 3 inits, 64 envs. All nine runs
+mastered every goal, zero censoring. Scored costs: 3456/2496/2496, 2688/2112/1152, 1728/1536/2688.
+  between-world spread 1.44   -> K2 does NOT fire (kills at > 2.00)
+  pooled null F/F cost ratio  -> n 216, min 0.587, p05 0.659, median 1.000, max 1.704
+  pooled null dFRAC           -> n 216, min -0.0695, median 0.0000, max +0.0695
+  pooled F median cost 6336; margin needed 0.182 vs fitted P1 0.558 -> GUARD OK
+
+## FROZEN THRESHOLDS (hard-coded verbatim in scripts/score_v58.py, same commit as this text)
+P1_MAX_RATIO = 0.558   (0.95 x the pooled null's minimum)
+REFUTE_RATIO = 0.587   (the pooled null's minimum)
+P2_MIN_DFRAC = 0.0895  (the pooled dFRAC null's maximum + 0.02)
+Structural, design not data: P3_FACTOR 2.0, P4_MIN_Z_RATIO 1.5, P6_MAX_LOSS_FRAC 0.25.
+
+## Predictions
+P1 pooled M/F SCORED-cost ratio <= 0.558 over the 3 default held-out worlds (6000-6002).
+P2 mean paired (M - F) discovery.frac >= 0.0895.
+P3 pooled saving (F-M) >= 2.0 x (F-Mdeg), else the effect is cheap grammar transfer.
+P4 Z/M pooled scored cost >= 1.5, else the policy is not reading its store and portability is empty.
+P5 param-shifted (7000-7001) M/F <= (P1+1)/2 = 0.779, else it is a generator-constants prior.
+P6 M costlier than F on <= 25% of paired goals.
+
+## Decision rule (mechanical, scripts/score_v58.py, committed before any arm)
+SUPPORTED iff P1 and P2 and P3 and P4. REFUTED iff pooled M/F >= 0.587. NULL otherwise.
+Pre-specified downgrade labels, used verbatim: P3 fails -> "grammar/cheap transfer only — a meta-RL-101
+re-demonstration, not portability"; P5 fails -> "generator-constants prior, family-memorization not
+procedure"; P4 fails -> K4 "store-ignoring collapse — the portability claim dies", reported even if P1
+passes. Any cell where F6 masters what F could not may never be called enablement.
+
+## Claim ceiling
+A SUPPORTED licenses exactly: "Meta-trained across same-family hidden-recipe worlds, a FROZEN-weight
+agent that writes its own per-world evidence store discovers and masters a NEW world of that family X%
+cheaper (scored cost, discovery included) than an identical fresh agent — same architecture, same store,
+same credit rule, equal in-world budget." NEVER: enablement, cross-family or cross-domain transfer,
+symbolic DAG induction, zero-shot mastery. DISCLOSED GRANTS, equal across arms: the frozen childhood nav
+skill, the item->cell / item->craft-action / is_resource / is_valid bindings, the one-of-each-input
+family invariant, and the hand-designed store WRITE SCHEMA — so the claim is "a learned policy over
+self-gathered evidence", never "the agent invented the representation".
+
+## Pre-committed caveats
+- THE NULL BAND IS NARROW AND ITS EDGE IS UNSTABLE. REFUTE_RATIO is an extreme order statistic (the
+  minimum of 216 combos generated from only 9 underlying runs, hence strongly non-independent), and the
+  NULL band is just 0.029 wide (0.558-0.587). A pooled ratio landing inside that band is INCONCLUSIVE
+  and must be reported as such, never as evidence either way. A different calibration draw could move
+  this edge materially; it is not re-fitted after seeing confirmatory data.
+- Within-world variability across inits is large (world 5001 spanned 1152-2688, a 2.3x range), which is
+  why the fitted threshold is demanding. It is a measurement of real noise, not a choice.
+- Within-family only (one gen_tree generator); n=3 default held-out worlds, so seed variance mixes init
+  with world variance and is not a CI over worlds.
+- The frozen nav skill is a common failure axis capping every arm and is a disclosed grant: the claim is
+  composer-level only.
+- A censored goal's SCORED cost is capped at 3 rounds, so the ratio UNDERSTATES a treatment that fails
+  outright; per-world censoring counts are printed by the scorer and must be read alongside the ratio.
+- gen_tree does not expose the tool probability, so the param-shifted worlds vary n_items (7000) and
+  p_resource (7001) only — a weaker shift than ARC2_PLAN section 4 envisaged. Disclosed, not fixed.
+- DEVIATION, measured: cell IDs are permuted WITHIN each world's used set rather than into
+  1..MAX_CELLS-2, because the frozen nav skill has only ever seen IDs 1..9 and consumes them as a
+  one-hot; the literal instruction would have collapsed navigation for every arm. Max degradation
+  +0.032 across three worlds, all still clearing the 0.85 gate.
+
+## KILL criteria (unchanged; none licenses a redesign-and-retry)
+K1 gate PASSED. K2 did NOT fire. K3 REFUTED per the frozen rule -> published NULL, arc closed. K4
+store-ignoring collapse -> published regardless of P1. K5 hard 30 GPU-hour ceiling with the
+pre-committed trim order. Budget spent to date: ~1.5h gate + ~4.8h calibration v1 + ~6.7h calibration v2
+= ~13h of 30h.

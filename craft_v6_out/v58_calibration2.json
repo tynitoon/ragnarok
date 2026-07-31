@@ -1,0 +1,2672 @@
+{
+  "design": {
+    "num_envs": 64,
+    "censor_cap": 3,
+    "r_max": 8
+  },
+  "worlds": [
+    5000,
+    5001,
+    5002
+  ],
+  "runs": {
+    "5000_0": {
+      "world": 5000,
+      "init": 0,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.7188,
+            "min_step": 11,
+            "median_step": 29
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 11,
+          "collect_prim": 393216,
+          "eval_prim": 95232,
+          "n_eval": 3,
+          "demos_per_round": [
+            178,
+            254
+          ],
+          "samples_per_round": [
+            571,
+            843
+          ],
+          "att": 24576,
+          "master": 0.672,
+          "mastered": true,
+          "buf_n": 1414
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.188,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.75,
+            "min_step": 4,
+            "median_step": 17
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 62464,
+          "n_eval": 2,
+          "demos_per_round": [
+            195
+          ],
+          "samples_per_round": [
+            626
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 2040
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.391,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.4375,
+            "min_step": 7,
+            "median_step": 24
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 7,
+          "collect_prim": 196608,
+          "eval_prim": 76800,
+          "n_eval": 2,
+          "demos_per_round": [
+            103
+          ],
+          "samples_per_round": [
+            338
+          ],
+          "att": 12288,
+          "master": 0.609,
+          "mastered": true,
+          "buf_n": 2378
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.3281,
+            "min_step": 10,
+            "median_step": 39
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 10,
+          "collect_prim": 589824,
+          "eval_prim": 142336,
+          "n_eval": 4,
+          "demos_per_round": [
+            124,
+            230,
+            251
+          ],
+          "samples_per_round": [
+            418,
+            765,
+            834
+          ],
+          "att": 36864,
+          "master": 0.828,
+          "mastered": true,
+          "buf_n": 4395
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.156,
+          "rounds": 3,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 7,
+            "median_step": 16
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 7,
+          "collect_prim": 588800,
+          "eval_prim": 121856,
+          "n_eval": 4,
+          "demos_per_round": [
+            256,
+            256,
+            256
+          ],
+          "samples_per_round": [
+            861,
+            842,
+            841
+          ],
+          "att": 36864,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 6939
+        },
+        {
+          "goal": 7,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 9,
+            "median_step": 17
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 9,
+          "collect_prim": 196608,
+          "eval_prim": 58880,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            841
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 7780
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.25,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 13,
+            "median_step": 23
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 13,
+          "collect_prim": 196096,
+          "eval_prim": 65024,
+          "n_eval": 2,
+          "demos_per_round": [
+            251
+          ],
+          "samples_per_round": [
+            846
+          ],
+          "att": 12288,
+          "master": 0.766,
+          "mastered": true,
+          "buf_n": 8626
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 7,
+          "discovery": {
+            "frac": 0.4219,
+            "min_step": 16,
+            "median_step": 29
+          },
+          "cost": 1344,
+          "mastered_on_arrival": false,
+          "attempts": 1344,
+          "first_demo_attempt": 16,
+          "collect_prim": 1366016,
+          "eval_prim": 258048,
+          "n_eval": 8,
+          "demos_per_round": [
+            105,
+            195,
+            248,
+            255,
+            254,
+            254,
+            256
+          ],
+          "samples_per_round": [
+            335,
+            639,
+            817,
+            864,
+            851,
+            837,
+            840
+          ],
+          "att": 86016,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 13809
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 18
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 192512,
+          "eval_prim": 56832,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            844
+          ],
+          "att": 12288,
+          "master": 0.969,
+          "mastered": true,
+          "buf_n": 14653
+        }
+      ]
+    },
+    "5000_1": {
+      "world": 5000,
+      "init": 1,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.7344,
+            "min_step": 6,
+            "median_step": 29
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 6,
+          "collect_prim": 393216,
+          "eval_prim": 94720,
+          "n_eval": 3,
+          "demos_per_round": [
+            191,
+            253
+          ],
+          "samples_per_round": [
+            622,
+            821
+          ],
+          "att": 24576,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 1443
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.406,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.875,
+            "min_step": 3,
+            "median_step": 23
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 3,
+          "collect_prim": 196608,
+          "eval_prim": 75264,
+          "n_eval": 2,
+          "demos_per_round": [
+            204
+          ],
+          "samples_per_round": [
+            670
+          ],
+          "att": 12288,
+          "master": 0.906,
+          "mastered": true,
+          "buf_n": 2113
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.016,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.5469,
+            "min_step": 7,
+            "median_step": 28
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 7,
+          "collect_prim": 393216,
+          "eval_prim": 97792,
+          "n_eval": 3,
+          "demos_per_round": [
+            136,
+            256
+          ],
+          "samples_per_round": [
+            443,
+            847
+          ],
+          "att": 24576,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 3403
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.7812,
+            "min_step": 8,
+            "median_step": 25
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 8,
+          "collect_prim": 393216,
+          "eval_prim": 93696,
+          "n_eval": 3,
+          "demos_per_round": [
+            211,
+            254
+          ],
+          "samples_per_round": [
+            725,
+            837
+          ],
+          "att": 24576,
+          "master": 0.938,
+          "mastered": true,
+          "buf_n": 4965
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.891,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 7,
+            "median_step": 12
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 7,
+          "collect_prim": 196608,
+          "eval_prim": 54272,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            825
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 5790
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.422,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 8,
+            "median_step": 18
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196608,
+          "eval_prim": 68096,
+          "n_eval": 2,
+          "demos_per_round": [
+            255
+          ],
+          "samples_per_round": [
+            860
+          ],
+          "att": 12288,
+          "master": 0.797,
+          "mastered": true,
+          "buf_n": 6650
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9688,
+            "min_step": 10,
+            "median_step": 22
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 10,
+          "collect_prim": 196608,
+          "eval_prim": 64512,
+          "n_eval": 2,
+          "demos_per_round": [
+            244
+          ],
+          "samples_per_round": [
+            806
+          ],
+          "att": 12288,
+          "master": 0.859,
+          "mastered": true,
+          "buf_n": 7456
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 4,
+          "discovery": {
+            "frac": 0.6094,
+            "min_step": 16,
+            "median_step": 30
+          },
+          "cost": 768,
+          "mastered_on_arrival": false,
+          "attempts": 768,
+          "first_demo_attempt": 16,
+          "collect_prim": 782848,
+          "eval_prim": 160256,
+          "n_eval": 5,
+          "demos_per_round": [
+            165,
+            239,
+            252,
+            254
+          ],
+          "samples_per_round": [
+            566,
+            809,
+            850,
+            812
+          ],
+          "att": 49152,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 10493
+        },
+        {
+          "goal": 12,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 17
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 190976,
+          "eval_prim": 57344,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            846
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 11339
+        }
+      ]
+    },
+    "5000_2": {
+      "world": 5000,
+      "init": 2,
+      "goals": [
+        6,
+        8,
+        11,
+        3,
+        5,
+        7,
+        9,
+        13,
+        12
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.6094,
+            "min_step": 9,
+            "median_step": 26
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 9,
+          "collect_prim": 589824,
+          "eval_prim": 137216,
+          "n_eval": 4,
+          "demos_per_round": [
+            174,
+            245,
+            256
+          ],
+          "samples_per_round": [
+            582,
+            801,
+            792
+          ],
+          "att": 36864,
+          "master": 0.719,
+          "mastered": true,
+          "buf_n": 2175
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9062,
+            "min_step": 4,
+            "median_step": 16
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 57344,
+          "n_eval": 2,
+          "demos_per_round": [
+            230
+          ],
+          "samples_per_round": [
+            732
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 2907
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.312,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.6719,
+            "min_step": 9,
+            "median_step": 24
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 9,
+          "collect_prim": 393216,
+          "eval_prim": 95744,
+          "n_eval": 3,
+          "demos_per_round": [
+            190,
+            255
+          ],
+          "samples_per_round": [
+            608,
+            810
+          ],
+          "att": 24576,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 4325
+        },
+        {
+          "goal": 3,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.8281,
+            "min_step": 8,
+            "median_step": 19
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 8,
+          "collect_prim": 393216,
+          "eval_prim": 105984,
+          "n_eval": 3,
+          "demos_per_round": [
+            236,
+            255
+          ],
+          "samples_per_round": [
+            742,
+            807
+          ],
+          "att": 24576,
+          "master": 0.969,
+          "mastered": true,
+          "buf_n": 5874
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.281,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 7,
+            "median_step": 15
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 7,
+          "collect_prim": 196608,
+          "eval_prim": 69120,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            838
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 6712
+        },
+        {
+          "goal": 7,
+          "zero_shot": 0.953,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 9,
+            "median_step": 18
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 9,
+          "collect_prim": 196608,
+          "eval_prim": 61440,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            855
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 7567
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.047,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9062,
+            "min_step": 14,
+            "median_step": 24
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 14,
+          "collect_prim": 196608,
+          "eval_prim": 61952,
+          "n_eval": 2,
+          "demos_per_round": [
+            239
+          ],
+          "samples_per_round": [
+            792
+          ],
+          "att": 12288,
+          "master": 0.891,
+          "mastered": true,
+          "buf_n": 8359
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.4844,
+            "min_step": 14,
+            "median_step": 32
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 14,
+          "collect_prim": 589824,
+          "eval_prim": 129024,
+          "n_eval": 4,
+          "demos_per_round": [
+            136,
+            231,
+            246
+          ],
+          "samples_per_round": [
+            467,
+            778,
+            854
+          ],
+          "att": 36864,
+          "master": 0.844,
+          "mastered": true,
+          "buf_n": 10458
+        },
+        {
+          "goal": 12,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9688,
+            "min_step": 8,
+            "median_step": 21
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196608,
+          "eval_prim": 58880,
+          "n_eval": 2,
+          "demos_per_round": [
+            252
+          ],
+          "samples_per_round": [
+            840
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 11298
+        }
+      ]
+    },
+    "5001_0": {
+      "world": 5001,
+      "init": 0,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.3438,
+            "min_step": 14,
+            "median_step": 33
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 14,
+          "collect_prim": 393216,
+          "eval_prim": 104448,
+          "n_eval": 3,
+          "demos_per_round": [
+            70,
+            248
+          ],
+          "samples_per_round": [
+            219,
+            806
+          ],
+          "att": 24576,
+          "master": 0.844,
+          "mastered": true,
+          "buf_n": 1025
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.953,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 5,
+            "median_step": 13
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 5,
+          "collect_prim": 196608,
+          "eval_prim": 68096,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            816
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 1841
+        },
+        {
+          "goal": 0,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 5,
+            "median_step": 9
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 5,
+          "collect_prim": 196608,
+          "eval_prim": 71168,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            822
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 2663
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.7188,
+            "min_step": 7,
+            "median_step": 16
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 7,
+          "collect_prim": 589824,
+          "eval_prim": 142848,
+          "n_eval": 4,
+          "demos_per_round": [
+            180,
+            229,
+            249
+          ],
+          "samples_per_round": [
+            599,
+            767,
+            804
+          ],
+          "att": 36864,
+          "master": 0.875,
+          "mastered": true,
+          "buf_n": 4833
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.047,
+          "rounds": 6,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 7,
+            "median_step": 16
+          },
+          "cost": 1152,
+          "mastered_on_arrival": false,
+          "attempts": 1152,
+          "first_demo_attempt": 7,
+          "collect_prim": 1179648,
+          "eval_prim": 254464,
+          "n_eval": 7,
+          "demos_per_round": [
+            247,
+            253,
+            255,
+            255,
+            254,
+            255
+          ],
+          "samples_per_round": [
+            806,
+            829,
+            857,
+            801,
+            801,
+            806
+          ],
+          "att": 73728,
+          "master": 0.906,
+          "mastered": true,
+          "buf_n": 9733
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9688,
+            "min_step": 6,
+            "median_step": 11
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 67584,
+          "n_eval": 2,
+          "demos_per_round": [
+            252
+          ],
+          "samples_per_round": [
+            797
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 10530
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 13
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 83456,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            826
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 11356
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.922,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 16
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196608,
+          "eval_prim": 71168,
+          "n_eval": 2,
+          "demos_per_round": [
+            254
+          ],
+          "samples_per_round": [
+            803
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 12159
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.016,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.9062,
+            "min_step": 13,
+            "median_step": 29
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 13,
+          "collect_prim": 586752,
+          "eval_prim": 155136,
+          "n_eval": 4,
+          "demos_per_round": [
+            221,
+            247,
+            254
+          ],
+          "samples_per_round": [
+            744,
+            790,
+            844
+          ],
+          "att": 36864,
+          "master": 0.797,
+          "mastered": true,
+          "buf_n": 14537
+        }
+      ]
+    },
+    "5001_1": {
+      "world": 5001,
+      "init": 1,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.2969,
+            "min_step": 11,
+            "median_step": 32
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 11,
+          "collect_prim": 393216,
+          "eval_prim": 114688,
+          "n_eval": 3,
+          "demos_per_round": [
+            72,
+            247
+          ],
+          "samples_per_round": [
+            245,
+            828
+          ],
+          "att": 24576,
+          "master": 0.781,
+          "mastered": true,
+          "buf_n": 1073
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.469,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 5,
+            "median_step": 11
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 5,
+          "collect_prim": 196608,
+          "eval_prim": 71680,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            841
+          ],
+          "att": 12288,
+          "master": 0.906,
+          "mastered": true,
+          "buf_n": 1914
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.859,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 5,
+            "median_step": 9
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 5,
+          "collect_prim": 196608,
+          "eval_prim": 68608,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            796
+          ],
+          "att": 12288,
+          "master": 0.969,
+          "mastered": true,
+          "buf_n": 2710
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.5625,
+            "min_step": 6,
+            "median_step": 21
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 6,
+          "collect_prim": 589824,
+          "eval_prim": 143360,
+          "n_eval": 4,
+          "demos_per_round": [
+            161,
+            242,
+            256
+          ],
+          "samples_per_round": [
+            552,
+            788,
+            862
+          ],
+          "att": 36864,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 4912
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.031,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.8438,
+            "min_step": 6,
+            "median_step": 19
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 6,
+          "collect_prim": 589824,
+          "eval_prim": 154112,
+          "n_eval": 4,
+          "demos_per_round": [
+            221,
+            252,
+            256
+          ],
+          "samples_per_round": [
+            748,
+            784,
+            852
+          ],
+          "att": 36864,
+          "master": 0.953,
+          "mastered": true,
+          "buf_n": 7296
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.938,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 6,
+            "median_step": 14
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 79360,
+          "n_eval": 2,
+          "demos_per_round": [
+            255
+          ],
+          "samples_per_round": [
+            809
+          ],
+          "att": 12288,
+          "master": 0.906,
+          "mastered": true,
+          "buf_n": 8105
+        },
+        {
+          "goal": 12,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 12
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 73728,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            832
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 8937
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 8,
+            "median_step": 14
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196608,
+          "eval_prim": 73216,
+          "n_eval": 2,
+          "demos_per_round": [
+            255
+          ],
+          "samples_per_round": [
+            838
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 9775
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.578,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.9062,
+            "min_step": 12,
+            "median_step": 24
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 12,
+          "collect_prim": 393216,
+          "eval_prim": 108032,
+          "n_eval": 3,
+          "demos_per_round": [
+            235,
+            252
+          ],
+          "samples_per_round": [
+            781,
+            859
+          ],
+          "att": 24576,
+          "master": 0.922,
+          "mastered": true,
+          "buf_n": 11415
+        }
+      ]
+    },
+    "5001_2": {
+      "world": 5001,
+      "init": 2,
+      "goals": [
+        6,
+        2,
+        0,
+        1,
+        10,
+        9,
+        12,
+        13,
+        11
+      ],
+      "rows": [
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.2656,
+            "min_step": 16,
+            "median_step": 33
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 16,
+          "collect_prim": 393216,
+          "eval_prim": 102912,
+          "n_eval": 3,
+          "demos_per_round": [
+            76,
+            251
+          ],
+          "samples_per_round": [
+            263,
+            850
+          ],
+          "att": 24576,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 1113
+        },
+        {
+          "goal": 2,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 10
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 63488,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            830
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 1943
+        },
+        {
+          "goal": 0,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 5,
+            "median_step": 8
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 5,
+          "collect_prim": 196608,
+          "eval_prim": 59904,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            773
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 2716
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.7188,
+            "min_step": 6,
+            "median_step": 16
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 6,
+          "collect_prim": 393216,
+          "eval_prim": 95232,
+          "n_eval": 3,
+          "demos_per_round": [
+            176,
+            232
+          ],
+          "samples_per_round": [
+            575,
+            738
+          ],
+          "att": 24576,
+          "master": 0.766,
+          "mastered": true,
+          "buf_n": 4029
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.062,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.9531,
+            "min_step": 7,
+            "median_step": 16
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 7,
+          "collect_prim": 393216,
+          "eval_prim": 99840,
+          "n_eval": 3,
+          "demos_per_round": [
+            246,
+            256
+          ],
+          "samples_per_round": [
+            792,
+            820
+          ],
+          "att": 24576,
+          "master": 0.906,
+          "mastered": true,
+          "buf_n": 5641
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 13
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 66560,
+          "n_eval": 2,
+          "demos_per_round": [
+            253
+          ],
+          "samples_per_round": [
+            850
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 6491
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 11
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196096,
+          "eval_prim": 69632,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            818
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 7309
+        },
+        {
+          "goal": 13,
+          "zero_shot": 0.938,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 9,
+            "median_step": 18
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 9,
+          "collect_prim": 195584,
+          "eval_prim": 68096,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            871
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 8180
+        },
+        {
+          "goal": 11,
+          "zero_shot": 0.672,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9688,
+            "min_step": 13,
+            "median_step": 25
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 13,
+          "collect_prim": 196608,
+          "eval_prim": 70144,
+          "n_eval": 2,
+          "demos_per_round": [
+            240
+          ],
+          "samples_per_round": [
+            827
+          ],
+          "att": 12288,
+          "master": 0.891,
+          "mastered": true,
+          "buf_n": 9007
+        }
+      ]
+    },
+    "5002_0": {
+      "world": 5002,
+      "init": 0,
+      "goals": [
+        11,
+        2,
+        8,
+        9,
+        0,
+        10,
+        6,
+        4,
+        5,
+        12,
+        1
+      ],
+      "rows": [
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.5781,
+            "min_step": 13,
+            "median_step": 33
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 13,
+          "collect_prim": 393216,
+          "eval_prim": 94720,
+          "n_eval": 3,
+          "demos_per_round": [
+            146,
+            249
+          ],
+          "samples_per_round": [
+            462,
+            814
+          ],
+          "att": 24576,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 1276
+        },
+        {
+          "goal": 2,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 11
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 52224,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            839
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 2115
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 8
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 53760,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            782
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 2897
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 6
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 52224,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            764
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 3661
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.016,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.5312,
+            "min_step": 7,
+            "median_step": 24
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 7,
+          "collect_prim": 393216,
+          "eval_prim": 109056,
+          "n_eval": 3,
+          "demos_per_round": [
+            140,
+            254
+          ],
+          "samples_per_round": [
+            478,
+            832
+          ],
+          "att": 24576,
+          "master": 0.859,
+          "mastered": true,
+          "buf_n": 4971
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.016,
+          "rounds": 4,
+          "discovery": {
+            "frac": 0.6406,
+            "min_step": 10,
+            "median_step": 25
+          },
+          "cost": 768,
+          "mastered_on_arrival": false,
+          "attempts": 768,
+          "first_demo_attempt": 10,
+          "collect_prim": 786432,
+          "eval_prim": 177152,
+          "n_eval": 5,
+          "demos_per_round": [
+            201,
+            249,
+            255,
+            256
+          ],
+          "samples_per_round": [
+            698,
+            811,
+            853,
+            844
+          ],
+          "att": 49152,
+          "master": 0.75,
+          "mastered": true,
+          "buf_n": 8177
+        },
+        {
+          "goal": 6,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 11
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 196608,
+          "eval_prim": 77824,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            821
+          ],
+          "att": 12288,
+          "master": 0.969,
+          "mastered": true,
+          "buf_n": 8998
+        },
+        {
+          "goal": 4,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 9,
+            "median_step": 17
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 9,
+          "collect_prim": 196608,
+          "eval_prim": 59904,
+          "n_eval": 2,
+          "demos_per_round": [
+            253
+          ],
+          "samples_per_round": [
+            825
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 9823
+        },
+        {
+          "goal": 5,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 15
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196608,
+          "eval_prim": 73728,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            845
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 10668
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 9,
+            "median_step": 18
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 9,
+          "collect_prim": 196096,
+          "eval_prim": 76800,
+          "n_eval": 2,
+          "demos_per_round": [
+            254
+          ],
+          "samples_per_round": [
+            830
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 11498
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.094,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.5938,
+            "min_step": 18,
+            "median_step": 35
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 18,
+          "collect_prim": 196608,
+          "eval_prim": 74752,
+          "n_eval": 2,
+          "demos_per_round": [
+            188
+          ],
+          "samples_per_round": [
+            613
+          ],
+          "att": 12288,
+          "master": 0.844,
+          "mastered": true,
+          "buf_n": 12111
+        }
+      ]
+    },
+    "5002_1": {
+      "world": 5002,
+      "init": 1,
+      "goals": [
+        11,
+        2,
+        8,
+        9,
+        0,
+        10,
+        6,
+        4,
+        5,
+        12,
+        1
+      ],
+      "rows": [
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.5469,
+            "min_step": 7,
+            "median_step": 31
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 7,
+          "collect_prim": 393216,
+          "eval_prim": 93184,
+          "n_eval": 3,
+          "demos_per_round": [
+            147,
+            256
+          ],
+          "samples_per_round": [
+            463,
+            844
+          ],
+          "att": 24576,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 1307
+        },
+        {
+          "goal": 2,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 11
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 52224,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            791
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 2098
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 7
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 52736,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            777
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 2875
+        },
+        {
+          "goal": 9,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 6
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 54784,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            783
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 3658
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.5312,
+            "min_step": 9,
+            "median_step": 29
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 9,
+          "collect_prim": 589824,
+          "eval_prim": 140800,
+          "n_eval": 4,
+          "demos_per_round": [
+            157,
+            248,
+            256
+          ],
+          "samples_per_round": [
+            528,
+            833,
+            814
+          ],
+          "att": 36864,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 5833
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.9062,
+            "min_step": 8,
+            "median_step": 19
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 8,
+          "collect_prim": 589824,
+          "eval_prim": 138240,
+          "n_eval": 4,
+          "demos_per_round": [
+            242,
+            253,
+            252
+          ],
+          "samples_per_round": [
+            804,
+            843,
+            837
+          ],
+          "att": 36864,
+          "master": 0.875,
+          "mastered": true,
+          "buf_n": 8317
+        },
+        {
+          "goal": 6,
+          "zero_shot": 0.938,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 6,
+            "median_step": 12
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 6,
+          "collect_prim": 194048,
+          "eval_prim": 79872,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            867
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 9184
+        },
+        {
+          "goal": 4,
+          "zero_shot": 0.859,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 17
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 190464,
+          "eval_prim": 67584,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            858
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 10042
+        },
+        {
+          "goal": 5,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 14
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 193536,
+          "eval_prim": 77312,
+          "n_eval": 2,
+          "demos_per_round": [
+            255
+          ],
+          "samples_per_round": [
+            833
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 10875
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 17
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 192512,
+          "eval_prim": 76800,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            843
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 11718
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 16,
+            "median_step": 27
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 16,
+          "collect_prim": 194048,
+          "eval_prim": 71168,
+          "n_eval": 2,
+          "demos_per_round": [
+            254
+          ],
+          "samples_per_round": [
+            845
+          ],
+          "att": 12288,
+          "master": 0.938,
+          "mastered": true,
+          "buf_n": 12563
+        }
+      ]
+    },
+    "5002_2": {
+      "world": 5002,
+      "init": 2,
+      "goals": [
+        11,
+        2,
+        8,
+        9,
+        0,
+        10,
+        6,
+        4,
+        5,
+        12,
+        1
+      ],
+      "rows": [
+        {
+          "goal": 11,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.5781,
+            "min_step": 11,
+            "median_step": 34
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 11,
+          "collect_prim": 393216,
+          "eval_prim": 99840,
+          "n_eval": 3,
+          "demos_per_round": [
+            140,
+            252
+          ],
+          "samples_per_round": [
+            453,
+            829
+          ],
+          "att": 24576,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 1282
+        },
+        {
+          "goal": 2,
+          "zero_shot": 1.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 8
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 52224,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            786
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 2068
+        },
+        {
+          "goal": 8,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 6
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 58880,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            749
+          ],
+          "att": 12288,
+          "master": 0.953,
+          "mastered": true,
+          "buf_n": 2817
+        },
+        {
+          "goal": 9,
+          "zero_shot": 0.969,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 4,
+            "median_step": 6
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 4,
+          "collect_prim": 196608,
+          "eval_prim": 60416,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            737
+          ],
+          "att": 12288,
+          "master": 0.984,
+          "mastered": true,
+          "buf_n": 3554
+        },
+        {
+          "goal": 0,
+          "zero_shot": 0.0,
+          "rounds": 4,
+          "discovery": {
+            "frac": 0.7969,
+            "min_step": 9,
+            "median_step": 24
+          },
+          "cost": 768,
+          "mastered_on_arrival": false,
+          "attempts": 768,
+          "first_demo_attempt": 9,
+          "collect_prim": 786432,
+          "eval_prim": 171520,
+          "n_eval": 5,
+          "demos_per_round": [
+            198,
+            237,
+            251,
+            256
+          ],
+          "samples_per_round": [
+            655,
+            742,
+            821,
+            863
+          ],
+          "att": 49152,
+          "master": 0.844,
+          "mastered": true,
+          "buf_n": 6635
+        },
+        {
+          "goal": 10,
+          "zero_shot": 0.0,
+          "rounds": 1,
+          "discovery": {
+            "frac": 0.9531,
+            "min_step": 11,
+            "median_step": 22
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 11,
+          "collect_prim": 196608,
+          "eval_prim": 69120,
+          "n_eval": 2,
+          "demos_per_round": [
+            243
+          ],
+          "samples_per_round": [
+            799
+          ],
+          "att": 12288,
+          "master": 0.672,
+          "mastered": true,
+          "buf_n": 7434
+        },
+        {
+          "goal": 6,
+          "zero_shot": 0.0,
+          "rounds": 2,
+          "discovery": {
+            "frac": 0.9844,
+            "min_step": 7,
+            "median_step": 15
+          },
+          "cost": 384,
+          "mastered_on_arrival": false,
+          "attempts": 384,
+          "first_demo_attempt": 7,
+          "collect_prim": 392192,
+          "eval_prim": 110080,
+          "n_eval": 3,
+          "demos_per_round": [
+            255,
+            256
+          ],
+          "samples_per_round": [
+            856,
+            835
+          ],
+          "att": 24576,
+          "master": 0.891,
+          "mastered": true,
+          "buf_n": 9125
+        },
+        {
+          "goal": 4,
+          "zero_shot": 0.016,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 10,
+            "median_step": 17
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 10,
+          "collect_prim": 192512,
+          "eval_prim": 65536,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            844
+          ],
+          "att": 12288,
+          "master": 0.938,
+          "mastered": true,
+          "buf_n": 9969
+        },
+        {
+          "goal": 5,
+          "zero_shot": 0.406,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 7,
+            "median_step": 14
+          },
+          "cost": 192,
+          "mastered_on_arrival": false,
+          "attempts": 192,
+          "first_demo_attempt": 7,
+          "collect_prim": 194560,
+          "eval_prim": 74240,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            846
+          ],
+          "att": 12288,
+          "master": 0.969,
+          "mastered": true,
+          "buf_n": 10815
+        },
+        {
+          "goal": 12,
+          "zero_shot": 0.984,
+          "rounds": 1,
+          "discovery": {
+            "frac": 1.0,
+            "min_step": 8,
+            "median_step": 18
+          },
+          "cost": 0,
+          "mastered_on_arrival": true,
+          "attempts": 192,
+          "first_demo_attempt": 8,
+          "collect_prim": 196096,
+          "eval_prim": 71168,
+          "n_eval": 2,
+          "demos_per_round": [
+            256
+          ],
+          "samples_per_round": [
+            846
+          ],
+          "att": 12288,
+          "master": 1.0,
+          "mastered": true,
+          "buf_n": 11661
+        },
+        {
+          "goal": 1,
+          "zero_shot": 0.0,
+          "rounds": 3,
+          "discovery": {
+            "frac": 0.8438,
+            "min_step": 19,
+            "median_step": 32
+          },
+          "cost": 576,
+          "mastered_on_arrival": false,
+          "attempts": 576,
+          "first_demo_attempt": 19,
+          "collect_prim": 581632,
+          "eval_prim": 147968,
+          "n_eval": 4,
+          "demos_per_round": [
+            228,
+            248,
+            255
+          ],
+          "samples_per_round": [
+            750,
+            840,
+            854
+          ],
+          "att": 36864,
+          "master": 0.703,
+          "mastered": true,
+          "buf_n": 14105
+        }
+      ]
+    }
+  },
+  "per_world_median": {
+    "5000": 2496,
+    "5001": 2112,
+    "5002": 1728
+  },
+  "between_world_ratio": 1.444,
+  "k2_fires": false,
+  "pooled_F_median": 6336,
+  "null_ratio": {
+    "n": 216,
+    "min": 0.587,
+    "p05": 0.659,
+    "median": 1.0,
+    "max": 1.704
+  },
+  "null_dfrac": {
+    "n": 216,
+    "min": -0.0695,
+    "median": 0.0,
+    "max": 0.0695
+  },
+  "margin": {
+    "needed": 0.182,
+    "fitted_p1": 0.558,
+    "ok": true
+  },
+  "fitted": {
+    "P1_MAX_RATIO": 0.558,
+    "REFUTE_RATIO": 0.587,
+    "P2_MIN_DFRAC": 0.0895
+  },
+  "elapsed_s": 24035
+}

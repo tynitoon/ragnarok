@@ -30,10 +30,12 @@ import os
 # ---------------------------------------------------------------- FITTED AT CALIBRATION v2
 # Filled verbatim from craft_v6_out/v58_calibration2.json -> "fitted", in the SAME commit as the
 # amended prereg, before any confirmatory arm. Never edited afterwards.
-P1_MAX_RATIO = None        # pooled M/F SCORED-cost ratio must be <= this
-REFUTE_RATIO = None        # at or above this, M is indistinguishable from a second fresh run
-P2_MIN_DFRAC = None        # mean paired (M - F) discovery.frac must be >= this
-CALIBRATION_STAMP = None
+P1_MAX_RATIO = 0.558       # FITTED: 0.95 x the pooled null's minimum (0.587)
+REFUTE_RATIO = 0.587       # FITTED: the pooled null's minimum — at or above it, M is
+                           #         indistinguishable from a second fresh run
+P2_MIN_DFRAC = 0.0895      # FITTED: the pooled dFRAC null's maximum (0.0695) + 0.02
+CALIBRATION_STAMP = ("v58_calibration2.json / worlds 5000,5001,5002 x 3 inits / 64 envs / "
+                     "K2 1.44x / pooled null min 0.587 median 1.000 max 1.704 / margin guard OK")
 
 # ---------------------------------------------------------------- STRUCTURAL (design, not data)
 P3_FACTOR = 2.0            # saving over F must be >= this x the saving a degenerate pretrain buys
