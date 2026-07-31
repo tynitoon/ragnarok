@@ -110,8 +110,13 @@ def run_G(spec, skill, cfg, goals, seed):
     return rows
 
 
-def test_world(w, spec, skill, cfg, cM, cMdeg, out_dir, t0, res, arms, seed, oracle=False):
+def test_world(w, spec, skill, cfg, cM, cMdeg, out_dir, t0, res, arms, seed, max_goals=0, sfx=""):
+    """sfx is '_smoke' for smoke runs so a smoke artifact can NEVER be globbed by score_v58 as if it
+    were a confirmatory result — the v53 lesson (a smoke's JSON polluted a confirmatory resume)."""
+    jf = os.path.join(out_dir, f"v58_test_{w}{sfx}.json")
     goals = stream_of(spec)
+    if max_goals:                       # smoke only: cap the stream so the code path runs quickly
+        goals = goals[:max_goals]
     nav = nav_gate(skill, spec, cfg, seed)
     res.setdefault("world", w); res["nav"] = nav; res["goals"] = goals
     res.setdefault("arms", {})
@@ -133,7 +138,7 @@ def test_world(w, spec, skill, cfg, cM, cMdeg, out_dir, t0, res, arms, seed, ora
                              r_max=r_max, train=train, zero_store_eval=zero_store_eval)
             rows.append(r)
             res["arms"][tag] = dict(rows=rows, complete=(g == gl[-1]))
-            json.dump(res, open(os.path.join(out_dir, f"v58_test_{w}.json"), "w"), indent=2)
+            json.dump(res, open(jf, "w"), indent=2)
             print(f"    [{tag}] goal {g:>2}: master {r['master']:.2f} in {r['rounds']}r "
                   f"({'M' if r['mastered'] else 'x'}) cost {r['cost']} "
                   f"disc {(r['discovery'] or {}).get('frac')} | {time.perf_counter()-t0:.0f}s",
@@ -159,7 +164,7 @@ def test_world(w, spec, skill, cfg, cM, cMdeg, out_dir, t0, res, arms, seed, ora
             res["arms"]["F6"] = dict(rows=rows, complete=True)
         else:
             res["arms"]["F6"] = dict(rows=[], complete=True, note="F failed no goal")
-    json.dump(res, open(os.path.join(out_dir, f"v58_test_{w}.json"), "w"), indent=2)
+    json.dump(res, open(jf, "w"), indent=2)
     return res
 
 
@@ -177,7 +182,13 @@ def main():
     a = p.parse_args()
     if a.smoke:
         a.r_max, a.pretrain_r_max, a.max_hours = 1, 1, 0.5
-    cfg = cfg_v58(num_envs=NUM_ENVS, r_max=a.r_max, censor_cap=CENSOR_CAP)
+    # SMOKE ONLY: shrink the env so the code path runs in seconds. This never touches the frozen
+    # cfg_v58 defaults used by calibration and the confirmatory run — a smoke validates plumbing,
+    # never numbers, and its outputs are written to *_smoke.* paths.
+    n_envs, mb = (16, 12) if a.smoke else (NUM_ENVS, None)
+    cfg = cfg_v58(num_envs=n_envs, r_max=a.r_max, censor_cap=CENSOR_CAP)
+    if mb:
+        cfg["macro_budget"] = mb
     torch.manual_seed(a.seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(a.seed)
@@ -189,7 +200,9 @@ def main():
     jp = os.path.join(a.out_dir, f"v58_pretrain_s{a.seed}{sfx}.json")
 
     if a.phase == "pretrain":
-        pcfg = cfg_v58(num_envs=NUM_ENVS, r_max=a.pretrain_r_max, censor_cap=CENSOR_CAP)
+        pcfg = cfg_v58(num_envs=n_envs, r_max=a.pretrain_r_max, censor_cap=CENSOR_CAP)
+        if mb:
+            pcfg["macro_budget"] = mb
         worlds = PRETRAIN_WORLDS[:1] if a.smoke else PRETRAIN_WORLDS
         print(f"=== PRETRAIN M on {worlds} (weights carry over, store+buffer per world) ===", flush=True)
         cM = ComposerV58()
@@ -217,10 +230,11 @@ def main():
     arms = a.arms.split(",")
     todo = (DEFAULT_TEST[:1] if a.smoke else DEFAULT_TEST + list(SHIFTED_TEST))
     for w in todo:
-        f = os.path.join(a.out_dir, f"v58_test_{w}.json")
+        f = os.path.join(a.out_dir, f"v58_test_{w}{sfx}.json")
         res = json.load(open(f)) if (a.resume and os.path.exists(f)) else {}
         spec = build(w, **SHIFTED_TEST.get(w, {}))
-        test_world(w, spec, skill, cfg, cM, cMdeg, a.out_dir, t0, res, arms, a.seed)
+        test_world(w, spec, skill, cfg, cM, cMdeg, a.out_dir, t0, res, arms, a.seed,
+                   max_goals=2 if a.smoke else 0, sfx=sfx)
         if time.perf_counter() - t0 > a.max_hours * 3600:
             print(f"  !! {a.max_hours}h cap — state saved, relaunch with --resume", flush=True)
             return

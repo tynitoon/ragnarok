@@ -74,8 +74,13 @@ def _worse(rows_a, rows_b):
 
 
 def load(out_dir):
+    """Confirmatory artifacts only. Files whose name carries '_smoke' are EXCLUDED: the wildcard alone
+    matches them, and a smoke's JSON silently entering a confirmatory score is the v53 failure mode."""
     out = {}
     for p in sorted(glob.glob(os.path.join(out_dir, "v58_test_*.json"))):
+        if "_smoke" in os.path.basename(p):
+            print(f"  (ignoring smoke artifact {os.path.basename(p)})")
+            continue
         d = json.load(open(p))
         out[d["world"]] = d
     return out
