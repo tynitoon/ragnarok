@@ -305,3 +305,49 @@ Implements the section-8 redesign, decisions fixed here BEFORE any measurement:
 Wall-clock note: at 64 envs each F run needs more rounds by design; cap 10h with --resume, relaunch as
 needed. Budget so far: gate ~1.5h + calibration v1 ~4.8h; ceiling 30h stands with the pre-committed trim
 order.
+
+---
+
+## 10. NEXT-AGENT INSTRUCTIONS (written 2026-07-31 by the verifier; execute top to bottom)
+
+**State on handoff.** Calibration v2 is RUNNING DETACHED (PID 26192, log `craft_v6_out/v58_calib2.log`,
+artifact `craft_v6_out/v58_calibration2.json`, ~6-10h, saves after every run). Do NOT relaunch while a
+`calibrate2_v58` python process is alive; if it died, relaunch detached with `--resume` (it skips
+completed runs). GPU budget spent so far: ~6.3h of the 30h ceiling.
+
+**1. When calibration v2 completes, read its verdict block. Three branches:**
+   - **K2 FIRES** (between-world spread > 2x): stop. Record in ARC2_PLAN + RESEARCH_DIRECTION, commit,
+     report to the owner. Do not improvise a fix.
+   - **MARGIN GUARD FAILS** (fitted P1 leaves no room for 2 censored treatment goals): stop. The design
+     is still too tight; the remaining options (harder/deeper worlds, different primary) need a design
+     review, not an inline patch. Record, commit, report.
+   - **GUARD OK**: proceed to 2.
+   Also sanity-read the per-run lines: calibration v2 doubles as the 64-env re-gate. If F fails to
+   master most goals at 64 envs (mass censoring everywhere), that is a de-facto gate failure — stop and
+   report rather than proceed.
+
+**2. RE-FREEZE, in ONE commit:** (a) copy the fitted values verbatim into `scripts/score_v58.py`
+   (P1_MAX_RATIO, REFUTE_RATIO, P2_MIN_DFRAC + CALIBRATION_STAMP); (b) REWRITE the scorer's statistics
+   to match the repaired design — `_cost` must read `r["cost"]` (the scored cost), and P2 must be the
+   mean paired `discovery.frac` difference (delete `_paired`-based win rates and the constants
+   P2_MIN_WIN_LOSS / REFUTE_MIN_WIN_LOSS — audit ruling, ARC2_PLAN section 8); (c) append the amended
+   prereg to `preregistration.md` (supersedes the voided v58 section; cite commit aa82655 for why);
+   (d) verify the scorer runs and REFUSES on absent test files. All in the same commit.
+
+**3. BUILD the Step-5 confirmatory runner** (`scripts/run_confirm_v58.py`), honouring the checklist
+   points not yet enforced in code (section 7 self-audit): `permute_spec_v58` in EVERY world
+   construction; num_envs 64 everywhere; equal in-world env budgets M vs F per test world; M pretrained
+   on worlds 4000-4003 (arm-A-style ascending streams, commanded-only credit, r_max 3-4) then weights
+   FROZEN (`train=False`) on held-out worlds; Mdeg pretrained at matched sample volume on the
+   degenerate family (n_items=8, max_inputs=1); Z = M with `zero_store=True` at eval only; G =
+   `evidence_policy` on CPU; F6 = fresh at 6x r_max on <=2 cells F failed; D (hidden=False) ceiling
+   only, never inside a meta arm; detached execution, `--resume`, per-goal JSON checkpoints
+   (run_v57.py patterns); the K5 30h ceiling with the pre-committed trim order.
+
+**4. SMOKE the runner at 1/10 scale** (tiny skill_iters, r_max 1, 2-3 goals) end to end, including a
+   resume. Do not read the smoke's effect sizes.
+
+**5. STOP.** Do not launch the confirmatory run. The stop point is: re-frozen scorer + built and smoked
+   runner. A verification pass (Fable 5 or an adversarial workflow) audits steps 2-4 against this plan,
+   THEN the confirmatory launches. This is the same gate-before-spend discipline that caught the fatal
+   censoring asymmetry; it stays.
