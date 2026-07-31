@@ -241,11 +241,15 @@ def eval_goal_v58(spec, skill, composer, cfg, seed, goal, store_state=None, zero
     return float(got.float().mean()), env._prim
 
 
-def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, train=True):
+def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, train=True,
+                 zero_store_eval=False):
     """One commanded goal inside an already-built world env. The store persists; the buffer is the
     world's. train=False (arm M at test) still writes the store — only gradients are switched off."""
     a0, p0, m0 = env._att, env._prim, env.msteps_total
-    zs, ev0 = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict())
+    # zero_store_eval is arm Z: the SAME frozen weights judged without any world knowledge. It changes
+    # only what the eval sees — collection still writes the store normally.
+    zs, ev0 = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict(),
+                            zero_store=zero_store_eval)
     master, rounds, n_eval, ev_prim = zs, 0, 1, ev0
     demos, samples, first_demo_att, discovery = [], [], None, None
     for r in range(r_max if r_max is not None else cfg["r_max"]):
@@ -274,7 +278,8 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
         if train:
             composer.train_steps(buf, cfg["train_steps_per_round"])
         rounds = r + 1
-        master, evp = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict())
+        master, evp = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict(),
+                                    zero_store=zero_store_eval)
         n_eval += 1; ev_prim += evp
         if master >= cfg["thresh"]:
             break
