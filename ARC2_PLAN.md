@@ -525,3 +525,30 @@ Mastery count only (no cost ratios, no censoring caps, no small-integer ratios).
 every result. Partial success is success. Kill criteria and the scorer frozen before any confirmatory
 arm, and this design audited BEFORE freezing rather than after — the reverse of v1 and v2, both of which
 passed my own review and were later voided.
+
+### 13b. ADDITION — the accumulation curve across NUMBER of worlds lived in (owner, 2026-08-01)
+The owner's longer aim: train the agent across many virtual worlds, and once it copes broadly, let it
+face a real one without losing what it has. That aim has a precondition this design was not testing.
+
+**If competence plateaus after the first world, training in ten is pointless and the march toward
+reality has no basis.** So the experiment must measure not just "an agent that lived in 4 worlds beats a
+fresh one" but whether each additional world ADDS. That is the compounding claim, one level up: not
+"reuse within a world" but "reuse across worlds accumulates".
+
+It is nearly free. Pretraining is sequential, so checkpoint M after EACH pretrain world:
+    M1  lived in 1 world  ->  test on the unseen world
+    M2  lived in 2 worlds ->  same test
+    M3, M4 likewise
+    F   lived in none     ->  same test
+and plot goals-mastered-at-budget-B against the number of worlds lived in. A rising curve is the
+accumulation result and is directly the thing the owner's vision needs; a flat one after M1 is an honest
+and important negative — it would say the architecture transfers a fixed competence rather than
+accumulating, and no amount of extra virtual worlds would help.
+We already hold one point of this curve: M1 (trained on 6101, frozen on 6100) mastered 3/6 where random
+scored 0/6.
+
+**Honest scope note, to be carried into any write-up.** What this tests is the PRECONDITION for the
+owner's vision — that knowledge survives a change of world — not the vision itself. These worlds are
+symbolic tech-trees on a small grid; "seeing the real world" would need perception and a sim-to-real gap
+this project has only touched at toy scale (v12-v15, from pixels). Demonstrating the precondition
+cleanly is worth doing and is what ARC 2 can honestly claim. Claiming the rest would not be.
