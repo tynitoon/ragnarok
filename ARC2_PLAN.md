@@ -404,3 +404,46 @@ measurable here as posed. Deciding what to do next (harder held-out worlds, a di
 not a cost ratio, or closing ARC 2 as honestly as ARC 1 was closed) is an OWNER decision, not an
 implementer's. No confirmatory GPU has been spent: ~13h of the 30h ceiling, all of it on gates and
 calibration that produced this finding.
+
+---
+
+## 12. THE FINDING THAT REDIRECTS ARC 2 (2026-08-01)
+
+The frozen-transfer probe answered its own question — frozen weights DO transfer (3/6 vs random-frozen
+0/6) — but the same probe measured something that matters more, on the same world and the same 6 goals:
+
+    R  random frozen weights + store     0/6
+    T  TRANSFERRED frozen weights        3/6
+    F  weights TRAINED in this world     5/6
+    G  HAND-CODED rule over the store    6/6   <-- beats every learned policy
+
+Across both probe worlds, G scored 9/12 while in-world training scored 10/12 and transfer ~6/12.
+
+**The portable knowledge is in the STORE's representation, not in the learned weights.** A simple
+hand-written rule over the evidence store solves deep hidden-recipe worlds outright; every learned
+policy over the same store is worse. The learning is currently a WORSE way to use the store than a
+heuristic is.
+
+### Why this stops the confirmatory as designed
+The planned run would have spent 15-20 GPU-hours establishing "M beats R" — a comparison whose control
+scores 0 and whose winner is beaten by a rule written by hand in an afternoon. Any reader would ask why
+not just use the rule. That is not worth the compute, and publishing it as the headline would be the
+kind of framing this project has spent months learning not to do.
+
+### What is honestly established right now, with no further compute
+1. An agent writes its own world-model by experimenting and paying for failures (the evidence store),
+   and a policy over that store — hand-written or learned — solves worlds whose recipes it is never told.
+2. Learned weights carrying NO item identities transfer across worlds: 3/6 on a world never seen, with
+   zero gradient steps there, against 0/6 for random weights. The skill of exploring is portable.
+3. But the hand-designed store contributes more than the learned policy does. Stated plainly rather
+   than buried.
+
+### The redirect: diagnose the learning gap before spending anything
+The interesting question is no longer "does M beat R" (answered) but **why does learning underperform a
+heuristic over the same representation, and is that fixable?** Candidate causes, all cheap to
+distinguish: the hindsight credit rule may be a poor fit for a policy whose input is evidence rather
+than inventory; the training budget per goal may be far below what this policy class needs; the
+identity-free architecture may lack the capacity to express the hand-coded rule's conditional structure.
+A diagnostic costs ~1-2 GPU-hours and either makes a learned M competitive — at which point the
+confirmatory is genuinely worth running — or establishes that on this substrate the representation is
+the contribution and the learning is not, which is a publishable result in itself.
