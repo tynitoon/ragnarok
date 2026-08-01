@@ -552,3 +552,58 @@ owner's vision — that knowledge survives a change of world — not the vision 
 symbolic tech-trees on a small grid; "seeing the real world" would need perception and a sim-to-real gap
 this project has only touched at toy scale (v12-v15, from pixels). Demonstrating the precondition
 cleanly is worth doing and is what ARC 2 can honestly claim. Claiming the rest would not be.
+
+---
+
+## 14. AUDIT OF DESIGN v3, BEFORE FREEZING: "run something smaller" + the THIRD non-monotonicity
+The order was reversed this time — audited before freezing rather than after — and it paid immediately.
+
+### The third defect, same family as the two that voided v1 and v2
+The proposed primary "goals mastered within B=1 round" is NOT monotone, because the early break
+(`if master >= thresh: break`) makes `rounds` a FIRST-PASSAGE index. A goal already mastered at budget 0
+is re-evaluated at budget 1 on a fresh 64-env eval and can fall back under threshold — probability ~0.17
+for a marginal arrival-master on the hard worlds (6 of F's 12 probe masters sit in [0.45, 0.75]). The
+loss scales with the NUMBER of early masteries, so it is **largest for the better arm**, and it can make
+the published curve fall from B=0 to B=1. Third inversion in three designs; this one cost nothing.
+
+### A correction I owe: G's 9/12 was a PROTOCOL ARTIFACT
+Arm G was scored on a different criterion from the learned arms. The "hand-coded rule beats every
+learned policy" reading of section 12 rested on an unfair comparison and is RETRACTED pending a
+re-measurement of G through the same `run_goal_v58` structure, the same eval criterion and the same
+per-goal grid seeds. Section 12 was already corrected once for conflating transfer with performance;
+this is the second, factual, correction to it.
+
+### The design that replaces it (implemented in code as of this commit)
+FIXED BUDGET, NO EARLY BREAK. Every arm runs exactly B_max rounds on every goal and returns
+`master_per_round = [m(g,0), ..., m(g,B_max)]` — the learning curve itself, which the old code computed
+and threw away. This also bit-matches store SIZE across arms at every goal's entry (k*B_max*4*48
+attempts), so the stream/store coupling confound dies by construction rather than by argument.
+
+PRIMARY: paired learning-curve AREA. Ā_a(g) = mean over b of m_a(g,b); Δ = mean over paired goals of
+[Ā_M − ½(Ā_Fa + Ā_Fb)]. Monotone by construction (verified by the auditors over 200k random curve
+pairs): an arm whose curve dominates pointwise can never score lower. No threshold, no censoring, no
+first-passage selection.
+
+THE THRESHOLD IS A FORMULA, NOT A NUMBER. Two independent fresh replicates F_a and F_b run INSIDE the
+confirmatory; they differ from each other by exactly what M differs from F by — the initial weights. So
+se_null = sd_g[Ā_Fa − Ā_Fb]/sqrt(2N) is computed from the same rows as the primary and CANNOT be fitted
+on the wrong unit, family or difficulty. That structurally eliminates v1's fatal defect instead of
+patching it. Nothing from v58_calibration2.json may be reused: it was measured at n_items=14 while the
+confirmatory runs n_items=20 / p_resource=0.15.
+
+DECISION: DEMONSTRATED iff Δ >= 2*se_null AND Δ_w > 0 in every test world; NOT-DEMONSTRATED iff Δ <= 0;
+INCONCLUSIVE otherwise. Under a true null the auditors derive P(DEMONSTRATED) ~ 0.03-0.04 — and
+INCONCLUSIVE is genuinely reachable at ~0.47, unlike v2 where it was arithmetically impossible.
+
+### Other required changes, all recorded
+Arm M must LEARN at test (train=True) — the question is now "learns faster", not "transfers frozen".
+Worlds 6100/6101 are BURNED by publication and may never be test worlds. Every world at the hard
+setting. G re-scored on the same criterion. score_v58.py to be REPLACED, not amended. Section 13b
+demoted to a descriptive curve, with worlds-lived-in known to be perfectly collinear with gradient
+steps — a conditional control is required before any accumulation claim.
+
+### The gate that decides whether the confirmatory happens at all
+KA PILOT: run the primary on ~6 paired goals of the already-burned world 6100. Δ_pilot <= 0 -> the
+confirmatory does NOT run and ARC 2 closes on what is honestly established. 0 < Δ_pilot < 0.10 -> only
+the minimal one-world version. Δ_pilot >= 0.10 -> the full design. The pilot is a power measurement,
+never evidence.

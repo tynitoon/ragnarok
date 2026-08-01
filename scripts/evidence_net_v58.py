@@ -242,7 +242,7 @@ def eval_goal_v58(spec, skill, composer, cfg, seed, goal, store_state=None, zero
 
 
 def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, train=True,
-                 zero_store_eval=False):
+                 zero_store_eval=False, fixed_budget=False):
     """One commanded goal inside an already-built world env. The store persists; the buffer is the
     world's. train=False (arm M at test) still writes the store — only gradients are switched off."""
     a0, p0, m0 = env._att, env._prim, env.msteps_total
@@ -250,7 +250,18 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
     # only what the eval sees — collection still writes the store normally.
     zs, ev0 = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict(),
                             zero_store=zero_store_eval)
+    # fixed_budget (design v3): run EXACTLY r_max rounds on every goal for every arm, and KEEP THE WHOLE
+    # LEARNING CURVE. Two defects die together. (1) The early break made `rounds` a FIRST-PASSAGE index,
+    # so a goal already mastered at budget 0 was re-evaluated at budget 1 and could fall back under the
+    # threshold — a loss that grows with the number of early masteries, i.e. LARGEST FOR THE BETTER ARM.
+    # That is the third non-monotonicity of the family that voided designs v1 and v2, caught before
+    # freezing this time. (2) With the break, a more competent arm collected FEWER attempts, so its store
+    # was smaller at the next goal's entry; at a fixed budget the store SIZE is bit-matched across arms
+    # and only its CONTENT differs — which is the treatment, not an artifact.
+    # master_per_round[b] = mastery after b rounds of practice on this goal, b = 0..r_max.
     master, rounds, n_eval, ev_prim = zs, 0, 1, ev0
+    master_per_round = [round(zs, 4)]
+    first_mastered_at = 0 if zs >= cfg["thresh"] else None
     demos, samples, first_demo_att, discovery = [], [], None, None
     for r in range(r_max if r_max is not None else cfg["r_max"]):
         d = k = 0
@@ -281,8 +292,11 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
         master, evp = eval_goal_v58(spec, skill, composer, cfg, seed, goal, env.store.state_dict(),
                                     zero_store=zero_store_eval)
         n_eval += 1; ev_prim += evp
-        if master >= cfg["thresh"]:
-            break
+        master_per_round.append(round(master, 4))
+        if master >= cfg["thresh"] and first_mastered_at is None:
+            first_mastered_at = rounds
+        if master >= cfg["thresh"] and not fixed_budget:
+            break                                   # legacy path only; design v3 always runs the budget
     # SCORE vs SPEND (calibration-v2 redesign, ARC2_PLAN section 9). The verification audit proved two
     # defects in using raw attempts as the cost metric: (a) 26/54 calibration goal-runs were mastered ON
     # ARRIVAL yet still charged a full mandatory round — dead weight on which no arm can win; (b) a
@@ -299,6 +313,7 @@ def run_goal_v58(env, spec, skill, composer, buf, cfg, seed, goal, r_max=None, t
     else:
         cost = min(rounds, cfg.get("censor_cap", rounds)) * per_round
     return dict(goal=goal, zero_shot=round(zs, 3), rounds=rounds, discovery=discovery, cost=cost,
+                master_per_round=master_per_round, first_mastered_at=first_mastered_at,
                 mastered_on_arrival=bool(zs >= cfg["thresh"]),
                 attempts=env.msteps_total - m0, first_demo_attempt=first_demo_att,
                 collect_prim=env._prim - p0, eval_prim=ev_prim, n_eval=n_eval,
