@@ -447,3 +447,25 @@ identity-free architecture may lack the capacity to express the hand-coded rule'
 A diagnostic costs ~1-2 GPU-hours and either makes a learned M competitive — at which point the
 confirmatory is genuinely worth running — or establishes that on this substrate the representation is
 the contribution and the learning is not, which is a publishable result in itself.
+
+### CORRECTION to section 12 (2026-08-01, same day) — the redirect was an error of judgement
+Section 12 concluded that a hand-coded rule beating the learned policies meant "the representation is the
+contribution, not the learning", and used that to stop the confirmatory. That reasoning conflated two
+different questions and let the wrong one cancel the right one.
+
+1. Arm G does NOT receive the world's recipes. It reads the same self-discovered evidence store as every
+   learned arm (evidence_policy uses only store masks and inventory; it never touches spec["inputs"] or
+   craft_in). What is hand-written is a SEARCH STRATEGY, not the answer. The oracle-baseline objection
+   does not apply — that defect belonged to ARC 1 and was removed.
+2. More importantly, **G transfers nothing**. It is a fixed program that behaves identically in every
+   world; it has learned nothing and has nothing to reuse. It is a CEILING REFERENCE for how far this
+   representation can be pushed, not a competitor for the transfer claim.
+
+The project's question is whether an agent reuses what it learned. That is answered by ONE comparison —
+frozen transferred weights 3/6 versus random frozen weights 0/6, in an unseen world with an empty store —
+and G's score has no bearing on it. Demanding that the agent also beat a hand-written heuristic, or find
+every rule, is a standard the claim was never making.
+
+DECISION: the confirmatory proceeds as originally designed. Primary stays M vs R (the transfer test).
+G is REPORTED alongside, always, as an honest performance ceiling — a real limitation to disclose, never
+a reason to suppress the transfer result and never something to omit.
