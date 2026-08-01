@@ -469,3 +469,59 @@ every rule, is a standard the claim was never making.
 DECISION: the confirmatory proceeds as originally designed. Primary stays M vs R (the transfer test).
 G is REPORTED alongside, always, as an honest performance ceiling — a real limitation to disclose, never
 a reason to suppress the transfer result and never something to omit.
+
+---
+
+## 13. DESIGN v3 — PROPOSAL (not frozen; to be audited BEFORE freezing, 2026-08-01)
+
+Written against the north star, restated by the owner today: *show that the AI learns and uses what it
+learned to LEARN FASTER* — the human-like property. Not beating baselines, not finding every rule, not
+optimality. And it must be presentable.
+
+### The shape change this forces
+Designs v1 and v2 asked "does it transfer?" and compared a FROZEN agent to controls. That answers a
+different question from the one the project exists for. "Learns faster" requires **both arms to be
+learning**, and compares their speed. So:
+
+    On a world NEITHER agent has ever seen, both LEARN, same budget, same everything:
+      M   has lived in 4 other worlds (weights carry over), now learns here
+      F   starts from nothing, learns here
+    PRIMARY: how many goals each has mastered after ONE round of learning per goal.
+
+That is literally "uses prior knowledge to learn faster": with a single round of practice, how much
+further does the experienced agent get? It is a COUNT — monotone in goodness, so failing can never
+outscore succeeding, which is exactly how v2 broke.
+
+### The curve comes free, and it is the presentable artifact
+run_goal_v58 already records rounds-to-mastery per goal, so ONE run at r_max = B_max yields the whole
+curve: goals mastered at budget B = count of goals mastered in <= B rounds, for every B. Plot M and F
+together and the claim is visible rather than argued. B = 0 is the frozen case already measured
+(3/6 vs 0/6), and it becomes the striking left-hand end of the curve rather than the whole story.
+
+### Arms
+    M     4-world pretrained weights, LEARNING in the unseen world      (treatment)
+    F     fresh weights, learning in the same world, same budget        (primary control)
+    R     random weights, frozen                                        (floor — measured 0/12)
+    G     hand-coded policy over the store                              (CEILING CONTEXT, reported
+                                                                         every time, never suppressed:
+                                                                         it transfers nothing, so it
+                                                                         bounds the representation,
+                                                                         not the claim)
+    Mdeg  pretrained on degenerate worlds at matched volume             (cheap-transfer isolator)
+Worlds: the validated harder setting (n_items 20, p_resource 0.15 — deeper chains, cell IDs <= 9 so the
+frozen nav skill stays in distribution). Pretrain / calibration / test seed ranges disjoint, test worlds
+never inspected before the confirmatory.
+
+### What still has to be settled before freezing
+- B_max and the per-goal budget, chosen so F is NOT at ceiling at B = 1 (in the probe F reached 5/6 at
+  r_max 4; the curve needs room at its left end).
+- The threshold for P1, fitted from a measured null: F-vs-F across inits on calibration worlds, i.e. how
+  much the B = 1 count moves by chance alone.
+- Whether the count is pooled over worlds or required per world.
+These are exactly the choices that were guessed in v1/v2 and cost two designs. They will be MEASURED.
+
+### Standing constraints carried forward
+Mastery count only (no cost ratios, no censoring caps, no small-integer ratios). G reported alongside
+every result. Partial success is success. Kill criteria and the scorer frozen before any confirmatory
+arm, and this design audited BEFORE freezing rather than after — the reverse of v1 and v2, both of which
+passed my own review and were later voided.
