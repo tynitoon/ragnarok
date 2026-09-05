@@ -607,3 +607,63 @@ KA PILOT: run the primary on ~6 paired goals of the already-burned world 6100. �
 confirmatory does NOT run and ARC 2 closes on what is honestly established. 0 < Δ_pilot < 0.10 -> only
 the minimal one-world version. Δ_pilot >= 0.10 -> the full design. The pilot is a power measurement,
 never evidence.
+
+## 15. GATE KA RESULT (2026-08-01): the confirmatory does NOT run. ARC 2 closes on a partial negative.
+
+`scripts/pilot_v60.py`, output `craft_v6_out/v60_pilot.json`. M pretrained on 6101 (8 goals, B_MAX=3,
+fixed budget), then M / Fa / Fb all LEARN on 6100 (6 goals, pc 9-10), fixed budget, no early break.
+
+    goals mastered within B rounds (cumulative-OR, thresh 0.85):
+                    B=0   B=1   B=2   B=3
+        M           1     3     3     5
+        Fa          2     4     5     5
+        Fb          0     1     3     4
+
+    Delta (paired curve-area, M over mean fresh)  = +0.0687
+    se_null (from Fa vs Fb, same rows)            =  0.0760      -> Delta = 0.90 x noise
+    95% CI                                        = [-0.080, +0.218]
+    per-goal deltas: +0.17  -0.06  -0.20  +0.40  -0.21  +0.30   (3 positive, 3 negative)
+
+The literal gate says MINIMAL (0 < Delta < 0.10). But the gate was written before the noise was
+measured, and the pilot's purpose is power. Power at the measured Delta, se scaling as 1/sqrt(N):
+
+    minimal (1 test world, N=6)     needs Delta >= 2*0.076        = 0.152   measured 0.069
+    full    (3 test worlds, N=18)   needs Delta >= 2*0.076/sqrt3  = 0.088   measured 0.069
+    5 worlds (N=30, over budget)    needs Delta >= 2*0.076/sqrt5  = 0.068   coin flip, AND the
+                                    per-world Delta_w > 0 clause fails with high probability
+                                    given 3/6 per-goal deltas are negative
+
+Every runnable version is out of reach at the measured effect. Running the minimal confirmatory would
+spend ~6 of the ~8 remaining budget hours on an outcome that is arithmetically INCONCLUSIVE before it
+starts. DECISION: the confirmatory does not run. Following the letter of the gate here would be
+theatre; its spirit (a power measurement decides) says stop.
+
+### What this means, stated once and without spin
+- Prior experience helps the agent START (frozen transfer, section 13 / probe_transfer_v59: 3/6 vs 0/6
+  random, no gradient step in the new world). That result stands.
+- Once BOTH agents are allowed to learn, a fresh agent catches up within 1-3 rounds, and the
+  experienced agent's saving (Delta ~ 0.07) is smaller than the gap between two fresh agents (0.076).
+  "Learns faster thanks to prior knowledge" is NOT DETECTABLE at this scale. M sits between Fa and Fb
+  at every budget.
+- This is a PARTIAL NEGATIVE, not a null on the architecture: the store is read and written
+  (K1 4/4, zeroed-store drop 0.99), hidden recipes are discovered, weights carry a portable
+  exploration prior. What the weights carry is simply CHEAP for a fresh agent to re-acquire.
+
+### The diagnosis, which is the same wall ARC 1 hit from the other side
+ARC 1 (necessity): reuse pays only when the knowledge is EXPENSIVE TO REDERIVE. Resetting worlds made
+every recipe cheap to rederive -> three frozen NULLs.
+ARC 2 (learn-faster): reuse pays only when what is SHARED between worlds is expensive to reacquire.
+Our worlds are random DAGs with permuted identities: BY DESIGN nothing item-specific transfers (that
+design killed the affordance oracle, correctly), and what remains shared — "resources vs crafts, tools
+gate resources, try and see" — is learnable by a fresh agent in ~2 rounds. The store (hand-designed)
+does the heavy lifting; the learned weights carry a small prior.
+One wall, two arcs: the SUBSTRATE has almost no deep, costly, shared structure across worlds. That is
+the precise thing an ARC 3 would have to change, and the only thing never changed in 60 versions.
+
+### Bookkeeping
+- Worlds 6100/6101 remain burned. v59_T_6101.pt / v60_M_pilot.pt are pilot artifacts, not evidence.
+- score_v58.py constants (0.558 / 0.587 / 0.0895) are void with design v2; the file stays for the
+  record and is not to be reused.
+- Section 13b (accumulation curve) is NOT measured: with the single-world advantage inside noise, a
+  multi-world curve cannot be resolved with this substrate and budget.
+- Budget: ~22h of the 30h ARC 2 envelope spent; ~8h unspent, deliberately.
