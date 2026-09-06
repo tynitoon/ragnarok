@@ -7017,3 +7017,87 @@ K1 gate PASSED. K2 did NOT fire. K3 REFUTED per the frozen rule -> published NUL
 store-ignoring collapse -> published regardless of P1. K5 hard 30 GPU-hour ceiling with the
 pre-committed trim order. Budget spent to date: ~1.5h gate + ~4.8h calibration v1 + ~6.7h calibration v2
 = ~13h of 30h.
+
+# PREREGISTRATION v61 / ARC 3 "ALCHEMY" — STAGE-0 FREEZE, 2026-09-06 (before gate K0; ARC3_PLAN.md 4.0)
+
+This section freezes the SUBSTRATE and the GATE. The confirmatory's remaining constants (B_max(test), N,
+the notch if any) are appended in a second v61 section only after the gate says PROCEED, with every
+gate number, and are frozen there. Nothing below changes after this commit except by the ONE notch
+pre-declared here.
+
+## Substrate constants (ragnarok/environments/law_world.py, scripts/mc_v61.py)
+K 14 elements, T_MAX 4, Bond density 0.5 with >= 2 partners per element, Out a proper edge colouring,
+laws seed 31337 (44 true cells of 91). Per world: n_raw 6 (4 free, 2 gated), 6 slots per tier with
+decoys (never dropped products), n_items 24, cells 1..6, quota 4 units per raw type per 48-step
+episode, gate = any held item of tier >= 2. Three outcomes product / inert / botch. Index and cell-ID
+permutation (v55/v58 rules).
+MEASURED (200 seeds): real items per tier 6.00/5.66/5.26/4.64; 2.1 products dropped per world;
+P(world admitted) 0.95; true cells exposed per world 0.38 (sd 0.10); 4-world lineage coverage
+0.38/0.62/0.76/0.85.
+
+## The unit, the stream, the store (ARC3_PLAN 2.5, 2.8)
+Unit = one admitted world; every arm enters with WEIGHTS ONLY (buffers and Adam rebuilt at entry). The
+store (PairStore) is PER-GOAL working memory: empty at every goal entry for every arm. Stream = the
+admitted real item of tier 2, then 3, then 4 with the lowest permuted index (chain-blind). Fixed budget:
+B_max rounds per goal, no early break, eval before the first round and after every round.
+Roles declared: tier 2 = rung; tier 3 = learns-faster position; tier 4 = reach position.
+
+## Agent and training constants (scripts/pair_net_v61.py, cfg_v61)
+64 envs, macro_budget 48, option_timeout 16, 4 episodes per round, 300 train steps per round (bs 512,
+Adam 3e-4), epsilon 0.05, temp 1.0, thresh 0.6, hindsight gamma 0.7 toward the COMMANDED goal only
+(D4), outcome head supervised on observed outcomes (ruled not a credit path), evidence dropout none,
+policy buffer 200k rows, outcome buffer 100k rows, per-world, eval episodes never enter them (test 13).
+Eval = deterministic argmax under the context-aware mask; if every valid cell is masked, argmax over
+the valid set (no absorbing state). PairNet: 118 -> 128 -> 128, symmetric pair encoding, no parameter
+shaped to a slot count (test 6), slot-equivariant (test 5).
+
+## Seed table (ARC3_PLAN 4.7)
+laws 31337 | gate worlds = first two admitted seeds >= 8100 -> 8100, 8101 (burned) | probe 8150 (burned)
+| pretrain lineage s = first 4 admitted of 8200+10s..+9 (mc_v61: 8200-8203 / 8210-8213 / 8220-8223,
+nav gate at run time may skip) | test lineage s = first N/3 admitted of 8300+10s..+9, never inspected
+before the run. Grid seed per (world w, goal position p) = w + 11p, eval seed +9, identical across
+arms. Init seed per (lineage s, world w, arm a) = 100000 + 1000 s + 10 (w - 8000) + a; fresh a in
+{1,2,3}; a lineage's own initial net a = 4; gate arms s = 9. Sampling stream = init seed + 500.
+
+## THE GATE (scripts/gate_v61.py; K0 ~1.5 GPU-h, K1 ~4.4 GPU-h; B_max(gate) 4; N_conf 12 for se_proj)
+REACHABLE    iff nav_min >= 0.85 AND m_L(g) >= 0.85 on every goal of both units (else: instrument
+             defect, fix, re-run K0).
+CONSISTENT   (reported) G' attempts-to-first-obtain per goal beside the CPU model's prediction for the
+             SAME rule from an empty per-goal store (scripts/sweeper_v61.py; v61_mc.json): 8100 tier
+             2/3/4 = 29 / 66 / >576 (88% censored); 8101 = 29 / 155 / >576 (62%). A miss by > 2x on a
+             non-censored goal halts K1 for a bug hunt.
+FRESH-LEARNS iff b*(tier-2) <= 2 on both units AND b*(tier-3) <= 3 on both units, b* = first round at
+             which the MEDIAN of the three fresh arms reaches 0.6 (tier-4 b* printed, not required).
+ROOM         iff H >= 4 se_proj, H = mean_u[A_L(u) - mean fresh A(u)], A(u) = mean over the unit's
+             3 goals of the mean over b = 1..4 of m; se_proj = max(sd_init / sqrt(2 N), se_res) with
+             sd_init = sd of the 6 pairwise per-UNIT fresh differences (the confirmatory's own unit;
+             ~5 df, a coin flip near the line — said here), se_res = 0.0625 sqrt(2 / (3 B N)).
+PROCEED iff REACHABLE and FRESH-LEARNS and ROOM. Otherwise STOP, published as a gate result with its
+numbers, never as a wall measurement.
+ONE NOTCH at most, then STOP: not FRESH-LEARNS -> the store persists across the stream and
+B_max(test) = 4, K1 re-run on the same units; not ROOM -> quota 3, gate worlds regenerated (next
+admitted seeds), K0 + K1 re-run once.
+
+## Predictions (ARC3_PLAN 3), stated before K0
+tier 2: every arm ~1.0 from b = 1. tier 3: a fresh arm reaches 0.6 within 1-3 rounds; M4 ahead at
+b = 0..1. tier 4: fresh mostly does not reach it inside B_max; M4 plans it. Delta_learn (M4) 0.15-0.35
+overall, 0.1-0.3 on tier 3, ~0 for M1 on tier 3. INCONCLUSIVE is a live outcome.
+Roster ceiling MEASURED (scripts/roster_v61.py, 2,000 law tables): AUC 0.495-0.504 on unexercised
+cells at every coverage — the disclosed roster carries no usable law information for a generic reader.
+
+## Pre-committed caveats
+- The transferred object is a partially observed memorised law table keyed by the disclosed element
+  labels, plus tier/gate laws and exploration skill; the caption says "law-carrying or roster-inferring"
+  (the roster ceiling is at chance, so the second is unlikely, and is still said).
+- The b = 1..B_max area can reward a head start the fresh arms are slow to erase; the endpoint gap and
+  the per-tier lines are printed, and the WORDING RULE decides the sentence (ARC3_PLAN 4.4).
+- Arms are paired on grids and eval seeds, not on nav-skill outcomes (symmetric noise, lands in se_null).
+- Treatment-side init variance has three draws (one checkpoint per lineage); the per-lineage clause is
+  what covers it.
+- Every hand-coded reference is scored by the same run_goal on the same criterion as the arms.
+
+## KILL criteria
+K-A gate STOP as above. K-B the probe: r(M4) - r(R) < 3 se -> STOP before the confirmatory, published
+as an architecture result. K-C hard 40 GPU-hour ceiling with the cut list of ARC3_PLAN 4.6 (never cut:
+Fb, a lineage, the probe). K-D any store-zeroing or leak test (1)-(4), (13) failing at any point ->
+the run is void and the defect is published.
