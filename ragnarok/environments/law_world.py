@@ -200,11 +200,14 @@ def plan_for(spec, chain, goal):
     ok = max(total.values()) <= q
     # order: tool's free units -> tool combine -> gated units -> remaining free units -> chain combines
     if tool is not None and not tool_pairs:
-        # the chain's own tool: pull its two free units to the front and its combine right after
-        (ti, tj, _), = [p for p in c["pairs"] if p[2] == tool][:1]
+        # the chain's own tool: pull its FIRST production (two free units + one combine) to the front.
+        # Only that one production moves — an intermediate reused later in the chain is produced again
+        # where the chain needs it (the "reused intermediate" defect the planner test guards).
+        idx = [k for k, p in enumerate(c["pairs"]) if p[2] == tool][0]
+        ti, tj, _ = c["pairs"][idx]
         first_free = [ti, tj]
         first_pairs = [(ti, tj, tool)]
-        rest_pairs = [p for p in c["pairs"] if p[2] != tool]
+        rest_pairs = c["pairs"][:idx] + c["pairs"][idx + 1:]
         units_left = _merge(units, {ti: -1, tj: -1})
     else:
         first_free = [s for s, k in extra.items() for _ in range(k)]
