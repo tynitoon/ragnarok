@@ -1,0 +1,2134 @@
+{
+ "laws_seed": 31337,
+ "n_true": 44,
+ "windows": {
+  "gate": [
+   {
+    "seed": 8100,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.409,
+    "stream": [
+     6,
+     7,
+     1
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8101,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.455,
+    "stream": [
+     1,
+     4,
+     5
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8102,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.455,
+    "stream": [
+     3,
+     2,
+     4
+    ],
+    "steps": [
+     6,
+     7,
+     18
+    ],
+    "raw_use": [
+     2,
+     2,
+     4
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8103,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     5
+    ],
+    "exposed": 0.409,
+    "stream": [
+     1,
+     3,
+     4
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8104,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     4
+    ],
+    "exposed": 0.341,
+    "stream": [
+     1,
+     4,
+     2
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8105,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.568,
+    "stream": [
+     0,
+     1,
+     4
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8106,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.477,
+    "stream": [
+     3,
+     1,
+     0
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8107,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.432,
+    "stream": [
+     2,
+     3,
+     0
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8108,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.477,
+    "stream": [
+     1,
+     3,
+     4
+    ],
+    "steps": [
+     6,
+     10,
+     18
+    ],
+    "raw_use": [
+     1,
+     2,
+     4
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8109,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.386,
+    "stream": [
+     0,
+     2,
+     4
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   }
+  ],
+  "probe": [
+   {
+    "seed": 8150,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.409,
+    "stream": [
+     2,
+     1,
+     0
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     false,
+     true
+    ]
+   }
+  ],
+  "pre0": [
+   {
+    "seed": 8200,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.545,
+    "stream": [
+     0,
+     1,
+     3
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8201,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.477,
+    "stream": [
+     0,
+     4,
+     2
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8202,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.477,
+    "stream": [
+     1,
+     2,
+     0
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8203,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     4
+    ],
+    "exposed": 0.364,
+    "stream": [
+     3,
+     1,
+     0
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8204,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     4
+    ],
+    "exposed": 0.341,
+    "stream": [
+     2,
+     0,
+     7
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8205,
+    "ok": false,
+    "n_adm": [
+     5,
+     1,
+     0
+    ],
+    "exposed": 0.182
+   },
+   {
+    "seed": 8206,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.432,
+    "stream": [
+     2,
+     9,
+     1
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     1,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8207,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     3
+    ],
+    "exposed": 0.364,
+    "stream": [
+     4,
+     1,
+     16
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8208,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     3
+    ],
+    "exposed": 0.341,
+    "stream": [
+     1,
+     3,
+     14
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8209,
+    "ok": true,
+    "n_adm": [
+     6,
+     4,
+     2
+    ],
+    "exposed": 0.295,
+    "stream": [
+     3,
+     5,
+     8
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   }
+  ],
+  "pre1": [
+   {
+    "seed": 8210,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.5,
+    "stream": [
+     2,
+     0,
+     9
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8211,
+    "ok": true,
+    "n_adm": [
+     6,
+     4,
+     4
+    ],
+    "exposed": 0.295,
+    "stream": [
+     7,
+     9,
+     0
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     false,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8212,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.568,
+    "stream": [
+     1,
+     7,
+     0
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8213,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.386,
+    "stream": [
+     6,
+     0,
+     7
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8214,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.364,
+    "stream": [
+     1,
+     8,
+     0
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8215,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.432,
+    "stream": [
+     2,
+     0,
+     10
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8216,
+    "ok": true,
+    "n_adm": [
+     6,
+     3,
+     1
+    ],
+    "exposed": 0.295,
+    "stream": [
+     1,
+     5,
+     11
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8217,
+    "ok": true,
+    "n_adm": [
+     6,
+     4,
+     3
+    ],
+    "exposed": 0.273,
+    "stream": [
+     5,
+     2,
+     10
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8218,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.432,
+    "stream": [
+     1,
+     0,
+     7
+    ],
+    "steps": [
+     6,
+     7,
+     18
+    ],
+    "raw_use": [
+     1,
+     1,
+     4
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8219,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.5,
+    "stream": [
+     0,
+     5,
+     3
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     1,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   }
+  ],
+  "pre2": [
+   {
+    "seed": 8220,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.5,
+    "stream": [
+     0,
+     4,
+     6
+    ],
+    "steps": [
+     3,
+     10,
+     14
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8221,
+    "ok": true,
+    "n_adm": [
+     6,
+     4,
+     3
+    ],
+    "exposed": 0.295,
+    "stream": [
+     0,
+     2,
+     5
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8222,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     4
+    ],
+    "exposed": 0.364,
+    "stream": [
+     0,
+     10,
+     2
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8223,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.5,
+    "stream": [
+     0,
+     6,
+     1
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8224,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.432,
+    "stream": [
+     0,
+     9,
+     5
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8225,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     4
+    ],
+    "exposed": 0.364,
+    "stream": [
+     1,
+     12,
+     4
+    ],
+    "steps": [
+     6,
+     7,
+     14
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8226,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.523,
+    "stream": [
+     2,
+     0,
+     9
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     false,
+     false
+    ]
+   },
+   {
+    "seed": 8227,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     4
+    ],
+    "exposed": 0.386,
+    "stream": [
+     0,
+     7,
+     1
+    ],
+    "steps": [
+     3,
+     10,
+     14
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8228,
+    "ok": true,
+    "n_adm": [
+     5,
+     3,
+     1
+    ],
+    "exposed": 0.227,
+    "stream": [
+     0,
+     2,
+     20
+    ],
+    "steps": [
+     3,
+     7,
+     14
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8229,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.432,
+    "stream": [
+     4,
+     0,
+     2
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   }
+  ],
+  "test0": [
+   {
+    "seed": 8300,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     5
+    ],
+    "exposed": 0.318,
+    "stream": [
+     2,
+     0,
+     9
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8301,
+    "ok": true,
+    "n_adm": [
+     5,
+     2,
+     1
+    ],
+    "exposed": 0.227,
+    "stream": [
+     1,
+     7,
+     18
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8302,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     5
+    ],
+    "exposed": 0.409,
+    "stream": [
+     3,
+     1,
+     0
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8303,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     5
+    ],
+    "exposed": 0.295,
+    "stream": [
+     3,
+     0,
+     8
+    ],
+    "steps": [
+     6,
+     7,
+     18
+    ],
+    "raw_use": [
+     1,
+     2,
+     4
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8304,
+    "ok": true,
+    "n_adm": [
+     5,
+     4,
+     3
+    ],
+    "exposed": 0.227,
+    "stream": [
+     1,
+     0,
+     7
+    ],
+    "steps": [
+     6,
+     10,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8305,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     4
+    ],
+    "exposed": 0.295,
+    "stream": [
+     4,
+     9,
+     3
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8306,
+    "ok": true,
+    "n_adm": [
+     5,
+     6,
+     6
+    ],
+    "exposed": 0.341,
+    "stream": [
+     0,
+     2,
+     3
+    ],
+    "steps": [
+     6,
+     7,
+     18
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8307,
+    "ok": true,
+    "n_adm": [
+     5,
+     5,
+     5
+    ],
+    "exposed": 0.386,
+    "stream": [
+     5,
+     4,
+     6
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8308,
+    "ok": false,
+    "n_adm": [
+     3,
+     2,
+     0
+    ],
+    "exposed": 0.114
+   },
+   {
+    "seed": 8309,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.477,
+    "stream": [
+     1,
+     2,
+     4
+    ],
+    "steps": [
+     6,
+     7,
+     18
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   }
+  ],
+  "test1": [
+   {
+    "seed": 8310,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     4
+    ],
+    "exposed": 0.409,
+    "stream": [
+     1,
+     0,
+     2
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8311,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     4
+    ],
+    "exposed": 0.273,
+    "stream": [
+     3,
+     8,
+     6
+    ],
+    "steps": [
+     6,
+     7,
+     14
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8312,
+    "ok": true,
+    "n_adm": [
+     4,
+     5,
+     5
+    ],
+    "exposed": 0.341,
+    "stream": [
+     3,
+     0,
+     1
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8313,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     3
+    ],
+    "exposed": 0.364,
+    "stream": [
+     2,
+     0,
+     3
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     false,
+     false
+    ]
+   },
+   {
+    "seed": 8314,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.409,
+    "stream": [
+     6,
+     10,
+     0
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8315,
+    "ok": false,
+    "n_adm": [
+     3,
+     2,
+     0
+    ],
+    "exposed": 0.114
+   },
+   {
+    "seed": 8316,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.409,
+    "stream": [
+     1,
+     3,
+     0
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     false,
+     true
+    ]
+   },
+   {
+    "seed": 8317,
+    "ok": true,
+    "n_adm": [
+     5,
+     3,
+     1
+    ],
+    "exposed": 0.227,
+    "stream": [
+     2,
+     1,
+     19
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     2,
+     4
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8318,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.455,
+    "stream": [
+     5,
+     0,
+     1
+    ],
+    "steps": [
+     3,
+     10,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8319,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.364,
+    "stream": [
+     3,
+     7,
+     1
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     2,
+     1,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   }
+  ],
+  "test2": [
+   {
+    "seed": 8320,
+    "ok": true,
+    "n_adm": [
+     6,
+     5,
+     6
+    ],
+    "exposed": 0.364,
+    "stream": [
+     5,
+     11,
+     1
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8321,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.523,
+    "stream": [
+     3,
+     0,
+     1
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8322,
+    "ok": true,
+    "n_adm": [
+     6,
+     3,
+     2
+    ],
+    "exposed": 0.227,
+    "stream": [
+     2,
+     8,
+     6
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8323,
+    "ok": true,
+    "n_adm": [
+     5,
+     6,
+     6
+    ],
+    "exposed": 0.341,
+    "stream": [
+     2,
+     0,
+     3
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     2
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8324,
+    "ok": true,
+    "n_adm": [
+     5,
+     3,
+     1
+    ],
+    "exposed": 0.227,
+    "stream": [
+     0,
+     13,
+     19
+    ],
+    "steps": [
+     6,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8325,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.386,
+    "stream": [
+     3,
+     1,
+     2
+    ],
+    "steps": [
+     3,
+     7,
+     14
+    ],
+    "raw_use": [
+     1,
+     2,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8326,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.591,
+    "stream": [
+     2,
+     0,
+     1
+    ],
+    "steps": [
+     6,
+     10,
+     18
+    ],
+    "raw_use": [
+     2,
+     2,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8327,
+    "ok": true,
+    "n_adm": [
+     6,
+     6,
+     6
+    ],
+    "exposed": 0.523,
+    "stream": [
+     5,
+     0,
+     2
+    ],
+    "steps": [
+     6,
+     10,
+     18
+    ],
+    "raw_use": [
+     2,
+     2,
+     3
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8328,
+    "ok": true,
+    "n_adm": [
+     5,
+     4,
+     2
+    ],
+    "exposed": 0.273,
+    "stream": [
+     1,
+     6,
+     3
+    ],
+    "steps": [
+     6,
+     10,
+     18
+    ],
+    "raw_use": [
+     2,
+     1,
+     2
+    ],
+    "tool_needed": [
+     true,
+     true,
+     true
+    ]
+   },
+   {
+    "seed": 8329,
+    "ok": true,
+    "n_adm": [
+     6,
+     4,
+     3
+    ],
+    "exposed": 0.295,
+    "stream": [
+     2,
+     13,
+     6
+    ],
+    "steps": [
+     3,
+     7,
+     15
+    ],
+    "raw_use": [
+     1,
+     1,
+     3
+    ],
+    "tool_needed": [
+     false,
+     true,
+     true
+    ]
+   }
+  ],
+  "pre0_lineage": {
+   "seeds": [
+    8200,
+    8201,
+    8202,
+    8203
+   ],
+   "coverage": [
+    0.55,
+    0.64,
+    0.8,
+    0.89
+   ]
+  },
+  "pre1_lineage": {
+   "seeds": [
+    8210,
+    8211,
+    8212,
+    8213
+   ],
+   "coverage": [
+    0.5,
+    0.66,
+    0.82,
+    0.93
+   ]
+  },
+  "pre2_lineage": {
+   "seeds": [
+    8220,
+    8221,
+    8222,
+    8223
+   ],
+   "coverage": [
+    0.5,
+    0.68,
+    0.8,
+    0.91
+   ]
+  }
+ }
+}
