@@ -24,7 +24,7 @@ import torch
 from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.law_world import sample_laws, make_world, goal_stream, admitted_worlds, T_MAX
 from scripts.hidden_recipe_v55 import nav_gate
-from scripts.pair_store_v61 import PairEnv, PairStore, MAX_ITEMS, PAIR_INDEX, N_SLOT
+from scripts.pair_store_v61 import PairEnv, PairStore, MAX_ITEMS, PAIR_INDEX, N_SLOT, GOAL_COL
 from scripts.pair_net_v61 import (ComposerV61, cfg_v61, load_skill, eval_goal_v61, run_unit_v61, area,
                                   init_seed)
 from scripts.hand_v61 import LawKnower, StoreSweeper
@@ -53,6 +53,9 @@ def law_auc(composer, spec, skill, cfg, laws):
         env.base.inv[k, i] = 1; env.base.inv[k, j] = 1
     env.base._set_state()
     obs = env.obs()
+    # the outcome head is trained on GOAL-FREE rows (collect_episode zeroes the goal column before storing);
+    # measure it in the same distribution (review finding)
+    obs.view(len(pairs), -1)[:, :MAX_ITEMS * N_SLOT].view(len(pairs), MAX_ITEMS, N_SLOT)[..., GOAL_COL] = 0.0
     _, o3, _ = composer.net(obs)
     idx = torch.tensor([int(PAIR_INDEX[i, j]) for (i, j) in pairs], device=DEVICE)
     p = torch.softmax(o3[torch.arange(len(pairs), device=DEVICE), idx], -1)
@@ -121,7 +124,10 @@ def main():
                  plan_steps=[spec["plans"][g]["steps"] for g in goals])
         L_(f"\nWORLD {w} | stream {goals} tiers {tiers} plan steps {u['plan_steps']} | nav min {u['nav_min']:.3f}")
         if u["nav_min"] < 0.85:
-            L_("  NAV GATE FAILS — instrument; world skipped (logged)"); res["units"][w] = u; continue
+            # an instrument failure on a gate world is a REACHABLE failure of the whole gate, never a
+            # silent drop to one unit (review finding, critical)
+            L_("  NAV GATE FAILS — instrument; REACHABLE = False for the gate (logged)")
+            u["nav_fail"] = True; res["units"][w] = u; continue
 
         if a.k0:
             def k0():
@@ -166,10 +172,17 @@ def main():
 
     # ---- the decisions --------------------------------------------------------------------------
     units = [w for w in worlds if "k1" in res["units"].get(w, {}) or "k0" in res["units"].get(w, {})]
-    L_(f"\n{'='*100}\nGATE SUMMARY | units {units} | B {B} | thresh {cfg['thresh']}")
+    nav_failed = [w for w in worlds if res["units"].get(w, {}).get("nav_fail")]
+    L_(f"\n{'='*100}\nGATE SUMMARY | units {units} | nav-failed {nav_failed} | B {B} | thresh {cfg['thresh']}")
     thresh = cfg["thresh"]
-    reachable = all(res["units"][w].get("k0", {}).get("L", {}) and
-                    min(res["units"][w]["k0"]["L"].values()) >= 0.85 for w in units) if a.k0 else None
+    reachable = (not nav_failed and len(units) == len(worlds) and
+                 all(res["units"][w].get("k0", {}).get("L", {}) and
+                     min(res["units"][w]["k0"]["L"].values()) >= 0.85 for w in units)) if a.k0 else None
+    if len(units) < 2:
+        L_("  fewer than 2 units: no decision is computed (REACHABLE = False)")
+        res["summary"] = dict(reachable=False, proceed=False, reason="fewer than 2 gate units")
+        json.dump(res, open(os.path.join(a.out_dir, f"v61_gate{sfx}.json"), "w"), indent=1)
+        return
     if a.k0:
         for w in units:
             k0 = res["units"][w]["k0"]
@@ -201,16 +214,22 @@ def main():
         d_goal = [Ag[w][x][p] - Ag[w][y][p] for w in units for (x, y) in pairs for p in range(3)]
         sd_init = st.pstdev(d_unit) * (len(d_unit) / (len(d_unit) - 1)) ** 0.5 if len(d_unit) > 1 else float("nan")
         sd_goal = st.pstdev(d_goal) * (len(d_goal) / (len(d_goal) - 1)) ** 0.5 if len(d_goal) > 1 else float("nan")
-        N = a.n_conf
-        se_res = 0.0625 * (2 / (3 * B * N)) ** 0.5
-        se_proj = max(sd_init / (2 * N) ** 0.5, se_res)
         med_b = {}
         for p in range(3):
             med_b[p] = [st.median(bstar[w][arm][p] for arm in arms) for w in units]
         fresh_learns = all(b <= 2 for b in med_b[0]) and all(b <= 3 for b in med_b[1])   # ARC3_PLAN 4.1
+        # B_max(test) and N follow from K1 (ARC3_PLAN 4.4): clamp(b*(tier-4 median over units) + 1, 3, 4);
+        # N = 12 at B 3, 9 at B 4. se_proj is computed under THOSE values (the N=12/B=4 line is a diagnostic).
+        b4 = st.median(med_b[2]) if all(b < float("inf") for b in med_b[2]) else float("inf")
+        B_test = 4 if b4 == float("inf") else int(min(4, max(3, b4 + 1)))
+        N = 12 if B_test == 3 else 9
+        se_res = 0.0625 * (2 / (3 * B_test * N)) ** 0.5
+        se_proj = max(sd_init / (2 * N) ** 0.5, se_res)
+        se_proj_diag = max(sd_init / (2 * a.n_conf) ** 0.5, 0.0625 * (2 / (3 * B * a.n_conf)) ** 0.5)
         L_(f"  sd_init (per-UNIT pairwise fresh differences, {len(d_unit)} values) = {sd_init:.4f} | per-goal sd "
-           f"(diagnostic, {len(d_goal)} values) = {sd_goal:.4f} | se_res {se_res:.4f} | se_proj(N={N}) {se_proj:.4f}")
-        L_(f"  b* median fresh per unit: tier2 {med_b[0]} tier3 {med_b[1]} tier4 {med_b[2]}")
+           f"(diagnostic, {len(d_goal)} values) = {sd_goal:.4f}")
+        L_(f"  b* median fresh per unit: tier2 {med_b[0]} tier3 {med_b[1]} tier4 {med_b[2]} -> B_max(test) {B_test}, N {N}")
+        L_(f"  se_res {se_res:.4f} | se_proj(B_test {B_test}, N {N}) {se_proj:.4f} | diagnostic se_proj(B {B}, N {a.n_conf}) {se_proj_diag:.4f}")
         L_(f"  FRESH-LEARNS = {fresh_learns}  (b*(tier2) <= 2 on both units AND b*(tier3) <= 3 on both; "
            f"tier 4 is the reach position, printed above, not required)")
         if a.k0:
@@ -226,7 +245,8 @@ def main():
                ("" if proceed else f"  (REACHABLE {reachable}, FRESH-LEARNS {fresh_learns}, ROOM {room}; see notch list)"))
             res["summary"] = dict(reachable=reachable, fresh_learns=fresh_learns, room=room, proceed=proceed,
                                   H=H, H_unit=H_u, H_tier=H_t, H_prime=st.mean(Hp), sd_init=sd_init, sd_goal=sd_goal,
-                                  se_res=se_res, se_proj=se_proj, b_star_median=med_b, A=A)
+                                  se_res=se_res, se_proj=se_proj, B_test=B_test, N=N, b_star_median=med_b, A=A,
+                                  G_first_median=[res["units"][w]["k0"]["G_first"] for w in units])
         json.dump(res, open(os.path.join(a.out_dir, f"v61_gate{sfx}.json"), "w"), indent=1)
     L_(f"  total {time.perf_counter()-t0:.0f}s")
 

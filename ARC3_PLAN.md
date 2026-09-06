@@ -151,7 +151,9 @@ Act: stochastic = softmax over valid cells + 5% uniform over valid. Deterministi
 the context-aware mask: a diagonal slot is masked iff (tried_ep & ~succ_last & ~ctx_new) or quota_frac
 == 0; a pair is masked iff pair_nonprod > 0 or (tried this episode and not productive this episode). If
 every valid cell is masked the argmax falls back to the unmasked valid set (no absorbing state; symmetric
-for every arm). Identical for every arm; L reaches >= 0.85 with the mask on (smoke: 1.00).
+for every arm). Identical for every LEARNED arm (M4, Fa, Fb). The references L and G' act by their own
+rules and are unmasked (a nav timeout would otherwise block L's legitimate retry); the smoke measured L
+at 1.00 unmasked. (Review correction: the first draft said "L with the mask on".)
 
 Training per round, identical for every arm: 300 steps, bs 512, Adam 3e-4 constructed fresh at every
 world entry; buffers (policy 200k rows, outcome 100k rows, uint8) are per-WORLD, empty at world entry,
@@ -255,8 +257,11 @@ mask on. G' from an empty store on both units, B_max(gate) rounds of episodes pe
 attempts-to-first-obtain recorded per goal.
     REACHABLE   iff nav_min >= 0.85 AND m_L(g) >= 0.85 on every goal of both units. A REACHABLE failure
                 is an INSTRUMENT defect (L already passed test (10) on this world): fix, log, re-run K0.
-    CONSISTENT  (reported) G' attempts-to-first-obtain per goal beside mc_v61 --sweep's prediction for
-                the same goal FROM EMPTY (the same protocol); a miss by > 2x halts K1 for a bug hunt.
+    CONSISTENT  (reported) G' attempts-to-first-obtain per goal — the MEDIAN over the 64 envs, each
+                censored at the goal's budget (B x 4 x 48 = 768 at the gate) — beside the CPU model's
+                prediction of the SAME statistic (median over runs, same cap, same rule, from an empty
+                per-goal store). A miss by > 2x on a non-censored goal halts K1 for a bug hunt. (Review
+                correction: the first draft compared the min over envs against a single-run median.)
 K1 — learned, ~4.4 GPU-h. Both units, three fresh arms Fa, Fb, Fc (per-unit init seeds), B_max(gate) =
 4 rounds per goal, identical grid/eval seeds across arms.
     Measured: curves m_a(g, b); b*(g) = first round at which the median fresh arm reaches 0.6 (inf if

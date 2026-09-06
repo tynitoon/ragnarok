@@ -334,15 +334,22 @@ def test_10_env_primitives():
 # ---------------------------------------------------------------- (13) eval isolation
 
 def test_13_eval_isolation():
-    from scripts.pair_net_v61 import eval_goal_v61
+    """The REAL path: run_goal_v61 with r_max=0 is one eval and must leave buffers empty and the training
+    store bit-identical; with r_max=1 the policy buffer holds exactly the rows relabel reported and the
+    outcome buffer only training combines (the two evals of that round add nothing)."""
+    from scripts.pair_net_v61 import run_goal_v61
     spec = make_world(8100, LAWS)
-    cfg = cfg_v61(num_envs=2)
-    env = _env(spec, 2); env.reset()
+    cfg = cfg_v61(num_envs=4)
+    cfg["train_steps_per_round"] = 2; cfg["episodes_per_round"] = 1
+    env = _env(spec, 4); env.reset()
     comp = ComposerV61(init_seed=0)
-    buf = BufferV61(cap=100, cap_out=100)
+    buf = BufferV61(cap=5000, cap_out=5000)
     st0 = env.store.state_dict()
-    eval_goal_v61(spec, _NoNav(), comp, cfg, 8100, spec["target"], env.store.state_dict())
-    assert buf.n == 0 and buf.n_out == 0 and _same_store(st0, env.store.state_dict())
+    run_goal_v61(env, spec, _NoNav(), comp, buf, cfg, 8100, spec["target"], r_max=0)
+    assert buf.n == 0 and buf.n_out == 0 and _same_store(st0, env.store.state_dict()), "an eval touched a buffer or the store"
+    r = run_goal_v61(env, spec, _NoNav(), comp, buf, cfg, 8100, spec["target"], r_max=1)
+    assert buf.n == sum(r["samples_per_round"]), "policy buffer rows != relabel's count (eval rows leaked?)"
+    assert buf.n_out <= cfg["macro_budget"] * 4, "outcome buffer holds more than the training combines"
 
 
 if __name__ == "__main__":

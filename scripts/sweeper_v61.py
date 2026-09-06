@@ -118,7 +118,9 @@ def sweeper_action(inv, quota, known, nonprod, tried_ep, tier, gate, goal, rng):
 
 def simulate_sweep(spec, goal, rng, n_mc=50, cap=576, macro=48):
     """CPU model: perfect nav, the quota, three outcomes; the store persists across episodes within the
-    goal (per-goal store), EMPTY at start. Returns (median attempts to first obtain, censored fraction)."""
+    goal (per-goal store), EMPTY at start. Returns (median over runs of attempts to first obtain, censored
+    at `cap`; censored fraction) — the SAME statistic run_goal_v61 records per env (first_demo_attempt =
+    median over envs, censored at the budget), so the gate's CONSISTENT check compares like with like."""
     n, tier, gate, po, q = spec["n_items"], spec["tier"], spec["gate"], spec["pair_out"], spec["quota"]
     costs = []
     for _ in range(n_mc):

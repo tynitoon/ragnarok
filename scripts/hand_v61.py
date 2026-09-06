@@ -41,7 +41,13 @@ class LawKnower(_Ref):
                                  for a in seq], dtype=torch.long, device=DEVICE)
             watch = torch.tensor([a[1] for a in seq], dtype=torch.long, device=DEVICE)   # slot whose inv changes
             kind = torch.tensor([a[0] == "c" for a in seq], dtype=torch.bool, device=DEVICE)
-            self.plans[g] = (acts, watch, kind)
+            # a collect entry is SATISFIED by state, not by delta: the plan still needs `need_after[k]` units of
+            # that slot from entry k on; an incidental off-target collect must not stall the pointer (review)
+            need_after = []
+            for k, a in enumerate(seq):
+                need_after.append(sum(1 for b in seq[k:] if b[0] == "c" and b[1] == a[1]) if a[0] == "c" else 0)
+            need_after = torch.tensor(need_after, dtype=torch.long, device=DEVICE)
+            self.plans[g] = (acts, watch, kind, need_after)
         self.ptr = self.prev_inv = None
 
     @torch.no_grad()
@@ -61,16 +67,20 @@ class LawKnower(_Ref):
             if g not in self.plans:
                 out[rows] = 0
                 continue
-            acts, watch, kind = self.plans[g]
+            acts, watch, kind, need_after = self.plans[g]
             L = acts.shape[0]
             p = self.ptr[rows].clamp(max=L - 1)
-            # advance where the previous action's effect is visible: collect -> inv[watch] rose;
-            # combine -> inv[watch] fell (consumed)
+            # combine entries advance on the observed consumption of their first input; collect entries
+            # advance while the inventory already holds what the rest of the plan needs of that slot
             w = watch[p]
-            rose = inv[rows, w] > self.prev_inv[rows, w]
             fell = inv[rows, w] < self.prev_inv[rows, w]
-            adv = torch.where(kind[p], rose, fell) & ~fresh[rows]
-            p = (p + adv.long()).clamp(max=L - 1)
+            p = (p + (~kind[p] & fell & ~fresh[rows]).long()).clamp(max=L - 1)
+            for _ in range(L):
+                w = watch[p]
+                sat = kind[p] & (inv[rows, w] >= need_after[p]) & (p < L - 1)
+                if not bool(sat.any()):
+                    break
+                p = (p + sat.long()).clamp(max=L - 1)
             self.ptr[rows] = p
             out[rows] = acts[p]
         self.prev_inv = inv.clone()

@@ -19,7 +19,7 @@ import torch
 
 from ragnarok.infrastructure.device import DEVICE
 from ragnarok.environments.law_world import sample_laws, make_world, goal_stream, T_MAX
-from scripts.pair_store_v61 import PairEnv, MAX_ITEMS, PAIR_I, PAIR_J, PAIR_INDEX
+from scripts.pair_store_v61 import PairEnv, MAX_ITEMS, PAIR_I, PAIR_J, PAIR_INDEX, N_SLOT, GOAL_COL
 from scripts.pair_net_v61 import ComposerV61, cfg_v61, load_skill, init_seed
 from scripts.gate_v61 import law_auc
 
@@ -28,7 +28,9 @@ LAWS_SEED = 31337
 
 @torch.no_grad()
 def first_proposals(comp, spec, skill, cfg, laws, goals, n_eps=4):
-    """Deterministic acting on fresh grids with an EMPTY store; the first combine of each env-episode."""
+    """STOCHASTIC acting (softmax, temp 1, no epsilon) on fresh grids with an EMPTY store; the first combine of
+    each env-episode is one draw from the policy's own distribution, so the 256 draws are the trials the se
+    counts (a deterministic argmax would make them copies of one decision — review finding)."""
     el, tier = spec["el"], spec["tier"]
     lawful, total = 0, 0
     for p, g in enumerate(goals):
@@ -37,7 +39,7 @@ def first_proposals(comp, spec, skill, cfg, laws, goals, n_eps=4):
             obs = env.obs()
             first = torch.full((cfg["num_envs"],), -1, dtype=torch.long, device=DEVICE)
             for _ in range(cfg["macro_budget"]):
-                a = comp.act(obs, env=env, deterministic=True)
+                a = comp.act(obs, env=env, epsilon=0.0, temp=1.0, deterministic=False)
                 is_pair = a >= MAX_ITEMS
                 first = torch.where((first < 0) & is_pair, a, first)
                 obs, _ = env.step(a)
@@ -66,7 +68,9 @@ def auc_split(comp, spec, skill, cfg, laws, exercised):
     for k, (i, j) in enumerate(pairs):
         env.base.inv[k, i] = 1; env.base.inv[k, j] = 1
     env.base._set_state()
-    _, o3, _ = comp.net(env.obs())
+    obs = env.obs()
+    obs.view(len(pairs), -1)[:, :MAX_ITEMS * N_SLOT].view(len(pairs), MAX_ITEMS, N_SLOT)[..., GOAL_COL] = 0.0  # goal-free, as trained
+    _, o3, _ = comp.net(obs)
     idx = torch.tensor([int(PAIR_INDEX[i, j]) for (i, j) in pairs], device=DEVICE)
     p_law = (1 - torch.softmax(o3[torch.arange(len(pairs), device=DEVICE), idx], -1)[:, 0]).cpu().numpy()
     y = np.array([laws["Bond"][el[i], el[j]] for (i, j) in pairs], dtype=bool)
@@ -112,10 +116,12 @@ def main():
         out["arms"][name] = dict(lawful=r, n=n, auc=au)
         print(f"  {name}: first-proposal lawfulness {r:.3f} (n {n}) | head AUC all {au['all']:.3f} exercised "
               f"{au['exercised']:.3f} ({au['n_ex']}) unexercised {au['unexercised']:.3f} ({au['n_unex']})", flush=True)
-    rM, rR = out["arms"][f"M{len(pre['worlds'])}"]["lawful"], out["arms"]["R"]["lawful"]
-    nM = out["arms"][f"M{len(pre['worlds'])}"]["n"]
-    pooled = 0.5 * (rM + rR)
-    se = (pooled * (1 - pooled) / max(nM, 1)) ** 0.5
+    last = f"M{len(pre['worlds'])}"
+    rM, rR = out["arms"][last]["lawful"], out["arms"]["R"]["lawful"]
+    nM, nR = out["arms"][last]["n"], out["arms"]["R"]["n"]
+    assert nM > 0 and nR > 0, f"an arm never combined (nM {nM}, nR {nR}) — the probe cannot be scored; fix before proceeding"
+    pooled = (rM * nM + rR * nR) / (nM + nR)
+    se = (pooled * (1 - pooled) * (1 / nM + 1 / nR)) ** 0.5         # two-sample pooled se
     passed = (rM - rR) >= 3 * se
     out["summary"] = dict(r_M=rM, r_R=rR, se=se, passed=bool(passed),
                           roster_ceiling=roster, rule="r(M_last) - r(R) >= 3 se pooled")

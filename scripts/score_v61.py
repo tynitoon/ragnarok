@@ -139,7 +139,13 @@ def main():
     if a.selftest:
         selftest(); return
     assert "_smoke" not in a.json, "smoke files are never scored"
-    r = score(json.load(open(a.json)))
+    data = json.load(open(a.json))
+    lineages = {u["lineage"] for u in data["units"]}
+    if len(lineages) != 3 or len(data["units"]) not in (9, 12) or data["b_max"] not in (3, 4):
+        print(f"PARTIAL — no verdict: {len(data['units'])} units, lineages {sorted(lineages)}, B_max {data['b_max']} "
+              f"(the frozen design needs 3 lineages, N in (9, 12), B_max in (3, 4))")
+        return
+    r = score(data)
     print("=" * 96)
     print(f"ARC 3 CONFIRMATORY — N {r['N']} units, B_max {r['B']}")
     print(f"  Delta_learn = {r['delta_learn']:+.4f} | se_null {r['se_null']:.4f} | se_res {r['se_res']:.4f} | "

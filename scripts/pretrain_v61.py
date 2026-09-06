@@ -35,11 +35,12 @@ def exercised_cells(store_state, spec):
     """Element pairs (a<b) this store has an outcome for, in ANY env: the cells the weights were trained on."""
     tried = (store_state["pair_succ"] + store_state["pair_inert"] + store_state["pair_fail"]) > 0     # (N,378)
     anyp = tried.any(0).nonzero(as_tuple=True)[0].cpu().tolist()
-    el, n = spec["el"], spec["n_items"]
+    el, n, tier, decoy = spec["el"], spec["n_items"], spec["tier"], spec["decoy"]
     cells = set()
     for p in anyp:
         i, j = int(PAIR_I[p]), int(PAIR_J[p])
-        if i < n and j < n:
+        # only equal-tier real pairs below T_MAX are Bond cells; an unequal-tier botch teaches nothing about Bond
+        if i < n and j < n and tier[i] == tier[j] < T_MAX and not decoy[i] and not decoy[j]:
             cells.add((min(el[i], el[j]), max(el[i], el[j])))
     return cells
 

@@ -100,14 +100,16 @@ class ComposerV61:
         return a
 
     def train_steps(self, buf, n_steps, bs=512):
-        if buf.n == 0:
+        if buf.n == 0 and buf.n_out == 0:
             return float("nan")
         tot = 0.0
         for _ in range(n_steps):
-            s, a = buf.sample(bs)
-            logits, _, _ = self.net(s)
-            loss = F.cross_entropy(logits, a)
-            if buf.n_out > 0:
+            loss = torch.zeros((), device=DEVICE)
+            if buf.n > 0:
+                s, a = buf.sample(bs)
+                logits, _, _ = self.net(s)
+                loss = loss + F.cross_entropy(logits, a)
+            if buf.n_out > 0:                                    # the outcome head trains even before any success
                 so, p, o, e = buf.sample_out(bs)
                 _, o3, oel = self.net(so)
                 ar = torch.arange(so.shape[0], device=DEVICE)
@@ -249,14 +251,15 @@ def run_goal_v61(env, spec, skill, composer, buf, cfg, seed, goal, r_max, train=
     m0 = env.msteps_total
     zs = eval_goal_v61(spec, skill, composer, cfg, seed, goal, env.store.state_dict())
     master_per_round, demos, samples = [round(zs, 4)], [], []
-    first_demo, ep_count = None, 0
+    ep_count = 0
+    first_env = torch.full((env.num_envs,), -1, dtype=torch.long, device=DEVICE)   # per-env attempts to first obtain
     for r in range(r_max):
         d = k = 0
         for _ in range(cfg["episodes_per_round"]):
             s, a, us, outs = collect_episode_v61(env, composer, cfg, goal)
             hit = int((us[:, goal] >= 0).sum())
-            if hit > 0 and first_demo is None:                 # macro-attempts until ANY env first obtains it
-                first_demo = ep_count * env.macro_budget + int(us[:, goal][us[:, goal] >= 0].min()) + 1
+            got = (us[:, goal] >= 0) & (first_env < 0)
+            first_env = torch.where(got, ep_count * env.macro_budget + us[:, goal] + 1, first_env)
             ep_count += 1
             d += hit
             ss, aa, kept = relabel_commanded_v61(s, a, us, cfg["max_samples_per_ep"], goal)
@@ -270,9 +273,14 @@ def run_goal_v61(env, spec, skill, composer, buf, cfg, seed, goal, r_max, train=
             composer.train_steps(buf, cfg["train_steps_per_round"])
         master_per_round.append(round(eval_goal_v61(spec, skill, composer, cfg, seed, goal,
                                                     env.store.state_dict()), 4))
+    cap = r_max * cfg["episodes_per_round"] * env.macro_budget
+    fe = torch.where(first_env < 0, torch.full_like(first_env, cap), first_env)      # censored at the budget
+    first_median = int(fe.float().median()) if r_max > 0 else None                   # the CPU model's statistic
+    first_any = int(first_env[first_env >= 0].min()) if bool((first_env >= 0).any()) else None
     return dict(goal=goal, master_per_round=master_per_round, demos_per_round=demos,
                 samples_per_round=samples, attempts=env.msteps_total - m0, buf_n=buf.n, buf_out=buf.n_out,
-                first_demo_attempt=first_demo, mastered=bool(master_per_round[-1] >= cfg["thresh"]))
+                first_demo_attempt=first_median, first_demo_any=first_any, first_censored=float((first_env < 0).float().mean()),
+                mastered=bool(master_per_round[-1] >= cfg["thresh"]))
 
 
 def run_unit_v61(spec, skill, composer, cfg, world_seed, goals, r_max, train=True, log=None):

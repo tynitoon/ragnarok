@@ -7101,3 +7101,22 @@ K-A gate STOP as above. K-B the probe: r(M4) - r(R) < 3 se -> STOP before the co
 as an architecture result. K-C hard 40 GPU-hour ceiling with the cut list of ARC3_PLAN 4.6 (never cut:
 Fb, a lineage, the probe). K-D any store-zeroing or leak test (1)-(4), (13) failing at any point ->
 the run is void and the defect is published.
+
+## Corrections from the pre-gate code review (13 confirmed findings, all fixed before K0; same commit)
+- CONSISTENT compares the SAME statistic on both sides: G' attempts-to-first-obtain = MEDIAN over the 64
+  envs, each censored at the goal's budget (768 at the gate); the CPU model reports the median over runs
+  at the same cap. Predictions at cap 768: 8100 tier 2/3/4 = 29 / 103 / >768 (94% censored);
+  8101 = 29 / 123 / >768 (62% censored). (The first text compared the min over envs to a single-run
+  median at cap 576 — the wrong unit.)
+- The eval mask applies to the LEARNED arms only (M4, Fa, Fb, identical); L and G' act by their own
+  rules unmasked. REACHABLE reads L unmasked (smoke: 1.00 on tiers 2/3/4).
+- A gate world failing the nav gate makes REACHABLE False for the gate; fewer than two units means no
+  decision (never a silent one-unit gate).
+- B_max(test) and N are derived from K1 (clamp(b*(tier-4) + 1, 3, 4); N 12 at B 3, 9 at B 4) and ROOM
+  is evaluated under those values; the B 4 / N 12 line is printed as a diagnostic.
+- The probe's first proposals are drawn STOCHASTICALLY (softmax, temp 1, no epsilon) so the 256 draws
+  are trials; two-sample pooled se; an arm that never combines aborts the probe loudly.
+- The lineage's exercised cells count equal-tier real pairs only; the outcome head is measured on
+  goal-free observations, the distribution it is trained on.
+- score_v61 issues a verdict only on 3 lineages, N in (9, 12), B_max in (3, 4); otherwise PARTIAL.
+- The outcome head trains whenever outcome rows exist, even before the first success.
