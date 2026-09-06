@@ -230,6 +230,9 @@ def test_9_generator_invariants():
                             or not Bond[sp["el"][i], sp["el"][j]] or sp["decoy"][i] or sp["decoy"][j])
         for t in range(1, T_MAX + 1):
             assert sum(1 for i in range(n) if sp["tier"][i] == t) == 6
+            dropped = {c for (tt, c) in sp["dropped"] if tt == t}
+            decoys = {sp["el"][i] for i in range(n) if sp["tier"][i] == t and sp["decoy"][i]}
+            assert not (dropped & decoys), "a decoy must never be a dropped (law-producible) product"
         for t, goals in sp["admitted"].items():
             for g in goals:
                 p = sp["plans"][g]

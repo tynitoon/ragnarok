@@ -25,7 +25,7 @@ from ragnarok.environments.tech_tree import gen_tree
 from ragnarok.learning.ppo_discrete import DiscretePPO
 from scripts.depth_scaling_v49 import MAX_CELLS, TechTreeConvNet
 from scripts.childhood_v50 import nav_env, NAV_ACTIONS
-from scripts.pair_store_v61 import (PairEnv, MAX_ITEMS, N_SLOT, N_PAIRS, N_PF, ROW, N_ACT, K_EL, GOAL_COL,
+from scripts.pair_store_v61 import (PairEnv, PairStore, MAX_ITEMS, N_SLOT, N_PAIRS, N_PF, ROW, N_ACT, K_EL, GOAL_COL,
                                     F_GOAL, F_VALID, F_EL, N_ATTR, PAIR_I, PAIR_J, action_valid, eval_mask)
 
 QS = 255.0
@@ -89,7 +89,9 @@ class ComposerV61:
     def act(self, obs, env=None, epsilon=0.0, temp=1.0, deterministic=False):
         logits, _, _ = self.net(obs)
         if deterministic:
-            return logits.masked_fill(~eval_mask(obs), -1e9).argmax(-1)
+            m = eval_mask(obs)
+            m = torch.where(m.any(-1, keepdim=True), m, action_valid(obs))   # no absorbing state
+            return logits.masked_fill(~m, -1e9).argmax(-1)
         a = torch.multinomial(F.softmax(logits / temp, -1), 1).squeeze(-1)
         if epsilon > 0:
             valid = action_valid(obs).float()
@@ -276,6 +278,8 @@ def run_unit_v61(spec, skill, composer, cfg, world_seed, goals, r_max, train=Tru
     composer.reset_optimizer()
     rows = []
     for p, g in enumerate(goals):
+        if not cfg.get("store_persists", False):
+            env.store = PairStore(env.num_envs, env.n_items)     # ARC3_PLAN 2.5: per-GOAL working memory
         r = run_goal_v61(env, spec, skill, composer, buf, cfg, world_seed + 11 * p, g, r_max, train=train)
         r["tier"] = int(spec["tier"][g]); r["pos"] = p
         rows.append(r)
@@ -312,5 +316,7 @@ def load_skill(cfg, seed=0, out_dir="craft_v6_out"):
 
 
 def init_seed(lineage, world, arm):
-    """The seed table of ARC3_PLAN 4.7: fresh nets are a fresh draw in every unit."""
-    return 100_000 + 1000 * lineage + 10 * (world % 100) + arm
+    """The seed table of ARC3_PLAN 4.7: fresh nets are a fresh draw in every unit; distinct across the
+    gate / pretrain / test roles because (world - 8000) differs by role. arm 1-3 fresh, 4 = a lineage's
+    own initial net, lineage 9 = the gate."""
+    return 100_000 + 1000 * lineage + 10 * (world - 8000) + arm
