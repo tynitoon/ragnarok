@@ -7131,3 +7131,13 @@ arm, and B_max(test) = 4. K0's G' and K1 are re-run on 8100/8101 under it (gate_
 --tag notch; outputs v61_gate_notch.*; the first run's outputs are kept). PROCEED requires FRESH-LEARNS
 and ROOM on the re-run; otherwise the arc STOPs at the gate and this section is the record.
 Measured round time 126 s (assumed 220): N will be declared at the freeze from this number.
+
+## GATE RESULT, notch run (2026-09-06, 3.2 GPU-h, store persisting, B_max(test) 4): STOP — ARC 3 closes at the gate
+REACHABLE True (L 1.00 x 6). FRESH-LEARNS False: b*(tier 3) median [4, 4] (per arm 8100 {2, inf, 4},
+8101 {4, 4, inf}); tier 4 reached by 1/6 fresh arms at 0.09. ROOM True: H 0.547 (per tier
+0.005/0.645/0.990), sd_init 0.121, 4 se_proj 0.114. CONSISTENT held (G' 33/9/768 and 28/25/403).
+The one notch is spent. Per the frozen rule the confirmatory does not run. Total gate cost 6.7 GPU-h.
+Published as a GATE RESULT (ARC3_PLAN.md sections 10-11): a feasibility finding about the fresh
+baseline's learning speed on tier 3 (bimodal: half of inits in 2-4 rounds, half stalled), never a wall
+measurement and never a verdict on the claim. Any continuation is a NEW preregistration (v62) on NEW
+gate worlds, and is the owner's decision.

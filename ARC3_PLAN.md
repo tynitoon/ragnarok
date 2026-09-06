@@ -487,3 +487,52 @@ measures what remains. K0's sweeper and K1 are re-run on the same two units unde
 PROCEED requires FRESH-LEARNS and ROOM on the re-run, else the arc STOPs at the gate.
 Budget note for the freeze after PROCEED: at the measured 126 s/round a goal-run at B 4 costs 8.5 min,
 so the confirmatory at N = 12 costs ~15.3 h and fits under the 40 h ceiling; N is declared at the freeze.
+
+## 11. GATE RESULT, notch run (2026-09-06 07:36-10:48, 3.2 GPU-h, store persisting) -> STOP. ARC 3 closes at the gate.
+
+    REACHABLE   True   L = 1.00 on all six goals (twelve of twelve over both runs)
+    CONSISTENT  held   G' medians 8100: 33 / 9 / 768; 8101: 28 / 25 / 403 (tier 3 falls from 104/123 to
+                       9/25 with the inherited store — the dilution the second panel predicted, measured)
+    K1 fresh    A(u):  8100  F1 0.556  F2 0.398  F3 0.443   8101  F1 0.539  F2 0.463  F3 0.331
+                b* tier 3 per arm: 8100 {2, inf, 4}; 8101 {4, 4, inf}  -> medians [4, 4]
+                tier 4: 1 of 6 fresh arms reaches 0.09; the rest 0.00
+    sd_init 0.121 | H 0.547 (per tier 0.005 / 0.645 / 0.990) | H' 0.333 | 4 se_proj 0.114
+    FRESH-LEARNS False   ROOM True   -> STOP. The one notch is spent. The confirmatory does not run.
+
+### What the gate established (both runs, 6.7 GPU-h)
+1. The substrate is REACHABLE and the instrument is calibrated: the law-knower masters every goal; the
+   CPU model predicts the store sweeper's cost to within a few percent on every non-censored goal.
+2. The law is worth a lot here — this was the wall ARC 1 and ARC 2 could not build: against fresh
+   LEARNERS the headroom is 0.65-0.72 of the mastery area on tier 3 and ~1.0 on tier 4; against the
+   ideal law-free sweeper 0.33-0.34. Without the law, tier 4 is out of reach in four rounds for eleven
+   of twelve fresh arms and for the sweeper on both worlds.
+3. Fresh learners are BIMODAL on the learns-faster position: over twelve fresh arms (two protocols),
+   about half reach 0.6 on tier 3 within 2-4 rounds and half stall below 0.35 for the whole budget.
+   Per-goal store: 8100 {3, inf, 3}, 8101 {3, inf, inf}; persisting store: 8100 {2, inf, 4},
+   8101 {4, 4, inf}. The persisting store moves the sweeper's clock by 10x and the learner's by ~0.
+4. The frozen feasibility rule — median b*(tier 3) <= 3 on both units — was missed by one round on
+   both units in the notch run, and two of the twelve tier-3 curves crossed 0.5625 (two envs of 64
+   under the 0.6 line) at exactly the deciding round. The second audit panel wrote before the run that
+   a gate decision near the line is a coin flip at these degrees of freedom; it was. That is a fact
+   about the criterion's resolution, recorded here, and not a licence to move it after the fact.
+
+### What this is, and is not
+It is a FEASIBILITY result: on this substrate at this budget the fresh baseline does not reliably learn
+the position where "learns faster" would be read, so the pre-registered comparison cannot be made as
+designed. It is NOT a null on the claim (no experienced arm was ever run), not a wall measurement, and
+not a defect of the substrate's design goal — the law's headroom is the largest effect this project has
+ever had in front of it.
+
+### Options after a gate STOP (the owner's decision, not the lead's — spending after a frozen STOP is
+### exactly the line this project does not cross on its own)
+A. Close ARC 3 at the gate. Publish sections 10-11 as the result. Cost so far 6.7 GPU-h of 40.
+B. v62: the same substrate and code, a NEW preregistration whose feasibility criterion is set from these
+   twelve measured curves, gated on NEW burned worlds (8102, 8103) so nothing is fitted on the data that
+   produced the STOP: e.g. B_max 6 per goal at gate and test (the measured b* of the learning half is
+   2-4), and FRESH-LEARNS = "at least two of three fresh arms reach 0.6 on tier 3 within B_max on both
+   units" (a fraction, not a 3-arm median). The verdict rule, the primary, the null, the wording rule and
+   the probe are unchanged. Budget: gate ~8 h (B 6), pretraining ~9 h, probe 0.5 h, confirmatory at
+   N = 9 and B 6 ~17 h -> ~35 h more; total ~41 h, i.e. the confirmatory needs N = 9 and G' on two
+   units, or a raised ceiling. Labelled everywhere as a redesign after a feasibility STOP.
+C. Run the confirmatory anyway under the wording rule. Rejected by the lead: it changes the gate after
+   seeing it fail.
