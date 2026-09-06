@@ -9,11 +9,12 @@ Both expose act(obs, env, ...) / train_steps (no-op) / reset_optimizer (no-op) s
 them on exactly the same criterion and schedule as the learned arms (the ARC 2 section-14 lesson).
 """
 
+import numpy as np
 import torch
 
 from ragnarok.infrastructure.device import DEVICE
-from ragnarok.environments.law_world import T_MAX
-from scripts.pair_store_v61 import (MAX_ITEMS, N_PAIRS, PAIR_I, PAIR_J, PAIR_INDEX, action_valid)
+from scripts.pair_store_v61 import MAX_ITEMS, PAIR_I, PAIR_J, PAIR_INDEX
+from scripts.sweeper_v61 import sweeper_action
 
 
 class _Ref:
@@ -78,39 +79,46 @@ class LawKnower(_Ref):
 
 
 class StoreSweeper(_Ref):
-    """Stateless greedy policy over the store: goal if known and buildable > known recipe of a needed item
-    > needed raw > untried equal-tier pair among held items, lowest tier first > collect to enable pairs."""
+    """G': the sweeper rule of scripts/sweeper_v61.py applied per env to the env's own store (pulled to
+    the CPU each macro-step; the nav skill dominates the cost anyway). Same rule as the CPU model, so the
+    gate's CONSISTENT check compares one policy under two executors."""
 
-    def __init__(self, spec):
-        self.tier = torch.zeros(MAX_ITEMS, dtype=torch.long, device=DEVICE)
-        self.tier[:spec["n_items"]] = torch.tensor(spec["tier"], device=DEVICE)
-        self.gate = torch.zeros(MAX_ITEMS, dtype=torch.bool, device=DEVICE)
-        self.gate[:spec["n_items"]] = torch.tensor([bool(g) for g in spec["gate"]], device=DEVICE)
+    def __init__(self, spec, seed=0):
+        self.spec = spec
+        self.n = spec["n_items"]
+        self.tier = np.array(spec["tier"]); self.gate = np.array(spec["gate"], dtype=bool)
+        self.raw_cell = np.array([c if c > 0 else 0 for c in spec["cell"]])
+        self.rng = np.random.default_rng(seed)
+        pi, pj = PAIR_I.cpu().numpy(), PAIR_J.cpu().numpy()
+        self.pairs = list(zip(pi.tolist(), pj.tolist()))
+        self.pidx = PAIR_INDEX.cpu().numpy()
 
     @torch.no_grad()
     def act(self, obs, env=None, **k):
-        st, N = env.store, env.num_envs
-        held = env.held()
-        valid = action_valid(obs)
-        known_recipe, need, yields = st.derived(held, env.goal)
-        rnd = torch.rand(N, MAX_ITEMS + N_PAIRS, device=DEVICE)
-        score = torch.where(valid, rnd, torch.full_like(rnd, -1e9))
-        # diagonal: raws
-        has_tool = (held & (self.tier >= 2).unsqueeze(0)).any(-1, keepdim=True)
-        gate_ok = ~self.gate.unsqueeze(0) | has_tool
-        d_valid = valid[:, :MAX_ITEMS] & gate_ok
-        sd = score[:, :MAX_ITEMS]
-        sd = torch.where(d_valid & held, 20 + rnd[:, :MAX_ITEMS], sd)
-        sd = torch.where(d_valid & ~held, 30 + rnd[:, :MAX_ITEMS], sd)
-        sd = torch.where(d_valid & need & ~held, 50 + rnd[:, :MAX_ITEMS], sd)
-        # pairs
-        pv = valid[:, MAX_ITEMS:]
-        untried = (st.pair_out < 0) & (st.pair_fail == 0) & (st.pair_inert == 0) & ~st.pair_tried_ep
-        ti, tj = self.tier[PAIR_I], self.tier[PAIR_J]
-        equal = (ti == tj) & (ti < T_MAX)
-        sp = score[:, MAX_ITEMS:]
-        sp = torch.where(pv & untried & equal.unsqueeze(0), 40 - ti.float().unsqueeze(0) + rnd[:, MAX_ITEMS:], sp)
-        sp = torch.where(pv & yields, 60 + rnd[:, MAX_ITEMS:], sp)
-        goal_pair = st.pair_out == env.goal.unsqueeze(1)
-        sp = torch.where(pv & goal_pair, torch.full_like(sp, 100.0), sp)
-        return torch.cat([sd, sp], -1).argmax(-1)
+        st, N, n = env.store, env.num_envs, self.n
+        inv = env.base.inv.cpu().numpy()
+        qleft = env.base.quota_left.cpu().numpy()                               # (N, n_cells)
+        po = st.pair_out.cpu().numpy(); nonp = ((st.pair_fail + st.pair_inert) > 0).cpu().numpy()
+        tried = st.pair_tried_ep.cpu().numpy()
+        goal = env.goal.cpu().numpy()
+        out = np.zeros(N, dtype=np.int64)
+        for e in range(N):
+            quota = np.where(self.tier == 1, qleft[e][self.raw_cell], 99)
+            known, nonprod, tried_ep = {}, set(), set()
+            for p, (i, j) in enumerate(self.pairs):
+                if i >= n or j >= n:
+                    continue
+                if po[e, p] >= 0:
+                    known[(i, j)] = int(po[e, p])
+                if nonp[e, p]:
+                    nonprod.add((i, j))
+                if tried[e, p]:
+                    tried_ep.add((i, j))
+            a = sweeper_action(inv[e], quota, known, nonprod, tried_ep, self.tier, self.gate, int(goal[e]), self.rng)
+            if a is None:
+                out[e] = 0
+            elif a[0] == "collect":
+                out[e] = a[1]
+            else:
+                out[e] = MAX_ITEMS + int(self.pidx[a[1], a[2]])
+        return torch.tensor(out, dtype=torch.long, device=DEVICE)

@@ -14,6 +14,7 @@ import statistics as st
 import numpy as np
 
 from ragnarok.environments.law_world import (sample_laws, make_world, goal_stream, T_MAX, INERT, BOTCH)
+from scripts.sweeper_v61 import simulate_sweep
 
 LAWS_SEED = 31337
 WINDOWS = dict(gate=list(range(8100, 8110)), probe=[8150],
@@ -183,7 +184,7 @@ def main():
                 row["tool_needed"] = [sp["plans"][x]["tool"] is not None for x in g]
                 if a.sweep:
                     rr = np.random.default_rng(s)
-                    row["sweep"] = [sweep_cost(sp, x, rr) for x in g]
+                    row["sweep"] = [simulate_sweep(sp, x, rr) for x in g]
             rows.append(row)
         res["windows"][name] = rows
         line = " ".join(f"{r['seed']}{'' if r['ok'] else 'x'}[{'/'.join(map(str, r['n_adm']))}]" for r in rows)

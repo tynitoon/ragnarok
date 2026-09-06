@@ -175,11 +175,19 @@ GRIDS and eval seeds, not on nav outcomes (symmetric noise that lands in se_null
 
     L   LawKnower: attributes + the TRUE tables (experimenter-side); executes the plan of 2.3 per env
         with a plan pointer that advances on the observed inventory change. The ceiling WITH the law.
-    G'  StoreSweeper: the store, the tier law and the gate law, NO Bond/Out: goal if known and
-        buildable > known recipe of a needed item > needed raw > untried equal-tier pair among held
-        items, lowest tier first > collect to enable pairs. The ceiling WITHOUT the law.
+    G'  StoreSweeper: the store, the tier law and the gate law, NO Bond/Out. ONE rule shared by the
+        CPU model and the GPU reference (scripts/sweeper_v61.py): build the goal if its recipe is known;
+        else build toward the CHEAPEST untried equal-tier pair among PRODUCIBLE items (raws with quota,
+        or known recipes whose inputs are producible), random ties; else build a known tier-2 tool to
+        unlock gated raws; else refill. The ceiling WITHOUT the law. (The first draft's sweeper only
+        tried pairs among items it happened to hold and stalled at tier 3-4 — a reference that cannot
+        climb is not a ceiling; the CPU model caught it before any GPU was spent.)
 Both expose act(obs, env) / no-op train, scored by the same run_goal on the same criterion and schedule
 (the ARC 2 section-14 lesson).
+MEASURED, CPU model with perfect nav, per-goal store from empty, cap 576 attempts (= 3 rounds):
+tier-2 goals ~27 attempts (0% censored); tier-3 goals 70-350 attempts (0% censored: within 1-2 rounds);
+tier-4 goals censored in 67-97% of runs on 6 of 7 worlds tried (8301: 166). WITHOUT THE LAW, tier 4 is
+mostly out of reach in 3 rounds even for an ideal sweeper; WITH it, L takes 15 macro-steps.
 
 ### 2.8 The unit: a world and its 3-goal stream
 
@@ -200,8 +208,11 @@ gets credited rows in round 1. The tier-2 panel is expected FLAT-IDENTICAL acros
 captioned as the rung, not as evidence. The law is read on the tier-3 and tier-4 positions.
 Why the fresh arm's tier-4 goal is costly under a per-goal store: from an empty store it must rebuild
 the tier-2 items it knows only in its weights, then sweep tier-2 and tier-3 pairs at 4-8 raw units per
-botch; the ideal store-only sweeper (scripts/mc_v61.py --sweep, CPU, from empty) needs the attempts
-printed in v61_mc.json per goal, and a learner is slower.
+botch; the ideal store-only sweeper (2.7) mostly does not reach tier 4 in 3 rounds, and a learner is
+slower. The three positions therefore play three roles, declared here: tier 2 = the RUNG (every arm
+~1.0 from b = 1); tier 3 = the LEARNS-FASTER position (a fresh agent reaches it inside the budget, an
+experienced one sooner); tier 4 = the REACH position (with the law it is a 15-step plan; without it,
+mostly not solved in the budget). The gate checks the tier-3 position has dynamic range (4.1).
 
 ## 3. What transfers, the mechanism, and the predictions
 
@@ -216,10 +227,13 @@ than M1 — a rising curve has a MECHANISM here, not a hope. No composition clai
 
 Predictions stated before the gate, on THIS protocol (per-goal store, chain-blind stream):
     tier 2   every arm ~1.0 from b = 1; Delta ~0 (the rung)
-    tier 3   fresh climbs within B_max from its weights' tier-2 knowledge; M ahead at b = 0..1
-    tier 4   the live position: fresh needs most of B_max or fails; M4 (c ~0.85) ahead by 0.2-0.5 at
-             b = 1..2, converging by B_max if fresh learns at all
-    Delta_learn (mean over the 3 positions, b = 1..B_max): 0.05-0.15 for M4; ~0 for M1
+    tier 3   fresh climbs within 1-3 rounds from its weights' tier-2 knowledge (the ideal sweeper needs
+             70-350 attempts); M4 ahead at b = 0..1, converging by B_max -> the learns-faster panel
+    tier 4   fresh mostly does not reach it inside B_max (ideal sweeper censored in ~80% of worlds at
+             576 attempts); M4 with the cells covered plans it in ~15 steps -> the reach panel, a large
+             flat offset that is "uses what it learned", NOT "learns faster" (the wording rule of 4.4)
+    Delta_learn (mean over the 3 positions, b = 1..B_max): 0.15-0.35 for M4 (mostly tier 4); tier-3
+             Delta 0.1-0.3; ~0 for M1 at tier 3
     accumulation: flat at M1, rising at M2 and M4
 The second panel's stream simulations (PERSISTENT store) gave Delta 0.00 at c = 0.37 and 0.07-0.10 at
 c = 0.83 against an ideal fresh arm, H 0.07-0.10: that is the number the per-goal store is designed to
@@ -255,7 +269,9 @@ K1 — learned, ~4.4 GPU-h. Both units, three fresh arms Fa, Fb, Fc (per-unit in
               H = mean_u[A_L(u) - mean(A_Fa,A_Fb,A_Fc)(u)], printed per tier as well;
               H' = mean_u[A_L(u) - A_G'(u)]; outcome-head AUC of the fresh arms on the gate world's true
               Bond table after each round; credited rows per round per arm; wall-clock per round.
-    FRESH-LEARNS  iff b*(tier-2) <= 2 on both units AND b*(tier-4) <= 4 on at least one unit
+    FRESH-LEARNS  iff b*(tier-2) <= 2 on both units AND b*(tier-3) <= 3 on both units
+                  (the learns-faster position must have dynamic range for a fresh agent; tier 4 is the
+                  reach position and is NOT required — b*(tier-4) is printed)
     ROOM          iff H >= 4 * se_proj, se_proj = max(sd_init / sqrt(2N), se_res), N from 4.4
                   (DEMONSTRATED needs Delta >= 2 se; assuming M captures at most half the headroom, the
                   headroom must be 4 se. sd_init has ~5 df: a ROOM decision near the line is a coin
@@ -265,7 +281,7 @@ NOTCHES — at most ONE in the whole arc, then STOP:
     not FRESH-LEARNS  -> soften: the store PERSISTS across the stream (2.5's alternative, measured by
                          the second panel to hand the fresh arm the rungs) and B_max(test) = 4; K1 is
                          re-run on the same units (+4.4 h); PROCEED then requires FRESH-LEARNS and ROOM
-                         on the re-run; else STOP.
+                         on the re-run; else STOP. (The tier-3 position is what this notch must open.)
     not ROOM          -> harden: quota 4 -> 3 (a sweep-cost lever; the panel measured it does not starve
                          the uniform bootstrap: min 0.040 per episode); regenerate the gate worlds (next
                          admitted seeds), re-run K0+K1 once. A ROOM failure whose cause is sd_init alone
@@ -330,6 +346,11 @@ to erase); Delta_s with se_s = sd_s/sqrt(N/3) per lineage; the robustness null s
 A_Fb)]/sqrt(N) beside se_null; the treatment side has three checkpoint draws (one per lineage) and its
 init variance is not in se_null — the per-lineage clause is what covers it; A_L and A_G' beside every
 arm; credited rows per round per arm; the full 0..B_max area as a secondary.
+WORDING RULE (pre-declared, caption only): the verdict sentence says "learns faster" only if the
+tier-3 position alone satisfies Delta(tier-3) >= 2 se(tier-3) (its own contemporaneous null over the 12
+units); otherwise a DEMONSTRATED verdict is worded "solves with prior knowledge what a fresh agent does
+not learn in the budget" — the reach panel is "uses what it learned", and the area statistic cannot
+tell a head start from faster learning on its own (the auditors' accepted residual).
 WHAT INCONCLUSIVE LICENSES: the curves, Delta_learn with its se, the per-tier and endpoint lines, and
 the sentence "not distinguishable from zero at this N"; no verdict wording, no mechanism label.
 MECHANISM label (caption only, never the verdict): "consistent with a carried bonding table" iff the

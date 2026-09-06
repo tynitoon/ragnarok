@@ -1,0 +1,235 @@
+"""ARC 3 — THE CHEAP GATE (ARC3_PLAN.md 4.1). Runs first; decides whether the arc spends its budget.
+
+    K0  hand-coded, no learning: nav gate, L (law-knower) on every goal, G' (store sweeper) from an empty
+        store per goal at the gate budget.   REACHABLE / CONSISTENT
+    K1  learned: three fresh arms Fa, Fb, Fc (per-unit init seeds) on the same units at the gate budget.
+        FRESH-LEARNS / ROOM, sd_init on the confirmatory's unit, H per tier, outcome-head AUC per round.
+
+Gate worlds = the first two admitted seeds >= 8100 (burned). Every K0/K1 number is printed and written to
+craft_v6_out/v61_gate.json; per-(world, arm) checkpoints allow --resume. --smoke suffixes every output and
+is excluded from everything downstream.
+
+Usage: python -m scripts.gate_v61 --k0 --k1 [--b-max 4] [--num-envs 64] [--n-conf 12] [--smoke] [--resume]
+"""
+
+import argparse
+import json
+import os
+import statistics as st
+import time
+
+import numpy as np
+import torch
+
+from ragnarok.infrastructure.device import DEVICE
+from ragnarok.environments.law_world import sample_laws, make_world, goal_stream, admitted_worlds, T_MAX
+from scripts.hidden_recipe_v55 import nav_gate
+from scripts.pair_store_v61 import PairEnv, PairStore, MAX_ITEMS, PAIR_INDEX, N_SLOT
+from scripts.pair_net_v61 import (ComposerV61, cfg_v61, load_skill, eval_goal_v61, run_unit_v61, area,
+                                  init_seed)
+from scripts.hand_v61 import LawKnower, StoreSweeper
+
+LAWS_SEED = 31337
+GATE_LINEAGE = 9
+
+
+def log_line(f, s):
+    print(s, flush=True)
+    f.write(s + "\n"); f.flush()
+
+
+@torch.no_grad()
+def law_auc(composer, spec, skill, cfg, laws):
+    """Outcome-head AUC of P(lawful) against the true Bond table, over every equal-tier pair of REAL items
+    of this world (tier < T_MAX), each judged from a fresh env holding exactly that pair, EMPTY store —
+    i.e. what the WEIGHTS know. Returns (auc, n_pairs)."""
+    n, el, tier, decoy = spec["n_items"], spec["el"], spec["tier"], spec["decoy"]
+    pairs = [(i, j) for i in range(n) for j in range(i + 1, n)
+             if not decoy[i] and not decoy[j] and tier[i] == tier[j] < T_MAX]
+    env = PairEnv(len(pairs), spec, skill, cfg, seed=1, goal=spec["target"])
+    env.reset()
+    env.base.inv[:] = 0
+    for k, (i, j) in enumerate(pairs):
+        env.base.inv[k, i] = 1; env.base.inv[k, j] = 1
+    env.base._set_state()
+    obs = env.obs()
+    _, o3, _ = composer.net(obs)
+    idx = torch.tensor([int(PAIR_INDEX[i, j]) for (i, j) in pairs], device=DEVICE)
+    p = torch.softmax(o3[torch.arange(len(pairs), device=DEVICE), idx], -1)
+    p_law = (1.0 - p[:, 0]).cpu().numpy()
+    y = np.array([laws["Bond"][el[i], el[j]] for (i, j) in pairs], dtype=bool)
+    if y.all() or (~y).all():
+        return float("nan"), len(pairs)
+    pos, neg = p_law[y], p_law[~y]
+    auc = float((pos[:, None] > neg[None, :]).mean() + 0.5 * (pos[:, None] == neg[None, :]).mean())
+    return auc, len(pairs)
+
+
+def b_star(row, thresh):
+    for b, m in enumerate(row["master_per_round"]):
+        if b >= 1 and m >= thresh:
+            return b
+    return float("inf")
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--k0", action="store_true"); ap.add_argument("--k1", action="store_true")
+    ap.add_argument("--b-max", type=int, default=4)
+    ap.add_argument("--num-envs", type=int, default=64)
+    ap.add_argument("--n-conf", type=int, default=12, help="N units of the confirmatory, for se_proj")
+    ap.add_argument("--worlds", type=int, nargs="*", default=None)
+    ap.add_argument("--out-dir", default="craft_v6_out")
+    ap.add_argument("--smoke", action="store_true"); ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--seed", type=int, default=0)
+    a = ap.parse_args()
+    sfx = "_smoke" if a.smoke else ""
+    ck = os.path.join(a.out_dir, f"v61_gate_ckpt{sfx}"); os.makedirs(ck, exist_ok=True)
+    logf = open(os.path.join(a.out_dir, f"v61_gate{sfx}.log"), "a")
+    L_ = lambda s: log_line(logf, s)                                                      # noqa: E731
+    cfg = cfg_v61(num_envs=a.num_envs, r_max=a.b_max)
+    B = a.b_max
+    torch.manual_seed(a.seed)
+    laws = sample_laws(LAWS_SEED)
+    skill = load_skill(cfg, a.seed, a.out_dir)
+    worlds = a.worlds or admitted_worlds(laws, range(8100, 8110), need=2)
+    t0 = time.perf_counter()
+    L_("=" * 100)
+    L_(f"ARC 3 GATE (v61) | worlds {worlds} | B_max(gate) {B} | {a.num_envs} envs | N_conf {a.n_conf} | "
+       f"per-goal store | {'SMOKE ' if a.smoke else ''}{time.strftime('%Y-%m-%d %H:%M')}")
+    L_("=" * 100)
+
+    def ckpt(name):
+        return os.path.join(ck, name + ".json")
+
+    def load_or(name, fn):
+        p = ckpt(name)
+        if a.resume and os.path.exists(p):
+            L_(f"  [resume] {name}")
+            return json.load(open(p))
+        r = fn()
+        json.dump(r, open(p, "w"), indent=1)
+        return r
+
+    res = dict(worlds=worlds, b_max=B, num_envs=a.num_envs, n_conf=a.n_conf, units={})
+    for w in worlds:
+        spec = make_world(w, laws)
+        goals = goal_stream(spec)
+        tiers = [spec["tier"][g] for g in goals]
+        nav = nav_gate(skill, spec, cfg, a.seed)
+        u = dict(goals=goals, tiers=tiers, nav=nav, nav_min=min(nav.values()),
+                 plan_steps=[spec["plans"][g]["steps"] for g in goals])
+        L_(f"\nWORLD {w} | stream {goals} tiers {tiers} plan steps {u['plan_steps']} | nav min {u['nav_min']:.3f}")
+        if u["nav_min"] < 0.85:
+            L_("  NAV GATE FAILS — instrument; world skipped (logged)"); res["units"][w] = u; continue
+
+        if a.k0:
+            def k0():
+                out = dict(L={}, G={}, G_first={})
+                Lk = LawKnower(spec)
+                for p, g in enumerate(goals):
+                    out["L"][str(g)] = eval_goal_v61(spec, skill, Lk, cfg, w + 11 * p, g)
+                    L_(f"  [K0] L goal {g} (tier {tiers[p]}): {out['L'][str(g)]:.3f} | {time.perf_counter()-t0:.0f}s")
+                rows, _ = run_unit_v61(spec, skill, StoreSweeper(spec), cfg, w, goals, r_max=B, train=False,
+                                       log=lambda r: L_(f"  [K0] G' goal {r['goal']} (tier {r['tier']}): curve "
+                                                        f"{r['master_per_round']} first-demo attempt {r.get('first_demo_attempt')} "
+                                                        f"| {time.perf_counter()-t0:.0f}s"))
+                for r in rows:
+                    out["G"][str(r["goal"])] = r["master_per_round"]
+                    out["G_first"][str(r["goal"])] = r.get("first_demo_attempt")
+                return out
+            u["k0"] = load_or(f"{w}_k0", k0)
+
+        if a.k1:
+            u["k1"] = {}
+            for arm in (1, 2, 3):
+                def k1(arm=arm):
+                    seed = init_seed(GATE_LINEAGE, w, arm)
+                    comp = ComposerV61(init_seed=seed)
+                    torch.manual_seed(seed + 500)
+                    aucs = []
+
+                    def on_goal(r):
+                        auc, npairs = law_auc(comp, spec, skill, cfg, laws)
+                        aucs.append(auc)
+                        L_(f"  [K1] F{arm} goal {r['goal']} (tier {r['tier']}): curve {r['master_per_round']} "
+                           f"rows {r['samples_per_round']} demos {r['demos_per_round']} | AUC {auc:.3f} ({npairs} cells) "
+                           f"| {time.perf_counter()-t0:.0f}s")
+                    rows, _ = run_unit_v61(spec, skill, comp, cfg, w, goals, r_max=B, train=True, log=on_goal)
+                    return dict(init_seed=seed, rows=[dict(goal=r["goal"], tier=r["tier"], curve=r["master_per_round"],
+                                                            rows=r["samples_per_round"], demos=r["demos_per_round"])
+                                                       for r in rows], auc=aucs,
+                                secs=round(time.perf_counter() - t0))
+                u["k1"][f"F{arm}"] = load_or(f"{w}_F{arm}", k1)
+        res["units"][w] = u
+        json.dump(res, open(os.path.join(a.out_dir, f"v61_gate{sfx}.json"), "w"), indent=1)
+
+    # ---- the decisions --------------------------------------------------------------------------
+    units = [w for w in worlds if "k1" in res["units"].get(w, {}) or "k0" in res["units"].get(w, {})]
+    L_(f"\n{'='*100}\nGATE SUMMARY | units {units} | B {B} | thresh {cfg['thresh']}")
+    thresh = cfg["thresh"]
+    reachable = all(res["units"][w].get("k0", {}).get("L", {}) and
+                    min(res["units"][w]["k0"]["L"].values()) >= 0.85 for w in units) if a.k0 else None
+    if a.k0:
+        for w in units:
+            k0 = res["units"][w]["k0"]
+            L_(f"  {w}: L {[round(v,3) for v in k0['L'].values()]} | G' curves {list(k0['G'].values())} | "
+               f"G' first-demo attempts {list(k0['G_first'].values())}")
+        L_(f"  REACHABLE = {reachable}  (nav >= 0.85 and L >= 0.85 on every goal)")
+    if a.k1:
+        A = {}          # A[w][arm] per-unit area over b = 1..B (mean over goals)
+        Ag = {}         # per-goal areas
+        bstar = {}
+        for w in units:
+            k1 = res["units"][w]["k1"]
+            A[w], Ag[w], bstar[w] = {}, {}, {}
+            for arm, d in k1.items():
+                A[w][arm] = st.mean(area(dict(master_per_round=r["curve"]), 1, B) for r in d["rows"])
+                Ag[w][arm] = [area(dict(master_per_round=r["curve"]), 1, B) for r in d["rows"]]
+                bstar[w][arm] = [b_star(dict(master_per_round=r["curve"]), thresh) for r in d["rows"]]
+            if a.k0:
+                k0 = res["units"][w]["k0"]
+                A[w]["L"] = st.mean(k0["L"].values())
+                Ag[w]["L"] = list(k0["L"].values())
+                A[w]["G"] = st.mean(area(dict(master_per_round=c), 1, B) for c in k0["G"].values())
+                Ag[w]["G"] = [area(dict(master_per_round=c), 1, B) for c in k0["G"].values()]
+            L_(f"  {w}: A(u) " + " ".join(f"{k}={v:.3f}" for k, v in A[w].items()) +
+               f" | b* per goal " + " ".join(f"{k}={v}" for k, v in bstar[w].items()))
+        arms = ["F1", "F2", "F3"]
+        pairs = [(x, y) for i, x in enumerate(arms) for y in arms[i + 1:]]
+        d_unit = [A[w][x] - A[w][y] for w in units for (x, y) in pairs]
+        d_goal = [Ag[w][x][p] - Ag[w][y][p] for w in units for (x, y) in pairs for p in range(3)]
+        sd_init = st.pstdev(d_unit) * (len(d_unit) / (len(d_unit) - 1)) ** 0.5 if len(d_unit) > 1 else float("nan")
+        sd_goal = st.pstdev(d_goal) * (len(d_goal) / (len(d_goal) - 1)) ** 0.5 if len(d_goal) > 1 else float("nan")
+        N = a.n_conf
+        se_res = 0.0625 * (2 / (3 * B * N)) ** 0.5
+        se_proj = max(sd_init / (2 * N) ** 0.5, se_res)
+        med_b = {}
+        for p in range(3):
+            med_b[p] = [st.median(bstar[w][arm][p] for arm in arms) for w in units]
+        fresh_learns = all(b <= 2 for b in med_b[0]) and all(b <= 3 for b in med_b[1])   # ARC3_PLAN 4.1
+        L_(f"  sd_init (per-UNIT pairwise fresh differences, {len(d_unit)} values) = {sd_init:.4f} | per-goal sd "
+           f"(diagnostic, {len(d_goal)} values) = {sd_goal:.4f} | se_res {se_res:.4f} | se_proj(N={N}) {se_proj:.4f}")
+        L_(f"  b* median fresh per unit: tier2 {med_b[0]} tier3 {med_b[1]} tier4 {med_b[2]}")
+        L_(f"  FRESH-LEARNS = {fresh_learns}  (b*(tier2) <= 2 on both units AND b*(tier3) <= 3 on both; "
+           f"tier 4 is the reach position, printed above, not required)")
+        if a.k0:
+            H_u = [A[w]["L"] - st.mean(A[w][arm] for arm in arms) for w in units]
+            H_t = [st.mean(Ag[w]["L"][p] - st.mean(Ag[w][arm][p] for arm in arms) for w in units) for p in range(3)]
+            Hp = [A[w]["L"] - A[w]["G"] for w in units]
+            H = st.mean(H_u); room = H >= 4 * se_proj
+            L_(f"  H = mean_u[A_L - mean fresh] = {H:.4f} (per unit {[round(x,3) for x in H_u]}; per tier "
+               f"{[round(x,3) for x in H_t]}) | H' = A_L - A_G' = {st.mean(Hp):.4f} | 4*se_proj = {4*se_proj:.4f}")
+            L_(f"  ROOM = {room}")
+            proceed = bool(reachable and fresh_learns and room)
+            L_(f"\n  GATE -> {'PROCEED' if proceed else 'STOP'}" +
+               ("" if proceed else f"  (REACHABLE {reachable}, FRESH-LEARNS {fresh_learns}, ROOM {room}; see notch list)"))
+            res["summary"] = dict(reachable=reachable, fresh_learns=fresh_learns, room=room, proceed=proceed,
+                                  H=H, H_unit=H_u, H_tier=H_t, H_prime=st.mean(Hp), sd_init=sd_init, sd_goal=sd_goal,
+                                  se_res=se_res, se_proj=se_proj, b_star_median=med_b, A=A)
+        json.dump(res, open(os.path.join(a.out_dir, f"v61_gate{sfx}.json"), "w"), indent=1)
+    L_(f"  total {time.perf_counter()-t0:.0f}s")
+
+
+if __name__ == "__main__":
+    main()

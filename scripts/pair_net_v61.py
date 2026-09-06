@@ -249,11 +249,16 @@ def run_goal_v61(env, spec, skill, composer, buf, cfg, seed, goal, r_max, train=
     m0 = env.msteps_total
     zs = eval_goal_v61(spec, skill, composer, cfg, seed, goal, env.store.state_dict())
     master_per_round, demos, samples = [round(zs, 4)], [], []
+    first_demo, ep_count = None, 0
     for r in range(r_max):
         d = k = 0
         for _ in range(cfg["episodes_per_round"]):
             s, a, us, outs = collect_episode_v61(env, composer, cfg, goal)
-            d += int((us[:, goal] >= 0).sum())
+            hit = int((us[:, goal] >= 0).sum())
+            if hit > 0 and first_demo is None:                 # macro-attempts until ANY env first obtains it
+                first_demo = ep_count * env.macro_budget + int(us[:, goal][us[:, goal] >= 0].min()) + 1
+            ep_count += 1
+            d += hit
             ss, aa, kept = relabel_commanded_v61(s, a, us, cfg["max_samples_per_ep"], goal)
             k += kept
             if ss is not None:
@@ -267,7 +272,7 @@ def run_goal_v61(env, spec, skill, composer, buf, cfg, seed, goal, r_max, train=
                                                     env.store.state_dict()), 4))
     return dict(goal=goal, master_per_round=master_per_round, demos_per_round=demos,
                 samples_per_round=samples, attempts=env.msteps_total - m0, buf_n=buf.n, buf_out=buf.n_out,
-                mastered=bool(master_per_round[-1] >= cfg["thresh"]))
+                first_demo_attempt=first_demo, mastered=bool(master_per_round[-1] >= cfg["thresh"]))
 
 
 def run_unit_v61(spec, skill, composer, cfg, world_seed, goals, r_max, train=True, log=None):

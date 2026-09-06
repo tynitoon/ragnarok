@@ -1,0 +1,27 @@
+{
+ "0.0": {
+  "auc_unexercised": 0.4964,
+  "n_test_cells": 36400,
+  "base_rate": 0.498
+ },
+ "0.38": {
+  "auc_unexercised": 0.4985,
+  "n_test_cells": 22636,
+  "base_rate": 0.496
+ },
+ "0.62": {
+  "auc_unexercised": 0.5038,
+  "n_test_cells": 13783,
+  "base_rate": 0.502
+ },
+ "0.76": {
+  "auc_unexercised": 0.4948,
+  "n_test_cells": 8703,
+  "base_rate": 0.507
+ },
+ "0.85": {
+  "auc_unexercised": 0.4947,
+  "n_test_cells": 5554,
+  "base_rate": 0.503
+ }
+}
