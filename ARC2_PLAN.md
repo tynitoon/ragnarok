@@ -613,7 +613,7 @@ never evidence.
 `scripts/pilot_v60.py`, output `craft_v6_out/v60_pilot.json`. M pretrained on 6101 (8 goals, B_MAX=3,
 fixed budget), then M / Fa / Fb all LEARN on 6100 (6 goals, pc 9-10), fixed budget, no early break.
 
-    goals mastered within B rounds (cumulative-OR, thresh 0.85):
+    goals mastered within B rounds (cumulative-OR, cfg thresh 0.6):
                     B=0   B=1   B=2   B=3
         M           1     3     3     5
         Fa          2     4     5     5
