@@ -26,6 +26,9 @@ rather than quietly dropped.
 | Removing the recipe oracle **made the agent goal-directed**, where before it ignored the goal entirely | goal-swap 0.30 / 0.42 / 0.75 vs ~0, on 3/3 worlds (v55) |
 | Accumulated memory makes new goals **far cheaper** — cheaper, not *possible* | v55/v57, with the mechanism measured |
 | A **persistent per-world evidence store** lets a policy holding no item identities solve deep goals | ARC 2 gate: 4/4 mastered; zeroing the store drops the same weights 0.98 → 0.00 |
+| **Frozen weights transfer to a world never seen**: a policy trained in one world, dropped into another with an empty store, masters goals a random-weight policy cannot | ARC 2 probe: 3/6 vs 0/6 (v59) |
+| A family of worlds sharing a **hidden chemistry** (ARC 3, v61) makes shared knowledge *expensive to reacquire* — the property both earlier arcs lacked | law-knower 1.00 on 12/12 goals; without the law, tier 4 is out of reach in 4 rounds for 11/12 fresh learners; the law is worth 0.65–0.72 of the mastery area on tier 3 and ~1.0 on tier 4 |
+| A CPU model of the store sweeper **predicts the GPU reference's cost to within a few percent** on every gate goal | ARC 3 gate, CONSISTENT check |
 
 ## What is refuted or null (published, not hidden)
 
@@ -38,15 +41,28 @@ rather than quietly dropped.
   something the agent was never asked to do** — meaning no "from-scratch" control in the project's
   history was ever actually knowledge-free.
 
+- **ARC 2 — partial negative (2026-08).** Transferred weights help an agent *start* in a new world, but
+  once both an experienced and a fresh agent are allowed to learn, the fresh one catches up in 1–3
+  rounds: Δ = +0.069 against a run-to-run noise of 0.076. Diagnosis: what those worlds shared was cheap
+  to reacquire. `ARC2_PLAN.md` section 15.
+- **ARC 3 — closed at its gate (2026-09-06).** The substrate fixed ARC 2's wall (see above), but the
+  pre-registered feasibility gate failed on its fresh-learnability clause: fresh learners are *bimodal*
+  on the position where "learns faster" would be read — half reach it in 2–4 rounds, half stall — so the
+  frozen median criterion was missed by one round, twice by two envs of 64. No experienced arm was run;
+  this is a feasibility result, not a verdict. `ARC3_PLAN.md` sections 10–11.
+
 That map of *why this question is so hard to measure* is the most transferable thing here.
 
 ## What is open
 
-**ARC 2 — change world, keep skills.** An agent whose slow weights carry only *the skill of learning a
-world* — no item-identity parameters, so portability is structural rather than hoped for — and whose
-world-specific knowledge lives in an evidence store it writes itself from its own failed attempts.
-Prereg frozen, thresholds fitted on measured noise, scorer committed, runner built and smoked. The
-confirmatory run is **not launched**: it is gated on a verification pass. See `ARC2_PLAN.md`.
+**ARC 3 — worlds that share a hidden law.** Every world of the family obeys the same secret bonding table
+between 14 elements; a world exposes ~38 % of it; an agent that has lived in four worlds knows ~85 %. The
+substrate, the store (per-goal working memory), the identity-free policy with an outcome head, the
+hand-coded ceilings, the gate, a frozen monotone scorer and every runner are built, tested and
+pre-registered (`preregistration.md`, v61). The gate says the law is worth more than any effect this
+project has had in front of it, and that the fresh baseline does not reliably learn the comparison
+position at a four-round budget. The next step — a re-gated v62 with a feasibility criterion set from the
+twelve measured curves, on new worlds — is the owner's call.
 
 ---
 
@@ -55,13 +71,17 @@ confirmatory run is **not launched**: it is gated on a verification pass. See `A
 Most of this tree is **historical record**, kept because the negative results are part of the evidence.
 
 ```
-ARC2_PLAN.md            ← the live plan: architecture, arms, gates, kill criteria, handoff notes
+ARC3_PLAN.md            ← the live plan (ARC 3): substrate, unit, gate, verdict rule, audit ledger, gate results
+ARC2_PLAN.md            ← ARC 2: design, the two voided designs, the pilot that closed it (section 15)
 preregistration.md      ← every frozen hypothesis, append-only, in chronological order
 RESEARCH_DIRECTION.md   ← the running lab notebook: what was tried, what it returned, what killed it
 README.md               ← you are here
 
+ragnarok/environments/law_world.py   ← ARC 3 substrate: hidden laws, per-world skin, the env
 scripts/
-  *_v58.py              ← LIVE (ARC 2): evidence_store, evidence_net, calibrate2, run_confirm, score
+  *_v61.py              ← ARC 3: pair_store, pair_net, hand (L/G'), sweeper, mc, roster, gate, score,
+                           pretrain, probe, confirm, figure, test_law
+  *_v58..v60.py         ← ARC 2, closed: evidence_store, evidence_net, probes, pilot
   *_v49..v57.py         ← ARC 1, closed: the necessity arc that returned three NULLs
   *_v10..v48.py         ← historical: pixels, world models, notion libraries, arcade games
   play_*.py, demo.py    ← watchable demos
