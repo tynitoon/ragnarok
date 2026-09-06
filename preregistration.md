@@ -7120,3 +7120,14 @@ the run is void and the defect is published.
   goal-free observations, the distribution it is trained on.
 - score_v61 issues a verdict only on 3 lineages, N in (9, 12), B_max in (3, 4); otherwise PARTIAL.
 - The outcome head trains whenever outcome rows exist, even before the first success.
+
+## GATE RESULT, first run (2026-09-06, 3.5 GPU-h): STOP -> the pre-declared softening notch is applied
+REACHABLE True (L 1.00 x 6, nav 0.898/0.879). CONSISTENT held on all six goals (G' medians 33/104/768
+and 27/123/688 vs predictions 29/103/>768 and 29/123/>768). FRESH-LEARNS False: b*(tier 3) median
+[3, inf] (per arm 8100 {3, inf, 3}, 8101 {3, inf, inf}); tier 4 unreached by 0/6 fresh arms. ROOM True:
+H 0.574 (per tier 0.005/0.717/1.000), sd_init 0.126 (per-unit, 6 values), 4 se_proj 0.119.
+NOTCH (the only one the arc allows, now spent): the store PERSISTS across the goals of a world for every
+arm, and B_max(test) = 4. K0's G' and K1 are re-run on 8100/8101 under it (gate_v61 --store-persists
+--tag notch; outputs v61_gate_notch.*; the first run's outputs are kept). PROCEED requires FRESH-LEARNS
+and ROOM on the re-run; otherwise the arc STOPs at the gate and this section is the record.
+Measured round time 126 s (assumed 220): N will be declared at the freeze from this number.

@@ -459,3 +459,31 @@ A second, smaller panel: 4.5 (ii) by default, with the collinearity caveat.
     Cuts endorsed by every auditor: the chain ladder, evidence dropout, Mz/Mperm/Mdeg, N = 36, M1-M3 as
     test arms, COSTLY-0/1, the 68k apparatus. Residual accepted, not fixed: the b = 1..B_max area can
     reward a head start the fresh arms are slow to erase (the endpoint line makes it visible).
+
+## 10. GATE RESULT, first run (2026-09-06 04:05-07:35, 3.5 GPU-h, per-goal store) -> STOP, notch applied
+
+    REACHABLE   True   nav min 0.898 / 0.879; L = 1.00 on all six goals
+    CONSISTENT  held   G' median attempts-to-first-obtain (cap 768) vs CPU model:
+                       8100: 33 / 104 / 768   vs 29 / 103 / >768 (94% censored)
+                       8101: 27 / 123 / 688   vs 29 / 123 / >768 (62% censored)
+    K1 fresh    A(u) over b = 1..4:   8100  F1 0.499  F2 0.358  F3 0.517  | L 1.00  G' 0.658
+                                      8101  F1 0.496  F2 0.345  F3 0.341  | L 1.00  G' 0.663
+                b* (median over the three fresh arms): tier 2 [1, 1]; tier 3 [3, inf]; tier 4 [inf, inf]
+                per arm, tier 3: 8100 {3, inf, 3}; 8101 {3, inf, inf}. Tier 4: 0 of 6 fresh arms, zero
+                credited rows in every round (R10 as predicted).
+    sd_init     0.126 (6 per-unit values); per-goal sd 0.211 (diagnostic)
+    H           0.574 (per unit 0.542 / 0.606; per tier 0.005 / 0.717 / 1.000); H' = 0.340
+    se_proj     0.030 under B_test 4, N 9  -> 4 se_proj = 0.119
+    FRESH-LEARNS False (tier 3 on 8101)   ROOM True   -> STOP -> the one pre-declared softening notch
+    wall-clock  K0 ~26 min per world; K1 8.4 min per goal-run at B 4 (~126 s per round incl. eval)
+
+Reading, stated once: with a per-goal store the substrate is REACHABLE and has ROOM in abundance (the law
+is worth 0.72 of mastery-area on tier 3 and all of it on tier 4), but a fresh agent climbs to tier 3
+inside three rounds in only 3 of 6 inits. The learns-faster position needs a fresh agent that can learn
+it; the notch (4.1) is the pre-declared way to give it one: the store persists across the stream, so
+the tier-2 goal's incidental discoveries carry into tier 3, and B_max(test) = 4. The cost, measured by
+the second audit panel before the run, is dilution of the law's worth on tier 3; the gate re-run
+measures what remains. K0's sweeper and K1 are re-run on the same two units under the notch (~5.5 h);
+PROCEED requires FRESH-LEARNS and ROOM on the re-run, else the arc STOPs at the gate.
+Budget note for the freeze after PROCEED: at the measured 126 s/round a goal-run at B 4 costs 8.5 min,
+so the confirmatory at N = 12 costs ~15.3 h and fits under the 40 h ceiling; N is declared at the freeze.

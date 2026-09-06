@@ -85,12 +85,16 @@ def main():
     ap.add_argument("--out-dir", default="craft_v6_out")
     ap.add_argument("--smoke", action="store_true"); ap.add_argument("--resume", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--store-persists", action="store_true",
+                    help="THE NOTCH (ARC3_PLAN 4.1, not FRESH-LEARNS): the store persists across the stream")
+    ap.add_argument("--tag", default="", help="output suffix (e.g. notch) so an earlier gate run is preserved")
     a = ap.parse_args()
-    sfx = "_smoke" if a.smoke else ""
+    sfx = ("_smoke" if a.smoke else "") + (f"_{a.tag}" if a.tag else "")
     ck = os.path.join(a.out_dir, f"v61_gate_ckpt{sfx}"); os.makedirs(ck, exist_ok=True)
     logf = open(os.path.join(a.out_dir, f"v61_gate{sfx}.log"), "a")
     L_ = lambda s: log_line(logf, s)                                                      # noqa: E731
     cfg = cfg_v61(num_envs=a.num_envs, r_max=a.b_max)
+    cfg["store_persists"] = bool(a.store_persists)
     B = a.b_max
     torch.manual_seed(a.seed)
     laws = sample_laws(LAWS_SEED)
@@ -99,7 +103,8 @@ def main():
     t0 = time.perf_counter()
     L_("=" * 100)
     L_(f"ARC 3 GATE (v61) | worlds {worlds} | B_max(gate) {B} | {a.num_envs} envs | N_conf {a.n_conf} | "
-       f"per-goal store | {'SMOKE ' if a.smoke else ''}{time.strftime('%Y-%m-%d %H:%M')}")
+       f"{'store PERSISTS across the stream (NOTCH)' if a.store_persists else 'per-goal store'} | "
+       f"{'SMOKE ' if a.smoke else ''}{time.strftime('%Y-%m-%d %H:%M')}")
     L_("=" * 100)
 
     def ckpt(name):
@@ -114,7 +119,8 @@ def main():
         json.dump(r, open(p, "w"), indent=1)
         return r
 
-    res = dict(worlds=worlds, b_max=B, num_envs=a.num_envs, n_conf=a.n_conf, units={})
+    res = dict(worlds=worlds, b_max=B, num_envs=a.num_envs, n_conf=a.n_conf, store_persists=bool(a.store_persists),
+               units={})
     for w in worlds:
         spec = make_world(w, laws)
         goals = goal_stream(spec)

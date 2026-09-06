@@ -34,10 +34,12 @@ def main():
     ap.add_argument("--out-dir", default="craft_v6_out")
     ap.add_argument("--smoke", action="store_true"); ap.add_argument("--resume", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--store-persists", action="store_true", help="the notch: store persists across the stream")
     a = ap.parse_args()
     sfx = "_smoke" if a.smoke else ""
     s, B = a.lineage, a.b_max
     cfg = cfg_v61(num_envs=a.num_envs, r_max=B)
+    cfg["store_persists"] = bool(a.store_persists)
     laws = sample_laws(LAWS_SEED)
     skill = load_skill(cfg, a.seed, a.out_dir)
     ck = os.path.join(a.out_dir, f"v61_confirm_ckpt{sfx}"); os.makedirs(ck, exist_ok=True)

@@ -54,10 +54,12 @@ def main():
     ap.add_argument("--out-dir", default="craft_v6_out")
     ap.add_argument("--smoke", action="store_true"); ap.add_argument("--resume", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--store-persists", action="store_true", help="the notch: store persists across the stream")
     a = ap.parse_args()
     sfx = "_smoke" if a.smoke else ""
     s = a.lineage
     cfg = cfg_v61(num_envs=a.num_envs, r_max=a.b_max)
+    cfg["store_persists"] = bool(a.store_persists)
     laws = sample_laws(LAWS_SEED)
     skill = load_skill(cfg, a.seed, a.out_dir)
     tag = f"v61_pre_s{s}{sfx}"
@@ -111,7 +113,8 @@ def main():
         comp.reset_optimizer()
         rows = []
         for p, g in enumerate(goals):
-            env.store = PairStore(env.num_envs, env.n_items)
+            if not cfg.get("store_persists", False):
+                env.store = PairStore(env.num_envs, env.n_items)      # per-goal store (unless the notch applies)
             r = run_goal_v61(env, spec, skill, comp, buf, cfg, w + 11 * p, g, a.b_max, train=True)
             r["tier"] = tiers[p]; r["pos"] = p
             cells_world |= exercised_cells(env.store.state_dict(), spec)
