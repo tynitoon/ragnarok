@@ -7141,3 +7141,19 @@ Published as a GATE RESULT (ARC3_PLAN.md sections 10-11): a feasibility finding 
 baseline's learning speed on tier 3 (bimodal: half of inits in 2-4 rounds, half stalled), never a wall
 measurement and never a verdict on the claim. Any continuation is a NEW preregistration (v62) on NEW
 gate worlds, and is the owner's decision.
+
+# PREREGISTRATION v62 / ARC 3 "ALCHEMY" re-gated — STAGE-0 FREEZE, 2026-09-06 (before gate K0 on 8102/8103)
+
+A redesign after a feasibility STOP (owner's decision B; ARC3_PLAN.md section 12). Everything from the
+v61 freeze stands EXCEPT: (i) the store PERSISTS across the goals of a world for every arm; (ii) B_max
+6 at the gate, B_max(test) 6 or 5 declared at the freeze after PROCEED; (iii) FRESH-LEARNS iff all 3
+fresh arms reach 0.6 on tier 2 within 2 rounds AND at least 2 of 3 fresh arms reach 0.6 on tier 3
+within B_max, on both units; (iv) NO softening notch — a FRESH-LEARNS failure closes the ARC 3 line;
+the hardening notch (not ROOM -> quota 3, new gate worlds) is kept, once; (v) gate worlds = the first
+two admitted seeds >= 8102 -> 8102, 8103 (burned); (vi) the ceiling for the whole ARC 3 line is 42
+GPU-h with the cut list of 12.4 (B_max(test) 5, then G' to 1 unit; never Fb, a lineage, the probe,
+N = 9). CONSISTENT uses the validated stream model (predicted 33/9/768 and 29/24/352 vs measured
+33/9/768 and 28/25/403 on the v61 notch run): 8102 = 57 / 7 / >1152, 8103 = 23 / 29 / >1152.
+Primary, null, verdict rule, wording rule, probe rule, seed-table roles, pretrain and test windows:
+unchanged from v61. Predictions: P(FRESH-LEARNS on both units) ~0.4-0.5; H ~0.5; tier 4 reached by
+0-1 of 6 fresh arms. Gate arms use lineage 9 init seeds on worlds 8102/8103 (distinct from v61's).

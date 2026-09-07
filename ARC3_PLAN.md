@@ -536,3 +536,55 @@ B. v62: the same substrate and code, a NEW preregistration whose feasibility cri
    units, or a raised ceiling. Labelled everywhere as a redesign after a feasibility STOP.
 C. Run the confirmatory anyway under the wording rule. Rejected by the lead: it changes the gate after
    seeing it fail.
+
+## 12. v62 — the re-gated arc (owner's decision B, 2026-09-06 11:30). A redesign after a feasibility STOP.
+
+What changes, and only this: the FEASIBILITY criterion and the budget per goal, both set from the twelve
+fresh curves the v61 gate measured; the gate runs on NEW burned worlds. The substrate, the code, the
+primary, the contemporaneous null, the verdict rule, the wording rule, the probe rule, the seed table
+roles and the test windows are the v61 ones, untouched.
+
+### 12.1 Protocol
+    store       PERSISTS across the goals of a world for every arm (the v61 notch protocol). Chosen for
+                feasibility: under it 2 of 3 fresh arms reached 0.6 on tier 3 within 4 rounds on BOTH
+                v61 units (per-goal store: on one). The cost was measured before this choice: tier-3
+                law headroom 0.65 instead of 0.72, tier 4 unchanged (0.99), sweeper's tier-3 clock 10x
+                faster, learner's ~unchanged. Symmetric across arms; the second panel's verdict stands:
+                it dilutes, it does not bias.
+    B_max       6 rounds per goal at the gate. B_max(test) = 6 if the confirmatory fits the ceiling at
+                the freeze (12.4), else 5. Pretraining keeps B = 3 (fairness binds at test only).
+    unit/stream unchanged (tier 2, 3, 4 lowest-index admitted items; fixed budget; per-world buffers)
+
+### 12.2 The gate (K0 + K1 on the first two admitted seeds >= 8102: 8102, 8103; burned)
+    REACHABLE     unchanged
+    CONSISTENT    the CPU STREAM model (scripts/sweeper_v61.py simulate_stream: persisting store, full
+                  budget per goal, first-obtain scored), VALIDATED on the v61 notch run before this text
+                  was written: predicted 33 / 9 / 768 and 29 / 24 / 352 vs measured 33 / 9 / 768 and
+                  28 / 25 / 403. Predictions at cap 1152: 8102 = 57 / 7 / >1152 (100% censored);
+                  8103 = 23 / 29 / >1152 (92%). A miss by > 2x on a non-censored goal halts K1.
+    FRESH-LEARNS  iff ALL 3 fresh arms reach 0.6 on tier 2 within 2 rounds on both units, AND at least
+                  2 OF 3 fresh arms reach 0.6 on tier 3 within B_max on both units.
+                  A fraction over arms, not a 3-arm median: v61's median rule let one stalled init
+                  decide a unit. Tier 4 printed, not required (the reach position).
+    ROOM          unchanged: H >= 4 se_proj, sd_init per unit, se_res, under B_test and N = 9.
+    PROCEED iff all three. NO softening notch exists in v62: a FRESH-LEARNS failure ends the ARC 3
+    line for good, published as the gate result. The one hardening notch (not ROOM -> quota 3, new
+    gate worlds) is kept; ROOM was 0.55-0.57 vs 0.11-0.12 in v61, so it is not expected to fire.
+
+### 12.3 Predictions, stated before the gate
+From the twelve v61 curves: half the fresh inits reach 0.6 on tier 3 by round 2-4; of the stalled
+half, those rising at round 4 (0.31-0.33) plausibly cross by round 6, the flat ones (0.03-0.06) do not.
+Expected: 2 of 3 arms on each unit with probability ~0.6-0.7, so P(FRESH-LEARNS on both) ~0.4-0.5.
+This gate is a coin flip too, and it is the last one. Tier 4: 0-1 of 6 fresh arms. H ~0.5.
+
+### 12.4 Budget (126 s/round measured; 13.5 min per goal-run at B 6, 8.5 at B 3)
+    v61 spent 6.7 | v62 gate K0 ~1.5 + K1 ~4.0 | pretraining 3 x 4 x 4 x 8.5 min = 6.8 | probe 0.5 |
+    confirmatory N 9 x 3 goals x 3 arms x 13.5 min = 18.2 + G' on 2 units 1.4      total ~39.1 GPU-h
+    Ceiling for the whole ARC 3 line, owner-approved with option B: 42 GPU-h. Cut list at the freeze,
+    in order: (1) B_max(test) 5 (confirmatory 15.2 h); (2) G' to 1 unit. Never cut: Fb, a lineage,
+    the probe, N = 9.
+
+### 12.5 What is said about this everywhere it is reported
+"v62 is a redesign after a feasibility STOP: its feasibility criterion was set from the twelve curves
+that failed v61's, and it was gated on worlds those curves never touched. The claim's verdict rule
+was frozen before any of it and did not move."

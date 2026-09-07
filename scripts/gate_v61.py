@@ -88,6 +88,11 @@ def main():
     ap.add_argument("--store-persists", action="store_true",
                     help="THE NOTCH (ARC3_PLAN 4.1, not FRESH-LEARNS): the store persists across the stream")
     ap.add_argument("--tag", default="", help="output suffix (e.g. notch) so an earlier gate run is preserved")
+    ap.add_argument("--rule", default="v61", choices=["v61", "v62"],
+                    help="v61: median b*(tier2)<=2 and median b*(tier3)<=3 on both units; "
+                         "v62 (ARC3_PLAN 12): all 3 fresh arms b*(tier2)<=2 AND >=2 of 3 arms b*(tier3)<=B on both units")
+    ap.add_argument("--b-test", type=int, default=None, help="v62: B_max(test) fixed at the freeze (default = --b-max)")
+    ap.add_argument("--n-test", type=int, default=None, help="v62: N fixed at the freeze (default 9)")
     a = ap.parse_args()
     sfx = ("_smoke" if a.smoke else "") + (f"_{a.tag}" if a.tag else "")
     ck = os.path.join(a.out_dir, f"v61_gate_ckpt{sfx}"); os.makedirs(ck, exist_ok=True)
@@ -223,12 +228,21 @@ def main():
         med_b = {}
         for p in range(3):
             med_b[p] = [st.median(bstar[w][arm][p] for arm in arms) for w in units]
-        fresh_learns = all(b <= 2 for b in med_b[0]) and all(b <= 3 for b in med_b[1])   # ARC3_PLAN 4.1
-        # B_max(test) and N follow from K1 (ARC3_PLAN 4.4): clamp(b*(tier-4 median over units) + 1, 3, 4);
-        # N = 12 at B 3, 9 at B 4. se_proj is computed under THOSE values (the N=12/B=4 line is a diagnostic).
-        b4 = st.median(med_b[2]) if all(b < float("inf") for b in med_b[2]) else float("inf")
-        B_test = 4 if b4 == float("inf") else int(min(4, max(3, b4 + 1)))
-        N = 12 if B_test == 3 else 9
+        n_reach = {p: [sum(1 for arm in arms if bstar[w][arm][p] <= (2 if p == 0 else B)) for w in units]
+                   for p in range(3)}                    # arms reaching 0.6 within the budget, per unit
+        if a.rule == "v61":
+            fresh_learns = all(b <= 2 for b in med_b[0]) and all(b <= 3 for b in med_b[1])   # ARC3_PLAN 4.1
+            # B_max(test) and N follow from K1 (ARC3_PLAN 4.4): clamp(b*(tier-4 median) + 1, 3, 4); N 12 at B 3, 9 at B 4
+            b4 = st.median(med_b[2]) if all(b < float("inf") for b in med_b[2]) else float("inf")
+            B_test = 4 if b4 == float("inf") else int(min(4, max(3, b4 + 1)))
+            N = 12 if B_test == 3 else 9
+        else:
+            # ARC3_PLAN 12 (v62): a FRACTION over the three fresh arms, not a 3-arm median
+            fresh_learns = all(k == 3 for k in n_reach[0]) and all(k >= 2 for k in n_reach[1])
+            B_test = a.b_test or B
+            N = a.n_test or 9
+        L_(f"  fresh arms reaching 0.6 within budget, per unit: tier2 {n_reach[0]} (of 3, within 2 rounds) "
+           f"tier3 {n_reach[1]} tier4 {n_reach[2]} (within {B})")
         se_res = 0.0625 * (2 / (3 * B_test * N)) ** 0.5
         se_proj = max(sd_init / (2 * N) ** 0.5, se_res)
         se_proj_diag = max(sd_init / (2 * a.n_conf) ** 0.5, 0.0625 * (2 / (3 * B * a.n_conf)) ** 0.5)
@@ -236,8 +250,10 @@ def main():
            f"(diagnostic, {len(d_goal)} values) = {sd_goal:.4f}")
         L_(f"  b* median fresh per unit: tier2 {med_b[0]} tier3 {med_b[1]} tier4 {med_b[2]} -> B_max(test) {B_test}, N {N}")
         L_(f"  se_res {se_res:.4f} | se_proj(B_test {B_test}, N {N}) {se_proj:.4f} | diagnostic se_proj(B {B}, N {a.n_conf}) {se_proj_diag:.4f}")
-        L_(f"  FRESH-LEARNS = {fresh_learns}  (b*(tier2) <= 2 on both units AND b*(tier3) <= 3 on both; "
-           f"tier 4 is the reach position, printed above, not required)")
+        L_(f"  FRESH-LEARNS = {fresh_learns}  (rule {a.rule}: " +
+           ("median b*(tier2) <= 2 and median b*(tier3) <= 3 on both units" if a.rule == "v61" else
+            f"all 3 arms b*(tier2) <= 2 and >= 2 of 3 arms b*(tier3) <= {B} on both units") +
+           "; tier 4 is the reach position, printed, not required)")
         if a.k0:
             H_u = [A[w]["L"] - st.mean(A[w][arm] for arm in arms) for w in units]
             H_t = [st.mean(Ag[w]["L"][p] - st.mean(Ag[w][arm][p] for arm in arms) for w in units) for p in range(3)]

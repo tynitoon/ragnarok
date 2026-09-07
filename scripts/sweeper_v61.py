@@ -116,6 +116,51 @@ def sweeper_action(inv, quota, known, nonprod, tried_ep, tier, gate, goal, rng):
     return None
 
 
+def simulate_stream(spec, goals, rng, n_mc=50, cap=1152, macro=48):
+    """CPU model of the STREAM with a PERSISTING store (the v62 protocol): the goals in order, the store
+    (known / nonprod) carried from one goal to the next, each goal capped at `cap` attempts. Returns per
+    goal (median attempts to first obtain within that goal's budget, censored fraction)."""
+    n, tier, gate, po, q = spec["n_items"], spec["tier"], spec["gate"], spec["pair_out"], spec["quota"]
+    per_goal = [[] for _ in goals]
+    for _ in range(n_mc):
+        known, nonprod = {}, set()
+        for gi, goal in enumerate(goals):
+            steps, got, first = 0, False, None
+            # FIXED BUDGET: the whole cap is spent on every goal (as run_goal_v61 does), so incidental
+            # discoveries after the first obtain are carried into the next goal; `first` is what is scored
+            while steps < cap:
+                inv = np.zeros(n, dtype=int)
+                quota = np.array([q if tier[k] == 1 else 99 for k in range(n)])
+                tried_ep = set()
+                for _ep in range(macro):
+                    if steps >= cap:
+                        break
+                    a = sweeper_action(inv, quota, known, nonprod, tried_ep, tier, gate, goal, rng)
+                    steps += 1
+                    if a is None:
+                        continue
+                    if a[0] == "collect":
+                        s = a[1]
+                        if quota[s] > 0 and (not gate[s] or any(inv[k] > 0 and tier[k] >= 2 for k in range(n))):
+                            inv[s] += 1; quota[s] -= 1
+                    else:
+                        i, j = a[1], a[2]
+                        if inv[i] <= 0 or inv[j] <= 0:
+                            continue
+                        p = po[i, j]
+                        tried_ep.add((i, j))
+                        if p == -2:
+                            inv[i] -= 1; inv[j] -= 1; nonprod.add((i, j))
+                        elif p == -1:
+                            nonprod.add((i, j))
+                        else:
+                            inv[i] -= 1; inv[j] -= 1; inv[p] += 1; known[(i, j)] = int(p)
+                            if p == goal and first is None:
+                                first = steps
+            per_goal[gi].append(first if first is not None else cap)
+    return [(int(np.median(c)), float(np.mean([x >= cap for x in c]))) for c in per_goal]
+
+
 def simulate_sweep(spec, goal, rng, n_mc=50, cap=576, macro=48):
     """CPU model: perfect nav, the quota, three outcomes; the store persists across episodes within the
     goal (per-goal store), EMPTY at start. Returns (median over runs of attempts to first obtain, censored
