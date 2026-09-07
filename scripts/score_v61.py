@@ -141,9 +141,13 @@ def main():
     assert "_smoke" not in a.json, "smoke files are never scored"
     data = json.load(open(a.json))
     lineages = {u["lineage"] for u in data["units"]}
-    if len(lineages) != 3 or len(data["units"]) not in (9, 12) or data["b_max"] not in (3, 4):
-        print(f"PARTIAL — no verdict: {len(data['units'])} units, lineages {sorted(lineages)}, B_max {data['b_max']} "
-              f"(the frozen design needs 3 lineages, N in (9, 12), B_max in (3, 4))")
+    N, B = len(data["units"]), data["b_max"]
+    # design guard: v61 (N 12 at B 3 / N 9 at B 4) or v62 (N 9 at B 5 or 6). Widened for v62 at its
+    # STAGE-0 freeze, before any v62 data existed (audit finding); the verdict rule below is untouched.
+    ok = len(lineages) == 3 and ((N, B) in ((12, 3), (9, 4)) or (N == 9 and B in (5, 6)))
+    if not ok:
+        print(f"PARTIAL — no verdict: {N} units, lineages {sorted(lineages)}, B_max {B} "
+              f"(the frozen designs: v61 N 12 @ B 3 or N 9 @ B 4; v62 N 9 @ B 5 or 6)")
         return
     r = score(data)
     print("=" * 96)

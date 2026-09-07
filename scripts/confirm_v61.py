@@ -31,6 +31,7 @@ def main():
     ap.add_argument("--b-max", type=int, default=3)
     ap.add_argument("--num-envs", type=int, default=64)
     ap.add_argument("--g-all", action="store_true", help="run G' on every lineage's units (budget)")
+    ap.add_argument("--g-units", type=int, default=2, help="G' on the first K units of lineage 0 (v62: 2; cut list: 1)")
     ap.add_argument("--out-dir", default="craft_v6_out")
     ap.add_argument("--smoke", action="store_true"); ap.add_argument("--resume", action="store_true")
     ap.add_argument("--seed", type=int, default=0)
@@ -112,7 +113,7 @@ def main():
             L_(f"  [L] {[round(r['curve'][0], 3) for r in out]}")
             return out
         arms["L"] = load_or(f"s{s}_{w}_L", l_rows)
-        if s == 0 or a.g_all:
+        if a.g_all or (s == 0 and len(units) < a.g_units):
             def g_rows():
                 rows, _ = run_unit_v61(spec, skill, StoreSweeper(spec, seed=w), cfg, w, goals, r_max=B, train=False,
                                        log=lambda r: L_(f"  [G'] goal {r['goal']} (tier {r['tier']}): curve "
@@ -121,10 +122,12 @@ def main():
             arms["G"] = load_or(f"s{s}_{w}_G", g_rows)
         else:
             arms["G"] = None
-        units.append(dict(id=f"s{s}_{w}", lineage=s, world=w, goals=goals, tiers=tiers, arms=arms))
-        json.dump(dict(lineage=s, b_max=B, units=units), open(os.path.join(a.out_dir, f"v61_confirm_s{s}{sfx}.json"), "w"), indent=1)
+        units.append(dict(id=f"s{s}_{w}", lineage=s, world=w, goals=goals, tiers=tiers, arms=arms,
+                          store_persists=bool(a.store_persists), b_max=B))
+        json.dump(dict(lineage=s, b_max=B, store_persists=bool(a.store_persists), units=units),
+                  open(os.path.join(a.out_dir, f"v61_confirm_s{s}{sfx}.json"), "w"), indent=1)
     # merge every lineage file present into the scorer's input
-    merged = dict(b_max=B, units=[])
+    merged = dict(b_max=B, store_persists=bool(a.store_persists), units=[])
     for ss in range(3):
         p = os.path.join(a.out_dir, f"v61_confirm_s{ss}{sfx}.json")
         if os.path.exists(p):

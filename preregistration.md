@@ -7157,3 +7157,8 @@ N = 9). CONSISTENT uses the validated stream model (predicted 33/9/768 and 29/24
 Primary, null, verdict rule, wording rule, probe rule, seed-table roles, pretrain and test windows:
 unchanged from v61. Predictions: P(FRESH-LEARNS on both units) ~0.4-0.5; H ~0.5; tier 4 reached by
 0-1 of 6 fresh arms. Gate arms use lineage 9 init seeds on worlds 8102/8103 (distinct from v61's).
+Amendments at the v62 freeze (ARC3_PLAN 12.6; same commit, before any v62 GPU): scorer design guard
+widened to (N 9, B 5/6) — verdict rule byte-identical; the v62 FRESH-LEARNS rule would have PASSED the
+v61 notch curves at B 4 (said plainly); pretraining uses the persisting store; B_test by the arithmetic
+of 12.6 with t6 measured in the v62 gate; cut order G' first, then B 5; Delta_0 on tiers 3/4 is weights
++ carried store; command lines frozen as in 12.6. Costs at 126 s/round: 36.0 GPU-h of 42 for the line.

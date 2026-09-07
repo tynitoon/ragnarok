@@ -588,3 +588,37 @@ This gate is a coin flip too, and it is the last one. Tier 4: 0-1 of 6 fresh arm
 "v62 is a redesign after a feasibility STOP: its feasibility criterion was set from the twelve curves
 that failed v61's, and it was gated on worlds those curves never touched. The claim's verdict rule
 was frozen before any of it and did not move."
+
+### 12.6 Amendments at the v62 freeze (third audit panel, 3 lenses, before any v62 GPU)
+- The frozen scorer's DESIGN GUARD accepted only v61's (N, B) pairs and would have refused a v62
+  confirmatory — the only way out would have been to edit the frozen verdict code after the data
+  existed. Widened NOW, in the freeze commit, to (N 9, B 5 or 6); the verdict rule is byte-identical.
+  "Code unchanged" in 12.5 therefore reads: verdict rule unchanged; scorer guard widened at the freeze.
+- Said plainly: the v62 FRESH-LEARNS rule, applied to the v61 notch curves at B 4, PASSES (tier 3: 2 of 3
+  arms on both units). B_max 6 is a second softening stacked on it, justified by two rising curves. The
+  gate on 8102/8103 is what keeps this feasibility, not fitting; and it stays a declared coin flip. The
+  tier-2 clause ("all 3 arms within 2 rounds") is stricter on 8102, whose rung costs the sweeper 57
+  attempts (v61 units: 33/28); it adds an undeclared coin-flip component, now declared.
+- PRETRAINING uses the persisting store too (symmetric with test: M4 must have learned to read a carried
+  store, as the fresh arm does at test).
+- B_max(test) rule, arithmetic: B_test = 6 iff 6.7 + gate_v62_h + 48 t3 + 0.5 + 81 t6 + 6 t6 <= 42 h,
+  with t6 = the MEAN K1 goal-run wall-clock at B 6 measured in the v62 gate, t3 = t6 (3 x 126 + 8) /
+  (6 x 126 + 8); else 5. Direction of B's effect on the primary: a longer window lets a learning fresh
+  arm plateau, which DILUTES a head-start Delta — conservative for the claim; a later B 5 is a budget
+  cut, not a tuning. Cut order corrected: (1) G' to 1 unit (descriptive), (2) B_max(test) 5. Accumulation
+  (iii) is dropped in v62 (silently in 12.4; said here). A fired hardening notch (~5.3 h) triggers cut
+  (1) then (2) automatically.
+- Corrected costs at 126 s/round: goal-run = 126 B + 8 s -> B 3 = 6.4 min (12.4 used the B 4 figure),
+  B 6 = 12.7 min. Totals: gate 5.1 + pretraining 5.2 + probe 0.5 + confirmatory 17.2 + G' 2 units 1.3 =
+  29.3 h; with v61's 6.7: 36.0 h of 42.
+- N 9 = 3 units per lineage: the per-lineage clause Delta_s > 0 is a 3-unit sign test; stated for 4.4.
+- Under the persisting store, Delta_0 on tiers 3/4 is "weights + carried store", not "weights only"; the
+  figure label and 4.4's sentence read so for v62.
+- The FROZEN COMMAND LINES (the gate script's defaults would re-run the burned v61 worlds and overwrite
+  v61_gate.json):
+    gate     python -m scripts.gate_v61 --k0 --k1 --b-max 6 --num-envs 64 --worlds 8102 8103
+             --store-persists --rule v62 --b-test 6 --n-test 9 --tag v62 --resume
+    pretrain python -m scripts.pretrain_v61 --lineage s --b-max 3 --store-persists --resume   (s = 0,1,2)
+    probe    python -m scripts.probe_v61 --lineage 0
+    confirm  python -m scripts.confirm_v61 --lineage s --n-units 3 --b-max {B_test} --store-persists
+             --g-units 2 --resume ; then python -m scripts.score_v61 ; python -m scripts.figure_v61
