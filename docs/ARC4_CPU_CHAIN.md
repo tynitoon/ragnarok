@@ -80,3 +80,20 @@ d'ingénierie provisoire de 1 000 et sous la cible de 2 000 ; aucun seuil n'est
 abaissé. Le profilage attribue une part importante au comptage du fond modal
 (boucles par couleur et recherche des couleurs à chaque image). Prochaine action :
 optimisation exacte, avec équivalence des sorties et nouveau chronométrage.
+
+L'optimisation remplace les balayages par couleur par un incrément du seul
+compteur concerné à chaque pixel, avec index compact des couleurs observées.
+Le fond garde exactement sa définition et ses égalités stables. La palette est
+apprise depuis les pixels ; les requêtes de branches restent sans mutation.
+25 tests passent en 4,57 s, dont une comparaison avec des historiques Python
+indépendants, croissance de palette, grande indexation et échecs sans mutation.
+La revue indépendante ne relève aucun défaut matériel.
+
+Résultat `cpu_chain_16_workers_scatter.json` : **1 976,22 décisions/s**, 16,58 s
+de travail et 3,03 s d'initialisation, mêmes 16 × 2 048 décisions. Tous les
+rapports des processus sont exactement égaux à la baseline : scores, coûts,
+branches et empreintes des cibles C. Preuve conservée dans
+`cpu_scatter_equivalence.json`. Le minimum provisoire de 1 000 est dépassé,
+la cible de 2 000 reste légèrement non atteinte. Les deux chronométrages sont
+séquentiels sous charge variable ARC 3 : le rapport de 2,03 n'est pas une
+estimation contrôlée du gain. La chaîne multijeu et les primitives restent à faire.

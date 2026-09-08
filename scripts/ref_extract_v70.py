@@ -16,7 +16,8 @@ class ReferenceExtractor:
         self.reset()
 
     def reset(self):
-        self._counts = {}
+        self._counts = self._colour_ids = self._pixel_indices = None
+        self._palette_size = 0
         self._mode = self._best = None
         self.frames_seen = 0
 
@@ -40,23 +41,41 @@ class ReferenceExtractor:
             raise ValueError("Resolution changed; start a new background explicitly")
         if self.frames_seen >= 1_000_000:
             raise ValueError("Background observation limit reached; counters cannot overflow")
-        colours = np.unique(packed)
-        if len(set(self._counts).union(int(c) for c in colours)) > self.max_colours:
-            raise ValueError("Reference palette capacity exceeded; do not silently discard colours")
+        if self._colour_ids is None:
+            # 24-bit RGB -> compact ID. Zero means unseen. Lazily allocated;
+            # IDs cover every observed colour, without a game-specific palette.
+            self._colour_ids = np.zeros(1 << 24, dtype=np.uint16)
+        ids = self._colour_ids[packed]
+        unseen = ids == 0
+        if unseen.any():
+            colours = np.unique(packed[unseen])
+            needed = self._palette_size + len(colours)
+            if needed > self.max_colours:
+                raise ValueError("Reference palette capacity exceeded; do not silently discard colours")
+            if self._counts is None or needed > self._counts.shape[0]:
+                capacity = min(self.max_colours, max(16, 1 << (needed - 1).bit_length()))
+                counts = np.zeros((capacity, packed.size), dtype=np.uint32)
+                if self._counts is not None:
+                    counts[:self._palette_size] = self._counts[:self._palette_size]
+                self._counts = counts
+            self._colour_ids[colours] = np.arange(self._palette_size + 1, needed + 1, dtype=np.uint16)
+            self._palette_size = needed
+            ids[unseen] = self._colour_ids[packed[unseen]]
         if self._mode is None:
             self._mode = packed.copy()
             self._best = np.zeros(packed.shape, dtype=np.uint32)
+            self._pixel_indices = np.arange(packed.size, dtype=np.intp)
         # Strictly larger wins; ties retain the incumbent, independent of RGB numeric ordering.
-        for colour in colours:
-            colour = int(colour)
-            count = self._counts.get(colour)
-            if count is None:
-                count = np.zeros(packed.shape, dtype=np.uint32)
-                self._counts[colour] = count
-            count += packed == colour
-            wins = count > self._best
-            self._mode[wins] = colour
-            self._best[wins] = count[wins]
+        # Each pixel increments exactly one distinct (colour, pixel) counter.
+        # Cast before multiplying: uint16 palette IDs cannot hold flattened offsets.
+        indices = (ids.ravel().astype(np.intp) - 1) * packed.size + self._pixel_indices
+        flat_counts = self._counts.ravel()
+        updated = flat_counts[indices] + 1
+        flat_counts[indices] = updated
+        updated = updated.reshape(packed.shape)
+        wins = updated > self._best
+        self._mode[wins] = packed[wins]
+        self._best[wins] = updated[wins]
         self.frames_seen += 1
 
     def extract(self, rgb):

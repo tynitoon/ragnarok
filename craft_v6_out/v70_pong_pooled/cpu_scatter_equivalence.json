@@ -1,0 +1,16 @@
+{
+  "kind": "exact_cpu_optimization_comparison",
+  "baseline": "craft_v6_out\\v70_pong_pooled\\cpu_chain_16_workers.json",
+  "candidate": "craft_v6_out\\v70_pong_pooled\\cpu_chain_16_workers_scatter.json",
+  "artifact_sha256": {
+    "craft_v6_out\\v70_pong_pooled\\cpu_chain_16_workers.json": "47cd338c18f623d3beace93b4d4eecc3ec4e51a598c6713e12a2b62cde120e77",
+    "craft_v6_out\\v70_pong_pooled\\cpu_chain_16_workers_scatter.json": "ed8bd2100fbbaa028b4618ecead6ddb46e9de77e5998ce87da34a3284d1ce10f"
+  },
+  "worker_reports_exactly_equal": true,
+  "workers": 16,
+  "compared_fields": "all per-worker perception counts, accounting, branch counters and C-target SHA256",
+  "ordinary_steps_s_before": 975.5151705797052,
+  "ordinary_steps_s_after": 1976.2243945867585,
+  "gate_result": null,
+  "limitation": "Sequential timings under ARC3 load; not a controlled speedup estimate or a complete gate."
+}

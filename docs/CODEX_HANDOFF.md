@@ -161,9 +161,12 @@ sur développement 17021 et validation réservée 17022, après scellement `18e0
 Raquettes exactes, balle à un pixel près ; sources scellées inchangées.
 L'intégration complète passe 27 tests et la revue indépendante. Le premier
 benchmark max-poolé (16 × 2 048 décisions, branches comprises) atteint 975,52
-décisions/s sous charge ARC 3 : sous le minimum provisoire de 1 000. Prochaine
-action : optimiser exactement le fond modal, vérifier l'équivalence des sorties,
-puis mesurer à nouveau et étendre aux jeux de développement. Aucun gate 0 ni
+décisions/s sous charge ARC 3 : sous le minimum provisoire de 1 000. L'optimisation
+exacte du fond atteint ensuite 1 976,22 décisions/s : les 16 rapports (scores,
+coûts, empreintes C) sont strictement identiques. 25 tests passent, revue indépendante
+close sans défaut matériel. La cible provisoire de 2 000 reste non atteinte.
+Prochaine action : coûts de reset et calibration des autres jeux de développement.
+Aucun gate 0 ni
 apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
 `craft_v6_out/v70_pong_pooled/validation_seal.json` ; ne pas modifier leurs sources
 scellées pour cette optimisation.
