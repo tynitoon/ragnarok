@@ -119,90 +119,83 @@ pas lancer la suite. Les valeurs par défaut de `gate_v61` visent les anciens
 mondes et peuvent écraser leurs fichiers : ne pas l'exécuter sans les arguments
 gelés. « Publier » ici ne vaut pas autorisation d'envoyer ou pousser à distance.
 
-## ARC 4 : premier module CPU terminé, protocole encore en conception
+## ARC 4 : instruments CPU, aucun gate ni apprentissage lancé
 
-`ARC4_VISION.md` est un brouillon, non gelé, issu d'un panel de conception et
-d'un premier audit ; réponses dans sa §10. Le deuxième audit avait été interrompu
-sous Claude ; la nouvelle passe indépendante est terminée et ses corrections sont
-intégrées en §11. Compte rendu : `reviews/2026-09-08-arc4-second-audit.md`.
-La note Claude référence `workflows/scripts/arc4-vision-audit-wf_9393b889-a8b.js` :
-emplacement réel et compatibilité non vérifiés, ne pas supposer ce workflow
-disponible dans Codex.
+`ARC4_VISION.md` reste un brouillon, non gelé. Jérémie autorise sa préparation
+pendant ARC 3 et demande de poursuivre d'un jalon au suivant sans relance.
+Revue de conception : `reviews/2026-09-08-arc4-second-audit.md`.
 
-Jérémie a autorisé le démarrage de l'ARC 4 pendant le calcul ARC 3. Le premier
-module CPU est implémenté : `frame_budget_v70.py`, `emu_pool.py`, script de contrôle
-et 27 tests réussis en 9,91 s. Environnement séparé `.venv-arc4`, sans Torch ;
-ne pas installer ses dépendances dans l'environnement de l'ARC 3. Seul Pong mode 0
-est activé. Sauvegardes avec RNG/historique sticky et images brutes, coût réel des
-resets et compteurs sans remboursement, sessions manuelles facturées, transport
-entre processus corrigé après revue indépendante. Détails et commandes :
-`docs/ARC4_CPU_BOOTSTRAP.md`, `ARC4_VISION.md` §12.
+Environnement `.venv-arc4`, Python 3.14 / ALE 0.12.1 / NumPy 2.4.4 / SciPy 1.18.1,
+sans Torch ; ne pas modifier l'environnement GPU ARC 3. CPU réel : Ryzen 5 3600X,
+six cœurs physiques, douze logiques. Benchmarks enfants avec BLAS/OMP/MKL limités
+à un thread. Les sorties CPU restent des diagnostics de développement.
 
-Résultat final `craft_v6_out/v70_cpu_instrument_verified.json` : environ
-1 144 décisions/s pour deux processus, trois contrôles de reproduction réussis.
-Ce débit exclut perception, évaluateur et apprentissage. Le JSON préliminaire
-`v70_cpu_instrument.json` est conservé ; utiliser `verified` pour le code final.
-Aucun gate 0 ni apprentissage ARC 4 n'a été lancé.
+### Comptabilité et moteur
 
-Prochain jalon CPU : calibration indépendante du juge, extracteur de référence,
-puis débit de la chaîne complète.
-Travail poursuivi sans pause à la demande explicite de Jérémie : protocole Pong
-et fixtures de développement capturés, baseline du juge consignée en échec
-(géométrie joueur : 96,043 % contre 99 % requis). Correction v1 scellée par
-`9ae5499`, puis vérifiée sur 17012 sans modification : calibration passée pour
-les trois objets. Référence pixels seuls : rappel mobile 99,669 %, précision
-98,789 %, rappel balle 99,298 % sur 17012. Les 13 nouveaux tests passent.
-Voir `docs/ARC4_PONG_CALIBRATION.md`. Prochaine étape en cours : débit avec
-émulation, échanges et branches inclus. Cette chaîne brute est désormais mesurée
-sur 16 processus : 1 638 décisions/s (court), 1 200 (prolongé), pendant ARC 3.
-Les défauts initiaux (reset oracle du fond et branches max-poolées dans une
-chaîne brute) ont été conservés puis corrigés et revus ; 18 tests passent.
-Référence sans reset oracle sur 17012 : rappel 99,691 %, précision 99,051 %.
-Voir `docs/ARC4_CPU_CHAIN.md`. La calibration temporelle max-poolée passe maintenant
-sur développement 17021 et validation réservée 17022, après scellement `18e017d`.
-Raquettes exactes, balle à un pixel près ; sources scellées inchangées.
-L'intégration complète passe 27 tests et la revue indépendante. Le premier
-benchmark max-poolé (16 × 2 048 décisions, branches comprises) atteint 975,52
-décisions/s sous charge ARC 3 : sous le minimum provisoire de 1 000. L'optimisation
-exacte du fond atteint ensuite 1 976,22 décisions/s : les 16 rapports (scores,
-coûts, empreintes C) sont strictement identiques. 25 tests passent, revue indépendante
-close sans défaut matériel. La cible provisoire de 2 000 reste non atteinte.
-Prochaine action : coûts de reset et calibration des autres jeux de développement.
-La revue approfondie découvre 60 frames d'auto-détection non comptées par loadROM,
-et un coût Pong de reset 72+3k (k non borné par le wrapper), contrairement à
-l'ancien audit. Les données restent préservées, géométrie inchangée, comptes
-historiques non admissibles comme preuve de plafond strict. Correction initiale
-+60 faite, 34 tests émulateur/référence passent. Le moteur historique reste un
-diagnostic. La nouvelle version utilisera un ALE neuf à chaque épisode avec
-system_random_seed4753849 fixe et coût initial132/128 : convention distincte
-revue indépendamment, à vérifier avant activation. Cinq jeuxdev ouverts seulement
-pour audit borné (seeds21000..21002), tous k=0 observé ; aucune calibration hors
-Pong encore. Voir `docs/ARC4_RESET_AUDIT.md`. Nouveau moteur froid séparé fixé
-dans108a59e, désormais vérifié : 36constructions/6jeux, 7032frames facturées,
-états/trajectoires identiques ; contrôle de reprise d'ancre non terminale dans
-une autre instance identique32frames RGBbrut/pool/RAM,6/6. 39tests passent.
-Voir `docs/ARC4_COLD_START.md`. Continuer l'intégration dans le pool de référence
-Pong : intégration terminée, 8tests passent, 16×2048décisions à1592,62/s avec48
-constructions entièrement facturées. Artefact `v70_pong_pooled/cpu_chain_16_workers_cold.json`.
-Calibration Breakout en cours : protocole/candidat initial fixé95bcaab avant
-4096framesdev17111 (4888chargées,6épisodes). Validation17112 encore fermée.
-Le calibrateur indépendant analyse la baseline, à conserver en cas d'échec.
-Sources des anciens décodeurs et
-fixtures scellées toujours inchangées ; aucune géométrie hors Pong calibrée.
-Aucun gate 0 ni
-apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
-`craft_v6_out/v70_pong_pooled/validation_seal.json` ; ne pas modifier leurs sources
-scellées pour cette optimisation.
-Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.
-La mesure séparant adaptation et avance initiale reste à définir avant les gels
-scientifiques ultérieurs. §6 décrit le travail prévu. Le premier gate examine les primitives
-sur une référence externe, puis la perception apprise à partir d'expériences
-propres. Plafond proposé pour gate 0 : 12 GPU-h ; le reste des budgets et des
-estimations doit être vérifié avant engagement.
+Le ledger monotone facture actions, constructions et 60 frames par restauration ;
+préadmission des opérations complètes, allocation expérimentale 20 %, plafond 30 %.
+Transport fermé, pixels/boutons seuls côté agent, aucune RAM dans les observations.
+Une revue approfondie a corrigé l'ancien audit : 60 frames d'auto-détection par
+loadROM étaient omises, et les resets naturels contiennent une boucle de mode
+non bornée par l'API. Conserver les anciens résultats ; ils ne prouvent pas un
+plafond strict. Erratum : `docs/ARC4_RESET_AUDIT.md`.
 
-Les pixels et les boutons sont les seules interfaces agent ; RAM, objets et
-scores vrais restent côté évaluateur. Aucune procédure manuelle ne doit fournir
-gratuitement la compétence coûteuse dont on prétend mesurer le transfert.
+Nouveau moteur distinct `cold_emu_pool_v70.py` : instance ALE neuve par épisode,
+ROM/binaire/options identiques, `system_random_seed=4753849`. Coût 132 frames,
+128 pour Seaquest. Cette convention change la distribution des débuts d'épisode,
+donc doit être commune aux futurs bras avant gel. Six jeux vérifiés, 36
+constructions (7032 frames facturées), reprise non terminale inter-instance
+identique sur 32 frames RGB brut/max/RAM (10132 facturées), 39 tests passent.
+Cela reste une certification empirique, pas une preuve sur tous les états TIA.
+Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
+
+### Perception et débit
+
+- Pong brut et maximum de deux frames : calibrations réservées passées après
+  scellement, erreurs initiales conservées. Voir `docs/ARC4_PONG_CALIBRATION.md`
+  et `docs/ARC4_PONG_POOLED_CALIBRATION.md`. Anciennes captures : erratum de coût,
+  géométrie inchangée. Extracteur de référence causal RGB seul, fond modal sans
+  reset oracle. Optimisation exacte vérifiée par égalité complète des rapports.
+- Chaîne Pong avec moteur froid : 16 × 2048 décisions, RGB IPC, référence,
+  RAM évaluateur à chaque frame, branches et cibles C incluses : 1592,62
+  décisions/s, 48 constructions, 170162 frames facturées. Sous cible provisoire
+  2000 ; au-dessus du minimum technique 1000. ARC 3 tournait simultanément.
+- Breakout brut : baseline négative conservée ; correction empirique de la balle
+  scellée `6e48ef4` avant 17112, huit types passent sur 4096 frames réservées.
+  Référence brute : rappel mobile 99,200 %, précision 72,388 % (2693 prédictions
+  non appariées). Briques statiques incluses dans la précision, jamais mobiles
+  du seul fait qu'un segment casse. `docs/ARC4_BREAKOUT_CALIBRATION.md`.
+- Breakout temporel : protocole `10d88cc`, baseline 17121 passe sans correction,
+  sceau `9dcb1b8`, validation 17122 passe aussi (2048 fenêtres, 9627 frames
+  facturées). Boîtes raquette 99,414 %, balle 99,621 %. Revue indépendante close.
+  **Le juge décrit les deux sources ; une occlusion de même rouge peut rendre
+  l'identité indécidable depuis le seul maxRGB.** Garder cette portée dans toute
+  mesure de perception. `docs/ARC4_BREAKOUT_POOLED_CALIBRATION.md`.
+- Intégration Breakout dans `reference_pool_v70.py` et `scene_adapters_v70.py`,
+  16 tests référence/scène passent. Benchmark froid 16 × 2048 lancé ; résultat
+  attendu `craft_v6_out/v70_breakout_pooled/cpu_chain_16_workers_baseline.json`.
+  Revue de l'intégration confiée à Meitner. Ne pas changer ses sources pendant
+  ce benchmark. Puis optimiser si nécessaire, avec égalité des rapports.
+
+Les sceaux bruts/temporaux listent les SHA des sources : **ne pas modifier ces
+fichiers**, y compris moteurs et décodeurs partagés, pour les optimisations.
+Ajouter des adaptateurs distincts et conserver tous les résultats antérieurs.
+La calibration brute scellée inclut neuf fichiers, la temporelle dix.
+Les anciens fichiers Pong scellés restent aussi des références historiques.
+
+### Suite autorisée
+
+Terminer le débit Breakout, puis calibrer Freeway, Seaquest, MsPacman, Asteroids
+sur développement avec protocole préalable, baseline conservée, revue, scellement
+avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
+Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
+allocation expérimentale commune, budget proposé 12 GPU-h et débit CPU. La mesure
+mort F1 sur cinq des six jeux est impossible telle quelle : Pong et Freeway
+n'exposent pas de vies ALE ; fixer les événements éligibles avant gel, aucun
+F1 parfait attribué à un jeu sans positifs. Définir plus tard, avant les gels
+correspondants, l'estimateur séparant avance initiale et adaptation accélérée.
+RAM et référence sont des instruments externes, jamais des labels gratuits pour
+l'agent apprenant. Les primitives apprises doivent provenir de ses expériences.
 
 ## Sources de récupération
 
