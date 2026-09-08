@@ -61,3 +61,10 @@ def test_ram_tap_brackets_exactly_one_act_and_copies_mutable_ram():
     assert tap.previous[0] == 0 and tap.current[0] == 3
     native.ram[0] = 99
     assert tap.current[0] == 3
+
+
+def test_temporal_reversal_preserves_order_when_different_types_appear():
+    a, b = np.zeros(128,dtype=np.uint8), np.zeros(128,dtype=np.uint8)
+    a[49], a[54], b[51] = 100, 100, 109
+    assert pooled_ram_objects(a,b) == pooled_ram_objects(b,a)
+    assert [obj.kind for obj in pooled_ram_objects(a,b)] == ["player","ball"]

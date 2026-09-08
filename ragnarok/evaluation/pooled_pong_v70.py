@@ -1,10 +1,10 @@
 """Separate experimenter-side temporal adapter; the sealed raw decoder stays unchanged."""
 import numpy as np
 
-from ragnarok.evaluation.pong_v70 import ObjectLabel, PALETTE, check_rgb, decode_pong_ram
+from ragnarok.evaluation.pong_v70 import KINDS, ObjectLabel, PALETTE, check_rgb, decode_pong_ram
 
 
-POOLED_REVISION = "pong_two_raw_box_union_v1"
+POOLED_REVISION = "pong_two_raw_box_union_v1_canonical_order"
 
 
 def pooled_ram_objects(previous, current):
@@ -17,7 +17,12 @@ def pooled_ram_objects(previous, current):
                 boxes[obj.kind] = min(x,left), min(y,top), max(x+w,right), max(y+h,bottom)
             else:
                 boxes[obj.kind] = x, y, x+w, y+h
-    return [ObjectLabel(kind, (x,y,right-x,bottom-y)) for kind,(x,y,right,bottom) in boxes.items()]
+    result = []
+    for kind in KINDS:  # Swapping the two source frames must preserve ordering as well as geometry.
+        if kind in boxes:
+            x, y, right, bottom = boxes[kind]
+            result.append(ObjectLabel(kind, (x,y,right-x,bottom-y)))
+    return result
 
 
 def pooled_screen_objects(previous, current):
