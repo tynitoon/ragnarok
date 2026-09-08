@@ -46,3 +46,18 @@ Les six rangées passent également. Résultat conservé dans
 `craft_v6_out/v70_breakout_calibration/validation_result.json`.
 Cette validation conserve la portée et les limites ci-dessus ; aucune correction
 du candidat n'est effectuée après ouverture de17112.
+
+## Référence brute, protocole déclaré avant ses sorties
+
+`reference_validation.json`, règle de mesure fixée dans `e83d862` : rappel des
+centres mobiles5457/5501 =99,2001 %, balle3114/3139 =99,2036 %. La précision
+est7060/9753 =72,3880 %, soit2693 prédictions sans correspondance. Tous ces
+comptes sont conservés. Les segments de briques participent aux correspondances
+visibles ; leur destruction n'est pas comptée comme un déplacement.
+
+La référence ne reçoit que les RGB ordinaires et garde son historique entre
+épisodes. La revue indépendante confirme les dénominateurs, l'appariement global
+et l'absence de reset oracle. Quatre tests de scènes à plusieurs instances passent.
+Le débit du diagnostic brut est≈577frames/s, hors émulation, échanges et branches.
+Ce rappel élevé selon le juge calibré ne valide ni la qualité des boîtes prédites,
+ni toutes les briques, ni un gate ou une perception apprise.

@@ -1,0 +1,96 @@
+{
+  "kind": "breakout_raw_reference_development_diagnostic",
+  "metrics": {
+    "frames": 4096,
+    "observed_raw_frames": 4096,
+    "predictions": 9753,
+    "matched_visible": 7060,
+    "eligible_moving": 5501,
+    "recalled_moving": 5457,
+    "recall_moving": 0.9920014542810398,
+    "precision_visible": 0.7238798318466113,
+    "per_type": {
+      "player": {
+        "visible": 4096,
+        "eligible": 2362,
+        "recalled": 2343,
+        "recall_moving": 0.9919559695173582
+      },
+      "ball": {
+        "visible": 3168,
+        "eligible": 3139,
+        "recalled": 3114,
+        "recall_moving": 0.992035680152915
+      },
+      "bricks_0": {
+        "visible": 4096,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "bricks_1": {
+        "visible": 4096,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "bricks_2": {
+        "visible": 4096,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "bricks_3": {
+        "visible": 4096,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "bricks_4": {
+        "visible": 4184,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "bricks_5": {
+        "visible": 6538,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      }
+    },
+    "gate_result": null
+  },
+  "created_utc": "2026-09-08T23:36:26Z",
+  "calibration_sha256": "9b8a5ce7965ac6eb307234a5e6c073c67d4789f76ceab85ce68e65932a3aa453",
+  "fixture_manifest_sha256": "119f8c1a7bc30f0b5e60492b4e275b4393f416d898b3dec1fc3dac2da0300d5f",
+  "source_sha256": {
+    "scripts/check_breakout_reference_v70.py": "61a5796155034e57aae5eb67e66360f32e1e2d0890e51ffc6d394834af84b179",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "docs/ARC4_BREAKOUT_REFERENCE_PROTOCOL.json": "4de78c2a5cca833a5e772b47f5601957dc745b3e8c8fc57936c3a178e591b863"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "decode_seconds": 0.41176370016182773,
+  "reference_seconds": 5.528934300120454,
+  "score_seconds": 1.1582507999628433,
+  "wall_seconds": 7.436533800002508,
+  "measured_raw_frames_per_second": 576.9868349886628,
+  "including_fixture_io_raw_frames_per_second": 550.7942423388997,
+  "oracle_reset_control": false,
+  "gate_result": null,
+  "agent_training": false,
+  "limitations": [
+    "Raw Breakout only, not pooled observations or a gate.",
+    "Reference is never a learned-parser teacher and receives only ordinary RGB.",
+    "All frames included; judge motion reset stays separate from reference history.",
+    "Brick chipping is static geometry change, not translation; all visible runs count for precision.",
+    "Timing excludes emulator, IPC, branch generation and learned parser."
+  ]
+}
