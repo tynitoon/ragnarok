@@ -175,7 +175,13 @@ diagnostic. La nouvelle version utilisera un ALE neuf à chaque épisode avec
 system_random_seed4753849 fixe et coût initial132/128 : convention distincte
 revue indépendamment, à vérifier avant activation. Cinq jeuxdev ouverts seulement
 pour audit borné (seeds21000..21002), tous k=0 observé ; aucune calibration hors
-Pong encore. Voir `docs/ARC4_RESET_AUDIT.md`. Continuer cette implémentation.
+Pong encore. Voir `docs/ARC4_RESET_AUDIT.md`. Nouveau moteur froid séparé fixé
+dans108a59e, désormais vérifié : 36constructions/6jeux, 7032frames facturées,
+états/trajectoires identiques ; contrôle de reprise d'ancre non terminale dans
+une autre instance identique32frames RGBbrut/pool/RAM,6/6. 39tests passent.
+Voir `docs/ARC4_COLD_START.md`. Continuer l'intégration dans le pool de référence
+Pong, puis calibration indépendante Breakout. Sources des anciens décodeurs et
+fixtures scellées toujours inchangées ; aucune géométrie hors Pong calibrée.
 Aucun gate 0 ni
 apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
 `craft_v6_out/v70_pong_pooled/validation_seal.json` ; ne pas modifier leurs sources
