@@ -76,12 +76,18 @@ def test_branch_endpoints_use_the_same_raw_convention_as_ordinary_images():
     assert np.array_equal(control,expected)
 
 
-def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset():
+@pytest.mark.parametrize("reset_convention", ("natural_legacy", "cold"))
+def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(reset_convention):
     pytest.importorskip("ale_py")
     config = EmulatorConfig(seed=18105, max_episode_frames=509, max_charged_frames=20_000)
-    subject = _ReferenceEngine(config, observation_mode="maxpooled")
-    witness = _PixelEngine(config)
-    witness._ale = _PairRAMTap(witness._ale)
+    subject = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
+    if reset_convention == "cold":
+        from ragnarok.environments.cold_emu_pool_v70 import _ColdPixelEngine
+        witness = _ColdPixelEngine(config)
+        witness.set_native_wrapper(_PairRAMTap)
+    else:
+        witness = _PixelEngine(config)
+        witness._ale = _PairRAMTap(witness._ale)
     for step in range(129):
         action = (step // 4) % 18
         pixels, _ = subject.step(action)
@@ -95,11 +101,12 @@ def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset():
     assert subject.report()["accounting"]["reset_emulated_frames"] == 144
 
 
-def test_pooled_observations_and_self_labels_ignore_changed_oracle():
+@pytest.mark.parametrize("reset_convention", ("natural_legacy", "cold"))
+def test_pooled_observations_and_self_labels_ignore_changed_oracle(reset_convention):
     pytest.importorskip("ale_py")
-    config = EmulatorConfig(seed=18106, max_charged_frames=20_000)
-    left = _ReferenceEngine(config, observation_mode="maxpooled")
-    right = _ReferenceEngine(config, observation_mode="maxpooled")
+    config = EmulatorConfig(seed=18106, max_charged_frames=20_000, max_episode_frames=300)
+    left = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
+    right = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
     right._decoder = lambda ram: []
     right._pooled_decoder = lambda previous,current: []
     for step in range(128):
@@ -108,3 +115,5 @@ def test_pooled_observations_and_self_labels_ignore_changed_oracle():
     assert left.report()["self_generated_label_sha256"] == right.report()["self_generated_label_sha256"]
     assert left.report()["perception"]["matched_visible"] > 0
     assert right.report()["perception"]["matched_visible"] == 0
+    assert left.reference.frames_seen == right.reference.frames_seen == 128
+    assert left._episode == right._episode == 1

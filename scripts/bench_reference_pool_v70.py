@@ -15,7 +15,7 @@ from ragnarok.environments.emu_pool import EmulatorConfig
 from ragnarok.evaluation.reference_pool_v70 import ReferencePool
 
 
-def benchmark(workers, steps, *, observation_mode="raw", calibration=None):
+def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset_convention="cold"):
     root = Path(__file__).resolve().parents[1]
     calibration_hash = None
     if observation_mode == "maxpooled":
@@ -31,7 +31,7 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None):
         calibration_hash = hashlib.sha256(calibration.read_bytes()).hexdigest()
     configs = [EmulatorConfig(seed=18000+i, frame_skip=4, max_charged_frames=100_000) for i in range(workers)]
     started = time.perf_counter()
-    with ReferencePool(configs, observation_mode=observation_mode) as pool:
+    with ReferencePool(configs, observation_mode=observation_mode, reset_convention=reset_convention) as pool:
         startup_seconds = time.perf_counter() - started
         tic = time.perf_counter()
         for step in range(steps):
@@ -44,9 +44,10 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None):
     sources = ["scripts/bench_reference_pool_v70.py", "ragnarok/evaluation/reference_pool_v70.py",
                "scripts/ref_extract_v70.py", "ragnarok/evaluation/perception_v70.py",
                "ragnarok/evaluation/pong_v70.py", "ragnarok/environments/emu_pool.py",
-               "ragnarok/environments/frame_budget_v70.py", "ragnarok/evaluation/pooled_pong_v70.py"]
+               "ragnarok/environments/frame_budget_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
+               "ragnarok/environments/cold_emu_pool_v70.py"]
     return dict(kind=f"pong_{observation_mode}_repeat4_cpu_chain_benchmark", created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
-                observation_mode=observation_mode, calibration_sha256=calibration_hash,
+                observation_mode=observation_mode, calibration_sha256=calibration_hash, reset_convention=reset_convention,
                 workers=workers, ordinary_decisions_per_worker=steps, action_repeat=4,
                 branch_every_decisions=128, startup_seconds=startup_seconds, work_seconds=work_seconds,
                 ordinary_agent_steps_per_second=workers*steps/work_seconds,
@@ -73,12 +74,14 @@ if __name__ == "__main__":
     parser.add_argument("--out",type=Path,required=True)
     parser.add_argument("--observation-mode",choices=("raw","maxpooled"),default="raw")
     parser.add_argument("--calibration",type=Path)
+    parser.add_argument("--reset-convention", choices=("cold", "natural_legacy"), default="cold")
     args = parser.parse_args()
     if not 256 <= args.steps <= 2048:
         parser.error("Keep this development check in256..2048 steps per worker")
     if args.out.exists():
         parser.error("Keep old measurements; choose a new output")
-    result = benchmark(args.workers,args.steps,observation_mode=args.observation_mode,calibration=args.calibration)
+    result = benchmark(args.workers,args.steps,observation_mode=args.observation_mode,calibration=args.calibration,
+                       reset_convention=args.reset_convention)
     args.out.parent.mkdir(parents=True,exist_ok=True)
     with args.out.open("x",encoding="utf-8") as stream:
         json.dump(result,stream,indent=2,allow_nan=False)

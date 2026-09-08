@@ -104,3 +104,19 @@ branches et empreintes des cibles C. Preuve conservée dans
 la cible de 2 000 reste légèrement non atteinte. Les deux chronométrages sont
 séquentiels sous charge variable ARC 3 : le rapport de 2,03 n'est pas une
 estimation contrôlée du gain. La chaîne multijeu et les primitives restent à faire.
+
+## Intégration de la convention à construction fixe
+
+Après l'erratum des resets, le moteur froid est intégré explicitement avec
+`--reset-convention cold`. Le hook du juge est réinstallé à chaque objet ALE
+neuf. Les tests suivent sa paire RAM dans les frames terminales et les nouveaux
+épisodes ; un juge volontairement corrompu ne change pas les pixels, instances
+ou cibles C. Les huit tests du pool de référence passent en 7,24 s.
+
+`craft_v6_out/v70_pong_pooled/cpu_chain_16_workers_cold.json` : 16 × 2 048 décisions,
+**1 592,62 décisions/s**, 20,57 s de travail et 3,85 s d'initialisation. Les 48
+constructions (trois par processus) sont entièrement facturées ; total 170 162
+frames, branches et restaurations comprises. Le numérateur chronométré reste
+celui des décisions ordinaires ; les coûts des 32 reconstructions pendant le
+travail sont inclus. ARC 3 tourne toujours. Le minimum provisoire de 1 000 est
+dépassé, la cible de 2 000 reste non atteinte. Aucun verdict de gate.

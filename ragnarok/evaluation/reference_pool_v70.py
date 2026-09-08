@@ -10,6 +10,7 @@ import multiprocessing as mp
 import numpy as np
 
 from ragnarok.environments.emu_pool import EmulatorConfig, EmulatorPool, _PixelEngine
+from ragnarok.environments.cold_emu_pool_v70 import _ColdPixelEngine
 from ragnarok.evaluation.pong_v70 import decode_pong_ram
 from ragnarok.evaluation.pooled_pong_v70 import pooled_ram_objects
 from ragnarok.evaluation.perception_v70 import PerceptionScorer
@@ -52,16 +53,27 @@ class _RawBranchEngine(_PixelEngine):
         return super().observe(raw=raw)
 
 
+class _RawColdBranchEngine(_ColdPixelEngine):
+    def observe(self, raw=True):
+        return super().observe(raw=raw)
+
+
 class _ReferenceEngine:
-    def __init__(self, config, *, branch_every=128, observation_mode="raw"):
+    def __init__(self, config, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy"):
         if type(branch_every) is not int or branch_every < 128:
             raise ValueError("A branch cadence below128 decisions exceeds the proposed 20% allocation")
         if config.frame_skip != 4 or config.mode != "lab":
             raise ValueError("This development instrument requires repeat4 and laboratory mode")
         if observation_mode not in ("raw", "maxpooled"):
             raise ValueError("Observation mode must be raw or maxpooled")
+        if reset_convention not in ("natural_legacy", "cold") or config.game != "pong":
+            raise ValueError("Reference scorer supports Pong with an explicit known reset convention")
         self.observation_mode = observation_mode
-        self.engine = (_RawBranchEngine if observation_mode == "raw" else _PixelEngine)(config)
+        self.reset_convention = reset_convention
+        if reset_convention == "cold":
+            self.engine = (_RawColdBranchEngine if observation_mode == "raw" else _ColdPixelEngine)(config)
+        else:
+            self.engine = (_RawBranchEngine if observation_mode == "raw" else _PixelEngine)(config)
         self.reference, self.scorer = ReferenceExtractor(), PerceptionScorer()
         self._decoder = decode_pong_ram
         self._pooled_decoder = pooled_ram_objects
@@ -71,8 +83,10 @@ class _ReferenceEngine:
         self._lab_decoded = self._pairs = self._changed_pixels = 0
         self._label_digest = hashlib.sha256()
         self._reset_spent = self.engine.accounting()["reset_emulated_frames"]
-        native = self.engine._ale
-        self.engine._ale = _ALEScorerTap(native, self._on_frame)
+        if reset_convention == "cold":
+            self.engine.set_native_wrapper(lambda native: _ALEScorerTap(native, self._on_frame))
+        else:
+            self.engine._ale = _ALEScorerTap(self.engine._ale, self._on_frame)
 
     def _on_frame(self, ram):
         labels = self._decoder(ram)
@@ -116,15 +130,16 @@ class _ReferenceEngine:
         return pixels, boxes
 
     def report(self):
-        return dict(accounting=self.engine.accounting(), perception=self.scorer.report(),
+        return dict(accounting=self.engine.accounting(), perception=self.scorer.report(), reset_convention=self.reset_convention,
                     decisions=self._steps, ordinary_raw_frames=self._ordinary_frames,
                     branch_pairs=self._pairs, decoded_branch_frames=self._lab_decoded,
                     changed_pixels=self._changed_pixels, self_generated_label_sha256=self._label_digest.hexdigest())
 
 
-def _serve_reference(connection, config, branch_every, observation_mode):
+def _serve_reference(connection, config, branch_every, observation_mode, reset_convention):
     try:
-        engine = _ReferenceEngine(config, branch_every=branch_every, observation_mode=observation_mode)
+        engine = _ReferenceEngine(config, branch_every=branch_every, observation_mode=observation_mode,
+                                  reset_convention=reset_convention)
         connection.send((True, None))
         while True:
             command, args = connection.recv()
@@ -153,7 +168,7 @@ def _serve_reference(connection, config, branch_every, observation_mode):
 
 class ReferencePool(EmulatorPool):
     """Reuse the tested closed transport/cleanup, with a dedicated evaluator worker."""
-    def __init__(self, configs, *, branch_every=128, observation_mode="raw"):
+    def __init__(self, configs, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy"):
         configs = list(configs)
         if not 1 <= len(configs) <= 16 or not all(isinstance(c, EmulatorConfig) for c in configs):
             raise ValueError("Supply1..16 EmulatorConfig instances")
@@ -163,7 +178,8 @@ class ReferencePool(EmulatorPool):
         try:
             for config in configs:
                 parent, child = ctx.Pipe()
-                process = ctx.Process(target=_serve_reference, args=(child, config, branch_every, observation_mode), daemon=True)
+                process = ctx.Process(target=_serve_reference,
+                                     args=(child, config, branch_every, observation_mode, reset_convention), daemon=True)
                 try:
                     process.start()
                 except BaseException:

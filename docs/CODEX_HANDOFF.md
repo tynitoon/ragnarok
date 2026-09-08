@@ -180,7 +180,12 @@ dans108a59e, désormais vérifié : 36constructions/6jeux, 7032frames facturées
 états/trajectoires identiques ; contrôle de reprise d'ancre non terminale dans
 une autre instance identique32frames RGBbrut/pool/RAM,6/6. 39tests passent.
 Voir `docs/ARC4_COLD_START.md`. Continuer l'intégration dans le pool de référence
-Pong, puis calibration indépendante Breakout. Sources des anciens décodeurs et
+Pong : intégration terminée, 8tests passent, 16×2048décisions à1592,62/s avec48
+constructions entièrement facturées. Artefact `v70_pong_pooled/cpu_chain_16_workers_cold.json`.
+Calibration Breakout en cours : protocole/candidat initial fixé95bcaab avant
+4096framesdev17111 (4888chargées,6épisodes). Validation17112 encore fermée.
+Le calibrateur indépendant analyse la baseline, à conserver en cas d'échec.
+Sources des anciens décodeurs et
 fixtures scellées toujours inchangées ; aucune géométrie hors Pong calibrée.
 Aucun gate 0 ni
 apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
