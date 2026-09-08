@@ -9,7 +9,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION = "breakout_raw_candidate_v0"
+REVISION = "breakout_raw_ball_render_clip_v1"
 COLOURS = ((200,72,72), (198,108,58), (180,122,48), (162,162,42), (72,160,72), (66,72,200))
 KINDS = ("player", "ball") + tuple(f"bricks_{i}" for i in range(6))
 
@@ -24,8 +24,12 @@ def decode_breakout_ram(ram):
         raise ValueError("Expected128uint8 RAM bytes")
     r = list(map(int,ram))
     objects = [_clipped("player",r[72]-47,189,16,4)]
-    if r[101] and r[101]+9<=196:
-        objects.append(_clipped("ball",r[99]-49,r[101]+9,2,4))
+    # Empirical development clipping, not a universal render boundary: the one-pixel
+    # band at y195 remains visible in11/28 cases. Those disagreements stay scored.
+    # The RAM coordinate also persists after the rendered sprite disappears.
+    if r[101] and r[101]+9<195:
+        y = r[101]+9
+        objects.append(_clipped("ball",r[99]-49,y,2,min(4,195-y)))
     # Unpack alternating playfield bits into screen order; adjacent cells form a run.
     order = (0,4,3,2,1,5,6,7,8,11,12,16,15,14,13,17,18,19)
     for row in range(6):

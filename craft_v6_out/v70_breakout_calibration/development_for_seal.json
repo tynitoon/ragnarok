@@ -1,0 +1,619 @@
+{
+  "kind": "independent_breakout_raw_calibration",
+  "created_utc": "2026-09-08T23:30:41Z",
+  "decoder_revision": "breakout_raw_ball_render_clip_v1",
+  "seed": 17111,
+  "per_type": {
+    "player": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4080,
+      "boxes_exact": 4079,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 0.99609375,
+      "passed": true
+    },
+    "ball": {
+      "frames": 4096,
+      "presence_count_agreement": 4065,
+      "joint_matches": 3020,
+      "boxes_within1": 3018,
+      "boxes_exact": 2983,
+      "ram_objects": 3040,
+      "pixel_objects": 3031,
+      "presence_fraction": 0.992431640625,
+      "box_fraction": 0.9993377483443708,
+      "passed": true
+    },
+    "bricks_0": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4096,
+      "boxes_exact": 4096,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_1": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4096,
+      "boxes_exact": 4096,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_2": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4096,
+      "boxes_exact": 4096,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_3": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4096,
+      "boxes_exact": 4096,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_4": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4184,
+      "boxes_within1": 4184,
+      "boxes_exact": 4184,
+      "ram_objects": 4184,
+      "pixel_objects": 4184,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_5": {
+      "frames": 4096,
+      "presence_count_agreement": 4092,
+      "joint_matches": 5370,
+      "boxes_within1": 5369,
+      "boxes_exact": 5368,
+      "ram_objects": 5370,
+      "pixel_objects": 5374,
+      "presence_fraction": 0.9990234375,
+      "box_fraction": 0.9998137802607077,
+      "passed": true
+    }
+  },
+  "calibration_pass": true,
+  "first_disagreements": [
+    {
+      "frame": 154,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 249,
+      "kind": "player",
+      "ram": [
+        [
+          136,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          136,
+          189,
+          16,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 249,
+      "kind": "ball",
+      "ram": [
+        [
+          151,
+          193,
+          1,
+          2
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 340,
+      "kind": "player",
+      "ram": [
+        [
+          78,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          77,
+          187,
+          17,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 340,
+      "kind": "ball",
+      "ram": [
+        [
+          77,
+          187,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 341,
+      "kind": "player",
+      "ram": [
+        [
+          73,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          73,
+          186,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 341,
+      "kind": "ball",
+      "ram": [
+        [
+          75,
+          186,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 342,
+      "kind": "player",
+      "ram": [
+        [
+          67,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          67,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 342,
+      "kind": "ball",
+      "ram": [
+        [
+          74,
+          185,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 826,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 923,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 1121,
+      "kind": "player",
+      "ram": [
+        [
+          15,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          15,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 1121,
+      "kind": "ball",
+      "ram": [
+        [
+          15,
+          185,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 1122,
+      "kind": "player",
+      "ram": [
+        [
+          15,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          14,
+          186,
+          17,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 1122,
+      "kind": "ball",
+      "ram": [
+        [
+          14,
+          186,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 1317,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          12,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 1511,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 1608,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 1980,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 2203,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          9,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 2708,
+      "kind": "ball",
+      "ram": [
+        [
+          12,
+          188,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2709,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          187,
+          16,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 2709,
+      "kind": "ball",
+      "ram": [
+        [
+          10,
+          187,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2710,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          186,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 2710,
+      "kind": "ball",
+      "ram": [
+        [
+          9,
+          186,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2711,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 2711,
+      "kind": "ball",
+      "ram": [
+        [
+          8,
+          185,
+          1,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2905,
+      "kind": "ball",
+      "ram": [],
+      "pixels": [
+        [
+          10,
+          195,
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "frame": 3025,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 3025,
+      "kind": "ball",
+      "ram": [
+        [
+          15,
+          185,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 3026,
+      "kind": "player",
+      "ram": [
+        [
+          9,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          9,
+          186,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 3026,
+      "kind": "ball",
+      "ram": [
+        [
+          14,
+          186,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    }
+  ],
+  "fixture_manifest_sha256": "b640b51de00e2412480c916a53861e107bef70fe6cb5d548745c99aa3569476f",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}
