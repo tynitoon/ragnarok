@@ -1,0 +1,17 @@
+{
+  "kind": "pong_development_decoder_seal_before_reserved_validation",
+  "created_utc": "2026-09-08T22:03:36Z",
+  "source_commit": "b89e98a5cb0fa090220328817dc2462af03406d9",
+  "validation_seed": 17012,
+  "validation_frames": 4096,
+  "source_sha256": {
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/fixtures_v70.py": "762abb36b36040e0286381f236921a1ad653728fcca48a768a9293249864fc14",
+    "scripts/calibrate_pong_v70.py": "b288fe79999a6674c5ff19958a2d673ec7b9a85952be5250cf66637ca511b6bf",
+    "scripts/capture_pong_v70.py": "5b8c1487c072ecc55b28773ce84e6433a105fb904e87dc34fca107738cf629fc",
+    "docs/ARC4_PONG_CALIBRATION_PROTOCOL.json": "a56387513d8c40008ec8108865ac3a4f036dac74ea875b75416d9d77236fe6da"
+  },
+  "development_result_sha256": "0b7d739ae5a32ddc074d420ea5881ffe8b79598d4f86fc6ad8931222f1562692",
+  "geometry_only": true,
+  "thresholds_unchanged": true
+}
