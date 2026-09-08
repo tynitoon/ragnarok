@@ -206,9 +206,9 @@ class _PixelEngine:
         return report
 
 
-def _serve(connection, config):
+def _serve(connection, config, engine_type=_PixelEngine):
     try:
-        engine = _PixelEngine(config)
+        engine = engine_type(config)
         connection.send((True, engine.observe()))
         methods = {name: getattr(engine, name) for name in
                    ("observe", "step", "clone", "restore", "release", "branch_pair", "accounting")}
@@ -240,6 +240,8 @@ class EmulatorPool:
     A future socket transport can implement the same closed command vocabulary.
     This version deliberately has no remote endpoint or ground-truth channel.
     """
+    _worker_target = staticmethod(_serve)
+
     def __init__(self, configs, *, timeout=30.0):
         configs = list(configs)
         if not 1 <= len(configs) <= 16 or not all(isinstance(c, EmulatorConfig) for c in configs):
@@ -253,7 +255,7 @@ class EmulatorPool:
         try:
             for config in configs:
                 parent, child = ctx.Pipe()
-                process = ctx.Process(target=_serve, args=(child, config), daemon=True)
+                process = ctx.Process(target=self._worker_target, args=(child, config), daemon=True)
                 try:
                     process.start()
                 except BaseException:

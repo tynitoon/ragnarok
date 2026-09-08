@@ -1,0 +1,19 @@
+{
+  "kind": "cpu_development_cold_start_protocol",
+  "convention": "fixed_hardware_cold_start_v1",
+  "scope": "Six declared gate-0 development ROMs, no confirmation game",
+  "hardware_seed": 4753849,
+  "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+  "native_sticky_probability": 0,
+  "wrapper_sticky_probability": 0.25,
+  "reset": "New ALE interface, identical configuration and hardware seed; no reset_game after loadROM",
+  "accounting": "Every construction includes60 format detection +72 reset, except Seaquest60+68. Both construction and requested repeat are admitted before native construction.",
+  "continuity": "Global ledger and Python sticky RNG persist; last button becomes NOOP; RGB pair replaced. Snapshot restores never refund costs.",
+  "certification": "Same initial RAM/RGB and getter k=0 across independent constructions; replay fixed actions; refusal before over-budget construction; cross-construction snapshot tests before retention.",
+  "verification_seeds": [22000, 22001],
+  "verification_constructions_per_seed": 3,
+  "ordinary_sequence": "64 one-frame steps cycling legal controller IDs0..17 with wrapper sticky0.25",
+  "historical_costs": "See docs/ARC4_RESET_AUDIT.md; natural-reset data are not reinterpreted as cold-start data",
+  "gate_result": null,
+  "agent_learning": false
+}
