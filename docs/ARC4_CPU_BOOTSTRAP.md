@@ -1,5 +1,13 @@
 # ARC 4 — premier module CPU, 8 septembre 2026
 
+**Erratum du 9 septembre :** les anciens comptes omettaient 60 frames
+d'auto-détection par chargement. De plus, le reset Pong vaut 72 + 3k, avec
+k sélections de mode, et sa borne naturelle n'était pas démontrée. Les mesures
+ci-dessous restent historiques. Voir [audit détaillé](ARC4_RESET_AUDIT.md).
+Le supplément initial est corrigé dans le moteur ; le remplacement par des
+épisodes à construction matérielle fixe est en cours avant toute utilisation
+avec plafond strict. La calibration géométrique reste distincte de ces comptes.
+
 Ce jalon construit l'instrument d'émulation. Il ne constitue ni le gate 0, ni un
 agent ayant appris la perception ou le transfert. L'ARC 3 conserve le GPU et son
 environnement Python ; ce travail utilise un environnement CPU séparé, sans Torch.

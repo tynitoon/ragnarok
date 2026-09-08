@@ -41,7 +41,7 @@ def test_reference_pool_keeps_ram_and_aggregates_out_of_step_payload():
         assert isinstance(image, np.ndarray) and image.dtype == np.uint8
         assert image.shape == (210,160,3)
         assert isinstance(boxes, np.ndarray) and boxes.shape[1] == 4
-        assert pool.report()["accounting"]["charged_frames"] == 76
+        assert pool.report()["accounting"]["charged_frames"] == 136
         processes = list(pool._processes)
     assert all(not process.is_alive() for process in processes)
 
@@ -55,7 +55,7 @@ def test_reference_history_resets_at_actual_ordinary_reset_not_at_branch_restore
     report = engine.report()
     assert report["ordinary_raw_frames"] == 9
     assert report["accounting"]["reset_emulated_frames"] == 144
-    assert report["accounting"]["charged_frames"] == 153
+    assert report["accounting"]["charged_frames"] == 213
     assert report["perception"]["observed_raw_frames"] == 9
     assert engine._episode == 1
     assert engine.reference.frames_seen == 3  # reference receives no oracle episode boundary

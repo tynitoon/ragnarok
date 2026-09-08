@@ -166,6 +166,16 @@ exacte du fond atteint ensuite 1 976,22 décisions/s : les 16 rapports (scores,
 coûts, empreintes C) sont strictement identiques. 25 tests passent, revue indépendante
 close sans défaut matériel. La cible provisoire de 2 000 reste non atteinte.
 Prochaine action : coûts de reset et calibration des autres jeux de développement.
+La revue approfondie découvre 60 frames d'auto-détection non comptées par loadROM,
+et un coût Pong de reset 72+3k (k non borné par le wrapper), contrairement à
+l'ancien audit. Les données restent préservées, géométrie inchangée, comptes
+historiques non admissibles comme preuve de plafond strict. Correction initiale
++60 faite, 34 tests émulateur/référence passent. Le moteur historique reste un
+diagnostic. La nouvelle version utilisera un ALE neuf à chaque épisode avec
+system_random_seed4753849 fixe et coût initial132/128 : convention distincte
+revue indépendamment, à vérifier avant activation. Cinq jeuxdev ouverts seulement
+pour audit borné (seeds21000..21002), tous k=0 observé ; aucune calibration hors
+Pong encore. Voir `docs/ARC4_RESET_AUDIT.md`. Continuer cette implémentation.
 Aucun gate 0 ni
 apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
 `craft_v6_out/v70_pong_pooled/validation_seal.json` ; ne pas modifier leurs sources

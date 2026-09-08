@@ -52,7 +52,8 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None):
                 ordinary_agent_steps_per_second=workers*steps/work_seconds,
                 including_experiment_agent_steps_per_second=sum(r["accounting"]["ordinary_agent_steps"] +
                     r["accounting"]["experiment_agent_steps"] for r in reports)/work_seconds,
-                emulated_frames_per_second=sum(r["accounting"]["emulated_frames"]-72 for r in reports)/work_seconds,
+                emulated_frames_per_second=sum(r["accounting"]["emulated_frames"]-
+                    r["accounting"]["bootstrap_emulated_frames"] for r in reports)/work_seconds,
                 logical_processors=os.cpu_count(), worker_reports=reports,
                 source_sha256={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in sources},
                 versions={p:importlib.metadata.version(p) for p in ("ale-py","numpy","scipy")},

@@ -1,5 +1,12 @@
 # Chaîne CPU Pong — diagnostics de développement
 
+**Erratum comptable du 9 septembre :** les premiers essais omettent 60 frames
+d'auto-détection au chargement de chaque processus. Le coût de sélection de mode
+des resets naturels était aussi supposé nul sans journal exhaustif. Voir
+[audit des resets](ARC4_RESET_AUDIT.md). Les débits ordinaires chronométrés et
+l'équivalence des sorties restent mesurés ; ces anciens comptes ne peuvent pas
+servir de preuve d'un plafond strict. Les résultats historiques sont préservés.
+
 Le benchmark traite une vraie requête/réponse avec image RGB par décision,
 répète l'action quatre frames, décode chaque frame côté juge et évalue les
 instances au dernier état brut. Il crée une paire de branches toutes les

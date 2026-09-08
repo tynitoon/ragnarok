@@ -64,13 +64,17 @@ class _PixelEngine:
         self.config = config
         self._budget = FrameBudget(experiment_fraction=config.experiment_fraction,
                                    max_charged_frames=config.max_charged_frames)
-        if not self._budget.can_play(72):
-            raise BudgetExceeded("Initial Pong bootstrap requires 72 charged frames")
+        # Console AUTO-DETECT advances 60 frames before ALE's 72-frame reset.
+        self._bootstrap_frames = 132
+        if not self._budget.can_play(self._bootstrap_frames):
+            raise BudgetExceeded("Initial Pong bootstrap requires 132 charged frames")
         self._sticky_rng = random.Random(config.seed)
         self._last_action = 0
         self._reset_frames_spent = 0
         self._ale = ale_py.ALEInterface()
         self._ale.setInt("random_seed", config.seed)
+        # This is ALE 0.12.1's existing default; distinct from its action RNG.
+        self._ale.setInt("system_random_seed", 4753849)
         self._ale.setInt("frame_skip", 1)  # wrapper counts and pools each real frame
         # ALEState omits native sticky action history. Own it, including its RNG, here.
         self._ale.setFloat("repeat_action_probability", 0.0)
@@ -79,7 +83,7 @@ class _PixelEngine:
         self._ale.setBool("display_screen", False)
         self._ale.setBool("sound", False)
         self._ale.loadROM(rom_path)
-        self._budget.record_play(72, agent_steps=0)
+        self._budget.record_play(self._bootstrap_frames, agent_steps=0)
         self._reset_frames_spent = 72
         self._actions = {a.value: a for a in self._ale.getLegalActionSet()}
         first = self._ale.getScreenRGB().copy()
@@ -194,6 +198,9 @@ class _PixelEngine:
     def accounting(self):
         report = self._budget.report()
         report.update(reset_emulated_frames=self._reset_frames_spent,
+                      bootstrap_emulated_frames=self._bootstrap_frames,
+                      format_detection_emulated_frames=60,
+                      system_random_seed=4753849,
                       sticky_implementation="worker-python-random-per-frame",
                       sticky_probability=self.config.sticky_probability)
         return report

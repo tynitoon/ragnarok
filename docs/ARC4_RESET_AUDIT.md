@@ -34,3 +34,24 @@ Les coûts historiques ne doivent plus être repris sans cet erratum. Le moteur
 doit être corrigé avant les prochains essais ; aucun gate ni apprentissage
 ARC 4 n'a été exécuté. Les anciennes captures scellées doivent être reproduites
 dans leur commit d'origine, avec cet erratum, jamais avec un mélange de versions.
+
+La revue corrige aussi la portée de l'ancien audit Pong : son `setMode` contient
+une boucle `pressSelect(2)`. Le reset vaut donc **72 + 3k**, et non une constante
+démontrée de 72. Les anciens relevés ne journalisaient pas k à chaque reset.
+Le supplément initial de 60 est certain ; un correctif exact de tous les comptes
+historiques ne peut pas être affirmé sans ce journal. Sources et décision dans
+la revue indépendante du 9 septembre. Le moteur historique reste un diagnostic
+de développement, pas un moteur admissible pour un gate à plafond strict.
+
+Le défaut `system_random_seed=4753849` est distinct du seed ALE d'actions.
+Les trois seeds d'audit variaient les actions et conservaient cette même
+initialisation matérielle ; aucune réplication matérielle indépendante n'est
+revendiquée. Le moteur l'enregistre désormais explicitement.
+
+Pour la prochaine version, la revue retient une construction ALE neuve à chaque
+épisode, avec binaire, ROM et options fixes. Cette convention de démarrage
+matériel fixe répète la trace initiale k=0 ; elle sera vérifiée, identifiée et
+facturée 132/128 avant construction. Elle diffère du reset naturel et sera commune
+aux bras avant gel. Aucun garde natif ni augmentation de budget n'est requis
+pour cette convention déterministe. Le moteur historique et ses données restent
+accessibles dans leurs commits ; la nouvelle convention doit être distincte.

@@ -78,7 +78,7 @@ def test_pixel_only_rpc_and_live_mode(ale_available):
             pool.branch_pair(0)
         observation = pool.step([0])[0]
         assert isinstance(observation, np.ndarray)  # no reward, done flag or info dictionary
-        assert pool.accounting()["charged_frames"] == 76  # initial bootstrap is not free
+        assert pool.accounting()["charged_frames"] == 136  # detection60 + reset72 + repeat4
 
 
 def test_pair_replays_rng_and_leaves_ordinary_trajectory_unchanged(ale_available):
@@ -128,28 +128,30 @@ def test_opaque_snapshot_restores_pixels_without_refunding_budget(ale_available)
 def test_terminal_repeat_counts_only_real_frames_and_charges_reset(ale_available):
     with EmulatorPool([EmulatorConfig(max_episode_frames=5)]) as pool:
         pool.step([0])
-        assert pool.accounting()["charged_frames"] == 72 + 4
+        assert pool.accounting()["charged_frames"] == 132 + 4
         pool.step([0])
-        assert pool.accounting()["charged_frames"] == 72 + 5  # one frame, not four
+        assert pool.accounting()["charged_frames"] == 132 + 5  # one frame, not four
         pool.step([0])
         counts = pool.accounting()
-        assert counts["charged_frames"] == 72 + 5 + 72 + 4
+        assert counts["charged_frames"] == 132 + 5 + 72 + 4
         assert counts["reset_emulated_frames"] == 144
+        assert counts["format_detection_emulated_frames"] == 60
+        assert counts["bootstrap_emulated_frames"] == 132
         assert counts["ordinary_agent_steps"] == 3
 
 
 def test_worker_errors_are_drained_and_invalid_batch_is_not_executed(ale_available):
-    configs = [EmulatorConfig(max_charged_frames=76), EmulatorConfig(max_charged_frames=84)]
+    configs = [EmulatorConfig(max_charged_frames=136), EmulatorConfig(max_charged_frames=144)]
     with EmulatorPool(configs) as pool:
         with pytest.raises(ValueError):
             pool.step([0, 99])
-        assert [pool.accounting(i)["charged_frames"] for i in (0, 1)] == [72, 72]
+        assert [pool.accounting(i)["charged_frames"] for i in (0, 1)] == [132, 132]
         pool.step([0, 0])
         with pytest.raises(BudgetExceeded):
             pool.step([0, 0])
         # The second worker completed its valid action; its reply must not poison accounting.
-        assert pool.accounting(0)["charged_frames"] == 76
-        assert pool.accounting(1)["charged_frames"] == 80
+        assert pool.accounting(0)["charged_frames"] == 136
+        assert pool.accounting(1)["charged_frames"] == 140
 
 
 def test_dead_worker_fails_closed_and_cleanup_reaps_owned_children(ale_available):
@@ -169,9 +171,19 @@ def test_unaudited_game_is_refused_before_use(ale_available):
         EmulatorPool([EmulatorConfig(game="breakout")])
 
 
+def test_bootstrap_is_admitted_before_native_construction(ale_available, monkeypatch):
+    import ale_py
+    from ragnarok.environments.emu_pool import _PixelEngine
+    def forbidden_construction():
+        raise AssertionError("Native construction must not occur below the initial charge")
+    monkeypatch.setattr(ale_py, "ALEInterface", forbidden_construction)
+    with pytest.raises(BudgetExceeded, match="132"):
+        _PixelEngine(EmulatorConfig(max_charged_frames=131))
+
+
 def test_manual_replay_cannot_bypass_experiment_fraction(ale_available):
     with EmulatorPool([EmulatorConfig()]) as pool:
-        for _ in range(102):  # bootstrap 72 + 408 ordinary = 480
+        for _ in range(87):  # bootstrap132 +348 ordinary =480
             pool.step([0])
         with pytest.raises(BudgetExceeded):
             pool.branch_pair(3)
@@ -266,7 +278,7 @@ def test_last_token_closes_lab_session_and_budget_refuses_before_action(ale_avai
         ordinary = pool.accounting()["ordinary_frames"]
         pool.step([0])
         assert pool.accounting()["ordinary_frames"] == ordinary + 4
-    with EmulatorPool([EmulatorConfig(max_charged_frames=72)]) as pool:
+    with EmulatorPool([EmulatorConfig(max_charged_frames=132)]) as pool:
         pool.clone()
         before_pixels, before_counts = pool.observe(raw=True), pool.accounting()
         with pytest.raises(BudgetExceeded):
