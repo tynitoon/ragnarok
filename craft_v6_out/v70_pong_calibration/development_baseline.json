@@ -1,0 +1,564 @@
+{
+  "kind": "development_pong_ram_calibration",
+  "decoder_revision": "ocatari_v2.2.1_baseline",
+  "fixture": "craft_v6_out\\v70_pong_calibration\\development",
+  "fixture_manifest_sha256": "764a470fcfe4bfa9ac57c4e44e9fdef14223b6254e47c39a082b6422436c8c77",
+  "source_sha256": {
+    "ragnarok/evaluation/pong_v70.py": "92b77b1e81b1d86deb7d728fca0125419b9beab4c1ddfc0d4b6ed0275b0f5685",
+    "ragnarok/evaluation/fixtures_v70.py": "762abb36b36040e0286381f236921a1ad653728fcca48a768a9293249864fc14",
+    "scripts/calibrate_pong_v70.py": "b288fe79999a6674c5ff19958a2d673ec7b9a85952be5250cf66637ca511b6bf",
+    "docs/ARC4_PONG_CALIBRATION_PROTOCOL.json": "a56387513d8c40008ec8108865ac3a4f036dac74ea875b75416d9d77236fe6da"
+  },
+  "objects": {
+    "player": {
+      "frames": 4096,
+      "presence_agree": 4094,
+      "jointly_visible": 4094,
+      "within_one_pixel": 3932,
+      "exact": 412,
+      "max_edge_error": 2,
+      "examples": [
+        {
+          "frame": 1,
+          "decoded": [
+            140,
+            96,
+            4,
+            15
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 0,
+            "50": 20,
+            "51": 109,
+            "54": 0
+          }
+        },
+        {
+          "frame": 192,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 142,
+            "50": 58,
+            "51": 43,
+            "54": 49
+          }
+        },
+        {
+          "frame": 193,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 143,
+            "50": 56,
+            "51": 43,
+            "54": 51
+          }
+        },
+        {
+          "frame": 196,
+          "decoded": [
+            140,
+            34,
+            4,
+            6
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            8
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 146,
+            "50": 56,
+            "51": 39,
+            "54": 57
+          }
+        },
+        {
+          "frame": 197,
+          "decoded": [
+            140,
+            34,
+            4,
+            6
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            8
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 147,
+            "50": 58,
+            "51": 39,
+            "54": 59
+          }
+        },
+        {
+          "frame": 328,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 138,
+            "50": 138,
+            "51": 43,
+            "54": 138
+          }
+        },
+        {
+          "frame": 329,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 139,
+            "50": 140,
+            "51": 43,
+            "54": 139
+          }
+        },
+        {
+          "frame": 414,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 205,
+            "50": 172,
+            "51": 43,
+            "54": 0
+          }
+        },
+        {
+          "frame": 415,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 205,
+            "50": 170,
+            "51": 43,
+            "54": 0
+          }
+        },
+        {
+          "frame": 418,
+          "decoded": [
+            140,
+            34,
+            4,
+            6
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            8
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 205,
+            "50": 166,
+            "51": 39,
+            "54": 0
+          }
+        },
+        {
+          "frame": 419,
+          "decoded": [
+            140,
+            34,
+            4,
+            6
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            8
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 205,
+            "50": 164,
+            "51": 39,
+            "54": 0
+          }
+        },
+        {
+          "frame": 456,
+          "decoded": [
+            140,
+            34,
+            4,
+            10
+          ],
+          "visible": [
+            140,
+            34,
+            4,
+            12
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 205,
+            "50": 98,
+            "51": 43,
+            "54": 0
+          }
+        }
+      ],
+      "presence_agreement": 0.99951171875,
+      "box_agreement": 0.9604298974108452,
+      "pass": false
+    },
+    "enemy": {
+      "frames": 4096,
+      "presence_agree": 4096,
+      "jointly_visible": 3451,
+      "within_one_pixel": 3451,
+      "exact": 282,
+      "max_edge_error": 1,
+      "examples": [],
+      "presence_agreement": 1.0,
+      "box_agreement": 1.0,
+      "pass": true
+    },
+    "ball": {
+      "frames": 4096,
+      "presence_agree": 4093,
+      "jointly_visible": 2675,
+      "within_one_pixel": 2662,
+      "exact": 2294,
+      "max_edge_error": 3,
+      "examples": [
+        {
+          "frame": 189,
+          "decoded": [
+            90,
+            32,
+            2,
+            4
+          ],
+          "visible": [
+            90,
+            34,
+            2,
+            2
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 139,
+            "50": 64,
+            "51": 60,
+            "54": 46
+          }
+        },
+        {
+          "frame": 190,
+          "decoded": [
+            91,
+            30,
+            2,
+            4
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 140,
+            "50": 62,
+            "51": 49,
+            "54": 44
+          }
+        },
+        {
+          "frame": 1370,
+          "decoded": [
+            120,
+            193,
+            2,
+            4
+          ],
+          "visible": [
+            120,
+            193,
+            2,
+            1
+          ],
+          "edge_error": 3,
+          "ram": {
+            "49": 169,
+            "50": 206,
+            "51": 202,
+            "54": 207
+          }
+        },
+        {
+          "frame": 1543,
+          "decoded": [
+            30,
+            32,
+            2,
+            4
+          ],
+          "visible": [
+            30,
+            34,
+            2,
+            2
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 79,
+            "50": 48,
+            "51": 38,
+            "54": 46
+          }
+        },
+        {
+          "frame": 1544,
+          "decoded": [
+            31,
+            30,
+            2,
+            4
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 80,
+            "50": 46,
+            "51": 38,
+            "54": 44
+          }
+        },
+        {
+          "frame": 1625,
+          "decoded": [
+            112,
+            193,
+            2,
+            4
+          ],
+          "visible": [
+            112,
+            193,
+            2,
+            1
+          ],
+          "edge_error": 3,
+          "ram": {
+            "49": 161,
+            "50": 188,
+            "51": 95,
+            "54": 207
+          }
+        },
+        {
+          "frame": 1827,
+          "decoded": [
+            70,
+            32,
+            2,
+            4
+          ],
+          "visible": [
+            70,
+            34,
+            2,
+            2
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 119,
+            "50": 60,
+            "51": 38,
+            "54": 46
+          }
+        },
+        {
+          "frame": 1828,
+          "decoded": [
+            71,
+            30,
+            2,
+            4
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 120,
+            "50": 58,
+            "51": 38,
+            "54": 44
+          }
+        },
+        {
+          "frame": 1909,
+          "decoded": [
+            152,
+            193,
+            2,
+            4
+          ],
+          "visible": [
+            152,
+            192,
+            2,
+            2
+          ],
+          "edge_error": 3,
+          "ram": {
+            "49": 201,
+            "50": 188,
+            "51": 43,
+            "54": 207
+          }
+        },
+        {
+          "frame": 2338,
+          "decoded": [
+            117,
+            32,
+            2,
+            4
+          ],
+          "visible": [
+            117,
+            34,
+            2,
+            2
+          ],
+          "edge_error": 2,
+          "ram": {
+            "49": 166,
+            "50": 46,
+            "51": 38,
+            "54": 46
+          }
+        },
+        {
+          "frame": 2339,
+          "decoded": [
+            116,
+            31,
+            2,
+            4
+          ],
+          "visible": [
+            116,
+            34,
+            2,
+            1
+          ],
+          "edge_error": 3,
+          "ram": {
+            "49": 165,
+            "50": 44,
+            "51": 38,
+            "54": 45
+          }
+        },
+        {
+          "frame": 2485,
+          "decoded": [
+            68,
+            31,
+            2,
+            4
+          ],
+          "visible": [
+            68,
+            34,
+            2,
+            1
+          ],
+          "edge_error": 3,
+          "ram": {
+            "49": 117,
+            "50": 58,
+            "51": 105,
+            "54": 45
+          }
+        }
+      ],
+      "presence_agreement": 0.999267578125,
+      "box_agreement": 0.9951401869158879,
+      "pass": true
+    }
+  },
+  "calibration_pass": false,
+  "gate_result": null,
+  "score_calibrated": false,
+  "no_agent_training": true
+}

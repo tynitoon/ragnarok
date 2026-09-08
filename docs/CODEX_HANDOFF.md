@@ -144,6 +144,10 @@ Aucun gate 0 ni apprentissage ARC 4 n'a été lancé.
 
 Prochain jalon CPU : calibration indépendante du juge, extracteur de référence,
 puis débit de la chaîne complète.
+Travail poursuivi sans pause à la demande explicite de Jérémie : protocole Pong
+et fixtures de développement capturés, baseline du juge consignée en échec
+(géométrie joueur : 96,043 % contre 99 % requis). Corriger sur seed 17011, sceller
+le décodeur, puis ouvrir seulement seed 17012. Voir `docs/ARC4_PONG_CALIBRATION.md`.
 Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.
 La mesure séparant adaptation et avance initiale reste à définir avant les gels
 scientifiques ultérieurs. §6 décrit le travail prévu. Le premier gate examine les primitives

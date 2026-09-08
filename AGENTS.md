@@ -16,6 +16,10 @@ d'apprentissage supérieure.
 
 - Prendre en charge les choix techniques, l'implémentation et les vérifications
   pertinentes ; communiquer en français simple.
+- Instruction explicite du 8 septembre 2026 : poursuivre d'un jalon au suivant
+  sans terminer la tâche à chaque étape. S'arrêter seulement au terme du travail,
+  sur demande de Jérémie ou lorsqu'une décision nécessite réellement son avis.
+  Les commits et points de reprise servent à poursuivre, pas à demander une relance.
 - Respecter les protocoles gelés, les budgets et les règles STOP. Pour ARC 3 v62,
   `ARC3_PLAN.md` §12.6 corrige les sections antérieures et certaines notes Claude.
 - Ne pas modifier après observation les critères d'un résultat. Garder les

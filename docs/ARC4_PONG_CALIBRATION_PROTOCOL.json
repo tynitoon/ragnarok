@@ -1,0 +1,22 @@
+{
+  "kind": "development_instrument_calibration_before_reference_scoring",
+  "not_gate_0": true,
+  "game": "pong",
+  "mode": 0,
+  "development_seed": 17011,
+  "reserved_validation_seed": 17012,
+  "frames_each": 4096,
+  "sampling": "every real raw frame, action RNG seed+100000, new uniform button every 16 frames",
+  "objects": ["player", "enemy", "ball"],
+  "coordinate_convention": "xywh, integer pixels, half-open box; center x+w/2,y+h/2",
+  "independent_screen_check": "fixed Pong sprite palette, bounding extent in play area y=34..193; no RAM, no temporal background/reference code",
+  "screen_palette": {"player": [92,186,92], "enemy": [213,130,74], "ball": [236,236,236]},
+  "calibration_rule": "each type: >=50 jointly visible frames; >=99% presence agreement; >=99% of jointly visible boxes differ by <=1 pixel on every edge",
+  "motion_denominator": "currently visible objects with >=2 visible positions and any position change in current and previous 8 real frames within the same episode; no net-displacement shortcut",
+  "perception_match": "one-to-one, maximize matches within Euclidean center distance <=4px, then minimize distance; match all visible objects before filtering moving recall",
+  "hud": "outside y=34..193 excluded by evaluator for truths and detections; reference receives full RGB with no labels",
+  "empty_denominator": "null with explicit numerator and denominator, never perfect by default",
+  "score_validation": "not covered by object calibration; may not support competence claims until independently checked",
+  "validation": "correct on development if necessary and record failed baseline; seal corrected decoder before opening reserved validation labels",
+  "agent_access": "fixtures, RAM, semantic palette, object names and results remain experimenter-side"
+}
