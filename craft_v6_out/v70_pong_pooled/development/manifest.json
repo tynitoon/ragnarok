@@ -1,0 +1,122 @@
+{
+  "kind": "scorer_only_pong_two_raw_frame_fixture",
+  "seed": 17021,
+  "action_seed": 117021,
+  "decisions": 2048,
+  "action_repeat": 4,
+  "episode_count": 2,
+  "game": "pong",
+  "mode": 0,
+  "created_utc": "2026-09-08T22:33:24Z",
+  "work_seconds": 8.464105600000039,
+  "accounting": {
+    "ordinary_frames": 8335,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 8335,
+    "charged_frames": 8335,
+    "ordinary_agent_steps": 2048,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 155720,
+    "reset_emulated_frames": 144,
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "shards": [
+    {
+      "path": "decisions_00001_00128.npz",
+      "decisions": 128,
+      "sha256": "792e88c65036221c1bdf8352703bf8fb46167e3ded6b0468759cbdcbf68ce547"
+    },
+    {
+      "path": "decisions_00129_00256.npz",
+      "decisions": 128,
+      "sha256": "eff4cdb8f07a968f6732fe17d5a498f2ae2c3f550cc4a3fc03f156af5b15cddf"
+    },
+    {
+      "path": "decisions_00257_00384.npz",
+      "decisions": 128,
+      "sha256": "00fc4412b1261faebc7d632fda03220b4dfc0f36ecaacede6002e8ee05461ca4"
+    },
+    {
+      "path": "decisions_00385_00512.npz",
+      "decisions": 128,
+      "sha256": "4d74f728367e42ab6edef816090afeb44f1876497ed9402abe00abf306c18ac9"
+    },
+    {
+      "path": "decisions_00513_00640.npz",
+      "decisions": 128,
+      "sha256": "92e84fc66aa2e97ee00b22ee2fe291ecf3bb0d7f6786e15425908411793d3b39"
+    },
+    {
+      "path": "decisions_00641_00768.npz",
+      "decisions": 128,
+      "sha256": "adba2e88476afb7437face873a35b00c02c513a0bd4aa38a8b733e9adb1da4c6"
+    },
+    {
+      "path": "decisions_00769_00896.npz",
+      "decisions": 128,
+      "sha256": "0d84885cc71c42c9a5d1e0b77c730a8b31b90f7668f033557ed3c13c64ad3848"
+    },
+    {
+      "path": "decisions_00897_01024.npz",
+      "decisions": 128,
+      "sha256": "b50b8924fade8e43b7939d63c2fff2beae04a741e4925de47b6a44750868e9b0"
+    },
+    {
+      "path": "decisions_01025_01152.npz",
+      "decisions": 128,
+      "sha256": "80ce6e5bae949ab116ffc9a55d49e8219718ddafff159e07136d9b95d5c39e5a"
+    },
+    {
+      "path": "decisions_01153_01280.npz",
+      "decisions": 128,
+      "sha256": "543b1dcc2ed4b44efe6d9ab4d61d563f3945fb3bba54c356fcabd1bb03b7e896"
+    },
+    {
+      "path": "decisions_01281_01408.npz",
+      "decisions": 128,
+      "sha256": "f25da5e9ec530c44274763a01cd28db7d69771cafbaa958c0ff4c68686aaf24e"
+    },
+    {
+      "path": "decisions_01409_01536.npz",
+      "decisions": 128,
+      "sha256": "426dcab28829c45f57a8525f66d3462ee7fb44e8ea53586e5dc4d4d9454cae9d"
+    },
+    {
+      "path": "decisions_01537_01664.npz",
+      "decisions": 128,
+      "sha256": "f07d620c90fde2332cf61f991754b0f96136b523bc37fe5982ada8ddd0756f9e"
+    },
+    {
+      "path": "decisions_01665_01792.npz",
+      "decisions": 128,
+      "sha256": "05af7ed553f13f28e4285e44ebcb0e38b52b1d1674b9f03b1b63e9a38950f217"
+    },
+    {
+      "path": "decisions_01793_01920.npz",
+      "decisions": 128,
+      "sha256": "e28633b83e44572fa6b23c55c15d5a6d5c3873193d3bbfa592912cccde3203eb"
+    },
+    {
+      "path": "decisions_01921_02048.npz",
+      "decisions": 128,
+      "sha256": "fac9fbac86ab742bcc7b4d2c5cdf05540ecf74c815952cabf7151e68c9c21702"
+    }
+  ],
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "scripts/capture_pong_pooled_v70.py": "e28838660a69dab43475e6c183ead7695552939c1825b68a1638517b5cc4e7c1",
+    "ragnarok/environments/emu_pool.py": "381455fbbc600a8cba4abef0f46f47514922d8bdeeeabca546c66dc814954893",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "docs/ARC4_PONG_POOLED_PROTOCOL.json": "42ef493650ed22c468beba9a7a78ff6484d8e83335cc3db60d4080785c4d8020"
+  },
+  "wrapper_pool_verified": true,
+  "agent_training_allowed": false,
+  "gate_result": null
+}

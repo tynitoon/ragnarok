@@ -1,0 +1,57 @@
+{
+  "kind": "development_pong_pooled_calibration",
+  "pooled_revision": "pong_two_raw_box_union_v1",
+  "objects": {
+    "player": {
+      "pairs": 2048,
+      "presence_agree": 2048,
+      "jointly_visible": 2048,
+      "within_one_pixel": 2048,
+      "exact": 2048,
+      "max_edge_error": 0,
+      "naive_palette_exact": 1111,
+      "examples": [],
+      "presence_agreement": 1.0,
+      "box_agreement": 1.0,
+      "pass": true
+    },
+    "enemy": {
+      "pairs": 2048,
+      "presence_agree": 2048,
+      "jointly_visible": 1734,
+      "within_one_pixel": 1734,
+      "exact": 1734,
+      "max_edge_error": 0,
+      "naive_palette_exact": 2048,
+      "examples": [],
+      "presence_agreement": 1.0,
+      "box_agreement": 1.0,
+      "pass": true
+    },
+    "ball": {
+      "pairs": 2048,
+      "presence_agree": 2048,
+      "jointly_visible": 1390,
+      "within_one_pixel": 1390,
+      "exact": 420,
+      "max_edge_error": 1,
+      "naive_palette_exact": 2048,
+      "examples": [],
+      "presence_agreement": 1.0,
+      "box_agreement": 1.0,
+      "pass": true
+    }
+  },
+  "calibration_pass": true,
+  "fixture_manifest_sha256": "a9b8ab7a10d9dc303d09c6a6545e172faed3ecbfcc8a8c273a13dd0c943486e8",
+  "source_sha256": {
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/pooled_pong_v70.py": "d4ba1af47392ec73aa858b3be65ad0522ae74122a9e8888c8798e76acec51b47",
+    "ragnarok/evaluation/pooled_fixtures_v70.py": "e4ead45d45b0368f9f459a3c4677eebaa3f83968e1b9ec17d3ab26b3f281db38",
+    "scripts/calibrate_pong_pooled_v70.py": "f1143a00baa089c727693fffbf867d3785ac93966118b2cc9f5d8a39e47d6a6d",
+    "docs/ARC4_PONG_POOLED_PROTOCOL.json": "42ef493650ed22c468beba9a7a78ff6484d8e83335cc3db60d4080785c4d8020"
+  },
+  "all_wrapper_pools_verified": true,
+  "gate_result": null,
+  "no_agent_training": true
+}
