@@ -1,0 +1,16 @@
+{
+  "kind": "development_reference_diagnostic_before_reference_outputs",
+  "game": "breakout",
+  "input": "A successfully calibrated4096-frame raw sequence; same manifest and sealed judge hashes",
+  "reference": "Existing causal per-pixel modal RGB background and4-connected components, all foreground components, no semantic palette or teacher",
+  "reference_reset": "No oracle reset; one continuous history of ordinary pixels across cold episodes",
+  "matching": "Maximum cardinality of all visible truth centers to predicted centers within4pixels, then minimum distance. One-to-one; stationary truths participate in precision.",
+  "motion": "Player and ball identity centers changed at least once within the preceding8real frames. Brick runs stay at fixed grid sites and are not moving objects: chipping, splits and merges are geometry changes, not translations.",
+  "roi_xyxy": [8,32,152,197],
+  "instances": "Unique stable IDs for player and ball; brick runs identified by row and left grid site for visible-frame matching, without motion eligibility",
+  "measurement": "All frames, including initial background, cold transitions and occlusions. Report moving recall, ball recall, visible precision, raw counts and null for empty denominator.",
+  "timing": "Raw reference plus judge only; excludes emulator, IPC, branches and learned parser",
+  "gate_result": null,
+  "learning": false,
+  "interpretation": "Development instrument diagnostic only. Published alongside previous calibration limits; no gate0 or competence claim."
+}

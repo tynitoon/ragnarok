@@ -34,3 +34,15 @@ Les quatre premières rangées sont restées intactes dans le développement :
 leur comportement après destruction n'est pas couvert par ces trajectoires.
 Le validateur impose aussi seed, mode, sticky, répétition, longueur et convention
 déclarés avant de mesurer la séquence réservée.
+
+## Validation réservée17112
+
+Candidat scellé dans `6e48ef4`, puis capture de4 096frames,6épisodes et4 888frames
+facturées. Les neuf sources scellées sont inchangées, contrôle imposé par le
+calibrateur. **PASS pour tous les types**, avec les mêmes critères : balle
+4064/4096 =99,2188 % de présence et3139/3141 =99,9363 % de boîtes à un pixel ;
+raquette100 % de présence et4078/4096 =99,5605 % de boîtes valides.
+Les six rangées passent également. Résultat conservé dans
+`craft_v6_out/v70_breakout_calibration/validation_result.json`.
+Cette validation conserve la portée et les limites ci-dessus ; aucune correction
+du candidat n'est effectuée après ouverture de17112.
