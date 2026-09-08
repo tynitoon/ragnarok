@@ -45,7 +45,7 @@ rather than quietly dropped.
   once both an experienced and a fresh agent are allowed to learn, the fresh one catches up in 1–3
   rounds: Δ = +0.069 against a run-to-run noise of 0.076. Diagnosis: what those worlds shared was cheap
   to reacquire. `ARC2_PLAN.md` section 15.
-- **ARC 3 — closed at its gate (2026-09-06).** The substrate fixed ARC 2's wall (see above), but the
+- **ARC 3 v61 — closed at its gate (2026-09-06).** The substrate fixed ARC 2's wall (see above), but the
   pre-registered feasibility gate failed on its fresh-learnability clause: fresh learners are *bimodal*
   on the position where "learns faster" would be read — half reach it in 2–4 rounds, half stall — so the
   frozen median criterion was missed by one round, twice by two envs of 64. No experienced arm was run;
@@ -55,14 +55,16 @@ That map of *why this question is so hard to measure* is the most transferable t
 
 ## What is open
 
-**ARC 3 — worlds that share a hidden law.** Every world of the family obeys the same secret bonding table
-between 14 elements; a world exposes ~38 % of it; an agent that has lived in four worlds knows ~85 %. The
-substrate, the store (per-goal working memory), the identity-free policy with an outcome head, the
-hand-coded ceilings, the gate, a frozen monotone scorer and every runner are built, tested and
-pre-registered (`preregistration.md`, v61). The gate says the law is worth more than any effect this
-project has had in front of it, and that the fresh baseline does not reliably learn the comparison
-position at a four-round budget. The next step — a re-gated v62 with a feasibility criterion set from the
-twelve measured curves, on new worlds — is the owner's call.
+**ARC 3 v62 — feasibility gate passed (2026-09-08).** The owner authorized a redesign after v61's
+feasibility STOP: a store persisting within each world, six rounds and a revised fresh-learnability
+criterion tested on new worlds 8102/8103. All frozen gate clauses pass: 3/3 fresh arms learn the tier-3
+position on both worlds; law headroom H = 0.262 against a required 0.113. This permits pretraining and
+the mechanism probe; it is not yet evidence that prior experience makes learning faster. The full
+record and budget are in `ARC3_PLAN.md` section 13: N=9, B_test=6, projected total ~32 of 42 GPU-h.
+
+**ARC 4 — pixels and buttons, Atari to later console generations.** `ARC4_VISION.md` is a design draft
+for the longer goal of accumulating skills across games. It is not a frozen protocol or a demonstrated
+agent. The Codex recovery point and current execution state are indexed in `docs/CODEX_HANDOFF.md`.
 
 ---
 

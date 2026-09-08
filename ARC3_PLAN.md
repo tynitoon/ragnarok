@@ -622,3 +622,69 @@ was frozen before any of it and did not move."
     probe    python -m scripts.probe_v61 --lineage 0
     confirm  python -m scripts.confirm_v61 --lineage s --n-units 3 --b-max {B_test} --store-persists
              --g-units 2 --resume ; then python -m scripts.score_v61 ; python -m scripts.figure_v61
+
+## 13. v62 GATE RESULT — PROCEED (run 2026-09-08 01:32–06:00; recorded after the owner's pause, 2026-09-08 evening)
+
+The owner paused the agent while the detached gate finished, to reserve tokens for another project.
+The result was left uninterpreted until the owner explicitly resumed work in Codex on 2026-09-08.
+No gate was rerun. Record: `craft_v6_out/v61_gate_v62.json`, companion run log and eight gate JSON
+checkpoints; gate code matches the STAGE-0 freeze `a189ea5` (`v62-stage0-freeze`). Independent review
+verified checkpoint equality, complete curves (b=0..6), all six fresh runs, and the calculations below.
+
+| Frozen check | World 8102 | World 8103 | Result |
+|---|---|---|---|
+| REACHABLE | nav min 0.902; L 1.000 / 1.000 / 0.984375 | nav min 0.914; L 1.000 / 1.000 / 1.000 | PASS |
+| CONSISTENT: G' median first-obtain attempts | 57 / 7 / 1152 (cap), predicted 57 / 7 / >1152 | 26 / 27 / 1152 (cap), predicted 23 / 29 / >1152 | PASS: no >2x miss on an uncensored goal |
+| FRESH-LEARNS tier 2 within 2 rounds | 3/3 arms | 3/3 arms | PASS |
+| FRESH-LEARNS tier 3 within 6 rounds | 3/3 arms; b* 2 / 4 / 3 | 3/3 arms; b* 1 / 1 / 1 | PASS |
+| Tier 4 within 6 rounds (reported only) | 0/3 arms | 3/3 arms; b* 4 / 1 / 5 | Not a gate clause |
+
+ROOM: H = 0.2624384, per-unit H = 0.4126083 / 0.1122685; per-tier H =
+0.0112806 / 0.1228222 / 0.6532125. sd_init = 0.1196750 on the six per-unit pairwise fresh differences;
+se_res = 0.0069444; se_proj = 0.0282077 at B_test 6, N 9; 4 se_proj = 0.1128307. **PASS**.
+The header's N_conf 12 is the old diagnostic projection only; the actual v62 decision uses N 9.
+CONSISTENT is checked here against the frozen predictions; the gate script does not enforce it itself.
+
+**Decision: PROCEED to pretraining and the mechanism probe.** No notch is invoked. This establishes
+fresh learnability and measurement room on these gate worlds, not a benefit of prior experience.
+Compared with the pre-gate predictions, fresh learning is easier on 8103 (including tier 4) and the
+overall law headroom is 0.262 rather than the predicted ~0.5. No confirmatory world has been inspected.
+
+### 13.1 Budget fixed from the completed gate, under section 12.6
+
+Gate elapsed = 16124 s = 4.4789 h. The 18 K1 goal-runs sum to 11832 s (differences of cumulative
+timestamps, excluding K0); t6 = 657.3333 s. Apply the frozen scaling t3 = t6 * 386/764 = 332.1082 s.
+
+| Item | Hours, elapsed or projected |
+|---|---:|
+| Previous v61 gates, recorded expenditure | 6.7000 |
+| v62 gate, elapsed | 4.4789 |
+| Three pretraining lineages, 48 goal-runs at t3 | 4.4281 |
+| Mechanism probe allowance | 0.5000 |
+| Confirmatory, 81 goal-runs at t6 | 14.7900 |
+| G' on two lineage-0 units, 6 goal-runs at t6 | 1.0956 |
+| **Projected whole ARC 3 line** | **31.9926** |
+
+**B_test = 6, N = 9, G' on two units.** Margin to the 42 h ceiling = 10.0074 h; no budget cut.
+These are workstation run-time projections charged conservatively as GPU-hours, not a promise of
+completion time. Count actual later run times and preserve the hard ceiling.
+Resume verification: all 11 `scripts/test_law_v61.py` tests pass in 137.15 s. Charge that elapsed
+time separately and conservatively against the ceiling (0.0381 h beyond the projection above).
+
+### 13.2 Resume safeguards and documentation corrections
+
+The pretrain/probe/confirm/scorer code remains frozen. An external launcher may run the three
+pretrain commands from 12.6 and the probe, record commands and source hashes, and stop on any process
+failure, incomplete output, or exhausted budget. It must verify four worlds and M1–M4 in every lineage:
+the frozen probe accepts the last available checkpoint and confirm names it M4 even if training is
+incomplete. Review the completed probe before any confirmatory launch; a failed probe forbids it.
+
+The probe samples up to 3 goals * 4 episodes * 64 envs = 768 first proposals PER ARM. The old
+"256 episodes" sentence describes one goal, not the pooled total. Report the actual n per arm and
+keep the two-sample pooled standard error already frozen in code and in the v61 pre-gate corrections.
+This clarification changes neither sampling nor the threshold.
+
+Before delivering a figure, apply the already declared 12.6 labels: store persists within a world;
+b=0 on tiers 3/4 contains weights + carried store. The old figure script still prints per-goal store
+and weights-only labels; it must not be used uncorrected for v62. Do not claim law-head AUC on test
+worlds from the confirmatory JSON: the frozen runner does not record that measurement.

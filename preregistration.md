@@ -7162,3 +7162,27 @@ widened to (N 9, B 5/6) — verdict rule byte-identical; the v62 FRESH-LEARNS ru
 v61 notch curves at B 4 (said plainly); pretraining uses the persisting store; B_test by the arithmetic
 of 12.6 with t6 measured in the v62 gate; cut order G' first, then B 5; Delta_0 on tiers 3/4 is weights
 + carried store; command lines frozen as in 12.6. Costs at 126 s/round: 36.0 GPU-h of 42 for the line.
+
+## v62 GATE RESULT, recorded 2026-09-08 after the owner's explicit resumption: PROCEED
+
+Run completed 2026-09-08 06:00 local time while the agent was paused. Results were not interpreted
+until resumption. No rerun or rule change. Source: craft_v6_out/v61_gate_v62.json and run log;
+independent verification and full record in ARC3_PLAN.md section 13.
+
+REACHABLE True: nav minima 0.902/0.914, L >= 0.984375 on all six goals. CONSISTENT holds: G' medians
+57/7/1152 and 26/27/1152 against 57/7/>1152 and 23/29/>1152 (1152 is censoring at the cap).
+FRESH-LEARNS True: tier 2, 3/3 arms within two rounds on both worlds; tier 3, 3/3 within six rounds
+on both worlds (b* 2/4/3 and 1/1/1). Tier 4 reached by 0/3 then 3/3, reported only.
+ROOM True: H 0.2624384, sd_init 0.1196750, se_proj 0.0282077, 4 se_proj 0.1128307 at B_test 6 / N 9.
+The gate's N_conf=12 header is diagnostic only; the decision uses N=9.
+
+Budget under the frozen section 12.6 arithmetic: actual gate 16124 s; K1 11832 s / 18 goal-runs,
+t6 657.3333 s and t3 332.1082 s. Projected total including v61's 6.7 h = 31.9926 GPU-h of 42.
+Declare B_test=6, N=9, G' on two units; no cut or notch. Proceed to three lineages at B=3 with a
+persisting store, then the frozen mechanism probe. No confirmatory run before its passing review.
+This gate is a feasibility result, not evidence that prior experience accelerates learning.
+
+Documentation clarification only: the probe's 256 draws are per goal; its frozen loop covers three
+goals (up to 768 proposals per arm), and uses the two-sample pooled error already corrected before
+v61 K0. Report actual n. No code, sample count or threshold change. The presentation corrections
+already frozen in section 12.6 (weights + carried store at later-goal b=0) remain required.
