@@ -92,6 +92,15 @@ incomplètes, les erreurs, les plafonds et les arrêts scientifiques. Son état 
 Vérifier cet état et les processus avant toute nouvelle exécution ; ne jamais
 démarrer un deuxième entraînement en doublon.
 
+Lancement confirmé le 8 septembre 2026 à 23:02:59, heure de Paris : contrôleur
+PID 29812, premier enfant prétrain s0 PID 28304, état `running/pretrain_s0`.
+Ces PID sont un relevé de démarrage, pas une preuve que les processus tournent
+encore : vérifier l'état et les lignes de commande au prochain tour. Les trois
+préentraînements puis le probe sont enchaînés automatiquement par le lanceur,
+sans autre appel de modèle. Il s'arrête après le probe pour revue, même si le
+probe passe. Aucun suivi planifié ni lancement confirmatoire n'a été créé.
+Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
+
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
 probe autorise la suite, score et figure. Si STOP, consigner honnêtement et ne
