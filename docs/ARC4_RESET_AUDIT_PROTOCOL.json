@@ -1,0 +1,17 @@
+{
+  "kind": "development_reset_accounting_audit_before_rom_opening",
+  "games": ["breakout", "freeway", "seaquest", "ms_pacman", "asteroids"],
+  "scope": "Declared gate-0 development games only; no intact confirmation game",
+  "seeds": [21000, 21001, 21002],
+  "resets_per_seed_including_load": 5,
+  "ordinary_frames_between_resets": [32, 127, 256, 256],
+  "action_schedule": "uniform legal button every 16 frames, Python Random(seed + 100000)",
+  "native_sticky_probability": 0.0,
+  "frame_skip": 1,
+  "episode_limit": 256,
+  "source": "ALE 0.12.1; formulas in reviews/2026-09-09-arc4-emulator-extension.md",
+  "record": "Getter selection count, source-derived cost, real played frames, RAM/RGB hashes, lives, mode, episode count",
+  "agent_training_allowed": false,
+  "runtime_activation_allowed": false,
+  "interpretation": "Finite sampling does not establish a worst-case reset bound. Resolve pre-admission separately."
+}
