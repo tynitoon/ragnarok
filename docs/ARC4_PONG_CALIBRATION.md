@@ -53,6 +53,33 @@ Les 4 096 observations n'incluent pas les images internes des démarrages/reset 
 leurs 144 frames sont facturées mais ne sont pas disponibles dans ces fixtures.
 Le changement d'épisode empêche de les traiter comme une transition adjacente.
 
+## Validation réservée et référence
+
+Scellement enregistré au commit `9ae5499`, sources de la correction au commit
+`b89e98a`, avant capture de 17012. Les empreintes scellées sont inchangées après
+validation. Résultat `validation_result.json` : calibration passée pour les trois
+objets. Les raquettes sont exactes à 100 %, la balle à un pixel près à 100 % ;
+accords de présence 99,951 %, 100 % et 99,976 % respectivement. Aucun seuil modifié.
+
+La référence générique causale est ensuite mesurée séparément. Elle reçoit
+uniquement les pixels ; le juge lui attribue des scores après extraction :
+
+| Séquence | Rappel objets mobiles | Précision objets visibles | Rappel balle mobile |
+|---|---:|---:|---:|
+| Développement 17011 | 99,488 % | 98,689 % | 98,867 % |
+| Validation 17012 | 99,669 % | 98,789 % | 99,298 % |
+
+Sorties : `reference_development.json` et `reference_validation.json` dans le
+même dossier. La mesure inclut le démarrage du fond et les transitions. Pour ce
+diagnostic externe, le reset du fond utilise la frontière d'épisode de la fixture ;
+ce signal n'est pas une capacité donnée à l'agent. Le résultat dépasse la barre
+de rappel proposée pour Pong seul ; il ne vaut pas passage du gate 0.
+
+La chaîne lecture brute → fond/composantes → juge atteint environ 476 à 492
+frames brutes/s hors lecture des fichiers. L'émulateur, les échanges entre
+processus et la génération des branches en sont exclus : le débit du gate doit
+encore être mesuré, à frameskip 4 et avec toutes ces opérations incluses.
+
 ## Sources et portée
 
 - [Décodeur OCAtari v2.2.1](https://github.com/k4ntz/OC_Atari/blob/v2.2.1/ocatari/ram/pong.py) :

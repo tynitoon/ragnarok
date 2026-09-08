@@ -1,0 +1,123 @@
+{
+  "kind": "scorer_only_development_fixture",
+  "game": "pong",
+  "mode": 0,
+  "seed": 17012,
+  "action_seed": 117012,
+  "frames": 4096,
+  "action_repeat": 16,
+  "raw_every_real_frame": true,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "sticky_implementation": "worker-python-random-per-frame",
+  "created_utc": "2026-09-08T22:03:54Z",
+  "elapsed_seconds": 2.8346983999999793,
+  "accounting": {
+    "ordinary_frames": 4240,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 4240,
+    "charged_frames": 4240,
+    "ordinary_agent_steps": 4096,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 299080,
+    "reset_emulated_frames": 144,
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "scripts/capture_pong_v70.py": "5b8c1487c072ecc55b28773ce84e6433a105fb904e87dc34fca107738cf629fc",
+    "ragnarok/environments/emu_pool.py": "381455fbbc600a8cba4abef0f46f47514922d8bdeeeabca546c66dc814954893",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7"
+  },
+  "shards": [
+    {
+      "path": "frames_00001_00256.npz",
+      "sha256": "bc068213fcafc23e59deccac1d6a90744e98a164c3151861c6a84bd2f1a8daab",
+      "frames": 256
+    },
+    {
+      "path": "frames_00257_00512.npz",
+      "sha256": "caff1ec6ecac337854973c516ac40407c481bef08f9a24c73f36c351896285d5",
+      "frames": 256
+    },
+    {
+      "path": "frames_00513_00768.npz",
+      "sha256": "7cdc2be7a49969b8bd7d7b6d0fef5c7cc72fb42bfbccf0263649682e41d825bf",
+      "frames": 256
+    },
+    {
+      "path": "frames_00769_01024.npz",
+      "sha256": "2143d59b679fef39615af08e4bd70b80c4216114d992c7099c9d61108fb9d82f",
+      "frames": 256
+    },
+    {
+      "path": "frames_01025_01280.npz",
+      "sha256": "9b88d740a9241895041e7da34dc85ed50008b6c211fa0aa52833e5e666eb3603",
+      "frames": 256
+    },
+    {
+      "path": "frames_01281_01536.npz",
+      "sha256": "60e03dbdbfa6e3b351d86ba98ffb6e672277e3823a7a4df04831e4aa87b32ef3",
+      "frames": 256
+    },
+    {
+      "path": "frames_01537_01792.npz",
+      "sha256": "4a2d6d5ee6ceff372386996f7f8b9c7530698dbbf2ca64638d7e224869aef607",
+      "frames": 256
+    },
+    {
+      "path": "frames_01793_02048.npz",
+      "sha256": "3680e901ef7f47e618e5225fcbb12a997cbcca811bf2eaf0ea8dd613938bfb12",
+      "frames": 256
+    },
+    {
+      "path": "frames_02049_02304.npz",
+      "sha256": "e3edc180c9c7793beb23195b23987cc3616101b6cb814cee5b63f2d51e8968e7",
+      "frames": 256
+    },
+    {
+      "path": "frames_02305_02560.npz",
+      "sha256": "0dca41e49777c19c0d6825ed38b079d157f48c99c20247d3729500cc59d8f832",
+      "frames": 256
+    },
+    {
+      "path": "frames_02561_02816.npz",
+      "sha256": "f6919f6ad55a76fb8597e964f689eb821cf1874b85400d8245d34fa6431bff2f",
+      "frames": 256
+    },
+    {
+      "path": "frames_02817_03072.npz",
+      "sha256": "b8ea07e27fef70ee42930c12c5c13bde72767c951e79751237182ad49f697f5c",
+      "frames": 256
+    },
+    {
+      "path": "frames_03073_03328.npz",
+      "sha256": "c84f8698ca0ef967d856bc681978231395f7fa69ae1d1dbe60a1d0c3a73d620c",
+      "frames": 256
+    },
+    {
+      "path": "frames_03329_03584.npz",
+      "sha256": "f82a3749fe52567e880b3a311ad701943928929966689e0b4aa14c49dc2bec5e",
+      "frames": 256
+    },
+    {
+      "path": "frames_03585_03840.npz",
+      "sha256": "dac3022506a5759e2a421d649a22e818e59a05f30d780877446b028d90cb2107",
+      "frames": 256
+    },
+    {
+      "path": "frames_03841_04096.npz",
+      "sha256": "42510bf4e55a8947f37b2f89ed1a4354a20e6225e1dc93208af303dd48c1b5e8",
+      "frames": 256
+    }
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null
+}

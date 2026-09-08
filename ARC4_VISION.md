@@ -499,7 +499,8 @@ signal and no classical teacher this time); (5) "seeing is expensive on Atari" P
 
 ## 6. Implementation plan, stage 0 (nothing on GPU before step 6)
 
-Runtime (2026-09-08): Python 3.14.3, torch 2.11.0+cu126, RTX 4080 16 GB, 12 cores; ale-py 0.12.1
+Runtime (verified 2026-09-09): Python 3.14.3, torch 2.11.0+cu126, RTX 4080 16 GB,
+Ryzen 5 3600X with 6 physical cores / 12 logical processors (the draft's 12-core estimate was wrong); ale-py 0.12.1
 cp314 wheel; OCAtari needs a 3.12 venv (numpy < 2) -> the scorer is a separate process anyway;
 stable-retro Linux-only -> WSL2 for stage 2, the pool API socket-ready from week 1.
 Files (new; frozen files of earlier arcs untouched; ARC 3's relabel, permutation tests, scorer
@@ -658,3 +659,20 @@ instrument result, with no gate, perception, competence or accelerated-learning 
 Details, primary-source references, commands, limitations and result provenance:
 [CPU bootstrap](docs/ARC4_CPU_BOOTSTRAP.md). Next: independent scorer calibration, reference extractor
 and full-pipeline throughput, followed by the still-required gate-0 registry/protocol freeze in section 11.
+
+## 13. Pong calibration and reference, 2026-09-09 — not gate 0
+
+An independent raw-screen/RAM calibration failed on the initial OCAtari player geometry (96.043% of
+boxes within one pixel on every edge; required 99%). The baseline is retained. A corrected projection
+was developed on seed17011, sealed in commit9ae5499, then passed reserved seed17012 with unchanged
+sources and thresholds. This validates the declared Pong raw-object instrument, not score or competence.
+The separate causal pixel-mode reference obtains 99.669% moving-object recall, 98.789% visible-object
+precision and 99.298% moving-ball recall on that validation fixture. Full CPU throughput remains to
+measure; this reference diagnostic excludes emulation, IPC and branch generation. Details and limits:
+[Pong calibration](docs/ARC4_PONG_CALIBRATION.md).
+
+Additional source-audit blocker for the gate-0 draft: Pong and Freeway both return constant zero from
+ALE lives(). The proposed death-F1-on-5/6-games clause is therefore not evaluable as written. Do not
+assign perfect F1 to absent positives or call lost points/collisions ALE deaths. Resolve the eligible
+game set and distinct terminal/reset/event measurements before freezing, based on observability rather
+than detector performance. Other games need their own geometry, HUD and bootstrap calibration.
