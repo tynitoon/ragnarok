@@ -679,6 +679,20 @@ failure, incomplete output, or exhausted budget. It must verify four worlds and 
 the frozen probe accepts the last available checkpoint and confirm names it M4 even if training is
 incomplete. Review the completed probe before any confirmatory launch; a failed probe forbids it.
 
+### 13.3 First pretraining lineage completed, 2026-09-09
+
+Lineage0 completed four worlds and M1–M4 after 8,090 s in its log; the controller
+started lineage1 at elapsed8,100.22 s. All five output hashes match its completion
+record (`craft_v6_out/v62_pretrain_s0_receipt.json`). Areas are 0.293/0.497/0.186/0.376,
+true-cell coverage 0.432/0.614/0.750/0.841. These are pretraining diagnostics;
+neither the mechanism probe nor the confirmatory has run.
+
+Replacing the projected pretraining duration by three times this measured first
+lineage gives about34.35h for the whole ARC3 line, including the137.15s precheck.
+This provisional estimate retains B_test6, N9 and two G' units, with about7.65h
+margin to42h. Later actual times still control the hard ceiling; no budget rule,
+checkpoint requirement or STOP outcome is changed.
+
 The probe samples up to 3 goals * 4 episodes * 64 envs = 768 first proposals PER ARM. The old
 "256 episodes" sentence describes one goal, not the pooled total. Report the actual n per arm and
 keep the two-sample pooled standard error already frozen in code and in the v61 pre-gate corrections.

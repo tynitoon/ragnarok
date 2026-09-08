@@ -105,8 +105,10 @@ confirmatoire n'a encore eu lieu. Ce suivi doit se mettre en pause à la clôtur
 de l'ARC 3 ou si une décision de Jérémie devient nécessaire.
 Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
 
-Dernier relevé du 9 septembre vers 00:52 : les deux processus de démarrage sont
-actifs avec les commandes attendues ; M3 sauvegardé à 6 494 s, monde 8203 commencé.
+Dernier relevé du 9 septembre à01:25 : lineage0 terminée,4mondes/M1–M4 vérifiés,
+8090s dans sonlog (8100,22s contrôleur). Contrôleur29812 actif, nouveauprétrain
+lineage1 PID27396 en cours. Projection actualisée≈34,35h sous42h, B_test6/N9/G'2
+conservés ; pasdeprobe ni deconfirmatoire. Reçu `v62_pretrain_s0_receipt.json`.
 Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
 les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
 

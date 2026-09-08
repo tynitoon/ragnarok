@@ -1,0 +1,26 @@
+{
+  "kind": "v62_pretraining_lineage0_completion_receipt",
+  "frozen_protocol": "v62-stage0-freeze",
+  "completed": {
+    "stage": "pretrain_s0",
+    "artifacts": {
+      "v61_pre_s0.json": "616207d94e16c5f630f78fb3d5241f1bb1bdae8568b865209469286802837ef0",
+      "v61_pre_s0_M1.pt": "eec3463be46422b731f78918aa3420f088e780ca491a619f9dd620c2933564ad",
+      "v61_pre_s0_M2.pt": "1cea25f62093ee5530bab0ac05f68cab603e7ac3e4aa134085bfdf68e3ebfb73",
+      "v61_pre_s0_M3.pt": "119184372b43a27d215837d8562e346e1d00716f225a8d38b43fdd2cf1ae0cce",
+      "v61_pre_s0_M4.pt": "5568177f99e69e7193212cb9b2b88c3de394d7249d62aa081bcb03184f4d9c21"
+    }
+  },
+  "elapsed_controller_seconds_at_s1_start": 8100.2224589,
+  "historical_v61_hours": 6.7,
+  "gate_hours": 4.478888888888889,
+  "precheck_hours": 0.03809722222222223,
+  "projection_if_other_lineages_take_same_time": 34.352771493527776,
+  "ceiling_hours": 42,
+  "B_test": 6,
+  "N": 9,
+  "G_prime_units": 2,
+  "cuts_required_by_this_projection": false,
+  "probe_result": null,
+  "limitation": "Projection from one lineage, not a claim that later runs have completed or will have this duration."
+}
