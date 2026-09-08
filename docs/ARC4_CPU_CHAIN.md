@@ -64,3 +64,19 @@ oracle sont conservés comme contrôles et ne sont pas réinterprétés rétroac
 Suite : vérifier séparément la convention max-poolée, puis mesurer la chaîne
 correspondante. La cible proposée de 2 000 décisions/s reste non atteinte par
 ces essais bruts ; l'extension aux autres jeux et les primitives restent à faire.
+
+## Chaîne max-poolée calibrée
+
+La validation réservée 17022 passe après scellement : voir
+`docs/ARC4_PONG_POOLED_CALIBRATION.md`. Le benchmark impose un résultat de
+calibration passé dont les empreintes correspondent au décodeur et au protocole.
+Le fond ne reçoit toujours aucune frontière d'épisode ni RAM.
+
+`craft_v6_out/v70_pong_pooled/cpu_chain_16_workers.json` : 16 processus,
+2 048 décisions ordinaires chacun, 33,59 s de travail et 5,67 s d'initialisation.
+Débit ordinaire **975,52 décisions/s**, ARC 3 actif. Les branches, restaurations,
+échanges RGB, référence et juge sont inclus. Cette mesure est sous le minimum
+d'ingénierie provisoire de 1 000 et sous la cible de 2 000 ; aucun seuil n'est
+abaissé. Le profilage attribue une part importante au comptage du fond modal
+(boucles par couleur et recherche des couleurs à chaque image). Prochaine action :
+optimisation exacte, avec équivalence des sorties et nouveau chronométrage.

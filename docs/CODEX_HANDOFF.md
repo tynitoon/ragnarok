@@ -105,9 +105,9 @@ confirmatoire n'a encore eu lieu. Ce suivi doit se mettre en pause à la clôtur
 de l'ARC 3 ou si une décision de Jérémie devient nécessaire.
 Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
 
-Dernier relevé du 8 septembre au soir : les deux processus de démarrage sont
-actifs avec les commandes attendues, le premier monde 8200 a été sauvegardé et
-le deuxième, 8201, a commencé. Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
+Dernier relevé du 9 septembre vers 00:52 : les deux processus de démarrage sont
+actifs avec les commandes attendues ; M3 sauvegardé à 6 494 s, monde 8203 commencé.
+Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
 les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
 
 Après le gate validé, suivre les commandes gelées §12.6 :
@@ -156,11 +156,17 @@ sur 16 processus : 1 638 décisions/s (court), 1 200 (prolongé), pendant ARC 3.
 Les défauts initiaux (reset oracle du fond et branches max-poolées dans une
 chaîne brute) ont été conservés puis corrigés et revus ; 18 tests passent.
 Référence sans reset oracle sur 17012 : rappel 99,691 %, précision 99,051 %.
-Voir `docs/ARC4_CPU_CHAIN.md`. Prochaine étape : calibration temporelle des images
-max-poolées, puis extension calibrée aux jeux de développement. Ne pas confondre
-ces mesures sur images brutes avec une validation
-des observations max-poolées ou du gate 0. Les sources du décodeur scellé restent
-inchangées ; toute nouvelle convention exige une version distincte.
+Voir `docs/ARC4_CPU_CHAIN.md`. La calibration temporelle max-poolée passe maintenant
+sur développement 17021 et validation réservée 17022, après scellement `18e017d`.
+Raquettes exactes, balle à un pixel près ; sources scellées inchangées.
+L'intégration complète passe 27 tests et la revue indépendante. Le premier
+benchmark max-poolé (16 × 2 048 décisions, branches comprises) atteint 975,52
+décisions/s sous charge ARC 3 : sous le minimum provisoire de 1 000. Prochaine
+action : optimiser exactement le fond modal, vérifier l'équivalence des sorties,
+puis mesurer à nouveau et étendre aux jeux de développement. Aucun gate 0 ni
+apprentissage ARC 4. Voir `docs/ARC4_PONG_POOLED_CALIBRATION.md` et
+`craft_v6_out/v70_pong_pooled/validation_seal.json` ; ne pas modifier leurs sources
+scellées pour cette optimisation.
 Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.
 La mesure séparant adaptation et avance initiale reste à définir avant les gels
 scientifiques ultérieurs. §6 décrit le travail prévu. Le premier gate examine les primitives

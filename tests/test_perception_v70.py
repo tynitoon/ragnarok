@@ -62,6 +62,19 @@ def test_sampled_prediction_retains_motion_between_prediction_frames():
         scorer.score([[50, 60, 2, 4]])
 
 
+def test_pooled_target_can_include_preceding_visible_object_without_changing_raw_denominator():
+    raw, pooled = PerceptionScorer(), PerceptionScorer()
+    for scorer in (raw, pooled):
+        scorer.observe_truth([ObjectLabel("ball", (50,60,2,4))], frame=0, episode=0)
+        scorer.observe_truth([ObjectLabel("ball", (51,60,2,4))], frame=1, episode=0)
+        scorer.observe_truth([], frame=2, episode=0)
+    raw.score(np.empty((0,4)))
+    pooled.score([[51,60,2,4]], frame_truths=[ObjectLabel("ball", (51,60,2,4))])
+    assert raw.report()["eligible_moving"] == 0
+    assert pooled.report()["eligible_moving"] == 1
+    assert pooled.report()["recall_moving"] == 1
+
+
 @pytest.mark.parametrize("boxes", [[[0, 0, -1, 3]], [[0, 0, 0, 3]], [[float('nan'), 0, 1, 1]]])
 def test_bad_predictions_do_not_change_score(boxes):
     scorer = PerceptionScorer()

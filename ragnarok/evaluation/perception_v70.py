@@ -72,19 +72,29 @@ class PerceptionScorer:
         if episode != self._episode:
             self._history.clear()
         self._history.append(positions)
-        self._moving = {kind for kind, center in positions.items()
-                  if any(kind in previous and previous[kind] != center for previous in self._history)}
+        seen_kinds = set().union(*(previous.keys() for previous in self._history))
+        self._moving = {kind for kind in seen_kinds
+                        if len({previous[kind] for previous in self._history if kind in previous}) > 1}
         self._visible = visible
         self._frame, self._episode = frame, episode
         self._observed_frames += 1
 
-    def score(self, boxes):
-        self._score_centers(self._centers(boxes))
+    def score(self, boxes, *, frame_truths=None):
+        """Optional independently calibrated temporal targets, e.g. a two-frame pooled window."""
+        visible = None
+        if frame_truths is not None:
+            objects = list(frame_truths)
+            if len({obj.kind for obj in objects}) != len(objects):
+                raise ValueError("Temporal targets require unique kinds")
+            left, top, right, bottom = self.roi
+            visible = [o for o in objects if left <= o.center[0] < right and top <= o.center[1] < bottom]
+        self._score_centers(self._centers(boxes), visible=visible)
 
-    def _score_centers(self, centers):
+    def _score_centers(self, centers, *, visible=None):
         if self._frame is None or self._frame == self._scored_frame:
             raise ValueError("Observe a new truth frame before scoring")
-        visible, moving = self._visible, self._moving
+        visible = self._visible if visible is None else visible
+        moving = self._moving & {o.kind for o in visible}
         pairs = match_centers(np.array([o.center for o in visible], dtype=float).reshape(-1, 2),
                              centers, tolerance=self.tolerance)
         matched = {visible[i].kind for i, _ in pairs}

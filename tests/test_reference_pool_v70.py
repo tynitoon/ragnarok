@@ -4,6 +4,8 @@ import pytest
 
 from ragnarok.environments.emu_pool import EmulatorConfig
 from ragnarok.evaluation.reference_pool_v70 import ReferencePool, _ReferenceEngine, _RawBranchEngine
+from ragnarok.environments.emu_pool import _PixelEngine
+from scripts.capture_pong_pooled_v70 import _PairRAMTap
 
 
 def test_pixel_outputs_and_c_targets_do_not_depend_on_ram_labels():
@@ -72,3 +74,37 @@ def test_branch_endpoints_use_the_same_raw_convention_as_ordinary_images():
     intervention, control = engine.branch_pair(3,control=3)
     assert np.array_equal(intervention,expected)
     assert np.array_equal(control,expected)
+
+
+def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset():
+    pytest.importorskip("ale_py")
+    config = EmulatorConfig(seed=18105, max_episode_frames=509, max_charged_frames=20_000)
+    subject = _ReferenceEngine(config, observation_mode="maxpooled")
+    witness = _PixelEngine(config)
+    witness._ale = _PairRAMTap(witness._ale)
+    for step in range(129):
+        action = (step // 4) % 18
+        pixels, _ = subject.step(action)
+        expected = witness.step(action)
+        assert np.array_equal(pixels,expected)
+        assert np.array_equal(subject.engine._ale.previous_ram,witness._ale.previous)
+        assert np.array_equal(subject.engine._ale.current_ram,witness._ale.current)
+    assert subject.report()["branch_pairs"] == 1
+    assert subject.report()["decoded_branch_frames"] == 0  # pair at terminal, both restores still charged
+    assert subject.report()["accounting"]["restores"] == 2
+    assert subject.report()["accounting"]["reset_emulated_frames"] == 144
+
+
+def test_pooled_observations_and_self_labels_ignore_changed_oracle():
+    pytest.importorskip("ale_py")
+    config = EmulatorConfig(seed=18106, max_charged_frames=20_000)
+    left = _ReferenceEngine(config, observation_mode="maxpooled")
+    right = _ReferenceEngine(config, observation_mode="maxpooled")
+    right._decoder = lambda ram: []
+    right._pooled_decoder = lambda previous,current: []
+    for step in range(128):
+        a, b = left.step((step//4)%18), right.step((step//4)%18)
+        assert np.array_equal(a[0],b[0]) and np.array_equal(a[1],b[1])
+    assert left.report()["self_generated_label_sha256"] == right.report()["self_generated_label_sha256"]
+    assert left.report()["perception"]["matched_visible"] > 0
+    assert right.report()["perception"]["matched_visible"] == 0
