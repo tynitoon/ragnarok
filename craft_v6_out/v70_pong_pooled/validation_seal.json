@@ -1,0 +1,17 @@
+{
+  "kind": "pong_pooled_adapter_seal_before_reserved_validation",
+  "created_utc": "2026-09-08T22:40:38Z",
+  "source_commit": "4749c1469973b7e12c92c55cf036f3aba34b6dbc",
+  "validation_seed": 17022,
+  "decisions": 2048,
+  "source_sha256": {
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/pooled_pong_v70.py": "b346388a250a458111f31de7f655df0e01cc1b1ebaea248658f56c0ade45eab7",
+    "ragnarok/evaluation/pooled_fixtures_v70.py": "e4ead45d45b0368f9f459a3c4677eebaa3f83968e1b9ec17d3ab26b3f281db38",
+    "scripts/calibrate_pong_pooled_v70.py": "f1143a00baa089c727693fffbf867d3785ac93966118b2cc9f5d8a39e47d6a6d",
+    "scripts/capture_pong_pooled_v70.py": "e28838660a69dab43475e6c183ead7695552939c1825b68a1638517b5cc4e7c1",
+    "docs/ARC4_PONG_POOLED_PROTOCOL.json": "42ef493650ed22c468beba9a7a78ff6484d8e83335cc3db60d4080785c4d8020"
+  },
+  "development_result_sha256": "5aa89247d9fce708143b55a83d35677f48f25ed897971076de4a66c480481220",
+  "thresholds_unchanged": true
+}
