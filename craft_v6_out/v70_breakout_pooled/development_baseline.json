@@ -1,0 +1,826 @@
+{
+  "kind": "independent_breakout_pooled_calibration",
+  "created_utc": "2026-09-08T23:44:35Z",
+  "decoder_revision": "breakout_two_raw_spatial_union_v0",
+  "seed": 17121,
+  "per_type": {
+    "player": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2048,
+      "boxes_within1": 2029,
+      "boxes_exact": 2027,
+      "ram_objects": 2048,
+      "pixel_objects": 2048,
+      "presence_fraction": 1.0,
+      "box_fraction": 0.99072265625,
+      "passed": true
+    },
+    "ball": {
+      "frames": 2048,
+      "presence_count_agreement": 2035,
+      "joint_matches": 1597,
+      "boxes_within1": 1589,
+      "boxes_exact": 1558,
+      "ram_objects": 1610,
+      "pixel_objects": 1597,
+      "presence_fraction": 0.99365234375,
+      "box_fraction": 0.9949906073888541,
+      "passed": true
+    },
+    "bricks_0": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2048,
+      "boxes_within1": 2048,
+      "boxes_exact": 2048,
+      "ram_objects": 2048,
+      "pixel_objects": 2048,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_1": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2048,
+      "boxes_within1": 2048,
+      "boxes_exact": 2048,
+      "ram_objects": 2048,
+      "pixel_objects": 2048,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_2": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2048,
+      "boxes_within1": 2048,
+      "boxes_exact": 2048,
+      "ram_objects": 2048,
+      "pixel_objects": 2048,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_3": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2048,
+      "boxes_within1": 2048,
+      "boxes_exact": 2048,
+      "ram_objects": 2048,
+      "pixel_objects": 2048,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_4": {
+      "frames": 2048,
+      "presence_count_agreement": 2048,
+      "joint_matches": 2383,
+      "boxes_within1": 2383,
+      "boxes_exact": 2383,
+      "ram_objects": 2383,
+      "pixel_objects": 2383,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "bricks_5": {
+      "frames": 2048,
+      "presence_count_agreement": 2041,
+      "joint_matches": 3191,
+      "boxes_within1": 3188,
+      "boxes_exact": 3187,
+      "ram_objects": 3191,
+      "pixel_objects": 3198,
+      "presence_fraction": 0.99658203125,
+      "box_fraction": 0.9990598558445628,
+      "passed": true
+    }
+  },
+  "calibration_pass": true,
+  "first_disagreements": [
+    {
+      "frame": 99,
+      "kind": "player",
+      "ram": [
+        [
+          136,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          136,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 99,
+      "kind": "ball",
+      "ram": [
+        [
+          148,
+          185,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 123,
+      "kind": "ball",
+      "ram": [
+        [
+          9,
+          90,
+          3,
+          5
+        ]
+      ],
+      "pixels": [
+        [
+          9,
+          93,
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "frame": 123,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          16,
+          87,
+          136,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          16,
+          87,
+          136,
+          6
+        ],
+        [
+          9,
+          89,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 124,
+      "kind": "ball",
+      "ram": [
+        [
+          10,
+          87,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 124,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          16,
+          87,
+          136,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          10,
+          87,
+          4,
+          4
+        ],
+        [
+          16,
+          87,
+          136,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 125,
+      "kind": "ball",
+      "ram": [
+        [
+          16,
+          91,
+          4,
+          5
+        ]
+      ],
+      "pixels": [
+        [
+          16,
+          93,
+          4,
+          3
+        ]
+      ]
+    },
+    {
+      "frame": 184,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 244,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 260,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ],
+        [
+          58,
+          91,
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "frame": 261,
+      "kind": "ball",
+      "ram": [
+        [
+          62,
+          87,
+          3,
+          6
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 261,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          62,
+          87,
+          90,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 680,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 712,
+      "kind": "player",
+      "ram": [
+        [
+          113,
+          189,
+          22,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          113,
+          187,
+          22,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 712,
+      "kind": "ball",
+      "ram": [
+        [
+          121,
+          187,
+          3,
+          6
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 728,
+      "kind": "ball",
+      "ram": [
+        [
+          57,
+          91,
+          3,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          57,
+          93,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 728,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ],
+        [
+          57,
+          90,
+          3,
+          3
+        ]
+      ]
+    },
+    {
+      "frame": 729,
+      "kind": "ball",
+      "ram": [
+        [
+          53,
+          90,
+          3,
+          5
+        ]
+      ],
+      "pixels": [
+        [
+          53,
+          93,
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "frame": 745,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          186,
+          18,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 800,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 816,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ],
+        [
+          58,
+          91,
+          3,
+          2
+        ]
+      ]
+    },
+    {
+      "frame": 817,
+      "kind": "ball",
+      "ram": [
+        [
+          62,
+          87,
+          3,
+          6
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 817,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          87,
+          48,
+          6
+        ],
+        [
+          62,
+          87,
+          90,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 964,
+      "kind": "player",
+      "ram": [
+        [
+          15,
+          189,
+          22,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          15,
+          185,
+          22,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 996,
+      "kind": "ball",
+      "ram": [
+        [
+          124,
+          188,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 997,
+      "kind": "player",
+      "ram": [
+        [
+          116,
+          189,
+          21,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          116,
+          185,
+          21,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 997,
+      "kind": "ball",
+      "ram": [
+        [
+          118,
+          184,
+          4,
+          5
+        ]
+      ],
+      "pixels": [
+        [
+          118,
+          184,
+          2,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 1290,
+      "kind": "player",
+      "ram": [
+        [
+          132,
+          189,
+          20,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          132,
+          189,
+          20,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 1291,
+      "kind": "ball",
+      "ram": [
+        [
+          147,
+          188,
+          3,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 1362,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 1420,
+      "kind": "player",
+      "ram": [
+        [
+          8,
+          189,
+          16,
+          4
+        ]
+      ],
+      "pixels": [
+        [
+          8,
+          185,
+          16,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 1436,
+      "kind": "bricks_5",
+      "ram": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          16,
+          87,
+          40,
+          6
+        ],
+        [
+          64,
+          87,
+          88,
+          6
+        ],
+        [
+          58,
+          91,
+          3,
+          2
+        ]
+      ]
+    }
+  ],
+  "fixture_manifest_sha256": "6e53e316115ffe30c29954b03d2442badd3ea1674d7edea209f0f1f30a697a0c",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "scripts/calibrate_breakout_pooled_v70.py": "af05ecc8ef126fa116f8a8fb7b44eb49e505598507243244d58ee0a030961078",
+    "docs/ARC4_BREAKOUT_POOLED_PROTOCOL.json": "0efd6cf0c0466956e6afe4b17eb38ebb0177d0e2664415e910a4d8df040f7f8a",
+    "scripts/capture_cold_pooled_v70.py": "8759a4f7743ead8d4d2a48e2bb7b60c9164050104522d38f667454bf284aacef",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}
