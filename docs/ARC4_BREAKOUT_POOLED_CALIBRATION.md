@@ -37,5 +37,14 @@ Les approximations du juge brut aux contacts, dans les rangées rouges et en
 bas de l'écran restent présentes et pénalisées. Aucun oracle n'entre dans
 l'extracteur de référence.
 
-Validation 17122 : encore fermée à la rédaction de ce jalon ; ouverture seulement
-après commit du candidat et de son sceau.
+## Validation réservée
+
+Candidat conservé dans `eb21d20`, sceau `9dcb1b8` avant ouverture de 17122.
+Les dix sources sont restées identiques. Sur 2048 fenêtres, les huit types
+passent : raquette 2036/2048 boîtes conformes (99,4141 %), balle 2043/2048
+accords de présence (99,7559 %) et 1578/1584 boîtes conformes (99,6212 %).
+Rangées 0–4 exactes ; rangée 5, 3138/3141 boîtes conformes (99,9045 %) et
+2045/2048 accords de présence. Onze constructions, 9627 frames facturées.
+
+Résultat intégral : `craft_v6_out/v70_breakout_pooled/validation_result.json`.
+Les erreurs résiduelles et la limite d'identifiabilité ci-dessus restent valables.

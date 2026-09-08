@@ -76,10 +76,10 @@ def test_branch_endpoints_use_the_same_raw_convention_as_ordinary_images():
     assert np.array_equal(control,expected)
 
 
-@pytest.mark.parametrize("reset_convention", ("natural_legacy", "cold"))
-def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(reset_convention):
+@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold")))
+def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(game,reset_convention):
     pytest.importorskip("ale_py")
-    config = EmulatorConfig(seed=18105, max_episode_frames=509, max_charged_frames=20_000)
+    config = EmulatorConfig(game=game,seed=18105, max_episode_frames=509, max_charged_frames=20_000)
     subject = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
     if reset_convention == "cold":
         from ragnarok.environments.cold_emu_pool_v70 import _ColdPixelEngine
@@ -101,10 +101,10 @@ def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(reset
     assert subject.report()["accounting"]["reset_emulated_frames"] == 144
 
 
-@pytest.mark.parametrize("reset_convention", ("natural_legacy", "cold"))
-def test_pooled_observations_and_self_labels_ignore_changed_oracle(reset_convention):
+@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold")))
+def test_pooled_observations_and_self_labels_ignore_changed_oracle(game,reset_convention):
     pytest.importorskip("ale_py")
-    config = EmulatorConfig(seed=18106, max_charged_frames=20_000, max_episode_frames=300)
+    config = EmulatorConfig(game=game,seed=18106, max_charged_frames=20_000, max_episode_frames=300)
     left = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
     right = _ReferenceEngine(config, observation_mode="maxpooled", reset_convention=reset_convention)
     right._decoder = lambda ram: []
@@ -117,3 +117,40 @@ def test_pooled_observations_and_self_labels_ignore_changed_oracle(reset_convent
     assert right.report()["perception"]["matched_visible"] == 0
     assert left.reference.frames_seen == right.reference.frames_seen == 128
     assert left._episode == right._episode == 1
+
+
+def test_breakout_multiple_brick_instances_are_static_and_all_visible_are_matched():
+    from ragnarok.evaluation.scene_adapters_v70 import pooled_breakout_scene_objects
+    from ragnarok.evaluation.scene_perception_v70 import ScenePerceptionScorer, breakout_scene_objects
+    ram=np.zeros(128,dtype=np.uint8)
+    ram[72]=100
+    ram[5+24]=1|16  # separated runs in the upper row
+    judge=ScenePerceptionScorer(roi=(8,32,152,197))
+    for frame in range(1,3):
+        ram[72]+=1
+        judge.observe_truth(breakout_scene_objects(ram),frame=frame,episode=0)
+    truths=pooled_breakout_scene_objects(ram,ram)
+    assert len([o for o in truths if o.kind=="bricks_0"])==2
+    judge.score(np.array([o.box for o in truths]),frame_truths=truths)
+    report=judge.report()
+    assert report["precision_visible"]==1
+    assert report["per_type"]["bricks_0"]["visible"]==2
+    assert report["per_type"]["bricks_0"]["eligible"]==0
+    assert report["per_type"]["player"]["eligible"]==1
+
+
+def test_breakout_benchmark_requires_reserved_and_complete_calibration(tmp_path):
+    import json
+    from pathlib import Path
+    from scripts.bench_reference_pool_v70 import benchmark
+    result=json.loads(Path("craft_v6_out/v70_breakout_pooled/validation_result.json").read_text())
+    path=tmp_path/"calibration.json"
+    result["seed"]=17121
+    path.write_text(json.dumps(result))
+    with pytest.raises(ValueError,match="reserved"):
+        benchmark(1,256,game="breakout",observation_mode="maxpooled",calibration=path)
+    result["seed"]=17122
+    result["source_sha256"]={}
+    path.write_text(json.dumps(result))
+    with pytest.raises(ValueError,match="incomplete"):
+        benchmark(1,256,game="breakout",observation_mode="maxpooled",calibration=path)

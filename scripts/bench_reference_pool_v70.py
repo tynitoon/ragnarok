@@ -1,4 +1,4 @@
-"""Bounded Pong CPU chain benchmark: emulation, IPC, reference, RAM scorer and C pairs.
+"""Bounded development CPU chain: emulation, IPC, reference, RAM scorer and C pairs.
 
 Raw and max-pooled modes are explicit; max-pooled mode requires a successful
 independent calibration with matching source hashes. No gate verdict is emitted.
@@ -15,21 +15,38 @@ from ragnarok.environments.emu_pool import EmulatorConfig
 from ragnarok.evaluation.reference_pool_v70 import ReferencePool
 
 
-def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset_convention="cold"):
+def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset_convention="cold", game="pong"):
     root = Path(__file__).resolve().parents[1]
     calibration_hash = None
-    if observation_mode == "maxpooled":
+    if game not in ("pong","breakout"):
+        raise ValueError("Only calibrated development games are supported")
+    if game=="breakout" and reset_convention!="cold":
+        raise ValueError("Breakout calibration uses the cold-start convention")
+    if observation_mode == "maxpooled" or game=="breakout":
         if calibration is None:
-            raise ValueError("Max-pooled benchmarking requires a successful calibration artifact")
+            raise ValueError("This benchmark requires a successful calibration artifact")
         calibrated = json.loads(calibration.read_text(encoding="utf-8"))
-        if calibrated.get("kind") != "development_pong_pooled_calibration" or calibrated.get("calibration_pass") is not True:
-            raise ValueError("Pooled calibration has not passed")
-        for path in ("ragnarok/evaluation/pong_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
-                     "docs/ARC4_PONG_POOLED_PROTOCOL.json"):
+        expected_kind=("development_pong_pooled_calibration" if game=="pong" else
+                       f"independent_breakout_{'pooled' if observation_mode=='maxpooled' else 'raw'}_calibration")
+        if calibrated.get("kind") != expected_kind or calibrated.get("calibration_pass") is not True:
+            raise ValueError("Calibration has not passed for this game and observation mode")
+        if game=="pong":
+            paths=("ragnarok/evaluation/pong_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
+                   "docs/ARC4_PONG_POOLED_PROTOCOL.json")
+        else:
+            if observation_mode=="maxpooled":
+                from scripts.calibrate_breakout_pooled_v70 import SOURCE_PATHS as paths
+            else:
+                from scripts.calibrate_breakout_v70 import SOURCE_PATHS as paths
+            if set(calibrated.get("source_sha256",{}))!=set(paths):
+                raise ValueError("Breakout calibration has an incomplete source registry")
+        if game=="breakout" and calibrated.get("seed")!=(17122 if observation_mode=="maxpooled" else 17112):
+            raise ValueError("Breakout requires the reserved validation result")
+        for path in paths:
             if hashlib.sha256((root/path).read_bytes()).hexdigest() != calibrated["source_sha256"][path]:
-                raise ValueError("Pooled benchmark differs from calibrated sources")
+                raise ValueError("Benchmark differs from calibrated sources")
         calibration_hash = hashlib.sha256(calibration.read_bytes()).hexdigest()
-    configs = [EmulatorConfig(seed=18000+i, frame_skip=4, max_charged_frames=100_000) for i in range(workers)]
+    configs = [EmulatorConfig(game=game,seed=18000+i, frame_skip=4, max_charged_frames=100_000) for i in range(workers)]
     started = time.perf_counter()
     with ReferencePool(configs, observation_mode=observation_mode, reset_convention=reset_convention) as pool:
         startup_seconds = time.perf_counter() - started
@@ -45,8 +62,10 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
                "scripts/ref_extract_v70.py", "ragnarok/evaluation/perception_v70.py",
                "ragnarok/evaluation/pong_v70.py", "ragnarok/environments/emu_pool.py",
                "ragnarok/environments/frame_budget_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
-               "ragnarok/environments/cold_emu_pool_v70.py"]
-    return dict(kind=f"pong_{observation_mode}_repeat4_cpu_chain_benchmark", created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
+               "ragnarok/environments/cold_emu_pool_v70.py", "ragnarok/evaluation/scene_perception_v70.py",
+               "ragnarok/evaluation/scene_adapters_v70.py", "ragnarok/evaluation/breakout_v70.py",
+               "ragnarok/evaluation/pooled_breakout_v70.py"]
+    return dict(kind=f"{game}_{observation_mode}_repeat4_cpu_chain_benchmark", game=game, created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
                 observation_mode=observation_mode, calibration_sha256=calibration_hash, reset_convention=reset_convention,
                 workers=workers, ordinary_decisions_per_worker=steps, action_repeat=4,
                 branch_every_decisions=128, startup_seconds=startup_seconds, work_seconds=work_seconds,
@@ -60,16 +79,18 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
                 versions={p:importlib.metadata.version(p) for p in ("ale-py","numpy","scipy")},
                 gate_result=None, gpu_used=False, reference_uses_oracle_reset=False,
                 ordinary_and_branch_images=("last_raw_frame" if observation_mode == "raw" else "maximum_last_two_raw_frames"),
-                limitations=["Pong development only; the chosen image convention is shared by ordinary play and branches.",
+                limitations=[f"{game} development only; the image convention is shared by ordinary play and branches.",
                              "Includes per-step full RGB IPC, causal reference, every-real-frame RAM decoding, "
                              "end-of-repeat scoring, charged branch pairs and pixel C targets.",
                              "Startup separately reported; ARC3 GPU pretraining is concurrently active.",
+                             "Temporal labels describe two-source provenance; same-colour occlusion can be ambiguous from maxRGB alone.",
                              "No learned parser, other games, reader/drives or complete gate0-A verdict."])
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workers",type=int,choices=(1,2,4,8,16),default=2)
+    parser.add_argument("--game",choices=("pong","breakout"),default="pong")
     parser.add_argument("--steps",type=int,default=512)
     parser.add_argument("--out",type=Path,required=True)
     parser.add_argument("--observation-mode",choices=("raw","maxpooled"),default="raw")
@@ -81,7 +102,7 @@ if __name__ == "__main__":
     if args.out.exists():
         parser.error("Keep old measurements; choose a new output")
     result = benchmark(args.workers,args.steps,observation_mode=args.observation_mode,calibration=args.calibration,
-                       reset_convention=args.reset_convention)
+                       reset_convention=args.reset_convention,game=args.game)
     args.out.parent.mkdir(parents=True,exist_ok=True)
     with args.out.open("x",encoding="utf-8") as stream:
         json.dump(result,stream,indent=2,allow_nan=False)

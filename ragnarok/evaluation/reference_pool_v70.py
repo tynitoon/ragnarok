@@ -14,6 +14,8 @@ from ragnarok.environments.cold_emu_pool_v70 import _ColdPixelEngine
 from ragnarok.evaluation.pong_v70 import decode_pong_ram
 from ragnarok.evaluation.pooled_pong_v70 import pooled_ram_objects
 from ragnarok.evaluation.perception_v70 import PerceptionScorer
+from ragnarok.evaluation.scene_perception_v70 import ScenePerceptionScorer, breakout_scene_objects
+from ragnarok.evaluation.scene_adapters_v70 import pooled_breakout_scene_objects
 from scripts.ref_extract_v70 import ReferenceExtractor
 
 
@@ -66,17 +68,23 @@ class _ReferenceEngine:
             raise ValueError("This development instrument requires repeat4 and laboratory mode")
         if observation_mode not in ("raw", "maxpooled"):
             raise ValueError("Observation mode must be raw or maxpooled")
-        if reset_convention not in ("natural_legacy", "cold") or config.game != "pong":
-            raise ValueError("Reference scorer supports Pong with an explicit known reset convention")
+        if reset_convention not in ("natural_legacy", "cold") or config.game not in ("pong","breakout"):
+            raise ValueError("Reference scorer supports calibrated Pong/Breakout with a known reset convention")
+        if config.game != "pong" and reset_convention != "cold":
+            raise ValueError("Breakout requires the calibrated cold-start convention")
         self.observation_mode = observation_mode
         self.reset_convention = reset_convention
         if reset_convention == "cold":
             self.engine = (_RawColdBranchEngine if observation_mode == "raw" else _ColdPixelEngine)(config)
         else:
             self.engine = (_RawBranchEngine if observation_mode == "raw" else _PixelEngine)(config)
-        self.reference, self.scorer = ReferenceExtractor(), PerceptionScorer()
-        self._decoder = decode_pong_ram
-        self._pooled_decoder = pooled_ram_objects
+        self.reference = ReferenceExtractor()
+        if config.game == "pong":
+            self.scorer = PerceptionScorer()
+            self._decoder, self._pooled_decoder = decode_pong_ram, pooled_ram_objects
+        else:
+            self.scorer = ScenePerceptionScorer(roi=(8,32,152,197))
+            self._decoder, self._pooled_decoder = breakout_scene_objects, pooled_breakout_scene_objects
         self._ordinary_frames, self._episode, self._steps = 0, 0, 0
         self._phase = "ordinary"
         self._branch_every = branch_every

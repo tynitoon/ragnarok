@@ -1,0 +1,130 @@
+{
+  "kind": "scorer_only_cold_two_raw_frame_fixture",
+  "seed": 17122,
+  "action_seed": 117122,
+  "decisions": 2048,
+  "action_repeat": 4,
+  "episode_count": 11,
+  "game": "breakout",
+  "mode": 0,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "sticky_probability": 0.25,
+  "created_utc": "2026-09-08T23:51:48Z",
+  "work_seconds": 9.835167899997032,
+  "accounting": {
+    "ordinary_frames": 9627,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 9627,
+    "charged_frames": 9627,
+    "ordinary_agent_steps": 2048,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 278660,
+    "reset_emulated_frames": 792,
+    "bootstrap_emulated_frames": 132,
+    "format_detection_emulated_frames": 660,
+    "cold_loads": 11,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "shards": [
+    {
+      "path": "decisions_00001_00128.npz",
+      "decisions": 128,
+      "sha256": "c4b2e9709e2949b3267e03c4d63890d80afda29fe0485642cc0cc6e2fb0edb1a"
+    },
+    {
+      "path": "decisions_00129_00256.npz",
+      "decisions": 128,
+      "sha256": "fac936e4538dafcfcb9330a45accb784989ba437313f65f81ca7e6a93ef7dd99"
+    },
+    {
+      "path": "decisions_00257_00384.npz",
+      "decisions": 128,
+      "sha256": "4d833b8f98a1516ceb8181d44eebc5f0fd498660e30f40ac876463c42bab0ea3"
+    },
+    {
+      "path": "decisions_00385_00512.npz",
+      "decisions": 128,
+      "sha256": "f3fdd80a9a4118911b0754e8ed40803934ed15f260be63e5e6b00750b68bbf3c"
+    },
+    {
+      "path": "decisions_00513_00640.npz",
+      "decisions": 128,
+      "sha256": "9a57ab5f77b003914431acda1d3d7f7e2e6c4e41538245efc44c352a1e559214"
+    },
+    {
+      "path": "decisions_00641_00768.npz",
+      "decisions": 128,
+      "sha256": "cc5f10a5dfe4e0766ed7944cd169095d1e4d112e1e3cfef7de44686bc5ea9d00"
+    },
+    {
+      "path": "decisions_00769_00896.npz",
+      "decisions": 128,
+      "sha256": "cb1388e903fc414188dbd37d4ac188437badd32470a91e42b306d3d041550bc4"
+    },
+    {
+      "path": "decisions_00897_01024.npz",
+      "decisions": 128,
+      "sha256": "1bb5b4370b1615a9db15c31de0326703119e0308be1cba9cb8fd945fe38deb64"
+    },
+    {
+      "path": "decisions_01025_01152.npz",
+      "decisions": 128,
+      "sha256": "ce2466b69f0eb9457036def0b94a7eb70c332557544676235116754b19c919b1"
+    },
+    {
+      "path": "decisions_01153_01280.npz",
+      "decisions": 128,
+      "sha256": "efc6c13c6113d16ba1777ac2b70f353d700f6ffdc7832391035c14b9721e0760"
+    },
+    {
+      "path": "decisions_01281_01408.npz",
+      "decisions": 128,
+      "sha256": "fbb9b1c7002d8a9766f34c4c613e5931abebddee4cf3b321d3a607b6fc27353e"
+    },
+    {
+      "path": "decisions_01409_01536.npz",
+      "decisions": 128,
+      "sha256": "2d5076923d3c23d0dd1109b3b8beb67c0c002ac38748a49a3ec9087651902786"
+    },
+    {
+      "path": "decisions_01537_01664.npz",
+      "decisions": 128,
+      "sha256": "01b405e47e8da046e8d0791babf02cc849790f29670946b7d76f7cdb8d9ab1f0"
+    },
+    {
+      "path": "decisions_01665_01792.npz",
+      "decisions": 128,
+      "sha256": "714b002ea15072e5d27248d1c6b89185dce4229497758f85ce3da1aee3fd5cb2"
+    },
+    {
+      "path": "decisions_01793_01920.npz",
+      "decisions": 128,
+      "sha256": "6ef9145972c9607c705e587b41b3fdbaf55234136adb8213455d99fc3b10e883"
+    },
+    {
+      "path": "decisions_01921_02048.npz",
+      "decisions": 128,
+      "sha256": "dcef8cf7dc1251e28e56a333930ad1f9cc7ec969c23be0b3d68598eb08734eb3"
+    }
+  ],
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "scripts/capture_cold_pooled_v70.py": "8759a4f7743ead8d4d2a48e2bb7b60c9164050104522d38f667454bf284aacef",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2"
+  },
+  "wrapper_pool_verified": true,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
