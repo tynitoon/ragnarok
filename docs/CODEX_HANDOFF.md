@@ -84,8 +84,9 @@ couper une lignée, Fb ou le probe.
 Décision vérifiée à la reprise : B_test=6, N=9, G' sur deux unités. Projection
 totale 31,9926 GPU-h ; gate réel 4,4789 h, préentraînement estimé 4,4281 h, probe
 prévu 0,5 h. Les 11 tests ARC 3 passent (137,15 s, comptés en plus par prudence).
-Un lanceur séparé `scripts/resume_v62.py` prépare les trois préentraînements puis
-le probe, avec arrêt après celui-ci pour revue. Son état sera dans
+Le lanceur séparé `scripts/resume_v62.py` exécute les trois préentraînements puis
+le probe, avec arrêt après celui-ci pour revue. Ses tests CPU couvrent les sorties
+incomplètes, les erreurs, les plafonds et les arrêts scientifiques. Son état est dans
 `craft_v6_out/v62_resume_state.json` et ses logs dans
 `craft_v6_out/v62_resume_stdout.log` / `v62_resume_stderr.log`.
 Vérifier cet état et les processus avant toute nouvelle exécution ; ne jamais
@@ -102,13 +103,17 @@ gelés. « Publier » ici ne vaut pas autorisation d'envoyer ou pousser à dista
 
 `ARC4_VISION.md` est un brouillon, non gelé, issu d'un panel de conception et
 d'un premier audit ; réponses dans sa §10. Le deuxième audit avait été interrompu
-sous Claude ; une nouvelle passe indépendante est réalisée lors de cette reprise.
+sous Claude ; la nouvelle passe indépendante est terminée et ses corrections sont
+intégrées en §11. Compte rendu : `reviews/2026-09-08-arc4-second-audit.md`.
 La note Claude référence `workflows/scripts/arc4-vision-audit-wf_9393b889-a8b.js` :
 emplacement réel et compatibilité non vérifiés, ne pas supposer ce workflow
 disponible dans Codex.
 
-Après levée de pause : reprendre la revue du brouillon avant implémentation et
-gel du gate 0. §6 décrit le travail prévu. Le premier gate examine les primitives
+Prochain jalon : comptabilité des frames et admission des expériences, pool avec
+restauration reproductible, calibration indépendante du juge et débit CPU.
+Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.
+La mesure séparant adaptation et avance initiale reste à définir avant les gels
+scientifiques ultérieurs. §6 décrit le travail prévu. Le premier gate examine les primitives
 sur une référence externe, puis la perception apprise à partir d'expériences
 propres. Plafond proposé pour gate 0 : 12 GPU-h ; le reste des budgets et des
 estimations doit être vérifié avant engagement.

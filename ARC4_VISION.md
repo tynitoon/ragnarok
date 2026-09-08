@@ -5,7 +5,8 @@ from a 5-design / 3-judge panel (infant, neuro, curiosity, world-model, symbolic
 was then refuted by 3 auditors (wall: fatal; instrument, feasibility: major). This document keeps the
 panel's architecture, adopts the wall auditor's structural fix, applies the instrument fixes, and cuts
 the measurement apparatus to what ARC 3 taught: one primary, one null, one figure, cheap gates that can
-say STOP. Versions of this arc are v70+. Section 10 is the audit ledger.
+say STOP. Versions of this arc are v70+. Section 10 preserves the first audit; section 11 records the
+second audit and the decisions still required before each freeze. No ARC 4 gate has run.
 
 ## Résumé pour Jérémie (le reste est le document technique, en anglais)
 
@@ -20,8 +21,11 @@ elle partait de zéro. Ce document dit comment, et surtout comment on saura si c
   l'échelle ne peut rien montrer.
 - Elle tient un carnet de faits (« toucher ça tue ») écrit par ses expériences, et un souvenir de ce que
   les objets qui se comportent comme ça font en général : c'est ce qui monte d'une console à l'autre.
-- Avant de dépenser sur une génération, un gate mesure si même une IA qui aurait tout retenu
-  parfaitement apprendrait plus vite qu'une neuve. Si non, cette génération est un barreau, pas un test.
+- Avant de dépenser sur une génération, un gate examine une référence entraînée directement sur ses
+  jeux de développement. Il aide à décider si le benchmark mérite un test de transfert ; son échec ne
+  prouve pas que toute réutilisation serait impossible.
+- Atteindre un niveau plus tôt peut venir d'une avance initiale. La manière de démontrer un apprentissage
+  ensuite plus rapide reste à préciser avant le gel confirmatoire ; c'est toujours l'objectif du projet.
 - Le premier vrai test de ta vision est l'entrée sur NES après Atari. Atari est prévu comme le barreau.
 - Ce qui n'est pas promis : le niveau humain, « tous » les jeux, les jeux 3D et PC (une sonde, pas une
   promesse), et qu'elle « comprenne ».
@@ -40,8 +44,9 @@ CLAIM CEILING (if every gate through stage 3 passes, the figure shows):
   (2) reaches a fixed competence bar (0.25 of human) on a majority of held-out games per generation in
       LIVE play (savestates off, the keyboard-demo code path);
   (3) on held-out games of a NEW generation, an agent carrying only game-agnostic weights and tables
-      reaches that bar in fewer emulated frames than an identical fresh agent, beyond fresh-vs-fresh
-      noise, with the wording rule of 4.3 deciding "learns faster" vs "uses what it learned";
+      reaches that bar in fewer charged frames (2.5) than an identical fresh agent, beyond fresh-vs-fresh
+      noise; separating faster adaptation from an initial head start remains a pre-freeze decision in
+      4.3. The current checkpoint-fraction rule alone cannot demonstrate accelerated learning;
   (4) an accumulation curve Atari -> +NES -> +16-bit on the same held-out sets, descriptive, beside a
       frames-matched same-generation control;
   (5) an inspectable ledger of contact facts a non-specialist can read with thumbnails.
@@ -65,8 +70,8 @@ RULE: nothing hand-coded that solves an expensive shared thing enters either arm
 parser learns from the agent's own counterfactual experiments and from prediction; the classical
 extractor exists only experimenter-side (pre-check and reference). Innate grants (section 2) are the
 cheap core knowledge a child has; they are disclosed, and none of them is a perception, motor or
-danger competence. The WORTH gate (4.4) measures, before any lineage is trained, whether a PERFECT carry
-of the learned objects would show "learns faster" at all; if not, the generation is a rung.
+danger competence. The WORTH diagnostic (4.4) tests a favourable, task-trained reference before a
+lineage is trained. It measures room in this benchmark; it is not a proven upper bound on all reuse.
 
 1.3 Honest prediction before anything runs: on Atari, seeing may be cheap (a five-line white-centroid
 extractor once dominated learned perception on blob-separable games) and the intra-Atari reading is
@@ -99,8 +104,9 @@ JSON export.
 
 ### 2.1 Perception: the counterfactual parser (`parser_v70`) — learns from its own experiments
 Why not reconstruction again: six earlier attempts bound objects by reconstruction and never bound the
-ball. A counterfactual can: the emulator's determinism is free, exact supervision, and it is the AGENT'S
-experiment, not a hand-coded label.
+ball. Counterfactual branches are a new candidate signal from the AGENT'S experiment, not a hand-coded
+label. Pixel-exact replay is conditional on the state/RNG/wrapper contract in 2.5; object binding from
+that signal remains an unproven architecture hypothesis.
 INPUT: native frame, uint8 palette/RGB, 2-frame max-pool, 2-level pyramid (native + half) so 8 px Atari
 sprites and 32 px Genesis sprites fall inside one ~40 px receptive field. Nothing in the network is
 shaped by H, W, palette size, button count or category count.
@@ -115,7 +121,8 @@ NO block-matching flow, NO hand-coded extractor anywhere in the loop (rule 1.2):
   C  COUNTERFACTUAL CONTROLLABILITY: from savestate S run effect a for 4 frames and NOOP for 4 frames
      (E1/E2 branches the agent runs anyway); the diff region between the two branches, projected onto
      the tracker's PREDICTED position of the component (not the overlap at t: fast balls move 4-8 px
-     per step), is labelled controllable; BCE on c. Pixel-exact; guard: only moving components.
+     per step), is labelled controllable; BCE on c. Pixel-exact replay must first pass 2.5's CPU test;
+     the inference from branch differences to controllability remains a hypothesis. Guard: moving components.
   G  GROUPING: pixels whose predicted displacement d agrees within a component are pulled together in
      f, different components pushed apart (discriminative loss, margin 1.0) — common fate from the
      parser's OWN motion estimate.
@@ -124,10 +131,11 @@ NO block-matching flow, NO hand-coded extractor anywhere in the loop (rule 1.2):
   S  SOLIDITY (stage 1 on): predicted me-displacement under the chosen effect but zero realised
      displacement and no reset -> the pixels in the predicted path are solid; walls become objects by
      bumping into them.
-Data: 100k frames per game under the entry protocol's babbling and play, branches every 16 frames
-(charged to the frame axis, 2.5). Compact storage (uint8 frames, bit-packed masks, LZ4 memmap clips)
-so 10 games fit in ~20 GB. Training: batch 64, Adam 3e-4, per-game online fine-tuning 1 step per 64
-env steps for every arm alike.
+Data: 100k charged frames per game under the entry protocol's babbling and play; C branches are admitted
+by the common experiment budget in 2.5, never unconditionally every 16 frames. Report ordinary emulated
+frames, branch frames, restore charges and saved observations separately. Compact storage (uint8 frames,
+bit-packed masks, LZ4 memmap clips): ~20 GB for 10 games is an estimate to measure. Training: batch 64,
+Adam 3e-4, per-game online fine-tuning 1 step per 64 env steps for every arm alike.
 INSTANCES: connected components of m > 0.5 (scipy.ndimage.label), split by k-means on f when a
 component's embedding variance exceeds a threshold. Descriptor per instance (48 floats): centre and
 size as screen fractions, area, velocity, mean f (32), c, s, colour histogram (8). Tracker: Hungarian
@@ -136,10 +144,12 @@ as a reappearance. CATEGORIES per game: nearest codebook entry over [f, log size
 distance > 0.6, cap 64; MERGE when two categories' behaviour signatures and controllability coincide
 within 0.2 (animation frames, palette swaps, power-up forms reunite; merge rate logged).
 CLASSICAL REFERENCE EXTRACTOR (`ref_extract_v70`), EXPERIMENTER-SIDE ONLY: background = per-pixel
-mode over a life, sprites = connected components of non-background. Used for (i) the CPU pre-check that
-the RAM harness is right (recall@4 px >= 0.9 on RAM objects), (ii) the reference line printed beside
-every perception number. Never a front-end of any arm unless gate 0-B declares perception failed, in
-which case it becomes the front-end of BOTH arms as a disclosed grant and "learns to see" leaves the
+mode over a life, sprites = connected components of non-background. Used for (i) the CPU reference
+pre-check (recall@4 px >= 0.9 against independently calibrated RAM labels), (ii) the reference line
+printed beside every perception number. Low reference recall can be an extractor failure; it does not
+establish a RAM-harness defect. Judge calibration is separate (4.1). Never a front-end of any arm unless
+gate 0-B declares perception failed, in which case it becomes the front-end of BOTH arms as a disclosed
+grant and "learns to see" leaves the
 claim ceiling (pre-declared outcome, 5).
 MEASUREMENT THAT IT SEES (RAM, scorer process only, 4.1): recall@4 px (Atari) / 6 (NES) / 8 (16-bit)
 of RAM objects that moved in the last 8 frames; precision; identity switches per 1000 frames;
@@ -165,7 +175,9 @@ size change, a spawned instance within 24 px, global background shift, nothing);
 EFFECT SLOTS carried across games (move +x -x +y -y, jump, spawn, size-change, start/advance, none, 3
 free). The table effect -> buttons is the per-controller adapter, keyed from stage 1 by a coarse
 me-state (grounded / airborne). THE POLICY NEVER SEES BUTTONS: its action space is the 12 effects; a
-controller change is a babbling event. Cost ~9k frames (seconds). Measured: table agreement >= 0.9 with
+controller change is a babbling event. The sweep above is a candidate probe inventory, not a guarantee
+that every trial fits the entry budget; its admitted allocation must be fixed before gate 0 (2.5).
+The earlier ~9k-frame estimate omitted restore charges and is withdrawn. Measured: table agreement >= 0.9 with
 a hand-written truth table per held-out game; frames-to-table printed and must FALL across generations
 if the effect vocabulary transfers.
 
@@ -239,7 +251,7 @@ DAgger-style label, so the policy is trained where it fails. Measured: option su
 ### 2.5 Active experimentation (`lab_v70`): savestates as an organ, every frame paid
 The DEFAULT agent does not plan by branching at act time (removes the 3-12x parser multiplier and the
 "competence lives in the emulator" failure by construction). Four experiments, all charged:
-  E1 BUTTON DISCOVERY (2.2), ~9k frames at entry.
+  E1 BUTTON DISCOVERY (2.2), with all trial frames and savestate loads charged at entry.
   E2 CONTACT TEST: the ledger cell with the highest expected information gain (Dirichlet entropy x
      reachability x LP); load the anchor where cat_B is nearest; reach(cat_B) as INTERVENTION and
      avoid/NOOP as CONTROL from the same state, 2 branches each, <= 60 frames; write with the flag;
@@ -248,13 +260,38 @@ The DEFAULT agent does not plan by branching at act time (removes the 3-12x pars
   E3 ONE DEATH, ONE LESSON: on death at t, the suspect = the fact written in [t-15, t] with the highest
      prior death rate; restore t-k for k in {8, 16, 32} and run avoid(suspect); survival in >= 2 of 3
      rewinds sets the fact's confidence to 1; else clear the suspect. The surviving rewind is a hindsight
-     AVOID demonstration. <= 100 frames per death. Measured: deaths by the same fact before its death
+     AVOID demonstration. <= 100 emulated branch frames per death, plus every restore charge; all count
+     against the experiment budget. Measured: deaths by the same fact before its death
      rate falls below 10%, target <= 3, vs a no-rewind ablation (the contemporaneous control).
   E4 RETURN TO FRONTIER: Go-Explore return to the least-visited cell when LP and novelty stall 5k frames.
-Budget: experiments <= 20% of frames in the first 500k of a game, decaying to 5%, hard cap 30%; the
-parser's C branches (every 16 frames) are inside this budget and are charged.
-ACCOUNTING, frozen: every emulated frame counts on the primary's axis, branches and rewinds included,
-plus a 60-frame charge per savestate load. COMPETENCE is read ONLY in live mode (fresh emulator,
+ACCOUNTING CONVENTION FOR THE DRAFT FREEZE: distinguish ordinary emulated frames, experiment emulated
+frames, and synthetic restore charges. Charged frames = their sum, with 60 charged frames per savestate
+load; agent-steps have frameskip 4 and are not interchangeable with either frame counter. The primary's
+axis uses charged frames. Throughput reports actual agent-steps/s and emulated frames/s separately;
+synthetic charges never inflate measured emulator throughput.
+Budget: experiments, INCLUDING their restore charges, <= 20% of charged frames in the first 500k of a
+game, decaying to 5%, hard cap 30%. E1-E4 and C share this budget; no uncharged entry exception. The
+exact decay schedule and trial allocation are still to freeze before gate 0, within these limits.
+C PAIR: at an ordinary-play anchor S, save full state; run a for 4 emulated frames; restore S; run NOOP
+for 4 emulated frames; restore S and resume ordinary play. Two restores cost 120, so one pair costs
+128 charged experimental frames. At a fraction q, C alone needs at least 128 * (1-q) / q ordinary
+frames between pairs: 512 at 20%, 2432 at 5%. These are maximum admissible cadences, not guaranteed
+allocations; E1-E4 can only make C less frequent. Admit a pair only when the complete charge fits.
+The old every-16-frame cadence is incompatible with these caps. E1's proposed complete Atari sweep
+(16 anchors x 18 actions x (8 + 8 + 120)) alone costs 39,168 charged frames with two restores per trial,
+before any extra load to reach an archived anchor. It cannot fit a 20k entry. The entry allocation and
+coverage must be resolved before freeze; no complete button table is assumed for free.
+REPLAY CONTRACT: snapshots include ALE's RNG as well as the game state, and the pool restores its own
+max-pooling buffers, action-repeat history, episode/wrapper counters and any other transition state.
+ALE's `cloneState(include_rng=True)` (or equivalent full-system call in the verified installed API) is
+required: ordinary `cloneState()` excludes pseudorandomness by default. See the
+[official ALE interface](https://raw.githubusercontent.com/Farama-Foundation/Arcade-Learning-Environment/master/src/ale/ale_interface.hpp)
+(consulted 2026-09-08). Before GPU use, repeated same-action branches from the same snapshot must give
+byte-identical screens, including after a restore; test raw and max-pooled observations. Freeze the
+laboratory sticky-action setting explicitly; live evaluation retains p = 0.25 (4.2). Shared RNG state
+controls stochastic differences between the branch pair; it is never exposed to the agent. The global
+charged-frame ledger is outside restored episode state and must never rewind.
+COMPETENCE is read ONLY in live mode (fresh emulator,
 savestates off, single life sequence, the demo code path, ALE's 108k-frame episode cap). The
 savestate-assisted score is reported beside it; a live/lab success ratio < 0.5 is the savestate-
 addiction detector.
@@ -263,7 +300,8 @@ addiction detector.
 CARRIED: parser; policy; danger head; role prior (the object that grows); drive normalisers; arbiter
 constants; hold-length priors; procedures as code. EMPTY AT ENTRY for every arm: codebook, ledger,
 effect table, archive, background, scroll, reader map, optimizer. ENTRY PROTOCOL, identical across arms:
-(1) 20k frames of babbling -> effect table; (2) me-finder; (3) reader search; (4) category discovery,
+(1) proposed 20k charged frames of babbling -> effect-table attempt (probe coverage unresolved in 2.5);
+(2) me-finder; (3) reader search; (4) category discovery,
 ledger rows from the role prior (fresh: uniform); (5) play under the arbiter.
 ENFORCEMENT: no nn.Embedding over games, buttons or sprites; no parameter shaped to resolution, button
 count or palette; the leak test asserts the lineage export is byte-identical under permutation of the
@@ -290,9 +328,11 @@ Python 3.12 venv scorer process (OCAtari pins numpy < 2; fallback AtariARI hand-
 pixel calibration), emulator pool with branch/restore, reference extractor, parser, me/buttons/reader/
 reset, leak test. Produces the parser weights, the gate-0 numbers and FRESH-COST(0).
 3.1 STAGE 1, Atari 2600 (160x210, 18 actions): train Pong, Breakout, SpaceInvaders, Freeway, Seaquest,
-MsPacman, Asteroids, Kangaroo; held-out (6, burned, OCAtari-covered, named at the freeze, DISJOINT from
-gate-0's held-outs): candidates Tennis, Krull, Enduro, Boxing, Frostbite, Riverraid minus whatever gate 0
-opens. Gates 0-A, 0-B, 1, 2 (section 4.4); two lineages with different game orders. NO intra-Atari
+MsPacman, Asteroids, Kangaroo; development/gate held-outs (target 6, burned, OCAtari-covered, DISJOINT
+from gate-0's held-outs): candidates Tennis, Krull, Enduro, Boxing, Frostbite, Riverraid minus whatever
+gate 0 opens. Gate 0 already proposes Boxing, Frostbite and Riverraid, leaving only three of these six
+candidates. This is an incomplete inventory, not a frozen N=6 set; games and counts remain to resolve
+in the registry of 4.6. Gates 0-A, 0-B, 1, 2 (section 4.4); two lineages with different game orders. NO intra-Atari
 confirmatory: the intra-Atari reading is the predicted rung and the claim's first test is NES; the ~90
 GPU-h it would cost go to stage 2. Stage 1 reports FRESH-COST, the K* WORTH result and the probes.
 3.2 STAGE 2, NES (256x240, D-pad + A/B/start/select, scrolling, tiles, gravity, hold-length jumps,
@@ -323,7 +363,11 @@ decoders; 200 owner-annotated frames per NES/16-bit held-out for enemies) is rea
 process on the same emulator; the agent process receives screen bytes and its own outputs, asserted by
 a unit test that hashes the observation source (leak test). Allowed: perception scores, me/reader/reset
 validation, competence scoring, ledger audit, gate numbers. Forbidden: any observation, loss, drive,
-curriculum choice, or threshold set after seeing transfer data.
+curriculum choice, or threshold set after seeing transfer data. Before gate 0, independently calibrate
+the scorer's labels on development screen/RAM fixtures: establish player/object coordinates, box vs
+centre conventions, visibility, HUD exclusions, flicker and temporal alignment. Fix the labelled
+object denominator and tolerances before scoring the reference. Annotated fixtures stay scorer-side.
+A low reference recall alone cannot identify which instrument failed; verify the decoder separately.
 4.2 COMPETENCE: HN = (score - random) / (human - random), uncapped; Atari human from the published
 Atari-100k tables (recorded WITHOUT sticky actions: disclosed; random and the RAM-object ceiling are
 re-measured by us UNDER the test convention, sticky p = 0.25, and HN is reported relative to both);
@@ -341,30 +385,45 @@ G_b from the eval-episode sd, never asserted.
     NOT-DEMONSTRATED iff Delta_learn <= 0; INCONCLUSIVE otherwise. Instrument line: |t_init| >= 2 ->
     INCONCLUSIVE. THE UNIT SET IS THE WHOLE HELD-OUT SET, fixed at the freeze; "learns-faster game" vs
     "reach game" is a caption label that never changes N or the units entering Delta or se_null.
-    WORDING RULE (caption only): "learns faster" iff the FRACTION of inits reaching C2 by checkpoint t,
-    censored at budget, for X dominates fresh at >= 2 of the checkpoints t >= 0.5M by 2 se of its own
-    fresh-vs-fresh null (not bounded by a head start); otherwise "uses what it learned". Delta_0 (after
-    the entry protocol, frozen weights) is drawn and labelled "head start", never in the verdict.
+    CHECKPOINT-FRACTION DIAGNOSTIC (draft, caption only): the FRACTION of inits reaching C2 by checkpoint
+    t, censored at budget, for X dominates fresh at >= 2 checkpoints t >= 0.5M by 2 se of its own
+    fresh-vs-fresh null. This diagnoses earlier competence; it does NOT distinguish faster adaptation
+    from an initial head start. Delta_0 (after the entry protocol, frozen weights) is drawn and labelled
+    "head start", never in the draft primary verdict. Counterexample: X frozen at HN=0.30 from entry,
+    fresh reaching C2 only at 4M, passes the fraction rule without X learning anything on the new game.
+    OPEN BEFORE CONFIRMATORY FREEZE: specify how to distinguish adaptation from head start and what
+    evidence licenses "learns faster". The project objective remains accelerated learning through prior
+    experience. No replacement estimator, control arm or significance rule is introduced by this audit;
+    the formulae above remain proposals and cannot yet license that claim.
     Reported: frames-to-C2 as a fraction of inits per checkpoint; uncapped log-frame AUC of HN.
 4.4 GATES PER STAGE, each frozen in the commit that runs it:
     G_a INSTRUMENT: perception, me, reader, reset, throughput vs RAM (section 5 for stage 0). A failure
         is an instrument defect: fix, log, re-run, at most twice; then STOP with the numbers.
-    G_b FEASIBILITY on the held-out set (3 fresh inits, full budget, live eval):
+    G_b FEASIBILITY on development/gate games, not intact confirmatory games (registry open in 4.6;
+        proposed 3 fresh inits, full budget, live eval):
         REACHABLE     the RAM-object ceiling arm (parser replaced by RAM object lists) reaches C2 on
                       every gate game;
         FRESH-LEARNS  >= 2 of 3 fresh inits reach C2 within budget on >= 2/3 of gate games (a fraction,
                       never a median);
-        WORTH (replaces the procedure-oracle ROOM; the wall auditor's fix): K* = the PERFECT-CARRY
-                      ceiling: the carried objects (parser, policy, danger head, role prior) trained to
-                      convergence on the held-out game ITSELF, ledger and prior pre-filled from
-                      RAM-scored contacts, then FROZEN and run through the identical entry protocol vs
-                      Fa/Fb on the frozen primary — it upper-bounds what any lineage could carry.
-                      PROCEED iff A_K* - A_fresh >= 4 se_proj AND K*'s wording-rule fraction dominates
-                      fresh (a perfect carry would be called "learns faster"); otherwise the generation
-                      is a RUNG by arithmetic, captioned so, and the confirmatory does not run. ~1 GPU-h
-                      per unit. FRESH-COST is printed beside it as a gate number: the frames a fresh
-                      agent needs to pass G_a's bars must exceed the frames spanned by the first two
-                      checkpoints, else the reading is a rung by construction.
+        WORTH (replaces the procedure-oracle ROOM; the wall auditor's design retained): K* is a
+                      favourable task-trained reference, previously called PERFECT-CARRY. Train the
+                      proposed carried objects (parser, policy, danger head, role prior) on the
+                      development/gate game itself; RAM-scored contacts may initialise this reference
+                      only. Freeze its learned weights for the reference comparison. K* is
+                      experimenter-side, never a lineage or a source of agent supervision.
+                      A finite training run is not a proof of convergence or an upper bound on every
+                      possible lineage. Its comparison with fresh diagnoses room under this benchmark.
+                      The earlier candidate A_K* - A_fresh >= 4 se_proj plus checkpoint-fraction
+                      dominance is retained as a draft diagnostic, not a frozen PROCEED rule or proof
+                      of accelerated learning (4.3). A miss may motivate treating this benchmark as a
+                      rung; it does not establish that transfer is impossible "by arithmetic".
+                      OPEN BEFORE THIS GATE'S FREEZE: bound K* training and specify how its proposed
+                      RAM-initialised ledger interacts with the normally empty-entry ledger; resolve
+                      the diagnostic/decision rule before observing runs. ~1 GPU-h per unit is an
+                      unmeasured estimate. FRESH-COST prints frames to G_a's instrument bars beside the
+                      first two checkpoints. Cheap perception/entry primitives alone do not prove that
+                      policy or role-prior learning is cheap; this is a bottleneck diagnostic, not a
+                      construction-based exclusion of the generation's transfer claim.
         One pre-declared softening notch per stage (C1 instead of C2), then STOP.
     G_c VERDICT (4.3) with arms X, Fa, Fb only; K* and the RAM ceiling reported beside them.
 4.5 ACCUMULATION: X_1, X_2, X_3 from each of 2 lineages tested on every generation's held-out set,
@@ -372,19 +431,28 @@ beside Fa/Fb and the frames-matched control X_k-ext. DESCRIPTIVE, no verdict lab
 the area cannot tell compounding from ceiling on its own); the reading rule is pre-declared: "rises"
 iff Delta(X_k) increases in k beyond 2 se while Delta(X_k-ext) does not; "flat after X_1" is called
 "does not compound" only if A_X1(u) < 0.5 on the majority of units (room exists), else "ceiling-limited".
-4.6 SEEDS AND BURNS: per-unit init seeds by (stage, unit, arm); emulator seeds identical across arms;
-held-out sets named at the freeze and never opened before the confirmatory; every game a human debugged
-on is burned; gate-0 held-outs are disjoint from stage-1 held-outs. A frozen scorer (`score_v70.py`)
-accepts only the (N, budget) pairs declared at the freeze, committed before any arm exists.
+4.6 SEEDS AND BURNS: per-unit init seeds by (stage, unit, arm); emulator seeds identical across arms.
+OPEN REGISTRY BEFORE THE RELEVANT FREEZE: distinguish training games, development/gate games (including
+K* and mechanism probes), and intact confirmatory games. Any game opened to debug, tune or choose an
+architecture is burned for that stage's confirmation; a gate held-out is held out from its training,
+not untouched by development. Confirmatory sets are named before their freeze and not opened until
+that confirmation. Gate-0 held-outs remain disjoint from stage-1 development held-outs. Section 3.1's
+inventory is currently insufficient; future NES/16-bit lists also need explicit gate/confirmation
+allocation. Do not silently fill a missing count or reuse a burned game to meet N. Gate 0 may proceed
+after its own registry and budgets are frozen; it does not freeze the later confirmatory choices.
+A frozen scorer (`score_v70.py`) accepts only the (N, budget) pairs declared at the relevant freeze,
+committed before its experimental arms are run. Repeated later evaluations on earlier confirmatory
+games are descriptive and cannot guide corrections claimed as an intact test on those same games.
 
 ## 5. GATE 0, the first cheap gate, in full (<= 12 GPU-h, ~2-3 engineering weeks)
 
 GATE 0-A "DRIVE PRIMITIVES ON THE REFERENCE EXTRACTOR" (no learning; < 2 GPU-h). Games: Pong,
-Breakout, Freeway, Seaquest, MsPacman, Asteroids. Runs: 200k frames per game of babbling + arbiter play
+Breakout, Freeway, Seaquest, MsPacman, Asteroids. Runs: 200k charged frames per game of babbling + arbiter play
 from 16 savestates with branches; the reference extractor supplies instances (experimenter-side
-front-end for THIS gate only, so drives and perception fail independently). Pre-check: the extractor
-reaches recall@4 px >= 0.9 on RAM objects (else the RAM harness is wrong, not the learner). Measured,
-thresholds frozen now:
+front-end for THIS gate only, so drives and perception fail independently). Pre-check: calibrate the
+RAM scorer independently (4.1), then require reference recall@4 px >= 0.9 on the frozen object set.
+A miss blocks this reference-backed gate pending diagnosis; it does not establish a RAM-harness error.
+Measured, proposed thresholds to freeze only after the section-11 gate-0 blockers are resolved:
     (a) THROUGHPUT >= 2000 agent-steps/s (frameskip 4, 16 envs, extraction, label branches and scorer
         included; the label harness is benchmarked separately); below 1000 the engineering is fixed
         before any GPU;
@@ -398,10 +466,11 @@ thresholds frozen now:
     (g) reported, not required: a stage-0-computable noisy-TV line (option dwell on an injected panel
         under the archive-novelty drive alone), the real test being gate 1's.
 PASS = (a)-(f). A miss is an instrument fix and re-run, at most twice.
-GATE 0-B "THE PARSER SEES, FROM ITS OWN EXPERIMENTS" (<= 10 GPU-h). Data: 100k frames per train game
-(the six above) under babbling + play with C branches every 16 frames. Train on P, C, G, I (S is stage
-1), 3 seeds, ~2 GPU-h per seed pooled. Held-out for THIS gate (burned for it, disjoint from stage 1's):
-Boxing, Frostbite, Riverraid, Kangaroo. Measured, thresholds frozen now:
+GATE 0-B "THE PARSER SEES, FROM ITS OWN EXPERIMENTS" (<= 10 GPU-h). Data: 100k charged frames per train
+game (the six above) under babbling + play; C follows 2.5's shared budget and counted restores. Train on
+P, C, G, I (S is stage 1), 3 seeds, ~2 GPU-h per seed pooled (estimate). Held-out for THIS gate (burned
+for it, disjoint from stage 1's development held-outs): Boxing, Frostbite, Riverraid, Kangaroo.
+Measured, proposed thresholds to freeze after section 11's gate-0 blockers are resolved:
     (1) recall@4 px of RAM objects that moved in the last 8 frames >= 0.80 on >= 5/6 train games, AND
         the ball on Pong and Breakout >= 0.70 (the exact failure of the six earlier attempts);
     (2) me-accuracy >= 0.90 within 60 frames of each life start on 6/6;
@@ -496,7 +565,7 @@ score reader without OCR or labels, validated against RAM and never corrected fr
 category-keyed ledger with an intervention flag written by branch pairs, plus one-death-one-lesson
 rewind attribution vs a no-rewind ablation; (6) the role prior as the object that accumulates, its
 worth counted in contacts; (7) the measurement package on console generations: live-only competence
-with every frame charged, the PERFECT-CARRY ceiling before budget, a frames-matched control, a
+with every frame charged, the task-trained K* diagnostic before budget, a frames-matched control, a
 contemporaneous fresh-vs-fresh null, RAM-probed perception, fraction-over-inits gates, a frozen scorer.
 The closed loop pixels -> categories -> ledger by experiment -> identity-free skills -> next console,
 gated cheaply at every rung, is what the second goal will be judged on.
@@ -506,9 +575,10 @@ Not human-level; not state-of-the-art sample efficiency (Atari-100k SOTA is rewa
 only); not "any game"; not a full game (first levels, 0.25-of-human bars, partial success counts); not
 PC or 3D competence; not understanding; not that the parser is a general vision system or the role
 prior a theory of physics; not that G1-G8 are learnable; not that hand-coded ceilings are beaten; not
-that pretrained encoders would not score higher. A head start is "uses what it learned"; only the
-censored-time fraction rule earns "learns faster". If gate 0 STOPs, the deliverable is a seventh,
-sharper map of why learned perception on Atari is not the bottleneck; if a later gate STOPs, an agent
+that pretrained encoders would not score higher. A head start is "uses what it learned"; the
+censored-time fraction rule alone cannot earn "learns faster" (open decision in 4.3). If gate 0 STOPs,
+the deliverable is a seventh, sharper map of why learned perception on Atari is not the bottleneck;
+if a later gate STOPs, an agent
 with an inspectable ledger and a rung-by-rung measured account of why reuse did not pay, published as
 ARC2_PLAN 8/11/15 and ARC3_PLAN 10/11 were.
 
@@ -524,3 +594,43 @@ ARC2_PLAN 8/11/15 and ARC3_PLAN 10/11 were.
        venv, 100k frames compact, tracker-predicted projection, WSL2 pool with a socket API from week 1
   cuts from the synthesis: intra-Atari confirmatory, negative-control lineage, branching-planner
        ceiling, dynamics model, S/R/P as confirmatory arms (now probes), three of six detectors
+
+## 11. Second audit, resumed 2026-09-08 — corrections and freeze blockers
+
+The owner's pause has been lifted. This is a bounded review of the draft, with no gate result and no
+new confirmatory decision rule. The goal remains learning faster through accumulated experience. The
+first audit in section 10 is retained as history; this section clarifies which of its proposed repairs
+still require work. Full review: [second audit](reviews/2026-09-08-arc4-second-audit.md).
+
+Corrections made in this draft:
+
+- Accounting: ordinary frames, experiment frames, restore charges and agent-steps are distinct. C has
+  two charged restores per pair; the shared 20%/5% allocation implies at least 512/2432 ordinary frames
+  between C pairs when no other experiment spends the budget. The every-16-frame rule and ~9k E1 cost
+  are withdrawn. No trial, archived-anchor load or entry work is free.
+- Replay: full RNG and wrapper state must be restored, while the global charged-frame ledger never
+  rewinds. A same-action, same-snapshot pixel test is required before relying on branch differences.
+- Judge: independent screen/RAM calibration precedes the reference-recall gate. Reference failure does
+  not identify a RAM decoder defect. Reference data and calibration labels remain outside agent learning.
+- Interpretation: K* is a favourable task-trained diagnostic, not a proven perfect carry or impossibility
+  bound. Earlier competence and a head start are not sufficient evidence of accelerated adaptation.
+- Splits: gate/development games are consumed for confirmation. The proposed Atari inventory leaves
+  three of six candidate development held-outs; missing games and later allocations remain undecided.
+
+BEFORE GATE-0 FREEZE: resolve E1 trial coverage within the proposed charged entry budget, the common
+experiment allocation/decay schedule, laboratory sticky-action setting, scorer fixtures/object
+denominators and the stage-0 game/seed registry. Verify snapshot replay, charge accounting, independent
+judge calibration, reference extraction and full CPU throughput. Record measured costs and freeze the
+complete commands and checks before any gate execution; preserve the proposed 12 GPU-h ceiling and
+declared retry/STOP outcomes. These corrections do not authorise increasing the ceiling after a miss.
+
+BEFORE LATER GATE/CONFIRMATORY FREEZES: complete the development/confirmation registry and its counts;
+define bounded K* training, ledger-entry handling and its decision role; resolve the adaptation versus
+head-start instrument and wording before results. These open scientific decisions block their future
+freezes, not construction of the CPU foundation now. Do not use gate 0 as a claim of accelerated
+learning or as a freeze of the remaining draft sections.
+
+USEFUL CPU ORDER: charge ledger and trial schedule -> emulator pool and exact replay -> independent
+scorer calibration -> reference extractor and end-to-end throughput -> gate-0 protocol/registry freeze.
+Parser, grouping and odometer feasibility remain empirical hypotheses to test under that protocol;
+the audit has neither proved them viable nor declared them impossible.
