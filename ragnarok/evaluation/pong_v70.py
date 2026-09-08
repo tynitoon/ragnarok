@@ -12,7 +12,7 @@ import numpy as np
 
 KINDS = ("player", "enemy", "ball")
 PALETTE = {"player": (92, 186, 92), "enemy": (213, 130, 74), "ball": (236, 236, 236)}
-DECODER_REVISION = "ocatari_v2.2.1_baseline"
+DECODER_REVISION = "pong_mode0_raw_calibrated_v1"
 
 
 @dataclass(frozen=True)
@@ -31,16 +31,19 @@ def decode_pong_ram(ram):
         raise ValueError("Expected exactly 128 uint8 RAM bytes")
     r = [int(x) for x in ram]
     result = []
+
+    def visible_box(kind, x, y, w, h):
+        # Geometry calibrated on seed17011; raw scanline quantisation, then playfield clipping.
+        left, top, right, bottom = max(0, x), max(34, y), min(160, x + w), min(194, y + h)
+        if right > left and bottom > top:
+            result.append(ObjectLabel(kind, (left, top, right - left, bottom - top)))
+
     if r[51] > 13:
-        y, h = (34, r[51] - 33) if r[51] < 47 else (r[51] - 13, 207 - r[51] if r[51] > 192 else 15)
-        if h > 0:
-            result.append(ObjectLabel("player", (140, y, 4, h)))
+        visible_box("player", 140, 2 * ((r[51] - 13) // 2), 4, 16)
     if r[50] > 33:
-        y, h = (34, r[50] - 33) if r[50] < 49 else (r[50] - 15, 209 - r[50] if r[50] > 194 else 15)
-        if h > 0:
-            result.append(ObjectLabel("enemy", (16, y, 4, h)))
+        visible_box("enemy", 16, r[50] - 15, 4, 16)
     if r[54] != 0 and r[49] > 49:
-        result.append(ObjectLabel("ball", (r[49] - 49, r[54] - 14, 2, 4)))
+        visible_box("ball", r[49] - 49, 2 * ((r[54] - 14) // 2), 2, 4)
     return result
 
 

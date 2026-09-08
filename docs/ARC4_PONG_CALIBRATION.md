@@ -29,6 +29,30 @@ raquettes de 16 pixels, contre 15 dans la source, et un alignement vertical
 pair pour le joueur. Une correction géométrique sera testée sur développement
 avant ouverture de la validation ; les seuils seront conservés.
 
+## Correction v1 sur développement, 9 septembre
+
+Le joueur utilise `y = 2 * floor((RAM[51]-13)/2)` et une hauteur de 16 ;
+l'adversaire garde `y = RAM[50]-15` avec une hauteur de 16 ; la balle utilise
+`y = 2 * floor((RAM[54]-14)/2)` et une hauteur de 4. Les boîtes sont ensuite
+intersectées avec le terrain. Ces conventions proviennent de la calibration,
+pas d'une garantie fournie par OCAtari.
+
+Sur 17011, les boîtes des deux raquettes sont maintenant exactes à 100 % ; celles
+de la balle sont à un pixel près à 100 %. Accord de présence : joueur 99,951 %,
+adversaire 100 %, balle 99,902 %. Les images de transition restent dans le
+dénominateur. Résultat : `development_corrected.json`. La revue contradictoire
+autorise le scellement de cette version avant 17012, sans modifier les seuils.
+
+Les 13 tests de géométrie, lecture de fixtures, métriques et référence passent.
+Le matching privilégie le nombre d'appariements valides avant la distance ;
+le mouvement n'est pas réduit au déplacement net et l'historique repart à zéro
+au reset. La référence apprend son fond modal depuis les seuls pixels passés,
+garde les égalités stables et n'apprend pas des requêtes contrefactuelles.
+
+Les 4 096 observations n'incluent pas les images internes des démarrages/reset :
+leurs 144 frames sont facturées mais ne sont pas disponibles dans ces fixtures.
+Le changement d'épisode empêche de les traiter comme une transition adjacente.
+
 ## Sources et portée
 
 - [Décodeur OCAtari v2.2.1](https://github.com/k4ntz/OC_Atari/blob/v2.2.1/ocatari/ram/pong.py) :

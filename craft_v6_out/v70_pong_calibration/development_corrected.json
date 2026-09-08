@@ -1,0 +1,158 @@
+{
+  "kind": "development_pong_ram_calibration",
+  "decoder_revision": "pong_mode0_raw_calibrated_v1",
+  "fixture": "craft_v6_out\\v70_pong_calibration\\development",
+  "fixture_manifest_sha256": "764a470fcfe4bfa9ac57c4e44e9fdef14223b6254e47c39a082b6422436c8c77",
+  "source_sha256": {
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/fixtures_v70.py": "762abb36b36040e0286381f236921a1ad653728fcca48a768a9293249864fc14",
+    "scripts/calibrate_pong_v70.py": "b288fe79999a6674c5ff19958a2d673ec7b9a85952be5250cf66637ca511b6bf",
+    "docs/ARC4_PONG_CALIBRATION_PROTOCOL.json": "a56387513d8c40008ec8108865ac3a4f036dac74ea875b75416d9d77236fe6da"
+  },
+  "objects": {
+    "player": {
+      "frames": 4096,
+      "presence_agree": 4094,
+      "jointly_visible": 4094,
+      "within_one_pixel": 4094,
+      "exact": 4094,
+      "max_edge_error": 0,
+      "examples": [
+        {
+          "frame": 1,
+          "decoded": [
+            140,
+            96,
+            4,
+            16
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 0,
+            "50": 20,
+            "51": 109,
+            "54": 0
+          }
+        },
+        {
+          "frame": 3947,
+          "decoded": [
+            140,
+            96,
+            4,
+            16
+          ],
+          "visible": null,
+          "edge_error": null,
+          "ram": {
+            "49": 0,
+            "50": 20,
+            "51": 109,
+            "54": 0
+          }
+        }
+      ],
+      "presence_agreement": 0.99951171875,
+      "box_agreement": 1.0,
+      "pass": true
+    },
+    "enemy": {
+      "frames": 4096,
+      "presence_agree": 4096,
+      "jointly_visible": 3451,
+      "within_one_pixel": 3451,
+      "exact": 3451,
+      "max_edge_error": 0,
+      "examples": [],
+      "presence_agreement": 1.0,
+      "box_agreement": 1.0,
+      "pass": true
+    },
+    "ball": {
+      "frames": 4096,
+      "presence_agree": 4092,
+      "jointly_visible": 2671,
+      "within_one_pixel": 2671,
+      "exact": 1686,
+      "max_edge_error": 1,
+      "examples": [
+        {
+          "frame": 2339,
+          "decoded": null,
+          "visible": [
+            116,
+            34,
+            2,
+            1
+          ],
+          "edge_error": null,
+          "ram": {
+            "49": 165,
+            "50": 44,
+            "51": 38,
+            "54": 45
+          }
+        },
+        {
+          "frame": 2485,
+          "decoded": null,
+          "visible": [
+            68,
+            34,
+            2,
+            1
+          ],
+          "edge_error": null,
+          "ram": {
+            "49": 117,
+            "50": 58,
+            "51": 105,
+            "54": 45
+          }
+        },
+        {
+          "frame": 3839,
+          "decoded": null,
+          "visible": [
+            93,
+            34,
+            2,
+            1
+          ],
+          "edge_error": null,
+          "ram": {
+            "49": 142,
+            "50": 44,
+            "51": 38,
+            "54": 45
+          }
+        },
+        {
+          "frame": 3895,
+          "decoded": null,
+          "visible": [
+            57,
+            34,
+            2,
+            1
+          ],
+          "edge_error": null,
+          "ram": {
+            "49": 106,
+            "50": 50,
+            "51": 84,
+            "54": 45
+          }
+        }
+      ],
+      "presence_agreement": 0.9990234375,
+      "box_agreement": 1.0,
+      "pass": true
+    }
+  },
+  "calibration_pass": true,
+  "gate_result": null,
+  "score_calibrated": false,
+  "no_agent_training": true
+}
