@@ -49,6 +49,19 @@ def test_stationary_objects_match_for_precision_and_hud_is_excluded():
     assert empty["recall_moving"] is empty["precision_visible"] is None
 
 
+def test_sampled_prediction_retains_motion_between_prediction_frames():
+    scorer = PerceptionScorer()
+    for frame, x in enumerate((50, 51, 51, 50)):
+        scorer.observe_truth([ObjectLabel("ball", (x, 60, 2, 4))], frame=frame, episode=0)
+    scorer.score([[50, 60, 2, 4]])
+    assert scorer.report()["frames"] == 1
+    assert scorer.report()["observed_raw_frames"] == 4
+    assert scorer.report()["eligible_moving"] == 1
+    assert scorer.report()["recall_moving"] == 1
+    with pytest.raises(ValueError, match="new truth"):
+        scorer.score([[50, 60, 2, 4]])
+
+
 @pytest.mark.parametrize("boxes", [[[0, 0, -1, 3]], [[0, 0, 0, 3]], [[float('nan'), 0, 1, 1]]])
 def test_bad_predictions_do_not_change_score(boxes):
     scorer = PerceptionScorer()

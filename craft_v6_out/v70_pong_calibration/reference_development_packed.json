@@ -1,0 +1,62 @@
+{
+  "kind": "pong_raw_reference_development_diagnostic",
+  "metrics": {
+    "frames": 4096,
+    "predictions": 10219,
+    "matched_visible": 10085,
+    "eligible_moving": 8591,
+    "recalled_moving": 8547,
+    "recall_moving": 0.9948783610755442,
+    "precision_visible": 0.9868871709560623,
+    "per_type": {
+      "player": {
+        "visible": 4096,
+        "eligible": 2628,
+        "recalled": 2614,
+        "recall_moving": 0.9946727549467276
+      },
+      "enemy": {
+        "visible": 3451,
+        "eligible": 3315,
+        "recalled": 3315,
+        "recall_moving": 1.0
+      },
+      "ball": {
+        "visible": 2671,
+        "eligible": 2648,
+        "recalled": 2618,
+        "recall_moving": 0.9886706948640483
+      }
+    },
+    "gate_result": null
+  },
+  "calibration_sha256": "0b7d739ae5a32ddc074d420ea5881ffe8b79598d4f86fc6ad8931222f1562692",
+  "fixture_manifest_sha256": "764a470fcfe4bfa9ac57c4e44e9fdef14223b6254e47c39a082b6422436c8c77",
+  "source_sha256": {
+    "scripts/ref_extract_v70.py": "177968ef2cebd894e668b6f6d6ae29dd85a4fd9062cfc1a95c885b8e374845f7",
+    "scripts/check_reference_v70.py": "f8e66a343a30af826fa89b28760b02b0e0b96b13618551b462e3555356594df9",
+    "ragnarok/evaluation/perception_v70.py": "c59520b086b4524d431a3dd363a0f8ebac237e9f0bd76fd7edf4e5488fbd3758",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/fixtures_v70.py": "762abb36b36040e0286381f236921a1ad653728fcca48a768a9293249864fc14"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "decode_seconds": 0.12707880000925798,
+  "reference_seconds": 6.720347399947059,
+  "score_seconds": 0.6798501999674045,
+  "wall_seconds": 7.851091200000155,
+  "measured_raw_frames_per_second": 544.1543238722451,
+  "including_fixture_io_raw_frames_per_second": 521.7109183497854,
+  "proposed_reference_recall_bar_met": true,
+  "gate_result": null,
+  "agent_training": false,
+  "limitations": [
+    "Only calibrated Pong raw frames; not max-pooled observation evaluation.",
+    "Every observed frame counted, including cold background and transition errors.",
+    "Reference background reset uses fixture episode boundary, experimenter-side only.",
+    "No learned parser, agency, drive, reader, identity or transfer result.",
+    "Timing excludes emulator, IPC and branch generation; not the gate throughput."
+  ]
+}

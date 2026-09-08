@@ -39,29 +39,52 @@ class PerceptionScorer:
         self._episode = self._frame = None
         self._frames = self._predictions = self._matches = self._eligible = self._recalled = 0
         self._per_type = {}
+        self._visible, self._moving = [], set()
+        self._observed_frames = 0
+        self._scored_frame = None
 
     def add(self, truths, boxes, *, frame, episode):
+        centers = self._centers(boxes)  # reject malformed predictions before changing history
+        self.observe_truth(truths, frame=frame, episode=episode)
+        self._score_centers(centers)
+
+    def _centers(self, boxes):
+        boxes = np.asarray(boxes, dtype=float)
+        if boxes.ndim != 2 or boxes.shape[1] != 4 or not np.isfinite(boxes).all() or np.any(boxes[:, 2:] <= 0):
+            raise ValueError("Expected finite Nx4 boxes with positive dimensions")
+        centers = boxes[:, :2] + boxes[:, 2:] / 2
+        left, top, right, bottom = self.roi
+        return centers[(centers[:, 0] >= left) & (centers[:, 0] < right) &
+                       (centers[:, 1] >= top) & (centers[:, 1] < bottom)]
+
+    def observe_truth(self, truths, *, frame, episode):
+        """Observe every real frame, even when a predictor runs only every fourth frame."""
         if type(frame) is not int or type(episode) is not int or frame < 0 or episode < 0:
             raise ValueError("Frame and episode must be nonnegative integers")
         if self._frame is not None and (frame != self._frame + 1 or episode not in (self._episode, self._episode + 1)):
             raise ValueError("Scorer requires consecutive raw frames and monotone episode ids")
-        boxes = np.asarray(boxes, dtype=float)
-        if boxes.ndim != 2 or boxes.shape[1] != 4 or not np.isfinite(boxes).all() or np.any(boxes[:, 2:] <= 0):
-            raise ValueError("Expected finite Nx4 boxes with positive dimensions")
         truths = list(truths)
         if len({obj.kind for obj in truths}) != len(truths):
             raise ValueError("Pong scorer requires one object per declared kind")
-        centers = boxes[:, :2] + boxes[:, 2:] / 2
         left, top, right, bottom = self.roi
-        centers = centers[(centers[:, 0] >= left) & (centers[:, 0] < right) &
-                          (centers[:, 1] >= top) & (centers[:, 1] < bottom)]
         visible = [o for o in truths if left <= o.center[0] < right and top <= o.center[1] < bottom]
         positions = {obj.kind: obj.center for obj in visible}
         if episode != self._episode:
             self._history.clear()
         self._history.append(positions)
-        moving = {kind for kind, center in positions.items()
+        self._moving = {kind for kind, center in positions.items()
                   if any(kind in previous and previous[kind] != center for previous in self._history)}
+        self._visible = visible
+        self._frame, self._episode = frame, episode
+        self._observed_frames += 1
+
+    def score(self, boxes):
+        self._score_centers(self._centers(boxes))
+
+    def _score_centers(self, centers):
+        if self._frame is None or self._frame == self._scored_frame:
+            raise ValueError("Observe a new truth frame before scoring")
+        visible, moving = self._visible, self._moving
         pairs = match_centers(np.array([o.center for o in visible], dtype=float).reshape(-1, 2),
                              centers, tolerance=self.tolerance)
         matched = {visible[i].kind for i, _ in pairs}
@@ -70,15 +93,17 @@ class PerceptionScorer:
         self._matches += len(pairs)
         self._eligible += len(moving)
         self._recalled += len(moving & matched)
-        for kind in positions:
+        for obj in visible:
+            kind = obj.kind
             stat = self._per_type.setdefault(kind, dict(visible=0, eligible=0, recalled=0))
             stat["visible"] += 1
             stat["eligible"] += int(kind in moving)
             stat["recalled"] += int(kind in moving and kind in matched)
-        self._frame, self._episode = frame, episode
+        self._scored_frame = self._frame
 
     def report(self):
-        return dict(frames=self._frames, predictions=self._predictions, matched_visible=self._matches,
+        return dict(frames=self._frames, observed_raw_frames=self._observed_frames,
+                    predictions=self._predictions, matched_visible=self._matches,
                     eligible_moving=self._eligible, recalled_moving=self._recalled,
                     recall_moving=self._recalled/self._eligible if self._eligible else None,
                     precision_visible=self._matches/self._predictions if self._predictions else None,

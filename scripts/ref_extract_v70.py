@@ -25,11 +25,17 @@ class ReferenceExtractor:
         if (not isinstance(rgb, np.ndarray) or rgb.dtype != np.uint8 or
                 rgb.ndim != 3 or rgb.shape[2] != 3 or not rgb.shape[0] or not rgb.shape[1]):
             raise ValueError("Expected a nonempty uint8 RGB image")
-        value = rgb.astype(np.uint32)
-        return (value[..., 0] << 16) | (value[..., 1] << 8) | value[..., 2]
+        # Pack once without allocating a uint32 copy of all three channels.
+        packed = np.empty(rgb.shape[:2], dtype="<u4")
+        channels = packed.view(np.uint8).reshape(*rgb.shape[:2], 4)
+        channels[..., :3] = rgb
+        channels[..., 3] = 0
+        return packed
 
     def update(self, rgb):
-        packed = self._packed(rgb)
+        self._update_packed(self._packed(rgb))
+
+    def _update_packed(self, packed):
         if self._mode is not None and self._mode.shape != packed.shape:
             raise ValueError("Resolution changed; start a new background explicitly")
         if self.frames_seen >= 1_000_000:
@@ -54,7 +60,9 @@ class ReferenceExtractor:
         self.frames_seen += 1
 
     def extract(self, rgb):
-        packed = self._packed(rgb)
+        return self._extract_packed(self._packed(rgb))
+
+    def _extract_packed(self, packed):
         if self._mode is None or self._mode.shape != packed.shape:
             raise ValueError("Observe a background at this resolution first")
         # Four-connected foreground: no game-specific filter, HUD mask, colour or size threshold.
@@ -64,5 +72,6 @@ class ReferenceExtractor:
         return np.array(boxes, dtype=np.int32).reshape(-1, 4)
 
     def observe(self, rgb):
-        self.update(rgb)
-        return self.extract(rgb)
+        packed = self._packed(rgb)
+        self._update_packed(packed)
+        return self._extract_packed(packed)
