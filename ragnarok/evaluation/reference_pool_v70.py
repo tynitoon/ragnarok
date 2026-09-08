@@ -29,13 +29,19 @@ class _ALEScorerTap:
         return value
 
 
+class _RawBranchEngine(_PixelEngine):
+    """This diagnostic selects raw observations consistently, including branch endpoints."""
+    def observe(self, raw=True):
+        return super().observe(raw=raw)
+
+
 class _ReferenceEngine:
     def __init__(self, config, *, branch_every=128):
         if type(branch_every) is not int or branch_every < 128:
             raise ValueError("A branch cadence below128 decisions exceeds the proposed 20% allocation")
         if config.frame_skip != 4 or config.mode != "lab":
             raise ValueError("This development instrument requires repeat4 and laboratory mode")
-        self.engine = _PixelEngine(config)
+        self.engine = _RawBranchEngine(config)
         self.reference, self.scorer = ReferenceExtractor(), PerceptionScorer()
         self._decoder = decode_pong_ram
         self._ordinary_frames, self._episode, self._steps = 0, 0, 0
@@ -55,7 +61,6 @@ class _ReferenceEngine:
         reset_spent = self.engine.accounting()["reset_emulated_frames"]
         if reset_spent != self._reset_spent:
             self._episode += 1
-            self.reference.reset()  # disclosed experimenter-side fixture/reset boundary
             self._reset_spent = reset_spent
         self._ordinary_frames += 1
         self.scorer.observe_truth(labels, frame=self._ordinary_frames, episode=self._episode)

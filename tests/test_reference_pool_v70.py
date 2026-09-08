@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 
 from ragnarok.environments.emu_pool import EmulatorConfig
-from ragnarok.evaluation.reference_pool_v70 import ReferencePool, _ReferenceEngine
+from ragnarok.evaluation.reference_pool_v70 import ReferencePool, _ReferenceEngine, _RawBranchEngine
 
 
 def test_pixel_outputs_and_c_targets_do_not_depend_on_ram_labels():
@@ -56,4 +56,19 @@ def test_reference_history_resets_at_actual_ordinary_reset_not_at_branch_restore
     assert report["accounting"]["charged_frames"] == 153
     assert report["perception"]["observed_raw_frames"] == 9
     assert engine._episode == 1
-    assert engine.reference.frames_seen == 1
+    assert engine.reference.frames_seen == 3  # reference receives no oracle episode boundary
+
+
+def test_branch_endpoints_use_the_same_raw_convention_as_ordinary_images():
+    pytest.importorskip("ale_py")
+    engine = _RawBranchEngine(EmulatorConfig(seed=18104, experiment_fraction=.3))
+    for i in range(128):
+        engine.step((i // 8) % 18)
+    anchor = engine._capture()
+    engine._advance(3,4,experimental=True)
+    expected = engine.observe(raw=True)
+    assert not np.array_equal(expected, engine.observe(raw=False)), "Fixture must distinguish raw and pooled branches"
+    engine._restore(anchor)
+    intervention, control = engine.branch_pair(3,control=3)
+    assert np.array_equal(intervention,expected)
+    assert np.array_equal(control,expected)

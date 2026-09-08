@@ -1,0 +1,64 @@
+{
+  "kind": "pong_raw_reference_development_diagnostic",
+  "metrics": {
+    "frames": 4096,
+    "observed_raw_frames": 4096,
+    "predictions": 10648,
+    "matched_visible": 10547,
+    "eligible_moving": 9055,
+    "recalled_moving": 9027,
+    "recall_moving": 0.9969077857537272,
+    "precision_visible": 0.9905146506386175,
+    "per_type": {
+      "player": {
+        "visible": 4096,
+        "eligible": 2532,
+        "recalled": 2522,
+        "recall_moving": 0.9960505529225908
+      },
+      "enemy": {
+        "visible": 3965,
+        "eligible": 3959,
+        "recalled": 3959,
+        "recall_moving": 1.0
+      },
+      "ball": {
+        "visible": 2588,
+        "eligible": 2564,
+        "recalled": 2546,
+        "recall_moving": 0.9929797191887676
+      }
+    },
+    "gate_result": null
+  },
+  "oracle_reset_control": false,
+  "calibration_sha256": "d4b1abadff524efadb498d3897f6e68d68a056f3a0fdad82a262e54676ba9f0b",
+  "fixture_manifest_sha256": "8def3faa27a89221b0dc5a3df1c7e02d3a2bff80c4ef07f19406a44a1140c8c6",
+  "source_sha256": {
+    "scripts/ref_extract_v70.py": "177968ef2cebd894e668b6f6d6ae29dd85a4fd9062cfc1a95c885b8e374845f7",
+    "scripts/check_reference_v70.py": "0ade4be9d9cdc39351b1fe582421b5fc687e256de6cb6c0e26a3796445de5db8",
+    "ragnarok/evaluation/perception_v70.py": "d930fbe854acd1da3d2a0f7e6cf49bb8cd2ab688a1ada3e712d5b6d07e6577e7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/fixtures_v70.py": "762abb36b36040e0286381f236921a1ad653728fcca48a768a9293249864fc14"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "decode_seconds": 0.14610259995424713,
+  "reference_seconds": 7.359629000044151,
+  "score_seconds": 0.7977476999185455,
+  "wall_seconds": 8.665270399998917,
+  "measured_raw_frames_per_second": 493.2871934829741,
+  "including_fixture_io_raw_frames_per_second": 472.6915388584425,
+  "proposed_reference_recall_bar_met": true,
+  "gate_result": null,
+  "agent_training": false,
+  "limitations": [
+    "Only calibrated Pong raw frames; not max-pooled observation evaluation.",
+    "Every observed frame counted, including cold background and transition errors.",
+    "Oracle episode reset is a separate labelled control, disabled by default.",
+    "No learned parser, agency, drive, reader, identity or transfer result.",
+    "Timing excludes emulator, IPC and branch generation; not the gate throughput."
+  ]
+}

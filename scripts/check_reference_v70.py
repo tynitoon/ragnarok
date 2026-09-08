@@ -12,7 +12,7 @@ from ragnarok.evaluation.perception_v70 import PerceptionScorer
 from scripts.ref_extract_v70 import ReferenceExtractor
 
 
-def check(directory, calibration):
+def check(directory, calibration, *, oracle_reset_control=False):
     root = Path(__file__).resolve().parents[1]
     recorded = json.loads(calibration.read_text(encoding="utf-8"))
     if recorded.get("kind") != "development_pong_ram_calibration" or recorded.get("calibration_pass") is not True:
@@ -31,7 +31,7 @@ def check(directory, calibration):
         truths = decode_pong_ram(frame["ram"])
         decode_seconds += time.perf_counter() - tic
         tic = time.perf_counter()
-        if frame["episode"] != episode:
+        if oracle_reset_control and frame["episode"] != episode:
             reference.reset()
             episode = frame["episode"]
         boxes = reference.observe(frame["rgb"])
@@ -45,6 +45,7 @@ def check(directory, calibration):
     sources = ["scripts/ref_extract_v70.py", "scripts/check_reference_v70.py", "ragnarok/evaluation/perception_v70.py",
                "ragnarok/evaluation/pong_v70.py", "ragnarok/evaluation/fixtures_v70.py"]
     return dict(kind="pong_raw_reference_development_diagnostic", metrics=report,
+                oracle_reset_control=oracle_reset_control,
                 calibration_sha256=hashlib.sha256(calibration.read_bytes()).hexdigest(),
                 fixture_manifest_sha256=recorded["fixture_manifest_sha256"],
                 source_sha256={p: hashlib.sha256((root/p).read_bytes()).hexdigest() for p in sources},
@@ -56,7 +57,7 @@ def check(directory, calibration):
                 gate_result=None, agent_training=False,
                 limitations=["Only calibrated Pong raw frames; not max-pooled observation evaluation.",
                              "Every observed frame counted, including cold background and transition errors.",
-                             "Reference background reset uses fixture episode boundary, experimenter-side only.",
+                             "Oracle episode reset is a separate labelled control, disabled by default.",
                              "No learned parser, agency, drive, reader, identity or transfer result.",
                              "Timing excludes emulator, IPC and branch generation; not the gate throughput."])
 
@@ -66,10 +67,11 @@ if __name__ == "__main__":
     parser.add_argument("--fixtures", type=Path, required=True)
     parser.add_argument("--calibration", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--oracle-reset-control", action="store_true")
     args = parser.parse_args()
     if args.out.exists():
         parser.error("Keep the old diagnostic; choose a new path")
-    result = check(args.fixtures, args.calibration)
+    result = check(args.fixtures, args.calibration, oracle_reset_control=args.oracle_reset_control)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with args.out.open("x", encoding="utf-8") as stream:
         json.dump(result, stream, indent=2, allow_nan=False)

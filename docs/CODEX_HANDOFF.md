@@ -151,8 +151,14 @@ et fixtures de développement capturés, baseline du juge consignée en échec
 les trois objets. Référence pixels seuls : rappel mobile 99,669 %, précision
 98,789 %, rappel balle 99,298 % sur 17012. Les 13 nouveaux tests passent.
 Voir `docs/ARC4_PONG_CALIBRATION.md`. Prochaine étape en cours : débit avec
-émulation, échanges et branches inclus, puis extension calibrée aux jeux de
-développement. Ne pas confondre ces mesures sur images brutes avec une validation
+émulation, échanges et branches inclus. Cette chaîne brute est désormais mesurée
+sur 16 processus : 1 638 décisions/s (court), 1 200 (prolongé), pendant ARC 3.
+Les défauts initiaux (reset oracle du fond et branches max-poolées dans une
+chaîne brute) ont été conservés puis corrigés et revus ; 18 tests passent.
+Référence sans reset oracle sur 17012 : rappel 99,691 %, précision 99,051 %.
+Voir `docs/ARC4_CPU_CHAIN.md`. Prochaine étape : calibration temporelle des images
+max-poolées, puis extension calibrée aux jeux de développement. Ne pas confondre
+ces mesures sur images brutes avec une validation
 des observations max-poolées ou du gate 0. Les sources du décodeur scellé restent
 inchangées ; toute nouvelle convention exige une version distincte.
 Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.

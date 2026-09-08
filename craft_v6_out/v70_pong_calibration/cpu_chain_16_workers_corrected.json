@@ -1,0 +1,904 @@
+{
+  "kind": "pong_raw_repeat4_cpu_chain_benchmark",
+  "created_utc": "2026-09-08T22:22:00Z",
+  "workers": 16,
+  "ordinary_decisions_per_worker": 512,
+  "action_repeat": 4,
+  "branch_every_decisions": 128,
+  "startup_seconds": 4.226608499999202,
+  "work_seconds": 5.001451099999031,
+  "ordinary_agent_steps_per_second": 1637.9246415108582,
+  "including_experiment_agent_steps_per_second": 1663.5172140344655,
+  "emulated_frames_per_second": 6654.068856137862,
+  "logical_processors": 12,
+  "worker_reports": [
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1322,
+        "matched_visible": 1301,
+        "eligible_moving": 1248,
+        "recalled_moving": 1248,
+        "recall_moving": 1.0,
+        "precision_visible": 0.9841149773071104,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 448,
+            "recalled": 448,
+            "recall_moving": 1.0
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 80,
+      "self_generated_label_sha256": "42eee7f4391749aff121dfb90299225d80f200a4cbfa3f2ae2ce911cfc6a394c"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1323,
+        "matched_visible": 1301,
+        "eligible_moving": 1247,
+        "recalled_moving": 1243,
+        "recall_moving": 0.9967923015236567,
+        "precision_visible": 0.983371126228269,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 447,
+            "recalled": 443,
+            "recall_moving": 0.9910514541387024
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 0,
+      "self_generated_label_sha256": "ac8f5613c4b176d380009fa1306c49a027644dba38b9703ed102634c60f8d5ff"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1318,
+        "matched_visible": 1309,
+        "eligible_moving": 1250,
+        "recalled_moving": 1250,
+        "recall_moving": 1.0,
+        "precision_visible": 0.9931714719271624,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 450,
+            "recalled": 450,
+            "recall_moving": 1.0
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 224,
+      "self_generated_label_sha256": "7614768da6b583ced2371b59a558266d8ffa2980ffb85ff13e633e6b67e0a3fc"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1313,
+        "matched_visible": 1312,
+        "eligible_moving": 1255,
+        "recalled_moving": 1254,
+        "recall_moving": 0.999203187250996,
+        "precision_visible": 0.9992383853769993,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 455,
+            "recalled": 454,
+            "recall_moving": 0.9978021978021978
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 208,
+      "self_generated_label_sha256": "86aa236bb5445464711ce72f647da76d8ffee1d26e2714bcf82cbf015a5a7815"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1361,
+        "matched_visible": 1358,
+        "eligible_moving": 1265,
+        "recalled_moving": 1264,
+        "recall_moving": 0.9992094861660079,
+        "precision_visible": 0.9977957384276267,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 449,
+            "recalled": 448,
+            "recall_moving": 0.9977728285077951
+          },
+          "enemy": {
+            "visible": 485,
+            "eligible": 454,
+            "recalled": 454,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 362,
+            "eligible": 362,
+            "recalled": 362,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 0,
+      "self_generated_label_sha256": "ac8f5613c4b176d380009fa1306c49a027644dba38b9703ed102634c60f8d5ff"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1317,
+        "matched_visible": 1308,
+        "eligible_moving": 1245,
+        "recalled_moving": 1244,
+        "recall_moving": 0.9991967871485944,
+        "precision_visible": 0.9931662870159453,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 445,
+            "recalled": 444,
+            "recall_moving": 0.9977528089887641
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 0,
+      "self_generated_label_sha256": "ac8f5613c4b176d380009fa1306c49a027644dba38b9703ed102634c60f8d5ff"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1338,
+        "matched_visible": 1337,
+        "eligible_moving": 1243,
+        "recalled_moving": 1242,
+        "recall_moving": 0.999195494770716,
+        "precision_visible": 0.9992526158445441,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 451,
+            "recalled": 450,
+            "recall_moving": 0.9977827050997783
+          },
+          "enemy": {
+            "visible": 493,
+            "eligible": 459,
+            "recalled": 459,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 333,
+            "eligible": 333,
+            "recalled": 333,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 160,
+      "self_generated_label_sha256": "3f8ab5e2a1b8cc23fecc6e1585e53f803353d10157320abd4c3924d97d82b287"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1371,
+        "matched_visible": 1370,
+        "eligible_moving": 1253,
+        "recalled_moving": 1252,
+        "recall_moving": 0.9992019154030327,
+        "precision_visible": 0.9992706053975201,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 452,
+            "recalled": 451,
+            "recall_moving": 0.9977876106194691
+          },
+          "enemy": {
+            "visible": 482,
+            "eligible": 424,
+            "recalled": 424,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 377,
+            "eligible": 377,
+            "recalled": 377,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 208,
+      "self_generated_label_sha256": "a03ffaf9790ed81d01e8d832e003ffa0130f1c9c071d93b042ab2b40186c78ce"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1341,
+        "matched_visible": 1339,
+        "eligible_moving": 1281,
+        "recalled_moving": 1278,
+        "recall_moving": 0.9976580796252927,
+        "precision_visible": 0.9985085756897838,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 453,
+            "recalled": 452,
+            "recall_moving": 0.9977924944812362
+          },
+          "enemy": {
+            "visible": 486,
+            "eligible": 484,
+            "recalled": 484,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 344,
+            "eligible": 344,
+            "recalled": 342,
+            "recall_moving": 0.9941860465116279
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 160,
+      "self_generated_label_sha256": "2145fa7538e1c0a1b6d32571c73c084261bd4dbcf0d01cb0dd5a84ed35033be9"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1192,
+        "matched_visible": 1190,
+        "eligible_moving": 1115,
+        "recalled_moving": 1112,
+        "recall_moving": 0.9973094170403587,
+        "precision_visible": 0.9983221476510067,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 444,
+            "recalled": 443,
+            "recall_moving": 0.9977477477477478
+          },
+          "enemy": {
+            "visible": 382,
+            "eligible": 372,
+            "recalled": 372,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 299,
+            "eligible": 299,
+            "recalled": 297,
+            "recall_moving": 0.9933110367892977
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 96,
+      "self_generated_label_sha256": "74f66c9db06c5cb265017763cbe4ea4fabe1e056c622e2bebd98f17e4dcbf415"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1326,
+        "matched_visible": 1317,
+        "eligible_moving": 1252,
+        "recalled_moving": 1252,
+        "recall_moving": 1.0,
+        "precision_visible": 0.9932126696832579,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 445,
+            "recalled": 445,
+            "recall_moving": 1.0
+          },
+          "enemy": {
+            "visible": 491,
+            "eligible": 489,
+            "recalled": 489,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 318,
+            "eligible": 318,
+            "recalled": 318,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 16,
+      "self_generated_label_sha256": "7161c789bfe21ec2e2f3447934109065f9eace47e69769f747a484ee480e73ca"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1321,
+        "matched_visible": 1320,
+        "eligible_moving": 1261,
+        "recalled_moving": 1260,
+        "recall_moving": 0.9992069785884219,
+        "precision_visible": 0.9992429977289932,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 454,
+            "recalled": 453,
+            "recall_moving": 0.9977973568281938
+          },
+          "enemy": {
+            "visible": 491,
+            "eligible": 489,
+            "recalled": 489,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 318,
+            "eligible": 318,
+            "recalled": 318,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 112,
+      "self_generated_label_sha256": "4274434249fdbc43856361c5babdfe7eafe844102a59367f4d3eee16af92e688"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1314,
+        "matched_visible": 1312,
+        "eligible_moving": 1250,
+        "recalled_moving": 1249,
+        "recall_moving": 0.9992,
+        "precision_visible": 0.9984779299847792,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 450,
+            "recalled": 449,
+            "recall_moving": 0.9977777777777778
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 224,
+      "self_generated_label_sha256": "929f709fe17f4c63dd3c810759c9296584d92f91b9f0ce9e12ddccb1bc2b68e7"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1320,
+        "matched_visible": 1307,
+        "eligible_moving": 1252,
+        "recalled_moving": 1252,
+        "recall_moving": 1.0,
+        "precision_visible": 0.9901515151515151,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 452,
+            "recalled": 452,
+            "recall_moving": 1.0
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 160,
+      "self_generated_label_sha256": "dd2c8235c7dd1683b9afd3e6fb0d4623837427c406f35bad7dd810bb0a85eef1"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1313,
+        "matched_visible": 1312,
+        "eligible_moving": 1255,
+        "recalled_moving": 1254,
+        "recall_moving": 0.999203187250996,
+        "precision_visible": 0.9992383853769993,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 455,
+            "recalled": 454,
+            "recall_moving": 0.9978021978021978
+          },
+          "enemy": {
+            "visible": 498,
+            "eligible": 497,
+            "recalled": 497,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 303,
+            "eligible": 303,
+            "recalled": 303,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 128,
+      "self_generated_label_sha256": "f43182976bd3fa9786dace155201617f5170369574b1f44a28d6ed30c8a60094"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 2120,
+        "experiment_frames": 32,
+        "restores": 8,
+        "restore_charges": 480,
+        "emulated_frames": 2152,
+        "charged_frames": 2632,
+        "ordinary_agent_steps": 512,
+        "experiment_agent_steps": 8,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 512,
+        "observed_raw_frames": 2048,
+        "predictions": 1343,
+        "matched_visible": 1336,
+        "eligible_moving": 1269,
+        "recalled_moving": 1268,
+        "recall_moving": 0.9992119779353822,
+        "precision_visible": 0.9947877885331348,
+        "per_type": {
+          "player": {
+            "visible": 512,
+            "eligible": 448,
+            "recalled": 447,
+            "recall_moving": 0.9977678571428571
+          },
+          "enemy": {
+            "visible": 478,
+            "eligible": 474,
+            "recalled": 474,
+            "recall_moving": 1.0
+          },
+          "ball": {
+            "visible": 347,
+            "eligible": 347,
+            "recalled": 347,
+            "recall_moving": 1.0
+          }
+        },
+        "gate_result": null
+      },
+      "decisions": 512,
+      "ordinary_raw_frames": 2048,
+      "branch_pairs": 4,
+      "decoded_branch_frames": 32,
+      "changed_pixels": 128,
+      "self_generated_label_sha256": "49880d474d582321a8929e333f51ad5830b03e39a5c65ff51602d6bec7e7eb70"
+    }
+  ],
+  "source_sha256": {
+    "scripts/bench_reference_pool_v70.py": "b6b328f8ced58f2102bc923d9802340f6263c3117592b36b1000de9293a05478",
+    "ragnarok/evaluation/reference_pool_v70.py": "ac587f8171f89989836a3fce931cccaed59fd81bc3c49b4a4e5988e5236ea0ae",
+    "scripts/ref_extract_v70.py": "177968ef2cebd894e668b6f6d6ae29dd85a4fd9062cfc1a95c885b8e374845f7",
+    "ragnarok/evaluation/perception_v70.py": "d930fbe854acd1da3d2a0f7e6cf49bb8cd2ab688a1ada3e712d5b6d07e6577e7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/environments/emu_pool.py": "381455fbbc600a8cba4abef0f46f47514922d8bdeeeabca546c66dc814954893",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7"
+  },
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "gate_result": null,
+  "gpu_used": false,
+  "reference_uses_oracle_reset": false,
+  "ordinary_and_branch_images": "last_raw_frame",
+  "limitations": [
+    "Pong development only; action-repeat4 but last raw frame, not max-pooled truth.",
+    "Includes per-step full RGB IPC, causal reference, every-real-frame RAM decoding, end-of-repeat scoring, charged branch pairs and pixel C targets.",
+    "Startup separately reported; ARC3 GPU pretraining is concurrently active.",
+    "No learned parser, other games, reader/drives or complete gate0-A verdict."
+  ]
+}

@@ -36,12 +36,15 @@ def benchmark(workers, steps):
     return dict(kind="pong_raw_repeat4_cpu_chain_benchmark", created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
                 workers=workers, ordinary_decisions_per_worker=steps, action_repeat=4,
                 branch_every_decisions=128, startup_seconds=startup_seconds, work_seconds=work_seconds,
-                agent_steps_per_second=workers*steps/work_seconds,
+                ordinary_agent_steps_per_second=workers*steps/work_seconds,
+                including_experiment_agent_steps_per_second=sum(r["accounting"]["ordinary_agent_steps"] +
+                    r["accounting"]["experiment_agent_steps"] for r in reports)/work_seconds,
                 emulated_frames_per_second=sum(r["accounting"]["emulated_frames"]-72 for r in reports)/work_seconds,
                 logical_processors=os.cpu_count(), worker_reports=reports,
                 source_sha256={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in sources},
                 versions={p:importlib.metadata.version(p) for p in ("ale-py","numpy","scipy")},
-                gate_result=None, gpu_used=False,
+                gate_result=None, gpu_used=False, reference_uses_oracle_reset=False,
+                ordinary_and_branch_images="last_raw_frame",
                 limitations=["Pong development only; action-repeat4 but last raw frame, not max-pooled truth.",
                              "Includes per-step full RGB IPC, causal reference, every-real-frame RAM decoding, "
                              "end-of-repeat scoring, charged branch pairs and pixel C targets.",
@@ -63,4 +66,4 @@ if __name__ == "__main__":
     args.out.parent.mkdir(parents=True,exist_ok=True)
     with args.out.open("x",encoding="utf-8") as stream:
         json.dump(result,stream,indent=2,allow_nan=False)
-    print(json.dumps({k:result[k] for k in ("kind","workers","startup_seconds","work_seconds","agent_steps_per_second")},indent=2))
+    print(json.dumps({k:result[k] for k in ("kind","workers","startup_seconds","work_seconds","ordinary_agent_steps_per_second")},indent=2))

@@ -31,3 +31,36 @@ ce défaut est explicité ici, sans modifier rétroactivement le résultat.
 La variante max-poolée complète reste une étape ultérieure, avec calibration
 temporelle dédiée. La valeur proposée de 2 000 décisions/s pour le gate ne peut
 pas encore être jugée depuis ce benchmark sur Pong brut seul.
+
+## Version corrigée
+
+La référence conserve maintenant uniquement son histoire de pixels, y compris
+au changement d'épisode. La frontière d'épisode demeure dans le juge pour éviter
+les faux mouvements. Un moteur dérivé sélectionne le brut pour toutes les
+observations et toutes les branches ; le moteur original et le décodeur scellé
+ne sont pas modifiés. La revue indépendante confirme la clôture des deux défauts.
+
+18 tests passent ; ils comprennent un décodeur RAM volontairement vide qui
+change les scores mais pas les pixels, instances ou masques C, ainsi qu'une
+fixture où les images brutes et max-poolées diffèrent réellement.
+
+| Essai corrigé | Décisions ordinaires par processus | Débit ordinaire | Initialisation |
+|---|---:|---:|---:|
+| 16 processus, court | 512 | 1 638 décisions/s | 4,23 s |
+| 16 processus, prolongé | 2 048 | 1 200 décisions/s | 19,64 s |
+
+Fichiers : `cpu_chain_16_workers_corrected.json` et `cpu_chain_16_workers_long.json`.
+Le second couvre aussi des resets réels en cours de partie. Le calcul ARC 3 est
+actif ; ces mesures sont sensibles à la charge simultanée et ne constituent pas
+une estimation de débit au repos. Le numérateur publié est explicitement celui
+des décisions ordinaires ; le débit incluant les décisions expérimentales est
+fourni séparément. Tous les coûts de branches et restaurations restent comptés.
+
+Le diagnostic de référence sans reset oracle sur 17012 donne un rappel mobile
+de 99,691 %, une précision de 99,051 % et un rappel balle de 99,298 % :
+`reference_validation_no_oracle_reset.json`. Les anciens résultats avec reset
+oracle sont conservés comme contrôles et ne sont pas réinterprétés rétroactivement.
+
+Suite : vérifier séparément la convention max-poolée, puis mesurer la chaîne
+correspondante. La cible proposée de 2 000 décisions/s reste non atteinte par
+ces essais bruts ; l'extension aux autres jeux et les primitives restent à faire.
