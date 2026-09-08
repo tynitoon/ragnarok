@@ -1,0 +1,20 @@
+{
+  "kind": "breakout_maxpool_calibration_before_development_capture",
+  "game": "breakout",
+  "development_seed": 17121,
+  "reserved_validation_seed": 17122,
+  "decisions": 2048,
+  "action_repeat": 4,
+  "action_schedule": "Random(seed+100000), a uniform controller ID every4decisions, sticky0.25 every real frame",
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "capture": "Actual maximum of last2real RGB, both source RGB, RAM immediately before/after last real act, episode/frame counts and complete cold-load charges. Replace tap after every new native construction.",
+  "raw_judge": "Unchanged calibrated Breakout raw v1 sealed6e48ef4, with its disclosed boundary/occlusion approximation",
+  "ram_temporal_candidate": "Envelope of the two raw boxes for player/ball; spatial union of raw brick runs, merging adjacent intervals within each colour row",
+  "independent_pixel_check": "Raw RGB-only semantic checker on each source; retain each labelled pixel if it wins a channel or the two RGB are identical. Equality preserves contributions even when player/ball share the same red. Envelope for player/ball, connected runs per brick row. No RAM or reference extractor.",
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "matching": "Same cardinality-first box matching as raw calibration, all observed windows included",
+  "workflow": "Preserve development baseline, correct only on17121, review and seal sources before17122, keep reserved result without later candidate adjustment",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "scope": "Only actually emitted repeat4windows; no competence or learned perception claim"
+}
