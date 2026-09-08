@@ -64,7 +64,10 @@ record and budget are in `ARC3_PLAN.md` section 13: N=9, B_test=6, projected tot
 
 **ARC 4 — pixels and buttons, Atari to later console generations.** `ARC4_VISION.md` is a design draft
 for the longer goal of accumulating skills across games. It is not a frozen protocol or a demonstrated
-agent. The Codex recovery point and current execution state are indexed in `docs/CODEX_HANDOFF.md`.
+agent. Its first CPU instrument now runs Pong with reproducible branches and monotone cost accounting;
+27 tests pass. This is a foundation check, not gate 0 or a learning result; see
+[CPU bootstrap](docs/ARC4_CPU_BOOTSTRAP.md). The recovery point and current execution state are indexed
+in `docs/CODEX_HANDOFF.md`.
 
 ---
 

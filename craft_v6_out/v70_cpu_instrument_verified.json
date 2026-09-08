@@ -1,0 +1,97 @@
+{
+  "kind": "development_cpu_instrument_check",
+  "game": "pong",
+  "mode": 0,
+  "created_utc": "2026-09-08T21:32:32Z",
+  "audited_rom_md5": "60e0ea3cbe0913d39803477945e9e5ec",
+  "python": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+  "workers": 2,
+  "steps_per_worker": 512,
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "ragnarok/environments/emu_pool.py": "381455fbbc600a8cba4abef0f46f47514922d8bdeeeabca546c66dc814954893",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "scripts/check_emu_v70.py": "8de50f02385905bf25e6e25ee51e55ea662e4e75a945cb5ac2383e840ffa31a5"
+  },
+  "startup_seconds": 0.6513325000014447,
+  "ordinary_step_seconds": 0.8952658000016527,
+  "agent_steps_per_second": 1143.7943904459544,
+  "ordinary_emulated_frames_per_second": 4575.1775617838175,
+  "replay_equal": true,
+  "restored_pixels_equal": true,
+  "ordinary_trajectory_unchanged": true,
+  "before_pair": [
+    {
+      "ordinary_frames": 2120,
+      "experiment_frames": 0,
+      "restores": 0,
+      "restore_charges": 0,
+      "emulated_frames": 2120,
+      "charged_frames": 2120,
+      "ordinary_agent_steps": 512,
+      "experiment_agent_steps": 0,
+      "experiment_fraction": 0.2,
+      "max_charged_frames": 20000,
+      "reset_emulated_frames": 72,
+      "sticky_implementation": "worker-python-random-per-frame",
+      "sticky_probability": 0.25
+    },
+    {
+      "ordinary_frames": 2120,
+      "experiment_frames": 0,
+      "restores": 0,
+      "restore_charges": 0,
+      "emulated_frames": 2120,
+      "charged_frames": 2120,
+      "ordinary_agent_steps": 512,
+      "experiment_agent_steps": 0,
+      "experiment_fraction": 0.2,
+      "max_charged_frames": 20000,
+      "reset_emulated_frames": 72,
+      "sticky_implementation": "worker-python-random-per-frame",
+      "sticky_probability": 0.25
+    }
+  ],
+  "after_pair": [
+    {
+      "ordinary_frames": 2120,
+      "experiment_frames": 8,
+      "restores": 2,
+      "restore_charges": 120,
+      "emulated_frames": 2128,
+      "charged_frames": 2248,
+      "ordinary_agent_steps": 512,
+      "experiment_agent_steps": 2,
+      "experiment_fraction": 0.2,
+      "max_charged_frames": 20000,
+      "reset_emulated_frames": 72,
+      "sticky_implementation": "worker-python-random-per-frame",
+      "sticky_probability": 0.25
+    },
+    {
+      "ordinary_frames": 2120,
+      "experiment_frames": 0,
+      "restores": 0,
+      "restore_charges": 0,
+      "emulated_frames": 2120,
+      "charged_frames": 2120,
+      "ordinary_agent_steps": 512,
+      "experiment_agent_steps": 0,
+      "experiment_fraction": 0.2,
+      "max_charged_frames": 20000,
+      "reset_emulated_frames": 72,
+      "sticky_implementation": "worker-python-random-per-frame",
+      "sticky_probability": 0.25
+    }
+  ],
+  "gate_result": null,
+  "limitations": [
+    "Only Pong mode 0 bootstrap is audited; other ROMs disabled.",
+    "Sticky actions use worker RNG, not ALE's native sticky RNG stream.",
+    "CPU pool throughput excludes parser, scorer, labels and training.",
+    "No learned perception, competence or transfer claim."
+  ]
+}

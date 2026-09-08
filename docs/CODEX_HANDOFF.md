@@ -43,8 +43,8 @@ Vérifications locales au moment du transfert :
   dans `ARC3_PLAN.md` §13 et en fin de `preregistration.md`.
 - Des JSON/checkpoints de smoke tests et du gate, ainsi que `.codex/`, étaient
   déjà non suivis. Ne pas les inclure dans un commit documentaire.
-- Aucun fichier `scripts/*v70*` trouvé : les modules décrits dans ARC 4 restent
-  une liste d'implémentation prévue, pas une implémentation validée.
+- À la récupération initiale, aucun fichier `scripts/*v70*` n'existait. Depuis,
+  le premier module CPU a été implémenté et vérifié ; état actuel ci-dessous.
 
 ## Résultats antérieurs à préserver
 
@@ -98,8 +98,17 @@ Ces PID sont un relevé de démarrage, pas une preuve que les processus tournent
 encore : vérifier l'état et les lignes de commande au prochain tour. Les trois
 préentraînements puis le probe sont enchaînés automatiquement par le lanceur,
 sans autre appel de modèle. Il s'arrête après le probe pour revue, même si le
-probe passe. Aucun suivi planifié ni lancement confirmatoire n'a été créé.
+probe passe. Un suivi horaire est maintenant actif dans cette tâche : automation
+`suivi-ragnarok-arc-3`, « Suivi Ragnarok ARC 3 ». Il reste silencieux pendant la
+progression normale et reprend la revue à la fin du probe. Aucun lancement
+confirmatoire n'a encore eu lieu. Ce suivi doit se mettre en pause à la clôture
+de l'ARC 3 ou si une décision de Jérémie devient nécessaire.
 Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
+
+Dernier relevé du 8 septembre au soir : les deux processus de démarrage sont
+actifs avec les commandes attendues, le premier monde 8200 a été sauvegardé et
+le deuxième, 8201, a commencé. Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
+les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
 
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
@@ -108,7 +117,7 @@ pas lancer la suite. Les valeurs par défaut de `gate_v61` visent les anciens
 mondes et peuvent écraser leurs fichiers : ne pas l'exécuter sans les arguments
 gelés. « Publier » ici ne vaut pas autorisation d'envoyer ou pousser à distance.
 
-## ARC 4 : prochain travail de conception
+## ARC 4 : premier module CPU terminé, protocole encore en conception
 
 `ARC4_VISION.md` est un brouillon, non gelé, issu d'un panel de conception et
 d'un premier audit ; réponses dans sa §10. Le deuxième audit avait été interrompu
@@ -118,8 +127,23 @@ La note Claude référence `workflows/scripts/arc4-vision-audit-wf_9393b889-a8b.
 emplacement réel et compatibilité non vérifiés, ne pas supposer ce workflow
 disponible dans Codex.
 
-Prochain jalon : comptabilité des frames et admission des expériences, pool avec
-restauration reproductible, calibration indépendante du juge et débit CPU.
+Jérémie a autorisé le démarrage de l'ARC 4 pendant le calcul ARC 3. Le premier
+module CPU est implémenté : `frame_budget_v70.py`, `emu_pool.py`, script de contrôle
+et 27 tests réussis en 9,91 s. Environnement séparé `.venv-arc4`, sans Torch ;
+ne pas installer ses dépendances dans l'environnement de l'ARC 3. Seul Pong mode 0
+est activé. Sauvegardes avec RNG/historique sticky et images brutes, coût réel des
+resets et compteurs sans remboursement, sessions manuelles facturées, transport
+entre processus corrigé après revue indépendante. Détails et commandes :
+`docs/ARC4_CPU_BOOTSTRAP.md`, `ARC4_VISION.md` §12.
+
+Résultat final `craft_v6_out/v70_cpu_instrument_verified.json` : environ
+1 144 décisions/s pour deux processus, trois contrôles de reproduction réussis.
+Ce débit exclut perception, évaluateur et apprentissage. Le JSON préliminaire
+`v70_cpu_instrument.json` est conservé ; utiliser `verified` pour le code final.
+Aucun gate 0 ni apprentissage ARC 4 n'a été lancé.
+
+Prochain jalon CPU : calibration indépendante du juge, extracteur de référence,
+puis débit de la chaîne complète.
 Résoudre le registre de jeux et les budgets d'entrée avant le gel du gate 0.
 La mesure séparant adaptation et avance initiale reste à définir avant les gels
 scientifiques ultérieurs. §6 décrit le travail prévu. Le premier gate examine les primitives

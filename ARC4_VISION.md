@@ -291,6 +291,10 @@ byte-identical screens, including after a restore; test raw and max-pooled obser
 laboratory sticky-action setting explicitly; live evaluation retains p = 0.25 (4.2). Shared RNG state
 controls stochastic differences between the branch pair; it is never exposed to the agent. The global
 charged-frame ledger is outside restored episode state and must never rewind.
+
+CPU verification on ALE 0.12.1 found that native snapshots omit sticky-action history and do not
+immediately refresh the RGB buffer. The first instrument therefore owns sticky RNG/history and saved
+raw frames; it also charges audited reset frames absent from ALE's frame getters. See section 12.
 COMPETENCE is read ONLY in live mode (fresh emulator,
 savestates off, single life sequence, the demo code path, ALE's 108k-frame episode cap). The
 savestate-assisted score is reported beside it; a live/lab success ratio < 0.5 is the savestate-
@@ -634,3 +638,23 @@ USEFUL CPU ORDER: charge ledger and trial schedule -> emulator pool and exact re
 scorer calibration -> reference extractor and end-to-end throughput -> gate-0 protocol/registry freeze.
 Parser, grouping and odometer feasibility remain empirical hypotheses to test under that protocol;
 the audit has neither proved them viable nor declared them impossible.
+
+## 12. First CPU instrument milestone, 2026-09-08 — not a gate
+
+Implemented `frame_budget_v70.py`, `emu_pool.py`, a bounded check script and 27 passing CPU tests in
+an isolated Python 3.14 environment (ALE 0.12.1, NumPy 2.4.4, no Torch). Only the audited Pong mode-0
+ROM is enabled. The module returns pixels, retains opaque snapshots inside workers, saves native RNG
+plus its own sticky-action state and raw images, and counts the 72-frame bootstrap/reset cost.
+Ordinary play, experiment frames and 60-frame restore charges remain separate and never rewind.
+An explicit snapshot session classifies subsequent steps as experiments until every token is released;
+the persistent E4 archive still needs its own interface. No decay schedule is implicitly introduced.
+
+Independent review exposed native replay/reset pitfalls and IPC/manual-session defects; corrections
+are covered by the tests. The final two-worker check measured about 1,144 decisions/s and 4,575
+ordinary emulated frames/s, excluding startup, parser, scorer and training. Same-action branch pixels,
+restored pixels and the subsequent ordinary trajectory match exactly in this check. This is an
+instrument result, with no gate, perception, competence or accelerated-learning claim.
+
+Details, primary-source references, commands, limitations and result provenance:
+[CPU bootstrap](docs/ARC4_CPU_BOOTSTRAP.md). Next: independent scorer calibration, reference extractor
+and full-pipeline throughput, followed by the still-required gate-0 registry/protocol freeze in section 11.

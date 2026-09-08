@@ -21,6 +21,7 @@ skills_data/*
 
 .env
 .venv/
+.venv-arc4/
 venv/
 venv310/
 venv311/
