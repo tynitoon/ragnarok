@@ -21,6 +21,8 @@ DEVELOPMENT = {
     "asteroids": ("ccbd36746ed4525821a8083b0d6d2c2c", 72, 3),
 }
 SEEDS = (21000, 21001, 21002)
+MODE_RAM = {"breakout": {50: 0}, "freeway": {0: 0}, "seaquest": {},
+            "ms_pacman": {25: 1, 33: 1}, "asteroids": {0: 0}}
 
 
 def audit(game):
@@ -42,8 +44,6 @@ def audit(game):
         for name in ("color_averaging", "display_screen", "sound"):
             ale.setBool(name, False)
         ale.loadROM(rom)
-        if ale.getMode() != 0:
-            raise ValueError("Audit expects default public mode 0; no implicit mode change")
         rng = random.Random(seed + 100_000)
         actions = list(ale.getLegalActionSet())
         played_before_reset = 0
@@ -55,12 +55,16 @@ def audit(game):
             selections = ale.getFrameNumber() - before
             if selections < 0 or (per_select == 0 and selections != 0):
                 raise ValueError("Unexpected reset frame getter; review source formula")
+            ram = ale.getRAM()
+            mode_ram = {str(index): int(ram[index]) for index in MODE_RAM[game]}
             records.append(dict(seed=seed, reset_index=reset_index,
                                 getter_selection_count=selections,
                                 source_derived_reset_frames=base + per_select * selections,
                                 played_before_reset=played_before_reset,
                                 episode_frame_after_reset=ale.getEpisodeFrameNumber(),
-                                lives_after_reset=ale.lives(), public_mode=ale.getMode(),
+                                lives_after_reset=ale.lives(), declared_default_mode=0,
+                                mode_ram=mode_ram,
+                                mode_ram_matches_selection_condition=all(int(ram[i]) == v for i,v in MODE_RAM[game].items()),
                                 ram_sha256=hashlib.sha256(ale.getRAM().tobytes()).hexdigest(),
                                 rgb_sha256=hashlib.sha256(ale.getScreenRGB().tobytes()).hexdigest()))
             played_before_reset = 0

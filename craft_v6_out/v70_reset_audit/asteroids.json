@@ -1,0 +1,255 @@
+{
+  "kind": "development_ale_reset_source_counter_audit",
+  "game": "asteroids",
+  "created_utc": "2026-09-08T22:59:01Z",
+  "rom_md5": "ccbd36746ed4525821a8083b0d6d2c2c",
+  "ale_version": "0.12.1",
+  "source_sha256": "b55b6646441ea4d98e6777ff413baf200f62a071e84d70693ec678c17a1fa2da",
+  "protocol_sha256": "bf796f3a798fd2ae25e89a55d87c551cdff6d1466e76f4310d02dc2ed502f901",
+  "records": [
+    {
+      "seed": 21000,
+      "reset_index": 0,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 0,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21000,
+      "reset_index": 1,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 32,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21000,
+      "reset_index": 2,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 127,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21000,
+      "reset_index": 3,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21000,
+      "reset_index": 4,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21001,
+      "reset_index": 0,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 0,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21001,
+      "reset_index": 1,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 32,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21001,
+      "reset_index": 2,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 127,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21001,
+      "reset_index": 3,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21001,
+      "reset_index": 4,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21002,
+      "reset_index": 0,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 0,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21002,
+      "reset_index": 1,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 32,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21002,
+      "reset_index": 2,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 127,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21002,
+      "reset_index": 3,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    },
+    {
+      "seed": 21002,
+      "reset_index": 4,
+      "getter_selection_count": 0,
+      "source_derived_reset_frames": 72,
+      "played_before_reset": 256,
+      "episode_frame_after_reset": 0,
+      "lives_after_reset": 4,
+      "declared_default_mode": 0,
+      "mode_ram": {
+        "0": 0
+      },
+      "mode_ram_matches_selection_condition": true,
+      "ram_sha256": "66e669af738a89ee45d42455a28b01dc1aaae7ecb83f46e8541f5e1ed0d892bf",
+      "rgb_sha256": "f9ae97f7d6a77b706160dd4578c6c5db669ea386b533801e7a12f9ffb3d42f75"
+    }
+  ],
+  "total_source_derived_frames": 3093,
+  "agent_training_allowed": false,
+  "runtime_activation_allowed": false,
+  "limitation": "Finite samples establish observed costs only, not a worst-case bound."
+}
