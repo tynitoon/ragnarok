@@ -1,0 +1,22 @@
+{
+  "kind": "independent_breakout_raw_calibration_before_development_capture",
+  "game": "breakout",
+  "rom_md5": "f34f08e5eb96e500e851a80be3277a56",
+  "mode": 0,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "development_seed": 17111,
+  "reserved_validation_seed": 17112,
+  "frames_per_sequence": 4096,
+  "capture": "Every real raw frame, current128bytes RAM, cold episode index and complete charged count. Uniform action each16frames using Random(seed+100000), sticky0.25 per frame. Max episode108000.",
+  "object_set": ["player paddle", "ball", "maximal horizontal runs of adjacent intact bricks, separated by colour row"],
+  "excluded": "Score/lives/player-number HUD and permanent boundary walls. Brick runs are visible connected units, not108 independently separated pixel objects.",
+  "geometry": "Visible bounding box xywh, half-open edges, centers x+w/2,y+h/2. Playfield x8..152,y32..197. Objects clipped to visible field.",
+  "independent_check": "Scorer-only semantic palette from raw RGB, paddle's wide component near the bottom, compact ball component, coloured brick-row extents. No RAM or learned/reference extractor in screen checker. Occlusions and ambiguity logged as presence disagreement; no favourable frame selection.",
+  "matching": "By semantic type; brick runs also by colour row. Maximize number with all box-edge errors<=1pixel, then minimize edge distance. Presence uses full per-frame object count, no unknown-to-perfect substitution.",
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "workflow": "Record first candidate baseline even if it fails; correct only on development; independently review and seal sources before opening17112. Keep reserved result and do not adjust candidate afterward.",
+  "data_allowed_for_agent_training": false,
+  "reference_is_teacher": false,
+  "gate_result": null,
+  "scope": "Raw geometry only, not pooled geometry, score, event detection, competence or learning."
+}
