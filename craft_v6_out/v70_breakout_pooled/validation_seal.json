@@ -1,0 +1,22 @@
+{
+  "kind": "breakout_pooled_calibration_seal_before_reserved_sequence",
+  "created_utc": "2026-09-08T23:51:37Z",
+  "source_commit": "eb21d2003ddd86fa4cc900e2d4f695af4bac9923",
+  "validation_seed": 17122,
+  "decisions": 2048,
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "scripts/calibrate_breakout_pooled_v70.py": "af05ecc8ef126fa116f8a8fb7b44eb49e505598507243244d58ee0a030961078",
+    "docs/ARC4_BREAKOUT_POOLED_PROTOCOL.json": "0efd6cf0c0466956e6afe4b17eb38ebb0177d0e2664415e910a4d8df040f7f8a",
+    "scripts/capture_cold_pooled_v70.py": "8759a4f7743ead8d4d2a48e2bb7b60c9164050104522d38f667454bf284aacef",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083"
+  },
+  "development_result_sha256": "abf6e72a61c30f75351e665f50300c5803ed185950a1c1b28778f535f6abf59b",
+  "thresholds_unchanged": true,
+  "known_limits": "Two-source provenance can be ambiguous from maxRGB alone; raw clipping/contact approximation retained; paddle development box fraction barely above99%."
+}
