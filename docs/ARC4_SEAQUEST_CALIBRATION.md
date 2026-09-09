@@ -59,3 +59,21 @@ faire disparaître les désaccords. La capture supplémentaire devra utiliser un
 contrôleur pixels/boutons réservé à l'instrumentation, partir à froid et garder
 toutes les frames, morts et coûts. Sa couverture sera évaluée séparément de
 l'accord géométrique et ses résultats ne dilueront pas ceux de 17311.
+
+## Couverture supplémentaire préparée avant 17331
+
+`ARC4_SEAQUEST_COVERAGE_PROTOCOL.json` fixe 32768 frames et un contrôleur RGB
+réservé à l'instrumentation. Il attend le remplissage visible de l'oxygène,
+cherche les plongeurs, puis remonte après six prises ou lorsque l'air baisse.
+Ces règles s'appuient sur le [manuel Activision](https://www.atariage.com/manual_html_page.php?SoftwareLabelID=424).
+Il n'utilise ni RAM, ni récompense, ni accord du juge pour choisir les boutons.
+Revue Ohm close après correction de l'attente initiale et ajout de l'identité
+finale des coûts ; deux tests CPU sans nouvelle ROM passent.
+
+17332 est déclaré réservé, mais son exécution reste entièrement désactivée
+jusqu'à la revue et au sceau complet des sources de géométrie et de mesure.
+Les 99 % de présence sur frames positives sont fixés pour la nouvelle collecte
+avant son ouverture. Sous-marin de surface évalué séparément, pas de dilution
+des erreurs anciennes, ni de confusion entre comptages d'objets par frame et
+apparitions indépendantes. Les fixtures ne servent pas à entraîner l'agent,
+la référence RGB ou à lui fournir des états avancés.

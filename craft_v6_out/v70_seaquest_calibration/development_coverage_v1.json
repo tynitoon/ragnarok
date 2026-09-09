@@ -1,0 +1,101 @@
+{
+  "kind": "seaquest_raw_ram_coverage_only",
+  "seed": 17311,
+  "frames": 8192,
+  "charged_frames": 8960,
+  "per_type": {
+    "player": {
+      "frames": 6608,
+      "instances": 6608,
+      "episodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "first_frame": 1,
+      "minimum_50_instances_observed": true
+    },
+    "shark": {
+      "frames": 1630,
+      "instances": 5635,
+      "episodes": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "first_frame": 561,
+      "minimum_50_instances_observed": true
+    },
+    "submarine": {
+      "frames": 0,
+      "instances": 0,
+      "episodes": [],
+      "first_frame": null,
+      "minimum_50_instances_observed": false
+    },
+    "diver": {
+      "frames": 5166,
+      "instances": 10861,
+      "episodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "first_frame": 133,
+      "minimum_50_instances_observed": true
+    },
+    "enemy_missile": {
+      "frames": 0,
+      "instances": 0,
+      "episodes": [],
+      "first_frame": null,
+      "minimum_50_instances_observed": false
+    },
+    "player_missile": {
+      "frames": 1021,
+      "instances": 1021,
+      "episodes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "first_frame": 161,
+      "minimum_50_instances_observed": true
+    },
+    "surface_submarine": {
+      "frames": 0,
+      "instances": 0,
+      "episodes": [],
+      "first_frame": null,
+      "minimum_50_instances_observed": false
+    }
+  },
+  "progression_ram61": [
+    0
+  ],
+  "surface_unlock_ram60": [
+    0
+  ],
+  "intended_coverage_observed": false,
+  "source_sha256": {
+    "scripts/check_seaquest_coverage_v70.py": "b187ab3a93884be6edb567b0cbabf628217e45c4f7cfeee65a53b361e0094bca",
+    "ragnarok/evaluation/seaquest_v70.py": "cb066392f1f331ed27d9604b3a87f1217e74ebecd98655b2929d995f8d21a55e",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "c1d9e30fe458530670676c4cdf67c58a3b13e384a26b5fbf027dd1e36606a529"
+  },
+  "fixture_manifest_sha256": "725c307ce9cf7e1ad32a6a7b29316708c96af92d7090600844ddfd00cce270e5",
+  "scope": "Counts of RAM-indicated visible actors only; no RGB agreement, no geometry pass, no agent result",
+  "calibration_pass": null,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
