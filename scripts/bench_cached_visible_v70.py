@@ -121,20 +121,29 @@ def wiring():
     record=dict(status='started',started_utc=utc(),**proof)
     write_new(attempt,record)
     objects=[];pool=None;constructing=None;private_report=None
+    known_reports={};report_errors={}
     def create(name,cls,config):
         nonlocal constructing
         constructing=name
         obj=cls(config,reference_backend='native',native_build=original.NATIVE_BUILD)
         objects.append((name,obj));constructing=None
         return obj
+    def read_report(name,obj):
+        if name in known_reports:return known_reports[name]
+        if name in report_errors:raise ValueError(report_errors[name])
+        try:known_reports[name]=obj.report()
+        except BaseException as error:
+            report_errors[name]=f'{type(error).__name__}: {error}'
+            raise
+        return known_reports[name]
     def reports():
         rows=[]
         for name,obj in objects:
-            try:rows.append(dict(name=name,report=obj.report()))
+            try:rows.append(dict(name=name,report=read_report(name,obj)))
             except BaseException as error:rows.append(dict(name=name,accounting_error=str(error)))
         if private_report is not None:rows.append(dict(name='cached_spawn',report=private_report))
         elif pool is not None:
-            try:rows.append(dict(name='cached_spawn',report=pool.report()))
+            try:rows.append(dict(name='cached_spawn',report=read_report('cached_spawn',pool)))
             except BaseException as error:rows.append(dict(name='cached_spawn',accounting_error=str(error)))
         return rows
     try:
@@ -145,9 +154,11 @@ def wiring():
             for step in range(case['decisions']):
                 action=(step//4)%18
                 _same_outputs(left.step(action),right.step(action))
-            if left.report()!=right.report() or not _same_history(left.engine._ale,right.engine._ale):
+            left_report=read_report(f"original_{case['seed']}",left)
+            right_report=read_report(f"cached_{case['seed']}",right)
+            if left_report!=right_report or not _same_history(left.engine._ale,right.engine._ale):
                 raise ValueError('Complete cached/native reports or three-frame native histories differ')
-            report=right.report()
+            report=right_report
             if report['accounting']['cold_loads']!=2 or report['branch_pairs']!=1:
                 raise ValueError('Both paired wiring cases require a cold transition and one paid pair')
             if case['seed']==19177 and (report['decoded_branch_frames']!=0
@@ -164,7 +175,7 @@ def wiring():
         rgb,boxes=pool.step([3])[0]
         if rgb.shape!=(210,160,3) or rgb.dtype!=np.uint8 or boxes.ndim!=2 or boxes.shape[1]!=4:
             raise ValueError('Malformed cached reference observation')
-        private_report=pool.report();processes=list(pool._processes)
+        private_report=read_report('cached_spawn',pool);processes=list(pool._processes)
         pool.close();pool=None
         if any(p.is_alive() for p in processes):raise ValueError('Cached worker did not exit')
         rows=reports()

@@ -126,6 +126,27 @@ def test_wiring_second_constructor_failure_retains_first_constructor_cost(tmp_pa
     assert attempt['no_retry'] and not bench.WIRING.exists()
 
 
+def test_wiring_keeps_first_known_report_when_peer_fails_and_never_rereads_either(tmp_path,monkeypatch):
+    setup(tmp_path,monkeypatch)
+    calls={'original':0,'cached':0}
+    output=np.zeros((210,160,3),np.uint8),np.zeros((0,4),np.int64)
+    def original_report():
+        calls['original']+=1
+        if calls['original']>1:raise MemoryError('synthetic later original report allocation')
+        return dict(accounting=dict(charged_frames=2020))
+    def cached_report():
+        calls['cached']+=1
+        raise MemoryError('synthetic cached report allocation')
+    monkeypatch.setattr(bench,'VisibleReferenceEngine',lambda *a,**k:SimpleNamespace(step=lambda action:output,report=original_report))
+    monkeypatch.setattr(bench,'CachedVisibleEngine',lambda *a,**k:SimpleNamespace(step=lambda action:output,report=cached_report))
+    with pytest.raises(MemoryError,match='cached report'):bench.wiring()
+    attempt=json.loads(bench._attempt_path(bench.WIRING).read_text())
+    assert attempt['known_charged_frames']==2020 and not attempt['accounting_complete']
+    assert calls=={'original':1,'cached':1}
+    assert attempt['partial_reports'][0]['report']['accounting']['charged_frames']==2020
+    assert 'cached report allocation' in attempt['partial_reports'][1]['accounting_error']
+
+
 def test_postpaid_proof_change_keeps_reports_and_cannot_publish_success(tmp_path,monkeypatch):
     created,_=setup(tmp_path,monkeypatch)
     calls=[]
