@@ -1,0 +1,358 @@
+{
+  "kind": "independent_seaquest_raw_calibration",
+  "created_utc": "2026-09-09T02:36:12Z",
+  "decoder_revision": "seaquest_raw_development_visible_fragments_v5",
+  "seed": 17311,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8187,
+      "joint_matches": 6603,
+      "boxes_within1": 6600,
+      "boxes_exact": 6600,
+      "ram_objects": 6608,
+      "pixel_objects": 6603,
+      "presence_fraction": 0.9993896484375,
+      "box_fraction": 0.9995456610631531,
+      "passed": true
+    },
+    "shark": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 5635,
+      "boxes_within1": 5635,
+      "boxes_exact": 5633,
+      "ram_objects": 5635,
+      "pixel_objects": 5635,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "submarine": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "presence_fraction": 1.0,
+      "box_fraction": null,
+      "passed": false
+    },
+    "diver": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 10861,
+      "boxes_within1": 10861,
+      "boxes_exact": 10861,
+      "ram_objects": 10861,
+      "pixel_objects": 10861,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "enemy_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "presence_fraction": 1.0,
+      "box_fraction": null,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8182,
+      "joint_matches": 971,
+      "boxes_within1": 971,
+      "boxes_exact": 971,
+      "ram_objects": 981,
+      "pixel_objects": 971,
+      "presence_fraction": 0.998779296875,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": [
+    {
+      "frame": 1545,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          33,
+          16,
+          11
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2118,
+      "kind": "player_missile",
+      "ram": [
+        [
+          83,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2120,
+      "kind": "player",
+      "ram": [
+        [
+          78,
+          57,
+          16,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          73,
+          57,
+          21,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 2120,
+      "kind": "player_missile",
+      "ram": [
+        [
+          73,
+          60,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 2533,
+      "kind": "player_missile",
+      "ram": [
+        [
+          74,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 3234,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          33,
+          16,
+          11
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 3398,
+      "kind": "player_missile",
+      "ram": [
+        [
+          47,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 3400,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          57,
+          16,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          37,
+          57,
+          23,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 3400,
+      "kind": "player_missile",
+      "ram": [
+        [
+          37,
+          60,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 4054,
+      "kind": "player_missile",
+      "ram": [
+        [
+          62,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 4459,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          33,
+          16,
+          10
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 4949,
+      "kind": "player_missile",
+      "ram": [
+        [
+          59,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 4951,
+      "kind": "player",
+      "ram": [
+        [
+          56,
+          57,
+          16,
+          6
+        ]
+      ],
+      "pixels": [
+        [
+          49,
+          57,
+          23,
+          6
+        ]
+      ]
+    },
+    {
+      "frame": 4951,
+      "kind": "player_missile",
+      "ram": [
+        [
+          49,
+          60,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 5900,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          33,
+          16,
+          10
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 6517,
+      "kind": "player_missile",
+      "ram": [
+        [
+          62,
+          58,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 7325,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          33,
+          16,
+          11
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 7942,
+      "kind": "player_missile",
+      "ram": [
+        [
+          59,
+          63,
+          8,
+          1
+        ]
+      ],
+      "pixels": []
+    }
+  ],
+  "fixture_manifest_sha256": "725c307ce9cf7e1ad32a6a7b29316708c96af92d7090600844ddfd00cce270e5",
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}

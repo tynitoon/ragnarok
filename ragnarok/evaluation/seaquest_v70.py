@@ -11,7 +11,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="seaquest_raw_development_surface_and_projectiles_v4"
+REVISION="seaquest_raw_development_visible_fragments_v5"
 KINDS=("player","shark","submarine","diver","enemy_missile","player_missile")
 ROI=(0,33,160,165)
 PLAYER_COLOURS=((187,187,53),(236,236,236))
@@ -19,8 +19,9 @@ SHARK_COLOURS=((92,186,92),(198,108,58),(160,171,79),(72,160,72),(198,89,179))
 SUBMARINE_COLOUR=(170,170,170)
 BLUE=(66,72,200)
 
-# Empirical sprite support from development17311 only. These masks belong to
-# the external RAM evaluator, never to the agent or the generic RGB reference.
+# Empirical supports: sharks/divers initially from17311; player/submarine
+# refinements from17311/17331/17341, and surface patrol from17361. These belong
+# to the external evaluator, never to the agent or generic RGB reference.
 # Full sprites have animation variants; boundaries must use occupied pixels,
 # rather than intersecting an 8xN rectangle with the screen edge.
 SHARK_SUPPORT=(
@@ -186,7 +187,7 @@ def _player_and_projectiles(rgb):
     boxes=_merge_fragments(_components(rgb,PLAYER_COLOURS,vertical_gap=4),16,11)
     for box in boxes:
         x,y,w,h=box
-        if h>6:
+        if h>1:
             if w>16:
                 part=rgb[y:y+h,x:x+w]
                 mask=np.any(np.stack([np.all(part==c,axis=2) for c in PLAYER_COLOURS]),axis=0)
@@ -287,7 +288,7 @@ unseen types remain explicit calibration concerns rather than inferred labels.
     groups["player"],groups["player_missile"]=_player_and_projectiles(rgb)
     groups["shark"]=_merge_fragments(_components(rgb,SHARK_COLOURS),8,7)
     grey=_components(rgb,(SUBMARINE_COLOUR,))
-    groups["submarine"]=[box for box in grey if box[1]>=57]+_merge_fragments(
+    groups["submarine"]=_merge_fragments([box for box in grey if box[1]>=57],8,11)+_merge_fragments(
         [box for box in grey if box[1]<57],8,8)
     groups["diver"],groups["enemy_missile"]=_blue_actors(rgb)
     return [ObjectLabel(kind,box) for kind in KINDS for box in groups[kind]]

@@ -1,0 +1,400 @@
+{
+  "kind": "seaquest_development_coverage_geometry",
+  "seed": 17331,
+  "decoder_revision": "seaquest_raw_development_visible_fragments_v5",
+  "created_utc": "2026-09-09T02:44:22Z",
+  "per_type": {
+    "player": {
+      "frames": 32768,
+      "presence_count_agreement": 32755,
+      "positive_frames": 29024,
+      "positive_count_agreement": 29011,
+      "ram_objects": 29024,
+      "pixel_objects": 29011,
+      "joint_matches": 29011,
+      "boxes_within1": 29002,
+      "boxes_exact": 29002,
+      "presence_fraction": 0.999603271484375,
+      "positive_presence_fraction": 0.9995520948180816,
+      "box_fraction": 0.999689772844783,
+      "passed": true
+    },
+    "shark": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 17004,
+      "positive_count_agreement": 17004,
+      "ram_objects": 60032,
+      "pixel_objects": 60032,
+      "joint_matches": 60032,
+      "boxes_within1": 60032,
+      "boxes_exact": 60030,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 311,
+      "positive_count_agreement": 311,
+      "ram_objects": 989,
+      "pixel_objects": 989,
+      "joint_matches": 989,
+      "boxes_within1": 989,
+      "boxes_exact": 23,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "diver": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 1632,
+      "positive_count_agreement": 1632,
+      "ram_objects": 3024,
+      "pixel_objects": 3024,
+      "joint_matches": 3024,
+      "boxes_within1": 3024,
+      "boxes_exact": 3024,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "enemy_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 222,
+      "positive_count_agreement": 222,
+      "ram_objects": 540,
+      "pixel_objects": 540,
+      "joint_matches": 540,
+      "boxes_within1": 540,
+      "boxes_exact": 540,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 32706,
+      "positive_frames": 19761,
+      "positive_count_agreement": 19699,
+      "ram_objects": 19761,
+      "pixel_objects": 19699,
+      "joint_matches": 19699,
+      "boxes_within1": 19699,
+      "boxes_exact": 19699,
+      "presence_fraction": 0.99810791015625,
+      "positive_presence_fraction": 0.9968625069581499,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "surface_submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 0,
+      "positive_count_agreement": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": null,
+      "box_fraction": null,
+      "passed": false
+    }
+  },
+  "original_collection_agreement": {
+    "player": true,
+    "shark": true,
+    "submarine": true,
+    "diver": true,
+    "enemy_missile": true,
+    "player_missile": true
+  },
+  "original_collection_calibration_pass": false,
+  "coverage_collection_pass": false,
+  "combined_development_pass": false,
+  "first_disagreements": {
+    "player": [
+      {
+        "frame": 696,
+        "episode": 0,
+        "ram": [
+          [
+            73,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            66,
+            57,
+            23,
+            6
+          ]
+        ]
+      },
+      {
+        "frame": 1836,
+        "episode": 0,
+        "ram": [
+          [
+            73,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            66,
+            57,
+            23,
+            6
+          ]
+        ]
+      },
+      {
+        "frame": 2277,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 2973,
+        "episode": 1,
+        "ram": [
+          [
+            74,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            67,
+            57,
+            23,
+            6
+          ]
+        ]
+      },
+      {
+        "frame": 4506,
+        "episode": 1,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 7323,
+        "episode": 2,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 8967,
+        "episode": 3,
+        "ram": [
+          [
+            72,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            65,
+            57,
+            23,
+            6
+          ]
+        ]
+      },
+      {
+        "frame": 9992,
+        "episode": 3,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "shark": [],
+    "submarine": [],
+    "diver": [],
+    "enemy_missile": [],
+    "player_missile": [
+      {
+        "frame": 132,
+        "episode": 0,
+        "ram": [
+          [
+            77,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 694,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 696,
+        "episode": 0,
+        "ram": [
+          [
+            66,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 1254,
+        "episode": 0,
+        "ram": [
+          [
+            75,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 1834,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 1836,
+        "episode": 0,
+        "ram": [
+          [
+            66,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 2409,
+        "episode": 1,
+        "ram": [
+          [
+            75,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 2971,
+        "episode": 1,
+        "ram": [
+          [
+            77,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "surface_submarine": []
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c"
+  },
+  "original_result_sha256": "ceaad2d5d29960e8d22b01c541a3584b744465d71fd0e9b1feb50211f4bccc66",
+  "fixture_manifest_sha256": "dd7777ad5cfee7928349bb4d91455f3cb29d7711a4380326baba75deecf17f22",
+  "scope": "Separate per-collection fractions. Empty original types remain uncalibrated there; all types and the surface subtype require50joint instance-frame matches in the additional collection. No pooled dilution.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

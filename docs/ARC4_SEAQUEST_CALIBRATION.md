@@ -208,3 +208,28 @@ Les réservés17332/17342/17352 restent fermés et sont retirés de cette calibr
 La revue du raccord a corrigé le nom de format attendu par le lecteur scellé ;
 un test capture simulée → vrai lecteur valide désormais ce raccord et les coûts.
 Aucun réservé ouvert à ce stade.
+
+## V5 : silhouettes basses et fragments immergés
+
+La modification minimale revue par Ohm accepte les composantes joueur de plus
+d'une ligne et regroupe les fragments gris immergés dont l'union tient dans
+8×11. Le missile jaune séparé reste une ligne. Les quatre régressions ciblées
+échouaient avant correction et passent ensuite ; les contacts larges et bas
+non séparés restent explicitement une limite, sans changement de critère.
+
+Sur17311, présence joueur8187/8192 (99,939 %), boîtes6600/6603 (99,955 %) ; les
+trois autres types présents passent aussi, et les deux absents restent non
+calibrés. Sur17341, les six types présents passent désormais ; joueur32624 et
+sous-marins71085 appariements, tous à un pixel près. La surface y reste absente.
+Sur17361, les sept types/sous-type passent : sous-marins32313/32313 boîtes dans
+la tolérance, surface4788/4788, joueur31751/31757. Les anciennes séquences17331
+et17351 passent aussi leur géométrie observée avec exactement les mêmes sources.
+La présence positive minimale des types présents sur les collectes supplémentaires
+est99,6863 % (missile joueur17331). Les anciennes surfaces vides gardent leur
+échec de couverture ; la collection complète17361 passe séparément.
+
+Le verrou réservé exige séparément la présence positive et la géométrie de
+chaque ancienne collecte ; trois tests ajoutés rejettent un échec masqué dans
+chacune des anciennes captures supplémentaires. Les captures réservées restent
+fermées jusqu'à la fin de la revue indépendante des cinq rapports et au succès
+des deux commits (sources, puis métadonnées du sceau).

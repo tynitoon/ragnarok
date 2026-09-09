@@ -1,0 +1,22 @@
+{
+  "kind": "seaquest_final_raw_reserved_pair_before_opening",
+  "raw_seed": 17312,
+  "coverage_seed": 17362,
+  "raw_frames": 8192,
+  "coverage_frames": 32768,
+  "coverage_controller": "scripts/seaquest_coverage_controller_v4.py",
+  "source_collection_protocol": "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json",
+  "development_seeds": [17311,17331,17341,17351,17361],
+  "unused_reserved_seeds": [17332,17342,17352],
+  "minimum_joint_matches": 50,
+  "presence_fraction": 0.99,
+  "positive_presence_fraction_for_coverage": 0.99,
+  "box_fraction": 0.99,
+  "precondition": "Same final candidate on every development collection, preserving all previous failures. The observed geometry must pass separately on each collection, and17361 must cover all six categories plus the surface subtype with50joint matches each. Independent review, all sources committed, then seal metadata committed successfully before any reserved emulator is constructed.",
+  "execution": "One fixed pair only: original uniform-action17312 and RGB-controller-V4 17362. Prior ineffective controller reserved seeds remain unopened and are retired for this calibration. Capture every declared frame and cost, even after favourable coverage. No new attempt, seed selection or candidate tuning after reserved observations.",
+  "decision": "Keep raw per-type absent categories uncalibrated. Overall reserved pair passes only if raw presence and observed geometry pass separately, and the coverage collection passes every category and surface subtype including positive-frame presence and minimum counts. Never pool fractions. Empty coverage subtype fails. Preserve any failure or incomplete capture.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

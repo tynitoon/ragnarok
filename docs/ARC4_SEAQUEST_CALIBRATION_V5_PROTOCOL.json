@@ -1,0 +1,16 @@
+{
+  "kind": "seaquest_development_correction_v5_before_reserved_capture",
+  "original_protocol": "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+  "previous_negative": "craft_v6_out/v70_seaquest_calibration/coverage2_geometry_v4.json",
+  "previous_candidate": "docs/ARC4_SEAQUEST_CALIBRATION_V4_PROTOCOL.json",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "ram_changes": "None relative to V4.",
+  "rgb_changes": "Accept multi-row player-colour components as the player, including surface-clipped height6. Separate projectiles remain one row. Merge underwater grey fragments only if their union fits8x11, with formations spaced16px and lanes24px. Existing surface merge8x8 unchanged. Six retained17341 witnesses independently checked before correction.",
+  "limits": "Wide yellow contacts with a remaining body under7rows are still not split; preserve measured disagreements. Shared player templates, same-colour ambiguity, tiny blue fragments without grey context and four one-pixel surface shifts remain explicit limitations. The shared masks originate from development17311/17331/17341/17361, not17311 alone.",
+  "development_coverage": "All frames of17311/17331/17341/17351/17361 remain scored separately with the same final candidate. Old insufficient-coverage verdicts stay FAIL. Observed geometry must pass each collection, and17361 must pass all six categories plus the surface subtype with50joint instance-frame matches each and99percent positive-frame presence. No pooled dilution and no reserved observations.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

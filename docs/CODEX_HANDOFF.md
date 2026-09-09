@@ -115,6 +115,8 @@ Revue indépendante Meitner close : cinq sorties et 17 sources gelées vérifié
 checkpoints M1–M4 intègres ; couverture finale exacte39/44, courbes complètes.
 Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
 les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
+Relevé vers04:37 : lignée2 M2 terminé (aire0,630, couverture0,545), M3 en cours ;
+premier objectif M3 terminé à4105s cumulées. Toujours aucun probe ni confirmatoire.
 
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
@@ -199,20 +201,24 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   rappel99,7407%, précision51,7902% seulement, joueur97,4016% ; erreurs conservées.
   Chaîne NumPy878,38/s, native1430,58/s, mêmes16rapports,165808frames facturées.
   Revue Meitner close ; dossier `v70_freeway_pooled/`, docs de calibration.
-- Seaquest (9 septembre, 04:15) : baseline `31752a2`, corrections V1/V2 négatives
-  conservées. V3 passe les quatre types présents dans 17311 ; les deux absents
-  restent non calibrés. Couverture supplémentaire 17331 : six catégories passent
-  en géométrie V3, surface absente. 17341 conservée malgré un blocage du contrôleur
-  à la surface ; correction prospective `913c1f6` avant 17351. Cette troisième
-  capture conserve 32768 images/33280 frames facturées, mais aucun sous-marin de
-  surface et géométrie missiles ennemis 97,2017 %, donc FAIL. Revue Meitner V3
-  close avec limite des masques partagés et cas synthétique à renforcer sur la
-  ligne du missile interne. Revue complémentaire des erreurs ennemies en cours.
-  Collecte V4 `06caf0a` commitée avant 17361, exécution en cours : oxygène <=8 et
-  poursuite des plongeurs hors ennemi proche. Revue Ohm et trois tests passent.
-  Toutes les validations réservées restent fermées. Aucun seuil abaissé ni
-  succès vide. Voir `docs/ARC4_SEAQUEST_CALIBRATION.md` pour les résultats exacts.
-  Toujours séparer les appels dépendants et inspecter les codes de retour.
+- Seaquest (9 septembre, vers04:36) : baselines et corrections V1–V4 conservées.
+  Collecte V4 `06caf0a` commitée avant17361 :32768images/33280frames facturées,
+  quatre constructions, enfin patrouille de surface visible sur4788images.
+  V4 corrige orientation des missiles bleus, occultations jaunes, supports de
+  surface et fragments gris. Revues indépendantes Ohm/Meitner consignées en JSON.
+  La collection17361 passe les sept catégories/sous-type, mais17341 reste négative
+  pour joueur (hauteur6 ignorée) et sous-marins (fragments immergés séparés).
+  V5 minimale en cours : joueur h>1, regroupement gris immergé8x11 ; six témoins
+  audités et29tests CPU passent. Baseline17311 V5 lancée, puis quatre géométries
+  supplémentaires à vérifier séparément. Ne pas modifier les sources pendant
+  ces scans. Contacts jaunes larges et bas restent une limite déclarée.
+  Nouveau `validate_seaquest_reserved_v70.py` : futur couple fixe17312/17362,
+  sources puis sceau réellement commitées avant exécution. Guard Git5tests,
+  orchestration5tests dont capture simulée→vrai lecteur ; revue close après
+  correction du nom de format historique. Aucun réservé ouvert ;17332/17342/
+  17352 retirés sans ouverture. Tous les anciens échecs restent négatifs.
+  Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git
+  dépendants et inspecter les codes de retour avant toute capture.
 
 Les sceaux bruts/temporaux listent les SHA des sources : **ne pas modifier ces
 fichiers**, y compris moteurs et décodeurs partagés, pour les optimisations.
