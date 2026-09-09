@@ -1,0 +1,201 @@
+{
+  "kind": "mspacman_player_phase_development_check",
+  "revision": "mspacman_render_phase_development_v1",
+  "frames": 8192,
+  "first_frame_current_fallback": 4,
+  "presence_count_agreement": 8192,
+  "boxes_exact": 7913,
+  "boxes_within1": 8192,
+  "source_sha256": {
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e"
+  },
+  "fixture_manifest_sha256": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+  "first_residuals": [
+    {
+      "frame": 1,
+      "ram": [
+        76,
+        99,
+        84,
+        109
+      ],
+      "pixels": [
+        77,
+        99,
+        84,
+        109
+      ]
+    },
+    {
+      "frame": 344,
+      "ram": [
+        98,
+        91,
+        106,
+        100
+      ],
+      "pixels": [
+        98,
+        91,
+        106,
+        99
+      ]
+    },
+    {
+      "frame": 345,
+      "ram": [
+        98,
+        91,
+        106,
+        100
+      ],
+      "pixels": [
+        98,
+        91,
+        106,
+        99
+      ]
+    },
+    {
+      "frame": 358,
+      "ram": [
+        98,
+        79,
+        106,
+        88
+      ],
+      "pixels": [
+        98,
+        79,
+        106,
+        87
+      ]
+    },
+    {
+      "frame": 359,
+      "ram": [
+        98,
+        79,
+        106,
+        88
+      ],
+      "pixels": [
+        98,
+        79,
+        106,
+        87
+      ]
+    },
+    {
+      "frame": 372,
+      "ram": [
+        98,
+        66,
+        106,
+        76
+      ],
+      "pixels": [
+        98,
+        66,
+        106,
+        75
+      ]
+    },
+    {
+      "frame": 373,
+      "ram": [
+        98,
+        66,
+        106,
+        76
+      ],
+      "pixels": [
+        98,
+        66,
+        106,
+        75
+      ]
+    },
+    {
+      "frame": 386,
+      "ram": [
+        98,
+        54,
+        106,
+        64
+      ],
+      "pixels": [
+        98,
+        54,
+        106,
+        63
+      ]
+    },
+    {
+      "frame": 387,
+      "ram": [
+        98,
+        54,
+        106,
+        64
+      ],
+      "pixels": [
+        98,
+        54,
+        106,
+        63
+      ]
+    },
+    {
+      "frame": 400,
+      "ram": [
+        98,
+        43,
+        106,
+        52
+      ],
+      "pixels": [
+        98,
+        43,
+        106,
+        51
+      ]
+    },
+    {
+      "frame": 401,
+      "ram": [
+        98,
+        43,
+        106,
+        52
+      ],
+      "pixels": [
+        98,
+        43,
+        106,
+        51
+      ]
+    },
+    {
+      "frame": 414,
+      "ram": [
+        98,
+        31,
+        106,
+        40
+      ],
+      "pixels": [
+        98,
+        31,
+        106,
+        39
+      ]
+    }
+  ],
+  "reserved_validation": false,
+  "scope": "Player geometry only. Pure direction-dependent mouth trim; previous RAM position and animation, first-frame current fallback. In-sample development check, not whole-game calibration or held-out evidence.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
