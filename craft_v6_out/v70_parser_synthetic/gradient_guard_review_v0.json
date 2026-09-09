@@ -1,0 +1,232 @@
+{
+  "kind": "gradient_guard_independent_source_review_v0",
+  "created_at_utc": "2026-09-09T19:14:59.439595+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "source_commit": "5f0abc3b7807c03349d8067af51843ca66a2c140",
+  "implementation_commit": "9e1886d163a766220a72b4b57562ff94ffb2551b",
+  "source_sha256": {
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json": "f7d44de26f8115c91c664639c8be88a5984bd13584875fafa124d9f7026a5166"
+  },
+  "training_authorized": false,
+  "native_preflight": false,
+  "benchmark_authorized": false,
+  "gate_result": null,
+  "new_emulated_frames": 0,
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "torch_threads": 1,
+    "cuda_initialized": false,
+    "CUDA_VISIBLE_DEVICES": "",
+    "numerical_thread_env": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "checks": {
+    "scope": "Separate three-file prototype. All41 closure source/test/document/package blobs match5f0abc3; code/tests remain9e1886d. Nine prior linked receipts remain byte-identical. The cached CPU closure was not modified or incorporated.",
+    "norm": "Each finite dense float32 gradient is detached and squared/reduced in float64; math.fsum combines per-tensor totals before square root. The scale is max_norm/norm only when necessary, otherwise1. Multiplication itself occurs in float64 before conversion back to float32, avoiding premature loss of a scaling factor too small for float32.",
+    "validation": "Model parameters must be finite float32. Supplied gradients must be finite dense strided float32 on the parameter device. No supplied gradient raises an error. Positive bounds at most1 are accepted; no meaningful-target status is inferred from a tensor existing or being zero.",
+    "atomic_preparation": "Validation, all candidate tensors, the candidate global-norm check and GradientAdmission construction precede any parameter.grad replacement. Preparation failures leave all original gradient objects unchanged. Replacements use newly allocated detached candidates; original gradient buffers and parameter values are not changed in place.",
+    "state": "The helper neither performs backward nor calls an optimizer; it receives no optimizer object. Weight values and existing Adam moment state remain unchanged by admission. The owner must prevent concurrent modification and must not run an optimizer after rejection.",
+    "post_cast_bound": "The returned float32 candidate norm is remeasured in float64 and must be finite and at most max_norm*(1+4*float32_epsilon). This is an explicit rounding tolerance, not a mathematically strict unrounded bound.",
+    "provenance": "Only own model parameters/gradients enter this helper. The large-I-gradient test reuses the reviewed synthetic RGB recipe; no Atari/archive/oracle/native input or GPU is used.",
+    "final_document": "The5f0abc3 documentation explicitly retains total underflow for an unrepresentably small bound. A pre-write Git-blob check rejected the intervening document change; no obsolete receipt was created."
+  },
+  "tests": {
+    "command": "C:/Python314/python.exe with torch.set_num_threads(1), CUDA_VISIBLE_DEVICES empty; pytest -q tests/test_gradient_guard_v70.py",
+    "passed": 9,
+    "seconds": 4.54,
+    "coverage": [
+      "Extremely large finite gradients and one synthetic Adam step",
+      "Real parser identity outlier seed764 and one synthetic Adam3e-4 step",
+      "Max float32 gradients with1e-8 bound using double-precision multiplication",
+      "Independent NumPy norm and unclipped value equality",
+      "Late nonfinite gradient or parameter rejection preserves every original gradient",
+      "Second candidate allocation or final receipt allocation failure preserves original gradients",
+      "Absent gradient rejection and explicit zero-gradient admission"
+    ]
+  },
+  "independent_witnesses": {
+    "numpy_reference": {
+      "rng_seed": 346,
+      "cases": 15,
+      "bounds": [
+        1.0,
+        1e-08,
+        1e-30
+      ],
+      "input_magnitude_exponents": [
+        -44,
+        -20,
+        0,
+        20,
+        38
+      ],
+      "shapes": [
+        [
+          3,
+          4
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "source_gradients_noncontiguous": true,
+      "max_relative_norm_error": 0.0,
+      "postcast_candidate_arrays_exact": true,
+      "original_buffers_unchanged": true,
+      "candidate_storage_distinct_and_detached": true,
+      "receipt_json_serializable": true
+    },
+    "existing_optimizer_state": {
+      "fixture": "CPU Linear3x2; one preliminary synthetic Adam3e-4 step establishes moments, then the helper alone is called with max_norm=.01. Input gradient intentionally aliases each parameter storage.",
+      "weights_bitwise_unchanged_by_helper": true,
+      "existing_moments_and_step_counters_bitwise_unchanged_by_helper": true
+    },
+    "last_gradient_rejection": {
+      "invalid_cases": [
+        "sparse",
+        "NaN",
+        "positive_infinity",
+        "negative_infinity"
+      ],
+      "earlier_valid_gradient": 9.0,
+      "all_original_gradient_object_identities_preserved": true
+    },
+    "very_small_bound": {
+      "max_norm": 5e-324,
+      "input_gradient": 1.0,
+      "global_norm_before": 1.0,
+      "global_norm_after": 0.0,
+      "scale": 5e-324,
+      "clipped": true,
+      "interpretation": "No nonzero float32 gradient is representable at this bound. The API accepts and reports total underflow; this is not evidence of a useful update."
+    },
+    "reviewed_real_parser_outlier": {
+      "evidence": "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json",
+      "torch_seed": 764,
+      "parameter_count": 428677,
+      "actions": [
+        [
+          1
+        ],
+        [
+          0
+        ]
+      ],
+      "effects": [
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ]
+      ],
+      "I_loss": 3.4748144149780273,
+      "I_gradient_L2_float64_before": 6.012664328377016e+22,
+      "I_max_gradient_before": 2.2714048835831172e+22,
+      "gradient_square_float32_overflow_before": true,
+      "guard_candidate_norm_test_bound": 1.000001,
+      "one_synthetic_Adam_update": {
+        "lr": 0.0003,
+        "foreach": false,
+        "fused": false,
+        "weights_finite_after": true,
+        "moments_finite_after": true,
+        "some_weights_changed_after_optimizer": true
+      },
+      "interpretation": "The helper leaves weights unchanged; the explicit test optimizer changes them. This is one synthetic mechanics witness, not convergence or game learning."
+    }
+  },
+  "limitations": [
+    "Default global norm1 is a prospective, unfrozen optimization choice. Objective coefficients, batch/accumulation schedule, optimizer parameters, clipping frequency and reporting must be specified and reviewed before training.",
+    "Global clipping protects this observed float32 squaring overflow but does not guarantee stable future weights, moments, updates or learning. Existing optimizer moments are not inspected or repaired by the helper.",
+    "A clipped or zero admitted gradient does not certify an eligible target, useful supervision or absence of an optimizer update. The scheduler must manage eligibility separately; momentum or other optimizer state is outside admission.",
+    "Very small positive bounds can underflow all candidates to zero, as explicitly observed at5e-324. Clipping can also change the relative practical contribution of losses through float32 quantization.",
+    "The helper is not transactional across optimizer.step or arbitrary failures while assigning gradients. It cannot recover a native/hardware failure during assignment; preparation atomicity and exclusive ownership are the reviewed scope.",
+    "Dense float32 gradients only. AMP, distributed gradient buckets, sparse optimizer paths, graph-captured/differentiable optimizers and GPU behavior are not validated here.",
+    "Synthetic CPU tests only: no native emulator, Atari or calibration archives, GPU, live learner update, benchmark or gate. Synthetic optimizer steps are limited test mechanics and do not authorize training."
+  ]
+}
