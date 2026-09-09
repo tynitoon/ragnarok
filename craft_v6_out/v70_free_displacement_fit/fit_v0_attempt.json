@@ -1,0 +1,257 @@
+{
+  "status": "complete",
+  "started_utc": "2026-09-09T22:42:38Z",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/ARC4_ORDERED_MOTION_DRAFT.md": "db98f51501e10cd312f8ed34bd55e3c1c0f168ff83274bcebc264ec374d7b20c",
+    "tests/test_motion_observation_alias_v70.py": "bdb7a77dabaa8a169010ef493a4b38e21043eac72a98fc1fbd032fce9223c3b9",
+    "ragnarok/learning/ordered_motion_parser_v70.py": "73a7cfe0b76abc44b260ac7ba9412ec658b65b7024ce2acde6b09b80d47c1daa",
+    "tests/test_ordered_motion_parser_v70.py": "43f200e009b4c289ae47abc54713bc3da4ccce8bc750692da5e7db95f47499d4",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "docs/ARC4_SYNTHETIC_MOTION_FIT_PROTOCOL.json": "b2f8c4533d0a0129d5d3f6d382da956c963766c540df30c3d01c8e94cb250406",
+    "docs/ARC4_SYNTHETIC_MOTION_FIT_DRAFT.md": "1b7f4edb10b834d26ef2e8695fb9fb33a83230fce9de9215ac79cb474aa07e32",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/check_synthetic_motion_fit_v70.py": "038fdc86f0338e75ab1bb77a496a3e7195494a35c07b5ae42c82bb8fc3f964be",
+    "tests/test_synthetic_motion_fit_protocol_v70.py": "634a3904ec26fe1e014cefbae7fa203468b0865b6c61d2aaab38325755ad1d7e",
+    "tests/test_prediction_loss_translation_limits_v70.py": "76cc0f62bd5bb0a9dec3b85d280e39f9ab668fc0d1507c561edd1c3fdf696379",
+    "docs/ARC4_PREDICTION_LOSS_LIMITS.md": "4c7d514715466bcdfa9f4d5670b94bd61b14fe8baff20dc93c2d138e6a58d8a7",
+    "docs/ARC4_BLURRED_PREDICTION_DRAFT.md": "435a98302c3e603310eeffccb04c4823a3a89410e16f02b035a3f49f634c6224",
+    "ragnarok/learning/blurred_prediction_loss_v70.py": "10329c2830b10564bd139e6717fed6ead8166666eb3124801e3d5adff3df4dc4",
+    "tests/test_blurred_prediction_loss_v70.py": "882945edef6e5f227633db71388de70b120cd421eb312476a3cf93a3a6011e19",
+    "docs/ARC4_BLURRED_MOTION_FIT_PROTOCOL.json": "f1bb738f9b05d864f994cf36d4f86ee3736f4623c3c0c6c84aa2196b2495675e",
+    "docs/ARC4_BLURRED_MOTION_FIT_DRAFT.md": "bd52db6c589135fe13dff925efed8141c690787a365db120f85a217611932a80",
+    "scripts/check_blurred_motion_fit_v70.py": "2b356369e2bd9262b2163c55b0af6388adb891ce0dd6dc353140a960574d0d33",
+    "tests/test_blurred_motion_fit_protocol_v70.py": "0451d16f3c4830299ac84eaac11cf3a9ef442cc3c930892d6c453723e8f04a21",
+    "docs/ARC4_FREE_DISPLACEMENT_FIT_PROTOCOL.json": "0456452a436d8480824d310330179135f0d98b3f54aa21f3c7c25075cd2e5103",
+    "docs/ARC4_FREE_DISPLACEMENT_FIT_DRAFT.md": "fa0045af04ac6a9d38febe75e54141c7c041f725f3187533ea068f935df83477",
+    "scripts/check_free_displacement_fit_v70.py": "9dbbbd3dacccb313285aaf67afbc0a8d8129762817a889ac965475981b8c6669",
+    "tests/test_free_displacement_fit_protocol_v70.py": "d7681ee153ae7a67e993f26f77b854caf8d883a154ae7de0d7afc57c4aef0b5c",
+    "docs/ARC4_MOTION_BOOTSTRAP_REVIEW_20260910.md": "6ebe1a9038c04874d7d1d4d8ccfa94ba4c635d842eb5ccb4e01668c7441106bc"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json": "138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f",
+    "craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json": "968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json": "f7d44de26f8115c91c664639c8be88a5984bd13584875fafa124d9f7026a5166",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_review_v0.json": "9d71b8ebe3bcdd6bd35e5cc79b5962ccb9293de252e436f125650f0c8c71ccbf",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0.json": "9d049a632816855b5dd2497681c9ff900bdbe04d7d8efbb68bb0cbb56514b82f",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0_attempt.json": "106b1cde214def9d70e7d2713e9c218ad1849e82c204875b0d090d13fa739797",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0_console.log": "cc794bfb70970c96ac2e89670bb5105e457875c3e0a13ae9cfdcc48dabef875c",
+    "craft_v6_out/v70_synthetic_motion_fit/preflight_v0.json": "75a501616c42935eb81cdc4a19990305abc4ab130e6470532d2a037254637253",
+    "craft_v6_out/v70_parser_synthetic/blurred_prediction_review_v0.json": "8556e81cc7121bf5f8e8246f496e0517bd5325b982f865e9642fdf851f23bad1",
+    "craft_v6_out/v70_blurred_motion_fit/fit_review_v0.json": "44c79f365535b6ef794b1a383b3efb70ecd51e92ccedd3b4a8f9ae88690e86b6",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0.json": "598226a743bfb404e5068ff74648c9564036b4f5e4be28f8644a2b20beef7bfc",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0_attempt.json": "0a5aba4286603bee59a1b10ff67bda7824f600b952879a347a203908dc6d368c",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0_console.log": "7ddde7c5055e7682678d2a24ec200d797071cbdfae528a89401465a5524e279d",
+    "craft_v6_out/v70_blurred_motion_fit/preflight_v0.json": "026927cbe5eafecc0a9ff501d8a9851c83bbcbd533ce74e5acf7956beb1267fe"
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "torch": "2.11.0+cu126",
+    "scipy": "1.17.1",
+    "torch_threads": 1,
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "preflight_review_sha256": "c6fcab02a773f562e5bcebe92e67f51a0a01aea9edbfe5de9631394e119639e3",
+  "completed_updates": 256,
+  "optimizer_step_in_progress": null,
+  "measurements": [
+    {
+      "updates": 0,
+      "image_l1": 0.046875,
+      "scene_l1": [
+        0.046875,
+        0.046875
+      ],
+      "reconstruction_difference": 0.0,
+      "candidate_objective": 0.0368923582136631,
+      "scale_l1": {
+        "1": 0.046875,
+        "3": 0.0403645820915699,
+        "7": 0.0234375
+      },
+      "reconstruction_sum_per_scene": [
+        18.0,
+        18.0
+      ],
+      "displacement_abs_max": 0.0,
+      "coverage_min": 1.0,
+      "coverage_max": 1.0,
+      "uncovered_fraction": 0.0
+    },
+    {
+      "updates": 1,
+      "image_l1": 0.045984551310539246,
+      "scene_l1": [
+        0.045985013246536255,
+        0.045984093099832535
+      ],
+      "reconstruction_difference": 1.7092794223572128e-05,
+      "candidate_objective": 0.03625023737549782,
+      "scale_l1": {
+        "1": 0.045984551310539246,
+        "3": 0.03971158340573311,
+        "7": 0.0230545774102211
+      },
+      "reconstruction_sum_per_scene": [
+        17.316486358642578,
+        17.31578254699707
+      ],
+      "displacement_abs_max": 0.04999972879886627,
+      "coverage_min": 0.9025009870529175,
+      "coverage_max": 1.1524986028671265,
+      "uncovered_fraction": 0.0
+    },
+    {
+      "updates": 8,
+      "image_l1": 0.04022659733891487,
+      "scene_l1": [
+        0.03967997059226036,
+        0.04077322408556938
+      ],
+      "reconstruction_difference": 0.002174519933760166,
+      "candidate_objective": 0.03212907910346985,
+      "scale_l1": {
+        "1": 0.04022659733891487,
+        "3": 0.035528432577848434,
+        "7": 0.02063220925629139
+      },
+      "reconstruction_sum_per_scene": [
+        12.474218368530273,
+        13.313834190368652
+      ],
+      "displacement_abs_max": 0.38973918557167053,
+      "coverage_min": 0.423399418592453,
+      "coverage_max": 1.7717335224151611,
+      "uncovered_fraction": 0.0
+    },
+    {
+      "updates": 32,
+      "image_l1": 0.02925288863480091,
+      "scene_l1": [
+        0.030397282913327217,
+        0.028108494356274605
+      ],
+      "reconstruction_difference": 0.006574457976967096,
+      "candidate_objective": 0.0243854820728302,
+      "scale_l1": {
+        "1": 0.02925289236009121,
+        "3": 0.025594376027584076,
+        "7": 0.018309172242879868
+      },
+      "reconstruction_sum_per_scene": [
+        5.345113754272461,
+        3.5873236656188965
+      ],
+      "displacement_abs_max": 1.3783224821090698,
+      "coverage_min": 0.0,
+      "coverage_max": 6.4658989906311035,
+      "uncovered_fraction": 0.009765625
+    },
+    {
+      "updates": 128,
+      "image_l1": 0.02687065303325653,
+      "scene_l1": [
+        0.018565962091088295,
+        0.03517534211277962
+      ],
+      "reconstruction_difference": 0.022373780608177185,
+      "candidate_objective": 0.022458955645561218,
+      "scale_l1": {
+        "1": 0.02687065117061138,
+        "3": 0.024256950244307518,
+        "7": 0.016249261796474457
+      },
+      "reconstruction_sum_per_scene": [
+        8.258659362792969,
+        9.014663696289062
+      ],
+      "displacement_abs_max": 3.7608284950256348,
+      "coverage_min": 0.0,
+      "coverage_max": 9.176048278808594,
+      "uncovered_fraction": 0.025390625
+    },
+    {
+      "updates": 256,
+      "image_l1": 0.013014632277190685,
+      "scene_l1": [
+        0.0,
+        0.02602926455438137
+      ],
+      "reconstruction_difference": 0.02602926455438137,
+      "candidate_objective": 0.010893686674535275,
+      "scale_l1": {
+        "1": 0.013014632277190685,
+        "3": 0.0115504777058959,
+        "7": 0.008115950040519238
+      },
+      "reconstruction_sum_per_scene": [
+        18.0,
+        1.9904751777648926
+      ],
+      "displacement_abs_max": 5.334041595458984,
+      "coverage_min": 0.0,
+      "coverage_max": 11.544662475585938,
+      "uncovered_fraction": 0.025390625
+    }
+  ],
+  "completed_utc": "2026-09-09T22:43:20Z",
+  "result_sha256": "c4e72945902e06430e2cff84bf604d9860f6aaef110bba2a12fd4775f41b9e68"
+}
