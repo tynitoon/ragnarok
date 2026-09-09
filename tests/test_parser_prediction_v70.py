@@ -118,3 +118,14 @@ def test_pixel_input_and_conditioning_reject_nonvisual_or_nonfinite_shapes():
     with pytest.raises(ValueError,match='finite'): model(rgb,torch.full((1,12),float('nan')))
     with pytest.raises(ValueError,match='equal'): max_pool_rgb(rgb,rgb[:,:,:,:-1])
     torch.testing.assert_close(max_pool_rgb(rgb,torch.full_like(rgb,17)),torch.full_like(rgb,17))
+
+
+def test_pixel_range_and_effect_range_are_checked_before_lossy_float32_conversion():
+    model=CounterfactualParser().cpu()
+    rgb=torch.zeros((1,3,16,24),dtype=torch.uint8)
+    for value in (-.1,1.1,torch.finfo(torch.float64).max):
+        with pytest.raises(ValueError,match='effect'): model(rgb,torch.full((1,12),value,dtype=torch.float64))
+    huge=torch.full((1,3,2,3),torch.finfo(torch.float64).max,dtype=torch.float64)
+    flow=torch.zeros((1,2,2,3))
+    with pytest.raises(ValueError,match='RGB'): forward_warp_rgb(huge,flow)
+    with pytest.raises(ValueError,match='RGB'): motion_foreground_target(torch.zeros_like(huge),huge,flow)

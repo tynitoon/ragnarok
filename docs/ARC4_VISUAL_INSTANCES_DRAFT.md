@@ -12,6 +12,12 @@ signalée. Le plafond de4096instances provoque une erreur explicite, jamais
 une sélection silencieuse des grands objets. Ces limites sont des paramètres
 du prototype à revoir avant gel, pas des seuils ajustés à des captures Atari.
 
+Les composantes initiales sont connexes ; les groupes issus du k-means ne le
+sont pas nécessairement. Un damier d'embeddings peut réunir plusieurs morceaux
+disjoints. La partition conserve les pixels, sans garantir que chaque groupe
+corresponde à un objet physique. Les réductions d'embeddings et de déplacement
+se font enfloat64 ; embeddings bornés à[-1,1], déplacement représentable enfloat32.
+
 Le descripteur contient49floats : centre et dimensions de la boîte(4), aire
 relative(1), déplacement prédit relatif à l'écran(2), embeddingmoyen(32),
 contrôlabilité et solidité moyennes(2), histogrammeRGB en huit octants(8).

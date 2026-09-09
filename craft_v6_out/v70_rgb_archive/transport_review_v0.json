@@ -1,0 +1,96 @@
+{
+  "kind": "rgb_archive_transport_independent_source_review",
+  "created_utc": "2026-09-09T16:48:36.332992+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "native_preflight": false,
+  "native_execution_authorized": false,
+  "gate_result": null,
+  "training_authorized": false,
+  "source_commit": "eaad4c0bde7fa3cc321f45f7a121f7bebdf72f3d",
+  "source_sha256": {
+    "ragnarok/environments/rgb_archive_v70.py": "960963da95e48fe7e0175733957db7b4dbcd024e8cdbd79179fd2e9ea69f7731",
+    "tests/test_rgb_archive_v70.py": "27d7542b34f72886465e60b66e72203aec27f5be3805d0186f687fb330abc516",
+    "docs/ARC4_RGB_ARCHIVE_DRAFT.md": "1a2428e9829ffbbaeb11df5313ea5af2d0f79338868cde9ac5f5e42cfbb36604",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/environments/rgb_archive_pool_v70.py": "da177cd6277326ba22cc73485cc5b6a21bc06c34585abe73d062bae0947503e9",
+    "tests/test_rgb_archive_pool_v70.py": "eb409b7dc81b3e7f0bf0d67501ecaa87f4ea2b3234f305f1fe602d49adb69a60",
+    "docs/ARC4_RGB_ARCHIVE_TRANSPORT_DRAFT.md": "dff2d84a1f057a7d5bb9c2954137d0992626c734689d84a09e241abecf6ade73",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_rgb_archive/source_review_v0.json": "afbe5846044b8e33f124414225ddd49d9dfbbe254003826d827af0727936caa6",
+    "craft_v6_out/v70_visible_cpu/preflight_review_v0.json": "f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_preflight_v0.json": "f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96",
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902"
+  },
+  "python_version": "3.14.3",
+  "checks": {
+    "closure": {
+      "reviewed_sources_tests_docs_and_bases": 16,
+      "all_committed_blobs_match": true,
+      "archive_engine_reviewed_sources_unchanged": 11,
+      "cpu_frozen_sources_unchanged": 115,
+      "trace_frozen_sources_unchanged": 20
+    },
+    "capacity": {
+      "pool_max_entries": 20000,
+      "pool_max_serialized_bytes": 2000000000,
+      "partition": "floor(global cap / worker count), no lending, unused remainder retained",
+      "worker_counts": "1..16, validated before starting workers",
+      "scope": "retained serialized payload only"
+    },
+    "transport": "Explicit method whitelist; opaque worker-local tokens and RGB traces; no RAM, rewards, lives, native snapshots, import/export or restore RPC.",
+    "failure_latch": "Save/pair/drop exceptions stop every subsequent parent action; report/drop remain available; cleanup never reopens stopped play.",
+    "tests": {
+      "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_rgb_archive_pool_v70.py tests/test_rgb_archive_v70.py",
+      "passed": 23,
+      "elapsed_seconds": 2.24,
+      "real_spawn": "Two real Windows child processes use wholly synthetic engine factories; no ALE constructor."
+    },
+    "independent_internal_drop_witness": {
+      "injection": "MemoryError from serialized-byte counter subtraction inside engine drop",
+      "worker_poisoned": true,
+      "parent_stopped": true,
+      "other_worker_pair_save_step_branch_dispatches_after_failure": 0,
+      "ledgers_unchanged": true,
+      "reports_and_cleanup_accessible": true,
+      "archive_payload_preserved_on_failure": true
+    },
+    "independent_second_branch_failure_rpc": {
+      "injection": "MemoryError on ninth recorder append, first frame of second branch",
+      "known_charged_delta": 189,
+      "restores": 3,
+      "transport_error_type": "ValueError",
+      "original_error_type_preserved": "MemoryError",
+      "accounting_complete": false,
+      "report_and_cleanup_accessible": true,
+      "next_step_refused": true
+    },
+    "new_emulated_frames": 0
+  },
+  "resolved_findings": [
+    {
+      "problem": "Failed archive_drop originally left parent action dispatch open even if its worker was poisoned.",
+      "correction_commit": "eaad4c0bde7fa3cc321f45f7a121f7bebdf72f3d",
+      "resolution": "archive_drop now latches _stopped on any exception while remaining callable for cleanup after a stop; independently verified with an internal arithmetic failure and no dispatch to the other worker."
+    }
+  ],
+  "limitations": [
+    "This is a source and synthetic transport review, not a native archive validation or permission to collect or train.",
+    "The 2GB cap covers retained serialized payload, not process RSS, transient serialization buffers, unpickling buffers or in-flight RGB trace copies.",
+    "Native save/restore, terminal/cold behavior and sticky/RGB continuation still require a separately reviewed prospective native archive protocol; the existing current-anchor trace wiring does not establish the additional archive behavior.",
+    "Workers may have advanced during an already dispatched ordinary batch before a peer error is received. Monotone worker ledgers must all be drained and preserved by the future runner; this pool does not itself provide durable aggregate receipts.",
+    "If process or transport loss prevents a report, paid cost may be unknown; future runner accounting must identify unavailable reports and mark aggregate accounting incomplete.",
+    "The parent deliberately treats even a recoverable capacity or invalid-token error as a permanent action stop. A future collector must check allocation and choose deletions before calling save.",
+    "Private underscore methods and trusted Python process memory are not an adversarial sandbox; the audited public RPC whitelist is the intended experimenter boundary. No durable E4 return or archive-cell policy is implemented here."
+  ]
+}

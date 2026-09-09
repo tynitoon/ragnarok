@@ -10,7 +10,7 @@ Le réseau compte **428677paramètres**. L'estimation1,5M du plan n'était pas u
 mesure de cette implémentation à poids partagés ; aucun résultat appris n'a été
 observé pour choisir cette taille.
 
-Seule la tête de déplacement reçoit le vecteur d'effets. Le vecteur nul signifie
+Seule la tête de déplacement reçoit le vecteur d'effets, borné à[0,1]. Le vecteur nul signifie
 effet inconnu. Le passage des boutons du babillage à ce vocabulaire est encore
 à résoudre : aucun bouton, sens de déplacement RAM ou contrôlabilité oracle
 n'est injecté pour le fabriquer. Les caractéristiques visuelles sont calculées
@@ -18,7 +18,8 @@ indépendamment de l'effet soumis pour cette prédiction.
 
 `pixel_prediction_v70.py` définit le déplacement comme le mouvement **en avant**
 d'un pixel source vers l'image suivante. Il distribue bilinéairement les couleurs
-aux destinations, moyenne les collisions et laisse les trous à zéro. La perteL1
+aux destinations, moyenne les collisions et laisse les trous à zéro. Les images
+flottantes de cette fonction sont explicitement bornées à[0,1]. La perteL1
 porte sur l'image entière, trous compris. Elle ne doit pas être interprétée comme
 un modèle complet de désocclusion ou de changements d'apparence.
 

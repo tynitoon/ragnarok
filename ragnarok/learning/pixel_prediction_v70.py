@@ -13,8 +13,8 @@ def _validate(image, displacement):
             or not isinstance(displacement,torch.Tensor) or not displacement.is_floating_point()
             or displacement.shape != (image.shape[0],2,*image.shape[-2:])
             or image.device != displacement.device or not torch.isfinite(image).all()
-            or not torch.isfinite(displacement).all()):
-        raise ValueError('Finite BCHW RGB and B2HW forward displacement on one device required')
+            or not torch.isfinite(displacement).all() or (image<0).any() or (image>1).any()):
+        raise ValueError('Finite BCHW RGB in[0,1] and B2HW forward displacement on one device required')
 
 
 def _coordinates(image, displacement):
@@ -63,8 +63,9 @@ ground truth. A poor motion estimate can supply a poor foreground target.
 """
     _validate(previous,displacement)
     if (following.shape != previous.shape or following.device != previous.device
-            or not following.is_floating_point() or not torch.isfinite(following).all()):
-        raise ValueError('A finite following image with the same shape/device is required')
+            or not following.is_floating_point() or not torch.isfinite(following).all()
+            or (following<0).any() or (following>1).any()):
+        raise ValueError('A finite following RGB image in[0,1] with the same shape/device is required')
     with torch.no_grad():
         previous,following=previous.float(),following.float()
         x,y=_coordinates(previous,displacement.detach())

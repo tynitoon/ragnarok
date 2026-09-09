@@ -79,14 +79,19 @@ def extract_instances(prediction, rgb, *, split_variance=.2, max_parts=8, kmeans
         if (not isinstance(array,np.ndarray) or array.shape!=shape or not np.issubdtype(array.dtype,np.floating)
                 or not np.isfinite(array).all()):
             raise ValueError(f'Finite learned {name} with shape{shape} required')
+    if (np.abs(prediction.embedding)>1).any():
+        raise ValueError('The parser embedding components must be normalized into[-1,1]')
+    if (np.abs(prediction.displacement)>np.finfo(np.float32).max).any():
+        raise ValueError('Predicted displacement must be representable as float32')
     if not np.isfinite(split_variance) or split_variance<=0:
         raise ValueError('Positive finite embedding split variance required')
     for value,name in ((max_parts,'max_parts'),(kmeans_iterations,'kmeans_iterations'),(max_instances,'max_instances')):
         if type(value) is not int or value<1: raise ValueError(f'{name} must be a positive integer')
     components,count=ndimage.label(prediction.foreground_logits[0]>0)
     if count>max_instances: raise ValueError('Instance capacity exceeded; no components silently discarded')
-    features=prediction.embedding.reshape(32,-1).T
-    flow=prediction.displacement.reshape(2,-1).T
+    # Float64 reductions prevent a finite float32 field from overflowing on sum.
+    features=prediction.embedding.astype(np.float64).reshape(32,-1).T
+    flow=prediction.displacement.astype(np.float64).reshape(2,-1).T
     colors=rgb.reshape(-1,3)
     controls=1/(1+np.exp(-np.clip(prediction.controllability_logits.reshape(-1),-60,60)))
     solids=1/(1+np.exp(-np.clip(prediction.solidity_logits.reshape(-1),-60,60)))

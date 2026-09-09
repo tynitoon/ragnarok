@@ -73,3 +73,19 @@ def test_normalised_geometry_survives_resolution_change_for_identical_region_fra
     a=extract_instances(low,low_rgb)[0]
     b=extract_instances(high,high_rgb)[0]
     np.testing.assert_allclose(a.descriptor,b.descriptor,atol=1e-7)
+
+
+def test_finite_large_displacement_mean_does_not_overflow_float32():
+    prediction,rgb=scene(2,2)
+    prediction.foreground_logits[:]=1
+    prediction.displacement[:]=np.finfo(np.float32).max
+    result=extract_instances(prediction,rgb)[0]
+    assert np.isfinite(result.descriptor).all()
+    np.testing.assert_allclose(result.descriptor[5:7],[np.finfo(np.float32).max/2]*2)
+
+
+def test_unnormalized_embedding_cannot_create_nonfinite_group_statistics():
+    prediction,rgb=scene(2,2)
+    prediction.foreground_logits[:]=1
+    prediction.embedding[:]=np.finfo(np.float32).max
+    with pytest.raises(ValueError,match='normalized'): extract_instances(prediction,rgb)

@@ -84,8 +84,8 @@ Displacement is forward motion in input pixels, x then y, per observed interval.
             effect=rgb.new_zeros((rgb.shape[0],12))
         if (not isinstance(effect,torch.Tensor) or effect.shape != (rgb.shape[0],12)
                 or not effect.is_floating_point() or effect.device != rgb.device
-                or not torch.isfinite(effect).all()):
-            raise ValueError('Expected finite Bx12 effect features on the image device')
+                or not torch.isfinite(effect).all() or (effect<0).any() or (effect>1).any()):
+            raise ValueError('Expected finite Bx12 effect features in[0,1] on the image device')
         native=self.pyramid(rgb)
         half=self.pyramid(F.interpolate(rgb,size=(rgb.shape[-2]//2,rgb.shape[-1]//2),mode='area'))
         half=F.interpolate(half,size=rgb.shape[-2:],mode='bilinear',align_corners=False)
