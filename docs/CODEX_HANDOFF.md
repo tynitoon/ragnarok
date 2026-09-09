@@ -168,7 +168,7 @@ Préparation native ordinaire877be12 (après c45445c/4093c6c) :
   Tests600/660charges connues après duréeinvalide et refusréemploi, sourcehistoriquepréservée.
 - NATIF TERMINÉ PASS21:58:31 : session28423 FERMÉE, résultats a307984.
   9cas/18instances/14908charges ;6normaux584imageslivrées époque0 ; préfixes
-  Pong1/2/3 réellementobservés puisépoque1/frame8 ;9NPZpreservés (~771Ko compressés).
+  Pong1/2/3 réellementobservés puisépoque1/frame8 ;9NPZpréservés (670970octets compressés).
   Résultat5db50e4ee27fedf0ec77a62fab9c13efd309749f7a127e47d73ec4f56ae886af ;
   attemptd56542ad… ; console5635505f… exacte .gitattributes -text.
   24constructionsfroides=3160,10116imagesordinaires,192branches,1440restores=14908.
