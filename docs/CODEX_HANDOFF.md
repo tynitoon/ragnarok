@@ -139,6 +139,17 @@ sorties achevées et checkpoints entre enfants, applique G puis B si nécessaire
 et s'arrête après trois lignées complètes pour revue. Ne lancer qu'après commits,
 dry-run et contrôle des processus ; aucun confirmatoire encore lancé à cette note.
 
+Mise à jour du 9 septembre à 06:03 : reçu, lanceur et tests committés `998c43b`.
+Les deux revues sont closes, 15 tests CPU passent. Dry-run conforme B6/N9/G'2,
+86908,0902837 s disponibles ; aucun processus ARC 3 antérieur actif. Lancement
+confirmé à 06:03:08 Paris : contrôleur PID18416, enfant s0 PID8368. État
+`craft_v6_out/v62_confirm_state.json` = `running/confirm_s0`. Logs contrôleur
+`v62_confirm_stdout.log` / `v62_confirm_stderr.log`, progression réelle dans
+`v61_confirm_s0.log`, puis s1/s2. Projection environ 15,89 h ; vérifier état,
+PID et commande réels avant toute action. Le contrôleur s'arrête pour revue
+après les trois lignées. Ne modifier aucune des 17 sources gelées, aucun des
+deux lanceurs, ni les artefacts/états antérieurs référencés par les empreintes.
+
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
 probe autorise la suite, score et figure. Si STOP, consigner honnêtement et ne
