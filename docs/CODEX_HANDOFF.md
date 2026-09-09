@@ -72,8 +72,8 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue |17421capturé, score en cours | à faire |
-| Asteroids |17512validé/revu | revue close, commit/préflight requis | à faire |
+| Ms.Pac-Man | paire17412/17432validée/revue |17421V0FAILghost, V1préparée | à faire |
+| Asteroids |17512validé/revu |17521V0scoreincomplet, V1préparée | à faire |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
 Le débit natif de Seaquest≈1312frames/s reste sous l'objectif proposé2000 ;
@@ -94,9 +94,13 @@ Suite Ms.Pac-Man : `docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json` ;17421/17422,
 Capture/scorer distincts avec tentatives durables et coût partiel sur échec.
 Revue indépendante close,45sources committées1dedc9f avant17421 ; vrai préflight
 PASS. Capture complète8192décisions/33416facturées/5loads/99,43s.
-Score `pooled_geometry_development_v0.json` en cours, session46681. La première
-commande utilisait un nom dont le marqueur existait pour la capture : refus
-avant scoring, données intactes ; nom distinct adopté.17422toujours fermé.
+V0 complet : quatre types PASS, ghost comptage7956/8068=.986118 FAIL,
+géométrie27999/28065=.997648 PASS. Revue d4faf514… confirme preuves et négatif.
+V1séparée `pooled_mspacman_rows_v70.py` retire une ligne fantôme àymod12=1,
+vide dans1557/1557cas ; RGB et critères inchangés.5tests PASS, recalcul intégral
+prévu avec `calibrate_mspacman_pooled_rows_v70.py`, sortie geometry_v1 distincte.
+Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
+avant scoring, données intactes, puis nom geometry distinct.17422fermé.
 
 Asteroids : raw sources73fdf4c, scellé158a976,31sources+8métadonnées.
 17512 :8192images/8852facturées, trois types PASS ;23images de comptage rochers
@@ -105,8 +109,18 @@ revue d019a8992d59ef9b050ebe0bcf489d2783da3ddd39485d4de1465d825b827dc9,
 preuves committées0306672. Le premier PASS hors ROI et V1–V4 négatifs sont conservés.
 Protocole17521/17522 et candidat/capture/scorer temporels préparés ;17tests
 spécifiques PASS. Revue close, SHA973aafd44d8f76cf10f835eb84fd157da0bf4718f35c5ad8ea641a3b2b3c2776.
-41sources à committer puis vrai préflight avant17521 ;17522fermé. Source de
-score `calibrate_asteroids_pooled_v70.py`, sortie `pooled_geometry_development_v0.json`.
+41sources committées313b8d3, préflightPASS,17521capturé8192/34476facturées/13loads.
+V0scoring incomplet sur garde pointer/direction ; marqueur failed conservé.
+Trois sources5320/5321/5322 ont des pointeurs d'explosion décalés au wrapy=-2.
+V1séparée `pooled_asteroids_wrap_v70.py` les reconnaît sur copieRAM, sans changer
+RGB/ROI/seuils ;5tests PASS. Recalcul intégral prévu avec
+`calibrate_asteroids_pooled_wrap_v70.py`, sortie geometry_v1 distincte ;17522fermé.
+
+Préparation référence non gelée : `docs/ARC4_VISIBLE_REFERENCE_PROTOCOL.json`,
+`scripts/visible_reference_v70.py`, `visible_scene_v70.py`,11tests CPU PASS.
+Graines17471/17571fermées. Revoir le choix du décodeur et les prérequis après
+les corrections temporelles (ne pas lancer la référence avec un modèle connu
+incomplet), puis revue/commit avant capture fraîche. Aucun apprentissage ici.
 
 Après les deux calibrations temporelles : référence puis débit, puis primitives
 parser/tracker/ME/buttons/reader/drives. `ARC4_VISION.md` §§2,5,6,11décrit la vision

@@ -192,3 +192,22 @@ les seuils séparés99% et50appariements minimum, sans exemption de fruit absent
 reçus d'échecs : budget partiel capturé lorsque disponible, coût constructeur
 inconnu explicite sinon, tentative de scoring séparée. Ce dispositif reste
 prospectif : sources et reçu doivent être committés avant toute construction17421.
+
+Collecte17421 complète : source1dedc9f avant construction, préflight conforme,
+8192fenêtres,32756frames ordinaires (8188avances4 et4troncations1),5loads,
+33416facturées. Le score V0 conserve un **FAIL fantômes** :8080/8192comptages
+globaux,7956/8068positifs ;27999/28065boîtes within1. Les quatre autres types
+passent, avec3285fruits observés. Revue indépendante d4faf514… confirme les
+preuves et ce résultat négatif. La première commande de score a été refusée
+avant calcul car son nom de marqueur était déjà celui de la capture ; la sortie
+distincte `pooled_geometry_development_v0.json` et son marqueur sont préservés.
+
+Sur les témoins246/1250, une première ligne vide abaisse le bord RGB d'un pixel :
+les rectangles RAM se touchent, les RGB restent disjoints. Aucun pixel n'est
+supprimé par le max dans ces témoins. L'inventaire complet des sources17421
+observe1557/1557premières lignes fantôme vides lorsque ymod12=1 ; les autres
+écarts restent explicitement inventoriés. La candidate temporelle V1 distincte
+`pooled_mspacman_rows_v70.py` retire cette seule ligne côté RAM ; RGB, catégories
+non fantômes, connexité4 et seuils ne changent pas. Cinq tests de témoins passent.
+Les anciennes sources brutes/temporelles restent intactes. Nouveau calcul
+complet requis avant toute revue/gèle du réservé17422, toujours fermé.

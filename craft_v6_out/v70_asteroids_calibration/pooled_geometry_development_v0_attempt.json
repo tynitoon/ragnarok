@@ -1,0 +1,10 @@
+{
+  "status": "failed",
+  "seed": 17521,
+  "started_utc": "2026-09-09T12:44:27Z",
+  "output": "F:\\dev\\ragnarok\\craft_v6_out\\v70_asteroids_calibration\\pooled_geometry_development_v0.json",
+  "fixture_manifest_sha256": "64d5750363fb01fa4ff5744e1a5b121a93ed9f4e9db841badd73558ffd9f770e",
+  "failed_utc": "2026-09-09T12:48:01Z",
+  "error_type": "ValueError",
+  "error": "Unknown player graphics pointer/direction"
+}

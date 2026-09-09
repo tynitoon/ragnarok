@@ -1,0 +1,872 @@
+{
+  "kind": "mspacman_pooled_development_contribution_witnesses",
+  "source_seed": 17421,
+  "witnesses": [
+    {
+      "decision": 246,
+      "frame_numbers": [
+        982,
+        983,
+        984
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              122,
+              115,
+              8,
+              10
+            ],
+            [
+              51,
+              27,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                51,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                51,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                122,
+                115,
+                8,
+                10
+              ],
+              "contributing_box": [
+                122,
+                115,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              21,
+              123,
+              8,
+              10
+            ],
+            [
+              54,
+              37,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                54,
+                38,
+                8,
+                9
+              ],
+              "contributing_box": [
+                54,
+                38,
+                8,
+                9
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                21,
+                123,
+                8,
+                10
+              ],
+              "contributing_box": [
+                21,
+                123,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "decision": 453,
+      "frame_numbers": [
+        1810,
+        1811,
+        1812
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              30,
+              107,
+              8,
+              10
+            ],
+            [
+              12,
+              51,
+              8,
+              10
+            ],
+            [
+              23,
+              27,
+              8,
+              10
+            ],
+            [
+              141,
+              3,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                23,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                23,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                141,
+                3,
+                8,
+                10
+              ],
+              "contributing_box": [
+                141,
+                3,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                30,
+                107,
+                8,
+                10
+              ],
+              "contributing_box": [
+                30,
+                107,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                16,
+                51,
+                4,
+                10
+              ],
+              "contributing_box": [
+                16,
+                51,
+                4,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              30,
+              107,
+              8,
+              10
+            ],
+            [
+              12,
+              51,
+              8,
+              10
+            ],
+            [
+              23,
+              27,
+              8,
+              10
+            ],
+            [
+              141,
+              3,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                23,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                23,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                141,
+                3,
+                8,
+                10
+              ],
+              "contributing_box": [
+                141,
+                3,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                30,
+                107,
+                8,
+                10
+              ],
+              "contributing_box": [
+                30,
+                107,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                16,
+                51,
+                4,
+                10
+              ],
+              "contributing_box": [
+                16,
+                51,
+                4,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "decision": 1250,
+      "frame_numbers": [
+        4998,
+        4999,
+        5000
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              15,
+              159,
+              8,
+              10
+            ],
+            [
+              117,
+              99,
+              8,
+              10
+            ],
+            [
+              86,
+              27,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                86,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                86,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                117,
+                99,
+                8,
+                10
+              ],
+              "contributing_box": [
+                117,
+                99,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                15,
+                159,
+                8,
+                10
+              ],
+              "contributing_box": [
+                15,
+                159,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              15,
+              159,
+              8,
+              10
+            ],
+            [
+              122,
+              109,
+              8,
+              10
+            ],
+            [
+              86,
+              27,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                86,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                86,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                122,
+                110,
+                8,
+                9
+              ],
+              "contributing_box": [
+                122,
+                110,
+                8,
+                9
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                15,
+                159,
+                8,
+                10
+              ],
+              "contributing_box": [
+                15,
+                159,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "decision": 1275,
+      "frame_numbers": [
+        5098,
+        5099,
+        5100
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              146,
+              123,
+              8,
+              10
+            ],
+            [
+              98,
+              69,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                98,
+                69,
+                8,
+                10
+              ],
+              "contributing_box": [
+                98,
+                69,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                146,
+                123,
+                8,
+                10
+              ],
+              "contributing_box": [
+                146,
+                123,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              146,
+              133,
+              8,
+              10
+            ],
+            [
+              30,
+              118,
+              8,
+              10
+            ],
+            [
+              98,
+              69,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                146,
+                134,
+                8,
+                9
+              ],
+              "contributing_box": [
+                146,
+                134,
+                8,
+                9
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                98,
+                69,
+                8,
+                10
+              ],
+              "contributing_box": [
+                98,
+                69,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                30,
+                118,
+                8,
+                10
+              ],
+              "contributing_box": [
+                30,
+                118,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "decision": 1311,
+      "frame_numbers": [
+        5242,
+        5243,
+        5244
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              129,
+              123,
+              8,
+              10
+            ],
+            [
+              94,
+              99,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                129,
+                123,
+                8,
+                10
+              ],
+              "contributing_box": [
+                129,
+                123,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                94,
+                99,
+                8,
+                10
+              ],
+              "contributing_box": [
+                94,
+                99,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              122,
+              133,
+              8,
+              10
+            ],
+            [
+              122,
+              110,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                122,
+                134,
+                8,
+                9
+              ],
+              "contributing_box": [
+                122,
+                134,
+                8,
+                9
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                122,
+                110,
+                8,
+                10
+              ],
+              "contributing_box": [
+                122,
+                110,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "decision": 1957,
+      "frame_numbers": [
+        830,
+        831,
+        832
+      ],
+      "sources": [
+        {
+          "name": "raw_previous",
+          "ram_boxes": [
+            [
+              8,
+              159,
+              8,
+              10
+            ],
+            [
+              116,
+              99,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                46,
+                28,
+                8,
+                5
+              ],
+              "contributing_box": [
+                46,
+                28,
+                8,
+                5
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                116,
+                99,
+                8,
+                10
+              ],
+              "contributing_box": [
+                116,
+                99,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                8,
+                159,
+                8,
+                10
+              ],
+              "contributing_box": [
+                8,
+                159,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        },
+        {
+          "name": "raw_current",
+          "ram_boxes": [
+            [
+              8,
+              159,
+              8,
+              10
+            ],
+            [
+              116,
+              99,
+              8,
+              10
+            ],
+            [
+              139,
+              27,
+              8,
+              10
+            ]
+          ],
+          "raw_rgb_objects": [
+            {
+              "raw_box": [
+                139,
+                27,
+                8,
+                10
+              ],
+              "contributing_box": [
+                139,
+                27,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                116,
+                99,
+                8,
+                10
+              ],
+              "contributing_box": [
+                116,
+                99,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            },
+            {
+              "raw_box": [
+                8,
+                159,
+                8,
+                10
+              ],
+              "contributing_box": [
+                8,
+                159,
+                8,
+                10
+              ],
+              "removed": 0,
+              "competing_colours": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null
+}

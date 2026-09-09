@@ -140,3 +140,15 @@ brut53–54 est conservé (5RAM/18RGBrochers). L'instrument ne prétend donc pas
 avoir déjà passé la nouvelle calibration. Commit et préflight réel avant17521.
 Sortie de score prévue `pooled_geometry_development_v0.json`, pour distinguer
 son marqueur d'échec de celui de la capture `pooled_development_v0_attempt.json`.
+
+Collecte17521 complète après commit313b8d3 et vrai préflight conforme :8192fenêtres,
+34476frames facturées,13loads,27,06s. Scoring V0 **incomplet** : garde
+« Unknown player graphics pointer/direction » à la décision5320 ; le marqueur
+failed est conservé, aucun résultat chiffré complet ne doit en être déduit.
+L'inventaire de toutes les16384images sources trouve trois exceptions, current
+5320/5321/5322 : explosion ày=-2, pointeurs172/178/184 au lieu de175/181/187.
+Le décalage3 correspond à5+y, déjà prévu dans le modèle du vaisseau normal qui
+traverse le bord. Sur une copie RAM, son application à l'explosion reproduit
+exactement les deux boîtes visibles de chacune des trois images, ày18et192.
+Adaptateur temporel V1 distinct `pooled_asteroids_wrap_v70.py`, cinq tests PASS ;
+autres gardes et juge RGB conservés. Recalcul complet requis ;17522reste fermé.

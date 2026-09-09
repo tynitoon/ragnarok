@@ -1,0 +1,242 @@
+{
+  "kind": "mspacman_development_top_row_inventory",
+  "seed": 17421,
+  "total": {
+    "9": 3528,
+    "3": 27112,
+    "6": 1327,
+    "8": 1414,
+    "5": 1495,
+    "1": 1557,
+    "10": 1354,
+    "7": 1928,
+    "4": 1323,
+    "0": 1243,
+    "11": 1585,
+    "2": 1276
+  },
+  "empty": {
+    "9": 2,
+    "3": 4,
+    "6": 3,
+    "8": 2,
+    "5": 25,
+    "1": 1557,
+    "10": 3,
+    "7": 6,
+    "4": 2,
+    "0": 2,
+    "11": 3,
+    "2": 4
+  },
+  "hist": {
+    "9": {
+      "4": 3522,
+      "2": 2,
+      "0": 2,
+      "1": 2
+    },
+    "3": {
+      "4": 27011,
+      "2": 34,
+      "3": 51,
+      "1": 12,
+      "0": 4
+    },
+    "6": {
+      "4": 1315,
+      "1": 7,
+      "3": 2,
+      "0": 3
+    },
+    "8": {
+      "4": 1410,
+      "0": 2,
+      "3": 2
+    },
+    "5": {
+      "4": 1465,
+      "2": 2,
+      "0": 25,
+      "1": 2,
+      "3": 1
+    },
+    "1": {
+      "0": 1557
+    },
+    "10": {
+      "4": 1344,
+      "3": 2,
+      "2": 4,
+      "0": 3,
+      "1": 1
+    },
+    "7": {
+      "4": 1910,
+      "1": 4,
+      "0": 6,
+      "3": 7,
+      "2": 1
+    },
+    "4": {
+      "4": 1320,
+      "0": 2,
+      "1": 1
+    },
+    "0": {
+      "4": 1232,
+      "0": 2,
+      "2": 7,
+      "1": 2
+    },
+    "11": {
+      "4": 1581,
+      "0": 3,
+      "1": 1
+    },
+    "2": {
+      "4": 1271,
+      "0": 4,
+      "2": 1
+    }
+  },
+  "other_examples": [
+    {
+      "decision": 1729,
+      "source": "raw_current",
+      "x": 138,
+      "y": 104,
+      "form": 8,
+      "colour": 3
+    },
+    {
+      "decision": 1733,
+      "source": "raw_current",
+      "x": 138,
+      "y": 102,
+      "form": 8,
+      "colour": 3
+    },
+    {
+      "decision": 1737,
+      "source": "raw_current",
+      "x": 138,
+      "y": 102,
+      "form": 8,
+      "colour": 3
+    },
+    {
+      "decision": 2014,
+      "source": "raw_previous",
+      "x": 54,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2014,
+      "source": "raw_current",
+      "x": 54,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2015,
+      "source": "raw_previous",
+      "x": 58,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2015,
+      "source": "raw_current",
+      "x": 58,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2016,
+      "source": "raw_previous",
+      "x": 62,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2016,
+      "source": "raw_current",
+      "x": 62,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2017,
+      "source": "raw_previous",
+      "x": 66,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2017,
+      "source": "raw_current",
+      "x": 66,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2018,
+      "source": "raw_previous",
+      "x": 70,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2018,
+      "source": "raw_current",
+      "x": 70,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2019,
+      "source": "raw_previous",
+      "x": 74,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2019,
+      "source": "raw_current",
+      "x": 74,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    },
+    {
+      "decision": 2020,
+      "source": "raw_previous",
+      "x": 76,
+      "y": 5,
+      "form": 0,
+      "colour": 1
+    }
+  ],
+  "fixture_manifest_sha256": "6a1289c2671af811a22c4e5e9a60cafbbbbe6366054add1e43f7c796a333c7e7",
+  "source_sha256": {
+    "scripts/diagnose_mspacman_ghost_rows_v70.py": "2bfaef2ec80044b9af2cb1fe8a9e8f7851bb26397c895ae934516330a1cbe74d",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85"
+  },
+  "scope": "All ghost draw-list entries in the two source frames. Check the four nominal top pixels; no result selection.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
