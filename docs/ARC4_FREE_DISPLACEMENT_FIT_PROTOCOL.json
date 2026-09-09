@@ -1,0 +1,71 @@
+{
+  "kind": "prospective_free_displacement_fit_v0",
+  "spec": {
+    "arm": "independent_free_dense_fields",
+    "field_shape": [
+      2,
+      2,
+      16,
+      16
+    ],
+    "initialization": "exact_zero_without_rng",
+    "parameter_dtype": "float32",
+    "independent_parameters_per_scene": true,
+    "parameter_count": 1024,
+    "updates": 256,
+    "batch_size": 2,
+    "objective": "mean_rgb_l1_box_widths_1_3_7",
+    "learning_rate": 0.05,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay": 0.0,
+    "max_gradient_norm": 1.0,
+    "measure_at": [
+      0,
+      1,
+      8,
+      32,
+      128,
+      256
+    ],
+    "max_work_seconds": 300,
+    "success_metric": "native_image_l1",
+    "native_fit_threshold": 0.01171875,
+    "final_diagnostic_arrays_retained": true,
+    "baseline_reexecuted": false,
+    "cpu_threads": 1,
+    "emulated_frames": 0,
+    "gpu_used": false,
+    "independent_generalization_test": false
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "torch": "2.11.0+cu126",
+    "scipy": "1.17.1",
+    "torch_threads": 1,
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "gate_result": null,
+  "limitations": [
+    "One prospective diagnostic after two disclosed negative network fits; no preceding arm is rerun.",
+    "Two independent dense fields, exactly zero initialized without randomness;1024float32 parameters specific to the two synthetic scenes. No learned network or common function across observations.",
+    "The same original scenes, forward splatting with normalized collisions, and equal image L1 weights at widths1/3/7 are retained. Only future RGB images supervise; no true displacement, mask or identity labels.",
+    "256Adam updates, batch2, lr0.05 in pixel-coordinate units, beta0.9/0.999, epsilon1e-8, no weight decay, max gradient norm1; no sweep, new initialization or extension.",
+    "Final native RGB L1 must remain strictly below0.01171875. Filtered objectives and reconstruction separation are separately reported. Final fields, coverages and RGB arrays are diagnostic evidence only.",
+    "A positive fit shows feasibility only under the declared free-field parameterization and optimizer; it cannot uniquely identify why the network fit failed. A negative fit is not an impossibility proof.",
+    "Fitting and measurement use the same two scenes. No generalization, Atari competence, perception, transfer or accelerated learning is established by either outcome.",
+    "CPU only with one numerical thread, no emulator, real archive or GPU.300second cooperative work bound excluding proof hashing. No reusable agent checkpoint.",
+    "One attempt, no retry. An optimizer exception may follow a partial update; retain the in-progress marker. Finally persists it, while a hard kill leaves a started marker uncertain, never restartable.",
+    "Original results and independent reviews, exact source closure, committed protocol and independent preflight must precede the first real field update."
+  ]
+}
