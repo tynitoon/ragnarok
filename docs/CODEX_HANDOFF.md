@@ -1,214 +1,150 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, vers 01:43 Paris. Continuer entre jalons, sans final aux
-commits ; arrêt uniquement sur demande, travail achevé ou avis indispensable.
-Dernier message réel : « ça en est où ? », répondu en commentaire puis poursuite.
-Astra Maximum déjà acquitté. Audit partage écran/RC annulé. Français simple.
-Objectif : apprendre et réutiliser pour apprendre plus vite. ARC2 :3/6 vs0/6,
-delta0,069 < bruit0,076 ; accélération NON démontrée. Aucun entraînement Atari,
-checkpoint Atari ni gate0 ARC4.1280 mises à jour SYNTHÉTIQUES diagnostiques
-terminées :1024 réseau +256 champs libres ; tous critères globaux négatifs.
+10 septembre 2026, vers01:54 Paris. Poursuivre entre jalons sans final aux commits.
+Arrêt seulement sur demande, travail achevé ou avis réellement indispensable.
+Dernier message réel « ça en est où ? » : répondu en commentaire puis poursuite.
+Astra Maximum déjà acquitté ; partage écran/RC annulé. Français simple.
+Aucun entraînement Atari, checkpoint Atari ou gate0 ARC4 ; accélération NON
+établie.1280 updates SYNTHÉTIQUES terminées, tous critères globaux négatifs.
 
-Historique détaillé : docs/history/CODEX_HANDOFF_20260910_0105.md, puis0036,
-0014, et9sept2357/2338/2314/2232. Lire seulement les sections utiles ; ne pas
-recharger Claude, tous les logs ou les configurations locales.
+Détails/empreintes : docs/history/CODEX_HANDOFF_20260910_0148.md, puis0105,
+0036/0014 et9sept2357. Lire seulement les sections utiles, pas tous les logs.
 
-## Prochaines actions immédiates
+## Actions immédiates
 
-1. Attendre revue préflight rectangle par audit_motion_bootstrap, ACTIF.
-   Runner/protocole ef48451 aprèsd673b22, six testsPASS2,26s AVANT correction
-   de classification du document source dans evidence. Source candidate d715c92
-   revue a043aa... ci-dessous. AUCUNE lecture de tableaux pour ce nouvel audit,
-   aucune tentative réelle/console créée. Préflight attendu :
-   craft_v6_out/v70_rectangle_groups/preflight_v0.json,
-   kind rectangle_groups_independent_preflight, champs EXACTS de proofs().
-   Vérifier fermeture imports/packages ; corriger AVANT tout audit si finding.
-   Committer le préflight valide avant run. Une tentative seulement, CPU300s
-   hors preuves, .venv-arc4, OMP/OPENBLAS/MKL=1 et CUDA_VISIBLE_DEVICES vide.
-   Exécution prévue python -u -m scripts.check_rectangle_groups_v70, console
-   exclusive offline_v0_console.log ; pas d'écrasement/retry. Pas encore lancée.
-2. Après résultat, revue indépendante numérique/équivalence/chronométrage.
-   Ne pas annoncer un gain de chaîne sur cette mesure du seul composant.
-3. review_recovery_v62 ACTIF sur revue de conception P après échec priorité,
-   une décision testable, pas de série de réessais hyperparamètres. Peut lire
-   littérature primaire si utile. Aucun nouveau fit/code/natif autorisé par
-   cette sous-tâche. Continuer architecture après avis.
-4. ARC3 confirm_s2 actif, six mondes terminés. Suivre sans score intermédiaire.
-   À confirm_complete_review_required : revue neuf mondes/budget/sources,
-   score gelé puis figure finale. Ne pas lancer GPU ARC4 avant GPU libre et
-   tous verrous d'ingénierie/protocole levés.
+1. audit_motion_bootstrap ACTIF : revue résultat rectangle horsligne57624f8,
+   puis revue source adaptateur natif02fe415 (message séquentiel envoyé).
+   Reçus attendus craft_v6_out/v70_rectangle_groups/offline_review_v0.json et
+   source_review_cpu_v0.json. Vérifier/committer quand prêts ; aucune vraie
+   émulation de cette variante avant nouveau protocole et préflight indépendant.
+2. Préparer protocole de raccord natif puis mesure MsPacman16×2048, en utilisant
+   les populations/budgets gelés de bench_cached_visible_v70/bench_gather_visible_v70
+   comme référence. Nouveaux fichiers seulement, anciens résultats conservés.
+   Les empreintes/rapports doivent égaler l'original ; pas de gain de chaîne déduit
+   des temps de composant. Ne pas combiner cache/gather dans cette candidate.
+3. review_recovery_v62 ACTIF prépare inventaire du signal RGB des6paires déjà
+   payées +3Pongprefixsanspaire, SANS lireNPZ réels/commit/run. Attendus
+   scripts/check_branch_signal_inventory_v70.py, tests, docs/ARC4_BRANCH_SIGNAL_INVENTORY_DRAFT.md
+   et PROTOCOL.json. Revoir/préflighter avant toute lecture de tableaux réelle.
+4. ARC3 confirm_s2 continueGPU. Après confirm_complete_review_required : revue
+   neufmondes/budget/sources, score gelé puis figure finale. Pas de score partiel.
 
-## ARC3 v62 — six mondes complets sur neuf, dernière lignée active
+## ARC3 — six mondes terminés sur neuf
 
-Contrôleur20936 / enfant28140 vérifiés vers01:16. Commandes :
+Contrôleur20936/enfant28140, dernière lignée démarrée10sept01:12Paris.
 C:/Python314/python.exe -u -m scripts.recover_confirm_v62
-C:/Python314/python.exe -u -m scripts.confirm_v61 --lineage2 --n-units3 --b-max6
---num-envs64 --store-persists --g-units2 --resume (espaces CLI normaux).
-Lignée2 démarrée10sept01:12. À01:38, s2_8320 stream[5,11,1], tiers[2,3,4],
-navmin.891 ; M4goal5 terminé1078s, reste de ce monde/lignée en cours.
-Lire uniquement tail craft_v6_out/v61_confirm_s2.log et champs utiles de
-v62_confirm_recovery_state.json ; ne pas afficher toute la provenance à chaque fois.
+Enfant confirm_v61 --lineage 2 --n-units 3 --b-max 6 --num-envs 64
+--store-persists --g-units 2 --resume. À01:38 s2_8320 M4goal5 terminé1078s,
+stream[5,11,1], tiers[2,3,4]. Lire tail v61_confirm_s2.log et état compact.
+L0 complète3mondes/25433s,15JSON9deb244. L1 complète3mondes/23401s,
+13JSON777eb77, SHAagrégatc7a84fdc8970549e59678f28457e19c3587e12be525f5f958651bf1b33879772.
+Ne pas committer l'agrégatglobal actif/s2/états/checkpoints GPU.
+Autorité ARC3_PLAN.md§12.6, gel a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
+17sourcesCRITICAL+3runners/provenances immuables, détails histoire.
+Reprise9sept11:37Paris aprèsWindowsUpdate :2166s interruptionfacturée ;
+budget84742,0902837s depuis9sept09:37:40Z, deadline10sept≈11:10Paris sans extension.
+Figure finale préparée423b770/revueaf94a62. Suivi horaire existant
+suivi-ragnarok-arc-3, pasdoublon. Pas de GPUARC4 avantfinARC3 etpréparation complète.
 
-Lignée0 complète3mondes/25433s,15JSONcommittés9deb244 ; agrégatSHA
-3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
-Lignée1 complète3mondes/23401s.13JSON comparés au registre completed du
-contrôleur et committés777eb77 ; agrégatSHA
-c7a84fdc8970549e59678f28457e19c3587e12be525f5f958651bf1b33879772.
-Ne pas committer agrégat global actif/s2/états/checkpoints GPU.
+## Rectangle CPU — horsligne PASS, adaptateur préparé
 
-Autorité ARC3_PLAN.md §12.6, gel a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
-17sourcesCRITICAL +3runners/provenances immuables (détails histoire).
-Reprise9sept11:37 après WindowsUpdate ;2166s interruption facturée, pas9366s
-ancienne erreur de timezone conservée/corrigée. Budget reprise84742,0902837s
-à partir9sept09:37:40Z, deadline10sept≈11:10Paris ; pas d'extension.
-Dernier elapsed du registre48855,062696s au passage confirm_s2.
-RecoveryrunnerSHA a0602eb5db3f1116b185573dae57559767f2c7de3ff594f20907c0a3b6c74134,
-revue da35970fba981b7f6ab4cc10d5307b10dad4e8984133b0471e56239a93d43943.
-Figure finale préparée423b770/revueaf94a62, watermark des figures synthétiques
-sans expérience ; ne pas produire de verdict intermédiaire.
-Suivi horaire existant suivi-ragnarok-arc-3, pas de duplication.
+Candidate d715c92 : rectangle_visible_groups_v70.py, test, ARC4_RECTANGLE_GROUPS_DRAFT.md.
+Graphecontactsrectangles remplis entiers4connexité, balayagey+union ; coinseul
+exclu. Ordre par premierpixel(y,x), pas coinbbox. Mêmevalidation/membres/boîtes.
+Aucun ancien appelant changé.6testsPASS2,82s ; revue6tests+3708comparaisonsadverses
+source_review_v0.json a043aa051ae3bf898eaffad7d5ed50aabc98827c5d9fa855522cf2034229cef3.
+Docsource classéeevidence, acceptéparrunner ef48451 aprèspreparationd673b22.
 
-## ARC4 — groupement externe par rectangles, candidate CPU en cours
+Préflight d34e2ca AVANT audit :110sources/202preuves,68modulesAST/66chargés,
+6testsPASS, SHA5ab853d62707aa6abca630e34a7fa4bc613195bf86531b7e9b9acc84c77f0237.
+Scripts/check_rectangle_groups_v70.py, tests/test_rectangle_groups_protocol_v70.py,
+docs/ARC4_RECTANGLE_GROUPS_OFFLINE_DRAFT.md+PROTOCOL.json.
+Audit unique .venv-arc4, session97873 FERMÉE, attempt23:46:13Z→résultat23:48:31Z,
+travail87,3660347s horspreuves. Résultats57624f8 dansv70_rectangle_groups :
+offline_v0SHA97569b0191c259c3758d5581d5870f10af92240aef41b0db44cab7966de27440,
+attempt2f3f81cd47c9295a7465983bee50a26bae9fbea9d9177c48af7eb1af12708211,
+console38bf9b47b325d702bcaa3935b27a83389e1096072058ef48bedc1be2f0173101 (-text).
+MsPac17471 etAst17571 : chacune8192frames/5épisodes,8187pairesadjacentes,
+TOUTES sorties ordonnées/membres EXACTES. Pas repeat4 : premièreframe dechaque
+épisode décodée mais sanspaire, aucun froidinventé. Alternanceglobaleappelinitial.
+Ms :2248204objets/1130295groupes, raster22,3042363s/rectangles14,9515229s.
+Ast :58544objets/55484groupes, raster9,0719321s/rectangles0,880510299s.
+Temps composant seulement, sansnouveau natif/GPU/training ; revue encoreattendue.
+AnciensdébitsdechaîneMs580,79/539,32cache/523,90gather NONaméliorés ; thresholds
+proposés1000minimum/2000cible inchangés.
 
-Le débit MsPacman reste insuffisant : original natif580,7928/s, cache539,3213/s,
-gather523,8992/s. Aucun gain de chaîne démontré. Sources et résultats immuables.
-Ancien profil horsligne : decode13,15s/groupes7,32s sur boucle30,95s, pas nouvelle
-mesure. Chercher une optimisation exacte du juge avant GPU.
+Adaptateur02fe415 : ragnarok/evaluation/rectangle_visible_pool_v70.py,
+tests/test_rectangle_visible_pool_v70.py, docs/ARC4_RECTANGLE_CPU_DRAFT.md.
+HériteCachedVisibleEngine step/stop/report inchangés, remplace _group_cache par
+wrapper SANSÉTAT avantpremière scène ; aucuncache/gatherajouté. Msseulement,
+autresjeuxrefusésavantconstruction. Transport ferméstep/report inheritedpool,
+serveASTidentiqueàcacheclasseexceptée.8testsPASS7,42s .venv-arc4, moteurs
+synthétiques+2spawnFERMÉS ; aucune émulation réelle, protocole natif paspréparé.
 
-Candidate d715c92 :
-ragnarok/evaluation/rectangle_visible_groups_v70.py,
-tests/test_rectangle_visible_groups_v70.py, docs/ARC4_RECTANGLE_GROUPS_DRAFT.md.
-Graphe de rectangles remplis entiers : overlap strict sur un axe + overlap/contact
-sur l'autre = connexion4 ; coin seul exclu. Balayagey + union, pirecasO(N²).
-Même validation/dédoublonnage/catégories/membres/boîtes. Ordre du raster via
-min(top,left) des rectangles membres, PAS coin supérieur gauche bbox.
-Aucun appelant/collecteur/natif changé. Six tests racinePASS2,82s.
-Revue indépendante6tests+3708comparaisonsadverses exacte, neufsources+unepreuve,
-committéed673b22 : craft_v6_out/v70_rectangle_groups/source_review_v0.json
-SHA a043aa051ae3bf898eaffad7d5ed50aabc98827c5d9fa855522cf2034229cef3.
-Doc candidate classée dans evidence_sha256, pas source_sha256 : acceptéef48451.
+## Priorité P — essai négatif terminé, revue et figure committées
 
-Protocole horsligne d673b22→ef48451 : scripts/check_rectangle_groups_v70.py,
-tests/test_rectangle_groups_protocol_v70.py, ARC4_RECTANGLE_GROUPS_OFFLINE_DRAFT.md
-et PROTOCOL.json. Six tests protocolePASS2,26s .venv-arc4, aucune archive ouverte.
-Deux collections raw_reference_v0 déjà connues : MsPac17471 et Ast17571,
-8192frames/5épisodes chacune, premièreframeparépisode exclue des paires mais
-DÉCODÉE, toutes les autres paires de scènes adjacentes =>8187parjeu/16374total.
-Pas une simulation repeat4. Décodeurs anciens inchangés. Égalité exacte de
-sorties ordonnéesetmembres ; digest entrées+groupes ; aucun oracle versagent.
-Alternance globale pair rasterd'abord/impair candidatd'abord, sans resetentrejeux.
-Temps composant uniquementappels ; chargement/decode/hash horscomposant.
-Une tentative/300scoop horspreuves ; erreurs/prefixes conservés, no retry.
-ManifestMsSHA115ddbf1d72ba2634b943ffa6c46e42d6d3202ca9cf5abed92128a20bfa149f7 ;
-AstSHA80da5c106803fd27ec9778afb76e61b44f37771b92f0829086d2738dd03c5d0e.
-proofs() lie oldfastreview945c47fc..., candidate review, manifests/shards/sources.
-Vrai proofs() PAS encore appelé par racine ; agent doit contrôler fermeture.
-
-## ARC4 — essai priorité TERMINÉ, NÉGATIF, revu et illustré
-
-Correction opérateur a78829b : float64mix, atténuation seulement par geometry/1e-6.
-Ancien bugplancherrelatifMAX commit7d14f93 corrigé AVANTfit. Revue12a43c8
-SHAf74ea8f17fa47ebd7793ce28fb94ae0d431d289f1a81dd19570aa1395df5b96d.
-Têtecomposition6f1d633,469862paramètres(448965visual+20897priority), paireRGB passée,
-embeddingpropre/flowpropre, priorité20tanh, init0. Revue3e03e12
-SHA d49f94c11380c3143afa07b01c9e21febb9122d9adb09b789e272bb9e868715d.
-Pas sousclasseancienparser : anciensownersrefusent. Pas m/C/collector branchés.
-Source primaireopérateur Niklaus/LiuCVPR2020 https://arxiv.org/html/2003.05534v1
-Eq13seulement ; leurimportanceutilisedeuximagesconnues+flotpréentraîné,
-PASpreuveconvergenceforecasterdepuispassé. Pas de code/poids externes réutilisés.
-
-Protocole3e03e12, quatretestsPASS8,64s ; préflight f05b055 AVANTrun :
-v70_priority_motion_fit/preflight_v0.json
-SHA3894c3e7c82c80f693429e47bcb305fccc4ef535cbab25a6a72fc4e7d865b5bc,
-81sources/32preuves/58modulesPython,4testsreviewPASS9,47s.
-Seulegraine764,256Adam3e-4/β.9,.999/eps1e-8/maxnorm1/PmeanL1largeurs1,3,7.
-Mêmevisualinitdc033e685...exact, prioriinit0 ; tol initialenative2e-7 AVANTfit,
-critèrefinalSTRICT L1<.01171875 sans tolérance. Aucune ciblem/C/G/I.
-Run10sept01:23:33→01:26:17Paris ; attemptstarted01:24:43aprèspreuves ;
-travail26,5800207s horspreuves,256updates finies. Session52842 FERMÉE.
-Résultats7cb2c53, dossiercraft_v6_out/v70_priority_motion_fit :
-fit_v0SHA af1abff318cf4799fd1a3f2a31ef8793b692385543f79eaadb66fc0a837c6284 ;
-attempt3131a925c53f4549d27809a061e2e33988647e3fc61db2caa5fc50e2eb125d0f ;
-console6ce807c84f2636a82b7bd3674f399ef15e6c7c694376e1552bc61ba2f7701708 (-text).
-Initialfullweights1e61b55798140b6c6c2206fffda2e7467b8f8b26f8b141579c2836f3bd0e608a ;
-final7dee34ae8b8777ccdd7fba18f810fc576166b21859ae7f6c1616db4532d728a1.
-Finalnative.02344473823904991 >seuil FAIL ; scènes[.0234446749091,.023444801569],
-séparation5,9911025e-7, sommeRGB[.0055107563,.0056083007] vs18attendu,
-priorityabsmax7,114219, flowabsmax2,109855. Champs/priorités/RGB/couverturesconservés.
-
-Revue49dcc8c, fit_review_v0.json
-SHA4ef095b0787edb6d1986a60eb75af96859ff1757790d43a1d6eff5c3db753f31,
-81sources/36preuves. RGB+geometryreproduitsbitàbitNumPy, weightedcoverageécart≤2,22e-16 ;
-réductionsTorchdesARRAYs exactes. Aucun modèle/optimizer relancé.
-Sixblancschaquescènescontractésprès(x5,00..5,17;y5,977..5,998), aucunblanchorscadre,
-MAIS55noirshorscadreparscène. Aucunblancsurcible. Quatrerésidus maxRGB≈.0012,
-geometry>1, plancherinactif. Blancslogprio−1,88..−1,45,noirmax+7,11 :
-contraction/collisions+suppressionsfortesparpriorité. Auxmêmeschampsfinauxavecprio
-uniforme,massesRGB2,2902/2,2096 : contre-exempleARITHMÉTIQUE,pasnouveaufit/causetraining.
-Figure e9173ce→37458c5, générée2,8sdepuisarraysrevus, view_image VALIDÉE :
+Opérateur7d14f93 corrigéa78829b AVANTfit, revue12a43c8/f74ea8f17... :
+float64mix, atténuationgéométrique seulement ; ancienplancherMAXcorrigé.
+Têtecomposition6f1d633,469862paramètres, paireRGBpassée+embedding/flowpropres,
+priorité20tanh init0, aucunfuturinput. Revue3e03e12/d49f94c113... ; anciensownersrefusent.
+Protocole3e03e12/préflightf05b055,81sources/32preuves ;256Adamseed764,
+lr3e-4/maxnorm1, PmeanL1largeurs1/3/7, samevisualinitexact, priorités0.
+Tolinitiale2e-7 AVANTfit ; critèrefinal L1<.01171875 strict, pasm/C/G/I.
+Run session52842FERMÉE, travail26,58002s,256updates. Résultats7cb2c53 :
+v70_priority_motion_fit/fit_v0SHAaf1abff318cf4799fd1a3f2a31ef8793b692385543f79eaadb66fc0a837c6284.
+Native.02344473823904991 FAIL ; RGBsums[.0055107563,.0056083007] vs18attendu.
+Sixblancs/scènecontractésprès(5,6), aucuneprojectionBLANCHEhorscadre, MAIS55noires
+horscadre/scène. Prioritésnoiresdominent les4résidus, geometry>1/plancherinactif.
+Ancienbugnumérique PAScause. UniformiserprioritésàchampsFINAUXfixés donneRGBsums
+2,2902/2,2096 : témoinarithmétique, pascausetrajectoire ni nouveaufit.
+Revue49dcc8c,81sources/36preuves, fit_review_v0SHA
+4ef095b0787edb6d1986a60eb75af96859ff1757790d43a1d6eff5c3db753f31.
+RGB+geometry NumPybitexact ; weightedcoveragearrondi2,22e-16, réductionsTorchsur
+ARRAYsexactes, aucunréseaurelancé. Figuree9173ce→37458c5 générée2,8s/view_imageOK,
 diagnostic_figure_v0.png SHAa9182eb6563693034d9b714a78f0bb6bf35ef65c372a0f551d6b152444114718.
-open_in_codex a réponduqueued, ne pasdirequedéjàvisible. Pasréentraîner/réessayer.
+open_in_codexréponduqueued. Aucunretry/prolongation/checkpointapprenant.
 
-## Limites m/C et prochain conditionnement : documentées
+## Prochaine information scientifique : réponses visuelles des branches
 
-0164464 docs/ARC4_VISIBILITY_UNKNOWN_DRAFT.md : couverture≠identité/visibilité,
-priorité≠probabilité ; inconnu doit être valeur+poidsnul+raison, pascible0dense.
-Comparaisonstationnairevsdéplacement ambiguë sousoccultation. C exigeopportunité
-visible/correspondance danslesdeuxbranches, horizon/provenance ; délais≠ME.
-Détacherpoids/cibles coupegradientdirectd'exclusionmais pascircularitédebootstrap.
+Avisdeconceptionretenu : prédire directement une différenceRGB à coordonnées
+futuresdepuispassé+commandelocale+horizon, tâche DISTINCTEde m/C/ME/objets.
+La cibleproviendrait uniquementdesbranchespropresaprèsobservation, sanswarp/d/m.
+Zéro signifieabsenceRGBobservéepourcettepaire, pasabsencecontrôlephysique.
+Fonddévoilé/effetsindirects/objetscachés/ballesnonaffectées restentdeslimites.
+PasdenouvelajustementPjouet. Vérifierd'abord le signaldisponible, puisuneseule
+hypothèseavecancragesréservés/contrôlesconstants/budgetgelésavantfit ultérieur.
+Sourceprimairelueparracine+agent : Bellemare/Veness/Bowling2012,
+https://webdocs.cs.ualberta.ca/~mbowling/papers/12aaai-roc.pdf §4/6.2.
+Leurétudeutilisetrajectoireshumainesetchoixdereprésentationpropres, paspreuvepournous.
 
-cec71d3 docs/ARC4_COUNTERFACTUAL_OCCLUSION_LIMITS.md +testcorrespondant :
-4testspassagent1,52s/racine1,58s, sansTorch/ALE. Deuxmondesphysiquesopposés
-avecRGBexactementégaux. Objetocculteurqui change donneC1poids1au sujetnoncontrôlé ;
-sujetcontrôlécachédansdeuxbranches donneC0poids1. Positionpréditecorrecteintervention.
-BrutETpoolé, paserreur de calculRGB : attributioncausaleinjustifiée. Véritésphysiques
-uniquementjuge ; pas de fréquenceAtari ni nouveau modèle. Sourcesanciennesinchangées.
+Inventairepréparéparagent :9casdu résultatownednative5db50e4.../revue8b4105... ;
+6paires8/8frames,action5vsNOOP0,anchor576/epoch0/op145 ;3Pongprefixsanspaire.
+Seulementbranch_start_pair+6champsraw/pooled/endpointdesNPZhashés ; validerpool
+adjacentvrai. Horizons1..8brutETpoolé, changedpixels/fractions/union/firsthist,
+préfixesinconnusNone jamais0, pairesallzero conservées ; pasobjets/natif/modèle.
+AncienCdiagnostic610ef8.../revue574e18... dit150instancesmaiszéro supervision,
+cequipouvaitvenirdegardesduparser ; disponibilitéRGBresteàmesurer.
 
-49dcc8c docs/ARC4_LOCAL_COMMAND_BOOTSTRAP_DRAFT.md reprend aviscontradictoire :
-code exploratoire localcommandes entraînéparP pourrait leverl'aliasUNKNOWNavantME,
-maisNEsignifiePASles12effetssémantiques. Politique nevoitpasboutons/codeslocaux.
-Ordreamorçagemodifiéàdéclarer, alignementsémantiqueultérieurinconnu, pasdepreuveME/
-transfert. Ne PAS lancercefitavecPeneffondrement. Futureexpérienceuniqueproposée
-conditionnementlocalvsconstant,mêmepassé/deuxcommandes+secondpasséréservé, pasgelée.
+Limites m/C0164464 docs/ARC4_VISIBILITY_UNKNOWN_DRAFT.md ; témoinscec71d3
+ARC4_COUNTERFACTUAL_OCCLUSION_LIMITS.md+4testsPASS(racine1,58s), mondesphysiques
+opposés auxRGBidentiques, fauxC1parocculteur/fauxC0sujetcontrôlécaché. Pasoracleinput.
+49dcc8c ARC4_LOCAL_COMMAND_BOOTSTRAP_DRAFT.md : codeslocaux ne sontpas12effets
+sémantiques, politiquenevoitpasboutons/codesnonalignés, pasME/transfertdéduits.
+Autresfondations/ancienfits/occlusion etleursrevues : histoire0148/0105.
 
-## Fondations et anciens diagnostics inchangés
+## Contraintes permanentes
 
-Transport RGB isolénatif :9cas/1266pas/6paires/7454charges EXACTS, aucun modèle,
-revue09cb979/e93d2932..., workersfermés. Parserordonné4e42567/flux258fae5/ownersfd0c704,
-revue0b474ab51sources/12preuves/13tests, mémoiredeuximagespropres, P4/I8,coûtsconservés.
-Ancien diagnosticréelarchives72pas/69P/1300I/6paires,0optimizer, C150instancesmais
-zérosupervision/gradient. Normeréellemax120,42449 ;1e22SYNTHÉTIQUEseulement.
-
-Anciensfits tousnégatifs, conservésetrevus ; détailsSHA danshistoire0105 :
--original512updates(pooled256+ordered256), nativefinal.0252121985/.025491314,
- revue24bc47c/9d71b8ebe3bcdd6bd35e5cc79b5962ccb9293de252e436f125650f0c8c71ccbf.
--blurredordered256updates, native.025345697999 ; revue96e8db0/44c79f365535b6ef794b1a383b3efb70ecd51e92ccedd3b4a8f9ae88690e86b6.
--freefields256updates, native.013014632277>seuil, scènes[0,.0260292645544] ;
- revueb6c8868/5def75f0ef5e097e4810435e0b235f272bc966e5f8c1e1119cd09ac813753241,
- secondescienceetfigurebbc8b2d. DroiteRGBexactmaisfondartificiellementdéplacé ;
- gauchecontraction/dilution, touscentresdanscadre. Pasperceptionphysiqueprouvée.
--Occlusiond4cb325/revuebbc8b2d6ff374... : blancopaque±4/fondimmobile=>gris.5,
- L1.01171875, borneJensenidéale ; bougerfondsnoirsdonneRGBexactmaisfaussecm≈.996.
- Ancienbugnormalisation7d14f93corrigéa78829b puisrevuf74...avantprioritéfit.
-
-ME/tableboutons/reader/drives/S/policy/ledger/fusioncatégories ABSENTS. Gate0
-NONgelé : entrée/amorcage/coefficients/calendrier/registresetcoûtsrestentouverts.
-Budgets12GPUh/0B10 ; critèresproposésinchangés :0A2000fullchain/s16repeat4,
-<1000engineeringavantGPU ;0B100kcharges/6jeux/3graines,seuilsvoirVISION.
-Sixanciennesapprochesarchivées, septièmegateperceptionpasencoretestée. Aucune
-notchextra/adoptionréférenceapprenante sans issueprévue. Boxing/Frostbite/Riverraid/
-Kangaroojamaisouverts. RAMjugeuniquement. Ne pasraccorderancienm/Càprioritécommecorrigé.
-
-## Environnement et coordination
-
-Master, commitsciblés, paspush/suppression/configlue. Exclure.codex/,agrégatARC3
-actif/s2/états/checkpoints,ancienssmokes/notches. Consoleignorée: add-fexact+
-.gitattributeslocale-text. Dangerfullaccessapprovalnever : omettre sandbox_permissions.
-C:/Python314/python.exe Py3.14.3,Torch2.11.0+cu126,np2.4.4,scipy1.17.1,pasale_py ;
-Matplotlib3.10.8/Pillow12.2.0. CPUCUDA='',OMP/OPENBLAS/MKL1,torchthreads1.
-.venv-arc4/Scripts/python.exe vérifié01:37 :Py3.14.3,ALE.12.1,np2.4.4,scipy1.18.1,
-pillow12.3.0,pytest9.0.3,pasTorch. Pasinstaller/rebuildenvironnementpendantARC3.
-Ryzen53600X6c/12t,RTX408016Go. Toutes sessions racineCPUfermées ; ARC3GPUactif.
-RevuesautoriséesAGENTS :audit_motion_bootstrap préflightrectanglesACTIF,
-review_recovery_v62 revueconceptionPACTIF. audit_gate_v62 ancienannulé : nepasréveiller.
-Ne pasfinirleturnsurcommit/attente ; poursuivretravailautorisé.
+ME/tableboutons/reader/drives/S/policy/ledger/fusioncatégoriesABSENTS. Gate0NONgelé,
+budgets12GPUh/0B10, critèresproposésinchangés ; septièmeapprocheperceptionpasencore
+testée enGPU, pasabaissement/notchextra/référenceapprenantehorsissueprévue.
+Boxing/Frostbite/Riverraid/Kangaroo jamaisouverts. RAMjugeuniquement.
+Master/commitsciblés, paspush/suppression. Exclure .codex/,ARC3actif/s2/checkpoints/
+états, smokes/notches. Ne paslireconfigs. Console add-fexact+.gitattributes-text.
+Dangerfullaccessapprovalnever : omettre sandbox_permissions.
+C:/Python314/python.exe Py3.14.3,Torch2.11.0+cu126,np2.4.4,scipy1.17.1,pasALE ;
+matplotlib3.10.8/pillow12.2.0. .venv-arc4 :Py3.14.3,ALE.12.1,np2.4.4,scipy1.18.1,
+pillow12.3.0,pytest9.0.3,pasTorch. CPUCUDA='',OMP/OPENBLAS/MKL1,torchthreads1.
+Pasinstall/rebuildenvironnementpendantARC3. Ryzen53600X6c/12t,RTX408016Go.
+Toutes sessions racineCPUFERMÉES ; ARC3GPUACTIF. Agentsactifs : audit_motion_bootstrap
+revuerésultatsrectanglespuisadaptateur ; review_recovery_v62 préparationinventaire.
+audit_gate_v62 ancienannulé nepasréveiller. Ne pasfinir suruncommitouuneattente.
