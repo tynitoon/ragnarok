@@ -1,0 +1,121 @@
+{
+  "kind": "ordered_motion_parser_independent_source_review",
+  "passed": true,
+  "preliminary_only": true,
+  "created_utc": "2026-09-09T21:29:18Z",
+  "source_commit": "4e425671f9e857c4f87b200caae600e848df400a",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/ARC4_ORDERED_MOTION_DRAFT.md": "db98f51501e10cd312f8ed34bd55e3c1c0f168ff83274bcebc264ec374d7b20c",
+    "tests/test_motion_observation_alias_v70.py": "bdb7a77dabaa8a169010ef493a4b38e21043eac72a98fc1fbd032fce9223c3b9",
+    "ragnarok/learning/ordered_motion_parser_v70.py": "73a7cfe0b76abc44b260ac7ba9412ec658b65b7024ce2acde6b09b80d47c1daa",
+    "tests/test_ordered_motion_parser_v70.py": "43f200e009b4c289ae47abc54713bc3da4ccce8bc750692da5e7db95f47499d4"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json": "968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7"
+  },
+  "runtime": {
+    "cuda_initialized": false,
+    "cuda_visible_devices": "",
+    "executable": "C:\\Python314\\python.exe",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "torch_threads": 1
+  },
+  "audit": {
+    "scope": "Bounded scientific/source review of the constructive MAX ambiguity and the separate ordered RGB motion candidate. Synthetic CPU only; no archive, emulator, GPU or optimizer.",
+    "closure": "26files including25local Python modules. The22old dependencies match the three prior independent receipts exactly; all source/proof bytes match committed4e42567 and HEAD blobs. Environment modules in the test dependency closure are imported for the weight-hash/fixture helpers only; no constructor or oracle read is called.",
+    "counterexample": "Two16x16RGB scenes with a white2x2square atx4->5 orx5->4 have identical MAX input and equal effect hypotheses. Continuing right to pooled positions8/9 or left to1/0 produces disjoint future targets. Frozen pooled-only parser outputs are exactly equal on the identical inputs.",
+    "bound": {
+      "normalized_future_L1_separation": 0.046875,
+      "mean_L1_lower_bound_for_common_deterministic_prediction": 0.0234375,
+      "weighting": "Equal weight for the two constructed futures; mean over normalized RGB values and image pixels.",
+      "independent_attainability_witness": "A common all-zero image also achieves0.0234375 mean loss on these two targets. The bound describes information loss, not successful object prediction."
+    },
+    "architecture": "Previous/current RGB are concatenated in order into a learned6->32block. Displacement receives96channels:32pooled shared features,32ordered features and32effect features. Full/half shared pyramid and f/m/c/s use the same pooled input as before. No computed flow, direction label, button, RAM, reference class or reward enters the model.",
+    "parameters": {
+      "old": 428677,
+      "candidate": 448965,
+      "additional": 20288
+    },
+    "forward_contract": "Both inputs must be equal-shape BCHW uint8 on one device, nonempty and at least8x8. Effect is optional/zero-unknown or finite floating Bx12in[0,1] on the image device, checked before casting. ParserOutput field names, dimensions and source-pixel displacement convention remain unchanged. Pooled-only calls fail explicitly.",
+    "routing": "At seed764, f/m/c/s equal the old parser exactly for the same pooled source/weights. Reversing the raw order may change d alone, and effect changes d alone. Independent autograd checks find no path from f/m/c/s or foreground BCE into the ordered/effect branches, while image-L1 P reaches ordered-motion parameters and effect input. Foreground target remains detached.",
+    "state": "Weights and both input RGB tensors remained byte-identical during the independent forward/autograd checks. No optimizer or parameter update was invoked."
+  },
+  "tests": {
+    "command": "C:/Python314/python.exe; torch.set_num_threads(1); pytest -q tests/test_motion_observation_alias_v70.py tests/test_ordered_motion_parser_v70.py",
+    "passed": 8,
+    "seconds": 3.83,
+    "synthetic_only": true
+  },
+  "independent_witnesses": [
+    {
+      "name": "P gradient routing and unchanged legacy appearance",
+      "seed": 764,
+      "ordered_motion_P_gradient_L1": 0.09202760052721715,
+      "effect_input_P_gradient_L1": 0.000003779132157433196,
+      "P_image_L1": 0.046890098601579666,
+      "legacy_nonmotion_outputs_exact": true,
+      "nonmotion_gradient_into_ordered_or_effect_branch": null,
+      "foreground_BCE_gradient_into_ordered_or_effect_branch": null,
+      "foreground_target_detached": true,
+      "weights_and_inputs_unchanged": true
+    },
+    {
+      "name": "Input domains and layout",
+      "invalid_effects_refused": 6,
+      "cases": "WrongBx11shape, integer effect,NaN,Infinity,and float64 values slightly below0/above1 rejected.",
+      "noncontiguous_odd_spatial_shape": "19x17 transpose agrees exactly with contiguous copies for every output."
+    },
+    {
+      "name": "MAX ambiguity bound",
+      "common_zero_predictor_mean_L1": 0.0234375,
+      "scope": "Independent direct tensor arithmetic; no target was fed to the model."
+    }
+  ],
+  "limitations": [
+    "The counterexample proves a possible ambiguity for a deterministic stateless predictor receiving only this MAX image and equal effect. It does not show that recurrent agents retaining other history are unable to distinguish the scenarios, nor estimate an Atari frequency or error rate.",
+    "An untrained d that differs with order is not a correctly signed/magnitude-calibrated motion field. Nonzero finite P gradients are not useful supervision, stable learning, object binding or accelerated acquisition.",
+    "The candidate has no native/archive accuracy test, training run, throughput measurement or gate result. Earlier parser and CPU results remain attributed to their original frozen architecture.",
+    "OrderedMotionParser inherits CounterfactualParser, so legacy owners using isinstance may accept its construction even though their pooled-only forward call later fails. Any integration must adapt and validate the new two-RGB contract before a paid command; it is not a drop-in replacement for existing owners/runners.",
+    "Source chronology and pixel provenance remain the caller's responsibility. A future protocol must fix the prediction interval and retain the true previous/current pair; the candidate adds no horizon label or guarantee about invisible resets.",
+    "The shared pooled feature path still receives P gradients during future learning. Forward independence of f/m/c/s from raw order/effect does not mean their shared parameters would be unaffected by training.",
+    "Button-to-effect discovery and the existing motion/foreground self-supervision ambiguities remain unresolved. Small initial displacement does not force nonzero C eligibility; the previous zero-C diagnostics are not repaired or reattributed.",
+    "This receipt does not authorize optimizer steps, live integration, new native collection or a modification of frozen sources."
+  ],
+  "new_emulated_frames": 0,
+  "real_archive_inference": false,
+  "optimizer_updates": 0,
+  "gpu_used": false,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
