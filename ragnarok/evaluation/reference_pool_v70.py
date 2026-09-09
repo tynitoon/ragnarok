@@ -16,6 +16,8 @@ from ragnarok.evaluation.pooled_pong_v70 import pooled_ram_objects
 from ragnarok.evaluation.perception_v70 import PerceptionScorer
 from ragnarok.evaluation.scene_perception_v70 import ScenePerceptionScorer, breakout_scene_objects
 from ragnarok.evaluation.scene_adapters_v70 import pooled_breakout_scene_objects
+from ragnarok.evaluation.freeway_v70 import decode_freeway_ram
+from ragnarok.evaluation.pooled_freeway_v70 import pooled_freeway_ram_objects
 from scripts.ref_extract_v70 import ReferenceExtractor
 
 
@@ -69,10 +71,10 @@ class _ReferenceEngine:
             raise ValueError("This development instrument requires repeat4 and laboratory mode")
         if observation_mode not in ("raw", "maxpooled"):
             raise ValueError("Observation mode must be raw or maxpooled")
-        if reset_convention not in ("natural_legacy", "cold") or config.game not in ("pong","breakout"):
-            raise ValueError("Reference scorer supports calibrated Pong/Breakout with a known reset convention")
+        if reset_convention not in ("natural_legacy", "cold") or config.game not in ("pong","breakout","freeway"):
+            raise ValueError("Reference scorer requires a calibrated development game and known reset convention")
         if config.game != "pong" and reset_convention != "cold":
-            raise ValueError("Breakout requires the calibrated cold-start convention")
+            raise ValueError("This game's calibration requires the cold-start convention")
         if reference_backend not in ("numpy","native") or (reference_backend=="native" and native_build is None):
             raise ValueError("Select NumPy or native reference with an explicit build manifest")
         self.observation_mode = observation_mode
@@ -89,9 +91,12 @@ class _ReferenceEngine:
         if config.game == "pong":
             self.scorer = PerceptionScorer()
             self._decoder, self._pooled_decoder = decode_pong_ram, pooled_ram_objects
-        else:
+        elif config.game == "breakout":
             self.scorer = ScenePerceptionScorer(roi=(8,32,152,197))
             self._decoder, self._pooled_decoder = breakout_scene_objects, pooled_breakout_scene_objects
+        else:
+            self.scorer = PerceptionScorer(roi=(0,22,160,201))
+            self._decoder, self._pooled_decoder = decode_freeway_ram, pooled_freeway_ram_objects
         self._ordinary_frames, self._episode, self._steps = 0, 0, 0
         self._phase = "ordinary"
         self._branch_every = branch_every

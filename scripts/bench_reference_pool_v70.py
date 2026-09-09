@@ -19,30 +19,31 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
               reference_backend="numpy", native_build=None):
     root = Path(__file__).resolve().parents[1]
     calibration_hash = None
-    if game not in ("pong","breakout"):
+    if game not in ("pong","breakout","freeway"):
         raise ValueError("Only calibrated development games are supported")
-    if game=="breakout" and reset_convention!="cold":
-        raise ValueError("Breakout calibration uses the cold-start convention")
-    if observation_mode == "maxpooled" or game=="breakout":
+    if game!="pong" and reset_convention!="cold":
+        raise ValueError("This calibration uses the cold-start convention")
+    if observation_mode == "maxpooled" or game!="pong":
         if calibration is None:
             raise ValueError("This benchmark requires a successful calibration artifact")
         calibrated = json.loads(calibration.read_text(encoding="utf-8"))
         expected_kind=("development_pong_pooled_calibration" if game=="pong" else
-                       f"independent_breakout_{'pooled' if observation_mode=='maxpooled' else 'raw'}_calibration")
+                       f"independent_{game}_{'pooled' if observation_mode=='maxpooled' else 'raw'}_calibration")
         if calibrated.get("kind") != expected_kind or calibrated.get("calibration_pass") is not True:
             raise ValueError("Calibration has not passed for this game and observation mode")
         if game=="pong":
             paths=("ragnarok/evaluation/pong_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
                    "docs/ARC4_PONG_POOLED_PROTOCOL.json")
         else:
-            if observation_mode=="maxpooled":
-                from scripts.calibrate_breakout_pooled_v70 import SOURCE_PATHS as paths
-            else:
-                from scripts.calibrate_breakout_v70 import SOURCE_PATHS as paths
+            suffix="_pooled" if observation_mode=="maxpooled" else ""
+            module=importlib.import_module(f"scripts.calibrate_{game}{suffix}_v70")
+            paths=module.SOURCE_PATHS
             if set(calibrated.get("source_sha256",{}))!=set(paths):
-                raise ValueError("Breakout calibration has an incomplete source registry")
-        if game=="breakout" and calibrated.get("seed")!=(17122 if observation_mode=="maxpooled" else 17112):
-            raise ValueError("Breakout requires the reserved validation result")
+                raise ValueError("Calibration has an incomplete source registry")
+        if game!="pong":
+            raw_seed,pooled_seed={"breakout":(17112,17122),"freeway":(17212,17222)}[game]
+            if calibrated.get("seed")!=(pooled_seed if observation_mode=="maxpooled" else raw_seed):
+                raise ValueError("This game requires the reserved validation result")
         for path in paths:
             if hashlib.sha256((root/path).read_bytes()).hexdigest() != calibrated["source_sha256"][path]:
                 raise ValueError("Benchmark differs from calibrated sources")
@@ -66,7 +67,8 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
                "ragnarok/environments/frame_budget_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
                "ragnarok/environments/cold_emu_pool_v70.py", "ragnarok/evaluation/scene_perception_v70.py",
                "ragnarok/evaluation/scene_adapters_v70.py", "ragnarok/evaluation/breakout_v70.py",
-               "ragnarok/evaluation/pooled_breakout_v70.py", "ragnarok/evaluation/fast_pooled_breakout_v70.py"]
+               "ragnarok/evaluation/pooled_breakout_v70.py", "ragnarok/evaluation/fast_pooled_breakout_v70.py",
+               "ragnarok/evaluation/freeway_v70.py", "ragnarok/evaluation/pooled_freeway_v70.py"]
     native_provenance=None
     if reference_backend=="native":
         sources += ["ragnarok/native/reference_update_v70.c","ragnarok/evaluation/native_reference_v70.py",
@@ -99,7 +101,7 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workers",type=int,choices=(1,2,4,8,16),default=2)
-    parser.add_argument("--game",choices=("pong","breakout"),default="pong")
+    parser.add_argument("--game",choices=("pong","breakout","freeway"),default="pong")
     parser.add_argument("--reference-backend",choices=("numpy","native"),default="numpy")
     parser.add_argument("--native-build",type=Path)
     parser.add_argument("--steps",type=int,default=512)

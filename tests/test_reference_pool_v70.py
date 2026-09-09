@@ -76,7 +76,7 @@ def test_branch_endpoints_use_the_same_raw_convention_as_ordinary_images():
     assert np.array_equal(control,expected)
 
 
-@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold")))
+@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold"),("freeway","cold")))
 def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(game,reset_convention):
     pytest.importorskip("ale_py")
     config = EmulatorConfig(game=game,seed=18105, max_episode_frames=509, max_charged_frames=20_000)
@@ -101,7 +101,7 @@ def test_pooled_ram_pair_stays_aligned_through_terminal_branches_and_reset(game,
     assert subject.report()["accounting"]["reset_emulated_frames"] == 144
 
 
-@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold")))
+@pytest.mark.parametrize("game,reset_convention", (("pong","natural_legacy"),("pong","cold"),("breakout","cold"),("freeway","cold")))
 def test_pooled_observations_and_self_labels_ignore_changed_oracle(game,reset_convention):
     pytest.importorskip("ale_py")
     config = EmulatorConfig(game=game,seed=18106, max_charged_frames=20_000, max_episode_frames=300)

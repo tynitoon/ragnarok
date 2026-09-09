@@ -1,0 +1,16 @@
+{
+  "kind": "development_reference_diagnostic_before_reference_outputs",
+  "game": "freeway",
+  "input": "Successfully calibrated4096-frame reserved raw17212 sequence; same manifest and complete sealed judge source registry",
+  "reference": "Existing causal per-pixel modal RGB background and4-connected components; every foreground component, no game palette or teacher",
+  "reference_reset": "Continuous history of ordinary RGB, no oracle episode or reset input",
+  "matching": "Maximum cardinality of visible truth centers against predictions within4pixels, then minimum distance; one-to-one, stationary visible objects participate in precision",
+  "motion": "Each of the twelve identities is eligible only when its center changed within the last8real frames and it remains visible; no perfect score for empty denominator",
+  "roi_xyxy": [0,22,160,201],
+  "instances": "Player chicken, second chicken, ten fixed-lane cars with distinct IDs",
+  "measurement": "All frames including early background/occlusion; report counts, mobile recall and visible precision. Do not claim whole-road player coverage or independent car trajectories across seeds.",
+  "timing": "Raw reference and judge only; excludes emulator, IPC, branches and learning",
+  "gate_result": null,
+  "learning": false,
+  "interpretation": "CPU development diagnostic only; retain the raw calibration's checker errors and source-seal metadata indexing deviation"
+}
