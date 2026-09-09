@@ -1,0 +1,64 @@
+{
+  "kind": "mspacman_raw_visible_v3_prospective_validation_seal",
+  "created_utc": "2026-09-09T11:31:27Z",
+  "source_commit": "5a2ee619233a7454e7eee8e4f0ed9dad64cd769b",
+  "seeds": [
+    17412,
+    17432
+  ],
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "docs/ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json": "22294fab4d285080a94b37fe8dcef1d278d0362a385a4801563678a3c4fd9348",
+    "scripts/validate_mspacman_raw_v70.py": "5724f38d8fe817ccd1a2a6a6b01d40214104e1ed6cf3dd2bcddf5abea269c8d5",
+    "scripts/calibrate_mspacman_reserved_v70.py": "f4eddb8bbd8cb0f37b960070ac44bcaf491a71919f090cd0c7ace2e72f18c2b4",
+    "tests/test_mspacman_raw_validation_v70.py": "915e8ec693c82f25408b5eb24daf596da384f3d0058f48e5ff5b547895c7d301"
+  },
+  "metadata_sha256": {
+    "craft_v6_out/v70_mspacman_calibration/development/manifest.json": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+    "craft_v6_out/v70_mspacman_calibration/coverage_development_v1/manifest.json": "62762f99abb602875b8cd7ecb05b055c9561a25c513a6fa8ffc004785f38944d",
+    "craft_v6_out/v70_mspacman_calibration/development_visible_v3.json": "c8565c0ed5e7ff5f041ee8cb18c69903c94d82c2c9920c2fac44f70aca14614a",
+    "craft_v6_out/v70_mspacman_calibration/coverage_visible_v3.json": "0f14b87bf19b99014ed03a5a99bf7ad42fed871ec8b6e24e5d07fe0fea040862",
+    "craft_v6_out/v70_mspacman_calibration/maze_v3_composition_review.json": "8c858c84f06b5bee7e0922e1017ad6493f083e1144e06d7e70b90b50d2d78434",
+    "craft_v6_out/v70_mspacman_calibration/maze_v3_results_review.json": "a5d8a99c91294929322bcaa13bbbc27ef383d46a83925e6915cad38760f82eef",
+    "craft_v6_out/v70_mspacman_calibration/raw_validation_preflight_review_v3.json": "ec7c7962c117e0f379eac41f915a9c6987c229bda3286a4f6f8006e174329052"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "notes": "Sources and all development/review metadata committed first. Commit this seal separately and run the read-only preflight before either reserved emulator construction. Preserve every reserved result and failure without tuning."
+}
