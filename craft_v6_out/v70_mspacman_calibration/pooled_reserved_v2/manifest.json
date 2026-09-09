@@ -1,0 +1,439 @@
+{
+  "kind": "scorer_only_cold_two_rgb_three_ram_fixture",
+  "game": "ms_pacman",
+  "partition": "reserved",
+  "seed": 17422,
+  "decisions": 8192,
+  "action_repeat": 4,
+  "mode": 0,
+  "episode_limit": 108000,
+  "episode_count": 6,
+  "action_schedule": "instrumentation_rgb_maze_walker_v1_each_repeat4_decision",
+  "sticky_probability": 0.25,
+  "sticky_implementation": "worker-python-random-per-frame",
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "ordinary_real_frames": 32753,
+  "accounting": {
+    "ordinary_frames": 33545,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 33545,
+    "charged_frames": 33545,
+    "ordinary_agent_steps": 8192,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 1114244,
+    "reset_emulated_frames": 432,
+    "bootstrap_emulated_frames": 132,
+    "format_detection_emulated_frames": 360,
+    "cold_loads": 6,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "source_commit": "9ebdfdf7f96a932698f162a493823ddd64494de1",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "docs/ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json": "22294fab4d285080a94b37fe8dcef1d278d0362a385a4801563678a3c4fd9348",
+    "scripts/validate_mspacman_raw_v70.py": "5724f38d8fe817ccd1a2a6a6b01d40214104e1ed6cf3dd2bcddf5abea269c8d5",
+    "scripts/calibrate_mspacman_reserved_v70.py": "f4eddb8bbd8cb0f37b960070ac44bcaf491a71919f090cd0c7ace2e72f18c2b4",
+    "tests/test_mspacman_raw_validation_v70.py": "915e8ec693c82f25408b5eb24daf596da384f3d0058f48e5ff5b547895c7d301",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/mspacman_raw_prerequisite_v70.py": "62968f2997b8040162847764002886e4bc48434dc16193c9f4ff00d6992951c4",
+    "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_mspacman_v70.py": "e8b231d7e95d01a94690eb8e2aaf57e21f1f6ac59a21747d17170c8d2d7f796e",
+    "scripts/capture_mspacman_pooled_v70.py": "4bdd86fc958e42806dc485efaba639f330448b26927629b866a0a06e1c7fc447",
+    "scripts/calibrate_mspacman_pooled_v70.py": "d12f9c73f046fff5f0ce2281f6ef8468e4937108a379c3822db5ab0fdd319bd1",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_mspacman_pooled_v70.py": "94e74fcaa14804562fc023e9577a618d6c32585a2d186337b3686d843175a9f0",
+    "ragnarok/evaluation/pooled_mspacman_rows_v70.py": "259a74a90ca1fac51dab7635f41d9beab6c9263b8bf70121f6918c1230f66985",
+    "scripts/calibrate_mspacman_pooled_rows_v70.py": "70fa945ccecb506d396e09425b859cd498e7b940d8b5774e4b9bcd69beb8edf1",
+    "tests/test_mspacman_pooled_rows_v70.py": "56ea68e1c7c45b3b0e47289d968e87058c251e643be078c4c78b7915de9a9c42",
+    "ragnarok/evaluation/pooled_mspacman_eyes_v70.py": "d146b7b85505bea672801f75b907bf0519ab2faa4d1a5df327cc7c5296fb1a6e",
+    "scripts/calibrate_mspacman_pooled_eyes_v70.py": "9c46ebc383e14ccf657867091396bc174c2ced77d293683f559211d31a9ab224",
+    "tests/test_mspacman_pooled_eyes_v70.py": "b71fae8e841e167f5f0c27ea46a4bd77d775745a307708284b04fe98a0e4dda0",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/ARC4_MSPACMAN_POOLED_RESERVED_PROTOCOL.json": "a07d7a21f8bd326303bb1a2e17ada6bc5a8a1f50023836cb8864064ca19374a8",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "scripts/validate_mspacman_pooled_v70.py": "5cca3c714c43aec13a3e76efd3795e9e04399b0f549f21feee90563e909cd165",
+    "tests/test_temporal_validation_seal_v70.py": "a145f0576d9eae3910ec2a7b4e5c630b04394ec4386a662fd15683f61862a0a9",
+    "tests/test_mspacman_pooled_reserved_v70.py": "52a239601a81bbbf25c35678bb7194211c0726962554bade9e79dc78c51c7412"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "raw_calibration_proof_sha256": "8c0aaedd3f4d70d0ecac4b9681dcdbd5ac91164854c4f7013701b0de3c16359a",
+  "validation_seal_sha256": "06c4baa64bed5e1194a3e77ffded617bcd93c0423957258d78d1ca39146d94c9",
+  "preflight_review_sha256": "41010456f06630085a618ab50edb3d733b6466dc08e80dabef15d9acbaa7d166",
+  "shards": [
+    {
+      "path": "decisions_00001_00128.npz",
+      "decisions": 128,
+      "sha256": "72a16df2aac61bc45d780ad36271cab209c6e58051bb9ae49143c9ae55e9a92e"
+    },
+    {
+      "path": "decisions_00129_00256.npz",
+      "decisions": 128,
+      "sha256": "b65a6d1922a0d5450de5fe97884dd64939060031ec86afafdfb0c7f960624f7f"
+    },
+    {
+      "path": "decisions_00257_00384.npz",
+      "decisions": 128,
+      "sha256": "55a10f6e06383b1941050a2efd04c0290ccdb6eb72fdc31ae59e59bf8bcc1e48"
+    },
+    {
+      "path": "decisions_00385_00512.npz",
+      "decisions": 128,
+      "sha256": "f78cb54dd0ee0bfd0c62fa97466309feba4a0dd9603f601d6461ecb14ce8bd4e"
+    },
+    {
+      "path": "decisions_00513_00640.npz",
+      "decisions": 128,
+      "sha256": "219474e1046eb3f6ff036a295f1ef38ceba3b0eb79fa6e7431faa1240caa9ff4"
+    },
+    {
+      "path": "decisions_00641_00768.npz",
+      "decisions": 128,
+      "sha256": "d1f74c05fc689b255659736cf3102a53e7bf8b84de6b801b8763ed602e717bb1"
+    },
+    {
+      "path": "decisions_00769_00896.npz",
+      "decisions": 128,
+      "sha256": "00f8a4509a01228be77528610845d3277ebd1591816b86cfa2d2cf9187c12bb7"
+    },
+    {
+      "path": "decisions_00897_01024.npz",
+      "decisions": 128,
+      "sha256": "3b98d9605469021ad2df7a3216ed6749ecf75f96eaa16f083bd170e768775a17"
+    },
+    {
+      "path": "decisions_01025_01152.npz",
+      "decisions": 128,
+      "sha256": "91814603ae6edf3e77aacdf428e8dad4ed6bdec8c832c1043eaccbcfde4fad2b"
+    },
+    {
+      "path": "decisions_01153_01280.npz",
+      "decisions": 128,
+      "sha256": "726f249dbcc35be4cb98b3902f46f4b9767639ce488262ed816bced2263b4c73"
+    },
+    {
+      "path": "decisions_01281_01408.npz",
+      "decisions": 128,
+      "sha256": "a7f61576fd79e1dd7f27fb72add768e5d047cc3831489885d6c487ce93c5279b"
+    },
+    {
+      "path": "decisions_01409_01536.npz",
+      "decisions": 128,
+      "sha256": "6f49fd55296278b7c2860899af05fe7f13edfbc81cb26b2d67aa68e70043fa7c"
+    },
+    {
+      "path": "decisions_01537_01664.npz",
+      "decisions": 128,
+      "sha256": "408961874c5e661a68790aa0d4a6de9ec2aa5e4482db9c9f06ed8c56b5f3df8f"
+    },
+    {
+      "path": "decisions_01665_01792.npz",
+      "decisions": 128,
+      "sha256": "84998deea102c4356807d8e4c9e3511872c42a39ae240f7a0ceadc79b012159f"
+    },
+    {
+      "path": "decisions_01793_01920.npz",
+      "decisions": 128,
+      "sha256": "06578324de475b9a61e2be2b800c79395c7166df96579da223dd606d638e91d3"
+    },
+    {
+      "path": "decisions_01921_02048.npz",
+      "decisions": 128,
+      "sha256": "949cbfa51fdc29b29c3aa3dcdcd3d3874552c8c9314722bfd4a6aab44aaf4802"
+    },
+    {
+      "path": "decisions_02049_02176.npz",
+      "decisions": 128,
+      "sha256": "cb338d8f41aac6ed1608e2c21bb520ba2fb9188ca9b82b3f863c6d1d6fc59434"
+    },
+    {
+      "path": "decisions_02177_02304.npz",
+      "decisions": 128,
+      "sha256": "df938603e5b235982f54dabb561da05441983c67f335d2a224f6f4c0e7869d12"
+    },
+    {
+      "path": "decisions_02305_02432.npz",
+      "decisions": 128,
+      "sha256": "7300a4de0138a0f8613314992593824b16cb97c605861a4e8e3c8d8c7258209a"
+    },
+    {
+      "path": "decisions_02433_02560.npz",
+      "decisions": 128,
+      "sha256": "7f7653dc4156b4326dfd134c77a2679e228a2b865cbd1a475cd60f232a16d599"
+    },
+    {
+      "path": "decisions_02561_02688.npz",
+      "decisions": 128,
+      "sha256": "7960237d6103348427fbf37662d683c73a8238add929d984ee7724d3a47bbe1a"
+    },
+    {
+      "path": "decisions_02689_02816.npz",
+      "decisions": 128,
+      "sha256": "a4838ada38a8bced5c52c18969352c2f8ea36ba92b43aacb810f79a0fc634b59"
+    },
+    {
+      "path": "decisions_02817_02944.npz",
+      "decisions": 128,
+      "sha256": "2d9dc1967e598e37eb9fc68ce548708027c6da2c8a7d120102828747f7fc824a"
+    },
+    {
+      "path": "decisions_02945_03072.npz",
+      "decisions": 128,
+      "sha256": "3813d154e08ecda5b2c8c13cf46d63164fc51b8c854738b652631bc47a8d4b30"
+    },
+    {
+      "path": "decisions_03073_03200.npz",
+      "decisions": 128,
+      "sha256": "823a9e680179823ce0aa30ed6103067530de7894e72da6ad71c8964b9b8ea41b"
+    },
+    {
+      "path": "decisions_03201_03328.npz",
+      "decisions": 128,
+      "sha256": "835191c409b6d4c2ba552e1aa3df1dfa146c7563d49e85472e10a9c89d912613"
+    },
+    {
+      "path": "decisions_03329_03456.npz",
+      "decisions": 128,
+      "sha256": "2bb46e76a42f33a158865daa1995c82e6e3af31e345c8cc7ffe5f8e745b15863"
+    },
+    {
+      "path": "decisions_03457_03584.npz",
+      "decisions": 128,
+      "sha256": "065ad78b0eaba1ce2f79e8f75ae517984ef5adfc0dfb74cbf94848c07723a288"
+    },
+    {
+      "path": "decisions_03585_03712.npz",
+      "decisions": 128,
+      "sha256": "c83b85f0968946e83a4e38b68c060d71f8ff663eb8fbdebf7b1112664fcc5465"
+    },
+    {
+      "path": "decisions_03713_03840.npz",
+      "decisions": 128,
+      "sha256": "1f424df2c9aded748bf92b0289e2f45801424fc35333c114e88f20ac371daf13"
+    },
+    {
+      "path": "decisions_03841_03968.npz",
+      "decisions": 128,
+      "sha256": "733b2c7705bf48768660891f36cbf05dba2fc779fbf0d904b04c0123cc5efb6a"
+    },
+    {
+      "path": "decisions_03969_04096.npz",
+      "decisions": 128,
+      "sha256": "9013b9902143dd6e9b9a9b4bf0d1c34b0865bd9183233322c51d643ac6d06e2e"
+    },
+    {
+      "path": "decisions_04097_04224.npz",
+      "decisions": 128,
+      "sha256": "2649b4bb8c3d6294efe119d9e4fb2ed1c91cb6ace4eba1ad623ab7e02e746795"
+    },
+    {
+      "path": "decisions_04225_04352.npz",
+      "decisions": 128,
+      "sha256": "b34cf76ddc05a991e70f3847443bcd2b62f095fcd7bd0d0df56b93bdc65f2cb0"
+    },
+    {
+      "path": "decisions_04353_04480.npz",
+      "decisions": 128,
+      "sha256": "5430935b0e8ed99f16f1b616a979aa51181f37037801d4553ad9a27e853489e2"
+    },
+    {
+      "path": "decisions_04481_04608.npz",
+      "decisions": 128,
+      "sha256": "26f4f3b4c92a9326917c83f573b1df5bf245e5fe9993d2887985dd949e4c1165"
+    },
+    {
+      "path": "decisions_04609_04736.npz",
+      "decisions": 128,
+      "sha256": "a07ece92cb6e2f1535c202096453c2959ea91e9512ce25fd019d2ac9b529b022"
+    },
+    {
+      "path": "decisions_04737_04864.npz",
+      "decisions": 128,
+      "sha256": "145859a00d0d9a42cf1b6c8e4629277846d6d015683f1c97eb7bdfbbc6e5739b"
+    },
+    {
+      "path": "decisions_04865_04992.npz",
+      "decisions": 128,
+      "sha256": "b7ed7f0aa126334a01f98121fe546592609f3422110ca8dc432e7e9c60ed43b8"
+    },
+    {
+      "path": "decisions_04993_05120.npz",
+      "decisions": 128,
+      "sha256": "c79e0b4956bc01482845c84dd3539fe163ba672b3af7b9ea32ef2a499f09fdc2"
+    },
+    {
+      "path": "decisions_05121_05248.npz",
+      "decisions": 128,
+      "sha256": "1af9fd01d7f63b546f45ba7d9f0ee32e9e8e258b9c5c8dd83a8636737ba4be5c"
+    },
+    {
+      "path": "decisions_05249_05376.npz",
+      "decisions": 128,
+      "sha256": "dbb892330e419c34d15ba2d2ca89e24f37d43a0317efbccca7274b16e1a239e1"
+    },
+    {
+      "path": "decisions_05377_05504.npz",
+      "decisions": 128,
+      "sha256": "0f61992dcd4c8481ccd3b15140283017c00edba7eae9c046b6e1d416a1b2137b"
+    },
+    {
+      "path": "decisions_05505_05632.npz",
+      "decisions": 128,
+      "sha256": "39ef8ed5eda61834ddb2887301c8fa583b47d34cb72b013ca3b4b8a517f1b3f6"
+    },
+    {
+      "path": "decisions_05633_05760.npz",
+      "decisions": 128,
+      "sha256": "d085f69b8a4f0e16f9af47b931a22f8d0914a247248ee87c4ef99a8b81975967"
+    },
+    {
+      "path": "decisions_05761_05888.npz",
+      "decisions": 128,
+      "sha256": "fe9ddbef5cc31f0f014fe8e88f87cd933dc48cb2321ac6b1ef6358484353be32"
+    },
+    {
+      "path": "decisions_05889_06016.npz",
+      "decisions": 128,
+      "sha256": "6a9936e97737d961a6d3f1077bd26016cde925eed0e622824d7b89ed5c7d4beb"
+    },
+    {
+      "path": "decisions_06017_06144.npz",
+      "decisions": 128,
+      "sha256": "0acc3680327704f5d09d6f125473c59aa6ac6e56ff8822cc6c12f242e0cdc2e4"
+    },
+    {
+      "path": "decisions_06145_06272.npz",
+      "decisions": 128,
+      "sha256": "4343c5cdb88eb9590406d19ea137b2d475be0431c57cf0928e8a37abcb487011"
+    },
+    {
+      "path": "decisions_06273_06400.npz",
+      "decisions": 128,
+      "sha256": "382ad2b14ef50fa59a2ea0cb77b4d8c2a10b1fbc74b928d2fec9418df09803c4"
+    },
+    {
+      "path": "decisions_06401_06528.npz",
+      "decisions": 128,
+      "sha256": "c487fd5c6ebb023b09223cc58b3545879fce1d5905b267064c932cbfbabb410d"
+    },
+    {
+      "path": "decisions_06529_06656.npz",
+      "decisions": 128,
+      "sha256": "4ea9867bb08395cb0817f20c157f0c066b94a97971314c229eaf50ee9880ebd9"
+    },
+    {
+      "path": "decisions_06657_06784.npz",
+      "decisions": 128,
+      "sha256": "42d17054e69d7a4ae9fe91174eb5c6b69134ede6bb1f0377b3636f84ae2ffec9"
+    },
+    {
+      "path": "decisions_06785_06912.npz",
+      "decisions": 128,
+      "sha256": "91f4ffe0679cf5b0111ea8d076607577a73d7f251ccc10bcf81a5c54b87c9c76"
+    },
+    {
+      "path": "decisions_06913_07040.npz",
+      "decisions": 128,
+      "sha256": "cb690aab0eb661b0e453b39fc4ff6800506323fdb6f7e61ecdbafffe2caee9d3"
+    },
+    {
+      "path": "decisions_07041_07168.npz",
+      "decisions": 128,
+      "sha256": "83f96548154ca74ccd6a2342b5264bcf36f64bae9c063450b287b0eb5bc06ba0"
+    },
+    {
+      "path": "decisions_07169_07296.npz",
+      "decisions": 128,
+      "sha256": "3373512d153e29830c3aa05921e1d6a189140f02c5ae38f7fdc632ce084f5070"
+    },
+    {
+      "path": "decisions_07297_07424.npz",
+      "decisions": 128,
+      "sha256": "4167706a883b16160728bf9aaca22394cb8f14486565d5d51d887132aa2b0974"
+    },
+    {
+      "path": "decisions_07425_07552.npz",
+      "decisions": 128,
+      "sha256": "6887df1162b4f9378b28fb8add914205b9f0e5a4ffc639f85e3af5808da1f5c1"
+    },
+    {
+      "path": "decisions_07553_07680.npz",
+      "decisions": 128,
+      "sha256": "a0114db7bfeb1e9e9b7ae0e29e8ba9098bcec721570686fd3d6f91d23498edfa"
+    },
+    {
+      "path": "decisions_07681_07808.npz",
+      "decisions": 128,
+      "sha256": "8b023c948e32c5b0bdf5f3083a36a7ab1ed08178dc7f1534a7ec259e7de8b553"
+    },
+    {
+      "path": "decisions_07809_07936.npz",
+      "decisions": 128,
+      "sha256": "5eb03082eca6acfc449b536f7e497c542ba8166b48a634ddc68b18a36ccc7c7d"
+    },
+    {
+      "path": "decisions_07937_08064.npz",
+      "decisions": 128,
+      "sha256": "8b5b24931d17a5ea410a64a1b053bf7b25e3cf34f70e29d94b8fa8b7b381ab92"
+    },
+    {
+      "path": "decisions_08065_08192.npz",
+      "decisions": 128,
+      "sha256": "33b07a6685e1888e4a42f0c182a0a261e830ac02c5a4c93a243b0a4016e86bbe"
+    }
+  ],
+  "created_utc": "2026-09-09T14:10:36Z",
+  "work_seconds": 173.97474160000274,
+  "wrapper_pool_verified": true,
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
