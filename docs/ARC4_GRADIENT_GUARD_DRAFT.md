@@ -27,7 +27,10 @@ et ne récupère pas une panne matérielle pendant l'affectation des gradients.
 La borne <=1 réduit le risque de débordement lors de leur mise au carré. Elle ne
 garantit pas la stabilité de poids ou de moments déjà corrompus, une convergence,
 un gradient utile, ni une efficacité d'apprentissage. Un gradient nul peut être
-admis ; le futur ordonnanceur doit distinguer l'existence d'un objectif valide
+admis ; une borne positive inférieure à ce que float32 peut représenter peut
+même annuler tous les gradients après conversion. Le défaut proposé ici reste
+1 ; aucune utilité d'une telle borne extrême n'est revendiquée. Le futur
+ordonnanceur doit distinguer l'existence d'un objectif valide
 du simple fait d'obtenir des nombres finis. Les paramètres Adam envisagés par
 la vision restent lr3e-4 ; coefficients des objectifs, microbatching, calendrier,
 fréquence et effets du clipping doivent être explicités avant le gel. La fraction
