@@ -1,0 +1,806 @@
+{
+  "kind": "priority_motion_fit_independent_result_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T23:34:21Z",
+  "result_sha256": "af1abff318cf4799fd1a3f2a31ef8793b692385543f79eaadb66fc0a837c6284",
+  "attempt_sha256": "3131a925c53f4549d27809a061e2e33988647e3fc61db2caa5fc50e2eb125d0f",
+  "console_sha256": "6ce807c84f2636a82b7bd3674f399ef15e6c7c694376e1552bc61ba2f7701708",
+  "preflight_review_sha256": "3894c3e7c82c80f693429e47bcb305fccc4ef535cbab25a6a72fc4e7d865b5bc",
+  "source_sha256": {
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "docs/ARC4_BLURRED_MOTION_FIT_DRAFT.md": "bd52db6c589135fe13dff925efed8141c690787a365db120f85a217611932a80",
+    "docs/ARC4_BLURRED_MOTION_FIT_PROTOCOL.json": "f1bb738f9b05d864f994cf36d4f86ee3736f4623c3c0c6c84aa2196b2495675e",
+    "docs/ARC4_BLURRED_PREDICTION_DRAFT.md": "435a98302c3e603310eeffccb04c4823a3a89410e16f02b035a3f49f634c6224",
+    "docs/ARC4_FREE_DISPLACEMENT_FIT_DRAFT.md": "fa0045af04ac6a9d38febe75e54141c7c041f725f3187533ea068f935df83477",
+    "docs/ARC4_FREE_DISPLACEMENT_FIT_PROTOCOL.json": "0456452a436d8480824d310330179135f0d98b3f54aa21f3c7c25075cd2e5103",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f",
+    "docs/ARC4_MOTION_BOOTSTRAP_REVIEW_20260910.md": "6ebe1a9038c04874d7d1d4d8ccfa94ba4c635d842eb5ccb4e01668c7441106bc",
+    "docs/ARC4_ORDERED_MOTION_DRAFT.md": "db98f51501e10cd312f8ed34bd55e3c1c0f168ff83274bcebc264ec374d7b20c",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "docs/ARC4_PREDICTION_LOSS_LIMITS.md": "4c7d514715466bcdfa9f4d5670b94bd61b14fe8baff20dc93c2d138e6a58d8a7",
+    "docs/ARC4_PREDICTION_OCCLUSION_LIMITS.md": "8aa1741fc12e611005bfaeac02f814639497bef4969e0cbe2c469f056303fbc9",
+    "docs/ARC4_PRIORITY_MOTION_DRAFT.md": "6d77df1b2042846104885bf6ad075bda692375982eae04b1e9c252f0086841da",
+    "docs/ARC4_PRIORITY_MOTION_FIT_DRAFT.md": "82cffb12a62b305948c0a13408841f36c2c55d4806c17905cd6f7f2c270fe4f5",
+    "docs/ARC4_PRIORITY_MOTION_FIT_PROTOCOL.json": "68132536d6515a790c5e56b1f4eed28169d29e8c81eecfabaee89a857c78ac3c",
+    "docs/ARC4_PRIORITY_WARP_DRAFT.md": "d56b3a97ae66f53ad714e2d26bb423ac20aa3ea75f252ff129933e5849da76b2",
+    "docs/ARC4_SYNTHETIC_MOTION_FIT_DRAFT.md": "1b7f4edb10b834d26ef2e8695fb9fb33a83230fce9de9215ac79cb474aa07e32",
+    "docs/ARC4_SYNTHETIC_MOTION_FIT_PROTOCOL.json": "b2f8c4533d0a0129d5d3f6d382da956c963766c540df30c3d01c8e94cb250406",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/blurred_prediction_loss_v70.py": "10329c2830b10564bd139e6717fed6ead8166666eb3124801e3d5adff3df4dc4",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/ordered_motion_parser_v70.py": "73a7cfe0b76abc44b260ac7ba9412ec658b65b7024ce2acde6b09b80d47c1daa",
+    "ragnarok/learning/ordered_perception_stream_v70.py": "b545c82e7192a141c54b08650ebdf5d774c2eba0283cd4a6d55303eacfce9829",
+    "ragnarok/learning/owned_ordered_perception_v70.py": "717426329e5eee2369c36858c7485e36ed895ca6aea583820b576883fbcde186",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/priority_motion_parser_v70.py": "ddd4c2e4020b502babaaec5934d7545c51a929c969cf17ce45fb184629051a12",
+    "ragnarok/learning/priority_warp_rgb_v70.py": "7b4b2f055f4ce034ad581d0832a467e0a764504bae8f0757347ef69bcd37a643",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/check_blurred_motion_fit_v70.py": "2b356369e2bd9262b2163c55b0af6388adb891ce0dd6dc353140a960574d0d33",
+    "scripts/check_free_displacement_fit_v70.py": "9dbbbd3dacccb313285aaf67afbc0a8d8129762817a889ac965475981b8c6669",
+    "scripts/check_priority_motion_fit_v70.py": "d7c38da74a938d62310238bd00e16934423783553430e8f43e7a96da4dcfce64",
+    "scripts/check_synthetic_motion_fit_v70.py": "038fdc86f0338e75ab1bb77a496a3e7195494a35c07b5ae42c82bb8fc3f964be",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "tests/test_blurred_motion_fit_protocol_v70.py": "0451d16f3c4830299ac84eaac11cf3a9ef442cc3c930892d6c453723e8f04a21",
+    "tests/test_blurred_prediction_loss_v70.py": "882945edef6e5f227633db71388de70b120cd421eb312476a3cf93a3a6011e19",
+    "tests/test_free_displacement_fit_protocol_v70.py": "d7681ee153ae7a67e993f26f77b854caf8d883a154ae7de0d7afc57c4aef0b5c",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "tests/test_motion_observation_alias_v70.py": "bdb7a77dabaa8a169010ef493a4b38e21043eac72a98fc1fbd032fce9223c3b9",
+    "tests/test_ordered_motion_parser_v70.py": "43f200e009b4c289ae47abc54713bc3da4ccce8bc750692da5e7db95f47499d4",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "tests/test_prediction_loss_translation_limits_v70.py": "76cc0f62bd5bb0a9dec3b85d280e39f9ab668fc0d1507c561edd1c3fdf696379",
+    "tests/test_prediction_occlusion_limits_v70.py": "9f4d6b889909492ce04181ce9123e3ba05855ba7c30f6a8bab790b2ae32784b4",
+    "tests/test_priority_motion_fit_protocol_v70.py": "123e4ce0004e0578705a9aeb78f63b0e12ce5e2837e54d905566eb2fb8b32759",
+    "tests/test_priority_motion_parser_v70.py": "9ea2d33aabb0422975b1d44b9766fd4d13862ba3796fe6cf4ff4b02cee002646",
+    "tests/test_priority_warp_rgb_v70.py": "640c4d396bb35eebc141ce7aac8b28cd9056fb168628598a67d0f03a8c06f91a",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "tests/test_synthetic_motion_fit_protocol_v70.py": "634a3904ec26fe1e014cefbae7fa203468b0865b6c61d2aaab38325755ad1d7e"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_blurred_motion_fit/fit_review_v0.json": "44c79f365535b6ef794b1a383b3efb70ecd51e92ccedd3b4a8f9ae88690e86b6",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0.json": "598226a743bfb404e5068ff74648c9564036b4f5e4be28f8644a2b20beef7bfc",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0_attempt.json": "0a5aba4286603bee59a1b10ff67bda7824f600b952879a347a203908dc6d368c",
+    "craft_v6_out/v70_blurred_motion_fit/fit_v0_console.log": "7ddde7c5055e7682678d2a24ec200d797071cbdfae528a89401465a5524e279d",
+    "craft_v6_out/v70_blurred_motion_fit/preflight_v0.json": "026927cbe5eafecc0a9ff501d8a9851c83bbcbd533ce74e5acf7956beb1267fe",
+    "craft_v6_out/v70_free_displacement_fit/fit_review_v0.json": "5def75f0ef5e097e4810435e0b235f272bc966e5f8c1e1119cd09ac813753241",
+    "craft_v6_out/v70_free_displacement_fit/fit_v0.json": "c4e72945902e06430e2cff84bf604d9860f6aaef110bba2a12fd4775f41b9e68",
+    "craft_v6_out/v70_free_displacement_fit/fit_v0_attempt.json": "b0eefdc02401d5ec0411d45421938ce6cef34f0926a950ccc82fd03c591605fd",
+    "craft_v6_out/v70_free_displacement_fit/fit_v0_console.log": "bfc0f0b734f4f02bc95933b6d6a36d923c6502fe50507638867ed26d0759a018",
+    "craft_v6_out/v70_free_displacement_fit/preflight_v0.json": "c6fcab02a773f562e5bcebe92e67f51a0a01aea9edbfe5de9631394e119639e3",
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json": "f7d44de26f8115c91c664639c8be88a5984bd13584875fafa124d9f7026a5166",
+    "craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json": "968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b",
+    "craft_v6_out/v70_parser_synthetic/blurred_prediction_review_v0.json": "8556e81cc7121bf5f8e8246f496e0517bd5325b982f865e9642fdf851f23bad1",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json": "138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f",
+    "craft_v6_out/v70_parser_synthetic/ordered_temporal_review_v0.json": "bed82176921166623ce4f289b1b9c595121e91dd9af7f63fd71727bfd07da270",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/prediction_occlusion_review_v0.json": "6ff374ae3723b8728f77bdfba7401de06aab53f681006b8d41c6cc80d84de8e0",
+    "craft_v6_out/v70_parser_synthetic/priority_motion_review_v0.json": "d49f94c11380c3143afa07b01c9e21febb9122d9adb09b789e272bb9e868715d",
+    "craft_v6_out/v70_parser_synthetic/priority_warp_review_v0.json": "f74ea8f17fa47ebd7793ce28fb94ae0d431d289f1a81dd19570aa1395df5b96d",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_priority_motion_fit/fit_v0.json": "af1abff318cf4799fd1a3f2a31ef8793b692385543f79eaadb66fc0a837c6284",
+    "craft_v6_out/v70_priority_motion_fit/fit_v0_attempt.json": "3131a925c53f4549d27809a061e2e33988647e3fc61db2caa5fc50e2eb125d0f",
+    "craft_v6_out/v70_priority_motion_fit/fit_v0_console.log": "6ce807c84f2636a82b7bd3674f399ef15e6c7c694376e1552bc61ba2f7701708",
+    "craft_v6_out/v70_priority_motion_fit/preflight_v0.json": "3894c3e7c82c80f693429e47bcb305fccc4ef535cbab25a6a72fc4e7d865b5bc",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_review_v0.json": "9d71b8ebe3bcdd6bd35e5cc79b5962ccb9293de252e436f125650f0c8c71ccbf",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0.json": "9d049a632816855b5dd2497681c9ff900bdbe04d7d8efbb68bb0cbb56514b82f",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0_attempt.json": "106b1cde214def9d70e7d2713e9c218ad1849e82c204875b0d090d13fa739797",
+    "craft_v6_out/v70_synthetic_motion_fit/fit_v0_console.log": "cc794bfb70970c96ac2e89670bb5105e457875c3e0a13ae9cfdcc48dabef875c",
+    "craft_v6_out/v70_synthetic_motion_fit/preflight_v0.json": "75a501616c42935eb81cdc4a19990305abc4ab130e6470532d2a037254637253"
+  },
+  "runtime": {
+    "cuda_visible_devices": "",
+    "executable": "C:\\Python314\\python.exe",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "scipy": "1.17.1",
+    "torch": "2.11.0+cu126",
+    "torch_threads": 1
+  },
+  "declared_fit_verdict": "FAIL",
+  "declared_fit_failure_confirmed": true,
+  "execution_complete_confirmed": true,
+  "summary": {
+    "optimizer_updates": 256,
+    "parameter_count": 469862,
+    "measurement_points": 6,
+    "native_final_l1": 0.02344473823904991,
+    "native_threshold": 0.01171875,
+    "native_fit_pass": false,
+    "native_excess_above_threshold": 0.011725988239049911,
+    "candidate_objective": 0.021891653537750244,
+    "scene_l1": [
+      0.023444674909114838,
+      0.023444801568984985
+    ],
+    "reconstruction_difference": 5.991102511870849e-7,
+    "black_image_native_l1": 0.0234375,
+    "native_excess_over_black_image": 0.000007238239049911499,
+    "work_seconds": 26.580020699999295,
+    "wall_interval_seconds": 94
+  },
+  "chronology": {
+    "commits": {
+      "preflight": "f05b0552f8a94d79c977e19df0c2b92903726f5a",
+      "result": "7cb2c534f24e36158f1104d164cc075fbb37fbfb",
+      "review_head": "d715c921ff3cec8c72bfc42f6aa1c27682594b1b",
+      "source": "3e03e12861e41dfa87a6549607eb9600b41067ae"
+    },
+    "commit_times": {
+      "preflight": "2026-09-10T01:23:21+02:00",
+      "result": "2026-09-10T01:27:08+02:00",
+      "review_head": "2026-09-10T01:31:28+02:00",
+      "source": "2026-09-10T01:17:50+02:00"
+    },
+    "started_utc": "2026-09-09T23:24:43Z",
+    "completed_utc": "2026-09-09T23:26:17Z"
+  },
+  "initial_weight_sha256": "1e61b55798140b6c6c2206fffda2e7467b8f8b26f8b141579c2836f3bd0e608a",
+  "initial_visual_weight_sha256": "dc033e685da63a838b5e09dc61e80f9a64c445fac9033700cccee224ed90905a",
+  "final_weight_sha256": "7dee34ae8b8777ccdd7fba18f810fc576166b21859ae7f6c1616db4532d728a1",
+  "initial_scalar_differences": {
+    "image_l1": 0,
+    "reconstruction_difference": 0,
+    "scene_l1": 0
+  },
+  "measurements": [
+    {
+      "candidate_objective": 0.036898817867040634,
+      "displacement_abs_max": 0.00722511624917388,
+      "image_l1": 0.046882081776857376,
+      "log_priority_abs_max": 0,
+      "log_priority_mean_per_scene": [
+        0,
+        0
+      ],
+      "reconstruction_difference": 0.000055662832892267033,
+      "reconstruction_sum_per_scene": [
+        18.011598587036133,
+        17.999279022216797
+      ],
+      "scale_l1": {
+        "1": 0.04688207805156708,
+        "3": 0.04037187620997429,
+        "7": 0.023442493751645088
+      },
+      "scene_l1": [
+        0.046890098601579666,
+        0.046874064952135086
+      ],
+      "updates": 0
+    },
+    {
+      "candidate_objective": 0.03680676594376564,
+      "displacement_abs_max": 0.01144504640251398,
+      "image_l1": 0.04675917327404022,
+      "log_priority_abs_max": 0.007446390576660633,
+      "log_priority_mean_per_scene": [
+        -0.00015964513295330107,
+        -0.000135170339490287
+      ],
+      "reconstruction_difference": 0.0000500244386785198,
+      "reconstruction_sum_per_scene": [
+        17.915266036987305,
+        17.90682601928711
+      ],
+      "scale_l1": {
+        "1": 0.04675917699933052,
+        "3": 0.04027804359793663,
+        "7": 0.02338308095932007
+      },
+      "scene_l1": [
+        0.04676467180252075,
+        0.04675367847084999
+      ],
+      "updates": 1
+    },
+    {
+      "candidate_objective": 0.035024236887693405,
+      "displacement_abs_max": 0.15183454751968384,
+      "image_l1": 0.044303156435489655,
+      "log_priority_abs_max": 0.14062562584877014,
+      "log_priority_mean_per_scene": [
+        -0.0043117934837937355,
+        -0.004243737086653709
+      ],
+      "reconstruction_difference": 0.0002523877192288637,
+      "reconstruction_sum_per_scene": [
+        16.0396671295166,
+        16.00998878479004
+      ],
+      "scale_l1": {
+        "1": 0.04430316016077995,
+        "3": 0.0384618416428566,
+        "7": 0.022307708859443665
+      },
+      "scene_l1": [
+        0.044322479516267776,
+        0.04428383708000183
+      ],
+      "updates": 8
+    },
+    {
+      "candidate_objective": 0.023143919184803963,
+      "displacement_abs_max": 1.7693220376968384,
+      "image_l1": 0.02555951662361622,
+      "log_priority_abs_max": 1.6133146286010742,
+      "log_priority_mean_per_scene": [
+        -0.0008509568870067596,
+        -0.0017215630505234003
+      ],
+      "reconstruction_difference": 0.00028838272555731237,
+      "reconstruction_sum_per_scene": [
+        1.622877597808838,
+        1.6365365982055664
+      ],
+      "scale_l1": {
+        "1": 0.02555951476097107,
+        "3": 0.02405884861946106,
+        "7": 0.019813397899270058
+      },
+      "scene_l1": [
+        0.02555062435567379,
+        0.025568408891558647
+      ],
+      "updates": 32
+    },
+    {
+      "candidate_objective": 0.021913303062319756,
+      "displacement_abs_max": 2.048466682434082,
+      "image_l1": 0.023482730612158775,
+      "log_priority_abs_max": 4.426654815673828,
+      "log_priority_mean_per_scene": [
+        0.02882656827569008,
+        0.027020758017897606
+      ],
+      "reconstruction_difference": 0.000013469711120706052,
+      "reconstruction_sum_per_scene": [
+        0.035218533128499985,
+        0.03425637260079384
+      ],
+      "scale_l1": {
+        "1": 0.023482732474803925,
+        "3": 0.022175857797265053,
+        "7": 0.02008131891489029
+      },
+      "scene_l1": [
+        0.023483356460928917,
+        0.023482104763388634
+      ],
+      "updates": 128
+    },
+    {
+      "candidate_objective": 0.021891653537750244,
+      "displacement_abs_max": 2.1098549365997314,
+      "image_l1": 0.02344473823904991,
+      "log_priority_abs_max": 7.1142191886901855,
+      "log_priority_mean_per_scene": [
+        0.015954021364450455,
+        0.013530277647078037
+      ],
+      "reconstruction_difference": 5.991102511870849e-7,
+      "reconstruction_sum_per_scene": [
+        0.005510756280273199,
+        0.005608300678431988
+      ],
+      "scale_l1": {
+        "1": 0.02344474010169506,
+        "3": 0.022141898050904274,
+        "7": 0.020088324323296547
+      },
+      "scene_l1": [
+        0.023444674909114838,
+        0.023444801568984985
+      ],
+      "updates": 256
+    }
+  ],
+  "numerical_reconstruction": {
+    "filtered_metric_absolute_differences": {
+      "1": 3.725290298461914e-9,
+      "3": 1.862645149230957e-9,
+      "7": 0
+    },
+    "filtered_metrics_numpy": {
+      "1": 0.023444736376404762,
+      "3": 0.022141896188259125,
+      "7": 0.020088324323296547
+    },
+    "geometry_exact": true,
+    "method": "Independent NumPy bilinear geometry float32 / weighted accumulation float64 from final arrays only",
+    "native_metric_absolute_differences": {
+      "image_l1": 0,
+      "reconstruction_difference": 0,
+      "scene_l1": [
+        0,
+        0
+      ]
+    },
+    "optimizer_updates": 0,
+    "reconstruction_bitwise_exact": true,
+    "reconstruction_max_abs_error": 0,
+    "review_network_forwards": 0,
+    "scene_diagnostics": [
+      {
+        "active_geometric_floor_at_nonzero": 0,
+        "all_source_count_outside": 55,
+        "black_log_priority_range": [
+          -0.16398051381111145,
+          7.1142191886901855
+        ],
+        "geometric_coverage_range_at_nonzero": [
+          1.201097011566162,
+          10.154131889343262
+        ],
+        "maximum_rgb": 0.0011415370972827077,
+        "native_l1_numpy": 0.023444674909114838,
+        "nonzero_rgb_pixels": 4,
+        "reconstruction_rgb_sum_float32": 0.005510756280273199,
+        "reconstruction_rgb_sum_float64": 0.005510756345756818,
+        "residual_destination_mixture": [
+          {
+            "black_geometric_weight": 1.5415425701066852,
+            "black_mean_exp_priority": 69.67620254508397,
+            "destination_xy": [
+              5,
+              5
+            ],
+            "rgb": 0.00009389734623255208,
+            "white_geometric_weight": 0.05218931008130312,
+            "white_mean_exp_priority": 0.19326470084849698
+          },
+          {
+            "black_geometric_weight": 1.1937412817205768,
+            "black_mean_exp_priority": 20.805712555229494,
+            "destination_xy": [
+              6,
+              5
+            ],
+            "rgb": 0.00005701086774934083,
+            "white_geometric_weight": 0.0073557298455853015,
+            "white_mean_exp_priority": 0.19250829565343824
+          },
+          {
+            "black_geometric_weight": 4.802564024925232,
+            "black_mean_exp_priority": 194.4868188600587,
+            "destination_xy": [
+              5,
+              6
+            ],
+            "rgb": 0.0011415370972827077,
+            "white_geometric_weight": 5.35156786441803,
+            "white_mean_exp_priority": 0.19946577214685932
+          },
+          {
+            "black_geometric_weight": 2.3928785771131516,
+            "black_mean_exp_priority": 88.32118163139324,
+            "destination_xy": [
+              6,
+              6
+            ],
+            "rgb": 0.0005444734706543386,
+            "white_geometric_weight": 0.588887169957161,
+            "white_mean_exp_priority": 0.19550898061167188
+          }
+        ],
+        "retained_white_geometric_weight": 6.000000074302079,
+        "rgb_sum_on_target": 0,
+        "rgb_sum_outside_target": 0.005510756345756818,
+        "scene_index": 0,
+        "stored_rgb_sum": 0.005510756280273199,
+        "target_rgb_sum": 18,
+        "uniform_priority_fixed_field_native_l1": 0.02641953283455223,
+        "uniform_priority_fixed_field_rgb_sum": 2.2902012169361115,
+        "white_destination_x_range": [
+          5.038116455078125,
+          5.168668746948242
+        ],
+        "white_destination_y_range": [
+          5.97939395904541,
+          5.996935844421387
+        ],
+        "white_log_priority_range": [
+          -1.8797640800476074,
+          -1.4469455480575562
+        ],
+        "white_points": [
+          {
+            "destination_xy": [
+              5.1510233879089355,
+              5.9876508712768555
+            ],
+            "displacement": [
+              1.1510233879089355,
+              -0.012349359691143036
+            ],
+            "log_priority": -1.4713150262832642,
+            "source_xy": [
+              4,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.09328556060791,
+              5.996935844421387
+            ],
+            "displacement": [
+              0.09328566491603851,
+              -0.0030642151832580566
+            ],
+            "log_priority": -1.7397146224975586,
+            "source_xy": [
+              5,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.038116455078125,
+              5.994448661804199
+            ],
+            "displacement": [
+              -0.961883544921875,
+              -0.0055513083934783936
+            ],
+            "log_priority": -1.4469455480575562,
+            "source_xy": [
+              6,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.168668746948242,
+              5.97939395904541
+            ],
+            "displacement": [
+              1.168668508529663,
+              -1.0206059217453003
+            ],
+            "log_priority": -1.6878360509872437,
+            "source_xy": [
+              4,
+              7
+            ]
+          },
+          {
+            "destination_xy": [
+              5.095017433166504,
+              5.986262798309326
+            ],
+            "displacement": [
+              0.09501761198043823,
+              -1.0137372016906738
+            ],
+            "log_priority": -1.8797640800476074,
+            "source_xy": [
+              5,
+              7
+            ]
+          },
+          {
+            "destination_xy": [
+              5.050131320953369,
+              5.995762825012207
+            ],
+            "displacement": [
+              -0.9498686790466309,
+              -1.004237174987793
+            ],
+            "log_priority": -1.53218674659729,
+            "source_xy": [
+              6,
+              7
+            ]
+          }
+        ],
+        "white_source_count_outside": 0
+      },
+      {
+        "active_geometric_floor_at_nonzero": 0,
+        "all_source_count_outside": 55,
+        "black_log_priority_range": [
+          -0.14930981397628784,
+          7.077503204345703
+        ],
+        "geometric_coverage_range_at_nonzero": [
+          1.2624435424804688,
+          10.23320484161377
+        ],
+        "maximum_rgb": 0.0012010574573650956,
+        "native_l1_numpy": 0.023444801568984985,
+        "nonzero_rgb_pixels": 4,
+        "reconstruction_rgb_sum_float32": 0.005608300678431988,
+        "reconstruction_rgb_sum_float64": 0.0056083006456901785,
+        "residual_destination_mixture": [
+          {
+            "black_geometric_weight": 1.5218775270041078,
+            "black_mean_exp_priority": 73.64614449149092,
+            "destination_xy": [
+              5,
+              5
+            ],
+            "rgb": 0.00012732048344332725,
+            "white_geometric_weight": 0.06868410133756697,
+            "white_mean_exp_priority": 0.20779115602907183
+          },
+          {
+            "black_geometric_weight": 1.2567391400971246,
+            "black_mean_exp_priority": 16.722757686367597,
+            "destination_xy": [
+              6,
+              5
+            ],
+            "rgb": 0.000056675347877899185,
+            "white_geometric_weight": 0.0057044023833441315,
+            "white_mean_exp_priority": 0.20881499983334684
+          },
+          {
+            "black_geometric_weight": 4.701593399047852,
+            "black_mean_exp_priority": 199.08189916087244,
+            "destination_xy": [
+              5,
+              6
+            ],
+            "rgb": 0.0012010574573650956,
+            "white_geometric_weight": 5.531611442565918,
+            "white_mean_exp_priority": 0.203474925511279
+          },
+          {
+            "black_geometric_weight": 2.2634232040145434,
+            "black_mean_exp_priority": 73.6339450290846,
+            "destination_xy": [
+              6,
+              6
+            ],
+            "rgb": 0.0004843802598770708,
+            "white_geometric_weight": 0.39400005381321535,
+            "white_mean_exp_priority": 0.20499553713483498
+          }
+        ],
+        "retained_white_geometric_weight": 6.000000000100044,
+        "rgb_sum_on_target": 0,
+        "rgb_sum_outside_target": 0.0056083006456901785,
+        "scene_index": 1,
+        "stored_rgb_sum": 0.005608300678431988,
+        "target_rgb_sum": 18,
+        "uniform_priority_fixed_field_native_l1": 0.02631453086360125,
+        "uniform_priority_fixed_field_rgb_sum": 2.209559703245759,
+        "white_destination_x_range": [
+          5.000975608825684,
+          5.139123916625977
+        ],
+        "white_destination_y_range": [
+          5.977053165435791,
+          5.9976067543029785
+        ],
+        "white_log_priority_range": [
+          -1.8450677394866943,
+          -1.446195125579834
+        ],
+        "white_points": [
+          {
+            "destination_xy": [
+              5.139123916625977,
+              5.989046573638916
+            ],
+            "displacement": [
+              1.1391239166259766,
+              -0.010953336954116821
+            ],
+            "log_priority": -1.446195125579834,
+            "source_xy": [
+              4,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.058327674865723,
+              5.9976067543029785
+            ],
+            "displacement": [
+              0.058327436447143555,
+              -0.0023931115865707397
+            ],
+            "log_priority": -1.8450677394866943,
+            "source_xy": [
+              5,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.000975608825684,
+              5.985906600952148
+            ],
+            "displacement": [
+              -0.999024510383606,
+              -0.01409323513507843
+            ],
+            "log_priority": -1.4567070007324219,
+            "source_xy": [
+              6,
+              6
+            ]
+          },
+          {
+            "destination_xy": [
+              5.127021789550781,
+              5.977053165435791
+            ],
+            "displacement": [
+              1.1270215511322021,
+              -1.0229469537734985
+            ],
+            "log_priority": -1.5414823293685913,
+            "source_xy": [
+              4,
+              7
+            ]
+          },
+          {
+            "destination_xy": [
+              5.062872886657715,
+              5.983701229095459
+            ],
+            "displacement": [
+              0.06287309527397156,
+              -1.016298770904541
+            ],
+            "log_priority": -1.8340200185775757,
+            "source_xy": [
+              5,
+              7
+            ]
+          },
+          {
+            "destination_xy": [
+              5.011382579803467,
+              5.992297172546387
+            ],
+            "displacement": [
+              -0.9886173009872437,
+              -1.0077027082443237
+            ],
+            "log_priority": -1.5075104236602783,
+            "source_xy": [
+              6,
+              7
+            ]
+          }
+        ],
+        "white_source_count_outside": 0
+      }
+    ],
+    "source_target_exact": true,
+    "weighted_coverage_max_abs_error": 2.220446049250313e-16,
+    "weighted_coverage_max_relative_error": 2.2144568748635297e-16
+  },
+  "array_reductions": {
+    "torch_reductions_exact": true,
+    "scales": {
+      "1": 0.02344474010169506,
+      "3": 0.022141898050904274,
+      "7": 0.020088324323296547
+    },
+    "stored_priority_means": [
+      0.015954021364450455,
+      0.013530277647078037
+    ],
+    "numpy_priority_means": [
+      0.015954021364450455,
+      0.013530272990465164
+    ],
+    "priority_mean_absolute_difference": [
+      0,
+      4.6566128730773926e-9
+    ],
+    "network_forwards": 0,
+    "optimizer_updates": 0
+  },
+  "checks": [
+    "Le vrai preflight() en lecture seule retrouve les81 sources et32 preuves exactes du résultat et de la tentative. Le présent reçu lie aussi résultat, tentative, console et préflight, soit36 preuves.",
+    "Toutes les empreintes sont conformes. Les blobs de sources/preuves/préflight égalent ceux du commit préalable f05b055, du commit de résultat7cb2c53 et du HEAD contrôlé.",
+    "Source3e03e12 et préflight f05b055 committés avant started23:24:43Z ; completed23:26:17Z puis commit7cb2c53. Tentative complete,256 mises à jour achevées, optimizer_step_in_progress null,469862 paramètres ; console et six mesures concordent.",
+    "Les empreintes vierges globale et visuelle correspondent à celles revues avant l'essai. Les mesures natives initiales et la séparation initiale sont ici exactement égales aux anciennes valeurs, donc sous la tolérance prospective2e-7 ; les priorités initiales sont exactement nulles.",
+    "La tolérance initiale ne modifie pas le critère final. La moyenne native finale0.02344473823904991 dépasse0.01171875 ; le résultat négatif est confirmé malgré une exécution complète.",
+    "Reconstruction indépendante NumPy depuis les seuls tableaux : géométrie bilinéaire float32, poids exp(priorité) et sommes en float64, mélange normalisé avec atténuation géométrique. RGB finaux reproduits bit à bit et couverture géométrique exacte.",
+    "La couverture pondérée diffère d'au plus2.220446049250313e-16 en absolu et2.2144568748635297e-16 en relatif entre bibliothèques ; aucun pixel RGB ne diffère.",
+    "Les sources et cibles correspondent exactement aux scènes déclarées. Erreurs par scène, moyenne native et séparation sont recalculées exactement depuis les tableaux. Les sommes RGB enregistrées sont également reproduites en float32.",
+    "Les pertes filtrées recomputées en NumPy diffèrent des réductions Torch de3.725290298461914e-9 à largeur1,1.862645149230957e-9 à largeur3 et0 à largeur7. Une réduction/filtration Torch seule des tableaux retrouve toutes les valeurs enregistrées exactement, sans réseau.",
+    "La moyenne de priorité de la seconde scène diffère de4.656612873077393e-9 selon l'ordre de réduction NumPy/Torch ; le calcul Torch des tableaux est exact. Les maxima de déplacement/priorité et les masses sont vérifiés séparément.",
+    "Les six pixels blancs de chaque scène se projettent dans une zone contractée autour de x5.00..5.17,y5.977..5.998. Les quatre pixels résiduels sont aux destinations(5,5),(6,5),(5,6),(6,6), loin des cibles des deux scènes.",
+    "Aucun pixel source blanc n'est projeté hors cadre et sa masse géométrique est conservée aux arrondis float32 près. En revanche55 pixels sources noirs sortent du cadre dans chaque scène ; le reçu ne généralise donc pas l'absence de sortie à tout le champ.",
+    "Les quatre résidus ont une couverture géométrique supérieure à1 ; aucun plancher géométrique n'y est actif. La suppression observée n'est pas le défaut de normalisation initialement corrigé.",
+    "Les moyennes exp(priorité) des contributions blanches aux résidus sont environ0.19..0.21, contre16.7..199.1 pour le noir. Les tableaux attestent ainsi une forte domination des contributions noires dans le mélange.",
+    "Diagnostic arithmétique à champs finaux fixés et priorités remplacées par des constantes : masses RGB2.2902012/2.2095597, contre0.0055107563/0.0056083007 avec les priorités réelles. Aucun nouveau fit ni inférence : cette comparaison décrit le mélange final, pas la cause de la trajectoire d'optimisation.",
+    "Le travail déclaré26.580020699999295 secondes respecte la borne coopérative300s. Les94 secondes murales comprennent notamment les preuves finales et ne sont pas une mesure comparative de débit."
+  ],
+  "interpretation": {
+    "observed": "Contraction des sources blanches hors des régions cibles, collisions avec le noir et priorité relative favorisant le noir. Les deux reconstructions restent faiblement positives, très proches d'une image noire.",
+    "target_rgb_sum_per_scene": 18,
+    "reconstructed_rgb_sum_per_scene": [
+      0.005510756280273199,
+      0.005608300678431988
+    ],
+    "rgb_on_targets_per_scene": [
+      0,
+      0
+    ],
+    "maximum_rgb_per_scene": [
+      0.0011415370972827077,
+      0.0012010574573650956
+    ],
+    "normalization_floor_explanation_excluded_on_residuals": true,
+    "white_out_of_frame_explanation_excluded": true,
+    "optimizer_trajectory_cause_not_identified": true
+  },
+  "limitations": [
+    "passed=true certifie la conformité des preuves et de la revue numérique ; le fit reste FAIL. Une perte filtrée plus faible, des poids modifiés ou une exécution complète ne constituent pas un succès au seuil natif.",
+    "La quasi-disparition RGB est établie ici par les tableaux, contrairement aux anciens fits sans images finales. Elle ne doit pas être attribuée rétroactivement à ces essais ni à Atari.",
+    "La comparaison de priorités uniformes sur les champs finaux n'est pas un nouveau résultat d'apprentissage. Elle isole algébriquement une partie de la normalisation finale, sans expliquer pourquoi l'optimiseur a produit ces champs et priorités.",
+    "Les six points de mesure intermédiaires ne contiennent pas leurs champs complets ; la contraction détaillée et la localisation examinées sont celles du résultat final.",
+    "Les poids finaux du réseau sont seulement identifiés par leur empreinte. Ils ne sont pas archivés en checkpoint, et cette revue ne peut les recalculer depuis les seules sorties. Aucun réseau ou ancien fit n'a été relancé.",
+    "Le modèle et l'arithmétique ont changé simultanément. Aucune attribution causale d'un gain ou d'un échec à la seule priorité, aucune généralisation, perception physique, visibilité calibrée, contrôle, transfert ou apprentissage accéléré n'est établie.",
+    "Les mêmes deux scènes servent à l'ajustement et à la mesure. Aucun remplacement de scène, prolongation, nouveau seed, assouplissement du seuil ou retry n'est autorisé par ce résultat.",
+    "Les écarts de réduction signalés sont des arrondis numériques, sans changement d'image ni de verdict. La légère somme géométrique blanche supérieure à6 dans une scène est également un arrondi float32, pas une nouvelle source.",
+    "Le budget est coopératif et un arrêt dur peut laisser started incertain malgré le journal en finally ; ce cas n'est pas déclaré ici. Les preuves complètes sont conservées.",
+    "La figure préparée séparément n'a pas été générée ou validée dans cette revue. Aucun GPU, émulateur, nouvel entraînement ou modification d'ancien artifact n'a été effectué."
+  ],
+  "review_execution": {
+    "independent_numpy_splat": true,
+    "torch_array_reductions_and_fixed_box_filters_only": true,
+    "network_forwards": 0,
+    "optimizer_updates": 0,
+    "new_emulated_frames": 0,
+    "gpu_used": false,
+    "fit_replayed": false
+  },
+  "gate_result": null
+}
