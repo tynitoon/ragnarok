@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 17:32 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 17:42 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -125,7 +125,12 @@ fraîches et leurs frames 0 ; RAM inchangée. Résultat
 `v70_visible_cpu/fast_mspacman_equivalence_v0.json`, session51252 close.
 Temps décodeur seul 135,35 s →37,08 s ; aucun débit complet ni gate.
 Revue d'équivalence finale **945c47fc…** : 102 sources / 166 preuves, les 40965
-paires et trois digests intégralement reproduits. Revue CPU finale à faire.
+paires et trois digests intégralement reproduits. Revue CPU finale PASS :
+`v70_visible_cpu/preflight_review_v0.json`, SHA
+`f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9`,
+115 sources / 221 preuves / 69 tests et vraies barrières des deux jeux.
+Sources CPU gelées à **b9c65a5** ; commit de cette revue puis lancement des
+géométries complètes avec leur vrai préflight intégré, avant tout nouveau moteur.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -144,8 +149,10 @@ Implémenter parser/tracker/ME/buttons/reader/drives selon `ARC4_VISION.md` §§
 Prototype distinct `rgb_branch_trace_v70.py` et cinq tests synthétiques PASS :
 RGB brut/poolé de chaque frame de branche déjà payée, RNG/charges/reprise
 inchangés, panne payée ferme les actions. Transport fermé `rgb_trace_pool_v70.py`
-ajouté, RAM/récompenses/vies/snapshots refusés. 17 tests totaux, dont deux vrais
-processus avec moteurs synthétiques ; aucun vrai ALE. La
+ajouté, RAM/récompenses/vies/snapshots refusés. 18 tests totaux, dont deux vrais
+processus avec moteurs synthétiques ; aucun vrai ALE. Une violation native
+avant inscription au registre ferme aussi les actions et marque le coût
+potentiellement incomplet. La
 revue et contrôle natif encore requis. Comparaison `rgb_trace_difference_v70.py`
 sur le seul préfixe commun, délai brut/poolé explicite ; sept tests supplémentaires
 PASS. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites, aucun ME encore implémenté.
