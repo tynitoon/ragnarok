@@ -1,0 +1,75 @@
+{
+  "kind": "independent_v62_figure_label_layout_review",
+  "created_utc": "2026-09-09T15:00:02Z",
+  "passed": true,
+  "reviewed_commit": "423b77004ad188c697218d0b5b16f5247205bdb8",
+  "source_sha256": {
+    "scripts/figure_v61.py": "d8d45dd6931accd26553d3b29030e35cf8fecbdee8edf2ecb916eb74e23e21cd",
+    "ARC3_PLAN.md": "c6e0027a5a1761cdf643b1376f13406f8eb6510e33f1a65406d818781dfb380d"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v62_figure_layout_check_v2/check.json": "1b208ea4dfbb6a7909425263dd45ec3c7e6e9eb8bb76b8887df3764d747c405c",
+    "craft_v6_out/v62_figure_layout_check_v2/visual_review.json": "e9ff7c9cb41304da0129371ce3aa14529dab6f507661946c1da1ad4835f2ba7a",
+    "craft_v6_out/v62_figure_layout_check_v2/persistent/synthetic.png": "8c82587323f4a73a9067342578c2b31254b19d88bb31f270ec08af544192f235",
+    "craft_v6_out/v62_figure_layout_check_v2/persistent/v61_confirm.json": "145d2aeb1288aba8cea8f7882b0180f2e378f4a62d60585adfdcf9e15733779c",
+    "craft_v6_out/v62_figure_layout_check_v2/persistent/v61_confirm_score.json": "1e39a5bec4a25117320059388e4eac958a457cee89383eeb30137482537a44e7",
+    "craft_v6_out/v62_figure_layout_check_v2/persistent/v61_probe.json": "74a67ea5b4784e3c64e16b50502b31f8e6b061f073ea94eed90239746543155d",
+    "craft_v6_out/v62_figure_layout_check_v2/reset/synthetic.png": "0a69b865ae5ccb442779bc684ac6ea40b9bacd4c2d1e96bcb82d4fc03369e7c3",
+    "craft_v6_out/v62_figure_layout_check_v2/reset/v61_confirm.json": "1259f18bd93e0df5b950d62feb72a2d5b38f29afc9434c36d3d182ded275f52b",
+    "craft_v6_out/v62_figure_layout_check_v2/reset/v61_confirm_score.json": "1e39a5bec4a25117320059388e4eac958a457cee89383eeb30137482537a44e7",
+    "craft_v6_out/v62_figure_layout_check_v2/reset/v61_probe.json": "74a67ea5b4784e3c64e16b50502b31f8e6b061f073ea94eed90239746543155d",
+    "craft_v6_out/v62_figure_layout_check_v0/check.json": "9b334f7062da4e55180a6d5265560769ff58ed21f5f4e9343b4c500734226bad",
+    "craft_v6_out/v62_figure_layout_check_v0/visual_review.json": "fd6904f5e056e4a42d866cb80f4adb1568737202e655c2b11fee335c020a2f91",
+    "craft_v6_out/v62_figure_layout_check_v1/check.json": "2612fd21b32281c4fc0a8bdb2b4089fec7e4a3ac9011dd819bc7eb6ca38de74d",
+    "craft_v6_out/v62_figure_layout_check_v1/visual_review.json": "2ea091318c710d5b7102a682e6024361965c0c39e15c764b7f33e7e93e1c0276"
+  },
+  "frozen_commit": "a189ea5bb0f9c8b7e9016a50aefc1cbca603426f",
+  "frozen_source_sha256": {
+    "scripts/gate_v61.py": "2b9962e8726b8696a57765a564683a80cea4885b6132187208468c8be81bf3c3",
+    "scripts/pretrain_v61.py": "16bb7424184a30f03e7950bb40353f03e07e471c1075d2c07361dfa8b59d9126",
+    "scripts/probe_v61.py": "88801326490ee58a43df4a472a44047f4dbd59520157800ebc5d153fd472380f",
+    "scripts/confirm_v61.py": "d6f41254ace316fb57c9f21b0813f735eb693cef4d9b984148dd0494de1afbc2",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/pair_net_v61.py": "323b2d0cc78a7c766afb149e624cea04dee7eb20de575d471e319a2619892f4d",
+    "scripts/pair_store_v61.py": "997de1d0c7c8fd6033cc8d47f2bdaaa6a4df4df995436ee656f8539badcd345f",
+    "scripts/hand_v61.py": "f7f28f003c77a7e38a58367bb39f884f3962441cf3c59e8969b6c5bf1bccc5a5",
+    "scripts/sweeper_v61.py": "d582cc03272f4ce6b12952f5bed3976f6ee599ffb3919431025139457ea2af78",
+    "scripts/hidden_recipe_v55.py": "b9f48d97fdf9eb23eecc06ea92d9caf9efed819f9930effdd74b5842305bae19",
+    "scripts/depth_scaling_v49.py": "154db961adf35db76c8848629921e65b62d82d38374ab6376e5424fe865a3c91",
+    "scripts/childhood_v50.py": "46b8ceefa2ec510c996e4c4e4f99466a8783d9116913a5bd193a6d15b1a5192b",
+    "scripts/meta_manager_v51.py": "0698e82f66cbfcc2bc3001b968f05b8ef6cea68cc961f97a5217bbf16f3a0510",
+    "ragnarok/environments/law_world.py": "0396e369dcf00b6843ae0441194b43922a6b8e0fcd2abe9f139d7d5c2471bac7",
+    "ragnarok/environments/tech_tree.py": "9a86817cf3c27b4e8d7ccc636cfcdcea82941e676f592c27fae833e26afa0ad9",
+    "ragnarok/learning/ppo_discrete.py": "492654ebf712de4da9226aa9a0e10bf143782779c43da0885d8af9c8df5b1b01",
+    "ragnarok/infrastructure/device.py": "1cc5ce304446d734670edb8c35acaae46d4e203f788722bdd5f45992357377c9"
+  },
+  "experimental_data_used": false,
+  "actual_confirmatory_result_reviewed": false,
+  "checks": [
+    "Read commit diff and ARC3_PLAN sections 12.6/13.3/13.4; store labels implement the already frozen interpretation without changing a scientific criterion.",
+    "Synthetic persistent metadata gives weights only at the first goal and weights + carried store at the two later goals. Reset metadata gives weights only at all three goals. Global and every unit metadata checked; five missing/inconsistent cases rejected, including a disagreement only in the second unit.",
+    "Compared previous/current plot objects on two varied synthetic units and both store regimes: every line x/y value, Fa/Fb band vertex and probe bar height identical. Curve helper ASTs, numeric title statistics and supplied verdict/sentence unchanged.",
+    "Every probe arm displays its supplied n; M3 n=123 visible and agrees with the completed-probe documentation. No fixed 768 replacement and no recomputation of rates or standard errors.",
+    "Both archived V2 PNGs visually inspected: panels, titles, x labels, sample sizes and captions readable without overlap or clipping. PNG hashes match check.json. V0/V1 negative visual reviews remain intact.",
+    "All 17 frozen scientific sources unchanged against a189ea5; figure and plan bytes match reviewed commit 423b770. Only this new receipt written."
+  ],
+  "synthetic_verification": {
+    "successful_regime_comparisons": 2,
+    "rejected_metadata_cases": [
+      "global_missing",
+      "global_nonboolean",
+      "unit_missing",
+      "first_unit_disagrees",
+      "second_unit_disagrees"
+    ],
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "interpreter": "C:/Python314/python.exe",
+    "matplotlib": "3.10.8",
+    "torch_loaded": false
+  },
+  "limitations": [
+    "Synthetic layout/data-preservation review only. No real partial confirmatory score or active calculation was read; no scientific result, verdict, learning gain or transfer is established.",
+    "Final production figure still requires complete reviewed confirmatory data and inspection with its actual caption. Fixed-width caption wrapping was checked only on the preserved synthetic examples.",
+    "The 17 scientific modules were checked by Git diff/hash only; no GPU, ALE, ROM, emulator or training was launched. The ARC4 interpreter lacks Matplotlib, so the existing ARC3 interpreter performed these CPU-only synthetic checks."
+  ]
+}
