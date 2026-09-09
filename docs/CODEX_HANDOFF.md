@@ -76,7 +76,7 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue | 17422 V2 PASS, revue finale en cours | préparé, fermé |
+| Ms.Pac-Man | paire17412/17432validée/revue | 17422 V2 PASS et revue | préparé, préflight final à clore |
 | Asteroids |17512validé/revu |17522PASSrevu etcommitté | préparé, fermé |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
@@ -123,7 +123,12 @@ Capture complète : 8192 décisions, 32753 frames ordinaires, six démarrages,
 V2 PASS sur cinq catégories : ghost 8011/8037 comptes positifs, 26649/26709
 within1 ; fruit 3191/3207 within1 ; pill 8022/8023 comptes positifs,
 593625/593630 within1 ; player et power_pill complets. Conserver tous résidus.
-Revue finale indépendante en cours, puis commit des preuves avant la suite.
+Revue finale indépendante close : SHA
+e8cfc5c2b2ec041edfd795b427ed12b8fcaf3db913094b3047a9624d60d048cf,
+57 sources, 87 preuves, 30 témoins reproduits avec historique RGB causal pour
+les gommes. Résultat SHA
+8e6f930e5aae2e5cc96fff193fe046f03e01d1ce6168941c2192930cc0df8da4.
+Capture et résultat complets déjà committés ; reçu final à committer avant suite.
 Ne changer aucune des 57 sources ni relancer la réserve. Destination
 `pooled_reserved_v2/`, sortie `pooled_reserved_geometry_v2.json`.
 Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
@@ -160,9 +165,9 @@ Préparation référence non gelée : `docs/ARC4_VISIBLE_REFERENCE_PROTOCOL.json
 Scène source utilise MsV2/AstV1 corrigés ; capture nouvelle archiveRAMprécédente
 exacte àframe0→1, pas de fallback. Juge composé sans nouvelle validation raw
 indépendante : limite inscrite au protocole/résultat. Tous shards réservés relus
-au préflight. Empreinte revueAst remplie ; Ms=None bloque LESDEUX jeux jusqu'aux
-deux revues finales. Graines17471/17571fermées. Sourceclosure99 et tests ciblés
-environ34PASS ; finaliser deux fingerprints, revue globale/commit avant captures.
+au préflight. Empreintes des deux revues finales remplies ; clôture de 99 sources.
+Graines 17471/17571 fermées jusqu'à revue globale et commit du préflight final.
+Sources préparées committées 2f0cd99, puis modification du fingerprint Ms.
 
 Préparation CPU committée112a5cb/4d7c806 : `restorable_ram_history_v70.py`,
 `visible_temporal_groups_v70.py`, `visible_reference_pool_v70.py`, scènes/tests.
@@ -175,7 +180,8 @@ préliminaire 865e42ff… et correction d'arrêt définitif après erreur commit
 Frame 0 contribue à la géométrie, mais pas à l'éligibilité au mouvement.
 Runner `bench_visible_reference_v70.py`, checker `check_visible_cpu_v70.py`,
 `ARC4_VISIBLE_CPU_PROTOCOL.json` et 16 tests préparés, revue indépendante en
-cours. Clôture prévue de 112 sources ; hash final de référence None maintient
+cours. Revue préliminaire close bd117616…, commit 2f0cd99 ; clôture prévue de
+112 sources. Hash final de référence None maintient
 les graines fermées. Équivalence exhaustive sur développement et réserve,
 puis wiring 18176/18177/18178 avant 16×2048 décisions, graines 18000+i.
 45 tests sur l'ensemble préparé. Cinq findings de revue corrigés : dossier

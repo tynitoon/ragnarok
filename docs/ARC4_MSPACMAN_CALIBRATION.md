@@ -265,3 +265,14 @@ Les 7 642 super-gommes sont exactes. Gommes : une erreur de comptage positif
 sur 8 023 images et cinq écarts géométriques sur 593 630 appariements.
 La revue indépendante finale est en cours. Ce résultat valide l'instrument
 temporel selon le protocole ; il n'établit aucune perception apprise.
+
+Revue finale close, SHA
+`e8cfc5c2b2ec041edfd795b427ed12b8fcaf3db913094b3047a9624d60d048cf` :
+les 57 sources et 87 éléments de preuve, dont les 64 archives, sont vérifiés.
+Les 30 exemples enregistrés sont reproduits. Le juge RGB des gommes conserve
+un historique causal : quatre témoins initialement différents sans cet
+historique sont reproduits avec les courts préfixes antérieurs, sans modifier
+leurs sorties ni les critères. Résultat SHA
+`8e6f930e5aae2e5cc96fff193fe046f03e01d1ce6168941c2192930cc0df8da4`.
+La calibration temporelle réservée V2 est donc PASS et revue ; les écarts
+énumérés ci-dessus restent présents.

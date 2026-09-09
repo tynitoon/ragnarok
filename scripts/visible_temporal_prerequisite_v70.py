@@ -11,7 +11,8 @@ from scripts.temporal_validation_seal_v70 import ROOT,sha,require_committed,chec
 from ragnarok.evaluation.triple_pooled_fixtures_v70 import triple_pooled_fixture_frames
 
 SEALED_SOURCES=tuple(dict.fromkeys((*ms.SOURCE_PATHS,*ast.SOURCE_PATHS)))
-REVIEW_SHA256={'ms_pacman':None,'asteroids':'15b8931c94de593cc3738727e0d0de34ce93220ee6640da87bf2dcabb590b503'}
+REVIEW_SHA256={'ms_pacman':'e8cfc5c2b2ec041edfd795b427ed12b8fcaf3db913094b3047a9624d60d048cf',
+    'asteroids':'15b8931c94de593cc3738727e0d0de34ce93220ee6640da87bf2dcabb590b503'}
 RUNNERS={'ms_pacman':ms,'asteroids':ast}
 
 
