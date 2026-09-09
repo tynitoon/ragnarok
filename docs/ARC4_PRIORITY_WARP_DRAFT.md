@@ -19,15 +19,29 @@ Contrat de la candidate : RGB source, déplacement propre et log-priorité propr
 tous en float32, finis, sur un même appareil ; la priorité a une composante par
 pixel et reste explicitement dans [-20,20], sans correction silencieuse. Plus
 elle est grande, plus le pixel contribue à la couleur lorsqu'il rencontre un
-autre pixel. Une priorité nulle partout retrouve le reconstructeur uniforme.
+autre pixel. Une priorité nulle partout retrouve la formule uniforme.
 Les trous restent noirs : leur contenu nouveau n'est pas résolu par cet opérateur.
 
-Le petit plancher numérique de dénominateur reste 1e-6 de la plus grande priorité
-exponentielle contribuant à chaque destination. Il retrouve le plancher ancien
-lorsque les log-priorités sont nulles, tout en évitant une atténuation due au
-seul ajout d'une constante commune aux log-priorités. La couverture géométrique,
-la couverture pondérée et l'activation du plancher sont retournées séparément.
-Elles ne sont ni des probabilités de visibilité, ni une détection de premier plan.
+Le mélange normalisé des couleurs est atténué uniquement lorsque la couverture
+géométrique tombe sous 1e-6. Le calcul utilise des sommes pondérées en float64
+pour conserver les très petits poids géométriques même avec une priorité -20.
+Les RGB et la couverture géométrique reviennent en float32 ; la couverture
+pondérée reste float64 et l'indicateur de plancher est booléen. Une log-priorité
+constante ne doit pas assombrir le mélange. La tolérance des témoins z=0 est
+2e-7 sur RGB, 1e-6 sur couverture pondérée ; ce n'est ni une identité bit à bit
+avec l'ancienne accumulation, ni une borne universelle pour toute image. Aucune
+mesure ancienne n'est réattribuée à cette variante. Ces couvertures ne sont ni
+des probabilités de visibilité, ni une détection de premier plan.
+
+La revue de la première version, commit 7d14f93, a trouvé un défaut avant tout
+entraînement : son plancher était relatif au maximum des priorités contributrices.
+Sur deux pixels blancs de priorités -20 et +20, le second juste hors écran ne
+contribue pas. Le faire entrer de 2^-23 pixel faisait passer la couleur du premier
+de 1 à 0,11920929, alors que sa couverture était déjà au moins 1. Le maximum
+changeait brutalement et provoquait une atténuation injustifiée. Le test de
+régression a reproduit l'échec, puis la normalisation a été corrigée en séparant
+mélange et couverture géométrique. L'usage interne du float64 et les tolérances
+ci-dessus font partie de cette correction préalable, sans nouveau fit ni critère.
 
 Les tests imposent au juge un rectangle opaque devant un fond immobile et des
 priorités appropriées : ils vérifient seulement que l'opérateur peut représenter

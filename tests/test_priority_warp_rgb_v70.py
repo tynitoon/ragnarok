@@ -9,7 +9,7 @@ from tests.test_prediction_occlusion_limits_v70 import opaque_scene
 torch.set_num_threads(1)
 
 
-def test_zero_priorities_reproduce_old_rgb_coverage_and_holes():
+def test_zero_priorities_numerically_reproduce_old_rgb_coverage_and_holes():
     image = torch.linspace(0, 1, 3 * 9 * 11).reshape(1, 3, 9, 11)
     field = torch.zeros((1, 2, 9, 11))
     field[:, 0] = .375
@@ -17,9 +17,11 @@ def test_zero_priorities_reproduce_old_rgb_coverage_and_holes():
     field[:, :, 2:4, 2:4] = 50
     old_rgb, old_coverage = forward_warp_rgb(image, field)
     result = priority_warp_rgb(image, field, torch.zeros((1, 1, 9, 11)))
-    assert torch.equal(result['reconstructed'], old_rgb)
+    assert result['reconstructed'].dtype == result['coverage'].dtype == torch.float32
+    assert result['weighted_coverage'].dtype == torch.float64
+    assert torch.allclose(result['reconstructed'], old_rgb, rtol=0, atol=2e-7)
     assert torch.equal(result['coverage'], old_coverage)
-    assert torch.equal(result['weighted_coverage'], old_coverage)
+    assert torch.allclose(result['weighted_coverage'], old_coverage.double(), rtol=0, atol=1e-6)
 
 
 def test_declared_foreground_priority_can_resolve_opaque_collision_with_static_background():
@@ -48,7 +50,7 @@ def test_common_priority_offsets_do_not_attenuate_image_or_change_geometry():
         shifted = priority_warp_rgb(source, field, priorities + offset)
         assert torch.allclose(normal['reconstructed'], shifted['reconstructed'], rtol=0, atol=2e-7)
         assert torch.equal(normal['coverage'], shifted['coverage'])
-    # A near-empty projection also needs an offset-invariant relative floor.
+    # A near-empty projection also needs offset-invariant geometric attenuation.
     tiny_field = torch.zeros((1, 2, 1, 1))
     tiny_field[:, 0] = 1 - 2 ** -24
     for offset in (-20, 0, 20):
@@ -89,3 +91,29 @@ def test_invalid_priority_contracts_are_refused_without_clipping():
                      torch.full((1, 1, 16, 16), float('nan')), torch.zeros((1, 1, 16, 16)).double()):
         with pytest.raises(ValueError, match='log-priorities'):
             priority_warp_rgb(source, field, priority)
+
+
+def test_infinitesimal_high_priority_contribution_cannot_darken_constant_rgb():
+    source = torch.ones((1, 3, 1, 2))
+    priorities = torch.tensor([[[[-20., 20.]]]])
+    for dx in (-2., -2. + 2 ** -23):
+        field = torch.zeros((1, 2, 1, 2))
+        field[:, 0, 0, 1] = dx
+        result = priority_warp_rgb(source, field, priorities)
+        assert result['coverage'][0, 0, 0, 0] >= 1
+        assert float(result['reconstructed'][0, 0, 0, 0]) == 1
+
+
+def test_subnormal_geometric_weight_does_not_underflow_the_priority_mixture():
+    source = torch.zeros((1, 3, 1, 2))
+    source[:, :, :, 0] = 1
+    field = torch.zeros((1, 2, 1, 2))
+    field[:, 0, 0, 0] = 1e-40
+    field[:, 0, 0, 1] = 50
+    field.requires_grad_()
+    priorities = torch.tensor([[[[-20., 20.]]]], requires_grad=True)
+    result = priority_warp_rgb(source, field, priorities)
+    expected = float(field[0, 0, 0, 0].detach()) / 1e-6
+    assert float(result['reconstructed'][0, 0, 0, 1].detach()) == pytest.approx(expected, rel=1e-6, abs=0)
+    result['reconstructed'].sum().backward()
+    assert torch.isfinite(field.grad).all() and torch.isfinite(priorities.grad).all()

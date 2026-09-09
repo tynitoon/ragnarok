@@ -15,12 +15,12 @@ def priority_warp_rgb(image, displacement, log_priority):
 
 RGB, B2HW displacement and B1HW priorities are finite float32 tensors on one
 device. Priorities are explicitly bounded to[-20,20], without silent clipping.
-Zero priorities recover the old uniform renderer. Holes remain black.
+    Zero priorities recover the uniform formula, with different accumulation
+    rounding. Holes remain black. Weighted sums use float64 internally.
 
-The denominator floor is relative to the greatest contributing source priority
-at each destination. This retains the old1e-6 coverage floor at zero priorities
-and avoids inventing attenuation merely from a common log-priority offset.
-Returned coverage is geometry, not an assertion of visibility or foreground.
+    Attenuation depends only on geometric coverage below1e-6, independently of
+    priority. RGB and geometric coverage return float32, weighted coverage
+    float64, and the floor indicator bool. Coverage does not certify visibility.
 """
     _validate(image, displacement)
     if (image.dtype != torch.float32 or displacement.dtype != torch.float32
@@ -35,12 +35,11 @@ Returned coverage is geometry, not an assertion of visibility or foreground.
     x, y = x.clamp(-2, width + 1), y.clamp(-2, height + 1)
     x0, y0 = x.floor(), y.floor()
     dx, dy = x - x0, y - y0
-    sums = image.new_zeros((batch, channels, height * width))
+    sums = torch.zeros((batch, channels, height * width), device=image.device, dtype=torch.float64)
     coverage = image.new_zeros((batch, 1, height * width))
-    weighted_coverage = torch.zeros_like(coverage)
-    maximum_priority = torch.zeros_like(coverage)
-    colors = image.reshape(batch, channels, -1)
-    priority = log_priority.exp().reshape(batch, 1, -1)
+    weighted_coverage = coverage.double()
+    colors = image.double().reshape(batch, channels, -1)
+    priority = log_priority.double().exp().reshape(batch, 1, -1)
     for ox, oy, geometric in (
             (0, 0, (1 - dx) * (1 - dy)), (1, 0, dx * (1 - dy)),
             (0, 1, (1 - dx) * dy), (1, 1, dx * dy)):
@@ -49,18 +48,20 @@ Returned coverage is geometry, not an assertion of visibility or foreground.
         indices = (yy.clamp(0, height - 1).long() * width
                    + xx.clamp(0, width - 1).long()).reshape(batch, 1, -1)
         weights = (geometric * valid).reshape(batch, 1, -1)
-        weighted = weights * priority
+        weighted = weights.double() * priority
         sums = sums.scatter_add(2, indices.expand(-1, channels, -1), colors * weighted)
         coverage = coverage.scatter_add(2, indices, weights)
         weighted_coverage = weighted_coverage.scatter_add(2, indices, weighted)
-        contributing = torch.where(weights > 0, priority, torch.zeros_like(priority))
-        maximum_priority = maximum_priority.scatter_reduce(
-            2, indices, contributing, reduce='amax', include_self=True)
-    floor = 1e-6 * maximum_priority
-    denominator = torch.maximum(weighted_coverage, floor)
+    # mean priority * max(geometric coverage,eps) equals weighted coverage
+    # above eps. Below eps it attenuates only the geometrically missing support,
+    # without letting an infinitesimal high-priority arrival darken a full pixel.
+    geometric = coverage.double()
+    safe_geometric = torch.where(geometric > 0, geometric, torch.ones_like(geometric))
+    mean_priority = weighted_coverage / safe_geometric
+    denominator = mean_priority * geometric.clamp_min(1e-6)
     # Empty destinations divide by1, avoiding an inactive infinite derivative.
     denominator = torch.where(denominator > 0, denominator, torch.ones_like(denominator))
-    reconstructed = (sums / denominator).reshape_as(image)
+    reconstructed = (sums / denominator).float().reshape_as(image)
     if (not torch.isfinite(reconstructed).all() or not torch.isfinite(weighted_coverage).all()
             or (reconstructed < 0).any() or (reconstructed > 1).any()):
         raise ValueError('Priority reconstruction must remain finite RGB in[0,1]')
@@ -68,5 +69,5 @@ Returned coverage is geometry, not an assertion of visibility or foreground.
     return dict(
         reconstructed=reconstructed, coverage=coverage.reshape(shape),
         weighted_coverage=weighted_coverage.reshape(shape),
-        normalization_floor_active=((weighted_coverage > 0) & (weighted_coverage < floor)).reshape(shape),
+        normalization_floor_active=((coverage > 0) & (coverage < 1e-6)).reshape(shape),
     )
