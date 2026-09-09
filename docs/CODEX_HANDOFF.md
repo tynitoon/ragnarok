@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 18:04 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 18:11 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -139,6 +139,14 @@ pendant le décodage anticipé de la frame0 au premier act ; **265 charges**
 conservées (133 sujet,132 témoin), aucune décision rendue. Aucun retry/substitut
 de graine et aucun benchmark Ast v0. Les115sources restent intactes ; diagnostic
 hors émulation à poursuivre. Le benchmark Ms peut suivre son wiring committé.
+Wiring/réception finale traces committés **cbc0ef2** avant les lancements suivants.
+Benchmark Ms NumPy **session68765 en cours**, journal cpu_chain_numpy_v0_console.log.
+Ne pas lancer le natif avant résultat NumPy complet et committé.
+Ast : `cold_cache_diagnostic_v0.json` reproduit le même garde sur les cinq RAM
+frame0 archivées17571 ; frame0 est jetée après un repeat4, nécessaire sur repeat1.
+Aucune RGB frame0 calibrée ici. Prototype séparé `deferred_visible_source_v70.py`
+diffère son décodage jusqu'à son usage, garde strict si nécessaire ; huit tests
+PASS, revue et protocole natif encore requis. Aucune modification du v0 gelé.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -172,6 +180,11 @@ Revue finale `v70_rgb_branch_trace/wiring_preflight_v0.json` PASS, SHA
 `f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96`.
 26 constructeurs au maximum, chacun2000charges, graines18700sixjeux,
 18711/12Pongterminaux1/0,18720Pongspawn ; commit de la revue avant vrai préflight.
+**Wiring natif traces terminé PASS**, session84062 close : neuf cas,26instances,
+32démarrages, **22604charges** (19158ordinaires+326branches+52×60restaurations).
+Revue finale `result_review_v0.json` PASS, SHA64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902.
+20sources/7preuves. Seul Seaquest18700 a une différence de branche non nulle :
+fidélité du transport établie sur ce protocole, aucune compétence ME démontrée.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.

@@ -1,0 +1,909 @@
+{
+  "kind": "paid_rgb_branch_trace_native_wiring",
+  "passed": true,
+  "created_utc": "2026-09-09T16:02:56Z",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "scripts/check_rgb_branch_trace_v70.py": "93ce402d37407bdd6c0ead918d70fd498c748801d7e33ae13a30633a28c3c863",
+    "tests/test_rgb_branch_trace_wiring_v70.py": "8c90fd72e01d80d995c620b6497d04ff555a9143eba3bd72376ca1a4da428cd6",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "preflight_review_sha256": "f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96",
+  "cases": [
+    {
+      "game": "pong",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "breakout",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "freeway",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "seaquest",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "f1892e031b514ed3e8aee59a97213795a57814c0106af0dfb07b3bb2a64b560f",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "fc15ece7a05ad68b0bc9ecd290f44200f1caf75801364c5da00fc7539b6ad457",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "ms_pacman",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "asteroids",
+      "seed": 18700,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18711,
+      "ordinary_decisions": 143,
+      "trace_frames": [
+        1,
+        1
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "628f37c047e2a64d4383d09638013ace68c953e7153257b13774f4051f438873",
+          "compared_frames": 1,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "628f37c047e2a64d4383d09638013ace68c953e7153257b13774f4051f438873",
+          "compared_frames": 1,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18712,
+      "ordinary_decisions": 144,
+      "trace_frames": [
+        0,
+        0
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "dd3d3edc4114d5e0f654e420896e46ead19a3357a512b27dcd8779fbb6d67ed9",
+          "compared_frames": 0,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "dd3d3edc4114d5e0f654e420896e46ead19a3357a512b27dcd8779fbb6d67ed9",
+          "compared_frames": 0,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18720,
+      "spawn": true,
+      "passed": true,
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      }
+    }
+  ],
+  "engine_reports": [
+    {
+      "name": "pong:18700:trace",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "breakout:18700:trace",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "breakout:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "breakout:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "freeway:18700:trace",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "freeway:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "freeway:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "seaquest:18700:trace",
+      "accounting": {
+        "ordinary_frames": 704,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 720,
+        "charged_frames": 840,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 68,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "seaquest:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 704,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 720,
+        "charged_frames": 840,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 68,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "seaquest:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 704,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 720,
+        "charged_frames": 840,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 68,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "ms_pacman:18700:trace",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "ms_pacman:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "ms_pacman:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "asteroids:18700:trace",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "asteroids:18700:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "asteroids:18700:frame_witness",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 16,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18711:trace",
+      "accounting": {
+        "ordinary_frames": 833,
+        "experiment_frames": 2,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 835,
+        "charged_frames": 955,
+        "ordinary_agent_steps": 143,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18711:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 833,
+        "experiment_frames": 2,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 835,
+        "charged_frames": 955,
+        "ordinary_agent_steps": 143,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18711:frame_witness",
+      "accounting": {
+        "ordinary_frames": 833,
+        "experiment_frames": 2,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 835,
+        "charged_frames": 955,
+        "ordinary_agent_steps": 143,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18712:trace",
+      "accounting": {
+        "ordinary_frames": 837,
+        "experiment_frames": 0,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 837,
+        "charged_frames": 957,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18712:endpoint_witness",
+      "accounting": {
+        "ordinary_frames": 837,
+        "experiment_frames": 0,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 837,
+        "charged_frames": 957,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "pong:18712:frame_witness",
+      "accounting": {
+        "ordinary_frames": 837,
+        "experiment_frames": 0,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 837,
+        "charged_frames": 957,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 0,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 144,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 120,
+        "cold_loads": 2,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "spawn_worker",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    },
+    {
+      "name": "spawn_direct",
+      "accounting": {
+        "ordinary_frames": 708,
+        "experiment_frames": 16,
+        "restores": 2,
+        "restore_charges": 120,
+        "emulated_frames": 724,
+        "charged_frames": 844,
+        "ordinary_agent_steps": 144,
+        "experiment_agent_steps": 2,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 2000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "failure": null
+    }
+  ],
+  "constructor_count": 26,
+  "charged_frames": 22604,
+  "accounting_complete": true,
+  "agent_training_allowed": false,
+  "gate_result": null
+}

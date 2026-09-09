@@ -1,0 +1,457 @@
+{
+  "kind": "paid_rgb_branch_trace_independent_native_result_review_v0",
+  "created_utc": "2026-09-09T16:09:11.886933+00:00",
+  "passed": true,
+  "native_wiring_pass_confirmed": true,
+  "result_sha256": "b14fdf0f796f90a02ee32318aa437457fd1f55cc22a5d6f5b3444423fb8472b9",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "scripts/check_rgb_branch_trace_v70.py": "93ce402d37407bdd6c0ead918d70fd498c748801d7e33ae13a30633a28c3c863",
+    "tests/test_rgb_branch_trace_wiring_v70.py": "8c90fd72e01d80d995c620b6497d04ff555a9143eba3bd72376ca1a4da428cd6",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0.json": "b14fdf0f796f90a02ee32318aa437457fd1f55cc22a5d6f5b3444423fb8472b9",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0_attempt.json": "9e84908b3ad380d7a56edc550f47db7a6d439cb987a882b2f99f858e7cc5bb7b",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0_console.log": "e60f4c699e107e78bc8849254ed31542f33b9544bbcaba16cf20e30e84be035e",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_preflight_v0.json": "f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96",
+    "craft_v6_out/v70_rgb_branch_trace/source_review_v0.json": "e7fc7ee0eb5141cb92c9e03f2e05411b3c6c2ae1cd39ee3f20baaa765bbf176c",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "craft_v6_out/v70_visible_cpu/preflight_review_v0.json": "f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9"
+  },
+  "chronology": {
+    "sources_commit": "87c0507b09a7e0de84c9d987c265ef1aee9cdaeb",
+    "sources_committed_utc": "2026-09-09T15:58:13Z",
+    "preflight_commit": "cbc0ef2bcf6b350f058fb71cd336233bc476be37",
+    "preflight_committed_utc": "2026-09-09T16:02:43Z",
+    "attempt_started_utc": "2026-09-09T16:02:47Z",
+    "result_created_utc": "2026-09-09T16:02:56Z",
+    "attempt_completed_utc": "2026-09-09T16:02:56Z",
+    "head_at_review": "a1df7dbff0acd4cb616921e8bf757fa3b72175c2"
+  },
+  "case_reviews": [
+    {
+      "game": "pong",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "breakout",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "freeway",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "seaquest",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        840,
+        840,
+        840
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "f1892e031b514ed3e8aee59a97213795a57814c0106af0dfb07b3bb2a64b560f",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "fc15ece7a05ad68b0bc9ecd290f44200f1caf75801364c5da00fc7539b6ad457",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "ms_pacman",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "asteroids",
+      "seed": 18700,
+      "instances": 3,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        16
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18711,
+      "instances": 3,
+      "trace_frames": [
+        1,
+        1
+      ],
+      "charged_frames_each": [
+        955,
+        955,
+        955
+      ],
+      "cold_loads_each": [
+        2,
+        2,
+        2
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        2
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "628f37c047e2a64d4383d09638013ace68c953e7153257b13774f4051f438873",
+          "compared_frames": 1,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "628f37c047e2a64d4383d09638013ace68c953e7153257b13774f4051f438873",
+          "compared_frames": 1,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18712,
+      "instances": 3,
+      "trace_frames": [
+        0,
+        0
+      ],
+      "charged_frames_each": [
+        957,
+        957,
+        957
+      ],
+      "cold_loads_each": [
+        2,
+        2,
+        2
+      ],
+      "experiment_agent_steps": [
+        2,
+        2,
+        0
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "dd3d3edc4114d5e0f654e420896e46ead19a3357a512b27dcd8779fbb6d67ed9",
+          "compared_frames": 0,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "dd3d3edc4114d5e0f654e420896e46ead19a3357a512b27dcd8779fbb6d67ed9",
+          "compared_frames": 0,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    },
+    {
+      "game": "pong",
+      "seed": 18720,
+      "instances": 2,
+      "trace_frames": [
+        8,
+        8
+      ],
+      "charged_frames_each": [
+        844,
+        844
+      ],
+      "cold_loads_each": [
+        1,
+        1
+      ],
+      "experiment_agent_steps": [
+        2,
+        2
+      ],
+      "difference": {
+        "raw": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        },
+        "pooled": {
+          "sha256": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd",
+          "compared_frames": 8,
+          "unpaired_intervention_frames": 0,
+          "unpaired_control_frames": 0
+        }
+      },
+      "passed_confirmed": true
+    }
+  ],
+  "accounting_totals": {
+    "ordinary_frames": 19158,
+    "experiment_frames": 326,
+    "restores": 52,
+    "restore_charges": 3120,
+    "emulated_frames": 19484,
+    "charged_frames": 22604,
+    "ordinary_agent_steps": 3741,
+    "experiment_agent_steps": 134,
+    "cold_loads": 32,
+    "reset_emulated_frames": 2292,
+    "format_detection_emulated_frames": 1920
+  },
+  "checks": {
+    "immutability_and_preflight": "All20 current source hashes equal the result, attempt and final preflight review. Their filtered Git blobs equal the source commit and preflight commit; both commits precede the recorded start and are ancestors of HEAD. The real read-only preflight still returns exactly the recorded source/runtime/review proof. All115 frozen CPU hashes remain unchanged.",
+    "attempt": "The single exclusive attempt is complete and hashes the exact final result. Result creation and attempt completion agree at16:02:56Z after the16:02:47Z start. The reviewed runner creates the started marker before construction, refuses an existing attempt/result and checks the same proof after paid work. No replay or new engine was used by this review.",
+    "coverage": "Exactly nine prescribed cases are present in order: six training games on18700, Pong18711 and18712, then Pong18720 worker/direct transport. Each ordinary case has144 decisions; Pong18711 has143. Full traces are8/8, terminal witnesses1/1 and0/0. Spawn reports and compared prefixes confirm the8-frame pair.",
+    "report_identity": "All26 unique instance reports have failure=null and complete nonnegative integer counters. For every direct case trace and endpoint reports are exactly equal. The frame witness differs only in experiment_agent_steps, exactly16 for full pairs,2 for1/1,0 for0/0 versus two subject/endpoint calls. Worker and direct complete reports are identical.",
+    "ledger_reconstruction": "Every case report was independently reconstructed from played frames, cold loads, bootstrap charges, actual experiment frames and two60-frame restorations. Totals are19158ordinary+326experiment+3120restore=22604charged;52restores and32cold loads. All per-instance caps and the0.2 allocation hold;26instances remain below the52000known cap. Seaquest bootstrap128 explains the12-charge difference from the all132 synthetic total.",
+    "console": "The console lists32 ROM loads with exactly the expected six ROM MD5 values and game/seed counts: three per normal game, six per terminal seed including the subsequent cold, two for spawn. Its final summary agrees with26instances/22604charges. No traceback occurs. The console is hashed as supplemental evidence and remains ignored by Git at review time.",
+    "pixel_comparisons": "The unchanged, committed runner reaches passed only after comparing each paid raw/maxpooled frame against the independent per-frame base witness, endpoints against the unchanged endpoint witness, restored frame/sticky/RGB history and16ordinary continuation decisions. Its spawn path also checks closed RPC rejection, payload/report equality and worker exit. The final reports and case passes are consistent with these enforced branches.",
+    "difference_outputs": "All18raw/pooled records have the prescribed common-prefix length and zero unmatched tails. Independently hashing zero-valued bool difference and uint8 first-offset arrays reproduces the eight no-observed-difference cases, including the empty terminal prefix. Only Seaquest18700 differs from that zero digest; its raw and pooled digests also differ. No amount-of-divergence threshold was added.",
+    "criteria_and_scope": "The result preserves agent_training_allowed=false and gate_result=null. No case, frame or failed comparison was excluded and no alternative seed was selected by the reviewed code."
+  },
+  "recomputed_zero_difference_sha256": {
+    "0": "dd3d3edc4114d5e0f654e420896e46ead19a3357a512b27dcd8779fbb6d67ed9",
+    "1": "628f37c047e2a64d4383d09638013ace68c953e7153257b13774f4051f438873",
+    "8": "44eb0a0dd8d32cbbe1c185e195cce0d597c1769ec22880f3c4962bb86aed18cd"
+  },
+  "findings": [],
+  "limitations": [
+    "This review is entirely offline and read-only apart from this new receipt. It validates the recorded finite wiring run and its committed checks; it does not independently replay any native trajectory.",
+    "Raw/pooled branch image arrays and individual equality witnesses are not retained by this protocol. Seaquest pixel differences and exact first-change offsets cannot be independently reconstructed from the digests; those comparisons are attested by the reviewed runner completing its checks.",
+    "Eight cases have no observed difference in their common prefix, including an empty terminal prefix. This is allowed by the prospective protocol and is not evidence of general controllability, non-controllability, ME identity or a useful learned target.",
+    "The trace wiring uses two executions of the unchanged base as witnesses. It is not exhaustive native-state or gameplay equivalence over arbitrary seeds, action histories, games or longer branches.",
+    "The26engine instances performed32cold loads. Cold loads are charged within their parent instance; constructor_count must not be described as the number of native ROM loads.",
+    "The result, attempt and ignored console are newly produced evidence at the start of this review. Their exact hashes are preserved here; the parent is responsible for the subsequent evidence commit. This reviewer made no commit.",
+    "The independent CPU Asteroids decoding failure and active MsPacman CPU benchmark are separate instruments and results. This trace wiring PASS does not repair, replace or authorize retries of either.",
+    "No training, teacher generation, benchmark conclusion or gate outcome follows from this wiring result."
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "operations": {
+    "new_native_engine": false,
+    "new_seed": false,
+    "trajectory_replayed": false,
+    "source_or_existing_evidence_modified": false,
+    "commit_created": false
+  }
+}
