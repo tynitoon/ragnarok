@@ -1,0 +1,380 @@
+{
+  "kind": "seaquest_two_raw_frame_reserved_calibration",
+  "seed": 17322,
+  "decoder_revision": "seaquest_two_raw_spatial_envelopes_v0",
+  "created_utc": "2026-09-09T03:20:38Z",
+  "calibration_pass": true,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8188,
+      "positive_frames": 7886,
+      "positive_count_agreement": 7882,
+      "ram_objects": 7886,
+      "pixel_objects": 7882,
+      "joint_matches": 7882,
+      "boxes_within1": 7879,
+      "boxes_exact": 7879,
+      "presence_fraction": 0.99951171875,
+      "positive_presence_fraction": 0.9994927720010145,
+      "box_fraction": 0.9996193859426542,
+      "passed": true
+    },
+    "shark": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 4024,
+      "positive_count_agreement": 4024,
+      "ram_objects": 11866,
+      "pixel_objects": 11866,
+      "joint_matches": 11866,
+      "boxes_within1": 11866,
+      "boxes_exact": 11858,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "submarine": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2144,
+      "positive_count_agreement": 2144,
+      "ram_objects": 5362,
+      "pixel_objects": 5362,
+      "joint_matches": 5362,
+      "boxes_within1": 5362,
+      "boxes_exact": 385,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "diver": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 1738,
+      "positive_count_agreement": 1738,
+      "ram_objects": 2567,
+      "pixel_objects": 2567,
+      "joint_matches": 2567,
+      "boxes_within1": 2567,
+      "boxes_exact": 2567,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "enemy_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 1352,
+      "positive_count_agreement": 1352,
+      "ram_objects": 2947,
+      "pixel_objects": 2947,
+      "joint_matches": 2947,
+      "boxes_within1": 2947,
+      "boxes_exact": 2947,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8191,
+      "positive_frames": 6542,
+      "positive_count_agreement": 6541,
+      "ram_objects": 6572,
+      "pixel_objects": 6571,
+      "joint_matches": 6571,
+      "boxes_within1": 6566,
+      "boxes_exact": 6566,
+      "presence_fraction": 0.9998779296875,
+      "positive_presence_fraction": 0.9998471415469276,
+      "box_fraction": 0.999239080809618,
+      "passed": true
+    },
+    "surface_submarine": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 159,
+      "positive_count_agreement": 159,
+      "ram_objects": 159,
+      "pixel_objects": 159,
+      "joint_matches": 159,
+      "boxes_within1": 159,
+      "boxes_exact": 159,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "first_disagreements": {
+    "player": [
+      {
+        "decision": 1877,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "decision": 3686,
+        "ram": [
+          [
+            123,
+            52,
+            17,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            118,
+            52,
+            22,
+            11
+          ]
+        ]
+      },
+      {
+        "decision": 3996,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "decision": 4860,
+        "ram": [
+          [
+            134,
+            57,
+            16,
+            7
+          ]
+        ],
+        "pixels": [
+          [
+            134,
+            57,
+            21,
+            7
+          ]
+        ]
+      },
+      {
+        "decision": 4929,
+        "ram": [
+          [
+            127,
+            52,
+            17,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            122,
+            52,
+            22,
+            11
+          ]
+        ]
+      },
+      {
+        "decision": 5904,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "decision": 7850,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "shark": [],
+    "submarine": [],
+    "diver": [],
+    "enemy_missile": [],
+    "player_missile": [
+      {
+        "decision": 1630,
+        "ram": [
+          [
+            19,
+            62,
+            13,
+            2
+          ]
+        ],
+        "pixels": [
+          [
+            19,
+            62,
+            8,
+            1
+          ]
+        ]
+      },
+      {
+        "decision": 3686,
+        "ram": [
+          [
+            118,
+            59,
+            13,
+            2
+          ]
+        ],
+        "pixels": [
+          [
+            123,
+            59,
+            8,
+            1
+          ]
+        ]
+      },
+      {
+        "decision": 4860,
+        "ram": [
+          [
+            147,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "decision": 4929,
+        "ram": [
+          [
+            122,
+            59,
+            13,
+            2
+          ]
+        ],
+        "pixels": [
+          [
+            127,
+            59,
+            8,
+            1
+          ]
+        ]
+      },
+      {
+        "decision": 6863,
+        "ram": [
+          [
+            19,
+            60,
+            13,
+            2
+          ]
+        ],
+        "pixels": [
+          [
+            19,
+            60,
+            8,
+            1
+          ]
+        ]
+      },
+      {
+        "decision": 7827,
+        "ram": [
+          [
+            39,
+            76,
+            8,
+            1
+          ]
+        ],
+        "pixels": [
+          [
+            39,
+            76,
+            1,
+            1
+          ]
+        ]
+      }
+    ],
+    "surface_submarine": []
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c",
+    "docs/ARC4_SEAQUEST_RESERVED_PROTOCOL.json": "7facc4e41c2aaab2119513f3224a72962ce229ae143e15638e65ea9e183def37",
+    "scripts/committed_seal_v70.py": "63e7e2d287989ca9f97358c1bd97599debe41e6e6d2299585bfed95a6404b048",
+    "scripts/validate_seaquest_reserved_v70.py": "409b50df61eb71c0ce578a8d761aec717622bef632171554ca79a5cd943b0980",
+    "scripts/seaquest_raw_prerequisite_v70.py": "187459817dbdba3a47ad5c125eab6ca060c66c929b619ae17903ef9556053bbc",
+    "scripts/capture_seaquest_pooled_v70.py": "a617e6549a85da202109dd946ee9a927b2782a113b70e549f37a8c352d2c850c",
+    "docs/ARC4_SEAQUEST_POOLED_PROTOCOL.json": "e2af5361d9f16dac3256135ff6cae0eed215d619fc3c864e6420c48b94c9a9b2",
+    "ragnarok/evaluation/pooled_seaquest_v70.py": "7c1b7ca446f389ff690304b8e49b9ead34ce432787b9c43dd7d3fb7c82a6a1d6",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "scripts/calibrate_seaquest_pooled_v70.py": "9b4fb3213005451f1fb7e343446d02161df80ccf2f9199294c4e360ac41b78b5",
+    "docs/ARC4_SEAQUEST_POOLED_RESERVED_PROTOCOL.json": "48f053ff161e457faa768d33cff9ab32e2d969f6a38ab98c2c70cd15935c9d3f",
+    "scripts/validate_seaquest_pooled_v70.py": "5cbe3390ac9bac60705756aeec8a9348860a2b604ce16b01be70f72a5f634278"
+  },
+  "fixture_manifest_sha256": "97c4dc636706d866ca87f9100318ec60a7dfe56fcb0cde6f757e9c75f4356abe",
+  "raw_calibration_proof_sha256": "95282204c575f3545b8a494de174422f7c664946e65752ebe0b3eb846d63f91b",
+  "scope": "Component-window counts.4-connected spatial envelopes, separate surface subtype. Two-source provenance may be ambiguous from maxRGB alone.",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "seal_sha256": "20e254ebf855300b53a5984f8b44a8abf339947136341c975c761978baae81a1",
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false
+}

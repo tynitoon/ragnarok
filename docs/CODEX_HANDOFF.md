@@ -231,9 +231,16 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   tests captureur passent. Commit2b03bd9 avant17321. Baseline temporelle PASS :
  8192décisions/32759frames ordinaires+512froides=33271facturées,4constructions.
   Six catégories et sous-type surface passent, tous les appariements within1,
-  surface1029appariements. Réservé17322 fermé, exécutable et sceau à préparer.
-  Référence brute à mesurer sur nouvelle capture uniforme17371 (protocole/script
-  en revue), jamais sur les captures réservées/couverture qui l'interdisent.
+  surface1029appariements. Revue Ohm close, source33 e911d36 et sceau f62333f
+  committés avant17322. Réservé terminé PASS :8192décisions/33396facturées,
+ 5constructions,surface159matches exacts,joueur3/missilejoueur5erreurs within1
+  conservées. Ne modifier aucune des33sources. Revue Meitner du résultat en cours.
+  Référence brute nouvelle capture uniforme17371,protocole81a7fa4 avant capture,
+  résultat3698beb : rappel93,6393 %, précision25,4255 % seulement, joueur73,1446 %.
+  Sous-marins/missiles ennemis absents=null.8960facturées. Ne jamais entraîner
+  la référence sur les captures réservées/couverture qui l'interdisent.
+  Adaptateurs séparés graphe/scoreurcomposantes/workerSeaquest en préparation
+  pour mesurer le débit CPU complet, protocole avant nouvelle ROM de benchmark.
   Ne pas relancer si une capture/sortie existe, même incomplète.17332/17342/17352
   restent retirés sans ouverture. Tous les anciens échecs restent négatifs.
   Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git

@@ -36,7 +36,18 @@ sous-marin8096, plongeur2685, missile ennemi3430, missile joueur6850 ; le
 sous-type surface compte1029appariements. Présence positive minimale99,9622 %
 pour le joueur ;1027boîtes de surface sont exactes. Les31empreintes sont conservées.
 
-Le réservé17322 reste fermé jusqu'à la revue et au sceau complets du candidat
-temporel. Le captureur de développement reste inchangé ; un exécutable réservé
-distinct devra vérifier sources et métadonnées réellement committées avant ROM.
-Ce résultat porte sur les instruments, pas sur un apprentissage par l'agent.
+L'exécutable réservé distinct et ses33sources ont été revus, puis committés
+`e911d36`. Le sceau complet a été committé `f62333f` avant ouverture de17322.
+Le marqueur de tentative précède même le constructeur ; une erreur ne permet
+pas de recommencer discrètement. Onze tests orchestration/guard Git passent.
+
+Réservé17322 PASS :8192décisions,32756frames ordinaires+640froides=33396facturées,
+cinq constructions. Joueur7879/7882boîtes within1 (99,9619 %), missiles joueur
+6566/6571 (99,9239 %), toutes les autres boîtes appariées within1. Le sous-type
+surface est couvert :159appariements exacts. Présence positive minimale99,9493 %
+pour le joueur. Les huit erreurs de géométrie restent dans le rapport, sans
+correction après ouverture. Tous les critères annoncés sont inchangés.
+
+Les33sources sont maintenant scellées, y compris captureur, calibrateur et
+exécutable réservé. Ajouter des adaptateurs distincts pour le débit. Ce résultat
+porte sur les instruments, pas sur un apprentissage par l'agent.
