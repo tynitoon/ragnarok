@@ -1,0 +1,192 @@
+{
+  "kind": "parser_and_visual_instances_independent_source_review",
+  "created_utc": "2026-09-09T17:02:20.773895+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "training_authorized": false,
+  "native_execution_authorized": false,
+  "gate_result": null,
+  "source_commit": "d728baeb01d036a1c9a7fdded14213aa10dac816",
+  "source_sha256": {
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/test_parser_prediction_v70.py": "bc684f9f1949aef9efa008786d837763eeb223aad7b3870fc9c5e68ac2902523",
+    "tests/test_visual_instances_v70.py": "0a0e580371e06bdf72fdc740e57edf9754a4fbe6cb4169aa750a2dd9529e922a",
+    "docs/ARC4_PARSER_DRAFT.md": "f7a8772519c49cc7fe5d3635a218c03db70c04b9a412303f244bf9766d1bd8d5",
+    "docs/ARC4_VISUAL_INSTANCES_DRAFT.md": "95fa14cb04a310fe68ea54b20f1ec7f5c3bfb7e7e4ba62b70c4b185728f8f559",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "ARC4_VISION.md": "250f5b65b0d94d311af66bb77418cefc80f5fc68e4bbd93208aeb49320e80450"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "tensor_device": "cpu",
+    "torch_threads": 1,
+    "CUDA_VISIBLE_DEVICES": "",
+    "cuda_initialized_during_checks": false
+  },
+  "checks": {
+    "all_10_source_blobs_committed_and_equal": true,
+    "scope": "Parser, P loss and visual instances only; the new tracker is excluded from this receipt.",
+    "imports": "Production modules use dataclasses, Torch, NumPy and SciPy only; no environment, RAM, reference/scorer, palette registry, archive or semantic-label imports.",
+    "network": {
+      "parameters": 428677,
+      "native_and_half_share_one_pyramid": true,
+      "embedding_channels": 32,
+      "embedding_normalized": true,
+      "effect_slots": 12,
+      "effect_domain": [
+        0,
+        1
+      ],
+      "only_displacement_is_conditioned_on_effect": true,
+      "unknown_effect": "all zero, no button mapping supplied",
+      "displacement_convention": "source forward dx,dy in input pixels per observed interval",
+      "batch_permutation_check": true
+    },
+    "prediction": {
+      "forward_bilinear_splat": true,
+      "collision_rule": "coverage-weighted mean",
+      "holes": "zero RGB, retained in whole-image L1 denominator",
+      "rgb_float_domain": [
+        0,
+        1
+      ],
+      "motion_target": "detached positive relative error improvement over staying still, norm>.25 and visible destination",
+      "no_target_gradient": true,
+      "foreground_bce_no_effect_or_displacement_gradient": true,
+      "image_l1_has_effect_and_displacement_gradient": true,
+      "embedding_controllability_solidity_heads_have_no_direct_P_gradient": true
+    },
+    "instances": {
+      "descriptor_floats": 49,
+      "layout": "box centre/size4; area1; normalized forward displacement2; mean embedding32; controllability/solidity2; eight-octant RGB histogram8",
+      "initial_components": "4-connected logit>0",
+      "threshold": 0.2,
+      "maximum_parts_per_component": 8,
+      "kmeans_iterations": 12,
+      "instance_capacity": 4096,
+      "small_components_retained": true,
+      "capacity_overflow_raises": true,
+      "frame_local_scan_order_only": true,
+      "source_pixels_partition_foreground_exactly": true,
+      "inputs_unmodified": true,
+      "outputs_copied_and_marked_readonly": true,
+      "post_split_connectivity_not_guaranteed": true,
+      "reductions": "float64 embedding and displacement"
+    },
+    "tests": {
+      "command": "C:/Python314/python.exe with CUDA_VISIBLE_DEVICES empty, Torch threads1; pytest tests/test_parser_prediction_v70.py tests/test_visual_instances_v70.py",
+      "passed": 17,
+      "elapsed_seconds": 1.55
+    },
+    "independent_witnesses": {
+      "scalar_splat_comparison": {
+        "shapes": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            3,
+            7
+          ],
+          [
+            6,
+            4
+          ]
+        ],
+        "batch_size": 2,
+        "includes_boundaries_and_collisions": true,
+        "maximum_absolute_error": 3.6457907540143886e-07
+      },
+      "noninteger_flow_central_finite_differences": {
+        "coordinates": 4,
+        "step": 0.001,
+        "maximum_gradient_error": 0.0005044639110565186
+      },
+      "original_motion_objective_preserved": {
+        "historical_commit": "0df4708",
+        "ordinary_cases": 15,
+        "comparison": "bitwise exact"
+      },
+      "extreme_displacement_after_fix": {
+        "dtypes": [
+          "float32",
+          "float64"
+        ],
+        "signs": [
+          -1,
+          1
+        ],
+        "cases": 4,
+        "finite_zero_targets": true
+      },
+      "range_and_reduction_guards_after_fix": {
+        "invalid_range_rejections": 12,
+        "finite_effect_boundary_cases": 4,
+        "float32_max_flow_mean_finite_and_correct": true
+      },
+      "checkerboard_split": {
+        "foreground_pixels": 9,
+        "final_groups": 2,
+        "physical_4cc_per_group": [
+          5,
+          4
+        ],
+        "all_pixels_retained_once": true
+      }
+    },
+    "new_emulated_frames": 0,
+    "new_training_steps": 0,
+    "gpu_work": false,
+    "Atari_or_archive_inputs_read": false
+  },
+  "resolved_findings": [
+    {
+      "problem": "A finite maximal displacement overflowed grid normalization, generating NaN targets despite the outside mask.",
+      "resolution": "Inside mask before bounded sampling coordinates and explicit torch.where outside.",
+      "commit": "f4da8600a9d47f79907024a1bd82ec4b2a818ee9"
+    },
+    {
+      "problem": "Finite float64 effects/RGB could overflow float32 conversion; float32 flow means could overflow during summation.",
+      "resolution": "Explicit effect/RGB domains, bounded embedding components, representable displacement and float64 reductions; invalid inputs rejected or reductions remain finite.",
+      "commit": "d728baeb01d036a1c9a7fdded14213aa10dac816"
+    },
+    {
+      "problem": "K-means labels were liable to be mistaken for guaranteed connected physical objects.",
+      "resolution": "Draft now explicitly states that groups may be disconnected; the checkerboard witness preserves the limitation rather than changing the algorithm.",
+      "commit": "d728baeb01d036a1c9a7fdded14213aa10dac816"
+    }
+  ],
+  "limitations_and_items_before_freeze_or_training": [
+    "This is a synthetic source review. No learned perception, Atari competence, throughput, calibration, transfer, training stability or gate result is established.",
+    "The source-aligned m target is motion evidence, not a complete object mask: flat overlapping interiors supply no gain, wrongly global motion can label newly covered background, and destinations outside the image are excluded from this evidence. The original incorrect global-flow fixture is preserved in commit3e6d731; the objective was not changed to make that expectation pass.",
+    "P supplies no direct objective for the embedding, controllability or solidity heads. C/G/I/S, effect discovery, target bootstrap, loss weights and schedules still need independent implementation and prospective tests before learning claims.",
+    "The twelve features are bounded slot activations, not oracle displacement measurements or raw button codes. Their semantics, unknown fallback and causal source must be checked in future wiring.",
+    "The caller must bind max_pool_rgb to the actual last two paid frames, fix the source/target observation interval and distinguish observation displacement from native-frame velocity. These pure tensor APIs cannot attest that provenance.",
+    "Collision averaging and zero-filled holes are not an occlusion, disocclusion, birth or appearance-change model. Sparse-object and empty-mask collapse risks remain to be measured prospectively.",
+    "Shared parameters across native and half scales do not prove scale or translation invariance of network predictions. The tests establish shapes, tied weights and normalized descriptor geometry for matched synthetic fractions.",
+    "Embedding clusters can contain disconnected pieces or merge same-appearance objects. The current deterministic caps and thresholds are draft choices, not empirically validated objecthood criteria; cap failures and saturation must remain visible in any later runner.",
+    "Float64 reductions intentionally improve numerical robustness and can resolve marginal variance thresholds or k-means ties differently from the initial draft. No training result depended on the earlier arithmetic.",
+    "The returned frame_index is a per-image instance number, not a persistent identity. Readonly NumPy flags and frozen dataclasses prevent accidental ordinary writes but are not an adversarial sandbox.",
+    "No optimizer, training loop, teacher, classical foreground supervision, ME selection or environment access is present. The separately added tracker and future collection/branch wiring require their own reviews."
+  ]
+}

@@ -3,6 +3,8 @@ import numpy as np
 import pytest
 from ragnarok.learning.visual_instances_v70 import extract_instances
 from ragnarok.learning.instance_tracker_v70 import InstanceTracker
+from ragnarok.learning import instance_tracker_v70 as tracking
+from dataclasses import replace
 from tests.test_visual_instances_v70 import scene
 
 
@@ -85,3 +87,53 @@ def test_invalid_timeline_or_duplicate_pixels_cannot_advance_tracker():
     with pytest.raises(ValueError,match='strictly increase'): tracker.update(one,frame=0,prediction_horizon_frames=4)
     with pytest.raises(ValueError,match='duplicate'): tracker.update(one+one,frame=4,prediction_horizon_frames=4)
     assert tracker._frame==0 and tracker._next_id==1
+
+
+def test_inconsistent_support_box_or_area_is_rejected_before_state_change():
+    tracker=InstanceTracker((32,64))
+    original=observations([10])[0]
+    bad=replace(original,source_pixels=np.array([0],dtype=np.int64))
+    with pytest.raises(ValueError,match='tight box'): tracker.update([bad],frame=0,prediction_horizon_frames=4)
+    descriptor=original.descriptor.copy();descriptor[4]*=2
+    bad=replace(original,descriptor=descriptor)
+    with pytest.raises(ValueError,match='area'): tracker.update([bad],frame=0,prediction_horizon_frames=4)
+    assert tracker._frame is None and not tracker._tracks
+
+
+def test_allocation_failure_is_atomic_and_retry_cannot_duplicate_observations(monkeypatch):
+    tracker=InstanceTracker((32,64))
+    initial=observations([10,20])
+    tracker.update(initial,frame=0,prediction_horizon_frames=4)
+    real=tracking.TrackedObservation
+    calls=[]
+    def fail_second(*args):
+        calls.append(args)
+        if len(calls)==2: raise MemoryError('synthetic second observation allocation')
+        return real(*args)
+    monkeypatch.setattr(tracking,'TrackedObservation',fail_second)
+    with pytest.raises(MemoryError): tracker.update(initial,frame=4,prediction_horizon_frames=4)
+    assert tracker._frame==0 and all(t.last_seen==0 and len(t.history)==1 for t in tracker._tracks.values())
+    monkeypatch.setattr(tracking,'TrackedObservation',real)
+    tracker.update(initial,frame=4,prediction_horizon_frames=4)
+    assert all(t.last_seen==4 and len(t.history)==2 for t in tracker._tracks.values())
+
+
+def test_exact_eight_pixel_boundary_at160_width_does_not_depend_on_descriptor_roundoff():
+    def own(x):
+        p,rgb=scene(16,160);p.foreground_logits[:,4:6,x:x+2]=1
+        return extract_instances(p,rgb)
+    for start in range(138):
+        tracker=InstanceTracker((16,160))
+        tracker.update(own(start),frame=0,prediction_horizon_frames=4)
+        result=tracker.update(own(start+8),frame=4,prediction_horizon_frames=4)
+        assert result.observed[0].track_id==0
+    tracker=InstanceTracker((16,160))
+    tracker.update(own(2),frame=0,prediction_horizon_frames=4)
+    assert tracker.update(own(11),frame=4,prediction_horizon_frames=4).observed[0].track_id==1
+
+
+def test_large_finite_matching_parameters_keep_dummy_costs_finite():
+    tracker=InstanceTracker((32,64),max_distance_pixels=np.finfo(float).max,appearance_weight=np.finfo(float).max)
+    tracker.update(observations([2,20]),frame=0,prediction_horizon_frames=4)
+    result=tracker.update(observations([4]),frame=4,prediction_horizon_frames=4)
+    assert len(result.observed)==1 and len(result.coasting)==1

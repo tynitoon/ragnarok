@@ -129,11 +129,18 @@ Identifiantparimage seulement ; déplacementparintervalleobservé, pasframe/seco
 Corrections numériquesf4da860/d728bae : gridbornéeavantdoublement/wherehorscadre,
 RGBP eteffets[0,1],embedding[-1,1],drepresentablefloat32,réductionsfloat64.
 CCconnexeinitialmaisgroupeskmeanspossiblementdisjoints,limiteexplicite.
-Relecteur `/root/review_recovery_v62` finalisele reçupréliminaireparser/instances.
-Nouveau `instance_tracker_v70.py` +tests/doc d728bae :7testsCPU PASS, déplacement
+Revuepréliminaireparser/instancesPASS `v70_parser_synthetic/source_review_v0.json`,
+SHAf6d18381…(10sources/17tests),sourcefinaled728bae,aucunGPU/Atari.
+Nouveau `instance_tracker_v70.py` +tests/doc :11testsCPU PASS, déplacement
 prédit+Hungarianapparence, horloge/horizonfournisexplicitement,mémoire4/coast30,
 coastsdistinctsvisibles,identitésstables/réapparitions,forksansmutationordinaire.
-Trackeràrelire,nonvalidénativement.17+7tests=24ensemblePASS ; toussurCPU.
+Revue trackerencours :boîtes/airepixelvérifiées,miseàjouratomiccopieavantcommit,
+centrespixelexacts+tolérancearrondid,normalisationcoûtsévitantinf.
+138frontières8pxetexception2eobservationtestées. Nonvalidénativement.
+Nouveau `counterfactual_targets_v70.py` +tests/doc :7testsTorchCPU PASS ;
+projectiondesproprespixels parleurddansdiffRGBfuture,horizon/kindexplicites,
+ciblesinconnuespoids0enbranchesincomplètes/sansmouvement/horschamp ; BCEC.
+Provenancepaire/effet/horizondoitêtregarantiedanscollecteur(encorenonbranché).
 Suite selon `ARC4_VISION.md` §§2,5,6,11 : C/G/I/tracker/ME/buttons/reader/drives.
 Descripteur49floats corrigé(addition), nonimplémenté. `ARC4_ENTRY_BUDGET_DRAFT.md` :
 29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
