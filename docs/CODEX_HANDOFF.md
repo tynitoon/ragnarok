@@ -126,6 +126,19 @@ Projection totale33,9425h, marge8,0575h ; B6/N9/G'2 conservés. Reçu
 état `running/probe`, départ à22823,7297333s cumulées. Vérifier l'état avant toute
 action. Il s'arrêtera après le probe pour revue, aucun confirmatoire lancé.
 
+Probe maintenant terminé et revu : `v61_probe.json`, SHA244f9ee0…, reçu indépendant
+`v62_probe_review.json`. M4=618/768=80,4688 %, R=398/768=51,8229 % ; delta0,286458,
+3SE pooled0,072446, PASS. Les12AUC M1–M4 ont été reproduites exactement en NumPy
+depuis les checkpoints. M3 n=123 seulement : aucune accumulation monotone à
+affirmer ; AUC M4 exercée0,6683 n'est pas une table parfaitement apprise.
+Probe1087,029983s ; dépense totale17,8589h, projection33,7444h, marge8,2556h.
+Contrôleur initial arrêté, statut `probe_passed_review_required`.
+Nouveau lanceur séparé `confirm_resume_v62.py` préparé, revues Meitner/Ohm en
+clôture, sans modification du code gelé. Il exige le reçu committé, protège les
+sorties achevées et checkpoints entre enfants, applique G puis B si nécessaire,
+et s'arrête après trois lignées complètes pour revue. Ne lancer qu'après commits,
+dry-run et contrôle des processus ; aucun confirmatoire encore lancé à cette note.
+
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
 probe autorise la suite, score et figure. Si STOP, consigner honnêtement et ne
@@ -255,8 +268,13 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   exactement identiques,53sources et build/DLL vérifiés, reçu cpu_backend_equivalence.json.
   Voir `docs/ARC4_SEAQUEST_CPU.md`. Ms. Pac-Man : scope5catégories, protocole
   etbaseline nominale revus/committés9714014 avant17411 (cléROM ms_pacman).
-  Capture8192images/8720facturées,4constructions. Calibration initiale en cours,
-  réservé17412 fermé. Ne pas modifier les12sources pendant le calcul initial.
+  Capture8192images/8720facturées,4constructions. Baseline V0 FAIL cinq catégories,
+  préservée c8e64ef : joueur géométrie36,72 %, fantômes présence11,96 %, fruit
+  absent/null, grosses pastilles confondues avec décor, petites pastilles présence49,60 %.
+  Réservé17412 fermé. Trois diagnostics nouveaux : joueur (pas de correction simple
+  x/largeur), fantômes (RAM précédente pour position, sélection de rendu à établir),
+  grosses pastilles (flags117 et phase30&8 courants exacts sur32768supports,337occultations).
+  Aucun correctif V1 appliqué. Voir `docs/ARC4_MSPACMAN_CALIBRATION.md`.
   Ne pas relancer si une capture/sortie existe, même incomplète.17332/17342/17352
   restent retirés sans ouverture. Tous les anciens échecs restent négatifs.
   Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git

@@ -702,3 +702,33 @@ Before delivering a figure, apply the already declared 12.6 labels: store persis
 b=0 on tiers 3/4 contains weights + carried store. The old figure script still prints per-goal store
 and weights-only labels; it must not be used uncorrected for v62. Do not claim law-head AUC on test
 worlds from the confirmatory JSON: the frozen runner does not record that measurement.
+
+### 13.4 Completed pretraining and mechanism probe, 2026-09-09
+
+All three lineages completed their four worlds and four distinct, finite M1–M4
+checkpoints. Controller elapsed time through pretraining was 22823.7297333 s;
+the probe added 1087.029983 s. The independent review receipt is
+`craft_v6_out/v62_probe_review.json`, bound to the completed controller state,
+all 17 frozen sources and all 16 output hashes.
+
+The frozen probe passes: M4 made 618/768 lawful first proposals (0.8046875),
+versus R 398/768 (0.5182291667). Difference 0.2864583333 exceeds the frozen
+three pooled standard errors, 0.0724457566. All twelve M1–M4 AUC measurements
+were independently reproduced from the checkpoints with NumPy. M3 has only
+123 recorded first proposals, so its high conditional rate is not evidence of
+monotonic accumulation. M4 exercised-pair AUC is 0.6683. Probe PASS authorizes
+the confirmatory; it does not establish transfer or faster learning.
+
+Actual expenditure through the probe, including the previous v61 gates and
+resume precheck, is 64291.9097163 s = 17.8588638101 h. Remaining allowance is
+86908.0902837 s. The unchanged B_test=6, N=9 and two G' units project another
+57188 s, for a total of 33.7444193656 h and an 8.2555806344 h margin to 42 h.
+
+The separate `scripts/confirm_resume_v62.py` launcher requires the committed
+probe and independent review, excludes existing production attempts, validates
+all lineages and their per-arm checkpoints, and protects completed outputs
+against later mutation. Its elapsed-time deadline enforces the remaining
+allowance. Both independent reviewers closed their findings; 15 CPU tests
+pass, including failure, interruption, checkpoint mutation and deadline cases.
+It runs the three frozen commands and stops for review before scoring or figure
+generation. No experimental source, threshold or budget-cut order is changed.

@@ -1,0 +1,253 @@
+{
+  "kind": "v62_probe_independent_review",
+  "recorded_at_utc": "2026-09-09T03:49:53.047605+00:00",
+  "reviewer": "Codex independent subagent /root/audit_gate_v62",
+  "passed": true,
+  "probe_sha256": "244f9ee07bac2525df246afb51b240a545d2eca781c4b9c0b04fb1a73b4bc692",
+  "controller_state_sha256": "b8f7c1237658a5c8b6b373f72d4b2d11d3d1d40664f4b72e6257a5e5d66485c2",
+  "freeze_commit": "a189ea5bb0f9c8b7e9016a50aefc1cbca603426f",
+  "source_sha256": {
+    "scripts/gate_v61.py": "2b9962e8726b8696a57765a564683a80cea4885b6132187208468c8be81bf3c3",
+    "scripts/pretrain_v61.py": "16bb7424184a30f03e7950bb40353f03e07e471c1075d2c07361dfa8b59d9126",
+    "scripts/probe_v61.py": "88801326490ee58a43df4a472a44047f4dbd59520157800ebc5d153fd472380f",
+    "scripts/confirm_v61.py": "d6f41254ace316fb57c9f21b0813f735eb693cef4d9b984148dd0494de1afbc2",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/pair_net_v61.py": "323b2d0cc78a7c766afb149e624cea04dee7eb20de575d471e319a2619892f4d",
+    "scripts/pair_store_v61.py": "997de1d0c7c8fd6033cc8d47f2bdaaa6a4df4df995436ee656f8539badcd345f",
+    "scripts/hand_v61.py": "f7f28f003c77a7e38a58367bb39f884f3962441cf3c59e8969b6c5bf1bccc5a5",
+    "scripts/sweeper_v61.py": "d582cc03272f4ce6b12952f5bed3976f6ee599ffb3919431025139457ea2af78",
+    "scripts/hidden_recipe_v55.py": "b9f48d97fdf9eb23eecc06ea92d9caf9efed819f9930effdd74b5842305bae19",
+    "scripts/depth_scaling_v49.py": "154db961adf35db76c8848629921e65b62d82d38374ab6376e5424fe865a3c91",
+    "scripts/childhood_v50.py": "46b8ceefa2ec510c996e4c4e4f99466a8783d9116913a5bd193a6d15b1a5192b",
+    "scripts/meta_manager_v51.py": "0698e82f66cbfcc2bc3001b968f05b8ef6cea68cc961f97a5217bbf16f3a0510",
+    "ragnarok/environments/law_world.py": "0396e369dcf00b6843ae0441194b43922a6b8e0fcd2abe9f139d7d5c2471bac7",
+    "ragnarok/environments/tech_tree.py": "9a86817cf3c27b4e8d7ccc636cfcdcea82941e676f592c27fae833e26afa0ad9",
+    "ragnarok/learning/ppo_discrete.py": "492654ebf712de4da9226aa9a0e10bf143782779c43da0885d8af9c8df5b1b01",
+    "ragnarok/infrastructure/device.py": "1cc5ce304446d734670edb8c35acaae46d4e203f788722bdd5f45992357377c9"
+  },
+  "input_sha256": {
+    "v55_skill_s0.pt": "668247e5915cd30367f4b0fedab95beddb9d5c5a32520cbf42ba3935f9a3d569",
+    "v61_roster.json": "9c4597371a6045352b91f71e921afda71201abc58cbfe2f9657c105e2d2bd6f1"
+  },
+  "gate_sha256": "db5d0a7ab62a266ec485c61582ed2ef543263b5747bf6dfb7e023621c6c9af8a",
+  "launcher_sha256": "f004f864fc7384c2f0909a87452790b7c30060abe645917718f920d8ea3f1015",
+  "completed_artifact_sha256": {
+    "v61_pre_s0.json": "616207d94e16c5f630f78fb3d5241f1bb1bdae8568b865209469286802837ef0",
+    "v61_pre_s0_M1.pt": "eec3463be46422b731f78918aa3420f088e780ca491a619f9dd620c2933564ad",
+    "v61_pre_s0_M2.pt": "1cea25f62093ee5530bab0ac05f68cab603e7ac3e4aa134085bfdf68e3ebfb73",
+    "v61_pre_s0_M3.pt": "119184372b43a27d215837d8562e346e1d00716f225a8d38b43fdd2cf1ae0cce",
+    "v61_pre_s0_M4.pt": "5568177f99e69e7193212cb9b2b88c3de394d7249d62aa081bcb03184f4d9c21",
+    "v61_pre_s1.json": "b272f5ca09b37a2374d4bca990d6e7017d0c331cbecc4bbd5770022a48e8d441",
+    "v61_pre_s1_M1.pt": "e3406e9aae7e567710c01a0926864219b947fc038a7f162d84e6e7df9c3ec73c",
+    "v61_pre_s1_M2.pt": "618aff515d7a90b5f6879876b1220b5a44097210b65499901c5e356f5aeccbff",
+    "v61_pre_s1_M3.pt": "129fbf15051b385469c81cec651d980eafffe017d64331082d4ee159f50b7d88",
+    "v61_pre_s1_M4.pt": "e7fac6481386357e8aedab7f442ed275c5794285cd7acf84695040dbc22807ea",
+    "v61_pre_s2.json": "a3d5e94a74571069daa000d739e16de7ac6037459b7456b9a523ad03f2b28a47",
+    "v61_pre_s2_M1.pt": "67fb3e09c3f8ad60bdd622e9525e8bde51987f3707242f381fb8c6b52e1e95b4",
+    "v61_pre_s2_M2.pt": "65e7444441dd81f9990b40378b36e5317893d1cf0753e2879943db6241475bad",
+    "v61_pre_s2_M3.pt": "4dbae7372869184fb1c9ea1f94371a7e06122849fd360887b7349844a328ed15",
+    "v61_pre_s2_M4.pt": "b8f0bdba5fc5f3c361197f1b51bdfd25aec0ad639aec93ce5f6818faa35c8d58",
+    "v61_probe.json": "244f9ee07bac2525df246afb51b240a545d2eca781c4b9c0b04fb1a73b4bc692"
+  },
+  "controller_status": "probe_passed_review_required",
+  "controller_pid": 29812,
+  "world": 8150,
+  "lineage": 0,
+  "goals": [
+    2,
+    1,
+    0
+  ],
+  "num_envs": 64,
+  "episodes_per_goal": 4,
+  "arms": {
+    "M1": {
+      "lawful_count": 515,
+      "observed_first_proposals": 768,
+      "maximum_first_proposals": 768,
+      "no_recorded_first_proposal": 0,
+      "lawfulness": 0.6705729166666666,
+      "auc": {
+        "all": 0.48214285714285715,
+        "exercised": 0.5294117647058824,
+        "unexercised": 0.23809523809523808,
+        "n_ex": 35,
+        "n_unex": 10
+      }
+    },
+    "M2": {
+      "lawful_count": 410,
+      "observed_first_proposals": 701,
+      "maximum_first_proposals": 768,
+      "no_recorded_first_proposal": 67,
+      "lawfulness": 0.5848787446504993,
+      "auc": {
+        "all": 0.5317460317460317,
+        "exercised": 0.6437908496732027,
+        "unexercised": 0.047619047619047616,
+        "n_ex": 35,
+        "n_unex": 10
+      }
+    },
+    "M3": {
+      "lawful_count": 121,
+      "observed_first_proposals": 123,
+      "maximum_first_proposals": 768,
+      "no_recorded_first_proposal": 645,
+      "lawfulness": 0.983739837398374,
+      "auc": {
+        "all": 0.5932539682539683,
+        "exercised": 0.6274509803921569,
+        "unexercised": 0.3333333333333333,
+        "n_ex": 35,
+        "n_unex": 10
+      }
+    },
+    "M4": {
+      "lawful_count": 618,
+      "observed_first_proposals": 768,
+      "maximum_first_proposals": 768,
+      "no_recorded_first_proposal": 0,
+      "lawfulness": 0.8046875,
+      "auc": {
+        "all": 0.6329365079365079,
+        "exercised": 0.6683006535947713,
+        "unexercised": 0.3333333333333333,
+        "n_ex": 35,
+        "n_unex": 10
+      }
+    },
+    "R": {
+      "lawful_count": 398,
+      "observed_first_proposals": 768,
+      "maximum_first_proposals": 768,
+      "no_recorded_first_proposal": 0,
+      "lawfulness": 0.5182291666666666,
+      "auc": {
+        "all": 0.4722222222222222,
+        "exercised": 0.4411764705882353,
+        "unexercised": 0.7142857142857143,
+        "n_ex": 35,
+        "n_unex": 10
+      }
+    }
+  },
+  "decision": {
+    "rule": "r(M4)-r(R) >= 3*sqrt(pooled*(1-pooled)*(1/n_M4+1/n_R))",
+    "pooled": 0.6614583333333334,
+    "delta": 0.28645833333333337,
+    "se": 0.02414858554547104,
+    "threshold_3se": 0.07244575663641312,
+    "delta_over_se": 11.862323480352138,
+    "margin_above_3se": 0.21401257669692025
+  },
+  "auc_pair_denominators": {
+    "all": {
+      "pairs": 45,
+      "positive": 24,
+      "negative": 21,
+      "rank_comparisons": 504
+    },
+    "exercised": {
+      "pairs": 35,
+      "positive": 17,
+      "negative": 18,
+      "rank_comparisons": 306
+    },
+    "unexercised": {
+      "pairs": 10,
+      "positive": 7,
+      "negative": 3,
+      "rank_comparisons": 21
+    }
+  },
+  "auc_recomputed_numpy_from_M_checkpoints": {
+    "M1": {
+      "all": 0.48214285714285715,
+      "exercised": 0.5294117647058824,
+      "unexercised": 0.23809523809523808
+    },
+    "M2": {
+      "all": 0.5317460317460317,
+      "exercised": 0.6437908496732027,
+      "unexercised": 0.047619047619047616
+    },
+    "M3": {
+      "all": 0.5932539682539683,
+      "exercised": 0.6274509803921569,
+      "unexercised": 0.3333333333333333
+    },
+    "M4": {
+      "all": 0.6329365079365079,
+      "exercised": 0.6683006535947713,
+      "unexercised": 0.3333333333333333
+    }
+  },
+  "checkpoints": {
+    "M1": {
+      "path": "v61_pre_s0_M1.pt",
+      "sha256": "eec3463be46422b731f78918aa3420f088e780ca491a619f9dd620c2933564ad",
+      "size_bytes": 140517,
+      "float32_values": 34066,
+      "zip_crc_valid": true
+    },
+    "M2": {
+      "path": "v61_pre_s0_M2.pt",
+      "sha256": "1cea25f62093ee5530bab0ac05f68cab603e7ac3e4aa134085bfdf68e3ebfb73",
+      "size_bytes": 140517,
+      "float32_values": 34066,
+      "zip_crc_valid": true
+    },
+    "M3": {
+      "path": "v61_pre_s0_M3.pt",
+      "sha256": "119184372b43a27d215837d8562e346e1d00716f225a8d38b43fdd2cf1ae0cce",
+      "size_bytes": 140517,
+      "float32_values": 34066,
+      "zip_crc_valid": true
+    },
+    "M4": {
+      "path": "v61_pre_s0_M4.pt",
+      "sha256": "5568177f99e69e7193212cb9b2b88c3de394d7249d62aa081bcb03184f4d9c21",
+      "size_bytes": 140517,
+      "float32_values": 34066,
+      "zip_crc_valid": true
+    }
+  },
+  "budget": {
+    "hard_ceiling_hours": 42,
+    "previous_v61_seconds": 24120,
+    "v62_gate_seconds": 16124,
+    "precheck_seconds": 137.15,
+    "controller_elapsed_seconds": 23910.7597163,
+    "pretrain_actual_seconds": 22823.7297333,
+    "probe_actual_controller_seconds": 1087.0299830000004,
+    "probe_allowance_replaced_seconds": 1800,
+    "actual_spent_seconds": 64291.9097163,
+    "actual_spent_hours": 17.85886381008333,
+    "actual_remaining_seconds": 86908.0902837,
+    "future_81_confirm_plus_6_Gprime_goal_runs_seconds": 57188,
+    "t6_seconds": 657.3333333333334,
+    "projected_total_hours": 33.74441936563889,
+    "projected_margin_hours": 8.25558063436111,
+    "B_test": 6,
+    "N": 9,
+    "Gprime_units": 2
+  },
+  "method": [
+    "Pure frozen world-generator functions extracted with ast; no torch imports, emulator, or training.",
+    "M1..M4 AUC recomputed with independent NumPy forward pass on the 45 equal-tier real pairs and ZIP float32 tensor storage; ranks exactly agree.",
+    "Reported AUC ranges, half-tie rank-count arithmetic, exercised split and roster report checked for all five arms.",
+    "All 17 frozen sources byte-identical to git freeze; both inputs, gate, launcher and all 16 completed artifacts equal controller hashes."
+  ],
+  "limits": [
+    "First-proposal trial-level actions and RNG traces are not retained; lawful integer counts are reconstructed from stored n and rates, not independently rerun.",
+    "R initialization checkpoint and raw prediction scores are not retained; its AUC is checked for denominator/range/rank arithmetic, not independently regenerated.",
+    "M2 has 67 and M3 has 645 episodes without a recorded valid first proposal; rates are conditional on combining. M4 and R have all 768, so the frozen decision is unaffected. Do not infer monotonic accumulation from M3 lawfulness.",
+    "AUC exercise membership uses the final lineage-0 exercised set for every M checkpoint, as frozen; not each intermediate checkpoint own acquired-cell set.",
+    "M4 AUC exercised=.6683 and unexercised=.3333 are descriptive; this probe PASS does not establish test-world transfer or faster learning.",
+    "Current source/hash equality and controller prelaunch checks establish provenance to the available record; no signed runtime attestation is claimed."
+  ],
+  "permitted_next_step": "Proceed to the separately guarded frozen confirmatory with B_test=6,N=9,Gprime on two units after this review receipt is committed; enforce the remaining 42-hour cap with actual later times.",
+  "confirmation_launched_by_review": false,
+  "audit_program": "import ast,hashlib,json,math,subprocess,zipfile\nfrom pathlib import Path\nfrom datetime import datetime,timezone\nimport numpy as np\nroot=Path.cwd();out=root/'craft_v6_out'\nsha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()\nstate=json.loads((out/'v62_resume_state.json').read_text()); probe=json.loads((out/'v61_probe.json').read_text()); prov=state['provenance']\nassert state['status']=='probe_passed_review_required'\nassert [s['stage'] for s in state['completed']]==['pretrain_s0','pretrain_s1','pretrain_s2','probe']\nassert subprocess.check_output(['git','rev-parse',prov['freeze']],text=True).strip()==prov['freeze_commit']\nsource={}\nfor p,v in prov['files'].items():\n raw=(root/p).read_bytes(); frozen=subprocess.check_output(['git','show',prov['freeze']+':'+p])\n assert raw==frozen and sha(root/p)==v['working_sha256']==v['frozen_sha256']\n source[p]=sha(root/p)\nassert len(source)==17\nfor p,h in prov['inputs'].items():assert sha(out/p)==h\nassert sha(out/'v61_gate_v62.json')==prov['gate_sha256']\nassert sha(root/'scripts/resume_v62.py')==prov['launcher_sha256']\nartifacts={}\nfor s in state['completed']:\n for p,h in s['artifacts'].items():\n  assert sha(out/p)==h;artifacts[p]=h\nassert probe['summary']['roster_ceiling']==json.loads((out/'v61_roster.json').read_text())\nassert probe['world']==8150 and probe['lineage']==0 and set(probe['arms'])=={'M1','M2','M3','M4','R'}\n# Execute only the frozen NumPy/Python world generator functions, never its torch imports or emulator classes.\ntree=ast.parse((root/'ragnarok/environments/law_world.py').read_text())\nsafe=ast.Module(body=[n for n in tree.body if isinstance(n,ast.FunctionDef)],type_ignores=[])\nns={'np':np,'T_MAX':4,'BOTCH':-2,'INERT':-1}\nexec(compile(safe,'audited_pure_law_functions','exec'),ns)\nlaws=ns['sample_laws'](31337);spec=ns['make_world'](8150,laws);goals=ns['goal_stream'](spec)\nassert len(goals)==3\npre=json.loads((out/'v61_pre_s0.json').read_text());exercised={tuple(c) for c in pre['exercised']}\npairs=[(i,j) for i in range(spec['n_items']) for j in range(i+1,spec['n_items']) if not spec['decoy'][i] and not spec['decoy'][j] and spec['tier'][i]==spec['tier'][j]<4]\ny=np.array([laws['Bond'][spec['el'][i],spec['el'][j]] for i,j in pairs])\nex=np.array([tuple(sorted((spec['el'][i],spec['el'][j]))) in exercised for i,j in pairs])\ngroups={'all':np.ones(len(pairs),bool),'exercised':ex,'unexercised':~ex}\ndenoms={k:dict(pairs=int(m.sum()),positive=int((m&y).sum()),negative=int((m&~y).sum())) for k,m in groups.items()}\nfor d in denoms.values():d['rank_comparisons']=d['positive']*d['negative']\n# Reconstruct exactly the AUC's empty-store input rows for each selected pair, from public attrs/own inventory only.\nn=spec['n_items'];x=np.zeros((len(pairs),28,32),dtype=np.float32)\nfor a,(i,j) in enumerate(pairs):x[a,[i,j],0]=1\nx[:,:n,5]=[k=='R' for k in spec['kind']];x[:,:n,6]=1;x[:,:,7]=x[:,:,5]\nfor i in range(n):\n x[:,i,8+spec['el'][i]]=1;x[:,i,22]=spec['tier'][i]/4;x[:,i,23]=spec['gate'][i]/2\n x[:,i,28]=np.float32(1)-((n-1)-(2-x[:,i,0])).astype(np.float32)/np.float32(n-1)\nx[:,:n,29]=1;x[:,spec['target'],31]=1\nctx=x[:,:n,:].sum(axis=1)/np.float32(n)\nxi=np.stack([x[k,i] for k,(i,j) in enumerate(pairs)])\nxj=np.stack([x[k,j] for k,(i,j) in enumerate(pairs)])\ncells=np.concatenate([xi+xj,xi*xj,ctx,np.zeros((len(pairs),16+5+1),np.float32)],axis=1)\nassert cells.shape==(45,118)\nshapes=[(128,118),(128,),(128,128),(128,),(1,128),(1,),(3,128),(3,),(14,128),(14,)]\nkeys=['enc.0.weight','enc.0.bias','enc.2.weight','enc.2.bias','score.weight','score.bias','out3.weight','out3.bias','outel.weight','outel.bias']\nauc_recomputed={}\ncheckpoints={}\nfor name in ('M1','M2','M3','M4'):\n path=out/('v61_pre_s0_'+name+'.pt')\n with zipfile.ZipFile(path) as z:\n  assert z.testzip() is None\n  prefix=next(p.rsplit('/',1)[0] for p in z.namelist() if p.endswith('/data.pkl'))\n  weights={}\n  for j,(key,shape) in enumerate(zip(keys,shapes)):\n   weights[key]=np.frombuffer(z.read(prefix+'/data/'+str(j)),dtype='<f4').reshape(shape)\n   assert np.isfinite(weights[key]).all()\n h=np.maximum(0,cells@weights['enc.0.weight'].T+weights['enc.0.bias'])\n h=np.maximum(0,h@weights['enc.2.weight'].T+weights['enc.2.bias'])\n o=h@weights['out3.weight'].T+weights['out3.bias']\n q=np.exp(o-o.max(axis=1,keepdims=True));p=1-q[:,0]/q.sum(axis=1)\n a={}\n for k,m in groups.items():\n  pos,neg=p[m&y],p[m&~y];a[k]=float((pos[:,None]>neg[None,:]).mean()+.5*(pos[:,None]==neg[None,:]).mean())\n  assert math.isclose(a[k],probe['arms'][name]['auc'][k],abs_tol=1e-12),(name,k,a[k],probe['arms'][name]['auc'][k])\n auc_recomputed[name]=a\n checkpoints[name]=dict(path=path.name,sha256=sha(path),size_bytes=path.stat().st_size,float32_values=sum(w.size for w in weights.values()),zip_crc_valid=True)\narms={}\nfor name,v in probe['arms'].items():\n assert type(v['n']) is int and 0<v['n']<=768 and math.isfinite(v['lawful']) and 0<=v['lawful']<=1\n count=round(v['n']*v['lawful']);assert math.isclose(count,v['n']*v['lawful'],abs_tol=1e-10)\n assert v['auc']['n_ex']==denoms['exercised']['pairs'] and v['auc']['n_unex']==denoms['unexercised']['pairs']\n for k,d in denoms.items():\n  a=v['auc'][k];assert math.isfinite(a) and 0<=a<=1\n  twice=2*a*d['rank_comparisons'];assert math.isclose(twice,round(twice),abs_tol=1e-10)\n arms[name]=dict(lawful_count=count,observed_first_proposals=v['n'],maximum_first_proposals=768,no_recorded_first_proposal=768-v['n'],lawfulness=v['lawful'],auc=v['auc'])\nm,r=arms['M4'],arms['R'];pool=(m['lawful_count']+r['lawful_count'])/(m['observed_first_proposals']+r['observed_first_proposals'])\nse=math.sqrt(pool*(1-pool)*(1/m['observed_first_proposals']+1/r['observed_first_proposals']))\ndelta=m['lawfulness']-r['lawfulness'];passed=delta>=3*se\nassert math.isclose(se,probe['summary']['se'],abs_tol=1e-15) and probe['summary']['passed'] is passed\nprobe_start=22823.7297333;probe_duration=state['elapsed_seconds']-probe_start\nspent_before_controller=6.7*3600+16124+137.15\nspent=spent_before_controller+state['elapsed_seconds']\nfuture=87*(11832/18)\nresult=dict(kind='v62_probe_independent_review',recorded_at_utc=datetime.now(timezone.utc).isoformat(),\n reviewer='Codex independent subagent /root/audit_gate_v62',passed=passed,probe_sha256=sha(out/'v61_probe.json'),\n controller_state_sha256=sha(out/'v62_resume_state.json'),freeze_commit=prov['freeze_commit'],\n source_sha256=source,input_sha256=prov['inputs'],gate_sha256=prov['gate_sha256'],launcher_sha256=prov['launcher_sha256'],\n completed_artifact_sha256=artifacts,controller_status=state['status'],controller_pid=state['controller_pid'],\n world=8150,lineage=0,goals=goals,num_envs=64,episodes_per_goal=4,arms=arms,\n decision=dict(rule='r(M4)-r(R) >= 3*sqrt(pooled*(1-pooled)*(1/n_M4+1/n_R))',pooled=pool,delta=delta,se=se,threshold_3se=3*se,delta_over_se=delta/se,margin_above_3se=delta-3*se),\n auc_pair_denominators=denoms,auc_recomputed_numpy_from_M_checkpoints=auc_recomputed,checkpoints=checkpoints,\n budget=dict(hard_ceiling_hours=42,previous_v61_seconds=6.7*3600,v62_gate_seconds=16124,precheck_seconds=137.15,\n controller_elapsed_seconds=state['elapsed_seconds'],pretrain_actual_seconds=probe_start,probe_actual_controller_seconds=probe_duration,\n probe_allowance_replaced_seconds=1800,actual_spent_seconds=spent,actual_spent_hours=spent/3600,actual_remaining_seconds=42*3600-spent,\n future_81_confirm_plus_6_Gprime_goal_runs_seconds=future,t6_seconds=11832/18,projected_total_hours=(spent+future)/3600,\n projected_margin_hours=42-(spent+future)/3600,B_test=6,N=9,Gprime_units=2),\n method=['Pure frozen world-generator functions extracted with ast; no torch imports, emulator, or training.',\n 'M1..M4 AUC recomputed with independent NumPy forward pass on the 45 equal-tier real pairs and ZIP float32 tensor storage; ranks exactly agree.',\n 'Reported AUC ranges, half-tie rank-count arithmetic, exercised split and roster report checked for all five arms.',\n 'All 17 frozen sources byte-identical to git freeze; both inputs, gate, launcher and all 16 completed artifacts equal controller hashes.'],\n limits=['First-proposal trial-level actions and RNG traces are not retained; lawful integer counts are reconstructed from stored n and rates, not independently rerun.',\n 'R initialization checkpoint and raw prediction scores are not retained; its AUC is checked for denominator/range/rank arithmetic, not independently regenerated.',\n 'M2 has 67 and M3 has 645 episodes without a recorded valid first proposal; rates are conditional on combining. M4 and R have all 768, so the frozen decision is unaffected. Do not infer monotonic accumulation from M3 lawfulness.',\n 'AUC exercise membership uses the final lineage-0 exercised set for every M checkpoint, as frozen; not each intermediate checkpoint own acquired-cell set.',\n 'M4 AUC exercised=.6683 and unexercised=.3333 are descriptive; this probe PASS does not establish test-world transfer or faster learning.',\n 'Current source/hash equality and controller prelaunch checks establish provenance to the available record; no signed runtime attestation is claimed.'],\n permitted_next_step='Proceed to the separately guarded frozen confirmatory with B_test=6,N=9,Gprime on two units after this review receipt is committed; enforce the remaining 42-hour cap with actual later times.',\n confirmation_launched_by_review=False)\nprint(json.dumps(result,indent=2,allow_nan=False))\n"
+}

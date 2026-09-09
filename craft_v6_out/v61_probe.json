@@ -1,0 +1,95 @@
+{
+ "world": 8150,
+ "lineage": 0,
+ "arms": {
+  "M1": {
+   "lawful": 0.6705729166666666,
+   "n": 768,
+   "auc": {
+    "all": 0.48214285714285715,
+    "exercised": 0.5294117647058824,
+    "unexercised": 0.23809523809523808,
+    "n_ex": 35,
+    "n_unex": 10
+   }
+  },
+  "M2": {
+   "lawful": 0.5848787446504993,
+   "n": 701,
+   "auc": {
+    "all": 0.5317460317460317,
+    "exercised": 0.6437908496732027,
+    "unexercised": 0.047619047619047616,
+    "n_ex": 35,
+    "n_unex": 10
+   }
+  },
+  "M3": {
+   "lawful": 0.983739837398374,
+   "n": 123,
+   "auc": {
+    "all": 0.5932539682539683,
+    "exercised": 0.6274509803921569,
+    "unexercised": 0.3333333333333333,
+    "n_ex": 35,
+    "n_unex": 10
+   }
+  },
+  "M4": {
+   "lawful": 0.8046875,
+   "n": 768,
+   "auc": {
+    "all": 0.6329365079365079,
+    "exercised": 0.6683006535947713,
+    "unexercised": 0.3333333333333333,
+    "n_ex": 35,
+    "n_unex": 10
+   }
+  },
+  "R": {
+   "lawful": 0.5182291666666666,
+   "n": 768,
+   "auc": {
+    "all": 0.4722222222222222,
+    "exercised": 0.4411764705882353,
+    "unexercised": 0.7142857142857143,
+    "n_ex": 35,
+    "n_unex": 10
+   }
+  }
+ },
+ "summary": {
+  "r_M": 0.8046875,
+  "r_R": 0.5182291666666666,
+  "se": 0.02414858554547104,
+  "passed": true,
+  "roster_ceiling": {
+   "0.0": {
+    "auc_unexercised": 0.4964,
+    "n_test_cells": 36400,
+    "base_rate": 0.498
+   },
+   "0.38": {
+    "auc_unexercised": 0.4985,
+    "n_test_cells": 22636,
+    "base_rate": 0.496
+   },
+   "0.62": {
+    "auc_unexercised": 0.5038,
+    "n_test_cells": 13783,
+    "base_rate": 0.502
+   },
+   "0.76": {
+    "auc_unexercised": 0.4948,
+    "n_test_cells": 8703,
+    "base_rate": 0.507
+   },
+   "0.85": {
+    "auc_unexercised": 0.4947,
+    "n_test_cells": 5554,
+    "base_rate": 0.503
+   }
+  },
+  "rule": "r(M_last) - r(R) >= 3 se pooled"
+ }
+}
