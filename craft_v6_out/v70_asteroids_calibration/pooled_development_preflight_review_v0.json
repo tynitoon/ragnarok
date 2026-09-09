@@ -1,0 +1,201 @@
+{
+  "kind": "asteroids_pooled_development_independent_preflight_review_v0",
+  "passed": true,
+  "created_utc": "2026-09-09T12:38:19.527946+00:00",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/asteroids_raw_prerequisite_v70.py": "720e09afae7e49f1151c9b18a25c9ececebe01f9528122ec907a996934383cac",
+    "docs/ARC4_ASTEROIDS_POOLED_PROTOCOL.json": "7ae8212b975d1268143898153919f5ed755bf2f364fe04dfe6ff3bc139f8e2f4",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_asteroids_v70.py": "4ec46f77be8ff3eaa3a0ae2e887b2200ae809ce7f6580213f460b10921672fe8",
+    "scripts/capture_asteroids_pooled_v70.py": "451de5496dc89af48afc4641451d32cc824eb2f3512eb50f74b27a3365b6e483",
+    "scripts/calibrate_asteroids_pooled_v70.py": "7b3124e1015d8211354bd8716ea06e6b0d93e184151bc2c8057f6e6cffc577cd",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_asteroids_pooled_v70.py": "d7dd637d8936b644859a31f034f58b1fad7c37804cdb1b11ce848b77139ed30c"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "raw_calibration_proof_sha256": "d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9",
+  "conclusion": "The prospective two-RGB/three-RAM Asteroids development instrument is consistent with its declared protocol. No blocking implementation finding remains. This receipt reviews code and bounded witnesses, not an observed temporal result. Commit all sources and this receipt, then run the actual check before opening17521.",
+  "checks": {
+    "source_closure": "Exact capture.SOURCE_PATHS mapping of41 paths, with no duplicate or missing explicit local Python import. Package initializers, raw sealed sources, prerequisite, shared frozen triple tap/reader, new candidate/capture/scorer/protocol and tests are bound. No residual Ms. Pac-Man game, controller or17421/17422 reference was found in the new Asteroids-specific sources.",
+    "raw_prerequisite": "Real require_raw_calibration() passed read-only. It checks the raw31-source seal and runtime, pinned independent reserved review, evidence SHA and committed Git blobs, and recomputes all3 raw-category criteria. The result SHA is exactly d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9.",
+    "phase_and_history": "Each of the two actual raw sources is decoded with its own predecessor: previous/before_previous, then current/previous. RAM57 phase interpretation stays inside the sealed raw RAM decoder. The pixel path runs the sealed stateless raw RGB judge separately on each image and never receives RAM, action or episode information. Both source phases are retained rather than filtering one out.",
+    "cold_and_truncation": "The unchanged frozen tap starts only at cold frame0, copies RAM, and retains adjacent triples. Capture fetches engine._ale after every decision. Explicit(0,0,1) fallback is limited to local frame1. The shared strict reader validates truncations, cold charges, maxRGB, overlapping histories and all archived decisions.",
+    "roi_palette_topology": "All added envelopes lie in[0,16,160,194), with194 excluded. Player uses red; missiles use red or blue; asteroids use their8-colour palette including blue. Category assignment comes from each raw judge, not pooled-colour guessing. Within each source box, strict channel wins or a complete3-channel tie select palette contributors, which are reboxed and filled. Per-category unions use4-connectivity with no diagonal or torus-edge join.",
+    "action_and_budget": "The only action source is Python Random(117521), sampled every4 decisions and held for those repeat4 decisions, including truncations and cold transitions. This is nominally16 ordinary frames, not a forced16-frame duration after truncation. All ordinary advances and132 per cold load are charged; cap1114244=132+8192*(132+4). No RAM or score affects buttons.",
+    "admission_and_failure": "Only fixed development17521 is enabled;17522 has no capture path. The exact protocol, raw proof, review, source/runtime mappings and committed HEAD blobs are checked before an exclusive durable attempt and engine construction. Existing attempt/destination refuses recapture. Post-capture and post-score checks bind provenance. Capture exceptions preserve a partial ledger or explicit unknown constructor cost; scoring exceptions get a separate exclusive failed attempt while preserving raw data.",
+    "criteria": "All8192 windows are scored for each of3 categories. Minimum50 matches, separate99% all-window and positive-window count thresholds, and99% of cardinality-first matches with all edges within1pixel are unchanged. Empty denominators remain null/FAIL. There is no exemption, category pooling or negative-window deletion."
+  },
+  "verification": {
+    "pytest": {
+      "command": ".venv-arc4/Scripts/python.exe -m pytest tests/test_asteroids_pooled_v70.py -q",
+      "passed": 17,
+      "seconds": 1.44
+    },
+    "ast_checks": [
+      "new_stats,accumulate,finish are identical to the reviewed temporal Ms scorer.",
+      "Capture check() and scoring run() are identical to the reviewed corrected Ms versions after only the declared seed substitution."
+    ],
+    "palette_checks": {
+      "entries_checked": 11,
+      "row193_valid": true,
+      "row194_and_below_excluded_by_real_raw_judges": true,
+      "blue_shared_only_by_asteroid_and_missile": true,
+      "red_shared_only_by_player_and_missile": true,
+      "partial_ties_without_strict_win_excluded": true
+    },
+    "synthetic_capture_cycle": {
+      "actual_capture_loop_writer_and_reader_used": true,
+      "emulator_constructed": false,
+      "decisions": 128,
+      "first_three_ram_triples": [
+        [
+          2,
+          3,
+          4
+        ],
+        [
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "first_three_charges": [
+        136,
+        137,
+        270
+      ],
+      "ordinary_frames": 506,
+      "cold_loads": 2,
+      "charged_frames": 770,
+      "exact_Random117521_held4_decisions": true,
+      "partial_ledger_preserved_after_forced_stop": true
+    },
+    "archived_development_witnesses": [
+      {
+        "seed": 17511,
+        "source_frames": [
+          3,
+          4
+        ],
+        "ram_frames": [
+          2,
+          3,
+          4
+        ],
+        "phase_bits": [
+          0,
+          1,
+          0
+        ],
+        "result": "One player and4asteroids match exactly; no missile."
+      },
+      {
+        "seed": 17511,
+        "source_frames": [
+          33,
+          34
+        ],
+        "ram_frames": [
+          32,
+          33,
+          34
+        ],
+        "phase_bits": [
+          0,
+          1,
+          0
+        ],
+        "result": "One player,5asteroids and1missile match exactly."
+      },
+      {
+        "seed": 17511,
+        "source_frames": [
+          53,
+          54
+        ],
+        "ram_frames": [
+          52,
+          53,
+          54
+        ],
+        "phase_bits": [
+          0,
+          1,
+          0
+        ],
+        "result": "Known negative retained:5RAM/18RGB asteroid components with3/5matches within1; player matches exactly."
+      }
+    ]
+  },
+  "scoring_output": "craft_v6_out/v70_asteroids_calibration/pooled_geometry_development_v0.json",
+  "scoring_output_note": "Use this distinct geometry output name. pooled_development_v0.json would derive the same attempt basename as the capture marker and is correctly refused before scoring.",
+  "limitations": [
+    "No image or emulator for17521/17522 was opened. Bounded image witnesses use the existing17511 development archive only; they are not a temporal calibration result.",
+    "The RAM baseline fills visible raw boxes without consulting RGB max contribution. Suppressed contributors can therefore produce a negative temporal result; preserve that result without changing the criteria.",
+    "The inherited raw-model limits remain, including explosion/debris and ambiguous tiny blue components. Exact glyph fitting and calibrated raw counts do not imply perfect pooled-window labels.",
+    "An initial one-frame cold window includes the prepared image with explicit duplicated initial RAM. Unknown decoder states must be recorded as failure, never skipped.",
+    "The hook detects observed RAM/frame discontinuity, not arbitrary hidden native changes. The sealed live capture has no reset/restore path.",
+    "These are component-window envelopes, not persistent physical identities or a claim of recovery from maxRGB alone. No learning, transfer, agent-entry-state or benchmark authorization follows.",
+    "The real production check must still follow the source/receipt commit. Subsequent changes may use17521 only and must preserve this baseline;17522 remains closed until review and a prospective source/metadata seal."
+  ],
+  "preservation": {
+    "existing_sources_modified": false,
+    "existing_results_modified": false,
+    "shared_frozen_tap_or_reader_modified": false,
+    "mspacman_state_or_evidence_modified": false,
+    "arc3_state_touched": false,
+    "emulator_launched": false,
+    "new_seed_opened": false,
+    "new_capture": false,
+    "full_rescore": false,
+    "commit_created": false
+  }
+}

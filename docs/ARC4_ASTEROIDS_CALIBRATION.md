@@ -127,3 +127,16 @@ SHAd019a899…, vérifie32archives, comptabilité, boutons fixés, chronologie d
 commits, fractions et7témoins, dont4écarts reproduits. Les trois catégories
 passent le protocole réservé sans nouveau réglage. Calibration brute close
 pour les pièces visibles définies ; suite temporelle/référence distincte.
+
+Le protocole temporel17521/17522 est préparé :8192décisions repeat4, boutons
+uniformes tenus4décisions, budget complet et trois RAM adjacentes par fenêtre.
+La définition utilise les rectangles sources remplis et la connexité4, avec
+le ROI[16,194) inchangé. Les deux images sont décodées indépendamment avant
+sélection des pixels contributeurs, sans RAM dans le juge RGB.
+17tests passent, revue indépendante close sur41sources : empreinte
+973aafd44d8f76cf10f835eb84fd157da0bf4718f35c5ad8ea641a3b2b3c2776.
+Des témoins alternent correctement rochers et vaisseau/tirs ; le témoin négatif
+brut53–54 est conservé (5RAM/18RGBrochers). L'instrument ne prétend donc pas
+avoir déjà passé la nouvelle calibration. Commit et préflight réel avant17521.
+Sortie de score prévue `pooled_geometry_development_v0.json`, pour distinguer
+son marqueur d'échec de celui de la capture `pooled_development_v0_attempt.json`.

@@ -72,8 +72,8 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue | prêt pour17421développement | à faire |
-| Asteroids |17512validé/revu | dispositif préparé, revue à faire | à faire |
+| Ms.Pac-Man | paire17412/17432validée/revue |17421capturé, score en cours | à faire |
+| Asteroids |17512validé/revu | revue close, commit/préflight requis | à faire |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
 Le débit natif de Seaquest≈1312frames/s reste sous l'objectif proposé2000 ;
@@ -92,8 +92,11 @@ preuves complètes committéesf13dae6.17411/17431développement et tous négatif
 Suite Ms.Pac-Man : `docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json` ;17421/17422,
 8192décisions repeat4, trois RAM adjacentes pour deux RGB,43tests CPU PASS.
 Capture/scorer distincts avec tentatives durables et coût partiel sur échec.
-Revue indépendante préalable conforme en cours de consignation ; commit des
-45sources/reçu puis préflight réel avant17421. Aucun17421/17422ouvert à cette note.
+Revue indépendante close,45sources committées1dedc9f avant17421 ; vrai préflight
+PASS. Capture complète8192décisions/33416facturées/5loads/99,43s.
+Score `pooled_geometry_development_v0.json` en cours, session46681. La première
+commande utilisait un nom dont le marqueur existait pour la capture : refus
+avant scoring, données intactes ; nom distinct adopté.17422toujours fermé.
 
 Asteroids : raw sources73fdf4c, scellé158a976,31sources+8métadonnées.
 17512 :8192images/8852facturées, trois types PASS ;23images de comptage rochers
@@ -101,7 +104,9 @@ erroné conservées. Résultat SHAd24fe0badfa72fb42601cb7e0e878251ad41db589344bf
 revue d019a8992d59ef9b050ebe0bcf489d2783da3ddd39485d4de1465d825b827dc9,
 preuves committées0306672. Le premier PASS hors ROI et V1–V4 négatifs sont conservés.
 Protocole17521/17522 et candidat/capture/scorer temporels préparés ;17tests
-spécifiques PASS. Revue et commit avant tout17521 ;17522fermé.
+spécifiques PASS. Revue close, SHA973aafd44d8f76cf10f835eb84fd157da0bf4718f35c5ad8ea641a3b2b3c2776.
+41sources à committer puis vrai préflight avant17521 ;17522fermé. Source de
+score `calibrate_asteroids_pooled_v70.py`, sortie `pooled_geometry_development_v0.json`.
 
 Après les deux calibrations temporelles : référence puis débit, puis primitives
 parser/tracker/ME/buttons/reader/drives. `ARC4_VISION.md` §§2,5,6,11décrit la vision
