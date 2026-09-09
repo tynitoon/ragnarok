@@ -1,0 +1,18 @@
+{
+  "kind": "reviewed_priority_motion_diagnostic_figure",
+  "result_sha256": "af1abff318cf4799fd1a3f2a31ef8793b692385543f79eaadb66fc0a837c6284",
+  "review_sha256": "4ef095b0787edb6d1986a60eb75af96859ff1757790d43a1d6eff5c3db753f31",
+  "script_sha256": "2c3bc8bad606c35eddbc49901aa16d8b27005907c42cfc263794ad4ddfaafbf7",
+  "image_sha256": "a9182eb6563693034d9b714a78f0bb6bf35ef65c372a0f551d6b152444114718",
+  "native_scene_l1": [
+    0.023444674909114838,
+    0.023444801568984985
+  ],
+  "native_fit_below_declared_threshold": false,
+  "priority_color_symmetric_limit": 7.1142191886901855,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "new_emulated_frames": 0,
+  "gpu_used": false,
+  "figure_only": true
+}
