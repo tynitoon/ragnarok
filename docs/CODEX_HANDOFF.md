@@ -18,14 +18,15 @@ jamais observations ni enseignement du futur agent.
 
 ## ARC3 v62 — confirmation active
 
-Commandes revérifiées18:22 : contrôleur20936 `C:/Python314/python.exe -u -m
-scripts.recover_confirm_v62`, enfant17340 `scripts.confirm_v61 --lineage 0
+Commandes revérifiées18:44 : contrôleur20936 `C:/Python314/python.exe -u -m
+scripts.recover_confirm_v62`, enfant22896 `scripts.confirm_v61 --lineage 1
 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
-État `v62_confirm_recovery_state.json` running/confirm_s0 ; vérifier commandes
+État `v62_confirm_recovery_state.json` running/confirm_s1 ; vérifier commandes
 et log réel `craft_v6_out/v61_confirm_s0.log`, puis s1/s2, pas seulement les PID.
-Deux mondes entièrement terminés/9 : s0_8300à8326s, s0_8301aprèsG'à18089s.
-s0_8302([3,1,0],tiers[2,3,4]) : M4fini20496s, Fafini23090s,
-Fbobjectifs3/1finis23849/24613s. Aucun verdict intermédiaire avant toutes les lignées/revue.
+**Première lignée complète, trois mondes/9**,25433s ; artifacts0et14checkpoints
+validés/scellés dans l'état ducontrôleur avantlaunchsuivant. Résultats0SHA3d30c06f….
+s1démarré18:41, s1_8310([1,0,2],tiers[2,3,4]), navmin0,910.
+Aucun verdict intermédiaire avant toutes les lignées/revue.
 
 Reprise11:37:39Paris après WindowsUpdate06:30/boot06:39. Bras incomplet rejoué
 mêmes graines. Interruption2166s facturées ; ancien9366erroné préservé/corrigé.
