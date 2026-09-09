@@ -247,8 +247,16 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   résultat3698beb : rappel93,6393 %, précision25,4255 % seulement, joueur73,1446 %.
   Sous-marins/missiles ennemis absents=null.8960facturées. Ne jamais entraîner
   la référence sur les captures réservées/couverture qui l'interdisent.
-  Adaptateurs séparés graphe/scoreurcomposantes/workerSeaquest en préparation
-  pour mesurer le débit CPU complet, protocole avant nouvelle ROM de benchmark.
+  Adaptateurs graphe/scoreur/worker distincts revus puis committés2cb7b29.
+  Égalité sur2x8192fenêtres, raccord réel3582facturées, reçus a025cb9.
+  Chaîne53sources,16x2048 : NumPy999,8425/s,natif1311,5635/s,174380facturées
+  chacun. Précision27,8876 %, rappel composants mobiles93,4980 %, non comparable
+  directement au rappel des acteurs bruts. Revue Ohm close :16rapports complets
+  exactement identiques,53sources et build/DLL vérifiés, reçu cpu_backend_equivalence.json.
+  Voir `docs/ARC4_SEAQUEST_CPU.md`. Ms. Pac-Man : scope5catégories, protocole
+  etbaseline nominale revus/committés9714014 avant17411 (cléROM ms_pacman).
+  Capture8192images/8720facturées,4constructions. Calibration initiale en cours,
+  réservé17412 fermé. Ne pas modifier les12sources pendant le calcul initial.
   Ne pas relancer si une capture/sortie existe, même incomplète.17332/17342/17352
   restent retirés sans ouverture. Tous les anciens échecs restent négatifs.
   Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git

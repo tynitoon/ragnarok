@@ -1,0 +1,227 @@
+{
+  "kind": "independent_seaquest_cpu_backend_report_equivalence",
+  "created_utc": "2026-09-09T03:38:53.024763+00:00",
+  "passed": true,
+  "method": "Read-only JSON/source/build hashing, full structural equality of the 16 corresponding worker reports, independent counter and fraction recomputation; no emulation or benchmark rerun.",
+  "input_sha256": {
+    "craft_v6_out/v70_seaquest_pooled/cpu_chain_numpy.json": "a8be68337016bae4e9fabb92c8a008c90b47a9389f72d138004b6cd1691509cd",
+    "craft_v6_out/v70_seaquest_pooled/cpu_chain_native.json": "ba8597eacfff0992f595b0e5a71cb5a1bb8a6bb7fff3284ba6b499323c0805db",
+    "craft_v6_out/v70_seaquest_pooled/graph_raster_equivalence.json": "cd3d50efaf8309a93d9e3676e510564496af4c6b883eaf5ae5ef30b61f43032e",
+    "craft_v6_out/v70_seaquest_pooled/cpu_wiring.json": "300d4bdb975a8975ddb2857d2e743c7a98507370cc95d27dd4c3fead84ef3aac",
+    "craft_v6_out/v70_seaquest_pooled/reserved_result.json": "c42f12fe8131c20b254cc942a3353bcc097b3cc3d7d6be4a08865ebd4f183631"
+  },
+  "source_count": 53,
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c",
+    "docs/ARC4_SEAQUEST_RESERVED_PROTOCOL.json": "7facc4e41c2aaab2119513f3224a72962ce229ae143e15638e65ea9e183def37",
+    "scripts/committed_seal_v70.py": "63e7e2d287989ca9f97358c1bd97599debe41e6e6d2299585bfed95a6404b048",
+    "scripts/validate_seaquest_reserved_v70.py": "409b50df61eb71c0ce578a8d761aec717622bef632171554ca79a5cd943b0980",
+    "scripts/seaquest_raw_prerequisite_v70.py": "187459817dbdba3a47ad5c125eab6ca060c66c929b619ae17903ef9556053bbc",
+    "scripts/capture_seaquest_pooled_v70.py": "a617e6549a85da202109dd946ee9a927b2782a113b70e549f37a8c352d2c850c",
+    "docs/ARC4_SEAQUEST_POOLED_PROTOCOL.json": "e2af5361d9f16dac3256135ff6cae0eed215d619fc3c864e6420c48b94c9a9b2",
+    "ragnarok/evaluation/pooled_seaquest_v70.py": "7c1b7ca446f389ff690304b8e49b9ead34ce432787b9c43dd7d3fb7c82a6a1d6",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "scripts/calibrate_seaquest_pooled_v70.py": "9b4fb3213005451f1fb7e343446d02161df80ccf2f9199294c4e360ac41b78b5",
+    "docs/ARC4_SEAQUEST_POOLED_RESERVED_PROTOCOL.json": "48f053ff161e457faa768d33cff9ab32e2d969f6a38ab98c2c70cd15935c9d3f",
+    "scripts/validate_seaquest_pooled_v70.py": "5cbe3390ac9bac60705756aeec8a9348860a2b604ce16b01be70f72a5f634278",
+    "docs/ARC4_SEAQUEST_CPU_PROTOCOL.json": "b43ee64d70c55ce330b00e78f6ffd61e87a2a03423c143a438be69cbb4560b09",
+    "scripts/bench_seaquest_reference_v70.py": "7600d3d6377c465be79a904308c0b057ce91c27e151c3a46a2a01016757d9144",
+    "scripts/check_seaquest_cpu_wiring_v70.py": "2b3e9d2a2711fcc2313212644f2e5ae484eadba172019dc4e158813607273a2a",
+    "ragnarok/evaluation/seaquest_reference_pool_v70.py": "d3db3e3e813704f2347f0c80337bf3e74849f46e1b9122f72e0096cd86c4f102",
+    "ragnarok/evaluation/reference_pool_v70.py": "8f946678519a61b815670ca1d71bd77fd86f39e301519718d246c3c4aa462f7f",
+    "ragnarok/evaluation/fast_pooled_seaquest_v70.py": "023bccfaa95950fac7431c8f2e8d75ee967a288f517bc089dea197648d01fb1a",
+    "ragnarok/evaluation/seaquest_scene_v70.py": "f9509bc5005f94bc208f4bddb0723a1992f3397366c33b567232d99e63085545",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/scene_adapters_v70.py": "4e765e798c38b28b65fa87f6702a10177637016631b9a3a766616798beb2683f",
+    "ragnarok/evaluation/pooled_pong_v70.py": "b346388a250a458111f31de7f655df0e01cc1b1ebaea248658f56c0ade45eab7",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "ragnarok/evaluation/fast_pooled_breakout_v70.py": "e530614e103527313141e9c3fb20dc2962189448f8a7646ba13834d2868736eb",
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/pooled_freeway_v70.py": "ae3489117ea53f83089fa8aa7b5a8bfd0d29e69d112cd7963870abd5482a2d2e",
+    "ragnarok/native/reference_update_v70.c": "c9da6748793cf0bae0c0b805d6947cf3d2082aa71c6d79297c7875d07d878b65",
+    "ragnarok/evaluation/native_reference_v70.py": "c1be9752dc3923939f22b66a697056ff1bbddb01339352a093b8c0b050cc5b23",
+    "scripts/build_reference_native_v70.py": "fffc7efcdd189e6e36d0b484a4bc1799c5bfd59b90d856496a68dba0d0ab1c4b"
+  },
+  "provenance": {
+    "source_commit": "2cb7b2998e9905f69c69c752a0e1a1b641d306ef",
+    "prerequisite_receipts_commit": "a025cb9b8642763e7845e42dc4f6f4015734a3af",
+    "receipt_and_source_git_contents_verified": "Exact after normalizing CRLF/LF; current physical-byte SHA256 values are preserved above.",
+    "calibration_guard_read_only_recheck_passed": true,
+    "calibration_sha256": "c42f12fe8131c20b254cc942a3353bcc097b3cc3d7d6be4a08865ebd4f183631",
+    "checks_sha256": {
+      "graph_raster_equivalence.json": "cd3d50efaf8309a93d9e3676e510564496af4c6b883eaf5ae5ef30b61f43032e",
+      "cpu_wiring.json": "300d4bdb975a8975ddb2857d2e743c7a98507370cc95d27dd4c3fead84ef3aac"
+    },
+    "source_current_sha256_match_both_benchmarks_and_both_receipts": true,
+    "native_build_manifest_sha256": "cdf0e326ab0f3b6155982c3bc098ebf3619aa6d510be62bbed943e63f2c2ea85",
+    "native_dll_sha256": "958ae2e7f516bb10f7eabecd1929baf52f9f2c52921b91ddf0cc123ac200493e",
+    "native_source_sha256": "c9da6748793cf0bae0c0b805d6947cf3d2082aa71c6d79297c7875d07d878b65"
+  },
+  "equivalence": {
+    "corresponding_workers_equal": 16,
+    "all_worker_reports_exactly_equal": true,
+    "differing_top_level_fields": [
+      "created_utc",
+      "reference_backend",
+      "native_reference_build",
+      "startup_seconds",
+      "work_seconds",
+      "ordinary_agent_steps_per_second"
+    ],
+    "worker_report_canonical_json_sha256": [
+      "99c7bebf21b8692590eaf7dcea06ab4759d74ab3c73a5a4ee232f6d2878d4929",
+      "46179186bd2aab92be54c30a4fa0eb4080dae355e2688020cedfdbb82b4915c2",
+      "8d7293ae88092a1d43b7afc3bccaf4d847a4c3fb280f21bde049de6f0f636727",
+      "9cb1e78c4b76a09849bd9d88f23fd5687e03d0171e17217d2e3b5f1904f65538",
+      "33687968b4685c65daa6994d9afdff51e52044357bf6798cda58efce8c202e0b",
+      "20f41f6102846b5743985078ad4205f157c75f52520364d6a8e8f99c4633f7a7",
+      "986883ded868bd03f1bb1676ccf4a3a4d8692d7fd6301e3fe3cb241f80814223",
+      "667724d5bedf42036896b8a5856a7c9bdfc8ae643ade0a45859c8f2dbc7683a6",
+      "21779e48fd1a7f6c0bd8c35a142bc2283cfcc1bcf7f45de7d808b85ecf6745d9",
+      "3fa360713fbd140b2d22c18515d57ef3bbec5326d5e981d2b16a742f33dc40db",
+      "cf4b1c6b0614fddd7cab141263f92066741d4c8bd4320e484e0996a988293008",
+      "c0e7ecc4d170cc6b50be00de328eb6e74b56c653e36796dbe58f7b14affbbf85",
+      "44f0a0a0d8022e3fd45278701057103493bbbf9251afb047ce5a95538236667a",
+      "98f3fdc464c6cec9464af970439320297f23cc0ee86de023ae311eb6cdd5935d",
+      "5cbd92b96a10f713b25cd86b0c2162428f5b476fdf34564aa76d3c7296bfac8d",
+      "a389b530e5e05c47a96d735685d8b7519af87e446802b4fc387b6d38971fe317"
+    ]
+  },
+  "prior_checks": {
+    "graph_windows": 16384,
+    "graph_new_charged_frames": 0,
+    "wiring_engine_count": 5,
+    "wiring_charged_frames": 3582,
+    "wiring_cost_parts": [
+      896,
+      896,
+      889,
+      769,
+      132
+    ],
+    "wiring_cost_decomposition": {
+      "ordinary_game_raw_frames": 2054,
+      "cold_loads": 9,
+      "cold_load_charges": 1152,
+      "branch_frames": 16,
+      "restore_charges": 360
+    }
+  },
+  "per_backend_accounting": {
+    "ordinary_frames": 141620,
+    "experiment_frames": 2040,
+    "restores": 512,
+    "restore_charges": 30720,
+    "emulated_frames": 143660,
+    "charged_frames": 174380,
+    "ordinary_agent_steps": 32768,
+    "experiment_agent_steps": 512,
+    "cold_loads": 84,
+    "reset_emulated_frames": 5712,
+    "format_detection_emulated_frames": 5040,
+    "ordinary_game_raw_frames": 130868,
+    "cold_load_charges": 10752
+  },
+  "both_benchmarks_charged_frames": 348760,
+  "both_benchmarks_plus_wiring_charged_frames": 352342,
+  "perception_aggregate": {
+    "predictions": 343701,
+    "matched_visible": 95850,
+    "eligible_moving": 88404,
+    "recalled_moving": 82656,
+    "precision_visible": 0.2788761161591034,
+    "recall_moving_components": 0.9349803176326863
+  },
+  "per_type": {
+    "player": {
+      "visible": 27257,
+      "eligible": 15709,
+      "recalled": 12349,
+      "recall_moving_components": 0.7861098733210261
+    },
+    "diver": {
+      "visible": 35492,
+      "eligible": 31362,
+      "recalled": 31183,
+      "recall_moving_components": 0.9942924558382756
+    },
+    "player_missile": {
+      "visible": 6230,
+      "eligible": 6219,
+      "recalled": 4604,
+      "recall_moving_components": 0.7403119472584017
+    },
+    "shark": {
+      "visible": 33308,
+      "eligible": 32887,
+      "recalled": 32366,
+      "recall_moving_components": 0.9841578739319488
+    },
+    "submarine": {
+      "visible": 1656,
+      "eligible": 1577,
+      "recalled": 1575,
+      "recall_moving_components": 0.9987317691819911
+    },
+    "enemy_missile": {
+      "visible": 890,
+      "eligible": 650,
+      "recalled": 579,
+      "recall_moving_components": 0.8907692307692308
+    }
+  },
+  "timing": {
+    "numpy": {
+      "created_utc": "2026-09-09T03:34:27Z",
+      "startup_seconds": 4.370757699998649,
+      "work_seconds": 32.77316029999929,
+      "decisions_per_second": 999.8425449376241,
+      "engineering_minimum_1000_reached": false,
+      "target_2000_reached": false
+    },
+    "native": {
+      "created_utc": "2026-09-09T03:36:08Z",
+      "startup_seconds": 3.8233007000017096,
+      "work_seconds": 24.983922300001723,
+      "decisions_per_second": 1311.5634769644532,
+      "engineering_minimum_1000_reached": true,
+      "target_2000_reached": false
+    }
+  },
+  "observed_throughput_ratio_native_over_numpy": 1.3117700217950579,
+  "limitations": [
+    "ARC3 training/probe was concurrently active; one sequential measurement per backend does not establish a controlled or universal speedup.",
+    "Work throughput excludes startup, which is reported separately. NumPy 999.8425 is strictly below 1000; native 1311.5635 is below 2000.",
+    "Motion means any constituent kind+RAMslot changed its visible center in t-8..t. Targets are temporal spatial components, not persistent individual actors or lifetimes; merging, clipping, animation, contact and slot reuse affect this statistic.",
+    "Exact equality here covers the stored complete worker reports, counters, perception aggregates and C digests. The benchmarks did not retain all per-decision images/boxes for an independent pixelwise comparison.",
+    "The geometry receipt covers 16384 captured windows plus the separately reviewed synthetic tests; this is not a proof for every possible emulator state.",
+    "Calibration, engineering feasibility and computational report equivalence do not demonstrate learned perception, transfer or accelerated learning."
+  ],
+  "new_charged_frames": 0,
+  "agent_training": false,
+  "gate_result": null
+}

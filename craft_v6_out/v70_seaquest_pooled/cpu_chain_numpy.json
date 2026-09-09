@@ -1,0 +1,1354 @@
+{
+  "kind": "seaquest_maxpooled_repeat4_cpu_chain_benchmark",
+  "created_utc": "2026-09-09T03:34:27Z",
+  "reference_backend": "numpy",
+  "native_reference_build": null,
+  "calibration_sha256": "c42f12fe8131c20b254cc942a3353bcc097b3cc3d7d6be4a08865ebd4f183631",
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c",
+    "docs/ARC4_SEAQUEST_RESERVED_PROTOCOL.json": "7facc4e41c2aaab2119513f3224a72962ce229ae143e15638e65ea9e183def37",
+    "scripts/committed_seal_v70.py": "63e7e2d287989ca9f97358c1bd97599debe41e6e6d2299585bfed95a6404b048",
+    "scripts/validate_seaquest_reserved_v70.py": "409b50df61eb71c0ce578a8d761aec717622bef632171554ca79a5cd943b0980",
+    "scripts/seaquest_raw_prerequisite_v70.py": "187459817dbdba3a47ad5c125eab6ca060c66c929b619ae17903ef9556053bbc",
+    "scripts/capture_seaquest_pooled_v70.py": "a617e6549a85da202109dd946ee9a927b2782a113b70e549f37a8c352d2c850c",
+    "docs/ARC4_SEAQUEST_POOLED_PROTOCOL.json": "e2af5361d9f16dac3256135ff6cae0eed215d619fc3c864e6420c48b94c9a9b2",
+    "ragnarok/evaluation/pooled_seaquest_v70.py": "7c1b7ca446f389ff690304b8e49b9ead34ce432787b9c43dd7d3fb7c82a6a1d6",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "scripts/calibrate_seaquest_pooled_v70.py": "9b4fb3213005451f1fb7e343446d02161df80ccf2f9199294c4e360ac41b78b5",
+    "docs/ARC4_SEAQUEST_POOLED_RESERVED_PROTOCOL.json": "48f053ff161e457faa768d33cff9ab32e2d969f6a38ab98c2c70cd15935c9d3f",
+    "scripts/validate_seaquest_pooled_v70.py": "5cbe3390ac9bac60705756aeec8a9348860a2b604ce16b01be70f72a5f634278",
+    "docs/ARC4_SEAQUEST_CPU_PROTOCOL.json": "b43ee64d70c55ce330b00e78f6ffd61e87a2a03423c143a438be69cbb4560b09",
+    "scripts/bench_seaquest_reference_v70.py": "7600d3d6377c465be79a904308c0b057ce91c27e151c3a46a2a01016757d9144",
+    "scripts/check_seaquest_cpu_wiring_v70.py": "2b3e9d2a2711fcc2313212644f2e5ae484eadba172019dc4e158813607273a2a",
+    "ragnarok/evaluation/seaquest_reference_pool_v70.py": "d3db3e3e813704f2347f0c80337bf3e74849f46e1b9122f72e0096cd86c4f102",
+    "ragnarok/evaluation/reference_pool_v70.py": "8f946678519a61b815670ca1d71bd77fd86f39e301519718d246c3c4aa462f7f",
+    "ragnarok/evaluation/fast_pooled_seaquest_v70.py": "023bccfaa95950fac7431c8f2e8d75ee967a288f517bc089dea197648d01fb1a",
+    "ragnarok/evaluation/seaquest_scene_v70.py": "f9509bc5005f94bc208f4bddb0723a1992f3397366c33b567232d99e63085545",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/scene_adapters_v70.py": "4e765e798c38b28b65fa87f6702a10177637016631b9a3a766616798beb2683f",
+    "ragnarok/evaluation/pooled_pong_v70.py": "b346388a250a458111f31de7f655df0e01cc1b1ebaea248658f56c0ade45eab7",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "ragnarok/evaluation/fast_pooled_breakout_v70.py": "e530614e103527313141e9c3fb20dc2962189448f8a7646ba13834d2868736eb",
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/pooled_freeway_v70.py": "ae3489117ea53f83089fa8aa7b5a8bfd0d29e69d112cd7963870abd5482a2d2e",
+    "ragnarok/native/reference_update_v70.c": "c9da6748793cf0bae0c0b805d6947cf3d2082aa71c6d79297c7875d07d878b65",
+    "ragnarok/evaluation/native_reference_v70.py": "c1be9752dc3923939f22b66a697056ff1bbddb01339352a093b8c0b050cc5b23",
+    "scripts/build_reference_native_v70.py": "fffc7efcdd189e6e36d0b484a4bc1799c5bfd59b90d856496a68dba0d0ab1c4b"
+  },
+  "checks_sha256": {
+    "graph_raster_equivalence.json": "cd3d50efaf8309a93d9e3676e510564496af4c6b883eaf5ae5ef30b61f43032e",
+    "cpu_wiring.json": "300d4bdb975a8975ddb2857d2e743c7a98507370cc95d27dd4c3fead84ef3aac"
+  },
+  "workers": 16,
+  "ordinary_decisions_per_worker": 2048,
+  "action_repeat": 4,
+  "branch_every_decisions": 128,
+  "startup_seconds": 4.370757699998649,
+  "work_seconds": 32.77316029999929,
+  "ordinary_agent_steps_per_second": 999.8425449376241,
+  "worker_reports": [
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 21276,
+        "matched_visible": 6210,
+        "eligible_moving": 5740,
+        "recalled_moving": 5402,
+        "recall_moving": 0.9411149825783972,
+        "precision_visible": 0.2918781725888325,
+        "per_type": {
+          "player": {
+            "visible": 1706,
+            "eligible": 990,
+            "recalled": 782,
+            "recall_moving": 0.7898989898989899
+          },
+          "diver": {
+            "visible": 2191,
+            "eligible": 2009,
+            "recalled": 2001,
+            "recall_moving": 0.9960179193628671
+          },
+          "player_missile": {
+            "visible": 401,
+            "eligible": 401,
+            "recalled": 296,
+            "recall_moving": 0.7381546134663342
+          },
+          "shark": {
+            "visible": 2365,
+            "eligible": 2340,
+            "recalled": 2323,
+            "recall_moving": 0.9927350427350428
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 375,
+      "self_generated_label_sha256": "ff21ff18aa587188a5e89ff953093c1ebf8cac5e5dce57efc7f83fce3de3efc0"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 22276,
+        "matched_visible": 6301,
+        "eligible_moving": 5873,
+        "recalled_moving": 5479,
+        "recall_moving": 0.9329133321981952,
+        "precision_visible": 0.28286047764410127,
+        "per_type": {
+          "player": {
+            "visible": 1724,
+            "eligible": 1022,
+            "recalled": 811,
+            "recall_moving": 0.7935420743639922
+          },
+          "diver": {
+            "visible": 2145,
+            "eligible": 1923,
+            "recalled": 1904,
+            "recall_moving": 0.9901196047841914
+          },
+          "player_missile": {
+            "visible": 404,
+            "eligible": 402,
+            "recalled": 299,
+            "recall_moving": 0.7437810945273632
+          },
+          "shark": {
+            "visible": 2155,
+            "eligible": 2127,
+            "recalled": 2077,
+            "recall_moving": 0.9764927127409497
+          },
+          "submarine": {
+            "visible": 268,
+            "eligible": 267,
+            "recalled": 267,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 176,
+            "eligible": 132,
+            "recalled": 121,
+            "recall_moving": 0.9166666666666666
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 628,
+      "self_generated_label_sha256": "4e23f2149fd98fec01dc9d50dd463b81c5e24682154c377804ae0ed922537e16"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8945,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 9073,
+        "charged_frames": 10993,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 408,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 360,
+        "cold_loads": 6,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8177,
+        "predictions": 18773,
+        "matched_visible": 4918,
+        "eligible_moving": 4394,
+        "recalled_moving": 4076,
+        "recall_moving": 0.9276285844333182,
+        "precision_visible": 0.26197198103659514,
+        "per_type": {
+          "player": {
+            "visible": 1666,
+            "eligible": 860,
+            "recalled": 642,
+            "recall_moving": 0.7465116279069768
+          },
+          "diver": {
+            "visible": 2007,
+            "eligible": 1706,
+            "recalled": 1701,
+            "recall_moving": 0.9970691676436108
+          },
+          "player_missile": {
+            "visible": 305,
+            "eligible": 304,
+            "recalled": 222,
+            "recall_moving": 0.7302631578947368
+          },
+          "shark": {
+            "visible": 1542,
+            "eligible": 1524,
+            "recalled": 1511,
+            "recall_moving": 0.9914698162729659
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8177,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 705,
+      "self_generated_label_sha256": "03c991079f8ed669099d212b2bb2bbfc7bf1c2d1b5ab2b80c373617db74b15f1"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 22533,
+        "matched_visible": 6558,
+        "eligible_moving": 5989,
+        "recalled_moving": 5568,
+        "recall_moving": 0.9297044581733177,
+        "precision_visible": 0.2910398082811876,
+        "per_type": {
+          "player": {
+            "visible": 1717,
+            "eligible": 1015,
+            "recalled": 787,
+            "recall_moving": 0.7753694581280788
+          },
+          "diver": {
+            "visible": 2354,
+            "eligible": 2085,
+            "recalled": 2070,
+            "recall_moving": 0.9928057553956835
+          },
+          "player_missile": {
+            "visible": 445,
+            "eligible": 445,
+            "recalled": 322,
+            "recall_moving": 0.7235955056179775
+          },
+          "shark": {
+            "visible": 2045,
+            "eligible": 2016,
+            "recalled": 1981,
+            "recall_moving": 0.9826388888888888
+          },
+          "submarine": {
+            "visible": 282,
+            "eligible": 281,
+            "recalled": 281,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 214,
+            "eligible": 147,
+            "recalled": 127,
+            "recall_moving": 0.8639455782312925
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 122,
+      "self_generated_label_sha256": "d4237e0d3f3fb91c7230f690a781cd89bfba924bab7a98b9a6e9f9f892252b06"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 20753,
+        "matched_visible": 6109,
+        "eligible_moving": 5705,
+        "recalled_moving": 5270,
+        "recall_moving": 0.9237510955302366,
+        "precision_visible": 0.2943670794583916,
+        "per_type": {
+          "player": {
+            "visible": 1724,
+            "eligible": 1024,
+            "recalled": 794,
+            "recall_moving": 0.775390625
+          },
+          "diver": {
+            "visible": 2070,
+            "eligible": 1805,
+            "recalled": 1795,
+            "recall_moving": 0.9944598337950139
+          },
+          "player_missile": {
+            "visible": 405,
+            "eligible": 405,
+            "recalled": 293,
+            "recall_moving": 0.7234567901234568
+          },
+          "shark": {
+            "visible": 1929,
+            "eligible": 1908,
+            "recalled": 1843,
+            "recall_moving": 0.9659329140461216
+          },
+          "submarine": {
+            "visible": 427,
+            "eligible": 401,
+            "recalled": 401,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 162,
+            "eligible": 162,
+            "recalled": 144,
+            "recall_moving": 0.8888888888888888
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 612,
+      "self_generated_label_sha256": "029ca89cd00532e9080ae91ec4f60fb886741fae125b168efc2b439a39e63226"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 21310,
+        "matched_visible": 6291,
+        "eligible_moving": 5965,
+        "recalled_moving": 5564,
+        "recall_moving": 0.9327745180217938,
+        "precision_visible": 0.2952135147817926,
+        "per_type": {
+          "player": {
+            "visible": 1760,
+            "eligible": 1136,
+            "recalled": 926,
+            "recall_moving": 0.8151408450704225
+          },
+          "diver": {
+            "visible": 1776,
+            "eligible": 1589,
+            "recalled": 1581,
+            "recall_moving": 0.9949653870358716
+          },
+          "player_missile": {
+            "visible": 457,
+            "eligible": 455,
+            "recalled": 341,
+            "recall_moving": 0.7494505494505495
+          },
+          "shark": {
+            "visible": 2389,
+            "eligible": 2359,
+            "recalled": 2304,
+            "recall_moving": 0.976685036032217
+          },
+          "submarine": {
+            "visible": 288,
+            "eligible": 285,
+            "recalled": 285,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 183,
+            "eligible": 141,
+            "recalled": 127,
+            "recall_moving": 0.900709219858156
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 949,
+      "self_generated_label_sha256": "9adc59c29744f1168db66ca26660b5ca0641c52168ba8fa90538290c2ad5845a"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 23899,
+        "matched_visible": 7223,
+        "eligible_moving": 6793,
+        "recalled_moving": 6423,
+        "recall_moving": 0.9455321654644487,
+        "precision_visible": 0.30223021883760826,
+        "per_type": {
+          "player": {
+            "visible": 1760,
+            "eligible": 1151,
+            "recalled": 957,
+            "recall_moving": 0.8314509122502172
+          },
+          "diver": {
+            "visible": 2491,
+            "eligible": 2307,
+            "recalled": 2298,
+            "recall_moving": 0.9960988296488946
+          },
+          "player_missile": {
+            "visible": 521,
+            "eligible": 521,
+            "recalled": 391,
+            "recall_moving": 0.7504798464491362
+          },
+          "shark": {
+            "visible": 2834,
+            "eligible": 2802,
+            "recalled": 2765,
+            "recall_moving": 0.9867951463240543
+          },
+          "submarine": {
+            "visible": 54,
+            "eligible": 12,
+            "recalled": 12,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 691,
+      "self_generated_label_sha256": "c0562ca68b538c9c5bb34a9874399872970c7af33f817c814d1c2010815a0d60"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8940,
+        "charged_frames": 10860,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 21954,
+        "matched_visible": 6190,
+        "eligible_moving": 5685,
+        "recalled_moving": 5339,
+        "recall_moving": 0.9391380826737027,
+        "precision_visible": 0.28195317482007837,
+        "per_type": {
+          "player": {
+            "visible": 1706,
+            "eligible": 992,
+            "recalled": 792,
+            "recall_moving": 0.7983870967741935
+          },
+          "diver": {
+            "visible": 2406,
+            "eligible": 2126,
+            "recalled": 2108,
+            "recall_moving": 0.9915333960489181
+          },
+          "player_missile": {
+            "visible": 393,
+            "eligible": 393,
+            "recalled": 293,
+            "recall_moving": 0.7455470737913485
+          },
+          "shark": {
+            "visible": 2204,
+            "eligible": 2174,
+            "recalled": 2146,
+            "recall_moving": 0.9871205151793928
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 241,
+      "self_generated_label_sha256": "e9d76cc66838567fde2dbd8f4f306d3f92651a6c0c2f836531915cf19f813300"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8945,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 9073,
+        "charged_frames": 10993,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 408,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 360,
+        "cold_loads": 6,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8177,
+        "predictions": 22824,
+        "matched_visible": 5440,
+        "eligible_moving": 4914,
+        "recalled_moving": 4652,
+        "recall_moving": 0.9466829466829467,
+        "precision_visible": 0.23834560112162637,
+        "per_type": {
+          "player": {
+            "visible": 1651,
+            "eligible": 821,
+            "recalled": 628,
+            "recall_moving": 0.7649208282582217
+          },
+          "diver": {
+            "visible": 2543,
+            "eligible": 2180,
+            "recalled": 2176,
+            "recall_moving": 0.998165137614679
+          },
+          "player_missile": {
+            "visible": 255,
+            "eligible": 255,
+            "recalled": 192,
+            "recall_moving": 0.7529411764705882
+          },
+          "shark": {
+            "visible": 1687,
+            "eligible": 1658,
+            "recalled": 1656,
+            "recall_moving": 0.9987937273823885
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8177,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 541,
+      "self_generated_label_sha256": "94576e8ead8cc1f6a63c723b5cef2ef833a5080bf806bccaf870330790946f99"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8945,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 9073,
+        "charged_frames": 10993,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 408,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 360,
+        "cold_loads": 6,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8177,
+        "predictions": 21885,
+        "matched_visible": 5433,
+        "eligible_moving": 4991,
+        "recalled_moving": 4686,
+        "recall_moving": 0.9388900020036065,
+        "precision_visible": 0.24825222755311857,
+        "per_type": {
+          "player": {
+            "visible": 1666,
+            "eligible": 866,
+            "recalled": 652,
+            "recall_moving": 0.7528868360277137
+          },
+          "player_missile": {
+            "visible": 311,
+            "eligible": 310,
+            "recalled": 234,
+            "recall_moving": 0.7548387096774194
+          },
+          "diver": {
+            "visible": 2315,
+            "eligible": 2021,
+            "recalled": 2014,
+            "recall_moving": 0.9965363681345868
+          },
+          "shark": {
+            "visible": 1819,
+            "eligible": 1794,
+            "recalled": 1786,
+            "recall_moving": 0.9955406911928651
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8177,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 667,
+      "self_generated_label_sha256": "a30c53c112b6d4cdb3eed0495eebf46cf457d68f5940544d0198e88fd3174336"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8945,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 9073,
+        "charged_frames": 10993,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 408,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 360,
+        "cold_loads": 6,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8177,
+        "predictions": 20042,
+        "matched_visible": 4754,
+        "eligible_moving": 4310,
+        "recalled_moving": 3999,
+        "recall_moving": 0.9278422273781902,
+        "precision_visible": 0.23720187606027343,
+        "per_type": {
+          "player": {
+            "visible": 1645,
+            "eligible": 799,
+            "recalled": 574,
+            "recall_moving": 0.718397997496871
+          },
+          "diver": {
+            "visible": 2132,
+            "eligible": 1812,
+            "recalled": 1805,
+            "recall_moving": 0.9961368653421634
+          },
+          "player_missile": {
+            "visible": 257,
+            "eligible": 257,
+            "recalled": 190,
+            "recall_moving": 0.7392996108949417
+          },
+          "shark": {
+            "visible": 1458,
+            "eligible": 1442,
+            "recalled": 1430,
+            "recall_moving": 0.9916782246879334
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8177,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 462,
+      "self_generated_label_sha256": "cbedeae74a5f989405ece67c5b7c16cffdac30b2d0357168c758986766796d3c"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 22064,
+        "matched_visible": 6516,
+        "eligible_moving": 5983,
+        "recalled_moving": 5617,
+        "recall_moving": 0.9388266755808123,
+        "precision_visible": 0.29532269760696156,
+        "per_type": {
+          "player": {
+            "visible": 1706,
+            "eligible": 988,
+            "recalled": 777,
+            "recall_moving": 0.7864372469635628
+          },
+          "diver": {
+            "visible": 2303,
+            "eligible": 2066,
+            "recalled": 2048,
+            "recall_moving": 0.9912875121006777
+          },
+          "player_missile": {
+            "visible": 436,
+            "eligible": 435,
+            "recalled": 324,
+            "recall_moving": 0.7448275862068966
+          },
+          "shark": {
+            "visible": 2521,
+            "eligible": 2494,
+            "recalled": 2468,
+            "recall_moving": 0.9895749799518845
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 634,
+      "self_generated_label_sha256": "51db5e443d86b078381d8514549a7e23bf459be0d275245d02792f029650aeef"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 20432,
+        "matched_visible": 5777,
+        "eligible_moving": 5364,
+        "recalled_moving": 5045,
+        "recall_moving": 0.9405294556301268,
+        "precision_visible": 0.2827427564604542,
+        "per_type": {
+          "player": {
+            "visible": 1694,
+            "eligible": 969,
+            "recalled": 777,
+            "recall_moving": 0.8018575851393189
+          },
+          "diver": {
+            "visible": 2210,
+            "eligible": 1933,
+            "recalled": 1928,
+            "recall_moving": 0.9974133471288154
+          },
+          "player_missile": {
+            "visible": 380,
+            "eligible": 379,
+            "recalled": 282,
+            "recall_moving": 0.7440633245382586
+          },
+          "shark": {
+            "visible": 2080,
+            "eligible": 2055,
+            "recalled": 2030,
+            "recall_moving": 0.9878345498783455
+          },
+          "submarine": {
+            "visible": 29,
+            "eligible": 28,
+            "recalled": 28,
+            "recall_moving": 1.0
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 856,
+      "self_generated_label_sha256": "a1b479f2f062a59bf7abbbb14b669ca557dfdf17228e65d7a77c308a01976100"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 21033,
+        "matched_visible": 6217,
+        "eligible_moving": 5714,
+        "recalled_moving": 5319,
+        "recall_moving": 0.9308715435771788,
+        "precision_visible": 0.2955831312699092,
+        "per_type": {
+          "player": {
+            "visible": 1724,
+            "eligible": 1082,
+            "recalled": 892,
+            "recall_moving": 0.8243992606284658
+          },
+          "diver": {
+            "visible": 2083,
+            "eligible": 1862,
+            "recalled": 1841,
+            "recall_moving": 0.9887218045112782
+          },
+          "player_missile": {
+            "visible": 450,
+            "eligible": 449,
+            "recalled": 330,
+            "recall_moving": 0.734966592427617
+          },
+          "shark": {
+            "visible": 1979,
+            "eligible": 1950,
+            "recalled": 1895,
+            "recall_moving": 0.9717948717948718
+          },
+          "submarine": {
+            "visible": 308,
+            "eligible": 303,
+            "recalled": 301,
+            "recall_moving": 0.9933993399339934
+          },
+          "enemy_missile": {
+            "visible": 155,
+            "eligible": 68,
+            "recalled": 60,
+            "recall_moving": 0.8823529411764706
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 447,
+      "self_generated_label_sha256": "63aefccc81049dd97991ca5e389077dd2bfc4d4796a03097092e73d14d5588bd"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 19380,
+        "matched_visible": 5516,
+        "eligible_moving": 5097,
+        "recalled_moving": 4699,
+        "recall_moving": 0.9219148518736512,
+        "precision_visible": 0.2846233230134159,
+        "per_type": {
+          "player": {
+            "visible": 1706,
+            "eligible": 1016,
+            "recalled": 797,
+            "recall_moving": 0.7844488188976378
+          },
+          "diver": {
+            "visible": 1939,
+            "eligible": 1701,
+            "recalled": 1692,
+            "recall_moving": 0.9947089947089947
+          },
+          "player_missile": {
+            "visible": 410,
+            "eligible": 408,
+            "recalled": 300,
+            "recall_moving": 0.7352941176470589
+          },
+          "shark": {
+            "visible": 1998,
+            "eligible": 1972,
+            "recalled": 1910,
+            "recall_moving": 0.9685598377281948
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 807,
+      "self_generated_label_sha256": "f9eadfc969c9bf392f1e30a548b4b7329013759805f80491c5e8f0ea00084d79"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8820,
+        "experiment_frames": 128,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8948,
+        "charged_frames": 10868,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 340,
+        "bootstrap_emulated_frames": 128,
+        "format_detection_emulated_frames": 300,
+        "cold_loads": 5,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8180,
+        "predictions": 23267,
+        "matched_visible": 6397,
+        "eligible_moving": 5887,
+        "recalled_moving": 5518,
+        "recall_moving": 0.9373195175811109,
+        "precision_visible": 0.27493875445910515,
+        "per_type": {
+          "player": {
+            "visible": 1702,
+            "eligible": 978,
+            "recalled": 761,
+            "recall_moving": 0.778118609406953
+          },
+          "diver": {
+            "visible": 2527,
+            "eligible": 2237,
+            "recalled": 2221,
+            "recall_moving": 0.9928475637013858
+          },
+          "player_missile": {
+            "visible": 400,
+            "eligible": 400,
+            "recalled": 295,
+            "recall_moving": 0.7375
+          },
+          "shark": {
+            "visible": 2303,
+            "eligible": 2272,
+            "recalled": 2241,
+            "recall_moving": 0.9863556338028169
+          },
+          "submarine": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "enemy_missile": {
+            "visible": 0,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8180,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 128,
+      "changed_pixels": 694,
+      "self_generated_label_sha256": "8d2e8aa8c85dfe7ae41c5417532594eeb62021ff0417a9c99d7b7779b7734b1e"
+    }
+  ],
+  "charged_frames": 174380,
+  "logical_processors": 12,
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "gpu_used": false,
+  "gate_result": null,
+  "limitations": [
+    "Full RGB IPC, modal reference, every-real-frame oracle scoring and charged branches included.",
+    "ARC3 GPU training concurrently active; startup separate; no controlled universal speedup claim.",
+    "Moving components inherit any moving constituent allocation slot, not persistent physical identities.",
+    "No learned parser or game skill, and no reference training on reserved fixtures."
+  ]
+}
