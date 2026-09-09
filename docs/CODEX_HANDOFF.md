@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le9septembre2026 vers16:02Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 16:26 Paris. Index, pas nouveau protocole.
 Historique antérieur intégral conservé dans
 [docs/history/CODEX_HANDOFF_20260909_1430.md](history/CODEX_HANDOFF_20260909_1430.md).
 Lire les sources utiles par sections ; ne pas recharger toute la session Claude.
@@ -23,14 +23,14 @@ jamais des observations ni des enseignants gratuits du futur agent.
 
 ## ARC3 v62 — calcul confirmatoire actif
 
-Contrôle réel vers16:01 : contrôleur20936, commande
+Contrôle réel vers 16:18 : contrôleur 20936, commande
 `C:\Python314\python.exe -u -m scripts.recover_confirm_v62` ; enfant17340,
 `scripts.confirm_v61 --lineage 0 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier commandes et logs réels, jamais PID seuls ni anciens états running.
 `s0_8300` et `s0_8301` terminés ; dernier bras Fb objectif18 à15360s cumulées,
-puis L=[1,1,1]. Processus actif, GPU46%,5715MiB au contrôle ; troisième unité
-en préparation/calcul, son en-tête pas encore écrit. Pas d'erreur contrôleur.
+puis L=[1,1,1]. G' objectif 1 écrit à 16257 s. Processus actif, GPU 60 %,
+5665 MiB au contrôle ; aucun verdict global ni erreur contrôleur.
 Aucun verdict avant les trois lignées, neuf mondes et revue indépendante.
 
 Lanceur démarré le9septembre à11:37:39Paris après reprise d'une interruption
@@ -74,7 +74,7 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue |17421V2PASSrevu, préflight17422clos | à faire |
+| Ms.Pac-Man | paire17412/17432validée/revue | 17422 capturé, score V2 en cours | préparé, fermé |
 | Asteroids |17512validé/revu |17522PASSrevu etcommitté | préparé, fermé |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
@@ -112,10 +112,17 @@ ghost8192/8192et8068/8068positifs,28159/28176within1 ; quatreautresstatsV1inchan
 Revue résultat6a6dce50… confirme64shards,52sources,38témoins. RésultatV2SHA
 6510be585e16341ef108d315c1493a55ac2a483698b652d2c69004725afec7d3.
 Runner réservé `validate_mspacman_pooled_v70.py` maintenantV2,57sources ; revue
-préflight41010456… close,16métadonnées,40tests PASS. Résultat/revues/sources àcommitter, puis créer/committer
-`pooled_reserved_seal_v2.json`, vrai check, capture unique et score distinct.
+préflight41010456… close,16métadonnées,40tests PASS. Sources et preuves committées
+02b5dc7 avant scellé ; `pooled_reserved_seal_v2.json` committé 9ebdfdf avant
+construction 17422, vrai check PASS. SHA du scellé :
+06c4baa64bed5e1194a3e77ffded617bcd93c0423957258d78d1ca39146d94c9.
+Capture complète : 8192 décisions, 32753 frames ordinaires, six démarrages,
+33545 facturées ; session 4553 terminée. Score réservé V2 unique en cours,
+session 87645, dernier progrès 2048/8192. Attendre résultat puis revue finale,
+sans changer les 57 sources ni relancer la réserve. Destination
+`pooled_reserved_v2/`, sortie `pooled_reserved_geometry_v2.json`.
 Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
-avant scoring, données intactes, puis nom geometry distinct.17422fermé.
+avant scoring, données intactes, puis nom geometry distinct.
 
 Asteroids : raw sources73fdf4c, scellé158a976,31sources+8métadonnées.
 17512 :8192images/8852facturées, trois types PASS ;23images de comptage rochers
@@ -154,11 +161,21 @@ environ34PASS ; finaliser deux fingerprints, revue globale/commit avant captures
 
 Préparation CPU committée112a5cb/4d7c806 : `restorable_ram_history_v70.py`,
 `visible_temporal_groups_v70.py`, `visible_reference_pool_v70.py`, scènes/tests.
-25tests synthétiques PASS, aucun émulateur pour cette chaîne. Snapshot complet
+28 tests synthétiques PASS, aucun émulateur pour cette chaîne. Snapshot complet
 ajoute troisRAM ; branche restitue historique exact. Décodage aprèsframepayée
 préserve coût même sur erreur. Groupes raster4CC et membres pour mobilité ;
-référence et ciblesC invariantes au retraitoracle dans les tests. Revue, preuve
-géométrie complète, wiring réel/protocole/runnerbenchmark encore àfaire.
+référence et cibles C invariantes au retrait oracle dans les tests. Revue
+préliminaire 865e42ff… et correction d'arrêt définitif après erreur committées
+0f94759. Coût partiel accessible ; aucun saut d'image silencieux à la reprise.
+Frame 0 contribue à la géométrie, mais pas à l'éligibilité au mouvement.
+Runner `bench_visible_reference_v70.py`, checker `check_visible_cpu_v70.py`,
+`ARC4_VISIBLE_CPU_PROTOCOL.json` et 10 tests préparés, revue indépendante en
+cours. Clôture prévue de 112 sources ; hash final de référence None maintient
+les graines fermées. Équivalence exhaustive sur développement et réserve,
+puis wiring 18176/18177/18178 avant 16×2048 décisions, graines 18000+i.
+NumPy puis natif : tous les rapports doivent être égaux ; comparaison sous
+charge ARC3, sans prétendre à un gain de vitesse universel. Pas de lancement
+avant preuves de référence finales, revue et commits prescrits.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : calcul seul,29pairesE1max dans20kà20%, pas288 ;
 16points courants possibles avec13lots×2+3lots×1. Archive persistante/trajectoires
 intermédiaires/partageC restent ouverts, aucun gel ni table gratuite revendiqués.

@@ -248,3 +248,10 @@ SHA6a6dce50… : 64 archives, 52 sources et 38 témoins vérifiés, dont 24 dés
 Le préflight réservé, SHA41010456…, lie 57 sources et 16 métadonnées ; 40 tests
 passent. Sources et preuves doivent être committées, puis le scellé distinct
 avant construction. La réserve 17422 reste fermée à cette étape.
+
+La réserve 17422 a ensuite été ouverte avec les sources et preuves committées
+02b5dc7, puis le scellé committé 9ebdfdf avant la construction. Le vrai préflight
+passe les 57 sources. Capture complète : 8 192 décisions, 32 753 frames de jeu,
+six démarrages de 132, soit 33 545 frames facturées. Le score V2 unique est en
+cours ; aucun PASS réservé n'est encore revendiqué. Les sources scellées,
+seuils et observations sont désormais immuables.
