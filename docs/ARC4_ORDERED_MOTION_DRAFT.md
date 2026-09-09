@@ -32,3 +32,19 @@ Elle ne supprime pas le problème distinct de découverte des effets des boutons
 ne rend pas les cibles C initiales non nulles par décret et ne prouve pas qu'un
 réseau apprendra à suivre la balle. La vision §2.1 décrit encore l'ancienne entrée ;
 aucun résultat déjà produit n'est réattribué à la variante candidate.
+
+Variante maintenant implémentée séparément : `OrderedMotionParser` garde la
+pyramide native/demi-résolution et les têtes f/m/c/s sur l'image poolée. Une branche
+apprise6→32canaux reçoit les deux écrans RGB dans leur ordre ; le déplacement
+combine ses32canaux avec les32canaux poolés et les32canaux d'hypothèse d'effet.
+Ce sont uniquement des convolutions apprises, sans différence ou flux fourni
+comme cible. L'appel impose deux écrans et refuse l'ancienne signature, afin
+qu'un ancien lanceur ne perde pas silencieusement cette information.
+
+Les tests synthétiques vérifient que l'ordre peut changer d sans changer f/m/c/s,
+que l'effet ne conditionne toujours que d, que P transmet un gradient à la
+nouvelle branche et que les poids restent inchangés sans optimiseur. Une sortie
+différente du réseau vierge ne constitue pas une direction correctement apprise.
+L'initialisation du dernier déplacement reste petite ; cette variante ne force
+pas l'existence de cibles C dès le départ. Aucune vraie archive n'est utilisée
+pour ces tests et aucune inférence native de cette variante n'est encore lancée.

@@ -1,0 +1,149 @@
+{
+  "kind": "isolated_rgb_transport_independent_source_review",
+  "passed": true,
+  "preliminary_only": true,
+  "created_utc": "2026-09-09T21:14:45Z",
+  "source_sha256": {
+    "docs/ARC4_ISOLATED_POOL_DRAFT.md": "37903c00e8f23abc866b865b5fc672a87ebec453108ed2023b3d0608cc5b28a8",
+    "docs/ARC4_ISOLATED_WORKER_DRAFT.md": "e1a478485bb06af8cbb6fdcb1029e7a95a73433969d14724e6cd37502c74bd7f",
+    "docs/ARC4_SEPARATE_RUNTIME_DRAFT.md": "24edbcc6a90d99b581a7696bb0ef30974a15d7605629e6b9e8fdd6fcd3649c5e",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/isolated_rgb_pool_v70.py": "8d1587b038ce31636646711f75f8f845fc45c2ae5ac9758db017af0d7b1b04dc",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_wire_v70.py": "3fe8f7089454358a9d5c0b3f395f43c5fe88fbe3cbb472b4f1adff9d9b365f1f",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/serve_ordinary_rgb_v70.py": "9fe1b662dbf4a13dcc8b0fd9546055ce04e79507dcc81253bf75837a454d7d5f",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_isolated_rgb_pool_v70.py": "5a68cad75fe4a3328127f9d77612f6a8e8ff7f83e8189616178e7f866bf43fb4",
+    "tests/test_isolated_rgb_worker_v70.py": "dd5c7ec06309355b3da86b02fa0129a08cad66b69da1530bf36ec5a3f677e8ed",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_wire_v70.py": "2c33e82eaea1dace6ae8bc7230e183a37c1f8a04d50964c461ccd63785b4c06f"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902"
+  },
+  "runtime": {
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "parent_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]"
+  },
+  "reviewed_commits": {
+    "codec": "fadaacc0e87dff146baca7dd79dce91c5967c84d",
+    "server": "16dc3abedd3fbf0fbbac9fdd4638f433586b4666",
+    "client_final": "6e0e4a75f645f61a7ef23b83652a929a468eb6f9"
+  },
+  "checks": {
+    "scope": "Independent prospective codec/server/client source and draft review with synthetic peers/engines and HELLO/CLOSE-only direct subprocesses. No real engine initialization, ROM, Atari observation, model or training.",
+    "closure": "21files including18local Python modules, nine new source/test/doc files and their complete local import closure. All12prior source dependencies match the existing independent receipts exactly. Sources/proofs match committed blobs at6e0e4a7 and HEAD; all final byte hashes checked.",
+    "codec": "Typed JSON header and explicit uint8 RGB byte payload, no pickle or arbitrary constructor lookup. Prefix bounds precede payload reads; RGB dimensions and byte sums checked, typed node count/depth bounded, duplicate keys and unknown tags rejected. Every indexed array is consumed exactly once and returned with distinct storage; partial pipe reads supported and trailing frame bytes rejected.",
+    "wire_limits": {
+      "header_bytes": 1048576,
+      "pixel_payload_bytes": 67108864,
+      "nodes": 8192,
+      "depth": 16,
+      "max_trace_length": 64,
+      "max_spatial_dimension": 1024
+    },
+    "server": "One direct engine at most, no multiprocessing descendants. Original stdout pipe is duplicated for binary traffic and stdout redirected to stderr before ALE runtime inspection. Runtime HELLO precedes init; exact full config and six closed commands admitted. Sequence increases exactly by one. Initialized latch precedes the native constructor; any constructor attempt cannot be repeated. Action failure stops further paid calls but reports remain available.",
+    "partial_responses": "Encoding/writing lies outside the dispatch exception handler, so a partial success response is never followed by a second error response. Connection failure must stop the caller and prohibit a retry.",
+    "client": "Explicit child executable, bounded request size and queues, read/write/stderr threads, exact runtime identity equality for every child before any init. Shared deadline per sent batch; every sent reply drained or declared lost before raising. Local nonblocking ownership lock excludes concurrent operations. Ordinary trace and branch validators enforce structure/recurrence and branch RGB anchor restoration.",
+    "commands_and_oracle_boundary": "Onlyinit/observe_pair/step/branch_pair_trace/report/close are exposed by the worker. No RAM/state/reward/lives command exists. Reports, runtime and errors remain external metadata. Codec alone cannot certify provenance or forbid arbitrary primitive metadata carrying an oracle; closed dispatch and the owned collector enforce that boundary.",
+    "failure_accounting": "Reports are stored immediately on receipt. After the correction, an absent or regressed later ledger retains the last acknowledged numeric charge, carries the current error and is explicitly incomplete. Lost transport keeps its last ledger as a lower bound and closes that peer. Global pool stop forbids subsequent paid commands; report and cleanup remain available.",
+    "cleanup": "Child startup or transport failures trigger cleanup. Queues and stderr history are bounded. Actual HELLO/CLOSE smoke and the deliberately unread HELLO witness leave no live process or transport thread. No native engine was created by those subprocess tests."
+  },
+  "tests": [
+    {
+      "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_rgb_wire_v70.py tests/test_isolated_rgb_worker_v70.py",
+      "passed": 17,
+      "seconds": 1.34,
+      "scope": "Synthetic arrays/engines and one real HELLO/CLOSE-only subprocess."
+    },
+    {
+      "command": "C:/Python314/python.exe -m pytest -q tests/test_isolated_rgb_pool_v70.py",
+      "passed": 10,
+      "seconds": 1.76,
+      "scope": "Synthetic peers/engines and one explicit ARC4-Python HELLO/CLOSE-only subprocess."
+    }
+  ],
+  "test_environment": "CUDA_VISIBLE_DEVICES='' and OMP/OPENBLAS/MKL each1; no GPU or ALEInterface initialization.",
+  "independent_witnesses": [
+    {
+      "name": "Acknowledged ledger erased by later unknown report",
+      "original_client": "b34f49c",
+      "original_observation": "Init acknowledged600charges, paid failure acknowledged601, then recovery returned accounting=None. Original _remember replaced601 byNone in the outward error, although the synthetic engine still held601. This was a material evidence-retention defect.",
+      "corrected_client": "6e0e4a75f645f61a7ef23b83652a929a468eb6f9",
+      "corrected_observations": [
+        {
+          "later_accounting": null,
+          "known_charged_frames": 601,
+          "accounting_complete": false
+        },
+        {
+          "later_accounting": {
+            "charged_frames": 0
+          },
+          "known_charged_frames": 601,
+          "accounting_complete": false
+        }
+      ],
+      "checks": "Current error retained; subsequent report still returns601; a second step is refused without another payment."
+    },
+    {
+      "name": "Torn response after a paid synthetic step",
+      "observed": {
+        "last_acknowledged_charges": 600,
+        "actual_synthetic_charges": 604,
+        "partial_response_bytes": 11,
+        "writer_calls": 4,
+        "second_step_executed": false,
+        "error_response_appended": false
+      },
+      "scope": "In-memory worker and synthetic engine only; serialization fails after the actual first step."
+    },
+    {
+      "name": "Unread HELLO fills the incoming queue during close",
+      "observed": {
+        "direct_child_commands": [
+          "close"
+        ],
+        "hello_consumed": false,
+        "returncode": 0,
+        "remaining_transport_threads": 0,
+        "native_init_sent": false
+      },
+      "scope": "Actual explicitly selected ARC4 Python child, runtime inspection and CLOSE only."
+    }
+  ],
+  "limitations": [
+    "This is a source/synthetic transport review, not a native preflight, full native fidelity result, online model integration, learning protocol or speed claim. No native init is authorized by this receipt alone.",
+    "The future prospective protocol must freeze exact executable/runtime identity, sources, configurations, commands, budget, evidence retention and comparison with the existing native path before its first init.",
+    "The codec certifies representation bounds and typed objects only. It does not certify pixel origin, cross-field trace coherence, recurrence or absence of oracle information in generic metadata; the closed server and receiving validators remain necessary.",
+    "A lost reply may hide real paid frames. The retained numeric ledger is a lower bound with incomplete accounting, never an invented exact total, and does not permit replay.",
+    "Bounds limit messages, queues and intended waits, not total RSS or guaranteed host-system responsiveness. Cleanup may require terminate/kill escalation; catastrophic parent termination has no job-object guarantee of child cleanup in this prototype.",
+    "Tests use synthetic engines except runtime-only HELLO/CLOSE smoke. Actual cross-runtime paid Atari traces, cold transitions, native restoration and downstream live inference remain to be prospectively validated.",
+    "Previous source receipts and the original client finding are preserved. No existing source, result or receipt was modified during this review.",
+    "The separate ordered-motion ambiguity/proposed model variant is outside this receipt."
+  ],
+  "native_engine_initializations": 0,
+  "new_emulated_frames": 0,
+  "optimizer_updates": 0,
+  "gpu_used": false,
+  "native_preflight": false,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
