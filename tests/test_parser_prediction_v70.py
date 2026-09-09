@@ -66,6 +66,16 @@ def test_motion_signal_alone_does_not_certify_an_object_mask():
     assert (target[:,:,5:9,8:11]==0).all()
 
 
+@pytest.mark.parametrize('dtype',[torch.float32,torch.float64])
+def test_extreme_finite_displacements_give_no_outside_foreground_evidence(dtype):
+    previous=torch.zeros((1,3,2,3),dtype=dtype)
+    following=torch.ones_like(previous)
+    for direction in (-1,1):
+        field=torch.full((1,2,2,3),direction*torch.finfo(dtype).max,dtype=dtype)
+        target=motion_foreground_target(previous,following,field)
+        assert torch.isfinite(target).all() and target.sum()==0
+
+
 def test_one_network_handles_resolutions_and_effects_only_condition_displacement():
     torch.manual_seed(700)
     model=CounterfactualParser().cpu().eval()

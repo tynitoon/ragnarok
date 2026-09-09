@@ -69,6 +69,11 @@ ground truth. A poor motion estimate can supply a poor foreground target.
         previous,following=previous.float(),following.float()
         x,y=_coordinates(previous,displacement.detach())
         height,width=previous.shape[-2:]
+        inside=((x>=0)&(x<=width-1)&(y>=0)&(y<=height-1))[:,None]
+        # Out-of-frame destinations carry no evidence. Bound their sampling
+        # coordinates before2*x so even extreme finite fields cannot overflow.
+        x=x.clamp(-2,width+1)
+        y=y.clamp(-2,height+1)
         # Pixel-centre coordinates for align_corners=False, also valid at size1.
         grid=torch.stack(((2*x+1)/width-1,(2*y+1)/height-1),dim=-1)
         moved=F.grid_sample(following,grid,mode='bilinear',padding_mode='zeros',align_corners=False)
@@ -76,8 +81,7 @@ ground truth. A poor motion estimate can supply a poor foreground target.
         moving_error=(moved-previous).abs().mean(dim=1,keepdim=True)
         evidence=((stationary_error-moving_error)/(stationary_error+1/255)).clamp(0,1)
         moving=(displacement.detach().float().square().sum(dim=1,keepdim=True).sqrt()>.25)
-        inside=((x>=0)&(x<=width-1)&(y>=0)&(y<=height-1))[:,None]
-        return evidence*moving*inside
+        return torch.where(inside,evidence*moving,torch.zeros_like(evidence))
 
 
 def prediction_terms(previous_rgb, following_rgb, output):
