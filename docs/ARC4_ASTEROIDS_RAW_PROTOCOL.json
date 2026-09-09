@@ -1,0 +1,21 @@
+{
+  "kind": "prospective_asteroids_raw_geometry_calibration",
+  "development_seed": 17511,
+  "reserved_validation_seed": 17512,
+  "frames": 8192,
+  "game": "asteroids",
+  "mode": 0,
+  "action_repeat": 16,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "capture": "Immutable capture_cold_v70, uniform PythonRandom(seed+100000) buttons held16 raw frames; exactly8192 ordinary frames including all failures and terminals. Cold loads cost132 each and preparation is not individually archived. Cost8192+132*cold_loads, cap1089668. Commit protocol, initial decoder, checker and calibrator before opening17511. Reserved17512 is closed.",
+  "scope": "Three categories scored separately in ROI[0,16,160,194): player ship, asteroids, player missiles. All visible palette components are kept; shared ship/missile and asteroid/missile colours require the explicitly declared nominal geometric split. HUD above16 excluded. Multiple asteroid allocations are separate objects, not a single union. Wrapped visible pieces and explosions may invalidate the nominal model; never exclude those frames after observation.",
+  "initial_hypotheses": "Nominal functional adaptation of MIT OCAtari467accd5f3da379d83705b008094ffb787eec8a1 ram/asteroids.py and vision/asteroids.py. Fifteen declared asteroid allocations, nominal size bands16x28/8x15/4x8, two missiles1x2, player6x10 and coarse/fine encoded x. Its impossible width5 chained inequality is recorded; width6 preserves effective baseline behaviour. RAM slots are allocations, not persistent lifetimes. RGB checker uses8-connected components with no closing or fragment dropping. Components of the two missile-sharing colours at most2x3 are missiles; others are ship or asteroid by palette. All are unvalidated hypotheses.",
+  "criteria": "For EACH category: at least50 joint instance-frame matches, RAM/RGB count agreement>=0.99 of all frames AND>=0.99 of positive frames, and every matched box edge within1 pixel for>=0.99 of min(nRAM,nRGB) pairs. Use unchanged cardinality-first Breakout matcher. Empty denominator is null and FAIL. No pooled dilution across categories or sequences.",
+  "corrections": "Keep baseline and every negative. Tune only on17511, then independently review and commit full source plus metadata seal before one17512 validation. Insufficiently covered categories remain uncalibrated; any extra capture requires a new prospective protocol. No agent receives RAM, palettes or labels; these are external evaluation instruments.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

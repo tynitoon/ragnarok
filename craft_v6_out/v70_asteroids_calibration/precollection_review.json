@@ -1,0 +1,63 @@
+{
+  "kind": "asteroids_raw_precollection_independent_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T10:12:38.997532+00:00",
+  "reviewer": "independent Codex subagent /root/review_recovery_v62",
+  "scope": "Review of the prospective unvalidated nominal baseline before development17511; no reserved17512 authorization.",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "6fad931f141945996181f0157893e0c9381c9566a9995ab6a7ccc20c665d7573",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "tests/test_asteroids_v70.py": "b2da4f99971e2e3985c344c493dd4dc91de4c15109d2b2123c2aa751292e8c7f"
+  },
+  "primary_sources": [
+    "https://raw.githubusercontent.com/k4ntz/OC_Atari/467accd5f3da379d83705b008094ffb787eec8a1/ocatari/ram/asteroids.py",
+    "https://raw.githubusercontent.com/k4ntz/OC_Atari/467accd5f3da379d83705b008094ffb787eec8a1/ocatari/vision/asteroids.py"
+  ],
+  "findings": [],
+  "checks": [
+    "Read protocol, decoder/checker, calibrator, tests, immutable capture/reader and inherited matcher. Independently ran tests/test_asteroids_v70.py with .venv-arc4/Scripts/python.exe:3 passed in0.75s.",
+    "Retrieved and compared both pinned primary sources directly. All256 horizontal byte encodings equal the independent even/odd branch transcription, including exceptions0 and1. Signed conversion occurs before multiplication/subtraction. All256 ship orientation values preserve the effective nominal width6 and the documented x offsets.",
+    "Verified the chained width5 condition is impossible for all256 bytes. The explicit width6 baseline preserves source behavior rather than silently implementing an intended correction.",
+    "Confirmed the exact15 allocation indices3..9,12..19 and their +18 x/+36 size addresses. Tested120 allocation/size combinations, all three size bands and high-bit cases, plus invisibility flags. Both missile slots83/84 and y slots86/87, visibility masks and 1x2 geometry pass independent assertions.",
+    "Checked fixed ROI[0,16,160,194) clipping at top and bottom; all surviving palette fragments remain. HUD exclusion and the explicit <=2x3 split for the two shared missile colours are applied without RAM assistance. Allocation slots are not treated as persistent identities.",
+    "Calibrator criteria match the protocol:>=50 min-cardinality pairs/category,>=.99 count agreement over all and positive frames,>=.99 matched boxes within1 edge distance, null/FAIL on empty denominators. The unchanged Breakout cardinality-first matcher is used; categories are never pooled.",
+    "Calibrator manifest guard accepts development17511 only with8192 frames,16-repeat uniform action parameters, mode0, sticky.25 and fixed cold convention; exact capture-source hashes are required. Source hashes are checked before/after scoring, prior output is refused and final output uses exclusive creation.",
+    "Cold fixture reader verifies each shard hash, shapes, continuous charged frames/episode jumps and final accounting. Capture frame_skip1 archives ordinary terminal frames before the next cold load. Budget8192+132*cold_loads and worst-case1089668=8192+132*8193 are correct. All four capture sources remain identical to historical fixture hashes."
+  ],
+  "prospective_design": {
+    "development_seed": 17511,
+    "reserved_seed_closed": 17512,
+    "frames": 8192,
+    "action_repeat": 16,
+    "cold_load_cost": 132,
+    "max_charged_frames": 1089668,
+    "roi": [
+      0,
+      16,
+      160,
+      194
+    ],
+    "categories": [
+      "player",
+      "asteroid",
+      "player_missile"
+    ]
+  },
+  "limitations": [
+    "PASS concerns prospective protocol and implementation consistency, not observed rendering accuracy. No Asteroids frame, ROM, seed, capture or calibrator was executed during this review; no prior source/result was modified and no commit was made.",
+    "Wrapping, explosion phases, clipping, merged/fragmented sprites and shared-colour assignment remain unvalidated hypotheses. Small shared-colour asteroid/ship fragments can be classified as missiles. Retain resulting discrepancies and uncovered categories without changing criteria after observation.",
+    "The declared scope covers only these three categories inside the fixed ROI; it is not a certificate of full-game perception, lifetime tracking, learnability or accelerated learning.",
+    "Cold-start preparation frames are fully charged but not individually archived. Generic capture_cold_v70 does not enforce this new protocol or its prior commit by itself: the root agent must verify successful protocol/source/review commits and the concrete fresh destination before the single17511 capture.",
+    "The calibration executable is development-only. Reserved17512 remains closed until a separately reviewed full source and metadata seal is successfully committed; this receipt does not authorize it."
+  ]
+}
