@@ -1,0 +1,142 @@
+{
+  "kind": "asteroids_visible_piece_scope_independent_review",
+  "created_utc": "2026-09-09T11:43:50.531401+00:00",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "scope_review_passed": true,
+  "calibration_passed": false,
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "scope": "Read-only scientific scope and provenance review of V2 RAM visible pieces and V3 RGB deblending, seed17511 only; this receipt does not review the later V4 RAM chronology correction.",
+  "protocol": {
+    "path": "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json",
+    "sha256": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693"
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "scripts/diagnose_asteroids_occlusion_v70.py": "9906d249f47dcc0b3e8ba7931d8b01b643dc70f0fddf9f9719fb48d906c27e81",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "scripts/diagnose_asteroids_deblend_v70.py": "bdfc5a37781a6f992798e9701678f04cecb5b232793a686331bb80fa5312cdf1",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d"
+  },
+  "result_sha256": {
+    "rock_occlusion_development_v2.json": "fd53209899dd52d468734cd774e8e752b44a14cae76b96621c8c5a0fe5d16b03",
+    "rock_deblend_development_v3.json": "21ae49c38560b3de5342386f6cf4886719fe3732916efca3b21ee4f7c72e39bc"
+  },
+  "fixture_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "verdict": "Compatible with the frozen visible-instance scope as connected visible pieces within each RAM allocation. No allocation merging, pixel deletion, frame exclusion, criterion relaxation, or RAM input into the RGB checker was found. Both results remain negative on count agreement.",
+  "verified_counts": {
+    "rock_occlusion_development_v2.json": {
+      "frames": 8192,
+      "count_equal": 8001,
+      "positive": 4096,
+      "positive_equal": 3905,
+      "ram_objects": 26686,
+      "pixel_objects": 26639,
+      "matches": 26460,
+      "within1": 26215,
+      "exact": 25622,
+      "count_fraction": 0.9766845703125,
+      "positive_fraction": 0.953369140625,
+      "box_fraction": 0.9907407407407407
+    },
+    "rock_deblend_development_v3.json": {
+      "frames": 8192,
+      "count_equal": 8097,
+      "positive": 4096,
+      "positive_equal": 4001,
+      "ram_objects": 26686,
+      "pixel_objects": 26780,
+      "matches": 26600,
+      "within1": 26436,
+      "exact": 25837,
+      "count_fraction": 0.9884033203125,
+      "positive_fraction": 0.976806640625,
+      "box_fraction": 0.9938345864661654
+    }
+  },
+  "methods": [
+    "Read protocol, RAM rock/support/occlusion modules, RGB exact deblender, diagnostic loops and tests.",
+    "Verified every source hash declared by V2 and V3, the common fixture manifest hash, arithmetic fractions and count invariants.",
+    "Ran tests/test_asteroids_deblend_v70.py: 4 PASS in 1.43s, including synthetic exact foreground priority, archive2113 same-colour contact, archive467 isolated fragments and boundary retention.",
+    "Read-only targeted pixel check on hashed development shards for frames257..768 inclusive: selected overlap pixels covered by exactly one predicted P0 and one predicted P1 with distinct colours. No full rescoring was performed.",
+    "Checked RGB deblending enumerates full glyph origins, derives parity from those origins and accepts only identical visible-support explanations; ambiguous and unexplained components remain scored unchanged."
+  ],
+  "priority_pixel_check": {
+    "frame_index_base": 1,
+    "frames_checked": [
+      257,
+      768
+    ],
+    "overlap_frames": 55,
+    "eligible_pixels": 2552,
+    "foreground_colour_pixels": 2549,
+    "background_colour_pixels": 3,
+    "other_colour_pixels": 0,
+    "residuals": [
+      {
+        "frame": 531,
+        "xy": [
+          4,
+          52
+        ]
+      },
+      {
+        "frame": 531,
+        "xy": [
+          4,
+          53
+        ]
+      },
+      {
+        "frame": 531,
+        "xy": [
+          6,
+          54
+        ]
+      }
+    ],
+    "front": {
+      "slot": 3,
+      "glyph": 0,
+      "x": 158,
+      "y": 28,
+      "rgb": [
+        180,
+        122,
+        48
+      ]
+    },
+    "back": {
+      "slot": 13,
+      "glyph": 2,
+      "x": 3,
+      "y": 43,
+      "rgb": [
+        187,
+        187,
+        53
+      ]
+    },
+    "interpretation": "Strong local evidence for P0 priority conditional on predicted supports, not a universal exact proof. All three residual pixels show P1 colour and remain recorded. The later previous-RAM hypothesis is outside this receipt."
+  },
+  "limits": [
+    "The label unit is a visible connected piece within one allocation, including horizontal edge pieces; it is not a physical asteroid count or persistent lifetime. This must be explicit in the prospective seal.",
+    "RAM and RGB share empirically learned development glyphs. This is not RAM leakage, but common modelling error remains possible and requires reserved validation.",
+    "V3 found97 unique exact pair decompositions and retained1 ambiguity. The model covers two complete opposite-parity glyphs; unsupported boundary, explosion, or more-complex contacts remain unmodified and scored.",
+    "V2/V3 count agreement fails both frozen99% count thresholds despite geometry above99%. No complete three-category calibration or reserved-validation claim is made.",
+    "Primary rendering priority was checked only on bounded development witnesses. Development correction is allowed before sealing; it must preserve prior negative results and all images."
+  ],
+  "preservation": {
+    "existing_sources_modified": false,
+    "existing_results_modified": false,
+    "reserved_data_opened": false,
+    "emulator_launched": false,
+    "new_capture": false,
+    "full_rescore": false,
+    "commit_created": false
+  }
+}

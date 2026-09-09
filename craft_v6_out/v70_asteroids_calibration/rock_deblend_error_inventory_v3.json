@@ -1,0 +1,1495 @@
+{
+  "kind": "asteroids_rock_deblend_error_inventory",
+  "seed": 17511,
+  "counts": {
+    "frames": 8192,
+    "raster_equal": 7579,
+    "missed_pixels": 15002,
+    "extra_pixels": 12345,
+    "count_error_frames": 95,
+    "geometry_error_frames": 127,
+    "label_error_despite_exact_union": 57
+  },
+  "errors": [
+    {
+      "frame": 53,
+      "episode": 0,
+      "ram_count": 5,
+      "pixel_count": 18,
+      "within1": 3,
+      "matches": 5,
+      "missing_pixels": 16,
+      "extra_pixels": 130
+    },
+    {
+      "frame": 213,
+      "episode": 0,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 338,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 517,
+      "episode": 0,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 27,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 531,
+      "episode": 0,
+      "ram_count": 10,
+      "pixel_count": 8,
+      "within1": 6,
+      "matches": 8,
+      "missing_pixels": 27,
+      "extra_pixels": 25
+    },
+    {
+      "frame": 685,
+      "episode": 0,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 12,
+      "extra_pixels": 12
+    },
+    {
+      "frame": 699,
+      "episode": 0,
+      "ram_count": 9,
+      "pixel_count": 17,
+      "within1": 5,
+      "matches": 9,
+      "missing_pixels": 46,
+      "extra_pixels": 118
+    },
+    {
+      "frame": 713,
+      "episode": 0,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 727,
+      "episode": 0,
+      "ram_count": 8,
+      "pixel_count": 9,
+      "within1": 8,
+      "matches": 8,
+      "missing_pixels": 20,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 729,
+      "episode": 0,
+      "ram_count": 7,
+      "pixel_count": 8,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 260,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 909,
+      "episode": 0,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 6,
+      "matches": 8,
+      "missing_pixels": 14,
+      "extra_pixels": 14
+    },
+    {
+      "frame": 963,
+      "episode": 0,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 60,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 1323,
+      "episode": 0,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 284,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 1753,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 84,
+      "extra_pixels": 84
+    },
+    {
+      "frame": 1815,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 338,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 1835,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 15,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 1851,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 1865,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 3,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 1907,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 18,
+      "extra_pixels": 18
+    },
+    {
+      "frame": 2033,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 2047,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 2061,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 20,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 2111,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 15,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 14,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 2131,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 2,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 2137,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 4,
+      "within1": 4,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2139,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 4,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2187,
+      "episode": 1,
+      "ram_count": 8,
+      "pixel_count": 20,
+      "within1": 6,
+      "matches": 8,
+      "missing_pixels": 22,
+      "extra_pixels": 138
+    },
+    {
+      "frame": 2193,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2195,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2197,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2199,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2201,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 2203,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2205,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2207,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2223,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 9,
+      "within1": 5,
+      "matches": 5,
+      "missing_pixels": 8,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 2341,
+      "episode": 1,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 18,
+      "extra_pixels": 18
+    },
+    {
+      "frame": 2425,
+      "episode": 1,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 72,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 2579,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 366,
+      "extra_pixels": 48
+    },
+    {
+      "frame": 2621,
+      "episode": 1,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 6,
+      "matches": 8,
+      "missing_pixels": 8,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 2635,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 8,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 2663,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 7,
+      "extra_pixels": 3
+    },
+    {
+      "frame": 2821,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 16,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 18,
+      "extra_pixels": 18
+    },
+    {
+      "frame": 2825,
+      "episode": 1,
+      "ram_count": 6,
+      "pixel_count": 15,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 18,
+      "extra_pixels": 40
+    },
+    {
+      "frame": 3059,
+      "episode": 2,
+      "ram_count": 4,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 312,
+      "extra_pixels": 46
+    },
+    {
+      "frame": 3123,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 60,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 3255,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 84,
+      "extra_pixels": 84
+    },
+    {
+      "frame": 3329,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3331,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3333,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3335,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3337,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3339,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 12,
+      "extra_pixels": 7
+    },
+    {
+      "frame": 3341,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3343,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3345,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3347,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3349,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3351,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3353,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3355,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3367,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 3,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3423,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 21,
+      "extra_pixels": 26
+    },
+    {
+      "frame": 3437,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 23,
+      "extra_pixels": 13
+    },
+    {
+      "frame": 3465,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 23
+    },
+    {
+      "frame": 3509,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3511,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3513,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3515,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3517,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3519,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3521,
+      "episode": 2,
+      "ram_count": 9,
+      "pixel_count": 7,
+      "within1": 5,
+      "matches": 7,
+      "missing_pixels": 7,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 3523,
+      "episode": 2,
+      "ram_count": 9,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3525,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 3535,
+      "episode": 2,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3549,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3563,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 7,
+      "missing_pixels": 20,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 3605,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3675,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 3725,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 20,
+      "within1": 5,
+      "matches": 7,
+      "missing_pixels": 16,
+      "extra_pixels": 130
+    },
+    {
+      "frame": 3739,
+      "episode": 2,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 60,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 4117,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 338,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 4405,
+      "episode": 2,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 284,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 4541,
+      "episode": 3,
+      "ram_count": 4,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 312,
+      "extra_pixels": 50
+    },
+    {
+      "frame": 4683,
+      "episode": 3,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 338,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 4933,
+      "episode": 3,
+      "ram_count": 9,
+      "pixel_count": 9,
+      "within1": 8,
+      "matches": 9,
+      "missing_pixels": 14,
+      "extra_pixels": 14
+    },
+    {
+      "frame": 4947,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 11,
+      "extra_pixels": 14
+    },
+    {
+      "frame": 5101,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 12,
+      "extra_pixels": 12
+    },
+    {
+      "frame": 5227,
+      "episode": 3,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 74,
+      "extra_pixels": 24
+    },
+    {
+      "frame": 5541,
+      "episode": 3,
+      "ram_count": 6,
+      "pixel_count": 13,
+      "within1": 2,
+      "matches": 6,
+      "missing_pixels": 18,
+      "extra_pixels": 184
+    },
+    {
+      "frame": 5787,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 19,
+      "within1": 5,
+      "matches": 7,
+      "missing_pixels": 22,
+      "extra_pixels": 138
+    },
+    {
+      "frame": 5797,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5799,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5801,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 8,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 5803,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5805,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5807,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5809,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 7,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5811,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 7,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5813,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 5939,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 338,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 6003,
+      "episode": 3,
+      "ram_count": 9,
+      "pixel_count": 19,
+      "within1": 8,
+      "matches": 9,
+      "missing_pixels": 18,
+      "extra_pixels": 18
+    },
+    {
+      "frame": 6301,
+      "episode": 3,
+      "ram_count": 7,
+      "pixel_count": 11,
+      "within1": 7,
+      "matches": 7,
+      "missing_pixels": 8,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 6343,
+      "episode": 3,
+      "ram_count": 9,
+      "pixel_count": 9,
+      "within1": 8,
+      "matches": 9,
+      "missing_pixels": 60,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 6365,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 15,
+      "within1": 4,
+      "matches": 8,
+      "missing_pixels": 18,
+      "extra_pixels": 112
+    },
+    {
+      "frame": 6389,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 8,
+      "within1": 7,
+      "matches": 8,
+      "missing_pixels": 14,
+      "extra_pixels": 14
+    },
+    {
+      "frame": 6403,
+      "episode": 3,
+      "ram_count": 9,
+      "pixel_count": 9,
+      "within1": 8,
+      "matches": 9,
+      "missing_pixels": 10,
+      "extra_pixels": 10
+    },
+    {
+      "frame": 6519,
+      "episode": 3,
+      "ram_count": 8,
+      "pixel_count": 15,
+      "within1": 4,
+      "matches": 8,
+      "missing_pixels": 18,
+      "extra_pixels": 70
+    },
+    {
+      "frame": 6949,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 84,
+      "extra_pixels": 84
+    },
+    {
+      "frame": 7023,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7025,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7027,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7029,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7031,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7033,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 2,
+      "matches": 4,
+      "missing_pixels": 12,
+      "extra_pixels": 7
+    },
+    {
+      "frame": 7035,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 2,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7037,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 2,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7039,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 2,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7041,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7043,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7045,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7047,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7049,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 4,
+      "within1": 3,
+      "matches": 4,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7061,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 3,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7117,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 21,
+      "extra_pixels": 26
+    },
+    {
+      "frame": 7131,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 23,
+      "extra_pixels": 13
+    },
+    {
+      "frame": 7145,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 7,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 21,
+      "extra_pixels": 23
+    },
+    {
+      "frame": 7203,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7205,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7207,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7209,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7211,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7213,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 5,
+      "within1": 3,
+      "matches": 5,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7215,
+      "episode": 4,
+      "ram_count": 8,
+      "pixel_count": 6,
+      "within1": 4,
+      "matches": 6,
+      "missing_pixels": 7,
+      "extra_pixels": 8
+    },
+    {
+      "frame": 7217,
+      "episode": 4,
+      "ram_count": 8,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7219,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 0,
+      "extra_pixels": 0
+    },
+    {
+      "frame": 7229,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7243,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7257,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 7,
+      "within1": 6,
+      "matches": 6,
+      "missing_pixels": 20,
+      "extra_pixels": 20
+    },
+    {
+      "frame": 7299,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7347,
+      "episode": 4,
+      "ram_count": 5,
+      "pixel_count": 5,
+      "within1": 4,
+      "matches": 5,
+      "missing_pixels": 284,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 7369,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 28,
+      "extra_pixels": 28
+    },
+    {
+      "frame": 7659,
+      "episode": 4,
+      "ram_count": 6,
+      "pixel_count": 6,
+      "within1": 5,
+      "matches": 6,
+      "missing_pixels": 284,
+      "extra_pixels": 22
+    },
+    {
+      "frame": 7725,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 17,
+      "within1": 6,
+      "matches": 7,
+      "missing_pixels": 18,
+      "extra_pixels": 18
+    },
+    {
+      "frame": 7879,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 20,
+      "within1": 5,
+      "matches": 7,
+      "missing_pixels": 16,
+      "extra_pixels": 130
+    },
+    {
+      "frame": 8031,
+      "episode": 4,
+      "ram_count": 8,
+      "pixel_count": 21,
+      "within1": 6,
+      "matches": 8,
+      "missing_pixels": 16,
+      "extra_pixels": 130
+    },
+    {
+      "frame": 8121,
+      "episode": 4,
+      "ram_count": 9,
+      "pixel_count": 16,
+      "within1": 5,
+      "matches": 9,
+      "missing_pixels": 18,
+      "extra_pixels": 234
+    },
+    {
+      "frame": 8151,
+      "episode": 4,
+      "ram_count": 7,
+      "pixel_count": 11,
+      "within1": 7,
+      "matches": 7,
+      "missing_pixels": 8,
+      "extra_pixels": 0
+    }
+  ],
+  "payload_sha256": "15ce15829832d1d3b804b7b72905a52553fd257f8f88e5dec0332f30c13ee940",
+  "source_sha256": {
+    "scripts/diagnose_asteroids_deblend_errors_v70.py": "930e4c43016c08d170805e57fca3773e28d5b83d6f77dfa85f4da449abb8fb5e",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d"
+  },
+  "note": "Every frame retained. Union-of-coloured-pixels comparison diagnoses geometry separately from instance grouping; it is not a substitute for the frozen per-object criteria.",
+  "gate_result": null,
+  "agent_training_allowed": false
+}

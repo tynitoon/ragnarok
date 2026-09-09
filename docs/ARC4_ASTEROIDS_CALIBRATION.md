@@ -74,3 +74,30 @@ L'inventaire complet `rock_raster_error_inventory_v1.json` conserve258images
 avec désaccord de comptage et335avec au moins une erreur géométrique.
 Sur279images en erreur, l'union des pixels prédits est pourtant exacte :
 le diagnostic doit distinguer formes, occultations et regroupement des objets.
+
+
+V2/V3 précisent l'unité mesurée : des pièces visibles par allocation, pas des
+astéroïdes physiques ni leurs identités persistantes. La RAM garde les allocations
+séparées et prédit les supports du premier groupe devant ceux du second. Les
+fragments isolés restent des objets évalués. V2 atteint3905/4096comptages positifs
+égaux et26215/26460boîtes within1 ; géométrie PASS, comptage FAIL.
+
+V3 `asteroids_deblend_v70.py` traite les contacts de même couleur uniquement
+lorsque deux glyphes complets expliquent exactement le masque et que toutes
+les solutions donnent les mêmes supports visibles. L'origine du glyphe complet,
+paire ou impaire, donne la priorité ; le bord visible ne suffit pas.97cas sont
+démêlés, une ambiguïté reste inchangée. Résultat :4001/4096comptages positifs,
+26436/26600boîtes within1, donc encore FAIL. Quatre tests passent. Le reçu
+`rock_visible_piece_scope_review.json` confirme le périmètre et conserve trois
+pixels résiduels de l'hypothèse V2 en image531.
+
+V4 `asteroids_history_v70.py` utilise seulement la RAM courante et celle du
+pas précédent dans le même épisode. Le premier P0 peut être placé avant sa
+mise à jour horizontale ; les autres positions restent courantes. Un flag de
+destruction nouvellement inscrit peut suivre le chargement du glyphe solide.
+La correction explique exactement les témoins517,531,727,1851,2061,2131 et213,
+y compris les trois pixels de531. Résultat complet V4 :4011/4096comptages
+positifs,26497/26607within1 dont26478exacts. Comptage encore FAIL, sans exclusion.
+V5 ajoute séparément les glyphes coupés aux frontières physiques et au ROI,
+avec accord exact et unique des supports. Onze tests chronologie/bords passent ;
+le résultat complet V5 est en cours.17512 reste fermé.

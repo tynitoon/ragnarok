@@ -324,44 +324,50 @@ Les anciens fichiers Pong scellés restent aussi des références historiques.
 
 ### Suite autorisée
 
-Seaquest est terminé pour brut/temporel, référence et débit CPU (résultats et
-preuves ci-dessus). MsPacman V1 : les quatre catégories observées passent le
-développement17411, fruit absent/null donc calibration globale FAIL. Résultat
-`development_visible_v1.json` : joueur100 %, fantômes19562/19591within1,
-grosses15359/15497within1, petites1057309boîtes exactes avec9erreurs de comptage.
-Modules distincts `mspacman_ghosts/pixels/support/visible_v70.py`, source V0 intacte.
-Registre RGB causal, silhouettes RAM indépendantes ; aucune donnée oracle pour
-l'agent. `docs/ARC4_MSPACMAN_CALIBRATION.md` détaille les diagnostics conservés.
-Protocole, collecteur et revue supplémentaires committés `de0f7d3` avant lancement.
-Collecte17431 **terminée**, sortie `coverage_development_v1/` :32 768images,
-33 560facturées,6constructions,182,42s. Fruit présent ; V1 échoue par exception
-à1315 car RAM55/56 décrit parfois le fruit. `coverage_visible_v1_failure.json`
-conserve ce défaut(5787frames de scratch inconnu), sans score partiel favorable.
-Deux listes de rendu distinctes déterminent visibilité et supports. Nouveau
-candidat joueur `mspacman_player_list_v70.py` en diagnostic indépendant, fruit
-`mspacman_fruit_v70.py` avec types0/1 observés ; composition distincte
-`mspacman_list_visible_v70.py`, calibrateur `calibrate_mspacman_list_v70.py`.
-Ne pas relancer cette graine ou réutiliser sa sortie.17412/17432 restent fermés.
-V2 est maintenant consignée : joueur/fruit PASS sur17431, autres catégories FAIL
-(palette du second labyrinthe, murs gris clignotants, wraps fantômes et occultation
-des grosses pastilles). V2 uniforme corrige les9comptages de pastilles. Sources
-et revue de composition committées3aef87d ; candidat distinct V3
-`mspacman_maze_visible_v70.py`, calibrateur `calibrate_mspacman_maze_v70.py`,
-quatre tests passent. **Calculs V3 en cours** sur les deux archives, sorties
-`development_visible_v3.json` et `coverage_visible_v3.json` : ne toucher aucune
-source de ces calculs avant leur fin.
-Asteroids : protocole/sources/revue committés8cbc41d avant17511, capture8192images,
-8852facturées,5constructions. Baseline FAIL trois catégories ; erreur d'export
-int64 préservée, nouvelle sérialisation aux entiersPython sans changement des
-statistiques. Voir `docs/ARC4_ASTEROIDS_CALIBRATION.md`. Réservé17512 fermé.
-Diagnostic indépendant joueur/tirs en clôture : nouveaux modules distincts,
-présence/boîtes passent sur8192images, explosions incluses. Root traite les
-rochers avec `asteroids_rocks_v70.py` ; `diagnose_asteroids_raster_v70.py` en cours,
-sortie `rock_raster_development_v1.json`. L'inventaire RGB dérivé et les variantes
-de phase/géométrie/glyphes sont conservés séparément ; pas de source historique
-modifiée. Ne pas confondre ces diagnostics avec une calibration réservée.
-Terminer les diagnostics et calibrations de développement, puis revue et
-scellement avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
+Seaquest est terminé pour brut/temporel, référence et débit CPU ; Pong, Breakout
+et Freeway également calibrés aux étapes décrites plus haut. Aucun apprentissage
+ARC4 ni gate lancé. Les contrôles RAM/palettes restent exclusivement externes.
+
+**Ms. Pac-Man : paire réservée V3 active le 9 septembre vers13:33.**
+Sources V3 intactes, développement17411 : quatre catégories observées PASS,
+fruit absent/null/FAIL. Couverture17431 : cinq catégories PASS ; fantômes
+85799/86503boîtes within1 (99,1862 %), petites2374783/2374804within1 et
+45désaccords de comptage. Tous les échecs V0/V1/V2 sont conservés ; voir
+`docs/ARC4_MSPACMAN_CALIBRATION.md` pour les formules et reçus.
+Source du réservé committée `5a2ee619233a7454e7eee8e4f0ed9dad64cd769b`, puis
+scellé séparé committé `raw_validation_seal_v3.json`, SHA2de4837f8c4aeac6aacd21d46bc065b1ae0ff55d2c6ac67da9885c63929d9437.
+Préflight réel PASS,31sources +7métadonnées +runtime. **Ne modifier aucune de
+ces sources/métadonnées** pendant le lancement `scripts.validate_mspacman_raw_v70`
+(session exec32603).17412uniforme et17432couverture sont désormais ouverts :
+une seule paire, sorties `validation_uniform_v3/`, `validation_coverage_v3/`,
+reçus d'essai adjacents. Le lanceur collecte les deux avant scoring ; résultats
+`uniform_reserved_visible_v3.json`, `coverage_reserved_visible_v3.json`, puis
+`raw_reserved_pair_v3.json`. Lire les sorties/état avant toute action ; ne jamais
+relancer une capture. À la fin : revue indépendante. Tout échec réservé est
+conservé sans réglage sur le réservé. Le fruit uniforme strictement absent
+reste null/FAIL ; les cinq catégories doivent passer17432 séparément.
+
+**Asteroids : développement17511 seulement, réservé17512 fermé.**
+8192images,8852facturées,5constructions, baseline négative conservée. Le premier
+PASS joueur/tirs dépassait le ROI et est déclaré non conforme. La correction
+séparée `asteroids_player_roi_v70.py` respecte [16,194) :2309boîtes joueur exactes,
+966tirs within1 dont964exacts, comptages8192/8192,11tests, reçu distinct.
+Rochers V1 négatif (3838/4096comptages positifs,25966/26368within1). V2
+`asteroids_occlusion_v70.py` prédit l'occultation P0 sur P1 et conserve toutes
+les pièces visibles par allocation :3905/4096comptages,26215/26460within1.
+Géométrie PASS, comptage FAIL. V3 `asteroids_deblend_v70.py` explore un démélange
+RGB exact de deux glyphes de même couleur, priorité obtenue par parité de leur
+origine complète dans l'image. Ambiguïtés et débris restent comptés. Résultat V3 :4001/4096comptages et26436/26600within1, FAIL.
+V4 chronologie RAM adjacente :4011/4096comptages,26497/26607within1, FAIL ;
+la première position horizontale P0 peut précéder sa mise à jour. Revue de
+périmètre V2/V3 close, témoins V4 vérifiés. V5 ajoute les glyphes coupés aux
+bords : `asteroids_deblend_edges_v70.py`, diagnostic
+`diagnose_asteroids_edges_v70.py` actif (session exec51656), sortie
+`rock_edges_development_v5.json`. Ne pas modifier ces sources avant fin.
+Onze tests chronologie/bords passent. La représentation garde les pièces
+visibles par allocation et ne certifie pas les astéroïdes physiques. Voir
+`docs/ARC4_ASTEROIDS_CALIBRATION.md`. Poursuivre la calibration puis revoir et
+sceller avant17512. Aucun autre jeu de confirmation ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
 allocation expérimentale commune, budget proposé 12 GPU-h et débit CPU. La mesure
 mort F1 sur cinq des six jeux est impossible telle quelle : Pong et Freeway
