@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le9septembre2026 vers15:31Paris. Index, pas nouveau protocole.
+Mis à jour le9septembre2026 vers16:02Paris. Index, pas nouveau protocole.
 Historique antérieur intégral conservé dans
 [docs/history/CODEX_HANDOFF_20260909_1430.md](history/CODEX_HANDOFF_20260909_1430.md).
 Lire les sources utiles par sections ; ne pas recharger toute la session Claude.
@@ -23,12 +23,14 @@ jamais des observations ni des enseignants gratuits du futur agent.
 
 ## ARC3 v62 — calcul confirmatoire actif
 
-Contrôle réel vers15:22 : contrôleur20936, commande
+Contrôle réel vers16:01 : contrôleur20936, commande
 `C:\Python314\python.exe -u -m scripts.recover_confirm_v62` ; enfant17340,
 `scripts.confirm_v61 --lineage 0 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier commandes et logs réels, jamais PID seuls ni anciens états running.
-`s0_8300` terminé ; `s0_8301` en cours (Fb objectif1 terminé à13194s cumulées).
+`s0_8300` et `s0_8301` terminés ; dernier bras Fb objectif18 à15360s cumulées,
+puis L=[1,1,1]. Processus actif, GPU46%,5715MiB au contrôle ; troisième unité
+en préparation/calcul, son en-tête pas encore écrit. Pas d'erreur contrôleur.
 Aucun verdict avant les trois lignées, neuf mondes et revue indépendante.
 
 Lanceur démarré le9septembre à11:37:39Paris après reprise d'une interruption
@@ -72,8 +74,8 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue |17421V0/V1FAILghost, V2enrevue | à faire |
-| Asteroids |17512validé/revu |17521V1PASSrevu,17522scellé | à faire |
+| Ms.Pac-Man | paire17412/17432validée/revue |17421V2PASSrevu, préflight17422clos | à faire |
+| Asteroids |17512validé/revu |17522PASSrevu etcommitté | préparé, fermé |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
 Le débit natif de Seaquest≈1312frames/s reste sous l'objectif proposé2000 ;
@@ -104,7 +106,14 @@ identiquesV0. Inventaire complet reproduit tous les stats et105erreurs restantes
 Ce sont les yeux de fantômes mangés, pas du score à filtrer. HypothèseRAMpure
 V2état4/6+positionexacte+pointeury+47, glyphe8×5 et occlusion player/fruit :
 221/221supports exacts sur deux retours ; témoin état5 rejeté. Nouveau module
-`pooled_mspacman_eyes_v70.py`, scorer `_eyes`,10tests PASS ; revue en cours.
+`pooled_mspacman_eyes_v70.py`, scorer `_eyes`,10tests PASS ; revue candidat
+adcb683e… et52sources committés4660467 avant score. V2 complet PASS : comptes
+ghost8192/8192et8068/8068positifs,28159/28176within1 ; quatreautresstatsV1inchangés.
+Revue résultat6a6dce50… confirme64shards,52sources,38témoins. RésultatV2SHA
+6510be585e16341ef108d315c1493a55ac2a483698b652d2c69004725afec7d3.
+Runner réservé `validate_mspacman_pooled_v70.py` maintenantV2,57sources ; revue
+préflight41010456… close,16métadonnées,40tests PASS. Résultat/revues/sources àcommitter, puis créer/committer
+`pooled_reserved_seal_v2.json`, vrai check, capture unique et score distinct.
 Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
 avant scoring, données intactes, puis nom geometry distinct.17422fermé.
 
@@ -124,17 +133,35 @@ indépendante edfdff3b… confirme44sources et dix témoins.31/27/6erreurs de co
 conservées. Sourcea2fccaf avant score ; reçu commun V1 créé pendant le calcul,
 écart documenté sans prétendre à une revue pré-run. Réservé préparé49sources+
 9métadonnées, préflight indépendant5bd30d86… et30tests PASS. Sourcecommitc724311,
-scellé créé13:30:10Z et committé avant toute construction17522 ; check en cours.
+scellé créé13:30:10Z et committé avant toute construction17522 ; check conforme.
 Sources helper `temporal_validation_seal_v70.py` et runner
 `validate_asteroids_pooled_v70.py` désormais immuables. Capture/score marqueurs
-distincts, pas de relance réservée. Ms runner réservé est encore un brouillonV1
-à adapter au candidat final PASS avant revue/gel ; ne pas l'utiliser maintenant.
+distincts, pas de relance réservée. Réserve17522 complète :8192décisions,
+32748ordinaires+14×132=34596charges, trois catégories PASS. Revue15b8931c…
+confirme49sources/64shards/RNG/actions/33témoins et sept wraps nouveauxy=-1/-4.
+Erreurs comptes18/24/2 et géométrie1/54/0conservées. Preuves committéesa14b07d.
+SealSHAcdd9b4677fd45b51916413d4928113850412abf0e7abff2a6fb5dc21442ed5b9.
 
 Préparation référence non gelée : `docs/ARC4_VISIBLE_REFERENCE_PROTOCOL.json`,
-`scripts/visible_reference_v70.py`, `visible_scene_v70.py`,11tests CPU PASS.
-Graines17471/17571fermées. Revoir le choix du décodeur et les prérequis après
-les corrections temporelles (ne pas lancer la référence avec un modèle connu
-incomplet), puis revue/commit avant capture fraîche. Aucun apprentissage ici.
+`scripts/visible_reference_v70.py`, `visible_temporal_prerequisite_v70.py`,
+`raw_history_fixtures_v70.py`, protocole référence, tests : audit préalable clos.
+Scène source utilise MsV2/AstV1 corrigés ; capture nouvelle archiveRAMprécédente
+exacte àframe0→1, pas de fallback. Juge composé sans nouvelle validation raw
+indépendante : limite inscrite au protocole/résultat. Tous shards réservés relus
+au préflight. Empreinte revueAst remplie ; Ms=None bloque LESDEUX jeux jusqu'aux
+deux revues finales. Graines17471/17571fermées. Sourceclosure99 et tests ciblés
+environ34PASS ; finaliser deux fingerprints, revue globale/commit avant captures.
+
+Préparation CPU committée112a5cb/4d7c806 : `restorable_ram_history_v70.py`,
+`visible_temporal_groups_v70.py`, `visible_reference_pool_v70.py`, scènes/tests.
+25tests synthétiques PASS, aucun émulateur pour cette chaîne. Snapshot complet
+ajoute troisRAM ; branche restitue historique exact. Décodage aprèsframepayée
+préserve coût même sur erreur. Groupes raster4CC et membres pour mobilité ;
+référence et ciblesC invariantes au retraitoracle dans les tests. Revue, preuve
+géométrie complète, wiring réel/protocole/runnerbenchmark encore àfaire.
+`ARC4_ENTRY_BUDGET_DRAFT.md` : calcul seul,29pairesE1max dans20kà20%, pas288 ;
+16points courants possibles avec13lots×2+3lots×1. Archive persistante/trajectoires
+intermédiaires/partageC restent ouverts, aucun gel ni table gratuite revendiqués.
 
 Après les deux calibrations temporelles : référence puis débit, puis primitives
 parser/tracker/ME/buttons/reader/drives. `ARC4_VISION.md` §§2,5,6,11décrit la vision

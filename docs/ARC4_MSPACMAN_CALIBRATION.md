@@ -237,3 +237,14 @@ et le RGB inchangés. Les deux yeux restent une seule entrée visible malgré
 leur espace interne ; seul un passage au bord horizontal la scinde. Dix tests
 passent : six témoins, fausse coïncidence état5, ancien contact, ambiguïté et
 wrap synthétique. Revue avant nouveau score intégral V2 ;17422toujours fermé.
+
+La revue du candidat V2, SHAadcb683e…, a reproduit les 221 supports et lié les
+52 sources (initialiseur des tests inclus). Sources, revue et négatifs ont été
+committés avant le recalcul. Le résultat complet V2 passe les cinq catégories :
+comptage fantômes 8192/8192 et 8068/8068 positifs, 28159/28176 within1,
+28101 exacts. Les 17 paires géométriques restantes sont conservées ; les quatre
+autres catégories sont strictement identiques à V1. Revue complète
+SHA6a6dce50… : 64 archives, 52 sources et 38 témoins vérifiés, dont 24 désaccords.
+Le préflight réservé, SHA41010456…, lie 57 sources et 16 métadonnées ; 40 tests
+passent. Sources et preuves doivent être committées, puis le scellé distinct
+avant construction. La réserve 17422 reste fermée à cette étape.
