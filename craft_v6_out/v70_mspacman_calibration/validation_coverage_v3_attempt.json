@@ -1,0 +1,32 @@
+{
+  "kind": "mspacman_reserved_capture_attempt",
+  "name": "coverage",
+  "seed": 17432,
+  "status": "complete",
+  "started_utc": "2026-09-09T11:32:48Z",
+  "seal_sha256": "2de4837f8c4aeac6aacd21d46bc065b1ae0ff55d2c6ac67da9885c63929d9437",
+  "source_commit": "1fddd2cf4c272299d29eb4e9394761b44f7f2ef8",
+  "completed_utc": "2026-09-09T11:35:41Z",
+  "manifest_sha256": "9cf24390df8ba59795db31a227ae9de95e3ecd9def74e233cedb32bd3bd076f0",
+  "accounting": {
+    "ordinary_frames": 33824,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 33824,
+    "charged_frames": 33824,
+    "ordinary_agent_steps": 32768,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 4358276,
+    "reset_emulated_frames": 576,
+    "bootstrap_emulated_frames": 132,
+    "format_detection_emulated_frames": 480,
+    "cold_loads": 8,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  }
+}

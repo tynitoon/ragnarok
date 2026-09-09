@@ -160,3 +160,22 @@ Reçus indépendants de composition et de résultats V3 clos. Le protocole disti
 scellé des sources et métadonnées avant lancement, deux séquences séparées,
 fruit uniforme strictement absent toujours null/FAIL. Aucun réservé ouvert à
 ce point documentaire.
+
+
+La paire réservée a terminé sans changement de sources.31sources du commit
+5a2ee619 et scellé committé1fddd2c avant toute construction ; préflight réel
+PASS avant et après le calcul. Uniforme17412 :8192images,8852facturées,5loads ;
+les quatre catégories observées passent, fruit toujours strictement absent
+(null/FAIL). Couverture17432 :32768images,33824facturées,8loads ; les cinq
+catégories passent séparément. Fantômes :31682/31914comptages positifs,
+85316/85854within1. Petites :32464/32504comptages positifs,
+2517375/2517439within1. Joueur, fruits et grosses ont des comptages exacts.
+Le résultat `raw_reserved_pair_v3.json` satisfait l'acceptation prospective,
+sans changer le FAIL individuel du fruit uniforme ni agréger ses dénominateurs.
+Le reçu indépendant `reserved_pair_review_v3.json`, SHAa53c1655…, vérifie les
+160archives,40960lignes comptables, sources, commits, dates et fractions ; le
+scan RAM indépendant confirme10426fruits en couverture et0en uniforme.
+Les erreurs restent consignées. Calibration brute close pour le périmètre
+annoncé ; aucune exactitude universelle ni capacité d'apprentissage n'en découle.
+La suite temporelle utilisera un adaptateur distinct à trois instantanés RAM,
+car chaque image brute doit être décodée avec son prédécesseur.

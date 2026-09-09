@@ -1,0 +1,32 @@
+{
+  "kind": "mspacman_reserved_capture_attempt",
+  "name": "uniform",
+  "seed": 17412,
+  "status": "complete",
+  "started_utc": "2026-09-09T11:32:30Z",
+  "seal_sha256": "2de4837f8c4aeac6aacd21d46bc065b1ae0ff55d2c6ac67da9885c63929d9437",
+  "source_commit": "1fddd2cf4c272299d29eb4e9394761b44f7f2ef8",
+  "completed_utc": "2026-09-09T11:32:42Z",
+  "manifest_sha256": "f63c51099598f7ac18076e59610196a80efec35dbf315a1dd31a2ff434567a5a",
+  "accounting": {
+    "ordinary_frames": 8852,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 8852,
+    "charged_frames": 8852,
+    "ordinary_agent_steps": 8192,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 1089668,
+    "reset_emulated_frames": 360,
+    "bootstrap_emulated_frames": 132,
+    "format_detection_emulated_frames": 300,
+    "cold_loads": 5,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  }
+}

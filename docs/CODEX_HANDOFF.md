@@ -328,46 +328,41 @@ Seaquest est terminé pour brut/temporel, référence et débit CPU ; Pong, Brea
 et Freeway également calibrés aux étapes décrites plus haut. Aucun apprentissage
 ARC4 ni gate lancé. Les contrôles RAM/palettes restent exclusivement externes.
 
-**Ms. Pac-Man : paire réservée V3 active le 9 septembre vers13:33.**
-Sources V3 intactes, développement17411 : quatre catégories observées PASS,
-fruit absent/null/FAIL. Couverture17431 : cinq catégories PASS ; fantômes
-85799/86503boîtes within1 (99,1862 %), petites2374783/2374804within1 et
-45désaccords de comptage. Tous les échecs V0/V1/V2 sont conservés ; voir
-`docs/ARC4_MSPACMAN_CALIBRATION.md` pour les formules et reçus.
-Source du réservé committée `5a2ee619233a7454e7eee8e4f0ed9dad64cd769b`, puis
-scellé séparé committé `raw_validation_seal_v3.json`, SHA2de4837f8c4aeac6aacd21d46bc065b1ae0ff55d2c6ac67da9885c63929d9437.
-Préflight réel PASS,31sources +7métadonnées +runtime. **Ne modifier aucune de
-ces sources/métadonnées** pendant le lancement `scripts.validate_mspacman_raw_v70`
-(session exec32603).17412uniforme et17432couverture sont désormais ouverts :
-une seule paire, sorties `validation_uniform_v3/`, `validation_coverage_v3/`,
-reçus d'essai adjacents. Le lanceur collecte les deux avant scoring ; résultats
-`uniform_reserved_visible_v3.json`, `coverage_reserved_visible_v3.json`, puis
-`raw_reserved_pair_v3.json`. Lire les sorties/état avant toute action ; ne jamais
-relancer une capture. À la fin : revue indépendante. Tout échec réservé est
-conservé sans réglage sur le réservé. Le fruit uniforme strictement absent
-reste null/FAIL ; les cinq catégories doivent passer17432 séparément.
+**Ms. Pac-Man : calibration brute réservée complète et revue.**
+Développements17411/17431 et tous les échecs antérieurs conservés. Source
+réservée5a2ee619 puis scellé1fddd2c (31sources+7métadonnées), contrôles réels
+avant/après conformes. Réservés17412uniforme :8192images/8852facturées/5loads ;
+17432couverture :32768images/33824facturées/8loads. Les quatre catégories
+observées passent l'uniforme, fruit strictement absent/null/FAIL ; les cinq
+passent la couverture. `raw_reserved_pair_v3.json` pair_pass=true, revue
+`reserved_pair_review_v3.json` SHAa53c16554af0bc91a57ea3876aabb2a26e2323e78793b96b10e29a91fe99ef89.
+Fantômes couverture31682/31914comptages positifs,85316/85854within1 ; petites
+32464/32504comptages,2517375/2517439within1.160archives/40960lignes de charges
+vérifiées indépendamment. Ne modifier aucune source scellée ou preuve ; aucun
+nouveau réglage à partir des réservés. Voir `docs/ARC4_MSPACMAN_CALIBRATION.md`.
+Suite : calibration des fenêtres réellement reçues avec un nouvel adaptateur,
+puis référence/débit. Trois RAM adjacentes sont nécessaires pour les deux RGB.
+`triple_ram_tap_v70.py` et six tests CPU préparés ; aucun émulateur temporel ni
+seed17421/17422 ouvert. Protocole et sources à figer avant ce développement.
 
-**Asteroids : développement17511 seulement, réservé17512 fermé.**
-8192images,8852facturées,5constructions, baseline négative conservée. Le premier
-PASS joueur/tirs dépassait le ROI et est déclaré non conforme. La correction
-séparée `asteroids_player_roi_v70.py` respecte [16,194) :2309boîtes joueur exactes,
-966tirs within1 dont964exacts, comptages8192/8192,11tests, reçu distinct.
-Rochers V1 négatif (3838/4096comptages positifs,25966/26368within1). V2
-`asteroids_occlusion_v70.py` prédit l'occultation P0 sur P1 et conserve toutes
-les pièces visibles par allocation :3905/4096comptages,26215/26460within1.
-Géométrie PASS, comptage FAIL. V3 `asteroids_deblend_v70.py` explore un démélange
-RGB exact de deux glyphes de même couleur, priorité obtenue par parité de leur
-origine complète dans l'image. Ambiguïtés et débris restent comptés. Résultat V3 :4001/4096comptages et26436/26600within1, FAIL.
-V4 chronologie RAM adjacente :4011/4096comptages,26497/26607within1, FAIL ;
-la première position horizontale P0 peut précéder sa mise à jour. Revue de
-périmètre V2/V3 close, témoins V4 vérifiés. V5 ajoute les glyphes coupés aux
-bords : `asteroids_deblend_edges_v70.py`, diagnostic
-`diagnose_asteroids_edges_v70.py` actif (session exec51656), sortie
-`rock_edges_development_v5.json`. Ne pas modifier ces sources avant fin.
-Onze tests chronologie/bords passent. La représentation garde les pièces
-visibles par allocation et ne certifie pas les astéroïdes physiques. Voir
-`docs/ARC4_ASTEROIDS_CALIBRATION.md`. Poursuivre la calibration puis revoir et
-sceller avant17512. Aucun autre jeu de confirmation ouvert.
+**Asteroids : réservé17512 terminé PASS, revue indépendante en cours.**
+Développement17511 :8192images/8852facturées/5loads, baseline et corrections
+négatives conservées. Le premier PASS joueur/tirs hors ROI est déclaré non
+conforme ; la composition finale respecte [16,194). Rochers V5 :4065/4096
+comptages positifs,26628/26673within1. Pièces visibles par allocation, aucune
+fusion d'allocations RAM ni prétention d'identités physiques. Les glyphes et
+chronologies sont des hypothèses externes, jamais des entrées pour l'agent.
+Composition et lanceur revus ;31sources du commit73fdf4c, scellé committé158a976,
+SHA7b410031334df36aa47c0af1aa964a98f400d487b3ee13ae36f2d55a4b3f713f.
+Préflight réel PASS puis capture17512 à11:58:47Z, fin du scoring12:01:34Z.
+8192images/8852facturées/5loads, joueur2051boîtes exactes, tirs918exacts,
+rochers4073/4096comptages positifs et27541/27577within1.23images de comptage
+en erreur gardées. `reserved_visible_v1.json`, SHA
+d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9,
+tentative=complete. Revue scientifique bornée confiée à review_recovery_v62,
+reçu demandé `visible_reserved_review.json`. Toutes les sources/preuves sont
+figées ; ne pas relancer17512 ni régler ses erreurs. Voir le détail dans
+`docs/ARC4_ASTEROIDS_CALIBRATION.md`. Aucun autre jeu de confirmation ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
 allocation expérimentale commune, budget proposé 12 GPU-h et débit CPU. La mesure
 mort F1 sur cinq des six jeux est impossible telle quelle : Pong et Freeway

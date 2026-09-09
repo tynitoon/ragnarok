@@ -1,0 +1,15 @@
+{
+  "pair_pass": true,
+  "uniform_fruit_strictly_absent": true,
+  "uniform_calibration_pass": false,
+  "coverage_calibration_pass": true,
+  "status": "complete_review_required",
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "validation_seal_sha256": "2de4837f8c4aeac6aacd21d46bc065b1ae0ff55d2c6ac67da9885c63929d9437",
+  "created_utc": "2026-09-09T11:49:12Z",
+  "result_sha256": {
+    "uniform": "bb4bb5d204c5627879e49d1b29fad877eb7b38d8e929762d14692bd8abd5256c",
+    "coverage": "de49be7c6014d672fa5964e78585193097d90abfd603941bba7f308880c3d6b1"
+  }
+}
