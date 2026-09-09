@@ -1,0 +1,2 @@
+# Preserve exact native validation console bytes for independent review.
+wiring_v0_console.log -text
