@@ -1,0 +1,101 @@
+{
+  "kind": "charged_single_worker_cpu_profile",
+  "game": "breakout",
+  "elapsed_seconds": 2.5333211999968626,
+  "decisions": 512,
+  "report": {
+    "accounting": {
+      "ordinary_frames": 2440,
+      "experiment_frames": 32,
+      "restores": 8,
+      "restore_charges": 480,
+      "emulated_frames": 2472,
+      "charged_frames": 2952,
+      "ordinary_agent_steps": 512,
+      "experiment_agent_steps": 8,
+      "experiment_fraction": 0.2,
+      "max_charged_frames": 100000,
+      "reset_emulated_frames": 216,
+      "bootstrap_emulated_frames": 132,
+      "format_detection_emulated_frames": 180,
+      "cold_loads": 3,
+      "reset_convention": "fixed_hardware_cold_start_v1",
+      "system_random_seed": 4753849,
+      "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+      "sticky_implementation": "worker-python-random-per-frame",
+      "sticky_probability": 0.25
+    },
+    "perception": {
+      "frames": 512,
+      "observed_raw_frames": 2044,
+      "predictions": 879,
+      "matched_visible": 764,
+      "eligible_moving": 638,
+      "recalled_moving": 633,
+      "recall_moving": 0.9921630094043887,
+      "precision_visible": 0.8691695108077361,
+      "per_type": {
+        "player": {
+          "visible": 512,
+          "eligible": 367,
+          "recalled": 362,
+          "recall_moving": 0.9863760217983651
+        },
+        "bricks_0": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "bricks_1": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "bricks_2": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "bricks_3": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "bricks_4": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "bricks_5": {
+          "visible": 512,
+          "eligible": 0,
+          "recalled": 0,
+          "recall_moving": null
+        },
+        "ball": {
+          "visible": 271,
+          "eligible": 271,
+          "recalled": 271,
+          "recall_moving": 1.0
+        }
+      },
+      "gate_result": null
+    },
+    "reset_convention": "cold",
+    "decisions": 512,
+    "ordinary_raw_frames": 2044,
+    "branch_pairs": 4,
+    "decoded_branch_frames": 32,
+    "changed_pixels": 44,
+    "self_generated_label_sha256": "1d6e07cd5e5a96f6598df0e286bf4cc708f30ba2845880d2852681ba788cc4d4"
+  },
+  "profile": "         483236 function calls in 2.506 seconds\n\n   Ordered by: cumulative time\n   List reduced from 129 to 35 due to restriction <35>\n\n   ncalls  tottime  percall  cumtime  percall filename:lineno(function)\n      512    0.006    0.000    2.530    0.005 F:\\dev\\ragnarok\\ragnarok\\evaluation\\reference_pool_v70.py:111(step)\n      512    0.006    0.000    1.415    0.003 F:\\dev\\ragnarok\\ragnarok\\environments\\cold_emu_pool_v70.py:86(step)\n      520    0.158    0.000    1.205    0.002 F:\\dev\\ragnarok\\ragnarok\\environments\\emu_pool.py:119(_advance)\n     2076    0.393    0.000    0.987    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\reference_pool_v70.py:32(act)\n      512    0.005    0.000    0.762    0.001 F:\\dev\\ragnarok\\scripts\\ref_extract_v70.py:93(observe)\n     2076    0.009    0.000    0.590    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\reference_pool_v70.py:99(_on_frame)\n      512    0.326    0.001    0.361    0.001 F:\\dev\\ragnarok\\scripts\\ref_extract_v70.py:39(_update_packed)\n     3100    0.208    0.000    0.300    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\breakout_v70.py:22(decode_breakout_ram)\n     2556    0.046    0.000    0.298    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_perception_v70.py:27(_objects)\n     2044    0.040    0.000    0.296    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_perception_v70.py:38(observe_truth)\n      520    0.016    0.000    0.264    0.001 F:\\dev\\ragnarok\\scripts\\ref_extract_v70.py:84(_extract_packed)\n     2076    0.038    0.000    0.258    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_perception_v70.py:78(breakout_scene_objects)\n     3068    0.153    0.000    0.222    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\perception_v70.py:51(_centers)\n        2    0.211    0.105    0.211    0.105 F:\\dev\\ragnarok\\ragnarok\\environments\\cold_emu_pool_v70.py:53(_cold_start)\n      520    0.130    0.000    0.178    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\scipy\\ndimage\\_measurements.py:43(label)\n      512    0.003    0.000    0.167    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_perception_v70.py:54(score)\n      512    0.008    0.000    0.147    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_adapters_v70.py:6(pooled_breakout_scene_objects)\n      520    0.130    0.000    0.137    0.000 F:\\dev\\ragnarok\\scripts\\ref_extract_v70.py:24(_packed)\n      512    0.022    0.000    0.134    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\fast_pooled_breakout_v70.py:10(pooled_breakout_ram_intervals)\n    23340    0.047    0.000    0.085    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\breakout_v70.py:17(_clipped)\n      512    0.014    0.000    0.072    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\scene_perception_v70.py:58(_score_centers)\n      520    0.003    0.000    0.067    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\scipy\\ndimage\\_measurements.py:238(find_objects)\n     9748    0.067    0.000    0.067    0.000 {method 'reduce' of 'numpy.ufunc' objects}\n      520    0.051    0.000    0.051    0.000 {built-in method scipy.ndimage._nd_image.find_objects}\n      512    0.026    0.000    0.050    0.000 F:\\dev\\ragnarok\\ragnarok\\evaluation\\perception_v70.py:9(match_centers)\n     4092    0.006    0.000    0.037    0.000 {method 'all' of 'numpy.ndarray' objects}\n     3592    0.014    0.000    0.034    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\numpy\\_core\\fromnumeric.py:86(_wrapreduction_any_all)\n     3072    0.007    0.000    0.034    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\numpy\\_core\\fromnumeric.py:2436(any)\n     4209    0.033    0.000    0.033    0.000 {method 'copy' of 'numpy.ndarray' objects}\n      520    0.014    0.000    0.032    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\scipy\\ndimage\\_morphology.py:124(generate_binary_structure)\n     4092    0.003    0.000    0.031    0.000 F:\\dev\\ragnarok\\.venv-arc4\\Lib\\site-packages\\numpy\\_core\\_methods.py:64(_all)\n     3588    0.029    0.000    0.029    0.000 {built-in method numpy.array}\n     2044    0.005    0.000    0.026    0.000 F:\\dev\\ragnarok\\ragnarok\\environments\\cold_emu_pool_v70.py:98(accounting)\n        4    0.000    0.000    0.026    0.006 F:\\dev\\ragnarok\\ragnarok\\environments\\emu_pool.py:179(branch_pair)\n      512    0.024    0.000    0.024    0.000 {method 'astype' of 'numpy.ndarray' objects}\n\n\n",
+  "script_sha256": "fa573913fe482c1fb0dc610283cec1141eaf62403c4e52b23cff84751950dd37",
+  "gate_result": null,
+  "limitation": "Profile instrumentation and no IPC; for hotspot diagnosis only."
+}
