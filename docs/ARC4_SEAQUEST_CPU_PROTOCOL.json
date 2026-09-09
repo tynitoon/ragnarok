@@ -1,0 +1,19 @@
+{
+  "kind": "prospective_seaquest_complete_reference_cpu_diagnostic",
+  "game": "seaquest",
+  "workers": 16,
+  "seeds": "18000+i for worker i=0..15, disjoint from calibration fixtures",
+  "decisions_per_worker": 2048,
+  "actions": "(decision_index//4+worker_index)%18; same sequence for NumPy and native reference",
+  "image_convention": "Maximum of actual final two raw frames, ordinary and branch endpoints, repeat4; fixed hardware cold128 startup/reset, sticky0.25 per real frame",
+  "budget": "100000charged frames per worker including every cold load, branch and60perrestore. Branch pair each128decisions,4realframes intervention/current action and controlNOOP, no reference background update on branch images.",
+  "prerequisite": "Passed committed reserved temporal17322 with complete unchanged33source seal and passed raw pair. New adapter and protocol committed before a new Seaquest CPU benchmark or emulator-based wiring test.",
+  "geometry": "Exact4-connected graph of original raw rectangle envelopes, edge contact joins and corner-only contact does not. Prove equality with sealed raster implementation on256synthetic arrangements and both full temporal captures before benchmark. Never connect by expanded group bounds.",
+  "scoring": "Raw judge histories use kind+RAMslot. Motion at t means at least two visible centers differ among positions t-8 through t (eight transitions/nine positions), episode history cleared only on actual ordinary cold reset. Temporal component is mobile when any constituent slot is in that raw moving set. Each component is a separate frame-local target even if another has identical member slots. All visible stationary and moving components participate in precision, one-to-one center matching within4pixels; each eligible component counted once.",
+  "identity_limits": "Allocation slots are not persistent individuals; animation, clipping, wrapping, contact, category change and slot reuse may affect mobility. Two-source envelopes are not necessarily recoverable identities from maxRGB alone. Component-window observations are not independent lifetimes.",
+  "separation_tests": "Changing all RAM labels must leave RGB, reference boxes, charged counts and pixel-derived C digest identical. Verify true terminal branch restoration and cold reinstallation of both source RAM/RGB, and closed RPC payloads. Count these development test costs separately.",
+  "wiring_parameters": "Two identical instances seed18176, episode_limit300/cap20000 each,128decisions; subject and witness seed18177, episode_limit509/cap20000 each,129decisions; one RPC worker seed18178, default episode_limit108000/cap1000,one decision. Preserve charges of all five instances.",
+  "report": "NumPy and existing native RGB backend separately; all16worker reports must be identical to support computational equivalence. Startup separate from work_seconds. Report complete-chain throughput, precision and recall counts; neither2000target nor1000engineeringminimum is a learning/gate verdict. Concurrent ARC3 load disclosed, no controlled universal speedup claim.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
