@@ -1,0 +1,151 @@
+{
+  "kind": "mspacman_player_yellow_occlusion_development_check",
+  "stats": {
+    "frames": 8192,
+    "active_pills": 1059070,
+    "predicted_fully_hidden_by_player": 47,
+    "observed_fully_yellow": 38,
+    "fully_hidden_disagreement": 9,
+    "frame_hidden_count_agreement": 8183
+  },
+  "first_disagreements": [
+    {
+      "frame": 5268,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 1
+    },
+    {
+      "frame": 5269,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 1
+    },
+    {
+      "frame": 5270,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 1
+    },
+    {
+      "frame": 5271,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 1
+    },
+    {
+      "frame": 5284,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 3
+    },
+    {
+      "frame": 5285,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 3
+    },
+    {
+      "frame": 5286,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 3
+    },
+    {
+      "frame": 5287,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 3
+    },
+    {
+      "frame": 5300,
+      "slot": "8:10",
+      "predicted": true,
+      "observed": false,
+      "position": [
+        92,
+        103,
+        4,
+        2
+      ],
+      "phase": 2,
+      "direction": 1
+    }
+  ],
+  "source_sha256": {
+    "ragnarok/evaluation/mspacman_support_v70.py": "419305b65574df1bd730a2033d61ee7993a085839c1d7e0dee1f5b24dc8cf5ec",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e"
+  },
+  "fixture_manifest_sha256": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+  "limits": [
+    "Only full occlusion by yellow player pixels is tested; ghosts and joint partial occlusion are excluded from this diagnostic interpretation.",
+    "RGB observation is used only to measure this development hypothesis, never as input to the RAM support function.",
+    "Not a full or reserved calibration."
+  ]
+}

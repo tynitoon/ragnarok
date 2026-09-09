@@ -1,0 +1,3522 @@
+{
+  "kind": "mspacman_pill_fragment_grouping_development_diagnostic",
+  "created_utc": "2026-09-09T04:13:21.440359+00:00",
+  "fixture_manifest_sha256": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+  "seed": 17411,
+  "frames": 8192,
+  "method": "Register150 small4x2 anchors from full RGB components of frame1, and four power4x7 anchors from frames1..9. Current RGB-only checker removes components wider4 or taller7 (maze), groups remaining pink fragments within each registered support, and reports bounding box of surviving pixels. RAM is consulted only AFTER extraction for this external diagnostic.",
+  "anchors_sha256": "05d8c25c2189a6ba499bd41d96488be5c6ac66aae4efc7b2ae904a83ccef47a6",
+  "anchors": {
+    "pill": [
+      [
+        8,
+        7,
+        4,
+        2
+      ],
+      [
+        16,
+        7,
+        4,
+        2
+      ],
+      [
+        24,
+        7,
+        4,
+        2
+      ],
+      [
+        32,
+        7,
+        4,
+        2
+      ],
+      [
+        48,
+        7,
+        4,
+        2
+      ],
+      [
+        56,
+        7,
+        4,
+        2
+      ],
+      [
+        64,
+        7,
+        4,
+        2
+      ],
+      [
+        72,
+        7,
+        4,
+        2
+      ],
+      [
+        84,
+        7,
+        4,
+        2
+      ],
+      [
+        92,
+        7,
+        4,
+        2
+      ],
+      [
+        100,
+        7,
+        4,
+        2
+      ],
+      [
+        108,
+        7,
+        4,
+        2
+      ],
+      [
+        124,
+        7,
+        4,
+        2
+      ],
+      [
+        132,
+        7,
+        4,
+        2
+      ],
+      [
+        140,
+        7,
+        4,
+        2
+      ],
+      [
+        148,
+        7,
+        4,
+        2
+      ],
+      [
+        32,
+        19,
+        4,
+        2
+      ],
+      [
+        48,
+        19,
+        4,
+        2
+      ],
+      [
+        108,
+        19,
+        4,
+        2
+      ],
+      [
+        124,
+        19,
+        4,
+        2
+      ],
+      [
+        8,
+        31,
+        4,
+        2
+      ],
+      [
+        16,
+        31,
+        4,
+        2
+      ],
+      [
+        24,
+        31,
+        4,
+        2
+      ],
+      [
+        32,
+        31,
+        4,
+        2
+      ],
+      [
+        40,
+        31,
+        4,
+        2
+      ],
+      [
+        48,
+        31,
+        4,
+        2
+      ],
+      [
+        56,
+        31,
+        4,
+        2
+      ],
+      [
+        64,
+        31,
+        4,
+        2
+      ],
+      [
+        72,
+        31,
+        4,
+        2
+      ],
+      [
+        84,
+        31,
+        4,
+        2
+      ],
+      [
+        92,
+        31,
+        4,
+        2
+      ],
+      [
+        100,
+        31,
+        4,
+        2
+      ],
+      [
+        108,
+        31,
+        4,
+        2
+      ],
+      [
+        116,
+        31,
+        4,
+        2
+      ],
+      [
+        124,
+        31,
+        4,
+        2
+      ],
+      [
+        132,
+        31,
+        4,
+        2
+      ],
+      [
+        140,
+        31,
+        4,
+        2
+      ],
+      [
+        148,
+        31,
+        4,
+        2
+      ],
+      [
+        16,
+        43,
+        4,
+        2
+      ],
+      [
+        32,
+        43,
+        4,
+        2
+      ],
+      [
+        56,
+        43,
+        4,
+        2
+      ],
+      [
+        100,
+        43,
+        4,
+        2
+      ],
+      [
+        124,
+        43,
+        4,
+        2
+      ],
+      [
+        140,
+        43,
+        4,
+        2
+      ],
+      [
+        8,
+        55,
+        4,
+        2
+      ],
+      [
+        16,
+        55,
+        4,
+        2
+      ],
+      [
+        32,
+        55,
+        4,
+        2
+      ],
+      [
+        40,
+        55,
+        4,
+        2
+      ],
+      [
+        48,
+        55,
+        4,
+        2
+      ],
+      [
+        56,
+        55,
+        4,
+        2
+      ],
+      [
+        64,
+        55,
+        4,
+        2
+      ],
+      [
+        72,
+        55,
+        4,
+        2
+      ],
+      [
+        84,
+        55,
+        4,
+        2
+      ],
+      [
+        92,
+        55,
+        4,
+        2
+      ],
+      [
+        100,
+        55,
+        4,
+        2
+      ],
+      [
+        108,
+        55,
+        4,
+        2
+      ],
+      [
+        116,
+        55,
+        4,
+        2
+      ],
+      [
+        124,
+        55,
+        4,
+        2
+      ],
+      [
+        140,
+        55,
+        4,
+        2
+      ],
+      [
+        148,
+        55,
+        4,
+        2
+      ],
+      [
+        16,
+        67,
+        4,
+        2
+      ],
+      [
+        56,
+        67,
+        4,
+        2
+      ],
+      [
+        100,
+        67,
+        4,
+        2
+      ],
+      [
+        140,
+        67,
+        4,
+        2
+      ],
+      [
+        16,
+        79,
+        4,
+        2
+      ],
+      [
+        24,
+        79,
+        4,
+        2
+      ],
+      [
+        32,
+        79,
+        4,
+        2
+      ],
+      [
+        40,
+        79,
+        4,
+        2
+      ],
+      [
+        48,
+        79,
+        4,
+        2
+      ],
+      [
+        56,
+        79,
+        4,
+        2
+      ],
+      [
+        100,
+        79,
+        4,
+        2
+      ],
+      [
+        108,
+        79,
+        4,
+        2
+      ],
+      [
+        116,
+        79,
+        4,
+        2
+      ],
+      [
+        124,
+        79,
+        4,
+        2
+      ],
+      [
+        132,
+        79,
+        4,
+        2
+      ],
+      [
+        140,
+        79,
+        4,
+        2
+      ],
+      [
+        16,
+        91,
+        4,
+        2
+      ],
+      [
+        56,
+        91,
+        4,
+        2
+      ],
+      [
+        100,
+        91,
+        4,
+        2
+      ],
+      [
+        140,
+        91,
+        4,
+        2
+      ],
+      [
+        8,
+        103,
+        4,
+        2
+      ],
+      [
+        16,
+        103,
+        4,
+        2
+      ],
+      [
+        32,
+        103,
+        4,
+        2
+      ],
+      [
+        40,
+        103,
+        4,
+        2
+      ],
+      [
+        48,
+        103,
+        4,
+        2
+      ],
+      [
+        56,
+        103,
+        4,
+        2
+      ],
+      [
+        64,
+        103,
+        4,
+        2
+      ],
+      [
+        72,
+        103,
+        4,
+        2
+      ],
+      [
+        84,
+        103,
+        4,
+        2
+      ],
+      [
+        92,
+        103,
+        4,
+        2
+      ],
+      [
+        100,
+        103,
+        4,
+        2
+      ],
+      [
+        108,
+        103,
+        4,
+        2
+      ],
+      [
+        116,
+        103,
+        4,
+        2
+      ],
+      [
+        124,
+        103,
+        4,
+        2
+      ],
+      [
+        140,
+        103,
+        4,
+        2
+      ],
+      [
+        148,
+        103,
+        4,
+        2
+      ],
+      [
+        16,
+        115,
+        4,
+        2
+      ],
+      [
+        32,
+        115,
+        4,
+        2
+      ],
+      [
+        48,
+        115,
+        4,
+        2
+      ],
+      [
+        64,
+        115,
+        4,
+        2
+      ],
+      [
+        92,
+        115,
+        4,
+        2
+      ],
+      [
+        108,
+        115,
+        4,
+        2
+      ],
+      [
+        124,
+        115,
+        4,
+        2
+      ],
+      [
+        140,
+        115,
+        4,
+        2
+      ],
+      [
+        8,
+        127,
+        4,
+        2
+      ],
+      [
+        16,
+        127,
+        4,
+        2
+      ],
+      [
+        24,
+        127,
+        4,
+        2
+      ],
+      [
+        32,
+        127,
+        4,
+        2
+      ],
+      [
+        48,
+        127,
+        4,
+        2
+      ],
+      [
+        64,
+        127,
+        4,
+        2
+      ],
+      [
+        72,
+        127,
+        4,
+        2
+      ],
+      [
+        84,
+        127,
+        4,
+        2
+      ],
+      [
+        92,
+        127,
+        4,
+        2
+      ],
+      [
+        108,
+        127,
+        4,
+        2
+      ],
+      [
+        124,
+        127,
+        4,
+        2
+      ],
+      [
+        132,
+        127,
+        4,
+        2
+      ],
+      [
+        140,
+        127,
+        4,
+        2
+      ],
+      [
+        148,
+        127,
+        4,
+        2
+      ],
+      [
+        8,
+        139,
+        4,
+        2
+      ],
+      [
+        32,
+        139,
+        4,
+        2
+      ],
+      [
+        48,
+        139,
+        4,
+        2
+      ],
+      [
+        56,
+        139,
+        4,
+        2
+      ],
+      [
+        64,
+        139,
+        4,
+        2
+      ],
+      [
+        92,
+        139,
+        4,
+        2
+      ],
+      [
+        100,
+        139,
+        4,
+        2
+      ],
+      [
+        108,
+        139,
+        4,
+        2
+      ],
+      [
+        124,
+        139,
+        4,
+        2
+      ],
+      [
+        148,
+        139,
+        4,
+        2
+      ],
+      [
+        32,
+        151,
+        4,
+        2
+      ],
+      [
+        64,
+        151,
+        4,
+        2
+      ],
+      [
+        92,
+        151,
+        4,
+        2
+      ],
+      [
+        124,
+        151,
+        4,
+        2
+      ],
+      [
+        8,
+        163,
+        4,
+        2
+      ],
+      [
+        16,
+        163,
+        4,
+        2
+      ],
+      [
+        24,
+        163,
+        4,
+        2
+      ],
+      [
+        32,
+        163,
+        4,
+        2
+      ],
+      [
+        40,
+        163,
+        4,
+        2
+      ],
+      [
+        48,
+        163,
+        4,
+        2
+      ],
+      [
+        56,
+        163,
+        4,
+        2
+      ],
+      [
+        64,
+        163,
+        4,
+        2
+      ],
+      [
+        72,
+        163,
+        4,
+        2
+      ],
+      [
+        84,
+        163,
+        4,
+        2
+      ],
+      [
+        92,
+        163,
+        4,
+        2
+      ],
+      [
+        100,
+        163,
+        4,
+        2
+      ],
+      [
+        108,
+        163,
+        4,
+        2
+      ],
+      [
+        116,
+        163,
+        4,
+        2
+      ],
+      [
+        124,
+        163,
+        4,
+        2
+      ],
+      [
+        132,
+        163,
+        4,
+        2
+      ],
+      [
+        140,
+        163,
+        4,
+        2
+      ],
+      [
+        148,
+        163,
+        4,
+        2
+      ]
+    ],
+    "power_pill": [
+      [
+        8,
+        15,
+        4,
+        7
+      ],
+      [
+        8,
+        147,
+        4,
+        7
+      ],
+      [
+        148,
+        14,
+        4,
+        7
+      ],
+      [
+        148,
+        146,
+        4,
+        7
+      ]
+    ]
+  },
+  "stats": {
+    "pill": {
+      "frames": 8192,
+      "ram_objects": 1059070,
+      "rgb_objects": 1057318,
+      "count_agree": 6807,
+      "full_occlusion": 1752,
+      "partial_occlusion": 11018,
+      "joint_identity_matches": 1057318,
+      "boxes_within1": 1055351,
+      "boxes_exact": 1049273,
+      "presence_fraction": 0.8309326171875,
+      "within1_fraction": 0.9981396325419599
+    },
+    "power_pill": {
+      "frames": 8192,
+      "ram_objects": 15497,
+      "rgb_objects": 15497,
+      "count_agree": 8192,
+      "full_occlusion": 0,
+      "partial_occlusion": 337,
+      "joint_identity_matches": 15497,
+      "boxes_within1": 15359,
+      "boxes_exact": 15305,
+      "presence_fraction": 1.0,
+      "within1_fraction": 0.9910950506549655
+    }
+  },
+  "grouping_diagnostics": {
+    "unassigned_pink_pixels": 686,
+    "large_components": 188416,
+    "kept_components": 1078719
+  },
+  "per_episode": {
+    "0:pill": {
+      "frames": 2145,
+      "count_agree": 1933,
+      "ram_objects": 267179,
+      "rgb_objects": 266955
+    },
+    "0:power_pill": {
+      "frames": 2145,
+      "count_agree": 2145,
+      "ram_objects": 4290,
+      "rgb_objects": 4290
+    },
+    "1:pill": {
+      "frames": 2417,
+      "count_agree": 1769,
+      "ram_objects": 312137,
+      "rgb_objects": 311185
+    },
+    "1:power_pill": {
+      "frames": 2417,
+      "count_agree": 2417,
+      "ram_objects": 3947,
+      "rgb_objects": 3947
+    },
+    "2:pill": {
+      "frames": 2265,
+      "count_agree": 1892,
+      "ram_objects": 294214,
+      "rgb_objects": 293798
+    },
+    "2:power_pill": {
+      "frames": 2265,
+      "count_agree": 2265,
+      "ram_objects": 4530,
+      "rgb_objects": 4530
+    },
+    "3:pill": {
+      "frames": 1365,
+      "count_agree": 1213,
+      "ram_objects": 185540,
+      "rgb_objects": 185380
+    },
+    "3:power_pill": {
+      "frames": 1365,
+      "count_agree": 1365,
+      "ram_objects": 2730,
+      "rgb_objects": 2730
+    }
+  },
+  "full_occlusion_colours": [
+    {
+      "rgb": [
+        66,
+        114,
+        194
+      ],
+      "pixels": 5072
+    },
+    {
+      "rgb": [
+        84,
+        184,
+        153
+      ],
+      "pixels": 1736
+    },
+    {
+      "rgb": [
+        180,
+        122,
+        48
+      ],
+      "pixels": 2368
+    },
+    {
+      "rgb": [
+        198,
+        89,
+        179
+      ],
+      "pixels": 912
+    },
+    {
+      "rgb": [
+        200,
+        72,
+        72
+      ],
+      "pixels": 2944
+    },
+    {
+      "rgb": [
+        210,
+        164,
+        74
+      ],
+      "pixels": 304
+    },
+    {
+      "rgb": [
+        214,
+        214,
+        214
+      ],
+      "pixels": 680
+    }
+  ],
+  "full_occlusion_examples": [
+    {
+      "frame": 338,
+      "episode": 0,
+      "slot": [
+        4,
+        3
+      ],
+      "support": [
+        32,
+        55,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 94,
+        "7": 85,
+        "8": 88,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 46,
+        "16": 95,
+        "30": 153,
+        "47": 100,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 93,
+        "7": 84,
+        "8": 86,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 48,
+        "16": 95,
+        "30": 152,
+        "47": 100,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 343,
+      "episode": 0,
+      "slot": [
+        3,
+        3
+      ],
+      "support": [
+        32,
+        43,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 96,
+        "7": 87,
+        "8": 92,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 42,
+        "16": 89,
+        "30": 158,
+        "47": 100,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 96,
+        "7": 87,
+        "8": 92,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 42,
+        "16": 91,
+        "30": 157,
+        "47": 100,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 345,
+      "episode": 0,
+      "slot": [
+        3,
+        3
+      ],
+      "support": [
+        32,
+        43,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 96,
+        "7": 87,
+        "8": 92,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 42,
+        "16": 87,
+        "30": 160,
+        "47": 100,
+        "55": 0,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 96,
+        "7": 87,
+        "8": 92,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 80,
+        "15": 42,
+        "16": 89,
+        "30": 159,
+        "47": 100,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 351,
+      "episode": 0,
+      "slot": [
+        3,
+        3
+      ],
+      "support": [
+        32,
+        43,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 99,
+        "7": 90,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 76,
+        "15": 37,
+        "16": 82,
+        "30": 166,
+        "47": 104,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 99,
+        "7": 90,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 76,
+        "15": 37,
+        "16": 84,
+        "30": 165,
+        "47": 100,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 353,
+      "episode": 0,
+      "slot": [
+        3,
+        3
+      ],
+      "support": [
+        32,
+        43,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 100,
+        "7": 92,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 75,
+        "15": 35,
+        "16": 81,
+        "30": 168,
+        "47": 105,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 100,
+        "7": 92,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 75,
+        "15": 35,
+        "16": 82,
+        "30": 167,
+        "47": 100,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 354,
+      "episode": 0,
+      "slot": [
+        3,
+        3
+      ],
+      "support": [
+        32,
+        43,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 101,
+        "7": 93,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 73,
+        "15": 33,
+        "16": 81,
+        "30": 169,
+        "47": 100,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 100,
+        "7": 92,
+        "8": 94,
+        "9": 42,
+        "10": 110,
+        "12": 50,
+        "13": 80,
+        "14": 75,
+        "15": 35,
+        "16": 81,
+        "30": 168,
+        "47": 105,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 372,
+      "episode": 0,
+      "slot": [
+        5,
+        11
+      ],
+      "support": [
+        100,
+        67,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            210,
+            164,
+            74
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 110,
+        "7": 94,
+        "8": 85,
+        "9": 35,
+        "10": 110,
+        "12": 50,
+        "13": 71,
+        "14": 66,
+        "15": 26,
+        "16": 65,
+        "30": 187,
+        "47": 130,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 109,
+        "7": 94,
+        "8": 87,
+        "9": 36,
+        "10": 110,
+        "12": 50,
+        "13": 72,
+        "14": 66,
+        "15": 26,
+        "16": 65,
+        "30": 186,
+        "47": 108,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 373,
+      "episode": 0,
+      "slot": [
+        5,
+        11
+      ],
+      "support": [
+        100,
+        67,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            210,
+            164,
+            74
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 110,
+        "7": 94,
+        "8": 85,
+        "9": 35,
+        "10": 110,
+        "12": 50,
+        "13": 71,
+        "14": 66,
+        "15": 26,
+        "16": 63,
+        "30": 188,
+        "47": 114,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 110,
+        "7": 94,
+        "8": 85,
+        "9": 35,
+        "10": 110,
+        "12": 50,
+        "13": 71,
+        "14": 66,
+        "15": 26,
+        "16": 65,
+        "30": 187,
+        "47": 130,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 386,
+      "episode": 0,
+      "slot": [
+        4,
+        11
+      ],
+      "support": [
+        100,
+        55,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            210,
+            164,
+            74
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 115,
+        "7": 92,
+        "8": 82,
+        "9": 26,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 70,
+        "15": 26,
+        "16": 53,
+        "30": 201,
+        "47": 110,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 114,
+        "7": 93,
+        "8": 82,
+        "9": 28,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 69,
+        "15": 26,
+        "16": 53,
+        "30": 200,
+        "47": 130,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 387,
+      "episode": 0,
+      "slot": [
+        4,
+        11
+      ],
+      "support": [
+        100,
+        55,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            210,
+            164,
+            74
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 115,
+        "7": 92,
+        "8": 82,
+        "9": 26,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 70,
+        "15": 26,
+        "16": 51,
+        "30": 202,
+        "47": 114,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 115,
+        "7": 92,
+        "8": 82,
+        "9": 26,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 70,
+        "15": 26,
+        "16": 53,
+        "30": 201,
+        "47": 110,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 388,
+      "episode": 0,
+      "slot": [
+        4,
+        11
+      ],
+      "support": [
+        100,
+        55,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            210,
+            164,
+            74
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 116,
+        "7": 91,
+        "8": 82,
+        "9": 25,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 72,
+        "15": 26,
+        "16": 51,
+        "30": 203,
+        "47": 114,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 115,
+        "7": 92,
+        "8": 82,
+        "9": 26,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 70,
+        "15": 26,
+        "16": 51,
+        "30": 202,
+        "47": 114,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      }
+    },
+    {
+      "frame": 401,
+      "episode": 0,
+      "slot": [
+        2,
+        0
+      ],
+      "support": [
+        8,
+        31,
+        4,
+        2
+      ],
+      "colours": [
+        {
+          "rgb": [
+            200,
+            72,
+            72
+          ],
+          "pixels": 8
+        }
+      ],
+      "current_ram": {
+        "6": 122,
+        "7": 83,
+        "8": 82,
+        "9": 18,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 79,
+        "15": 24,
+        "16": 39,
+        "30": 216,
+        "47": 101,
+        "55": 2,
+        "56": 0,
+        "117": 63
+      },
+      "previous_ram": {
+        "6": 122,
+        "7": 83,
+        "8": 82,
+        "9": 18,
+        "10": 110,
+        "12": 50,
+        "13": 66,
+        "14": 79,
+        "15": 24,
+        "16": 41,
+        "30": 215,
+        "47": 114,
+        "55": 1,
+        "56": 0,
+        "117": 63
+      }
+    }
+  ],
+  "box_error_examples": {
+    "pill": [
+      {
+        "frame": 277,
+        "episode": 0,
+        "ram_box": [
+          72,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          72,
+          55,
+          2,
+          1
+        ],
+        "surviving_mask": [
+          "##..",
+          "...."
+        ]
+      },
+      {
+        "frame": 278,
+        "episode": 0,
+        "ram_box": [
+          72,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          72,
+          55,
+          2,
+          1
+        ],
+        "surviving_mask": [
+          "##..",
+          "...."
+        ]
+      },
+      {
+        "frame": 279,
+        "episode": 0,
+        "ram_box": [
+          72,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          74,
+          55,
+          2,
+          2
+        ],
+        "surviving_mask": [
+          "..##",
+          "..##"
+        ]
+      },
+      {
+        "frame": 280,
+        "episode": 0,
+        "ram_box": [
+          72,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          74,
+          55,
+          2,
+          2
+        ],
+        "surviving_mask": [
+          "..##",
+          "..##"
+        ]
+      },
+      {
+        "frame": 281,
+        "episode": 0,
+        "ram_box": [
+          64,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          64,
+          55,
+          2,
+          2
+        ],
+        "surviving_mask": [
+          "##..",
+          "##.."
+        ]
+      },
+      {
+        "frame": 282,
+        "episode": 0,
+        "ram_box": [
+          64,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          64,
+          55,
+          2,
+          2
+        ],
+        "surviving_mask": [
+          "##..",
+          "##.."
+        ]
+      },
+      {
+        "frame": 283,
+        "episode": 0,
+        "ram_box": [
+          64,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          66,
+          55,
+          2,
+          1
+        ],
+        "surviving_mask": [
+          "..##",
+          "...."
+        ]
+      },
+      {
+        "frame": 284,
+        "episode": 0,
+        "ram_box": [
+          64,
+          55,
+          4,
+          2
+        ],
+        "rgb_union_box": [
+          66,
+          55,
+          2,
+          1
+        ],
+        "surviving_mask": [
+          "..##",
+          "...."
+        ]
+      }
+    ],
+    "power_pill": [
+      {
+        "frame": 419,
+        "episode": 0,
+        "ram_box": [
+          8,
+          15,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          8,
+          19,
+          4,
+          3
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 420,
+        "episode": 0,
+        "ram_box": [
+          8,
+          15,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          8,
+          19,
+          4,
+          3
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 421,
+        "episode": 0,
+        "ram_box": [
+          8,
+          15,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          8,
+          17,
+          4,
+          5
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 422,
+        "episode": 0,
+        "ram_box": [
+          8,
+          15,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          8,
+          17,
+          4,
+          5
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 541,
+        "episode": 0,
+        "ram_box": [
+          148,
+          14,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          148,
+          17,
+          4,
+          4
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 542,
+        "episode": 0,
+        "ram_box": [
+          148,
+          14,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          148,
+          17,
+          4,
+          4
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 543,
+        "episode": 0,
+        "ram_box": [
+          148,
+          14,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          148,
+          16,
+          4,
+          5
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####",
+          "####"
+        ]
+      },
+      {
+        "frame": 544,
+        "episode": 0,
+        "ram_box": [
+          148,
+          14,
+          4,
+          7
+        ],
+        "rgb_union_box": [
+          148,
+          16,
+          4,
+          5
+        ],
+        "surviving_mask": [
+          "....",
+          "....",
+          ".#.#",
+          "####",
+          "####",
+          "####",
+          "####"
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "Pixel-derived anchor geometry is specific to the observed first maze; all 8192 frames have RAM[0]=0. It is a development candidate, not a held-out generalization result.",
+    "The current RGB-only method is independent of runtime RAM and does not read the RAM grid, phase, availability flags or actor labels.",
+    "Registration uses earlier development RGB geometry and therefore is not a single-image self-discovery algorithm; a frozen static instrument can retain these constants, but must disclose this choice and validate independently.",
+    "Power phase and availability remain decoded from CURRENT RAM[30]/RAM[117] on the RAM side. Fragment grouping never infers full invisible objects.",
+    "For small pills, 1752 fully hidden active supports cannot be recovered from this single image; RAM-side visibility needs a separately calibrated render/occlusion model from RAM. Filtering RAM objects by current RGB would invalidate independence.",
+    "This diagnostic compares known support identities for explanatory counts; the frozen calibrator still uses its declared count and cardinality-first matching criteria.",
+    "No reserved images, new capture, ROM, training or source modification.",
+    "No observed same-color ghost occlusion is claimed; an initial report of pink ghosts was withdrawn after its crop-coordinate error was corrected."
+  ],
+  "recommended_next_step": "Implement and test the causal registry with complete-rectangle seeding and larger-support precedence, starting empty for a new evaluation sequence. Retain actual surviving-pixel union boxes. Keep small-pill failures until RAM-side actor render masks independently predict full occlusion; do not gate RAM labels on RGB. No thresholds or reserved-data scope are changed.",
+  "reserved_opened": false,
+  "source_modified": false,
+  "audit_program": "\nimport ast,subprocess,json,hashlib\nfrom pathlib import Path\nfrom collections import Counter\nimport numpy as np\nfrom scipy import ndimage\np=Path('craft_v6_out/v70_mspacman_calibration/development')\nm=json.loads((p/'manifest.json').read_text())\nsrc=subprocess.check_output(['git','show','c8e64ef:ragnarok/evaluation/mspacman_v70.py'],text=True)\ntree=ast.parse(src)\n# Read literal grid assignment AST expressions only, never importing the live candidate.\ngrids={}\nfor n in tree.body:\n if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in ('GRID1','GRID2') for t in n.targets):\n  strings=next(z for z in ast.walk(n.value) if isinstance(z,ast.Tuple) and z.elts and all(isinstance(a,ast.Constant) and isinstance(a.value,str) for a in z.elts))\n  grids[n.targets[0].id]=np.array([list(map(int,a.value)) for a in strings.elts],bool)\nslots=[(row,col,8+8*col if col<=8 else 12+8*col,7+12*row) for row in range(14) for col in range(18)]\ndef active(r):\n a=np.zeros((len(r),14,18),bool)\n for row in range(14):\n  a[:,row,0]=(r[:,59+3*row]&64)>0;a[:,row,17]=(r[:,59+3*row]&16)>0\n  for j in range(8):\n   a[:,row,(4-(j>>1)) if j&1 else (12-(j>>1))]=(r[:,60+3*row]&(1<<j))>0\n   a[:,row,(13+(j>>1)) if j&1 else (5+(j>>1))]=(r[:,61+3*row]&(1<<j))>0\n a &= np.where((r[:,0]==0)[:,None,None],grids['GRID1'],grids['GRID2'])\n return a.reshape(len(r),-1)\n\nfrom datetime import datetime,timezone\ndef pink_components(im):\n mask=np.all(im[:171]==[228,111,111],axis=2)\n lab,_=ndimage.label(mask,np.ones((3,3),np.uint8))\n slices=ndimage.find_objects(lab)\n return mask,lab,[(i+1,(s[1].start,s[0].start,s[1].stop-s[1].start,s[0].stop-s[0].start)) for i,s in enumerate(slices)]\nwith np.load(p/m['shards'][0]['path']) as first:\n anchors_small=[box for _,box in pink_components(first['rgb'][0])[2] if box[2:]==(4,2)]\n anchors_power=sorted({box for i in range(9) for _,box in pink_components(first['rgb'][i])[2] if box[2:]==(4,7)})\nassert len(anchors_small)==150 and len(anchors_power)==4\nanchors=dict(pill=anchors_small,power_pill=anchors_power)\n# Both candidate grouping rules inspect current RGB only, using geometry registered from complete RGB components.\ndef grouped_pills(im):\n pink,lab,cs=pink_components(im)\n smallmask=np.zeros_like(pink);kept=[];large=0\n for label,b in cs:\n  x,y,w,h=b\n  if w<=4 and h<=7:\n   smallmask[y:y+h,x:x+w]|=lab[y:y+h,x:x+w]==label\n   kept.append(b)\n  else:large+=1\n result={}\n consumed=np.zeros_like(pink)\n for kind,aa in anchors.items():\n  bb=[]\n  for x,y,w,h in aa:\n   q=smallmask[y:y+h,x:x+w]\n   if q.any():\n    ys,xs=np.where(q);bb.append((x+int(xs.min()),y+int(ys.min()),int(xs.max()-xs.min()+1),int(ys.max()-ys.min()+1)))\n    consumed[y:y+h,x:x+w]|=q\n  result[kind]=bb\n return result,dict(unassigned_pink_pixels=int((smallmask&~consumed).sum()),large_components=large,kept_components=len(kept)),pink\nstats={kind:Counter() for kind in anchors};examples={kind:[] for kind in anchors}\nhidden_examples=[];colors=Counter();diagnostic=Counter();episode_counts={}\nslotid={ (x,y):(row,col,j) for j,(row,col,x,y) in enumerate(slots)}\npower=[(4,148,146),(8,148,14),(16,8,147),(32,8,15)]\nindex=0;prev=None;eprev=None\nfor sh in m['shards']:\n with np.load(p/sh['path']) as z:\n  act=active(z['ram'])\n  for j,(im,r,ep) in enumerate(zip(z['rgb'],z['ram'],z['episode'])):\n   index+=1;ep=int(ep);pred,diag,pink=grouped_pills(im);diagnostic.update(diag)\n   aa=act[j]\n   truth=dict(pill=[(x,y,4,2) for k,(row,col,x,y) in enumerate(slots) if aa[k]],\n              power_pill=[(x,y,4,7) for bit,x,y in power if r[117]&bit and bool(r[30]&8)==(x<80)])\n   # Localization and exact identity pairing are determined by the common static support, NOT Hungarian nearest matching.\n   for kind in anchors:\n    t=truth[kind];b=pred[kind];s=stats[kind];s['frames']+=1;s['ram_objects']+=len(t);s['rgb_objects']+=len(b);s['count_agree']+=len(t)==len(b)\n    for x,y,w,h in t:\n     q=pink[y:y+h,x:x+w];s['full_occlusion']+=not q.any();s['partial_occlusion']+=q.any() and not q.all()\n     if q.any():\n      ys,xs=np.where(q);observed=(x+int(xs.min()),y+int(ys.min()),int(xs.max()-xs.min()+1),int(ys.max()-ys.min()+1))\n      assert observed in b,(index,kind,(x,y,w,h),observed)\n      s['joint_identity_matches']+=1\n      d=max(abs(observed[0]-x),abs(observed[1]-y),abs(observed[0]+observed[2]-x-w),abs(observed[1]+observed[3]-y-h))\n      s['boxes_within1']+=d<=1;s['boxes_exact']+=d==0\n      if d>1 and len(examples[kind])<8:\n       examples[kind].append(dict(frame=index,episode=ep,ram_box=[x,y,w,h],rgb_union_box=list(observed),surviving_mask=[''.join('#' if z else '.' for z in line) for line in q]))\n     elif kind=='pill':\n      col,nc=np.unique(im[y:y+h,x:x+w].reshape(-1,3),axis=0,return_counts=True)\n      for co,n in zip(col,nc):colors[tuple(map(int,co))]+=int(n)\n      if len(hidden_examples)<12:\n       rr=r if ep!=eprev else prev\n       hidden_examples.append(dict(frame=index,episode=ep,slot=list(slotid[(x,y)][:2]),support=[x,y,w,h],colours=[dict(rgb=list(map(int,co)),pixels=int(n)) for co,n in zip(col,nc)],current_ram={str(k):int(r[k]) for k in [6,7,8,9,10,12,13,14,15,16,30,47,55,56,117]},previous_ram={str(k):int(rr[k]) for k in [6,7,8,9,10,12,13,14,15,16,30,47,55,56,117]}))\n    # Check RGB never invents a support not active in RAM; absent labels are only full occlusion.\n    assert len(b)==sum(pink[y:y+h,x:x+w].any() for x,y,w,h in t),(index,kind)\n    epkey=f'{ep}:{kind}';es=episode_counts.setdefault(epkey,Counter())\n    es['frames']+=1;es['count_agree']+=len(t)==len(b);es['ram_objects']+=len(t);es['rgb_objects']+=len(b)\n   prev=r.copy();eprev=ep\nfor s in stats.values():\n s['presence_fraction']=s['count_agree']/s['frames'];s['within1_fraction']=s['boxes_within1']/s['joint_identity_matches']\nresult=dict(kind='mspacman_pill_fragment_grouping_development_diagnostic',created_utc=datetime.now(timezone.utc).isoformat(),\n fixture_manifest_sha256=hashlib.sha256((p/'manifest.json').read_bytes()).hexdigest(),seed=17411,frames=index,\n method='Register150 small4x2 anchors from full RGB components of frame1, and four power4x7 anchors from frames1..9. Current RGB-only checker removes components wider4 or taller7 (maze), groups remaining pink fragments within each registered support, and reports bounding box of surviving pixels. RAM is consulted only AFTER extraction for this external diagnostic.',\n anchors_sha256=hashlib.sha256(json.dumps(anchors,sort_keys=True).encode()).hexdigest(),anchors=anchors,\n stats={k:dict(v) for k,v in stats.items()},grouping_diagnostics=dict(diagnostic),\n per_episode={k:dict(v) for k,v in episode_counts.items()},\n full_occlusion_colours=[dict(rgb=list(k),pixels=n) for k,n in sorted(colors.items())],\n full_occlusion_examples=hidden_examples,box_error_examples=examples,\n limits=['Pixel-derived anchor geometry is specific to the observed first maze; all8192frames have RAM0=0. It is a development candidate, not a held-out generalization result.',\n 'The current RGB-only method is independent of runtime RAM and does not read the RAM grid, phase, availability flags or actor labels.',\n 'Registration uses earlier development RGB geometry and therefore is not a single-image self-discovery algorithm; a frozen static instrument can retain these constants, but must disclose this choice and validate independently.',\n 'Power phase and availability remain decoded from CURRENT RAM30/117 on the RAM side. Fragment grouping never infers full invisible objects.',\n 'For small pills,1752fully hidden active supports cannot be recovered from this single image; RAM-side visibility needs a separately calibrated render/occlusion model from RAM. Filtering RAM objects by current RGB would invalidate independence.',\n 'This diagnostic compares known support identities for explanatory counts; the frozen calibrator still uses its declared count and cardinality-first matching criteria.',\n 'No reserved images, new capture, ROM, training or source modification.'],\n recommended_next_step='Keep all surviving fragments by support and score their actual union bbox. Preserve small-pill full-occlusion failures; derive any RAM visibility mask independently from RAM actor render state and audited glyph masks. If a new maze is needed, register and freeze an explicit broader RGB geometry protocol before reserved data, or leave it uncalibrated.',\n reserved_opened=False,source_modified=False)\nprint(json.dumps(result,indent=2,allow_nan=False,default=lambda x:x.item()))\n",
+  "stage": "Development diagnostic only; retrospective registration and causal replacement both retained. Not the final calibration.",
+  "retrospective_registration": true,
+  "causal_comparison": {
+    "frames": 8192,
+    "rgb_only": true,
+    "prior_future_frames_read_during_detection": false,
+    "rule": "Before emitting current detections, add entirely pink connected components 4x7 and4x2. Reuse only previously/currently observed anchors. The bounded containment variant does not add a 4x2 anchor contained in an already observed 4x7 anchor. Registry starts empty and is never reset from RAM/episode IDs.",
+    "registration_events": {
+      "naive": [
+        {
+          "frame": 1,
+          "new_power": [
+            [
+              8,
+              15,
+              4,
+              7
+            ],
+            [
+              8,
+              147,
+              4,
+              7
+            ]
+          ],
+          "new_small_count": 150,
+          "new_small": null
+        },
+        {
+          "frame": 9,
+          "new_power": [
+            [
+              148,
+              14,
+              4,
+              7
+            ],
+            [
+              148,
+              146,
+              4,
+              7
+            ]
+          ],
+          "new_small_count": 0,
+          "new_small": []
+        },
+        {
+          "frame": 747,
+          "new_power": [],
+          "new_small_count": 1,
+          "new_small": [
+            [
+              148,
+              146,
+              4,
+              2
+            ]
+          ]
+        },
+        {
+          "frame": 1283,
+          "new_power": [],
+          "new_small_count": 1,
+          "new_small": [
+            [
+              8,
+              15,
+              4,
+              2
+            ]
+          ]
+        },
+        {
+          "frame": 1889,
+          "new_power": [],
+          "new_small_count": 1,
+          "new_small": [
+            [
+              8,
+              147,
+              4,
+              2
+            ]
+          ]
+        },
+        {
+          "frame": 1929,
+          "new_power": [],
+          "new_small_count": 1,
+          "new_small": [
+            [
+              148,
+              14,
+              4,
+              2
+            ]
+          ]
+        }
+      ],
+      "reject_contained_smaller": [
+        {
+          "frame": 1,
+          "new_power": [
+            [
+              8,
+              15,
+              4,
+              7
+            ],
+            [
+              8,
+              147,
+              4,
+              7
+            ]
+          ],
+          "new_small_count": 150,
+          "new_small": null
+        },
+        {
+          "frame": 9,
+          "new_power": [
+            [
+              148,
+              14,
+              4,
+              7
+            ],
+            [
+              148,
+              146,
+              4,
+              7
+            ]
+          ],
+          "new_small_count": 0,
+          "new_small": []
+        }
+      ]
+    },
+    "comparison_to_retroactive_first9_registry": {
+      "naive": {
+        "different_frames": 7172,
+        "extra_pill_objects": 12511
+      },
+      "reject_contained_smaller": {
+        "different_frames": 0
+      }
+    },
+    "extra_anchors": {
+      "naive": {
+        "pill": [
+          [
+            8,
+            15,
+            4,
+            2
+          ],
+          [
+            8,
+            147,
+            4,
+            2
+          ],
+          [
+            148,
+            14,
+            4,
+            2
+          ],
+          [
+            148,
+            146,
+            4,
+            2
+          ]
+        ],
+        "power_pill": []
+      },
+      "reject_contained_smaller": {
+        "pill": [],
+        "power_pill": []
+      }
+    },
+    "final_anchor_counts": {
+      "naive": {
+        "pill": 154,
+        "power_pill": 4
+      },
+      "reject_contained_smaller": {
+        "pill": 150,
+        "power_pill": 4
+      }
+    },
+    "examples": {
+      "naive": [
+        {
+          "frame": 747,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 748,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 749,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 750,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 751,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 752,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 763,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "##.#",
+            "...."
+          ]
+        },
+        {
+          "frame": 764,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "##.#",
+            "...."
+          ]
+        },
+        {
+          "frame": 765,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "##.#",
+            "#..#"
+          ]
+        },
+        {
+          "frame": 766,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "##.#",
+            "#..#"
+          ]
+        },
+        {
+          "frame": 768,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        },
+        {
+          "frame": 777,
+          "kind": "pill",
+          "difference": "extra",
+          "anchor": [
+            148,
+            146,
+            4,
+            2
+          ],
+          "pink_mask": [
+            "####",
+            "####"
+          ]
+        }
+      ],
+      "reject_contained_smaller": []
+    }
+  },
+  "unassigned_wall_fragment_diagnostic": {
+    "stats": {
+      "frames": 155,
+      "pixels": 686,
+      "components": 254
+    },
+    "frames": [
+      308,
+      312,
+      317,
+      465,
+      467,
+      469,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      524,
+      526,
+      528,
+      530,
+      1060,
+      1064,
+      1065,
+      1217,
+      1219,
+      1221,
+      1223,
+      1224,
+      1225,
+      1226,
+      1276,
+      1278,
+      1280,
+      1282,
+      1572,
+      1576,
+      1577,
+      1729,
+      1731,
+      1733,
+      1735,
+      1736,
+      1737,
+      1738,
+      1788,
+      1790,
+      1792,
+      1794,
+      2453,
+      2457,
+      2462,
+      2610,
+      2612,
+      2614,
+      2616,
+      2617,
+      2618,
+      2619,
+      2620,
+      2621,
+      2669,
+      2671,
+      2673,
+      2675,
+      3605,
+      3609,
+      3614,
+      3925,
+      3929,
+      3934,
+      4082,
+      4084,
+      4086,
+      4088,
+      4089,
+      4090,
+      4091,
+      4092,
+      4093,
+      4141,
+      4143,
+      4145,
+      4147,
+      4870,
+      4874,
+      4879,
+      5027,
+      5029,
+      5031,
+      5033,
+      5034,
+      5035,
+      5036,
+      5037,
+      5038,
+      5086,
+      5088,
+      5090,
+      5092,
+      5462,
+      5463,
+      5467,
+      5619,
+      5621,
+      5623,
+      5625,
+      5626,
+      5627,
+      5628,
+      5678,
+      5680,
+      5682,
+      5684,
+      6227,
+      6231,
+      6381,
+      6383,
+      6385,
+      6387,
+      6388,
+      6389,
+      6390,
+      6438,
+      6440,
+      6442,
+      6444,
+      6446,
+      7135,
+      7139,
+      7144,
+      7292,
+      7294,
+      7296,
+      7298,
+      7299,
+      7300,
+      7301,
+      7302,
+      7303,
+      7351,
+      7353,
+      7355,
+      7357,
+      7839,
+      7843,
+      7848,
+      7996,
+      7998,
+      8000,
+      8002,
+      8003,
+      8004,
+      8005,
+      8006,
+      8007,
+      8055,
+      8057,
+      8059,
+      8061
+    ],
+    "bybox": [
+      {
+        "box": [
+          80,
+          66,
+          2,
+          1
+        ],
+        "count": 13
+      },
+      {
+        "box": [
+          80,
+          63,
+          2,
+          3
+        ],
+        "count": 20
+      },
+      {
+        "box": [
+          78,
+          62,
+          2,
+          1
+        ],
+        "count": 11
+      },
+      {
+        "box": [
+          81,
+          62,
+          2,
+          1
+        ],
+        "count": 11
+      },
+      {
+        "box": [
+          80,
+          64,
+          2,
+          3
+        ],
+        "count": 6
+      },
+      {
+        "box": [
+          77,
+          62,
+          2,
+          2
+        ],
+        "count": 22
+      },
+      {
+        "box": [
+          80,
+          62,
+          2,
+          2
+        ],
+        "count": 22
+      },
+      {
+        "box": [
+          78,
+          62,
+          2,
+          2
+        ],
+        "count": 24
+      },
+      {
+        "box": [
+          81,
+          62,
+          2,
+          2
+        ],
+        "count": 24
+      },
+      {
+        "box": [
+          77,
+          66,
+          1,
+          1
+        ],
+        "count": 15
+      },
+      {
+        "box": [
+          79,
+          66,
+          1,
+          1
+        ],
+        "count": 15
+      },
+      {
+        "box": [
+          81,
+          66,
+          1,
+          1
+        ],
+        "count": 15
+      },
+      {
+        "box": [
+          80,
+          65,
+          2,
+          2
+        ],
+        "count": 7
+      },
+      {
+        "box": [
+          77,
+          62,
+          2,
+          1
+        ],
+        "count": 12
+      },
+      {
+        "box": [
+          80,
+          62,
+          2,
+          1
+        ],
+        "count": 12
+      },
+      {
+        "box": [
+          78,
+          66,
+          2,
+          1
+        ],
+        "count": 7
+      },
+      {
+        "box": [
+          78,
+          63,
+          2,
+          3
+        ],
+        "count": 10
+      },
+      {
+        "box": [
+          78,
+          64,
+          2,
+          3
+        ],
+        "count": 4
+      },
+      {
+        "box": [
+          78,
+          65,
+          2,
+          2
+        ],
+        "count": 4
+      }
+    ],
+    "samples": [
+      {
+        "frame": 308,
+        "episode": 0,
+        "box": [
+          80,
+          66,
+          2,
+          1
+        ],
+        "context_box": [
+          76,
+          62,
+          86,
+          71
+        ],
+        "current_pink": [
+          "##########",
+          "##########",
+          "##....####",
+          "#......###",
+          ".##.##..##",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ]
+      },
+      {
+        "frame": 312,
+        "episode": 0,
+        "box": [
+          80,
+          63,
+          2,
+          3
+        ],
+        "context_box": [
+          76,
+          59,
+          86,
+          70
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "#......###",
+          ".##.##..##",
+          "..#..#..##",
+          ".##.##..##",
+          "........##",
+          "..........",
+          "..........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "..........",
+          "..........",
+          ".........."
+        ]
+      },
+      {
+        "frame": 317,
+        "episode": 0,
+        "box": [
+          78,
+          62,
+          2,
+          1
+        ],
+        "context_box": [
+          74,
+          58,
+          84,
+          67
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##..##.##.",
+          "##........",
+          "##........",
+          "##........",
+          "##........"
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########"
+        ]
+      },
+      {
+        "frame": 317,
+        "episode": 0,
+        "box": [
+          81,
+          62,
+          2,
+          1
+        ],
+        "context_box": [
+          77,
+          58,
+          87,
+          67
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          ".##.##.###",
+          ".......###",
+          ".......###",
+          ".......###",
+          ".......###"
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########"
+        ]
+      },
+      {
+        "frame": 465,
+        "episode": 0,
+        "box": [
+          80,
+          66,
+          2,
+          1
+        ],
+        "context_box": [
+          76,
+          62,
+          86,
+          71
+        ],
+        "current_pink": [
+          "##########",
+          "##########",
+          "##....####",
+          "#......###",
+          ".##.##..##",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ]
+      },
+      {
+        "frame": 467,
+        "episode": 0,
+        "box": [
+          80,
+          64,
+          2,
+          3
+        ],
+        "context_box": [
+          76,
+          60,
+          86,
+          71
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "##....####",
+          "#......###",
+          ".##.##..##",
+          "..#..#..##",
+          ".##.##..##",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "..........",
+          "..........",
+          "..........",
+          ".........."
+        ]
+      },
+      {
+        "frame": 469,
+        "episode": 0,
+        "box": [
+          80,
+          63,
+          2,
+          3
+        ],
+        "context_box": [
+          76,
+          59,
+          86,
+          70
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "#......###",
+          ".##.##..##",
+          "..#..#..##",
+          ".##.##..##",
+          "........##",
+          "..........",
+          "..........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "..........",
+          "..........",
+          ".........."
+        ]
+      },
+      {
+        "frame": 471,
+        "episode": 0,
+        "box": [
+          77,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          73,
+          58,
+          83,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "###..#..#.",
+          "###.##.##.",
+          "###.......",
+          "###.......",
+          "###.......",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 471,
+        "episode": 0,
+        "box": [
+          80,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          76,
+          58,
+          86,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "..#..#..##",
+          ".##.##..##",
+          "........##",
+          "........##",
+          "........##",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 472,
+        "episode": 0,
+        "box": [
+          77,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          73,
+          58,
+          83,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "###..#..#.",
+          "###.##.##.",
+          "###.......",
+          "###.......",
+          "###.......",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 472,
+        "episode": 0,
+        "box": [
+          80,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          76,
+          58,
+          86,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "..#..#..##",
+          ".##.##..##",
+          "........##",
+          "........##",
+          "........##",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 473,
+        "episode": 0,
+        "box": [
+          78,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          74,
+          58,
+          84,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##..#..#..",
+          "##..##.##.",
+          "##........",
+          "##........",
+          "##........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 473,
+        "episode": 0,
+        "box": [
+          81,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          77,
+          58,
+          87,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          ".#..#..###",
+          ".##.##.###",
+          ".......###",
+          ".......###",
+          ".......###",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 474,
+        "episode": 0,
+        "box": [
+          78,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          74,
+          58,
+          84,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##..#..#..",
+          "##..##.##.",
+          "##........",
+          "##........",
+          "##........",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 474,
+        "episode": 0,
+        "box": [
+          81,
+          62,
+          2,
+          2
+        ],
+        "context_box": [
+          77,
+          58,
+          87,
+          68
+        ],
+        "current_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          ".#..#..###",
+          ".##.##.###",
+          ".......###",
+          ".......###",
+          ".......###",
+          ".........."
+        ],
+        "first_frame_pink": [
+          "..........",
+          "..........",
+          "..........",
+          "..........",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          "##########",
+          ".........."
+        ]
+      },
+      {
+        "frame": 475,
+        "episode": 0,
+        "box": [
+          77,
+          66,
+          1,
+          1
+        ],
+        "context_box": [
+          73,
+          62,
+          82,
+          71
+        ],
+        "current_pink": [
+          "###......",
+          "###......",
+          "###......",
+          "###......",
+          "###.#.#.#",
+          ".........",
+          ".........",
+          ".........",
+          "........."
+        ],
+        "first_frame_pink": [
+          "#########",
+          "#########",
+          "#########",
+          "#########",
+          "#########",
+          ".........",
+          ".........",
+          ".........",
+          "........."
+        ]
+      }
+    ]
+  },
+  "causal_state_contract": "The detector consumes current RGB and its own prior geometric registry, returns detections and an updated registry. It is causal and stateful; no RAM, episode ID, seed, or future image is an input. A fresh calibration sequence must start with an empty registry.",
+  "candidate_scope_limit": "Only the first maze occurred in 17411. All four power supports were first seen complete before any fragments. A new level or a partially visible object appearing before any complete instance is unvalidated; the same fragment may be ambiguous until a larger complete object is seen. Any rule for removing older smaller anchors when a larger anchor is discovered requires explicit tests.",
+  "causal_audit_program": "import numpy as np,json\nfrom pathlib import Path\nfrom collections import Counter\nfrom scipy import ndimage\np=Path('craft_v6_out/v70_mspacman_calibration/development')\nd=json.loads((p.parent/'pill_fragment_grouping_development_diagnostic.json').read_text())\nm=json.loads((p/'manifest.json').read_text())\nreference={k:set(map(tuple,aa)) for k,aa in d['anchors'].items()}\nregistries={variant:{'pill':set(),'power_pill':set()} for variant in ('naive','reject_contained_smaller')}\nevents={v:[] for v in registries};diffs={v:Counter() for v in registries};examples={v:[] for v in registries};index=0\ndef contained(a,b):\n x,y,w,h=a;xx,yy,ww,hh=b\n return xx<=x and yy<=y and x+w<=xx+ww and y+h<=yy+hh\nfor sh in m['shards']:\n with np.load(p/sh['path']) as z:\n  for im in z['rgb']:\n   index+=1;pink=np.all(im[:171]==[228,111,111],axis=2);lab,_=ndimage.label(pink,np.ones((3,3),np.uint8))\n   specs=ndimage.find_objects(lab);full={'pill':set(),'power_pill':set()};smallids=[]\n   for j,s in enumerate(specs):\n    box=(s[1].start,s[0].start,s[1].stop-s[1].start,s[0].stop-s[0].start)\n    if box[2]<=4 and box[3]<=7:smallids.append(j+1)\n    if box[2:]==(4,2) and pink[s].all():full['pill'].add(box)\n    if box[2:]==(4,7) and pink[s].all():full['power_pill'].add(box)\n   small=np.isin(lab,smallids)\n   for variant,reg in registries.items():\n    newp=full['power_pill']-reg['power_pill'];reg['power_pill']|=newp\n    news=full['pill']-reg['pill']\n    if variant=='reject_contained_smaller':\n     news={a for a in news if not any(contained(a,b) for b in reg['power_pill'])}\n    reg['pill']|=news\n    if newp or news:events[variant].append(dict(frame=index,new_power=sorted(newp),new_small_count=len(news),new_small=sorted(news) if index>1 else None))\n    framebad=False\n    for kind in reg:\n     for label,aa in [('extra',reg[kind]-reference[kind]),('missing',reference[kind]-reg[kind])]:\n      for x,y,w,h in aa:\n       q=small[y:y+h,x:x+w]\n       if q.any():\n        framebad=True;diffs[variant][f'{label}_{kind}_objects']+=1\n        if len(examples[variant])<12:examples[variant].append(dict(frame=index,kind=kind,difference=label,anchor=[x,y,w,h],pink_mask=[''.join('#' if v else '.' for v in row) for row in q]))\n    diffs[variant]['different_frames']+=framebad\nresult=dict(frames=index,rgb_only=True,prior_future_frames_read_during_detection=False,\n rule='Before emitting current detections, add entirely pink connected components4x7 and4x2. Reuse only previously/currently observed anchors. The bounded containment variant does not add a4x2 anchor contained in an already observed4x7 anchor. Registry starts empty and is never reset from RAM/episode IDs.',\n registration_events=events,comparison_to_retroactive_first9_registry={k:dict(v) for k,v in diffs.items()},\n extra_anchors={v:{k:sorted(aa-reference[k]) for k,aa in reg.items()} for v,reg in registries.items()},\n final_anchor_counts={v:{k:len(aa) for k,aa in reg.items()} for v,reg in registries.items()},\n examples=examples)\nprint(json.dumps(result,indent=2))\n",
+  "unassigned_audit_program": "import numpy as np,json\nfrom pathlib import Path\nfrom collections import Counter\nfrom scipy import ndimage\np=Path('craft_v6_out/v70_mspacman_calibration/development')\nd=json.loads((p.parent/'pill_fragment_grouping_development_diagnostic.json').read_text())\nm=json.loads((p/'manifest.json').read_text());covered=np.zeros((171,160),bool)\nfor aa in d['anchors'].values():\n for x,y,w,h in aa:covered[y:y+h,x:x+w]=True\nstats=Counter();bybox=Counter();samples=[];frames=[];index=0\nfor sh in m['shards']:\n with np.load(p/sh['path']) as z:\n  for im,r,ep in zip(z['rgb'],z['ram'],z['episode']):\n   index+=1;pink=np.all(im[:171]==[228,111,111],axis=2);lab,_=ndimage.label(pink,np.ones((3,3),np.uint8))\n   specs=ndimage.find_objects(lab);ids=[i+1 for i,s in enumerate(specs) if s[1].stop-s[1].start<=4 and s[0].stop-s[0].start<=7]\n   q=np.isin(lab,ids)&~covered\n   if not q.any():continue\n   frames.append(index);stats['frames']+=1;stats['pixels']+=int(q.sum())\n   for label in np.unique(lab[q]):\n    s=specs[label-1];box=(s[1].start,s[0].start,s[1].stop-s[1].start,s[0].stop-s[0].start);bybox[box]+=1;stats['components']+=1\n    if len(samples)<16:\n     x,y,w,h=box\n     # Compare same coordinates in the first unoccluded development image, an RGB-only wall witness.\n     with np.load(p/m['shards'][0]['path']) as init:base=init['rgb'][0]\n     pad=(max(0,x-4),max(0,y-4),min(160,x+w+4),min(171,y+h+4))\n     l,t,ri,bt=pad;current=np.all(im[t:bt,l:ri]==[228,111,111],axis=2);original=np.all(base[t:bt,l:ri]==[228,111,111],axis=2)\n     samples.append(dict(frame=index,episode=int(ep),box=list(box),context_box=list(pad),current_pink=[''.join('#' if v else '.' for v in row) for row in current],first_frame_pink=[''.join('#' if v else '.' for v in row) for row in original]))\nprint(json.dumps(dict(stats=dict(stats),frames=frames,bybox=[dict(box=list(k),count=v) for k,v in bybox.items()],samples=samples),indent=2))\n",
+  "interpretation": "Power-pill presence and union-box geometry satisfy the unchanged numerical thresholds in this development diagnostic. Small-pill box geometry satisfies them, while count agreement fails because of 1752 fully occluded active supports. This is not a full calibrator verdict and authorizes no reserved capture.",
+  "baseline_commit": "c8e64ef",
+  "baseline_decoder_sha256": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+  "baseline_result_sha256": "07c22684418200ba1ee1c734993df0ec99b3ebb230b5983996d26471078ea466"
+}

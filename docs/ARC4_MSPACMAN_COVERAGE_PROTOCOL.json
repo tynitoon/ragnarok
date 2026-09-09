@@ -1,0 +1,22 @@
+{
+  "kind": "prospective_mspacman_additional_raw_coverage_v1",
+  "game": "ms_pacman",
+  "development_seed": 17431,
+  "reserved_validation_seed": 17432,
+  "frames": 32768,
+  "action_repeat": 2,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 4358276,
+  "reason": "Uniform development17411 contains no fruit. Preserve that uncovered result. This separate prospective collection attempts broader pill consumption and fruit exposure without selecting successful episodes.",
+  "controller": "A fixed RGB-only maze walker. Learn the first maze from large pink connected components and the Cartesian axes of complete observed small pills. Every two ordinary frames, route toward a currently visible pill or power pill with Dijkstra, penalizing nearby visible ghosts and repeated visits. The virtual start connects only to the nearest aligned node in each direction, or the node already within two pixels; no intermediate hazard can be bypassed by seeding a distant node. Infer player position from yellow pixels, allowing two pixels of mouth-animation offset at corridor alignment. Fire during the first eight decisions. If the last thirteen observed positions span at most two pixels on each axis, cycle up/right/down/left/fire as a deterministic escape. This anchored window handles mouth jitter without treating cumulative movement as stationary. The first-maze graph persists; later-layout failures remain in the capture. No RAM, reward, snapshots, object labels from RAM or calibration score can affect actions. Full algorithm and constants are fixed in the committed controller source before collection.",
+  "stop": "Archive exactly32768ordinary raw frames, every failure, death and terminal frame included. All cold starts cost132frames each. Cap4358276=132+32768*(132+1). No experiment branch or restore. Any exception is an incomplete failed attempt; do not retry an existing destination or stop when fruit appears.",
+  "comparison": "Keep separate fractions for17411 and17431. Apply the original all-frame/positive count and within1 box criteria unchanged for every observed category. Each of the five categories must obtain at least50joint instance-frame matches in17431 itself; no pooled dilution. The absent fruit in17411 remains null/uncovered, not PASS. Full reserved calibration of all five categories requires prospective fruit coverage as well as the uniform sequence; never infer it from an empty uniform denominator.",
+  "reserved_capture_disabled": "17412 and17432 remain closed until the complete raw candidate, checker, protocols and successful source/metadata commits are independently reviewed. This executor supports development only. Later reserved failures must be preserved without tuning on them.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

@@ -324,8 +324,20 @@ Les anciens fichiers Pong scellés restent aussi des références historiques.
 
 ### Suite autorisée
 
-Terminer Seaquest (géométrie et couverture supplémentaires à définir avant capture),
-puis calibrer MsPacman et Asteroids
+Seaquest est terminé pour brut/temporel, référence et débit CPU (résultats et
+preuves ci-dessus). MsPacman V1 : les quatre catégories observées passent le
+développement17411, fruit absent/null donc calibration globale FAIL. Résultat
+`development_visible_v1.json` : joueur100 %, fantômes19562/19591within1,
+grosses15359/15497within1, petites1057309boîtes exactes avec9erreurs de comptage.
+Modules distincts `mspacman_ghosts/pixels/support/visible_v70.py`, source V0 intacte.
+Registre RGB causal, silhouettes RAM indépendantes ; aucune donnée oracle pour
+l'agent. `docs/ARC4_MSPACMAN_CALIBRATION.md` détaille les diagnostics conservés.
+Protocole et collecteur supplémentaires17431/17432 préparés mais **jamais lancés** :
+32 768images, marcheur de labyrinthe RGB seul. Revue indépendante en clôture après
+correction du départ Dijkstra et de l'immobilité ; trois tests controller passent.
+Exiger commits des sources/protocole/revue avant toute capture. Ne pas toucher
+aux sources hachées pendant son exécution.17412/17432 toujours fermés.
+Après couverture du fruit et revue, terminer MsPacman puis calibrer Asteroids
 sur développement avec protocole préalable, baseline conservée, revue, scellement
 avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,

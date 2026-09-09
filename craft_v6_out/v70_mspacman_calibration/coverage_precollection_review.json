@@ -1,0 +1,59 @@
+{
+  "kind": "mspacman_coverage_precollection_independent_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T09:49:06.632999+00:00",
+  "reviewer": "independent Codex subagent /root/review_recovery_v62",
+  "scope": "Prospective development collection17431 only; reserved17412/17432 remain unauthorized.",
+  "source_sha256": {
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "tests/test_mspacman_coverage_v70.py": "200f31da7b5a3049f7dd8edc03e86610981156fea75b3170ab8595eeb4ef0957"
+  },
+  "development_visible_v1_sha256": "0a88e9705ed7f8512e6fc690207722d5d3aa3476ae1c0bb8a938346559512c30",
+  "preserved_baseline_sha256": "07c22684418200ba1ee1c734993df0ec99b3ebb230b5983996d26471078ea466",
+  "development_manifest_sha256": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+  "closed_findings": [
+    {
+      "issue": "Distant virtual starts skipped intermediate ghost and visit penalties.",
+      "fix": "Only the node within Manhattan distance2 or the nearest aligned node per direction can seed Dijkstra.",
+      "verified": "Original synthetic trap now chooses DOWN from(10,50); an independent off-node variant from(15,50) chooses LEFT toward the safe route."
+    },
+    {
+      "issue": "Mouth animation prevented exact-position stationary counter from reaching12.",
+      "fix": "The last13 observed RGB positions must span<=2 pixels per axis.",
+      "verified": "Archived17411 frames2881..2961 trigger escape; cumulative1-pixel-per-step movement remains mobile. No RAM is provided to the controller."
+    }
+  ],
+  "methods": [
+    "Read corrected controller, tests and prospective protocol. Independently ran tests/test_mspacman_coverage_v70.py with .venv-arc4/Scripts/python.exe:3 passed in2.09s. Two further on-node/off-node synthetic routing assertions passed.",
+    "Earlier review passed12 pixel/ghost tests and hash-verified all32 seed17411 shards;4096 offline RGB decisions diagnosed the two now-closed defects. The corrected version was tested on targeted witnesses; the complete archive was not redundantly rescored.",
+    "Read-only source audit: actions use causal RGB only; RAM is recorded after ordinary stepping and is never passed to the controller. Terminal ordinary frames precede any next-step cold construction.",
+    "Capture guard requires its10 source/protocol files to match HEAD before first construction, refuses an existing destination, records the attempt first, verifies source hashes at completion, and enforces charged_frames=32768+132*cold_loads with no restores/experiment frames. Worst-case cap132+32768*133=4358276 is correct.",
+    "Verified new uniform-result SHA256, all18 recorded source hashes and fixture-manifest SHA256. Read summary and retained residuals without rerunning scoring. Protocol fixes32768 frames and>=50 joint matches per category on17431 itself, preserving failures and the absent fruit on17411."
+  ],
+  "uniform_result_summary": {
+    "seed": 17411,
+    "frames": 8192,
+    "calibration_pass": false,
+    "player": "8192/8192 within1;7913 exact;8192/8192 count agreement;PASS",
+    "ghost": "19562/19591 within1;8192/8192 count agreement;PASS",
+    "power_pill": "15359/15497 within1;8192/8192 count agreement;PASS",
+    "pill": "1057309/1057309 exact;8183/8192 count agreement;PASS",
+    "fruit": "0 joint matches;positive/box fractions null;FAIL/uncovered"
+  },
+  "limits": [
+    "Passed means the prospective collection instrument and the two corrections are reviewed. It neither establishes complete calibration nor guarantees fruit exposure. Overall uniform calibration remains FAIL.",
+    "Retain29 ghost and138 power-pill matches beyond one-pixel tolerance, nine pill-count disagreements and279 non-exact player matches. The baselineV0 and all earlier diagnostics remain intact.",
+    "The first-maze graph, palette grouping and causal anchors are empirical; later layouts, ambiguous same-colour contacts and first appearances already occluded may fail. Discrete hazard costs do not guarantee survival. Cold preparation is charged but not individually archived.",
+    "Successful source/metadata commits and the concrete destination check remain required before collection. No commit was made by this reviewer. Existing-destination refusal is not a global seed registry across arbitrary alternative paths.",
+    "No GPU, ROM, new seed, capture or scoring process was launched in this review. No existing source, protocol or result was modified. Training and agent entry-state selection remain forbidden."
+  ]
+}

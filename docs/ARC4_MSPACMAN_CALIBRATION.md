@@ -50,3 +50,49 @@ RAM34/40/46 est constamment nul (aucune entrée joueur à cet endroit), et un
 nœud sont jaunes. Le diagnostic de masque jaune|rouge peut être contaminé par
 les fantômes rouges ; il ne constitue pas une silhouette opaque validée. Une
 boîte correcte ne suffit pas à certifier la forme pixel par pixel.
+
+Le candidat composé V1 a maintenant parcouru les 8 192 images uniformes avec
+un juge RAM autonome et un checker RGB causal, initialement vide. Le résultat
+`development_visible_v1.json` conserve les fractions par catégorie :
+
+| Catégorie | Présence positive | Boîtes à un pixel près | Statut de développement |
+|---|---:|---:|---|
+| Joueur | 8192/8192 | 8192/8192 | PASS |
+| Fantômes | 7785/7785 | 19562/19591 | PASS, 29 erreurs géométriques gardées |
+| Fruit | null | null | Absent, FAIL/non couvert |
+| Grosses pastilles | 8192/8192 | 15359/15497 | PASS, marge étroite |
+| Petites pastilles | 8183/8192 | 1057309/1057309 | PASS, 9 erreurs de présence gardées |
+
+Le résultat global reste donc **FAIL : fruit non couvert**. Aucun réservé n'est
+ouvert. Ce passage de quatre catégories ne constitue pas encore une calibration
+complète du jeu ni une mesure d'apprentissage.
+
+Les fantômes utilisent la liste de rendu de la RAM précédente, jusqu'à quatre
+entrées (255 signifie aucune), six couleurs dont le gris214 absent de V0.
+Les motifs normaux et effrayés partagent une phase miroir donnée par le bit16
+de RAM30 **courante**. Le juge des pastilles compose ces motifs et les douze
+silhouettes jaunes du joueur ; il garde les pixels de pastille non couverts,
+y compris les fragments à travers les yeux et les pieds des fantômes. Les neuf
+erreurs de présence correspondent aux résidus déjà diagnostiqués du joueur.
+La première version du module de support joueur est conservée octet pour octet
+dans `player_only_support_source.py`, conforme au SHA du diagnostic antérieur.
+
+Le checker des pastilles apprend ses emplacements uniquement depuis des
+rectangles roses complets déjà observés, puis rassemble leurs fragments visibles.
+Une grosse pastille garde priorité sur les petites formes qu'une occultation
+pourrait créer en son sein. Sa variante causale est identique au diagnostic
+rétrospectif sur cette séquence ; l'échec de la variante naïve reste consigné.
+
+Collecte supplémentaire **préparée, pas encore exécutée** : protocole
+`ARC4_MSPACMAN_COVERAGE_PROTOCOL.json`, développement17431, réservé17432 fermé,
+32 768 frames ordinaires fixes. Le contrôleur cherche des pastilles depuis le RGB
+seul ; aucun label RAM, récompense ou snapshot ne dirige ses actions. La revue
+a corrigé deux défauts avant collecte : sauts de coût dans Dijkstra et immobilité
+masquée par l'animation de bouche. Aucun résultat favorable ne déclenche un arrêt
+anticipé ; le fruit absent de17411 reste explicitement non couvert.
+
+La revue indépendante préalable est close : trois tests ciblés et deux témoins
+de routage passent. Le reçu `coverage_precollection_review.json` lie les dix
+sources de collecte, les tests et les résultats uniformes par SHA256. Il autorise
+la collecte de développement après commit ; il ne garantit pas l'apparition du
+fruit et ne valide aucun jeu réservé.

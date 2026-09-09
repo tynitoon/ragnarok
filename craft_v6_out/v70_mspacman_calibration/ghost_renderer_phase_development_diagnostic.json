@@ -1,0 +1,5048 @@
+{
+  "kind": "independent_mspacman_ghost_renderer_development_diagnostic",
+  "created_utc": "2026-09-09T04:28:49Z",
+  "scope": {
+    "seed": 17411,
+    "frames": 8192,
+    "archives_only": true,
+    "new_emulated_frames": 0,
+    "new_gpu_work": false,
+    "reserved17412_opened": false,
+    "not_a_calibration_seal": true,
+    "agent_training": false,
+    "source_edits_during_diagnostic": false
+  },
+  "provenance": {
+    "baseline_commit": "c8e64ef62d8f8a6dd8969340a06650664af28789",
+    "baseline_sources_and_results_unchanged_normalized": {
+      "ragnarok/evaluation/mspacman_v70.py": true,
+      "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": true,
+      "craft_v6_out/v70_mspacman_calibration/development/manifest.json": true,
+      "craft_v6_out/v70_mspacman_calibration/development_baseline.json": true
+    },
+    "source_sha256": {
+      "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+      "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+      "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+      "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+      "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039"
+    },
+    "archive_sha256": {
+      "craft_v6_out/v70_mspacman_calibration/development/manifest.json": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+      "craft_v6_out/v70_mspacman_calibration/development_baseline.json": "07c22684418200ba1ee1c734993df0ec99b3ebb230b5983996d26471078ea466",
+      "craft_v6_out/v70_mspacman_calibration/ghost_development_diagnostic.json": "6d2296ac44a6a17a3593dc31a168ca609945d9d8028b5100f8c3eeaaa5812ebf"
+    },
+    "all32_shard_hashes_verified": [
+      {
+        "path": "frames_00001_00256.npz",
+        "sha256": "034398cc3bd0f4ae691636829c2f932ffb8850d92f724d9f834ea67f93fbee8b",
+        "frames": 256
+      },
+      {
+        "path": "frames_00257_00512.npz",
+        "sha256": "0b939ec630d8a6f25adb4780ad1fa22456c02520d6efd4e2050d8f129b61fa07",
+        "frames": 256
+      },
+      {
+        "path": "frames_00513_00768.npz",
+        "sha256": "fccf165655d43ef2b6a8de80b69133e418e026d54a87097cb741ed2ece36e8b6",
+        "frames": 256
+      },
+      {
+        "path": "frames_00769_01024.npz",
+        "sha256": "31839fb860245d76a150e41b150381c5846d1e59cdaff272fe17be8acde99029",
+        "frames": 256
+      },
+      {
+        "path": "frames_01025_01280.npz",
+        "sha256": "e25842b9aa55c771aabda0c41a0a93a14a594dca94e820797b3b5241e64c813f",
+        "frames": 256
+      },
+      {
+        "path": "frames_01281_01536.npz",
+        "sha256": "3214276848d5632117263031a42e3d341df98f49d09b2ea011de618409d91367",
+        "frames": 256
+      },
+      {
+        "path": "frames_01537_01792.npz",
+        "sha256": "366e0543ac38fd2e24d9e4860ef29d950f0a80c5643497f760b7157dd06d3bc2",
+        "frames": 256
+      },
+      {
+        "path": "frames_01793_02048.npz",
+        "sha256": "036a90012ecf5baf375b2184396c4ecb0ad4eff10a0c080723f8f11823bd8bc2",
+        "frames": 256
+      },
+      {
+        "path": "frames_02049_02304.npz",
+        "sha256": "2c3e9470da45d58eea6695bcc03308d5ac70a7eb0ed682a6e5644bf7c3e84e3d",
+        "frames": 256
+      },
+      {
+        "path": "frames_02305_02560.npz",
+        "sha256": "98dff10a5a1049e49321a7cae198aafdc09a65b48b3d9901c504444117899ef8",
+        "frames": 256
+      },
+      {
+        "path": "frames_02561_02816.npz",
+        "sha256": "1ec3c63245f55e26ed142a71bb8e7f2703af1f26f5146825151f4f4f5353f363",
+        "frames": 256
+      },
+      {
+        "path": "frames_02817_03072.npz",
+        "sha256": "8cf9ebef14fc50264176d6f776baa275701e509d79669857bdf5b85c999eec23",
+        "frames": 256
+      },
+      {
+        "path": "frames_03073_03328.npz",
+        "sha256": "5903d6de6a47db4572770c77e1ce9919f2295f2a145398a76fa2b0b2579362a9",
+        "frames": 256
+      },
+      {
+        "path": "frames_03329_03584.npz",
+        "sha256": "f7e068272c6361ff102557795fb78622a7d9e09292386fa66e9a6261cbfcf743",
+        "frames": 256
+      },
+      {
+        "path": "frames_03585_03840.npz",
+        "sha256": "3158894f8d3dde3858a06dfd53059a5a96cb02eb4d98ecd49289b815a7df9036",
+        "frames": 256
+      },
+      {
+        "path": "frames_03841_04096.npz",
+        "sha256": "468e48f3504b4b601d3f74273968e8441a8d36b8b74f0bf132584b54f16b213e",
+        "frames": 256
+      },
+      {
+        "path": "frames_04097_04352.npz",
+        "sha256": "6ff09b1afd23d628681a9f8e6ec21e55c660a2b711a7e1af7c4fbe757ef6120b",
+        "frames": 256
+      },
+      {
+        "path": "frames_04353_04608.npz",
+        "sha256": "3b0e1ed52a19306c027e110462f2e90d4800751dc680fd62ae13062f3318a2aa",
+        "frames": 256
+      },
+      {
+        "path": "frames_04609_04864.npz",
+        "sha256": "d2d2704a333c42d1768e57d3f7b7cc51327f99e945edad3c2ebd569053521efa",
+        "frames": 256
+      },
+      {
+        "path": "frames_04865_05120.npz",
+        "sha256": "cf68c00ca122947d799af3b4835d5c7d1fc734e60ba13ec29bda042801770e7a",
+        "frames": 256
+      },
+      {
+        "path": "frames_05121_05376.npz",
+        "sha256": "ae7527edca083d2e1e3eb0a4b580f2f4e4e98dfb423b94edf2f906ef0dc930ce",
+        "frames": 256
+      },
+      {
+        "path": "frames_05377_05632.npz",
+        "sha256": "638c755aca99400f518145dc5020f4fe293d9f095f6360ab85096ea359391d71",
+        "frames": 256
+      },
+      {
+        "path": "frames_05633_05888.npz",
+        "sha256": "39d8e01162890beaf3a951a62fb3efdbf6b9582f0302e65aaf092ddda5dc8daf",
+        "frames": 256
+      },
+      {
+        "path": "frames_05889_06144.npz",
+        "sha256": "78f9ead0eca32627c18e7bca6fb5b25ac6eb69d3d88aac8ac6e72bc0c9829dbc",
+        "frames": 256
+      },
+      {
+        "path": "frames_06145_06400.npz",
+        "sha256": "3b1560c4f643ccf4d78b72cc3c5b91d855be35172259c03b83923eeac2cb7d5f",
+        "frames": 256
+      },
+      {
+        "path": "frames_06401_06656.npz",
+        "sha256": "ea5f2d55fbc678a4c4e867b82df2f29b84c9bf7869b9f34eccf177dfa7610b1e",
+        "frames": 256
+      },
+      {
+        "path": "frames_06657_06912.npz",
+        "sha256": "c4a50908fb793743052e50dca59aa27ce12cb3ff4cfefc5615635b917536966b",
+        "frames": 256
+      },
+      {
+        "path": "frames_06913_07168.npz",
+        "sha256": "997edc9309e3524fe7da8ab51cdf02b35c73d8b01cda1d98dc61b8e46259880b",
+        "frames": 256
+      },
+      {
+        "path": "frames_07169_07424.npz",
+        "sha256": "4f104dd505555be504838e691e4bc2115ef3ea38e142322536c612f057fb91f5",
+        "frames": 256
+      },
+      {
+        "path": "frames_07425_07680.npz",
+        "sha256": "0ed0fbad396ee22703ecb150ca124e786f15f23809d35f54b1214c1863b03c08",
+        "frames": 256
+      },
+      {
+        "path": "frames_07681_07936.npz",
+        "sha256": "24a9923ff2c2faebd1d699b8a324ef143f2fa7cc34afe6280f6377fc9185c392",
+        "frames": 256
+      },
+      {
+        "path": "frames_07937_08192.npz",
+        "sha256": "b60c5ff8a28a8d7de90a74f17674eee4a721b5e266c3d5ccf41953eb3c78085e",
+        "frames": 256
+      }
+    ],
+    "environment": {
+      "python": "3.14.3",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1"
+    }
+  },
+  "accounting": {
+    "existing_gameplay_frames": 8192,
+    "existing_cold_loads": 4,
+    "existing_cold_frames": 528,
+    "existing_charged_frames": 8720,
+    "new_emulated_frames": 0
+  },
+  "renderer_contract": {
+    "timing": "Use previous paired RAM from the SAME episode; current fallback at the first archived frame. Do not cross resets. Positions/list are previous; global mirror phase is CURRENT RAM30 bit16.",
+    "first_frame_fallbacks": [
+      1,
+      2146,
+      4563,
+      6828
+    ],
+    "last_index_byte": 33,
+    "horizontal_bytes": [
+      35,
+      36,
+      37,
+      38
+    ],
+    "appearance_bytes": [
+      41,
+      42,
+      43,
+      44
+    ],
+    "vertical_bytes": [
+      47,
+      48,
+      49,
+      50
+    ],
+    "count": "0 if RAM33==255 else RAM33+1; observed 0..4. Values4..254 rejected by proposed module.",
+    "x": "h=RAM[35+j]; fine=h>>4; if fine>=8:fine-=16; x=12*(h&15)-fine+(3 if (h&15)==0 else 0)",
+    "y": "c=RAM[41+j]>>4; y=(204 if c in (4,5) else 181)-RAM[47+j]",
+    "box": "Nominal8x10; final ObjectLabels clipped to fixed ROI[0,0,160,171). No actual clipping needed in this capture (x6..146,y3..159).",
+    "appearance": "High nibble codes0..5 correspond respectively orange,cyan,pink,red,gray,blue. Lower nibble observed0..11 is exposed but not assumed to determine sprite shape.",
+    "palette": [
+      [
+        180,
+        122,
+        48
+      ],
+      [
+        84,
+        184,
+        153
+      ],
+      [
+        198,
+        89,
+        179
+      ],
+      [
+        200,
+        72,
+        72
+      ],
+      [
+        214,
+        214,
+        214
+      ],
+      [
+        66,
+        114,
+        194
+      ]
+    ],
+    "unknown_domain": "No five-entry list observed. Unknown list lengths/colour codes must fail before a calibration verdict; fruit was absent and new appearance/list semantics remain unvalidated.",
+    "identity": "Draw index is frame-local, never persistent lifetime. Ghost colour/frightened state is not the category identity. Same-coordinate entries are not deduplicated. First-frame fallback swaps orange/cyan4times but the ghost-category envelope remains correct."
+  },
+  "discovery": {
+    "inference_only": "Renderer formulas inferred on17411, not established from game source or held-out validation.",
+    "normal_ram_to_ram_horizontal_verification": {
+      "normal_entries": 17944,
+      "all_encoded_h_have_one_logical_x": true,
+      "unmodified_formula_nonzero_residuals": [
+        {
+          "coarse_nibble": 0,
+          "logical_minus_formula": 3,
+          "count": 869
+        }
+      ],
+      "corrected_formula_matches_all": true
+    },
+    "extra_list_fields": {
+      "ram34_40_46_all_zero": true,
+      "ram33_histogram": {
+        "1": 3959,
+        "0": 378,
+        "2": 2497,
+        "3": 951,
+        "255": 407
+      },
+      "ram39_45_51": "Outside active ghost list in this capture; their possible player/scratch role is unproven. Do not call this a fifth ghost."
+    },
+    "missing_palette_correction": "Gray214 is a whole body, not white eyes and not maze pink. Earlier tentative same-pink interpretation came from sampling at y23pixels too high and was rejected.56frames/168gray bodies; frame3173three bodies each58graypixels."
+  },
+  "pixel_checker": {
+    "inputs": "Only uint8 RGB[210,160,3], fixed ROI and six constant colours. No RAM, ReferenceExtractor, learned background or RAM-guided crop.",
+    "components": "8-connected components independently percolour; every component retained.",
+    "grouping": "Sort by descending bbox area then(y,x); repeatedly merge the first pair whose joint envelope fits width<=8,height<=10; restart and finally sort(y,x). No large/small component filter.",
+    "independence_limit": "The8x10 body envelope and extra palette were determined on development pixels. Close same-colour bodies can be ambiguous outside this sample. Renderer-derived crops are used below ONLY for exploratory silhouette diagnosis, not in this RGB detector."
+  },
+  "all_frame_results": {
+    "frames": 8192,
+    "ram": 19591,
+    "rgb": 19591,
+    "count_agreement": 8192,
+    "positive_frames": 7785,
+    "positive_count_agreement": 7785,
+    "joint": 19591,
+    "within1": 19562,
+    "exact": 18894
+  },
+  "fractions": {
+    "all_frame_count_agreement": 1.0,
+    "positive_frame_count_agreement": 1.0,
+    "box_within1": 0.9985197284467358,
+    "box_exact": 0.9644224388749936
+  },
+  "per_appearance_diagnostic": {
+    "0": {
+      "ram": 4435,
+      "rgb": 4431,
+      "joint": 4431,
+      "within1": 4431,
+      "exact": 4276,
+      "count_agreement": 8188
+    },
+    "1": {
+      "ram": 3701,
+      "rgb": 3705,
+      "joint": 3701,
+      "within1": 3701,
+      "exact": 3548,
+      "count_agreement": 8188
+    },
+    "2": {
+      "ram": 3722,
+      "rgb": 3722,
+      "joint": 3722,
+      "within1": 3716,
+      "exact": 3587,
+      "count_agreement": 8192
+    },
+    "3": {
+      "ram": 6086,
+      "rgb": 6086,
+      "joint": 6086,
+      "within1": 6063,
+      "exact": 5874,
+      "count_agreement": 8192
+    },
+    "4": {
+      "ram": 168,
+      "rgb": 168,
+      "joint": 168,
+      "within1": 168,
+      "exact": 167,
+      "count_agreement": 8192
+    },
+    "5": {
+      "ram": 1479,
+      "rgb": 1479,
+      "joint": 1479,
+      "within1": 1479,
+      "exact": 1438,
+      "count_agreement": 8192
+    }
+  },
+  "retained_failures": [
+    {
+      "frame": 819,
+      "episode": 0,
+      "entries": [
+        [
+          1,
+          5,
+          114,
+          159,
+          8,
+          10
+        ],
+        [
+          0,
+          2,
+          109,
+          75,
+          8,
+          10
+        ],
+        [
+          3,
+          2,
+          122,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            109,
+            75,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            114,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            29,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1330,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1332,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1346,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1348,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1362,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 1364,
+      "episode": 0,
+      "entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2082,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          5,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          2,
+          4,
+          122,
+          50,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2083,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          6,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          1,
+          3,
+          138,
+          42,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2084,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          5,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          2,
+          4,
+          122,
+          50,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2085,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          6,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          1,
+          3,
+          138,
+          42,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2098,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          5,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          2,
+          4,
+          122,
+          50,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2099,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          6,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          1,
+          3,
+          138,
+          42,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2100,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          5,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          2,
+          4,
+          122,
+          50,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 2101,
+      "episode": 0,
+      "entries": [
+        [
+          0,
+          0,
+          76,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          6,
+          122,
+          133,
+          8,
+          10
+        ],
+        [
+          1,
+          3,
+          138,
+          42,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            76,
+            159,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 3,
+      "within1": 2,
+      "exact": 2
+    },
+    {
+      "frame": 4500,
+      "episode": 1,
+      "entries": [
+        [
+          3,
+          1,
+          62,
+          150,
+          8,
+          10
+        ],
+        [
+          1,
+          9,
+          122,
+          109,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [],
+        [
+          [
+            122,
+            110,
+            8,
+            9
+          ]
+        ],
+        [],
+        [
+          [
+            62,
+            152,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 0
+    },
+    {
+      "frame": 4502,
+      "episode": 1,
+      "entries": [
+        [
+          3,
+          1,
+          62,
+          150,
+          8,
+          10
+        ],
+        [
+          1,
+          9,
+          122,
+          109,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [],
+        [
+          [
+            122,
+            110,
+            8,
+            9
+          ]
+        ],
+        [],
+        [
+          [
+            62,
+            152,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 0
+    },
+    {
+      "frame": 4516,
+      "episode": 1,
+      "entries": [
+        [
+          3,
+          1,
+          62,
+          150,
+          8,
+          10
+        ],
+        [
+          1,
+          9,
+          122,
+          109,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [],
+        [
+          [
+            122,
+            110,
+            8,
+            9
+          ]
+        ],
+        [],
+        [
+          [
+            62,
+            152,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 0
+    },
+    {
+      "frame": 4518,
+      "episode": 1,
+      "entries": [
+        [
+          3,
+          1,
+          62,
+          150,
+          8,
+          10
+        ],
+        [
+          1,
+          9,
+          122,
+          109,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [],
+        [
+          [
+            122,
+            110,
+            8,
+            9
+          ]
+        ],
+        [],
+        [
+          [
+            62,
+            152,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 0
+    },
+    {
+      "frame": 5236,
+      "episode": 2,
+      "entries": [
+        [
+          0,
+          3,
+          139,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          8,
+          88,
+          99,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            139,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            88,
+            99,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 1
+    },
+    {
+      "frame": 5239,
+      "episode": 2,
+      "entries": [
+        [
+          0,
+          3,
+          139,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          8,
+          88,
+          99,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            139,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            88,
+            99,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 1
+    },
+    {
+      "frame": 5254,
+      "episode": 2,
+      "entries": [
+        [
+          0,
+          3,
+          139,
+          159,
+          8,
+          10
+        ],
+        [
+          3,
+          8,
+          88,
+          99,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            139,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            88,
+            99,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 2,
+      "within1": 1,
+      "exact": 1
+    },
+    {
+      "frame": 7598,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7599,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7600,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7629,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7630,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7631,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    },
+    {
+      "frame": 7632,
+      "episode": 3,
+      "entries": [
+        [
+          2,
+          0,
+          146,
+          148,
+          8,
+          10
+        ],
+        [
+          3,
+          1,
+          27,
+          123,
+          8,
+          10
+        ],
+        [
+          0,
+          3,
+          14,
+          90,
+          8,
+          10
+        ],
+        [
+          1,
+          2,
+          23,
+          27,
+          8,
+          10
+        ]
+      ],
+      "pixels": [
+        [
+          [
+            14,
+            90,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            23,
+            27,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            146,
+            148,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            27,
+            123,
+            6,
+            10
+          ]
+        ],
+        [],
+        []
+      ],
+      "joint": 4,
+      "within1": 3,
+      "exact": 3
+    }
+  ],
+  "diagnostic_conclusion": "Ghost category meets unchanged development99percent thresholds with902partially observed silhouettes and29box errors retained. This is not the complete five-category calibration, not reserved validation, not a learning result.",
+  "intermediate_rejected_formula": {
+    "without_left_edge_plus3": {
+      "frames": 8192,
+      "ram": 19591,
+      "rgb": 19591,
+      "count_agreement": 8192,
+      "joint": 19591,
+      "within1": 18691,
+      "exact": 18062
+    },
+    "reason": "Initial horizontal conversion missed coarse-nibble0 hardware offset.869normal entries established against logical RAM;2blue entries also use the corrected offset."
+  },
+  "silhouette_diagnostic": {
+    "encoding": "Ten row bytes, bit7left; per-entry RGB==appearance-colour within nominal8x10box. These crops depend on RAM and are EXPLORATORY, not the independent checker.",
+    "normal_A": [
+      60,
+      126,
+      147,
+      219,
+      147,
+      255,
+      255,
+      255,
+      255,
+      85
+    ],
+    "normal_B": [
+      60,
+      126,
+      201,
+      219,
+      201,
+      255,
+      255,
+      255,
+      255,
+      170
+    ],
+    "frightened_or_gray_A": [
+      60,
+      126,
+      219,
+      147,
+      255,
+      255,
+      219,
+      165,
+      255,
+      85
+    ],
+    "frightened_or_gray_B": [
+      60,
+      126,
+      219,
+      201,
+      255,
+      255,
+      219,
+      165,
+      255,
+      170
+    ],
+    "phase": "CURRENT RAM[30]&16 set -> A (147/85), clear -> B (201/170). The preceding RAM30bit16 is not an exact phase predictor.",
+    "phase_discovery": "Exploratory scan of128bytes*8bits, current and preceding snapshots, plus inverted bit. Current RAM30bit4 was the only >=95percent single-bit predictor and matched18689/18689full-pattern instances.",
+    "phase_fit": {
+      "complete_pattern_instances": 18689,
+      "complete_pattern_frames": 7753,
+      "all_same_frame_patterns_agree": true,
+      "all_instances": {
+        "objects": 19591,
+        "exact": 18689,
+        "only_missing": 902,
+        "only_extra": 0,
+        "mixed": 0,
+        "extra_pixels": 0,
+        "missing_pixels": 8484
+      }
+    },
+    "modal_patterns_by_render_code": [
+      {
+        "render_code": 0,
+        "colour_code": 0,
+        "lower_nibble": 0,
+        "instances": 1815,
+        "distinct_observed_masks": 18,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 942,
+        "modal_first_frame": 11,
+        "full_A_count": 942,
+        "full_B_count": 834
+      },
+      {
+        "render_code": 1,
+        "colour_code": 0,
+        "lower_nibble": 1,
+        "instances": 651,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 331,
+        "modal_first_frame": 410,
+        "full_A_count": 297,
+        "full_B_count": 331
+      },
+      {
+        "render_code": 2,
+        "colour_code": 0,
+        "lower_nibble": 2,
+        "instances": 788,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 402,
+        "modal_first_frame": 425,
+        "full_A_count": 402,
+        "full_B_count": 357
+      },
+      {
+        "render_code": 3,
+        "colour_code": 0,
+        "lower_nibble": 3,
+        "instances": 345,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 164,
+        "modal_first_frame": 697,
+        "full_A_count": 156,
+        "full_B_count": 164
+      },
+      {
+        "render_code": 4,
+        "colour_code": 0,
+        "lower_nibble": 4,
+        "instances": 437,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 219,
+        "modal_first_frame": 317,
+        "full_A_count": 205,
+        "full_B_count": 219
+      },
+      {
+        "render_code": 5,
+        "colour_code": 0,
+        "lower_nibble": 5,
+        "instances": 122,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 65,
+        "modal_first_frame": 300,
+        "full_A_count": 65,
+        "full_B_count": 40
+      },
+      {
+        "render_code": 6,
+        "colour_code": 0,
+        "lower_nibble": 6,
+        "instances": 25,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 17,
+        "modal_first_frame": 5562,
+        "full_A_count": 5,
+        "full_B_count": 17
+      },
+      {
+        "render_code": 7,
+        "colour_code": 0,
+        "lower_nibble": 7,
+        "instances": 24,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 16,
+        "modal_first_frame": 6683,
+        "full_A_count": 16,
+        "full_B_count": 7
+      },
+      {
+        "render_code": 8,
+        "colour_code": 0,
+        "lower_nibble": 8,
+        "instances": 81,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 44,
+        "modal_first_frame": 4410,
+        "full_A_count": 35,
+        "full_B_count": 44
+      },
+      {
+        "render_code": 9,
+        "colour_code": 0,
+        "lower_nibble": 9,
+        "instances": 57,
+        "distinct_observed_masks": 9,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 27,
+        "modal_first_frame": 2021,
+        "full_A_count": 14,
+        "full_B_count": 27
+      },
+      {
+        "render_code": 10,
+        "colour_code": 0,
+        "lower_nibble": 10,
+        "instances": 49,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 19,
+        "modal_first_frame": 2029,
+        "full_A_count": 19,
+        "full_B_count": 12
+      },
+      {
+        "render_code": 11,
+        "colour_code": 0,
+        "lower_nibble": 11,
+        "instances": 41,
+        "distinct_observed_masks": 8,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 13,
+        "modal_first_frame": 1980,
+        "full_A_count": 8,
+        "full_B_count": 13
+      },
+      {
+        "render_code": 16,
+        "colour_code": 1,
+        "lower_nibble": 0,
+        "instances": 1726,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 849,
+        "modal_first_frame": 10,
+        "full_A_count": 849,
+        "full_B_count": 829
+      },
+      {
+        "render_code": 17,
+        "colour_code": 1,
+        "lower_nibble": 1,
+        "instances": 732,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 378,
+        "modal_first_frame": 345,
+        "full_A_count": 317,
+        "full_B_count": 378
+      },
+      {
+        "render_code": 18,
+        "colour_code": 1,
+        "lower_nibble": 2,
+        "instances": 472,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 226,
+        "modal_first_frame": 403,
+        "full_A_count": 226,
+        "full_B_count": 223
+      },
+      {
+        "render_code": 19,
+        "colour_code": 1,
+        "lower_nibble": 3,
+        "instances": 176,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 87,
+        "modal_first_frame": 618,
+        "full_A_count": 87,
+        "full_B_count": 74
+      },
+      {
+        "render_code": 20,
+        "colour_code": 1,
+        "lower_nibble": 4,
+        "instances": 172,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 95,
+        "modal_first_frame": 684,
+        "full_A_count": 95,
+        "full_B_count": 74
+      },
+      {
+        "render_code": 21,
+        "colour_code": 1,
+        "lower_nibble": 5,
+        "instances": 225,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 120,
+        "modal_first_frame": 285,
+        "full_A_count": 102,
+        "full_B_count": 120
+      },
+      {
+        "render_code": 22,
+        "colour_code": 1,
+        "lower_nibble": 6,
+        "instances": 21,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 13,
+        "modal_first_frame": 713,
+        "full_A_count": 13,
+        "full_B_count": 8
+      },
+      {
+        "render_code": 24,
+        "colour_code": 1,
+        "lower_nibble": 8,
+        "instances": 20,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 14,
+        "modal_first_frame": 3277,
+        "full_A_count": 14,
+        "full_B_count": 6
+      },
+      {
+        "render_code": 25,
+        "colour_code": 1,
+        "lower_nibble": 9,
+        "instances": 70,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 29,
+        "modal_first_frame": 3290,
+        "full_A_count": 21,
+        "full_B_count": 29
+      },
+      {
+        "render_code": 26,
+        "colour_code": 1,
+        "lower_nibble": 10,
+        "instances": 87,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 45,
+        "modal_first_frame": 3306,
+        "full_A_count": 45,
+        "full_B_count": 38
+      },
+      {
+        "render_code": 32,
+        "colour_code": 2,
+        "lower_nibble": 0,
+        "instances": 1855,
+        "distinct_observed_masks": 12,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 888,
+        "modal_first_frame": 9,
+        "full_A_count": 888,
+        "full_B_count": 875
+      },
+      {
+        "render_code": 33,
+        "colour_code": 2,
+        "lower_nibble": 1,
+        "instances": 558,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 271,
+        "modal_first_frame": 361,
+        "full_A_count": 271,
+        "full_B_count": 267
+      },
+      {
+        "render_code": 34,
+        "colour_code": 2,
+        "lower_nibble": 2,
+        "instances": 534,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 273,
+        "modal_first_frame": 601,
+        "full_A_count": 248,
+        "full_B_count": 273
+      },
+      {
+        "render_code": 35,
+        "colour_code": 2,
+        "lower_nibble": 3,
+        "instances": 238,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 117,
+        "modal_first_frame": 685,
+        "full_A_count": 117,
+        "full_B_count": 110
+      },
+      {
+        "render_code": 36,
+        "colour_code": 2,
+        "lower_nibble": 4,
+        "instances": 271,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 134,
+        "modal_first_frame": 697,
+        "full_A_count": 126,
+        "full_B_count": 134
+      },
+      {
+        "render_code": 37,
+        "colour_code": 2,
+        "lower_nibble": 5,
+        "instances": 213,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 114,
+        "modal_first_frame": 298,
+        "full_A_count": 114,
+        "full_B_count": 97
+      },
+      {
+        "render_code": 38,
+        "colour_code": 2,
+        "lower_nibble": 6,
+        "instances": 25,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 17,
+        "modal_first_frame": 5164,
+        "full_A_count": 8,
+        "full_B_count": 17
+      },
+      {
+        "render_code": 39,
+        "colour_code": 2,
+        "lower_nibble": 7,
+        "instances": 5,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 4,
+        "modal_first_frame": 5179,
+        "full_A_count": 4,
+        "full_B_count": 0
+      },
+      {
+        "render_code": 40,
+        "colour_code": 2,
+        "lower_nibble": 8,
+        "instances": 23,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 12,
+        "modal_first_frame": 5193,
+        "full_A_count": 12,
+        "full_B_count": 10
+      },
+      {
+        "render_code": 48,
+        "colour_code": 3,
+        "lower_nibble": 0,
+        "instances": 1068,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 552,
+        "modal_first_frame": 425,
+        "full_A_count": 552,
+        "full_B_count": 500
+      },
+      {
+        "render_code": 49,
+        "colour_code": 3,
+        "lower_nibble": 1,
+        "instances": 651,
+        "distinct_observed_masks": 22,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 322,
+        "modal_first_frame": 409,
+        "full_A_count": 228,
+        "full_B_count": 322
+      },
+      {
+        "render_code": 50,
+        "colour_code": 3,
+        "lower_nibble": 2,
+        "instances": 1225,
+        "distinct_observed_masks": 24,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 601,
+        "modal_first_frame": 361,
+        "full_A_count": 601,
+        "full_B_count": 544
+      },
+      {
+        "render_code": 51,
+        "colour_code": 3,
+        "lower_nibble": 3,
+        "instances": 208,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 116,
+        "modal_first_frame": 345,
+        "full_A_count": 79,
+        "full_B_count": 116
+      },
+      {
+        "render_code": 52,
+        "colour_code": 3,
+        "lower_nibble": 4,
+        "instances": 2442,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 1220,
+        "modal_first_frame": 9,
+        "full_A_count": 1220,
+        "full_B_count": 1211
+      },
+      {
+        "render_code": 53,
+        "colour_code": 3,
+        "lower_nibble": 5,
+        "instances": 115,
+        "distinct_observed_masks": 10,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 53,
+        "modal_first_frame": 1831,
+        "full_A_count": 34,
+        "full_B_count": 53
+      },
+      {
+        "render_code": 54,
+        "colour_code": 3,
+        "lower_nibble": 6,
+        "instances": 105,
+        "distinct_observed_masks": 19,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 46,
+        "modal_first_frame": 2060,
+        "full_A_count": 46,
+        "full_B_count": 30
+      },
+      {
+        "render_code": 55,
+        "colour_code": 3,
+        "lower_nibble": 7,
+        "instances": 99,
+        "distinct_observed_masks": 16,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 40,
+        "modal_first_frame": 1951,
+        "full_A_count": 39,
+        "full_B_count": 40
+      },
+      {
+        "render_code": 56,
+        "colour_code": 3,
+        "lower_nibble": 8,
+        "instances": 80,
+        "distinct_observed_masks": 12,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 27,
+        "modal_first_frame": 1953,
+        "full_A_count": 26,
+        "full_B_count": 27
+      },
+      {
+        "render_code": 57,
+        "colour_code": 3,
+        "lower_nibble": 9,
+        "instances": 33,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 20,
+        "modal_first_frame": 1965,
+        "full_A_count": 20,
+        "full_B_count": 12
+      },
+      {
+        "render_code": 58,
+        "colour_code": 3,
+        "lower_nibble": 10,
+        "instances": 34,
+        "distinct_observed_masks": 6,
+        "modal_rows": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "modal_count": 16,
+        "modal_first_frame": 1981,
+        "full_A_count": 13,
+        "full_B_count": 16
+      },
+      {
+        "render_code": 59,
+        "colour_code": 3,
+        "lower_nibble": 11,
+        "instances": 26,
+        "distinct_observed_masks": 8,
+        "modal_rows": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "modal_count": 6,
+        "modal_first_frame": 1994,
+        "full_A_count": 6,
+        "full_B_count": 1
+      },
+      {
+        "render_code": 64,
+        "colour_code": 4,
+        "lower_nibble": 0,
+        "instances": 53,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 33,
+        "modal_first_frame": 3178,
+        "full_A_count": 33,
+        "full_B_count": 19
+      },
+      {
+        "render_code": 65,
+        "colour_code": 4,
+        "lower_nibble": 1,
+        "instances": 51,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 32,
+        "modal_first_frame": 3179,
+        "full_A_count": 32,
+        "full_B_count": 19
+      },
+      {
+        "render_code": 66,
+        "colour_code": 4,
+        "lower_nibble": 2,
+        "instances": 8,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 6,
+        "modal_first_frame": 3178,
+        "full_A_count": 6,
+        "full_B_count": 2
+      },
+      {
+        "render_code": 71,
+        "colour_code": 4,
+        "lower_nibble": 7,
+        "instances": 16,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 11,
+        "modal_first_frame": 3178,
+        "full_A_count": 11,
+        "full_B_count": 5
+      },
+      {
+        "render_code": 72,
+        "colour_code": 4,
+        "lower_nibble": 8,
+        "instances": 40,
+        "distinct_observed_masks": 2,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 25,
+        "modal_first_frame": 3210,
+        "full_A_count": 25,
+        "full_B_count": 15
+      },
+      {
+        "render_code": 80,
+        "colour_code": 5,
+        "lower_nibble": 0,
+        "instances": 355,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "modal_count": 191,
+        "modal_first_frame": 2842,
+        "full_A_count": 158,
+        "full_B_count": 191
+      },
+      {
+        "render_code": 81,
+        "colour_code": 5,
+        "lower_nibble": 1,
+        "instances": 201,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "modal_count": 114,
+        "modal_first_frame": 2813,
+        "full_A_count": 78,
+        "full_B_count": 114
+      },
+      {
+        "render_code": 82,
+        "colour_code": 5,
+        "lower_nibble": 2,
+        "instances": 470,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 237,
+        "modal_first_frame": 2794,
+        "full_A_count": 237,
+        "full_B_count": 230
+      },
+      {
+        "render_code": 83,
+        "colour_code": 5,
+        "lower_nibble": 3,
+        "instances": 220,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 113,
+        "modal_first_frame": 2826,
+        "full_A_count": 113,
+        "full_B_count": 97
+      },
+      {
+        "render_code": 84,
+        "colour_code": 5,
+        "lower_nibble": 4,
+        "instances": 127,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 64,
+        "modal_first_frame": 2794,
+        "full_A_count": 64,
+        "full_B_count": 58
+      },
+      {
+        "render_code": 85,
+        "colour_code": 5,
+        "lower_nibble": 5,
+        "instances": 29,
+        "distinct_observed_masks": 4,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "modal_count": 15,
+        "modal_first_frame": 2789,
+        "full_A_count": 10,
+        "full_B_count": 15
+      },
+      {
+        "render_code": 86,
+        "colour_code": 5,
+        "lower_nibble": 6,
+        "instances": 26,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 16,
+        "modal_first_frame": 3146,
+        "full_A_count": 16,
+        "full_B_count": 8
+      },
+      {
+        "render_code": 87,
+        "colour_code": 5,
+        "lower_nibble": 7,
+        "instances": 9,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "modal_count": 5,
+        "modal_first_frame": 3189,
+        "full_A_count": 5,
+        "full_B_count": 3
+      },
+      {
+        "render_code": 88,
+        "colour_code": 5,
+        "lower_nibble": 8,
+        "instances": 41,
+        "distinct_observed_masks": 3,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "modal_count": 30,
+        "modal_first_frame": 3171,
+        "full_A_count": 10,
+        "full_B_count": 30
+      },
+      {
+        "render_code": 89,
+        "colour_code": 5,
+        "lower_nibble": 9,
+        "instances": 1,
+        "distinct_observed_masks": 1,
+        "modal_rows": [
+          60,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "modal_count": 1,
+        "modal_first_frame": 3196,
+        "full_A_count": 0,
+        "full_B_count": 1
+      }
+    ],
+    "top_other_patterns": [
+      {
+        "normal": true,
+        "rows": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "count": 304
+      },
+      {
+        "normal": true,
+        "rows": [
+          0,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "count": 262
+      },
+      {
+        "normal": false,
+        "rows": [
+          0,
+          126,
+          219,
+          201,
+          255,
+          255,
+          219,
+          165,
+          255,
+          170
+        ],
+        "count": 25
+      },
+      {
+        "normal": false,
+        "rows": [
+          0,
+          126,
+          219,
+          147,
+          255,
+          255,
+          219,
+          165,
+          255,
+          85
+        ],
+        "count": 17
+      },
+      {
+        "normal": true,
+        "rows": [
+          20,
+          16,
+          1,
+          25,
+          9,
+          187,
+          255,
+          255,
+          255,
+          170
+        ],
+        "count": 16
+      },
+      {
+        "normal": true,
+        "rows": [
+          20,
+          16,
+          17,
+          25,
+          17,
+          187,
+          255,
+          255,
+          255,
+          85
+        ],
+        "count": 15
+      },
+      {
+        "normal": true,
+        "rows": [
+          0,
+          16,
+          17,
+          17,
+          17,
+          57,
+          57,
+          187,
+          255,
+          85
+        ],
+        "count": 14
+      },
+      {
+        "normal": true,
+        "rows": [
+          0,
+          16,
+          1,
+          17,
+          1,
+          57,
+          57,
+          187,
+          255,
+          170
+        ],
+        "count": 13
+      },
+      {
+        "normal": true,
+        "rows": [
+          52,
+          104,
+          192,
+          208,
+          193,
+          243,
+          240,
+          240,
+          248,
+          168
+        ],
+        "count": 11
+      },
+      {
+        "normal": true,
+        "rows": [
+          52,
+          104,
+          146,
+          208,
+          147,
+          243,
+          240,
+          240,
+          248,
+          84
+        ],
+        "count": 9
+      },
+      {
+        "normal": true,
+        "rows": [
+          4,
+          0,
+          1,
+          1,
+          1,
+          131,
+          199,
+          255,
+          255,
+          85
+        ],
+        "count": 8
+      },
+      {
+        "normal": true,
+        "rows": [
+          4,
+          0,
+          1,
+          1,
+          1,
+          131,
+          199,
+          255,
+          255,
+          170
+        ],
+        "count": 8
+      }
+    ],
+    "first_nonexact_examples": [
+      {
+        "frame": 1,
+        "j": 0,
+        "colour": 0,
+        "code": 0,
+        "ram30": 72,
+        "actual": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 60
+      },
+      {
+        "frame": 284,
+        "j": 0,
+        "colour": 1,
+        "code": 16,
+        "ram30": 99,
+        "actual": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 287,
+        "j": 0,
+        "colour": 0,
+        "code": 0,
+        "ram30": 102,
+        "actual": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 289,
+        "j": 0,
+        "colour": 2,
+        "code": 32,
+        "ram30": 104,
+        "actual": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 312,
+        "j": 0,
+        "colour": 0,
+        "code": 5,
+        "ram30": 127,
+        "actual": [
+          0,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "expected": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 324,
+        "j": 0,
+        "colour": 2,
+        "code": 32,
+        "ram30": 139,
+        "actual": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 338,
+        "j": 1,
+        "colour": 3,
+        "code": 52,
+        "ram30": 153,
+        "actual": [
+          0,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "expected": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 372,
+        "j": 0,
+        "colour": 1,
+        "code": 16,
+        "ram30": 187,
+        "actual": [
+          0,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "expected": [
+          60,
+          126,
+          147,
+          219,
+          147,
+          255,
+          255,
+          255,
+          255,
+          85
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 383,
+        "j": 0,
+        "colour": 0,
+        "code": 0,
+        "ram30": 198,
+        "actual": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          239,
+          162
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 2
+      },
+      {
+        "frame": 386,
+        "j": 0,
+        "colour": 0,
+        "code": 0,
+        "ram30": 201,
+        "actual": [
+          60,
+          126,
+          201,
+          27,
+          9,
+          15,
+          15,
+          15,
+          15,
+          10
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 22
+      },
+      {
+        "frame": 390,
+        "j": 0,
+        "colour": 2,
+        "code": 32,
+        "ram30": 205,
+        "actual": [
+          0,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 4
+      },
+      {
+        "frame": 390,
+        "j": 1,
+        "colour": 0,
+        "code": 0,
+        "ram30": 205,
+        "actual": [
+          60,
+          62,
+          9,
+          27,
+          9,
+          63,
+          63,
+          127,
+          255,
+          170
+        ],
+        "expected": [
+          60,
+          126,
+          201,
+          219,
+          201,
+          255,
+          255,
+          255,
+          255,
+          170
+        ],
+        "extra_pixels": 0,
+        "missing_pixels": 12
+      }
+    ],
+    "limits": "All902nonexact patterns have only missing pixels; no extra pixels among19591entries. Four are current-fallback wrong appearance, others may be partial visibility/occlusion. This subset fact does not prove every nominal ghost pixel is opaque in all frames. Do not silently apply these masks as pixel-perfect oracle truth."
+  },
+  "witnesses": [
+    {
+      "frame": 1,
+      "episode": 0,
+      "used_current_fallback": true,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 72,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 2,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 73,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 3,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        32,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 74,
+      "draw_entries": [
+        [
+          2,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [],
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 11,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 82,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 285,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 0,
+      "ram_horizontal": [
+        39,
+        197,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        21,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        109,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 100,
+      "draw_entries": [
+        [
+          1,
+          5,
+          82,
+          72,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            82,
+            72,
+            8,
+            10
+          ]
+        ],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 391,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 1,
+      "ram_horizontal": [
+        166,
+        128,
+        241,
+        0
+      ],
+      "ram_render_codes": [
+        17,
+        50,
+        50,
+        0
+      ],
+      "ram_vertical": [
+        114,
+        154,
+        154,
+        0
+      ],
+      "ram_current30": 206,
+      "draw_entries": [
+        [
+          1,
+          1,
+          78,
+          67,
+          8,
+          10
+        ],
+        [
+          3,
+          2,
+          11,
+          27,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            78,
+            67,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            11,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 819,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 2,
+      "ram_horizontal": [
+        169,
+        249,
+        234,
+        231
+      ],
+      "ram_render_codes": [
+        21,
+        2,
+        50,
+        50
+      ],
+      "ram_vertical": [
+        22,
+        106,
+        154,
+        154
+      ],
+      "ram_current30": 122,
+      "draw_entries": [
+        [
+          1,
+          5,
+          114,
+          159,
+          8,
+          10
+        ],
+        [
+          0,
+          2,
+          109,
+          75,
+          8,
+          10
+        ],
+        [
+          3,
+          2,
+          122,
+          27,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [
+          [
+            109,
+            75,
+            8,
+            10
+          ]
+        ],
+        [
+          [
+            114,
+            159,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            122,
+            29,
+            8,
+            8
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 858,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 255,
+      "ram_horizontal": [
+        169,
+        249,
+        234,
+        231
+      ],
+      "ram_render_codes": [
+        21,
+        2,
+        50,
+        50
+      ],
+      "ram_vertical": [
+        22,
+        106,
+        154,
+        154
+      ],
+      "ram_current30": 161,
+      "draw_entries": [],
+      "rgb_boxes_by_palette": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 1330,
+      "episode": 0,
+      "used_current_fallback": false,
+      "ram33": 2,
+      "ram_horizontal": [
+        232,
+        215,
+        177,
+        162
+      ],
+      "ram_render_codes": [
+        32,
+        48,
+        0,
+        48
+      ],
+      "ram_vertical": [
+        129,
+        154,
+        178,
+        170
+      ],
+      "ram_current30": 121,
+      "draw_entries": [
+        [
+          2,
+          0,
+          98,
+          52,
+          8,
+          10
+        ],
+        [
+          3,
+          0,
+          87,
+          27,
+          8,
+          10
+        ],
+        [
+          0,
+          0,
+          17,
+          3,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            98,
+            54,
+            8,
+            8
+          ]
+        ],
+        [
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 2146,
+      "episode": 1,
+      "used_current_fallback": true,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 72,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 3173,
+      "episode": 1,
+      "used_current_fallback": false,
+      "ram33": 2,
+      "ram_horizontal": [
+        38,
+        235,
+        232,
+        232
+      ],
+      "ram_render_codes": [
+        65,
+        65,
+        71,
+        86
+      ],
+      "ram_vertical": [
+        45,
+        81,
+        118,
+        120
+      ],
+      "ram_current30": 75,
+      "draw_entries": [
+        [
+          4,
+          1,
+          70,
+          159,
+          8,
+          10
+        ],
+        [
+          4,
+          1,
+          134,
+          123,
+          8,
+          10
+        ],
+        [
+          4,
+          7,
+          98,
+          86,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [
+          [
+            98,
+            86,
+            8,
+            10
+          ],
+          [
+            134,
+            123,
+            8,
+            10
+          ],
+          [
+            70,
+            159,
+            8,
+            10
+          ]
+        ]
+      ]
+    },
+    {
+      "frame": 4563,
+      "episode": 2,
+      "used_current_fallback": true,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 72,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    },
+    {
+      "frame": 6828,
+      "episode": 3,
+      "used_current_fallback": true,
+      "ram33": 1,
+      "ram_horizontal": [
+        198,
+        198,
+        0,
+        0
+      ],
+      "ram_render_codes": [
+        0,
+        52,
+        0,
+        0
+      ],
+      "ram_vertical": [
+        100,
+        130,
+        0,
+        0
+      ],
+      "ram_current30": 72,
+      "draw_entries": [
+        [
+          0,
+          0,
+          76,
+          81,
+          8,
+          10
+        ],
+        [
+          3,
+          4,
+          76,
+          51,
+          8,
+          10
+        ]
+      ],
+      "rgb_boxes_by_palette": [
+        [],
+        [
+          [
+            76,
+            81,
+            8,
+            10
+          ]
+        ],
+        [],
+        [
+          [
+            76,
+            51,
+            8,
+            10
+          ]
+        ],
+        [],
+        []
+      ]
+    }
+  ],
+  "player_rule_review": "The separate player helper correctly keeps position55/56phase from the same preceding snapshot and resets viaNone; current RAM30 controls an independently measured pixel phase. Its retained1pixel residuals and4start fallbacks must remain visible. The all-zero34/40/46triplet is not an actor render entry in17411.",
+  "candidate_module_target": "ragnarok/evaluation/mspacman_ghosts_v70.py",
+  "candidate_module_utf8_lf_sha256": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+  "candidate_module_source": "\"\"\"Development-only Ms. Pac-Man ghost render list and independent RGB checker.\n\nThe RAM formulas were inferred on immutable raw development seed 17411. They\ndescribe rendered supports, not all four logical allocations or persistent IDs.\nReserved seed 17412 has not validated this module. No agent receives these labels.\nSee ghost_renderer_phase_development_diagnostic.json for every retained residual.\n\"\"\"\nfrom dataclasses import dataclass\n\nimport numpy as np\nfrom scipy import ndimage\n\nfrom ragnarok.evaluation.mspacman_v70 import ROI, SlottedLabel\nfrom ragnarok.evaluation.pong_v70 import ObjectLabel\n\nREVISION = \"mspacman_ghost_drawlist_development_v1\"\nGHOST_COLOURS = (\n    (180, 122, 48), (84, 184, 153), (198, 89, 179), (200, 72, 72),\n    (214, 214, 214), (66, 114, 194),\n)\n\n\n@dataclass(frozen=True)\nclass GhostDrawEntry:\n    \"\"\"One frame-local render entry, with its rectangle BEFORE ROI clipping.\n\n    form_code names the lower nibble for inspection only: it does not by itself\n    determine the visible sprite shape. The common mirror phase was associated\n    with CURRENT RAM[30] bit16 in development; no pixel mask is applied here.\n    \"\"\"\n    index: int\n    colour_code: int\n    form_code: int\n    box: tuple[int, int, int, int]\n\n    @property\n    def render_code(self):\n        return 16 * self.colour_code + self.form_code\n\n\ndef _ram(value):\n    value = np.asarray(value)\n    if value.shape != (128,) or value.dtype != np.uint8:\n        raise ValueError(\"RAM must be uint8[128]\")\n    return value.astype(int)\n\n\ndef ghost_draw_entries(current_ram, previous_ram=None):\n    \"\"\"Decode the PRECEDING snapshot from the same ordinary episode.\n\n    At cold start callers must pass None; the declared current-RAM fallback\n    preserves geometry but swaps orange/cyan at the four development starts.\n    List indices are temporary render positions. Never treat them as lifetimes.\n    An unobserved list length or colour fails rather than hiding a possible new\n    category (fruit was absent in 17411). Low-nibble animation semantics remain\n    exploratory and do not change the nominal 8x10 envelope.\n    \"\"\"\n    current = _ram(current_ram)\n    r = current if previous_ram is None else _ram(previous_ram)\n    last = int(r[33])\n    if last == 255:\n        return []\n    if not 0 <= last <= 3:\n        raise ValueError(\"Uncalibrated ghost draw-list length\")\n    result = []\n    for index in range(last + 1):\n        horizontal = int(r[35 + index])\n        code = int(r[41 + index])\n        colour, form = code >> 4, code & 15\n        if not 0 <= colour < len(GHOST_COLOURS):\n            raise ValueError(\"Uncalibrated ghost draw-list colour\")\n        coarse = horizontal & 15\n        fine = horizontal >> 4\n        if fine >= 8:\n            fine -= 16\n        x = 12 * coarse - fine + (3 if coarse == 0 else 0)\n        y = (204 if colour >= 4 else 181) - int(r[47 + index])\n        result.append(GhostDrawEntry(index, colour, form, (x, y, 8, 10)))\n    return result\n\n\ndef decode_ghost_drawlist(current_ram, previous_ram=None):\n    \"\"\"Nominal visible envelopes; partial occlusion remains in calibration.\"\"\"\n    result = []\n    for entry in ghost_draw_entries(current_ram, previous_ram):\n        x, y, width, height = entry.box\n        left, top = max(ROI[0], x), max(ROI[1], y)\n        right, bottom = min(ROI[2], x + width), min(ROI[3], y + height)\n        if left < right and top < bottom:\n            result.append(SlottedLabel(\n                \"ghost\", (left, top, right-left, bottom-top),\n                f\"draw:{entry.index}\",\n            ))\n    return result\n\n\ndef _merge_fragments(boxes):\n    \"\"\"Retain every component; combine only envelopes fitting one 8x10 body.\n\n    This deterministic RGB-only grouping is an empirical pixel interpretation.\n    Nearby same-colour bodies can be ambiguous outside the development sample.\n    No size filter silently discards large or small components.\n    \"\"\"\n    groups = sorted(boxes, key=lambda b: (-b[2] * b[3], b[1], b[0]))\n    changed = True\n    while changed:\n        changed = False\n        for i in range(len(groups)):\n            for j in range(i):\n                a, b = groups[i], groups[j]\n                x, y = min(a[0], b[0]), min(a[1], b[1])\n                right = max(a[0]+a[2], b[0]+b[2])\n                bottom = max(a[1]+a[3], b[1]+b[3])\n                if right-x <= 8 and bottom-y <= 10:\n                    groups[j] = (x, y, right-x, bottom-y)\n                    groups.pop(i)\n                    changed = True\n                    break\n            if changed:\n                break\n    return sorted(groups, key=lambda b: (b[1], b[0]))\n\n\ndef screen_ghosts(rgb):\n    \"\"\"Pixel-only six-colour components; no RAM or reference extractor access.\"\"\"\n    rgb = np.asarray(rgb)\n    if rgb.shape != (210, 160, 3) or rgb.dtype != np.uint8:\n        raise ValueError(\"RGB must be uint8[210,160,3]\")\n    view = rgb[ROI[1]:ROI[3], ROI[0]:ROI[2]]\n    result = []\n    for colour in GHOST_COLOURS:\n        labels, _ = ndimage.label(\n            np.all(view == colour, axis=2), np.ones((3, 3), dtype=np.uint8),\n        )\n        boxes = [\n            (s[1].start+ROI[0], s[0].start+ROI[1],\n             s[1].stop-s[1].start, s[0].stop-s[0].start)\n            for s in ndimage.find_objects(labels)\n        ]\n        result.extend(ObjectLabel(\"ghost\", box) for box in _merge_fragments(boxes))\n    return result\n",
+  "primary_references": [
+    {
+      "url": "https://github.com/k4ntz/OC_Atari/blob/467accd5f3da379d83705b008094ffb787eec8a1/ocatari/ram/mspacman.py",
+      "scope": "Logical ghost coordinates and initial nominal baseline, not proof of this new draw list."
+    },
+    {
+      "url": "https://github.com/k4ntz/OC_Atari/blob/467accd5f3da379d83705b008094ffb787eec8a1/ocatari/vision/mspacman.py",
+      "scope": "Normal/frightened palette baseline. Missing gray added after development observation."
+    },
+    {
+      "url": "https://github.com/mila-iqia/atari-representation-learning/blob/master/atariari/benchmark/ram_annotations.py",
+      "scope": "Corroborating logical coordinate annotations only; mutable master consulted, not a new pinned runtime source."
+    }
+  ]
+}
