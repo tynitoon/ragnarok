@@ -5,10 +5,11 @@ RAM coordinates and palette facts: OCAtari MIT, commit
 License retained in docs/licenses/OCAtari-MIT.txt. Baseline not yet calibrated.
 """
 import numpy as np
+from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="freeway_raw_clipped_boxes_v0"
+REVISION="freeway_raw_wrapped_visible_cars_v1"
 CHICKEN_COLOUR=(252,252,84)
 CAR_COLOURS=((167,26,26),(180,231,117),(105,105,15),(228,111,111),(24,26,167),
              (162,98,33),(84,92,214),(184,50,50),(135,183,84),(210,210,64))
@@ -26,7 +27,13 @@ def decode_freeway_ram(ram):
         raise ValueError("Expected128 uint8 RAM bytes")
     objects=[_clipped("player",44,193-int(ram[14]),6,8),
              _clipped("chicken_2",108,193-int(ram[15]),6,8)]
-    objects.extend(_clipped(f"car_{i}",int(ram[117-i])-3,27+16*i,8,10) for i in range(10))
+    for i in range(10):
+        x=(int(ram[117-i])-3)%160
+        # Development shows horizontal wrap and an eight-pixel left render blank.
+        # This projects visible sprite extent, with one-pixel timing/corner residuals.
+        left,right=max(8,x),min(160,x+8)
+        if right>left:
+            objects.append(ObjectLabel(f"car_{i}",(left,28+16*i,right-left,8)))
     return [o for o in objects if o is not None]
 
 
@@ -47,8 +54,16 @@ are outside the prescribed regions; no candidate box locates the pixel search.
 """
     if not isinstance(rgb,np.ndarray) or rgb.dtype!=np.uint8 or rgb.shape!=(210,160,3):
         raise ValueError("Expected raw210x160RGB")
-    objects=_colour_box(rgb,"player",CHICKEN_COLOUR,(0,22,80,201))
-    objects+=_colour_box(rgb,"chicken_2",CHICKEN_COLOUR,(80,22,160,201))
+    objects=[]
+    for kind,left in (("player",0),("chicken_2",80)):
+        mask=np.all(rgb[22:201,left:left+80]==CHICKEN_COLOUR,axis=2)
+        labels,_=ndimage.label(mask,np.ones((3,3),dtype=np.uint8))
+        for y,x in ndimage.find_objects(labels):
+            w,h=x.stop-x.start,y.stop-y.start
+            # Independent RGB sprite-size range from the pinned vision detector.
+            # The baseline full-colour extent incorrectly included yellow road dashes.
+            if 4<=w<=10 and 5<=h<=11:
+                objects.append(ObjectLabel(kind,(left+x.start,22+y.start,w,h)))
     for i,colour in enumerate(CAR_COLOURS):
         objects+=_colour_box(rgb,f"car_{i}",colour,(0,22+16*i,160,38+16*i))
     return objects

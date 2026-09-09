@@ -1,0 +1,612 @@
+{
+  "kind": "independent_freeway_raw_calibration",
+  "created_utc": "2026-09-09T00:08:46Z",
+  "decoder_revision": "freeway_raw_wrapped_visible_cars_v1",
+  "seed": 17211,
+  "per_type": {
+    "player": {
+      "frames": 4096,
+      "presence_count_agreement": 4093,
+      "joint_matches": 4093,
+      "boxes_within1": 4083,
+      "boxes_exact": 2781,
+      "ram_objects": 4096,
+      "pixel_objects": 4093,
+      "presence_fraction": 0.999267578125,
+      "box_fraction": 0.9975568043000245,
+      "passed": true
+    },
+    "chicken_2": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4096,
+      "boxes_within1": 4096,
+      "boxes_exact": 4096,
+      "ram_objects": 4096,
+      "pixel_objects": 4096,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_0": {
+      "frames": 4096,
+      "presence_count_agreement": 4086,
+      "joint_matches": 4066,
+      "boxes_within1": 4066,
+      "boxes_exact": 3236,
+      "ram_objects": 4071,
+      "pixel_objects": 4071,
+      "presence_fraction": 0.99755859375,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_1": {
+      "frames": 4096,
+      "presence_count_agreement": 4084,
+      "joint_matches": 4066,
+      "boxes_within1": 4066,
+      "boxes_exact": 3036,
+      "ram_objects": 4072,
+      "pixel_objects": 4072,
+      "presence_fraction": 0.9970703125,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_2": {
+      "frames": 4096,
+      "presence_count_agreement": 4080,
+      "joint_matches": 4064,
+      "boxes_within1": 4064,
+      "boxes_exact": 2698,
+      "ram_objects": 4072,
+      "pixel_objects": 4072,
+      "presence_fraction": 0.99609375,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_3": {
+      "frames": 4096,
+      "presence_count_agreement": 4072,
+      "joint_matches": 4060,
+      "boxes_within1": 4060,
+      "boxes_exact": 2024,
+      "ram_objects": 4072,
+      "pixel_objects": 4072,
+      "presence_fraction": 0.994140625,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_4": {
+      "frames": 4096,
+      "presence_count_agreement": 4046,
+      "joint_matches": 4046,
+      "boxes_within1": 4046,
+      "boxes_exact": 0,
+      "ram_objects": 4071,
+      "pixel_objects": 4071,
+      "presence_fraction": 0.98779296875,
+      "box_fraction": 1.0,
+      "passed": false
+    },
+    "car_5": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4070,
+      "boxes_within1": 4070,
+      "boxes_exact": 4044,
+      "ram_objects": 4070,
+      "pixel_objects": 4070,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_6": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4070,
+      "boxes_within1": 4070,
+      "boxes_exact": 4044,
+      "ram_objects": 4070,
+      "pixel_objects": 4070,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_7": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4069,
+      "boxes_within1": 4069,
+      "boxes_exact": 4042,
+      "ram_objects": 4069,
+      "pixel_objects": 4069,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_8": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4068,
+      "boxes_within1": 4068,
+      "boxes_exact": 4040,
+      "ram_objects": 4068,
+      "pixel_objects": 4068,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "car_9": {
+      "frames": 4096,
+      "presence_count_agreement": 4096,
+      "joint_matches": 4066,
+      "boxes_within1": 4066,
+      "boxes_exact": 4036,
+      "ram_objects": 4066,
+      "pixel_objects": 4066,
+      "presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": [
+    {
+      "frame": 157,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 158,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 166,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          154,
+          6,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 167,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          155,
+          6,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 168,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          156,
+          6,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 169,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          157,
+          6,
+          8
+        ]
+      ],
+      "pixels": [
+        [
+          46,
+          157,
+          4,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 313,
+      "kind": "car_3",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          76,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 315,
+      "kind": "car_3",
+      "ram": [
+        [
+          159,
+          76,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 317,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 318,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 469,
+      "kind": "car_2",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          60,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 472,
+      "kind": "car_2",
+      "ram": [
+        [
+          159,
+          60,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 477,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 478,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 625,
+      "kind": "car_1",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          44,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 629,
+      "kind": "car_1",
+      "ram": [
+        [
+          159,
+          44,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 633,
+      "kind": "car_3",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          76,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 635,
+      "kind": "car_3",
+      "ram": [
+        [
+          159,
+          76,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 637,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 638,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 722,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          124,
+          6,
+          8
+        ]
+      ],
+      "pixels": [
+        [
+          46,
+          124,
+          4,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 723,
+      "kind": "player",
+      "ram": [
+        [
+          44,
+          125,
+          6,
+          8
+        ]
+      ],
+      "pixels": [
+        [
+          46,
+          125,
+          4,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 781,
+      "kind": "car_0",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          28,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 786,
+      "kind": "car_0",
+      "ram": [
+        [
+          159,
+          28,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 797,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 798,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 949,
+      "kind": "car_2",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          60,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 952,
+      "kind": "car_2",
+      "ram": [
+        [
+          159,
+          60,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 953,
+      "kind": "car_3",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          76,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 955,
+      "kind": "car_3",
+      "ram": [
+        [
+          159,
+          76,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 957,
+      "kind": "car_4",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          92,
+          1,
+          8
+        ]
+      ]
+    },
+    {
+      "frame": 958,
+      "kind": "car_4",
+      "ram": [
+        [
+          159,
+          92,
+          1,
+          8
+        ]
+      ],
+      "pixels": []
+    }
+  ],
+  "fixture_manifest_sha256": "075e12c7b83507e71b955c88e665d77c0e3d2e6f783a3feab8a247251e2e2ec6",
+  "source_sha256": {
+    "ragnarok/evaluation/freeway_v70.py": "87bed37e11fd92e9ec08c6222a63ab4ce8d8958252c794bfafe2cfa717219721",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_freeway_v70.py": "51ca6108d357f0119e5ff2a3f3b2ef33a9226c5559baf9e09b0278abe293fe13",
+    "docs/ARC4_FREEWAY_CALIBRATION_V1_PROTOCOL.json": "ce3f72dee5e7effab11f52ac641dbbf5de124a18490ee1d56fbfe28b83609ccc",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}

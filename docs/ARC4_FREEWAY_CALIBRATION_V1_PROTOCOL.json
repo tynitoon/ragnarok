@@ -1,0 +1,28 @@
+{
+  "kind": "freeway_raw_development_correction_before_reserved_validation",
+  "game": "freeway",
+  "development_seed": 17211,
+  "reserved_validation_seed": 17212,
+  "frames": 4096,
+  "action_repeat": 16,
+  "action_schedule": "Random(seed+100000), uniform action every16real frames; wrapper sticky0.25 per real frame",
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "episode_limit": 108000,
+  "objects": "Player chicken, second chicken, ten cars identified by fixed lane. Full rendered extent per object within playfield ROI x0:160/y22:201; HUD excluded.",
+  "baseline_ram": "OCAtari pinned MIT coordinate facts: chickens6x8 at x44/108,y193-r14/15; cars8x10 at x(r117-i)-3,y27+16i, all ROI clipped",
+  "independent_pixel_check": "Chicken: eight-connected yellow components in each fixed screen half, width4..10,height5..11 (pinned vision size7x8 tolerance3). This separates same-colour road dashes; merged/occluded failures remain counted. Cars: unchanged fixed-lane colour extents, no RAM/candidate boxes.",
+  "criteria_per_type": {
+    "minimum_joint_matches": 50,
+    "presence_count_agreement_fraction": 0.99,
+    "matched_boxes_all_edges_within1pixel_fraction": 0.99
+  },
+  "matching": "Cardinality-first Hungarian box matching; all4096frames in presence count; min(RAM,pixel) count in geometry denominator; no error filtering",
+  "workflow": "Preserve development baseline, change candidate only using17211, independent review and committed source seal before opening17212; retain reserved failures without later tuning",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "scope": "CPU raw geometry only, no learning claim. A stationary second chicken remains visible but is not automatically motion eligible. ALE lives are always zero here; no death-F1 claim.",
+  "baseline_protocol": "docs/ARC4_FREEWAY_CALIBRATION_PROTOCOL.json at dd49826",
+  "thresholds_unchanged": true,
+  "candidate_ram": "Same chicken geometry; visible cars at x(r117-i-3)%160,y28+16i,width8,height8, clipped by observed left render blank x8 and screen right160. Timing/corner residuals remain scored.",
+  "development_correction_reason": "Initial checker conflated chicken colour with road markings, and RAM car boxes missed wrap/left blank. Baseline FAIL preserved fc180c0 before either correction. Reserved17212 remains unopened."
+}

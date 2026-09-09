@@ -12,7 +12,7 @@ from ragnarok.evaluation.freeway_v70 import KINDS, REVISION, decode_freeway_ram,
 from ragnarok.evaluation.cold_fixtures_v70 import cold_fixture_frames
 
 SOURCE_PATHS = ("ragnarok/evaluation/freeway_v70.py","ragnarok/evaluation/cold_fixtures_v70.py",
-                "scripts/calibrate_freeway_v70.py","docs/ARC4_FREEWAY_CALIBRATION_PROTOCOL.json",
+                "scripts/calibrate_freeway_v70.py","docs/ARC4_FREEWAY_CALIBRATION_V1_PROTOCOL.json",
                 "scripts/capture_cold_v70.py","ragnarok/environments/cold_emu_pool_v70.py",
                 "ragnarok/environments/emu_pool.py","ragnarok/environments/frame_budget_v70.py",
                 "ragnarok/evaluation/pong_v70.py","scripts/calibrate_breakout_v70.py")
@@ -20,7 +20,7 @@ SOURCE_PATHS = ("ragnarok/evaluation/freeway_v70.py","ragnarok/evaluation/cold_f
 
 def calibrate(directory):
     root = Path(__file__).resolve().parents[1]
-    protocol = json.loads((root/"docs/ARC4_FREEWAY_CALIBRATION_PROTOCOL.json").read_text())
+    protocol = json.loads((root/"docs/ARC4_FREEWAY_CALIBRATION_V1_PROTOCOL.json").read_text())
     manifest = json.loads((directory/"manifest.json").read_text())
     if (manifest["game"]!="freeway" or manifest["frames"]!=protocol["frames"] or
             manifest["seed"] not in (protocol["development_seed"],protocol["reserved_validation_seed"])):
