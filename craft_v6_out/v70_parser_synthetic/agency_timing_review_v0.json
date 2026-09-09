@@ -1,0 +1,86 @@
+{
+  "kind": "agency_timing_independent_source_review",
+  "passed": true,
+  "created_utc": "2026-09-09 22:10:48 UTC",
+  "evidence_sha256": {
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902"
+  },
+  "local_python_closure_count": 10,
+  "old_dependency_hashes_identical": 9,
+  "source_sha256": {
+    "docs/ARC4_AGENCY_TIMING_LIMITS.md": "898e0f8445beec29e3c311ba4649a7c92a6fe2dcd5a6d61b304bc97cb6dccd1b",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_agency_timing_limits_v70.py": "cd399d9a0abdee683535dcda6e1aba9aaa1f86107c178c9d33d3208db3c82389",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b"
+  },
+  "runtime": {
+    "cuda_visible_devices": "",
+    "executable": "C:\\Python314\\python.exe",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "torch_threads": 1
+  },
+  "review_head_commit": "baedfb9c242c95b20b9daa4047d6421a0f218943",
+  "source_commit": "1d37797669d24911ff616454f24d790dbb96e4e6",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "checks": {
+    "constructive_causality": "Dans le simulateur synthétique, l'action modifieA puis B dépend de la variation deA au même pas. Cette équation définit le lien indirect ; B peut donc diverger au même premier écran queA. Aucune annotation de ce lien n'est fournie à un modèle.",
+    "sticky_schedule": "Les deux branches partagent le calendrier où la première action conserve la touche antérieure0. A directement commandé ne diverge alors qu'au second écran, commeB.",
+    "measured_scope": "difference() lit seulement les RGB raw alignés du préfixe commun. Les indices sont1-based ; zéro signifie aucune divergence observée. Les régions connues servent uniquement aux assertions des tests, sans entrée ME/parser ni oracle opérationnel.",
+    "independent_witnesses": "Différences inchangées lorsque les branches sont échangées, ce qui confirme que ce signal seul n'encode pas une orientation causale. Les quatre frames des deux branches sont appariées et les tableaux d'entrée restent inchangés.",
+    "integrity": "Onze sources incluant dix fichiers Python et une documentation, toutes committées ; dépendances exactes de la revue de divergence/transport précédente. Aucun changement des sources ou protocoles historiques."
+  },
+  "tests": {
+    "source_suite_passed": 2,
+    "combined_blur_and_agency_suite_passed": 10,
+    "combined_suite_seconds": 1.06,
+    "synthetic_timing": {
+      "False": {
+        "direct_first": 1,
+        "downstream_first": 1,
+        "changed_pixels_by_frame": [
+          8,
+          16,
+          16,
+          16
+        ],
+        "symmetric_difference": true
+      },
+      "True": {
+        "direct_first": 2,
+        "downstream_first": 2,
+        "changed_pixels_by_frame": [
+          0,
+          8,
+          16,
+          16
+        ],
+        "symmetric_difference": true
+      }
+    },
+    "optimizer_updates": 0,
+    "new_emulated_frames": 0,
+    "gpu_initialized": false
+  },
+  "findings": [],
+  "limitations": [
+    "Ce sont des contre-exemples constructifs possibles, pas une mesure de fréquence Atari ou une preuve que le sélecteur ME complet échouera.",
+    "La granularité d'une image peut masquer l'ordre causal des mises à jour internes. Première image n'est pas une preuve suffisante de commande directe ; deuxième image n'est pas une preuve suffisante d'effet indirect.",
+    "Les annotations de région et les équations causales existent uniquement dans les assertions du simulateur. Aucun modèle, tracker réel, native worker ou décision ME n'a été exécuté.",
+    "La persistance, l'historique de contrôlabilité et d'autres signaux pourraient apporter de l'information. Leur efficacité et leurs critères restent à évaluer prospectivement.",
+    "Aucun nouveau filtre de données, règle d'exclusion, seuil de gate ou mécanisme d'oracle ne résulte de cette revue."
+  ]
+}

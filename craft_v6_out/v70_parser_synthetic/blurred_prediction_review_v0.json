@@ -1,0 +1,125 @@
+{
+  "kind": "blurred_prediction_independent_source_review",
+  "passed": true,
+  "created_utc": "2026-09-09 22:10:48 UTC",
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json": "138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f"
+  },
+  "local_python_closure_count": 8,
+  "numerical_core_ast_identical_to_initial_5047c5f": true,
+  "old_dependency_hashes_identical": 6,
+  "source_sha256": {
+    "docs/ARC4_BLURRED_PREDICTION_DRAFT.md": "435a98302c3e603310eeffccb04c4823a3a89410e16f02b035a3f49f634c6224",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/blurred_prediction_loss_v70.py": "10329c2830b10564bd139e6717fed6ead8166666eb3124801e3d5adff3df4dc4",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_blurred_prediction_loss_v70.py": "882945edef6e5f227633db71388de70b120cd421eb312476a3cf93a3a6011e19",
+    "tests/test_motion_observation_alias_v70.py": "bdb7a77dabaa8a169010ef493a4b38e21043eac72a98fc1fbd032fce9223c3b9"
+  },
+  "runtime": {
+    "cuda_visible_devices": "",
+    "executable": "C:\\Python314\\python.exe",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "torch_threads": 1
+  },
+  "review_head_commit": "baedfb9c242c95b20b9daa4047d6421a0f218943",
+  "initial_source_commit": "5047c5f3b77541b8b48e7d899c4a4c8309f9b384",
+  "reviewed_source_commit": "0611c843761436cb692a4abc1906b983fce942a2",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "checks": {
+    "scope": "Fonction de perte seulement, non branchée aux anciens modèles/owners/fit. Moyenne égale de L1 RGB aux largeurs1/3/7 ; mêmes filtres de moyenne, stride1, padding zéro inclus au dénominateur, résolution conservée.",
+    "no_oracle": "Aucun masque, détecteur, flow, identité ou arrière-plan externe. Le filtrage compare reconstruction et observation future ; il n'enrichit pas les observations du parser. La reconstruction peut porter un graphe, le futur requires_grad est désormais refusé.",
+    "source_integrity": "Neuf sources fermées incluant huit fichiers Python et une documentation ; toutes committées et les dépendances sont exactement celles du reçu antérieur épinglé. Le corps numérique après validation a un AST identique à la version initiale5047c5f : seul le contrat du futur et la documentation ont changé.",
+    "numerical_contract": "Calcul explicitement enfloat32 ; tensors BCHW finis dans[0,1], mêmes formes/appareil, batch non vide, dimensions>=7. Convolution manuelle NumPy indépendante concordante sur un témoin7x9float64 converti enfloat32 ; entrées inchangées et gradient de reconstruction fini.",
+    "local_gradients": "À dx=.25 ou-.25, le terme natif est plat dans la famille des translations, mais les termes3/7 donnent un gradient vers la cible. Différence finie centrale±.001 cohérente avec autograd ; cela ne teste pas un réseau entraîné.",
+    "native_term": "Le terme natif demeure un tiers de l'objectif. Pour les valeurs calculées enfloat32, loss>=native_L1/3 ; la moyenne ne masque donc pas un écart natif exact, mais en change l'échelle.",
+    "boundaries": "Le padding zéro est effectif : un pixel blanc erroné central a loss.00390625 ; le même pixel au coin a loss.0023059570230543613. L'effet de bord est conservé comme limite, pas ignoré."
+  },
+  "tests": {
+    "source_suite_passed": 8,
+    "combined_blur_and_agency_suite_passed": 10,
+    "combined_suite_seconds": 1.06,
+    "command": "C:/Python314/python.exe : torch.set_num_threads(1); pytest.main(['-q','tests/test_blurred_prediction_loss_v70.py','tests/test_agency_timing_limits_v70.py'])",
+    "optimizer_updates": 0,
+    "gpu_initialized": false,
+    "real_archives_used": false,
+    "independent": {
+      "manual_convolution_match": true,
+      "manual_scale_l1": {
+        "1": 0.32722383737564087,
+        "3": 0.10300872474908829,
+        "7": 0.03349175676703453
+      },
+      "translation_gradients": {
+        "1": {
+          "loss": 0.0374503955245018,
+          "scale_gradient": {
+            "1": 0,
+            "3": -0.005208334419876337,
+            "7": -0.006696428172290325
+          },
+          "gradient": -0.003968255128711462,
+          "finite_difference": -0.003969296813011169
+        },
+        "-1": {
+          "loss": 0.0343501977622509,
+          "scale_gradient": {
+            "1": 0,
+            "3": 0.00520833395421505,
+            "7": 0.006696428172290325
+          },
+          "gradient": 0.003968254663050175,
+          "finite_difference": 0.0039674341678619385
+        }
+      },
+      "edge_attenuation": {
+        "center": {
+          "native": 0.00390625,
+          "loss": 0.00390625,
+          "scale_l1": {
+            "1": 0.00390625,
+            "3": 0.00390625,
+            "7": 0.00390625
+          }
+        },
+        "corner": {
+          "native": 0.00390625,
+          "loss": 0.0023059570230543613,
+          "scale_l1": {
+            "1": 0.00390625,
+            "3": 0.0017361111240461469,
+            "7": 0.0012755101779475808
+          }
+        }
+      },
+      "float64_subfloat32_difference_lost": true
+    }
+  },
+  "resolved_findings": [
+    {
+      "initial_commit": "5047c5f3b77541b8b48e7d899c4a4c8309f9b384",
+      "finding": "Le premier helper permettait un gradient vers le futur ; son calcul float32 pour une entrée float64 n'était pas explicite dans la doc.",
+      "resolution": "0611c84 refuse following.requires_grad et documente le calculfloat32 ainsi que la limite de provenance. Huit tests, dont le nouveau refus, passent ; aucune formule numérique modifiée.",
+      "status": "closed"
+    }
+  ],
+  "limitations": [
+    "PASS de source et témoins CPU seulement ; aucun optimiseur, modèle entraîné, archive réelle, émulateur, GPU ou préflight d'entraînement de cette candidate.",
+    "Le candidat initial à trois largeurs était préparé avant le fit P original ; le garde du futur a été ajouté ensuite, avant tout usage de cette perte. Les résultats du fit original restent rattachés à son objectif natif et ne sont pas réattribués ici.",
+    "Un gradient orienté dans deux translations synthétiques locales ne prouve pas un mouvement appris, une stabilité d'optimisation, une généralisation, une fréquence d'effet Atari ou une amélioration globale.",
+    "Les moyennes peuvent atténuer des détails et des erreurs de bord. Les termes restent de plage différente selon les structures ; les anciens seuils de perte native ne peuvent pas être appliqués automatiquement à cette moyenne.",
+    "Le calculfloat32 perd les différences float64 plus petites que sa résolution : le témoin.5 contre.5+1e-12 a loss0. Aucune précisionfloat64 ou propriété AMP n'est revendiquée.",
+    "Le refus de requires_grad ne démontre pas qu'une cible détachée provient d'une observation réelle. Cette provenance reste à imposer par le futur collecteur/lanceur.",
+    "L'objectif conserve les limites distinctes de P, des cibles C absentes et de l'amorçage des effets ; aucun critère de gate ni ancienne source n'est modifié."
+  ]
+}
