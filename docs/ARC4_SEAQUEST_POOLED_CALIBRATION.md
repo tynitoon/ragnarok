@@ -27,6 +27,16 @@ explicités avant capture. Quatre tests du module et deux tests du captureur
 passent, dont capture simulée→vrai lecteur à travers une reprise froide avec
 répétition courte (5frames réelles +256de chargements=261).
 
-Aucune capture temporelle ouverte à la rédaction initiale. Le code, le protocole
-et les prérequis seront committés avant17321. Le réservé17322 reste désactivé
-jusqu'à la revue et au sceau complets du candidat temporel.
+Le code, le protocole et les prérequis ont été committés `2b03bd9` avant17321.
+Développement terminé :8192décisions,32759frames ordinaires réelles et512frames
+de quatre constructions, soit33271facturées. Capture55,54s,64archives conservées.
+La baseline passe toutes les catégories et le sous-type surface. Tous les
+appariements ont leurs bords à un pixel près : joueur7937, requin12083,
+sous-marin8096, plongeur2685, missile ennemi3430, missile joueur6850 ; le
+sous-type surface compte1029appariements. Présence positive minimale99,9622 %
+pour le joueur ;1027boîtes de surface sont exactes. Les31empreintes sont conservées.
+
+Le réservé17322 reste fermé jusqu'à la revue et au sceau complets du candidat
+temporel. Le captureur de développement reste inchangé ; un exécutable réservé
+distinct devra vérifier sources et métadonnées réellement committées avant ROM.
+Ce résultat porte sur les instruments, pas sur un apprentissage par l'agent.

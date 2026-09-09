@@ -224,9 +224,16 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
  17312 :8192images/8704facturées,4loads,six catégories couvertes et calibrées.
  17362 :32768images/33280facturées,4loads,surface3463appariements within1.
   `reserved_raw_result.json`, `reserved_coverage_result.json`, `reserved_pair_result.json`.
-  Revue indépendante du réservé en cours. Module temporel séparé préparé dans
-  `pooled_seaquest_v70.py`, protocole17321/17322,8192décisions ; trois tests CPU
-  passent, captureur/protocole encore à finaliser et commiter avant ouverture.
+  Revue indépendante Meitner close, reçu commité1e3d8b5 :160archives,
+ 40960images/41984frames facturées, chronologie et25sources confirmées.
+  Module temporel séparé `pooled_seaquest_v70.py`, protocole17321/17322,
+ 8192décisions ; revue Ohm close avant capture, quatre tests module et deux
+  tests captureur passent. Commit2b03bd9 avant17321. Baseline temporelle PASS :
+ 8192décisions/32759frames ordinaires+512froides=33271facturées,4constructions.
+  Six catégories et sous-type surface passent, tous les appariements within1,
+  surface1029appariements. Réservé17322 fermé, exécutable et sceau à préparer.
+  Référence brute à mesurer sur nouvelle capture uniforme17371 (protocole/script
+  en revue), jamais sur les captures réservées/couverture qui l'interdisent.
   Ne pas relancer si une capture/sortie existe, même incomplète.17332/17342/17352
   restent retirés sans ouverture. Tous les anciens échecs restent négatifs.
   Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git
