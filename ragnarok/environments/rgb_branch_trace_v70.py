@@ -8,6 +8,7 @@ from collections import deque
 from dataclasses import dataclass
 import numpy as np
 from ragnarok.environments.cold_emu_pool_v70 import _ColdPixelEngine, ROM_SPECS
+from ragnarok.environments.frame_budget_v70 import BudgetExceeded
 
 
 @dataclass(frozen=True)
@@ -47,9 +48,16 @@ class _RGBTraceColdEngine(_ColdPixelEngine):
         try:
             return method(*args)
         except BaseException as error:
-            if self._budget.charged_frames != before:
-                self._trace_failure = dict(error_type=type(error).__name__, error=str(error))
+            self._record_failure(error, before)
             raise
+
+    def _record_failure(self, error, before):
+        # A native invariant can fail AFTER act but BEFORE the base ledger sees
+        # an admissible elapsed frame. A zero ledger delta cannot prove no act.
+        # Only the base's budget refusal before any charge is safely recoverable.
+        if not isinstance(error, BudgetExceeded) or self._budget.charged_frames != before:
+            self._trace_failure = dict(error_type=type(error).__name__, error=str(error),
+                                       accounting_complete=False)
 
     def _advance(self, action, frames, *, experimental):
         if self._recording is None:
@@ -80,8 +88,7 @@ class _RGBTraceColdEngine(_ColdPixelEngine):
                 raise RuntimeError('RGB trace endpoints differ from the paid branch outputs')
             return traces
         except BaseException as error:
-            if self._budget.charged_frames != before:
-                self._trace_failure = dict(error_type=type(error).__name__, error=str(error))
+            self._record_failure(error, before)
             raise
         finally:
             self._recording = None

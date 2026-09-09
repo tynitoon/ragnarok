@@ -75,6 +75,16 @@ def test_ordinary_post_act_rgb_failure_is_also_paid_and_permanently_stopped():
     with pytest.raises(ValueError,match='stopped'):subject.step(1)
 
 
+def test_native_invariant_failure_with_no_ledger_delta_still_stops_and_marks_unknown_cost():
+    subject = engine()
+    def invalid_act(action):subject._ale.frame += 2
+    subject._ale.act = invalid_act
+    with pytest.raises(RuntimeError,match='Expected one real'):subject.step(1)
+    assert subject._ale.frame == 2 and subject._budget.charged_frames == 600
+    assert subject._trace_failure['accounting_complete'] is False
+    with pytest.raises(ValueError,match='stopped'):subject.branch_pair_trace(1)
+
+
 def _synthetic_worker(connection, config):
     # Runs in the child process. The real engine constructor is never called.
     def create(_config):

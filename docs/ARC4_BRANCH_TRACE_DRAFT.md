@@ -48,6 +48,10 @@ ces cas et l'effet de persistance du pooling. Aucune décision ME ni identité
 d'objet n'est dérivée de ces seuls pixels. La provenance commune des deux
 branches doit encore être imposée par le transport et le protocole de collecte.
 
-Au total, 17 tests passent, dont un vrai échange de tableaux par deux processus
+Au total, 18 tests passent, dont un vrai échange de tableaux par deux processus
 Windows avec moteurs entièrement synthétiques, puis fermeture vérifiée. Ce
 test de transport ne valide pas encore le comportement des vrais jeux.
+Une violation native peut survenir avant l'inscription d'une frame admissible
+au registre : l'adaptateur arrête aussi ce cas malgré une charge inchangée.
+Tout échec non limité à un refus préalable de budget marque la comptabilité
+comme potentiellement incomplète ; les charges déjà connues restent présentes.
