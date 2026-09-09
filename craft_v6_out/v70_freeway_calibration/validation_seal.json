@@ -1,0 +1,22 @@
+{
+  "kind": "freeway_raw_calibration_seal_before_reserved_sequence",
+  "created_utc": "2026-09-09T00:17:28Z",
+  "source_commit": "b9d5a2b07da03a9af8ed2308b89a8b34738f5694",
+  "validation_seed": 17212,
+  "frames": 4096,
+  "source_sha256": {
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_freeway_v70.py": "51ca6108d357f0119e5ff2a3f3b2ef33a9226c5559baf9e09b0278abe293fe13",
+    "docs/ARC4_FREEWAY_CALIBRATION_V1_PROTOCOL.json": "4f5be3b64d16546d0e13dbe8d7c4cc72e1eaad2f3b77acae2d2d0b4ebdbcdb0a",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd"
+  },
+  "development_result_sha256": "35d68238a08e0d4fc49965409095b03a0e7ff0e059fa250da5e0d505deb645e0",
+  "thresholds_unchanged": true,
+  "known_limits": "Development corrected checker; three visible narrow chicken fragments missed; player only reaches y93; empirical lane4 phase and one-pixel corners."
+}

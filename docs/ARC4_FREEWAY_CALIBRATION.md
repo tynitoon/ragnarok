@@ -48,5 +48,15 @@ Les trois absences du checker joueur sont des fragments visibles trop étroits
 (frame 166 : 3×8 ; 167–168 : 3×8 et 1×2). Ces désaccords restent pénalisés ;
 le checker ne constitue pas une annotation parfaite des occlusions.
 
-Validation 17212 encore fermée à ce jalon ; revue et sceau nécessaires avant
-son ouverture.
+## Traçabilité de l'ouverture réservée
+
+Le candidat final, son protocole, la revue documentée et les dix empreintes de
+`development_for_seal.json` ont été commités dans `b9d5a2b` avant 17212.
+Le fichier `validation_seal.json` a ensuite été écrit à 02:17:28, avant la
+capture. **Son ajout à l'index Git a échoué** (« Unable to write new index file »).
+La commande PowerShell a poursuivi la capture malgré cet échec : le commit
+séparé de ce fichier de métadonnées intervient donc après la capture, contrairement
+à l'ordre prévu. Cette déviation est conservée, pas présentée comme un commit
+de sceau antérieur. Le candidat et toutes ses empreintes étaient néanmoins
+fixés dans `b9d5a2b` ; aucun code ni critère n'a changé après ouverture.
+Les prochains lancements séparent les appels et contrôlent leur code de retour.
