@@ -98,10 +98,11 @@ SHA 51240040d6be4772bde7bccf4a4fbbc7c3c098773df1606053f3197ba353f40c,
 entièrement synthétiques aussi vérifiées. Reçu committé **efeaa54** avant toute
 nouvelle construction ; vrais checks des deux jeux PASS (sessions 4126/46477 closes).
 
-Capture **17471 Ms lancée à 16:55**, session **74795**, ALE effectivement ouvert ;
-**17571 Ast pas encore ouverte**. Ensuite, une seule capture
-par jeu avec `python -m scripts.visible_reference_v70 --game <jeu> --stage capture`,
-puis `--stage score` ; faire `--stage check` avant. 8192 frames brutes, actions
+Captures **17471 Ms / 17571 Ast complètes**, chacune 8192 frames + cinq démarrages
+de 132 = **8852 charges**. Sessions 74795/35390 closes. Scores uniques en cours :
+**37597 Ms**, Ast lancé à 17:01. Commande
+`python -m scripts.visible_reference_v70 --game <jeu> --stage score`.
+Ne pas relancer les captures ni les scores existants. 8192 frames brutes, actions
 uniformes tenues 16 frames, vrai précédent RAM y compris frame 0. Sorties
 `v70_<jeu>_calibration/raw_reference_v0*`, marqueurs capture/score distincts.
 Référence RGB causale continue entre épisodes ; RAM seulement pour le scorer.
