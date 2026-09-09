@@ -1,0 +1,22 @@
+{
+  "kind": "freeway_pooled_calibration_seal_before_reserved_sequence",
+  "created_utc": "2026-09-09T00:28:44Z",
+  "source_commit": "7719d3f6542a8a1b2fff102123bd4ef1d12f6110",
+  "validation_seed": 17222,
+  "decisions": 2048,
+  "source_sha256": {
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "ragnarok/evaluation/pooled_freeway_v70.py": "ae3489117ea53f83089fa8aa7b5a8bfd0d29e69d112cd7963870abd5482a2d2e",
+    "scripts/calibrate_freeway_pooled_v70.py": "4b5c112b3bfe2f727df2359f69210ea9a6afac01fa1f3bfd79236195ad192248",
+    "docs/ARC4_FREEWAY_POOLED_PROTOCOL.json": "417f27de54908648db2725ac3d3a1757af23ecf2b7dfa39a2e8f14e77553d5ad",
+    "scripts/capture_cold_pooled_v70.py": "8759a4f7743ead8d4d2a48e2bb7b60c9164050104522d38f667454bf284aacef",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083"
+  },
+  "development_result_sha256": "5a3756db86f35bde70e0209d043fb4c85dce63dcd232353130300945a850d3a6",
+  "thresholds_unchanged": true,
+  "known_limits": "Two-source provenance can be ambiguous from maxRGB; raw fragment/phase residuals retained, car2 presence is only99.170%."
+}
