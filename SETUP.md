@@ -1,13 +1,15 @@
 # Ragnarok — Environment Setup
 
-This project uses **two Python environments**:
+This project uses **three Python environments**:
 
 | Env | Python | Purpose | Where |
 |-----|--------|---------|-------|
 | Main | 3.14.x | Gymnasium envs (CartPole, MountainCar, Acrobot, Pendulum, MountainCarContinuous) + survival analysis (`lifelines`) + all unit tests + preregistration §12 primary H1 run | System / existing project env |
 | DMC | 3.10.x | DeepMind Control Suite envs (walker-walk, cheetah-run, cartpole-swingup, hopper-stand, finger-spin) — `dm_control` / `mujoco` do not yet ship wheels for Python 3.14 | `./venv310/` |
+| ARC 4 CPU | 3.14.3 | Frozen Atari instrumentation, reference diagnostics and CPU tests; no PyTorch | `./.venv-arc4/` |
 
-The two envs share the **same `ragnarok` source tree** (installed with `pip install -e .`), so code changes apply to both without copy.
+The environments use the same `ragnarok` source tree. Run ARC 4 module commands
+from the repository root, `F:\dev\ragnarok`.
 
 Preregistration §6.2 originally targeted Python 3.11 for DMC. It was substituted with **Python 3.10** (see prereg §13 v3.3) because 3.11 is not available on this workstation and 3.10 is officially supported by both `dm_control` (1.0.38) and `ragnarok` (`pyproject.toml: requires-python = ">=3.10"`). No methodology change.
 
@@ -78,3 +80,27 @@ Sanity check:
 **venv310 falling back to CPU torch** — by default `pip install torch` picks the CPU wheel on Windows. Must pass `--index-url https://download.pytorch.org/whl/cu126` explicitly.
 
 **DMC test collection failures in main 3.14 env** — expected; `tests/test_dmcontrol.py` gates integration via `@pytest.mark.skipif(not DMC_AVAILABLE, ...)` so the file still imports. Pass `--ignore=tests/test_dmcontrol.py` to skip the unit-tier DMC registry tests too if you don't care about them in 3.14.
+
+## 6. ARC 4 CPU instrumentation — verified 9 September 2026
+
+Use `F:\dev\ragnarok\.venv-arc4\Scripts\python.exe` for the Atari instruments.
+Installed versions: Python 3.14.3, ale-py 0.12.1, NumPy 2.4.4, SciPy 1.18.1,
+Pillow 12.3.0 and pytest 9.0.3. This environment has no PyTorch. The active
+ARC 3 GPU run uses `C:\Python314\python.exe` with PyTorch 2.11.0+cu126.
+
+```powershell
+.\.venv-arc4\Scripts\python.exe -c "import sys, ale_py, numpy; print(sys.executable, ale_py.__version__, numpy.__version__)"
+.\.venv-arc4\Scripts\python.exe -m pytest -q tests/test_visible_cpu_v70.py
+```
+
+Before a CPU benchmark, set `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS` and
+`MKL_NUM_THREADS` to `1` for that invocation. Use the corresponding frozen
+protocol's command, seed, runtime fingerprints and preflight requirements.
+Instrument captures and reserved evaluations have durable attempt markers;
+the command examples above only inspect the environment and run synthetic tests.
+
+The compiled reference implementation uses the existing explicit build at
+`craft_v6_out/v70_native_reference/build_v0/build.json`. Its C source and DLL
+hashes are checked before use; no automatic rebuild is performed. Environment
+or binary changes require a separate prospective revision of the affected
+instrument, preserving its earlier sources and results.

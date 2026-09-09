@@ -137,8 +137,10 @@ frames, branch frames, restore charges and saved observations separately. Compac
 bit-packed masks, LZ4 memmap clips): ~20 GB for 10 games is an estimate to measure. Training: batch 64,
 Adam 3e-4, per-game online fine-tuning 1 step per 64 env steps for every arm alike.
 INSTANCES: connected components of m > 0.5 (scipy.ndimage.label), split by k-means on f when a
-component's embedding variance exceeds a threshold. Descriptor per instance (48 floats): centre and
-size as screen fractions, area, velocity, mean f (32), c, s, colour histogram (8). Tracker: Hungarian
+component's embedding variance exceeds a threshold. Descriptor per instance (49 floats): centre (2)
+and size (2) as screen fractions, area (1), velocity (2), mean f (32), c (1), s (1), colour histogram (8).
+The previous total of 48 was an arithmetic error; no implemented or measured descriptor is changed.
+Tracker: Hungarian
 on predicted position + embedding, 4-frame memory, coasting to 30 frames, re-match within 8 px logged
 as a reappearance. CATEGORIES per game: nearest codebook entry over [f, log size, colour hist], new if
 distance > 0.6, cap 64; MERGE when two categories' behaviour signatures and controllability coincide
