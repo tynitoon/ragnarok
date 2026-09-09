@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 17:16 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 17:32 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -27,7 +27,7 @@ Commandes : `C:/Python314/python.exe -u -m scripts.recover_confirm_v62`, puis
 Vérifier les commandes et logs, pas seulement les PID ou un ancien état running.
 `s0_8300` terminé à 8326 s ; `s0_8301` entièrement terminé après G’ à 18089 s.
 `s0_8302` commencé, objectifs [3,1,0], tiers [2,3,4], nav min 0,883 ; premier
-objectif M4 terminé à 18841 s, deuxième à 19649 s, aucun verdict intermédiaire.
+objectif M4 terminé à 18841 s, deuxième à 19649 s, troisième à 20496 s ; aucun verdict intermédiaire.
 Deux mondes terminés sur neuf ; aucun verdict avant les trois lignées et revue.
 Logs réels `v61_confirm_s0.log`, puis s1/s2 ; stderr contrôleur vide au contrôle.
 
@@ -113,13 +113,18 @@ les métriques restent conditionnelles ; ne pas transformer le PASS temporel en 
 
 CPU préparé : `bench_visible_reference_v70.py`, `check_visible_cpu_v70.py`,
 `visible_reference_pool_v70.py`, histoire RAM restaurable et groupes raster.
-Commit **2f0cd99**, 112 sources prévues, 45 tests PASS ; revue préliminaire
-**bd117616…** (à actualiser après empreinte Ms), aucune ouverture de graines.
-`REFERENCE_REVIEW_SHA256=None` bloque tout jusqu’à revue finale des deux références.
-Profil hors émulation `v70_visible_cpu/profile_mspacman_source_v0/` : le calcul
-répété des gommes domine le juge Ms. Adaptateur de performance envisagé dans
-un nouveau fichier, équivalence ordonnée stricte exigée ; les 99 sources de
-référence restent gelées. Aucun adaptateur ni nouveau benchmark encore lancé.
+Références finales committées **8a289fe**, hash de revue rempli. Nouveau draft
+CPU **284bda4**, 115 sources prévues, 69 tests concernés PASS ; revue préliminaire
+**bd117616…** ancienne, aucune ouverture de graines. `FAST_REVIEW_SHA256=None`
+bloque le CPU jusqu'à la revue finale du nouvel adaptateur de performance Ms.
+`fast_visible_mspacman_v70.py` évite le recalcul des gommes intactes et des
+fantômes jetés, en conservant les occlusions legacy. Les 99 sources de référence
+sont intactes. `check_fast_visible_mspacman_v70.py` committé avant exécution :
+équivalence exacte **40965 paires / 3613727 labels**, sources DEV+RESERVED+brutes
+fraîches et leurs frames 0 ; RAM inchangée. Résultat
+`v70_visible_cpu/fast_mspacman_equivalence_v0.json`, session51252 close.
+Temps décodeur seul 135,35 s →37,08 s ; aucun débit complet ni gate.
+Relecteur existant clôture la revue du résultat, puis revue CPU finale à faire.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -135,6 +140,10 @@ Frame 0 fournit la géométrie, pas l’éligibilité au mouvement ; pilules sta
 ## Après les instruments
 
 Implémenter parser/tracker/ME/buttons/reader/drives selon `ARC4_VISION.md` §§2,5,6,11.
+Prototype distinct `rgb_branch_trace_v70.py` et cinq tests synthétiques PASS :
+RGB brut/poolé de chaque frame de branche déjà payée, RNG/charges/reprise
+inchangés, panne payée ferme les actions. Pas de vrai ALE ni de nouveau RPC ;
+revue et contrôle natif encore requis. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.
