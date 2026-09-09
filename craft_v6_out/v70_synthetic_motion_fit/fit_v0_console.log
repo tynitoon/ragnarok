@@ -1,0 +1,3 @@
+{"arm": "pooled", "updates": 256, "final_image_l1": 0.025212198495864868}
+{"arm": "ordered", "updates": 256, "final_image_l1": 0.025491314008831978}
+{"execution_complete": true, "ordered_fit_below_declared_threshold": false}
