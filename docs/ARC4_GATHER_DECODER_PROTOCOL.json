@@ -1,0 +1,25 @@
+{
+  "kind": "prospective_offline_gather_decoder_v0",
+  "population": {
+    "collections": ["development", "reserved", "fresh_raw"],
+    "windows_each": 8192,
+    "source_pairs": 40965,
+    "ordered_labels": 3613727
+  },
+  "call_order": "global_pair_even_original_first_odd_candidate_first",
+  "inputs": "Exactly the committed MsPacman collections and ordered labels in check_fast_visible_mspacman_v70; no new seed or window selection.",
+  "comparison": "Every ordered label including kind, box and render slot equals the original fast V2 decoder; each decoder separately leaves both archived RAM arrays unchanged; all three previous population digests must match.",
+  "timing": "One call per decoder per source pair, alternating first caller by global zero-based pair index. Only decoder calls are timed, no warmup or selected subset. Report each collection separately and retain every result.",
+  "prerequisites": "Commit this protocol and exact sources, then commit the independent preflight before execution. No simultaneous CPU benchmark, capture, profile or heavy test; ongoing ARC3 GPU work remains allowed and disclosed.",
+  "stop": "One attempt only. Preserve failure, partial counts and first mismatch without a replacement seed, retry or changed criteria. A pass requires independent review before any proposed native integration.",
+  "new_emulated_frames": 0,
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "limitations": [
+    "External judge optimization only; none of these RAM labels may enter learner inputs or targets.",
+    "Existing engineering collections, including the earlier reserved population; not a new independent calibration or scientific held-out game.",
+    "Alternating sequential function timings under concurrent ARC3 load do not establish controlled full-chain throughput.",
+    "No emulator, reference extraction, grouping, IPC, scorer, branch, restore or model inference is timed.",
+    "No replacement of the frozen cache-only native chain, no Atari training and no gate result."
+  ]
+}
