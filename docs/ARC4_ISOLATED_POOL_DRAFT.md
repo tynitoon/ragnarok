@@ -31,7 +31,7 @@ ce client, ce que couvre le test de raccord synthétique.
 
 Huit tests passent sur le Python système. Sept utilisent exclusivement des peers
 et moteurs synthétiques : trois comptes sont conservés après une erreur payée,
-un quatrième coût possible n'est pas inventé après une réponse perdue, et aucune
+quatre images potentiellement payées restent inconnues après une réponse perdue, et aucune
 initialisation ne passe une identité de runtime incorrecte. Le huitième lance
 explicitement le Python ARC4 pour accueil puis fermeture uniquement : aucune
 ROM ni instance ALE ; son processus et ses trois threads sont ensuite arrêtés.
