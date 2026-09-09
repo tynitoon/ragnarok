@@ -1,0 +1,8651 @@
+{
+  "kind": "mspacman_returning_eye_development_hypothesis_inventory",
+  "seed": 17421,
+  "hypothesis": "Cyan draw entry with exact x and pointer-derived y matching one logical state high nibble4/6; y=228-render_y, glyph66,165,165,165,66; player/fruit occlusion.",
+  "all_coordinate_matching_state_nibbles": {
+    "4": 197,
+    "6": 24,
+    "5": 2
+  },
+  "entries": 221,
+  "exact_visible_supports": 221,
+  "row_phase_errors": {
+    "(4, 0, 0)": 147,
+    "(2, 0, 0)": 10,
+    "(10, 0, 0)": 9,
+    "(8, 0, 0)": 6,
+    "(0, 0, 0)": 15,
+    "(6, 0, 0)": 13,
+    "(9, 0, 0)": 8,
+    "(11, 0, 0)": 4,
+    "(1, 0, 0)": 2,
+    "(3, 0, 0)": 2,
+    "(7, 0, 0)": 4,
+    "(5, 0, 0)": 1
+  },
+  "evidence": [
+    {
+      "decision": 1957,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 12,
+      "actual_pixels": 12,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1958,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 8,
+      "actual_pixels": 8,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000000",
+        "10100000",
+        "10100000",
+        "10100000",
+        "01000000"
+      ],
+      "actual_rows": [
+        "01000000",
+        "10100000",
+        "10100000",
+        "10100000",
+        "01000000"
+      ]
+    },
+    {
+      "decision": 1959,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 12,
+      "actual_pixels": 12,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1960,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 15,
+      "actual_pixels": 15,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100100",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100100",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1961,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 12,
+      "actual_pixels": 12,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000000",
+        "10100000",
+        "10100100",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1962,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 2,
+      "old_box": [
+        46,
+        -21,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        26,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 9,
+      "actual_pixels": 9,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100001",
+        "10100000",
+        "10000000",
+        "01000000"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100001",
+        "10100000",
+        "10000000",
+        "01000000"
+      ]
+    },
+    {
+      "decision": 1963,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        46,
+        -25,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        22,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1964,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        46,
+        -27,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        20,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1965,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        46,
+        -31,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        16,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1966,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -35,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        12,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1966,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -35,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        12,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1967,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -39,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        8,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1967,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -39,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        8,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1968,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1968,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        46,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1969,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        50,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        50,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1970,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        54,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1971,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        58,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1972,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        60,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        60,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1973,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        64,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        64,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1974,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        68,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        68,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1975,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        72,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        72,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1976,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        76,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1977,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        80,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        80,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1978,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        84,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        84,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1979,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        88,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        88,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1980,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        90,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        90,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1981,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        92,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        92,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1982,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        96,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        96,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1983,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        100,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        100,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1984,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        104,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        104,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1985,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        106,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1986,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        106,
+        -41,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        6,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1987,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        106,
+        -37,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        10,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1988,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        106,
+        -35,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        12,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1989,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        106,
+        -31,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        16,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1990,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        106,
+        -27,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        20,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1991,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        106,
+        -23,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        24,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1992,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        106,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1992,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        106,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1993,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        102,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        102,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1993,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        102,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        102,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1994,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1994,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1995,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1995,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1996,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        96,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        96,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1996,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        96,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        96,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1997,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        92,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        92,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1997,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        92,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        92,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1998,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        88,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        88,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1998,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        88,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        88,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1999,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        84,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        84,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 1999,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        84,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        84,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2000,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        80,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        80,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2000,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        80,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        80,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2001,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        76,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2001,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        76,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2002,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        72,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        72,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2002,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        72,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        72,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2003,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        68,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        68,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2003,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        68,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        68,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2004,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        66,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2004,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        66,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2005,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        62,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2005,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        62,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2006,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        58,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2007,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 2,
+      "old_box": [
+        54,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2008,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 2,
+      "old_box": [
+        54,
+        -17,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        30,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2009,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 2,
+      "old_box": [
+        54,
+        -13,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        34,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2010,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        -9,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        38,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2010,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        -9,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        38,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2011,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        -5,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        42,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2011,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        -5,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        42,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2012,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 3,
+      "old_box": [
+        54,
+        -3,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        44,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2013,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 3,
+      "old_box": [
+        54,
+        1,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        48,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2014,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2014,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        54,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2015,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        58,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2015,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        58,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2016,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        62,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2016,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        62,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2017,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        66,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2017,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        66,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2018,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        70,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        70,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2018,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        70,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        70,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2019,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        74,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        74,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2019,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        74,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        74,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2020,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        76,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2020,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        76,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2021,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        7,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        54,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2021,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        7,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        54,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2022,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        10,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        57,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2022,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        10,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        57,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2023,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        12,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        59,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2023,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        12,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        59,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2024,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        14,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        61,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2024,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        14,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        61,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2025,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        16,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        63,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2026,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        19,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        66,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 2027,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 97,
+      "form": 0,
+      "old_box": [
+        76,
+        21,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        68,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7081,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -26,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        21,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 9,
+      "actual_pixels": 9,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ],
+      "actual_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7082,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -26,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        21,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 11,
+      "actual_pixels": 11,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000000",
+        "00100001",
+        "00100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "00000000",
+        "00100001",
+        "00100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7083,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -26,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        21,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 9,
+      "actual_pixels": 9,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ],
+      "actual_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7084,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -26,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        21,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 6,
+      "actual_pixels": 6,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000000",
+        "00000001",
+        "00000001",
+        "10000001",
+        "01000010"
+      ],
+      "actual_rows": [
+        "00000000",
+        "00000001",
+        "00000001",
+        "10000001",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7085,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -26,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        21,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 9,
+      "actual_pixels": 9,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ],
+      "actual_rows": [
+        "00000000",
+        "00100001",
+        "00100001",
+        "10100001",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7086,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -28,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        19,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 5,
+      "actual_pixels": 5,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "00000010",
+        "00000001",
+        "00000101",
+        "00000001",
+        "00000000"
+      ],
+      "actual_rows": [
+        "00000010",
+        "00000001",
+        "00000101",
+        "00000001",
+        "00000000"
+      ]
+    },
+    {
+      "decision": 7087,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 64,
+      "form": 1,
+      "old_box": [
+        106,
+        -32,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        15,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7088,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        106,
+        -36,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        11,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7088,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        106,
+        -36,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        11,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7089,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        106,
+        -40,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        7,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7089,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 64,
+      "form": 0,
+      "old_box": [
+        106,
+        -40,
+        8,
+        10
+      ],
+      "eye_box": [
+        106,
+        7,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7090,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        105,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        105,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7090,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        105,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        105,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7091,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        101,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        101,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7091,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        101,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        101,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7092,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        97,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        97,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7092,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        97,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        97,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7093,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        93,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        93,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7093,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        93,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        93,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7094,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        89,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        89,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7094,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        89,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        89,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7095,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        85,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        85,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7095,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        85,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        85,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7096,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        81,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        81,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7096,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        81,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        81,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7097,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        77,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        77,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7097,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        77,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        77,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7098,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        73,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        73,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7098,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        73,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        73,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7099,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        70,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        70,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7099,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        70,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        70,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7100,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        66,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7100,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        66,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        66,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7101,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        62,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7101,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        62,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7102,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        58,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7102,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        58,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        58,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7103,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        54,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7103,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        54,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7104,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        50,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        50,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7104,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        50,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        50,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7105,
+      "source": "raw_previous",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        46,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7105,
+      "source": "raw_current",
+      "slot": 3,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        46,
+        -43,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        4,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7106,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -41,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        6,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7107,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -37,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        10,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7108,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        46,
+        -33,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        14,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7109,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        46,
+        -29,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        18,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7110,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        46,
+        -25,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        22,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7111,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -21,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        26,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7111,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -21,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        26,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7112,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7112,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        46,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7113,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        48,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        48,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7113,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        48,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        48,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7114,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        52,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        52,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7114,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        52,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        52,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7115,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        54,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7115,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        54,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        54,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7116,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        56,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        56,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7116,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        56,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        56,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7117,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        60,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        60,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7117,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        60,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        60,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7118,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        62,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7118,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        62,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        62,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7119,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        64,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        64,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7119,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        64,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        64,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7120,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        68,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        68,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7120,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        68,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        68,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7121,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        72,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        72,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7121,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        72,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        72,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7122,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        76,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7122,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        76,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7123,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        80,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        80,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7123,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        80,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        80,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7124,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        84,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        84,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7124,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        84,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        84,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7125,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        88,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        88,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7125,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        88,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        88,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7126,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        92,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        92,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7126,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        92,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        92,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7127,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        96,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        96,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7127,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        96,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        96,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7128,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7128,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 65,
+      "form": 0,
+      "old_box": [
+        98,
+        -19,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        28,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7129,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -17,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        30,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7129,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -17,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        30,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7130,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -13,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        34,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7130,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -13,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        34,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7131,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -9,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        38,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7131,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -9,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        38,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7132,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -5,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        42,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7132,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -5,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        42,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7133,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -1,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        46,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7133,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 0,
+      "old_box": [
+        98,
+        -1,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        46,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7134,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        98,
+        3,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        50,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7134,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        98,
+        3,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        50,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7135,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        98,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7135,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 66,
+      "form": 1,
+      "old_box": [
+        98,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        98,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7136,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        94,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        94,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7136,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        94,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        94,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7137,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        90,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        90,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7137,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        90,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        90,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7138,
+      "source": "raw_previous",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        86,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        86,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7138,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        86,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        86,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7139,
+      "source": "raw_previous",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        82,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        82,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7139,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 67,
+      "form": 0,
+      "old_box": [
+        82,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        82,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7140,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 67,
+      "form": 4,
+      "old_box": [
+        78,
+        5,
+        8,
+        10
+      ],
+      "eye_box": [
+        78,
+        52,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7141,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        6,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        53,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7142,
+      "source": "raw_current",
+      "slot": 2,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        8,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        55,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7143,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        10,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        57,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7144,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7145,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7146,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7147,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7148,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7149,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7150,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7151,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7152,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    },
+    {
+      "decision": 7153,
+      "source": "raw_current",
+      "slot": 1,
+      "allocation": 1,
+      "state": 99,
+      "form": 4,
+      "old_box": [
+        76,
+        13,
+        8,
+        10
+      ],
+      "eye_box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "predicted_pixels": 16,
+      "visible_pixels": 16,
+      "actual_pixels": 16,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 0,
+      "predicted_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ],
+      "actual_rows": [
+        "01000010",
+        "10100101",
+        "10100101",
+        "10100101",
+        "01000010"
+      ]
+    }
+  ],
+  "source_sha256": "7d7dfd9a8ffd53887d120eac96d1c8a6b994d0ab7ae2628d2f49fb56e8222d53",
+  "fixture_manifest_sha256": "6a1289c2671af811a22c4e5e9a60cafbbbbe6366054add1e43f7c796a333c7e7",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

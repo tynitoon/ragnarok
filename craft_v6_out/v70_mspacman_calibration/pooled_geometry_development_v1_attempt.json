@@ -1,0 +1,10 @@
+{
+  "status": "complete",
+  "seed": 17421,
+  "started_utc": "2026-09-09T12:59:08Z",
+  "output": "F:\\dev\\ragnarok\\craft_v6_out\\v70_mspacman_calibration\\pooled_geometry_development_v1.json",
+  "fixture_manifest_sha256": "6a1289c2671af811a22c4e5e9a60cafbbbbe6366054add1e43f7c796a333c7e7",
+  "completed_utc": "2026-09-09T13:06:42Z",
+  "result_sha256": "a191a25aa2d1a46c353c2d5157dce55dc73ccd044d1d44e613d6c9fba6a1d692",
+  "calibration_pass": false
+}

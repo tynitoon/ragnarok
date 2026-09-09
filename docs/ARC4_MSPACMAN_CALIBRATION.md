@@ -211,3 +211,29 @@ observe1557/1557premières lignes fantôme vides lorsque ymod12=1 ; les autres
 non fantômes, connexité4 et seuils ne changent pas. Cinq tests de témoins passent.
 Les anciennes sources brutes/temporelles restent intactes. Nouveau calcul
 complet requis avant toute revue/gèle du réservé17422, toujours fermé.
+
+Le recalcul V1 conserve un **FAIL fantômes** :8087/8192comptages globaux,
+7963/8068positifs ;28015/28073within1,27957exacts. Les quatre autres catégories
+sont strictement identiques àV0. `pooled_ghost_count_inventory_v1.json` reproduit
+tous les compteurs fantômes du résultat complet et conserve les105fenêtres
+de comptage erroné.98motifs non appariés ont une boîte8×5, les sept autres
+sont des fragments. Ils se concentrent sur deux retours de fantômes mangés.
+
+L'hypothèse initiale de chiffres de bonus a été rejetée après inspection du
+montage `pooled_ghost_small_motifs_v1.png` : ce sont les deux yeux mobiles.
+Ils appartiennent toujours à la catégorie fantôme ; aucun filtrage RGB ou
+retrait de fenêtre ne corrige le résultat. L'inventaire prospectif V2
+`pooled_returning_eye_inventory_v1.json` vérifie221/221supports exacts : entrée
+cyan, association unique avec une allocation RAM d'état nibble haut4ou6,
+x égal à RAMx−12 et y égal à RAMy+2, pointeur rendu décalé47. Le glyphe est
+66,165,165,165,66 sur8×5 ; son masquage par joueur/fruit explique les fragments.
+Une coïncidence de coordonnées avec état5 est explicitement conservée hors
+de cette hypothèse. Seulement deux retours de l'allocation1 sont établis en
+développement (1957–2027 et7081–7153) ;12supports partiellement occultés.
+
+Le candidat distinct `pooled_mspacman_eyes_v70.py` ajoute cette représentation
+côté RAM, garde la ligne vide V1 pour les corps normaux, les autres catégories
+et le RGB inchangés. Les deux yeux restent une seule entrée visible malgré
+leur espace interne ; seul un passage au bord horizontal la scinde. Dix tests
+passent : six témoins, fausse coïncidence état5, ancien contact, ambiguïté et
+wrap synthétique. Revue avant nouveau score intégral V2 ;17422toujours fermé.

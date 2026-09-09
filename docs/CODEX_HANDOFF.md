@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le9septembre2026 vers14:30Paris. Index, pas nouveau protocole.
+Mis à jour le9septembre2026 vers15:31Paris. Index, pas nouveau protocole.
 Historique antérieur intégral conservé dans
 [docs/history/CODEX_HANDOFF_20260909_1430.md](history/CODEX_HANDOFF_20260909_1430.md).
 Lire les sources utiles par sections ; ne pas recharger toute la session Claude.
@@ -23,12 +23,12 @@ jamais des observations ni des enseignants gratuits du futur agent.
 
 ## ARC3 v62 — calcul confirmatoire actif
 
-Contrôle réel vers14:28 : contrôleur20936, commande
+Contrôle réel vers15:22 : contrôleur20936, commande
 `C:\Python314\python.exe -u -m scripts.recover_confirm_v62` ; enfant17340,
 `scripts.confirm_v61 --lineage 0 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier commandes et logs réels, jamais PID seuls ni anciens états running.
-`s0_8300` terminé ; `s0_8301` en cours (M4 objectif7 terminé à9680s cumulées).
+`s0_8300` terminé ; `s0_8301` en cours (Fb objectif1 terminé à13194s cumulées).
 Aucun verdict avant les trois lignées, neuf mondes et revue indépendante.
 
 Lanceur démarré le9septembre à11:37:39Paris après reprise d'une interruption
@@ -72,8 +72,8 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue |17421V0FAILghost, V1préparée | à faire |
-| Asteroids |17512validé/revu |17521V0scoreincomplet, V1préparée | à faire |
+| Ms.Pac-Man | paire17412/17432validée/revue |17421V0/V1FAILghost, V2enrevue | à faire |
+| Asteroids |17512validé/revu |17521V1PASSrevu,17522scellé | à faire |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
 Le débit natif de Seaquest≈1312frames/s reste sous l'objectif proposé2000 ;
@@ -98,7 +98,13 @@ V0 complet : quatre types PASS, ghost comptage7956/8068=.986118 FAIL,
 géométrie27999/28065=.997648 PASS. Revue d4faf514… confirme preuves et négatif.
 V1séparée `pooled_mspacman_rows_v70.py` retire une ligne fantôme àymod12=1,
 vide dans1557/1557cas ; RGB et critères inchangés.5tests PASS, recalcul intégral
-prévu avec `calibrate_mspacman_pooled_rows_v70.py`, sortie geometry_v1 distincte.
+achevé avec `calibrate_mspacman_pooled_rows_v70.py`, sortie geometry_v1 distincte.
+V1ghostFAIL7963/8068comptages positifs,28015/28073within1 ; quatre autres types
+identiquesV0. Inventaire complet reproduit tous les stats et105erreurs restantes.
+Ce sont les yeux de fantômes mangés, pas du score à filtrer. HypothèseRAMpure
+V2état4/6+positionexacte+pointeury+47, glyphe8×5 et occlusion player/fruit :
+221/221supports exacts sur deux retours ; témoin état5 rejeté. Nouveau module
+`pooled_mspacman_eyes_v70.py`, scorer `_eyes`,10tests PASS ; revue en cours.
 Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
 avant scoring, données intactes, puis nom geometry distinct.17422fermé.
 
@@ -113,8 +119,16 @@ spécifiques PASS. Revue close, SHA973aafd44d8f76cf10f835eb84fd157da0bf4718f35c5
 V0scoring incomplet sur garde pointer/direction ; marqueur failed conservé.
 Trois sources5320/5321/5322 ont des pointeurs d'explosion décalés au wrapy=-2.
 V1séparée `pooled_asteroids_wrap_v70.py` les reconnaît sur copieRAM, sans changer
-RGB/ROI/seuils ;5tests PASS. Recalcul intégral prévu avec
-`calibrate_asteroids_pooled_wrap_v70.py`, sortie geometry_v1 distincte ;17522fermé.
+RGB/ROI/seuils ;5tests PASS. Recalcul intégral V1PASS sur8192fenêtres ; revue
+indépendante edfdff3b… confirme44sources et dix témoins.31/27/6erreurs de comptage
+conservées. Sourcea2fccaf avant score ; reçu commun V1 créé pendant le calcul,
+écart documenté sans prétendre à une revue pré-run. Réservé préparé49sources+
+9métadonnées, préflight indépendant5bd30d86… et30tests PASS. Sourcecommitc724311,
+scellé créé13:30:10Z et committé avant toute construction17522 ; check en cours.
+Sources helper `temporal_validation_seal_v70.py` et runner
+`validate_asteroids_pooled_v70.py` désormais immuables. Capture/score marqueurs
+distincts, pas de relance réservée. Ms runner réservé est encore un brouillonV1
+à adapter au candidat final PASS avant revue/gel ; ne pas l'utiliser maintenant.
 
 Préparation référence non gelée : `docs/ARC4_VISIBLE_REFERENCE_PROTOCOL.json`,
 `scripts/visible_reference_v70.py`, `visible_scene_v70.py`,11tests CPU PASS.

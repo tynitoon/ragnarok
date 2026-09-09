@@ -1,0 +1,266 @@
+{
+  "kind": "mspacman_pooled_v2_independent_candidate_review",
+  "created_utc": "2026-09-09T13:37:22Z",
+  "passed": true,
+  "candidate_conformance_pass": true,
+  "full_v2_calibration_reviewed": false,
+  "calibration_pass": null,
+  "seed": 17421,
+  "decoder_revision": "mspacman_two_raw_spatial_envelopes_returning_eyes_v2",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "docs/ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json": "22294fab4d285080a94b37fe8dcef1d278d0362a385a4801563678a3c4fd9348",
+    "scripts/validate_mspacman_raw_v70.py": "5724f38d8fe817ccd1a2a6a6b01d40214104e1ed6cf3dd2bcddf5abea269c8d5",
+    "scripts/calibrate_mspacman_reserved_v70.py": "f4eddb8bbd8cb0f37b960070ac44bcaf491a71919f090cd0c7ace2e72f18c2b4",
+    "tests/test_mspacman_raw_validation_v70.py": "915e8ec693c82f25408b5eb24daf596da384f3d0058f48e5ff5b547895c7d301",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/mspacman_raw_prerequisite_v70.py": "62968f2997b8040162847764002886e4bc48434dc16193c9f4ff00d6992951c4",
+    "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_mspacman_v70.py": "e8b231d7e95d01a94690eb8e2aaf57e21f1f6ac59a21747d17170c8d2d7f796e",
+    "scripts/capture_mspacman_pooled_v70.py": "4bdd86fc958e42806dc485efaba639f330448b26927629b866a0a06e1c7fc447",
+    "scripts/calibrate_mspacman_pooled_v70.py": "d12f9c73f046fff5f0ce2281f6ef8468e4937108a379c3822db5ab0fdd319bd1",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_mspacman_pooled_v70.py": "94e74fcaa14804562fc023e9577a618d6c32585a2d186337b3686d843175a9f0",
+    "ragnarok/evaluation/pooled_mspacman_rows_v70.py": "259a74a90ca1fac51dab7635f41d9beab6c9263b8bf70121f6918c1230f66985",
+    "scripts/calibrate_mspacman_pooled_rows_v70.py": "70fa945ccecb506d396e09425b859cd498e7b940d8b5774e4b9bcd69beb8edf1",
+    "tests/test_mspacman_pooled_rows_v70.py": "56ea68e1c7c45b3b0e47289d968e87058c251e643be078c4c78b7915de9a9c42",
+    "ragnarok/evaluation/pooled_mspacman_eyes_v70.py": "d146b7b85505bea672801f75b907bf0519ab2faa4d1a5df327cc7c5296fb1a6e",
+    "scripts/calibrate_mspacman_pooled_eyes_v70.py": "9c46ebc383e14ccf657867091396bc174c2ced77d293683f559211d31a9ab224",
+    "tests/test_mspacman_pooled_eyes_v70.py": "b71fae8e841e167f5f0c27ea46a4bd77d775745a307708284b04fe98a0e4dda0",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_mspacman_calibration/pooled_geometry_development_v0.json": "3f97993ca6bf4da7f6af74bea7d53b129f7d94cec1de35e14b02331d1eb104bc",
+    "craft_v6_out/v70_mspacman_calibration/pooled_geometry_development_v1.json": "a191a25aa2d1a46c353c2d5157dce55dc73ccd044d1d44e613d6c9fba6a1d692",
+    "craft_v6_out/v70_mspacman_calibration/pooled_geometry_development_v1_attempt.json": "bd716a2ff746e308687f9495e8551a516d061b22d6dd14e4c4a1f4f248632064",
+    "craft_v6_out/v70_mspacman_calibration/pooled_ghost_count_inventory_v1.json": "2206fd8ad818ff5c9bda7a0177b5471138a1162ea03eae1fc9f04ecfebc7b80e",
+    "craft_v6_out/v70_mspacman_calibration/pooled_returning_eye_inventory_v1.json": "a37e109429bf01ba74af2c56ea2366ae7cdd8b4aacbdd07c57ea34f571ea72c0",
+    "craft_v6_out/v70_mspacman_calibration/pooled_ghost_small_motifs_v1.png": "c51b156700bee13895e06c3172dc13cb360f1de983c1f6be4264da43ec2ed8fc",
+    "craft_v6_out/v70_mspacman_calibration/pooled_development_v0/manifest.json": "6a1289c2671af811a22c4e5e9a60cafbbbbe6366054add1e43f7c796a333c7e7",
+    "scripts/diagnose_mspacman_ghost_counts_v70.py": "dde2d1cfb6a95600efe2f9cdb60d6f0d10d38b8d658bafb237579c92781c4c5b",
+    "scripts/diagnose_mspacman_eyes_v70.py": "7d7dfd9a8ffd53887d120eac96d1c8a6b994d0ab7ae2628d2f49fb56e8222d53",
+    "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5"
+  },
+  "raw_calibration_proof_sha256": "8c0aaedd3f4d70d0ecac4b9681dcdbd5ac91164854c4f7013701b0de3c16359a",
+  "verdict": "PASS for this separate development candidate and its bounded evidence. The complete V2 calibration remains to be run and reviewed. Temporal V0 and V1 ghost failures remain unchanged; no reserved evidence or acceptance is claimed.",
+  "closed_finding": {
+    "issue": "The new test imports the tests package, but its existing empty __init__.py was missing from the proposed source closure.",
+    "resolution": "tests/__init__.py was added to the new scorer SOURCE_PATHS. The complete runtime/test import and package-initializer closure now contains exactly 52 sources.",
+    "closed": true
+  },
+  "checks": [
+    "Read the new RAM adapter, V2 scorer, tests, returning-eye diagnostic script, full inventory summaries and preserved V1 count-error evidence. Inspected the archived small-motif montage: it depicts paired returning eyes, not a numeric score glyph. No RGB filter was added.",
+    "The 48 original V1 source hashes remain exactly equal to the retained V1 result. The V2 set adds the three new candidate/scorer/test sources and tests/__init__.py. Static local imports and every existing package initializer in their paths close within all 52 hashed sources.",
+    "All V2 scoring functions, including new_stats, accumulate, finish, calibrate and durable run, are AST-identical to V1. The RGB judge and mask/rectangle/four-connected-union helpers are identical imported objects. The new source set is recorded before scoring and compared again afterward.",
+    "The old prospective capture check and manifest/complete-attempt checks remain in place. Each archived window is processed once with the same two RGB and each RAM source own predecessor; all 8192 windows and all five categories remain required. No alternate seed, omitted window, denominator adjustment or absence exemption appears.",
+    "Returning-eye recognition takes only the previous RAM render list and previous logical allocations. It requires cyan colour code 1, state high nibble 4 or 6, exact horizontal coordinate and pointer-derived y plus 47, and exactly one qualified allocation match. Duplicate qualified matches raise. No RGB, action, score or future state enters this recognition.",
+    "The inferred glyph has five rows (66,165,165,165,66), with 16 nominal pixels. Player and fruit supports are predicted independently from RAM and subtracted. The source label remains ghost. Both eye lobes form one render-entry envelope, matching the existing RGB grouping; only physical horizontal wrap creates separate pieces.",
+    "Non-eye ghosts use the unchanged V1 blank-first-row rule and visible-band envelopes. Every non-ghost source label is copied from the unchanged prior decoder. The coincidence at decision 5245 with state nibble 5 is kept on that normal path; the frame and ghost are not excluded.",
+    "The count-error inventory statistics equal every stored V1 ghost statistic exactly and its result/manifest hashes match. Its 105 count disagreements remain preserved, with 98 unmatched 8x5, one 3x5, five 8x4 and one 3x4 RGB envelopes. The four non-ghost V1 statistics remain exactly equal to V0.",
+    "The returning-eye inventory script and fixture hashes match current files. Its 221 entries have zero recorded false-positive and false-negative support pixels; all predicted/actual row strings agree. The diagnostic enumerates every source and does not choose whether to score a frame from RGB.",
+    "Independently loaded the two development shards containing all 221 listed source entries and verified both archive hashes. Rebuilt the glyph array separately, applied RAM-only player/fruit support, and compared every visible support against cyan pixels in the archived RGB region. All 221 supports, row bitmaps and visible-pixel counts reproduced exactly.",
+    "Across all 221 source witnesses, every non-ghost label equals V1 and both input RAM arrays remain byte-identical. The candidate eye envelope is present with the independently computed minimal visible bounds. The normal 246 blank-row witness and 5245 state-5 witness remain unchanged.",
+    "ROI [0,0,160,171), category meanings, palette contributor selection, filled envelopes, four-connectivity, lack of diagonal/toroidal component join, cardinality-first matcher, minimum 50 joint matches and all 0.99 thresholds are unchanged. No agent receives these evaluation labels."
+  ],
+  "evidence_summary": {
+    "conditional_source_entries": 221,
+    "independently_reproduced_exact_visible_supports": 221,
+    "nominal_pixels_per_entry": 16,
+    "partially_occluded_entries": 12,
+    "fully_occluded_entries": 0,
+    "state_high_nibbles": {
+      "4": 197,
+      "6": 24
+    },
+    "excluded_hypothesis_coincidences_state5": 2,
+    "observed_logical_allocations": {
+      "1": 221
+    },
+    "observed_return_sequences": [
+      {
+        "decision_first": 1957,
+        "decision_last": 2027,
+        "episode": 1,
+        "distinct_decisions": 71
+      },
+      {
+        "decision_first": 7081,
+        "decision_last": 7153,
+        "episode": 3,
+        "distinct_decisions": 73
+      }
+    ],
+    "observed_eye_origin_bounds": {
+      "x_min": 46,
+      "x_max": 106,
+      "y_min": 4,
+      "y_max": 68
+    },
+    "all_twelve_y_mod12_phases_observed": true,
+    "development_shards_used_for_independent_support_check": 2
+  },
+  "witnesses": [
+    {
+      "decision": 1957,
+      "source": "raw_previous",
+      "box": [
+        46,
+        28,
+        8,
+        5
+      ],
+      "visible_pixels": 12,
+      "state": 67
+    },
+    {
+      "decision": 1958,
+      "source": "raw_previous",
+      "box": [
+        46,
+        28,
+        3,
+        5
+      ],
+      "visible_pixels": 8,
+      "state": 67
+    },
+    {
+      "decision": 1963,
+      "source": "raw_previous",
+      "box": [
+        46,
+        22,
+        8,
+        5
+      ],
+      "visible_pixels": 16,
+      "state": 64
+    },
+    {
+      "decision": 2025,
+      "source": "raw_previous",
+      "box": [
+        76,
+        63,
+        8,
+        5
+      ],
+      "visible_pixels": 16,
+      "state": 97
+    },
+    {
+      "decision": 7081,
+      "source": "raw_previous",
+      "box": [
+        106,
+        22,
+        8,
+        4
+      ],
+      "visible_pixels": 9,
+      "state": 64
+    },
+    {
+      "decision": 7086,
+      "source": "raw_previous",
+      "box": [
+        111,
+        19,
+        3,
+        4
+      ],
+      "visible_pixels": 5,
+      "state": 64
+    },
+    {
+      "decision": 7153,
+      "source": "raw_current",
+      "box": [
+        76,
+        60,
+        8,
+        5
+      ],
+      "visible_pixels": 16,
+      "state": 99
+    },
+    {
+      "decision": 5245,
+      "result": "The state-5 coordinate coincidence returns exactly the V1 complete source labels."
+    },
+    {
+      "decision": 246,
+      "result": "Normal ghost blank-top-row correction remains exactly V1."
+    },
+    {
+      "synthetic": "Two qualified logical allocations at the same position raise Ambiguous returning-eye allocation."
+    },
+    {
+      "synthetic": "Unwrapped paired eyes produce one 8x5 label; a glyph at x157 yields only its two physical wrap pieces (157,20,3,5) and (2,20,3,5), without treating each eye as a separate ghost."
+    }
+  ],
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_mspacman_pooled_eyes_v70.py",
+    "passed": 10,
+    "seconds": 1.62,
+    "all_221_archived_support_witnesses_independently_checked": true,
+    "complete_import_and_initializer_closure_checked_after_fix": true
+  },
+  "limitations": [
+    "The 221 supports are temporally related observations from only two returns, both logical allocation 1. They are not 221 independent events. Applying the association to other allocations is an empirical generalization, not established evidence.",
+    "The support inventory establishes exactness conditional on the proposed RAM recognition within its predicted region. It does not prove that every possible returning-eye state, palette, allocation, overlap or graphics variant is recognized. Full unchanged-criteria scoring remains necessary for missed cases.",
+    "All observed eye origins lie inside the ROI and away from horizontal wrap. Physical wrap behavior is covered by a synthetic witness, not these 221 real samples; vertical clipping and complete occlusion likewise are not established by this real sample.",
+    "The low state/draw nibbles and two observed return episodes do not establish persistent identities or a universal renderer model. The association remains local evaluation evidence; unknown/nonmatching cases retain the prior ghost path rather than being hidden.",
+    "Non-ghost labels, including their previous occultation model, are intentionally unchanged. This review does not claim that every interaction of eyes with pellet visibility is modeled exactly.",
+    "No complete V2 score or new full ghost inventory was run by the reviewer. The support check used all 221 listed witnesses, not a second all-window category calibration. No V2 PASS is inferred from these witnesses.",
+    "Commit the reviewed V2 source mapping, diagnostics and this receipt before the proposed complete development calculation. Preserve every V0/V1 negative and the new result or failure. Review complete V2 results before any prospective reserved seal.",
+    "No reserved17422 fixture, emulator, new capture, GPU or full scoring run was opened. No existing source/result or ARC3 state was modified by the reviewer and no commit was made.",
+    "This is an external instrument correction, not learned perception, agent training, transfer or benchmark validation."
+  ],
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
