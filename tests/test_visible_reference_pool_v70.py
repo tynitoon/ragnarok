@@ -67,3 +67,38 @@ def test_only_two_declared_train_games_are_constructible(monkeypatch,game):
     monkeypatch.setattr(pool,'_ScorerHistoryColdEngine',lambda *args:pytest.fail('opened a held-out emulator'))
     with pytest.raises(ValueError,match='declared'):
         pool.VisibleReferenceEngine(EmulatorConfig(game=game))
+
+
+def test_one_decoder_failure_permanently_stops_actions_but_keeps_partial_report(monkeypatch):
+    factory(monkeypatch)
+    subject=pool.VisibleReferenceEngine(EmulatorConfig(game='asteroids'))
+    original=subject._decoder
+    def fail_once(now,previous):
+        subject._decoder=original
+        raise RuntimeError('Synthetic transient decoder failure')
+    subject._decoder=fail_once
+    before=subject.engine._budget.charged_frames
+    with pytest.raises(RuntimeError,match='transient'):subject.step(1)
+    paid=subject.report()
+    assert paid['accounting']['charged_frames']==before+1 and paid['failure']['error_type']=='RuntimeError'
+    with pytest.raises(ValueError,match='Trajectory stopped'):subject.step(1)
+    assert subject.report()==paid and subject.engine._ale.frame_numbers==(0,0,1)
+
+
+def test_first_cold_transition_is_explicitly_outside_moving_eligibility(monkeypatch):
+    factory(monkeypatch,terminal=1)
+    subject=pool.VisibleReferenceEngine(EmulatorConfig(game='asteroids'))
+    subject.step(0)
+    report=subject.report()['perception']
+    assert report['frames']==1 and report['per_type']['player']['visible']==1
+    assert report['per_type']['player']['eligible']==0 and report['recall_moving'] is None
+
+
+def test_pool_does_not_advance_other_workers_after_a_failed_batch(monkeypatch):
+    subject=pool.VisibleReferencePool.__new__(pool.VisibleReferencePool);subject._step_failed=False
+    sent=[]
+    def failed(self,actions):sent.append(actions);raise ValueError('poisoned child')
+    monkeypatch.setattr(pool.EmulatorPool,'step',failed)
+    with pytest.raises(ValueError,match='poisoned child'):subject.step([1,0])
+    with pytest.raises(ValueError,match='trajectory stopped'):subject.step([1,0])
+    assert sent==[[1,0]]

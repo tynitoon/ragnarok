@@ -1,0 +1,90 @@
+{
+  "kind": "visible_cpu_independent_preliminary_technical_review",
+  "created_utc": "2026-09-09T14:09:50Z",
+  "passed": true,
+  "review_scope": "Bounded source review and synthetic tests of the private MsPacman/Asteroids CPU chain after the two review findings were closed.",
+  "source_sha256": {
+    "ragnarok/evaluation/restorable_ram_history_v70.py": "036b595712e34be2fae87e4602a8fcbfa5dfb39bf69baf6a99b407c693e2cbb8",
+    "ragnarok/evaluation/visible_temporal_groups_v70.py": "c71434b9a96957fd5aaf6c68c9c71be2fac8240aa8f93c1ce391bbde72cf7dff",
+    "ragnarok/evaluation/visible_reference_pool_v70.py": "a8dcb5557c9de108b0958107495bb8814e45cbb5c5ff61d1720d624bd340caeb",
+    "ragnarok/evaluation/visible_scene_v70.py": "7c3cec538488ffb03383d8469984622b6172e9401bb96c8856ade4de66ff402f",
+    "tests/test_restorable_ram_history_v70.py": "7c658fec7e9967d5887bacc3a4e421a05bfe3fe54f177bc34583b0170b61b182",
+    "tests/test_visible_temporal_groups_v70.py": "ae05467cedccc09bc1df1ec839a2e9f8a17da9eff83e27c8175f588fc90af6ab",
+    "tests/test_visible_reference_pool_v70.py": "3c03a77b7810f517e48372463adaff781ad87ef973fe22dc6757dc5ea09682ae",
+    "tests/test_visible_scene_v70.py": "a7e631918166600e6f9194d168d4a75070e6997b4ac095946690559d811ccdb2"
+  },
+  "dependency_sha256": {
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/pooled_mspacman_eyes_v70.py": "d146b7b85505bea672801f75b907bf0519ab2faa4d1a5df327cc7c5296fb1a6e",
+    "ragnarok/evaluation/pooled_asteroids_wrap_v70.py": "8437c83232d1af5c4f2fa29680125e28e2013c8c8ca6e79ea396729fb83762e0"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "preliminary_only": true,
+  "final_preflight_pass": false,
+  "emulator_or_capture_authorized": false,
+  "benchmark_authorized": false,
+  "exhaustive_equivalence_established": false,
+  "gate_result": null,
+  "checks": {
+    "history": "Native snapshot keeps include_rng=True state, two RGB buffers, sticky RNG state and last action; new private fifth element keeps independent copies of all three RAM arrays, adjacent frame numbers and action count. Import validates native current frame/RAM and initial duplicate conventions; direct native restore bypass is rejected. Ledger is excluded from snapshots and remains monotone.",
+    "advance_identity": "New _advance AST equals the sealed inherited implementation after removing its sole post-payment/post-RGB callback and normalizing only explanatory RuntimeError text. Native act, elapsed check, sticky choice/state, terminal truncation and charging order otherwise match.",
+    "failures": "One real frame executed before a decoder error is paid and its RGB preserved. Experimental decoder failure additionally charges its restoring operation and returns native/RGB/sticky/history to anchor. The corrected visible engine permanently rejects further steps after any exception; report remains available with original failure type.",
+    "transport": "The server accepts only step/report/close and rejects RAM, clone, restore and branch requests. Step errors travel as ValueError plus original type/message so the parent can drain all worker responses and retrieve private aggregate reports. The corrected pool refuses all subsequent action batches after the first failure.",
+    "cache_and_cold": "Source label cache and raw movement history are updated only by ordinary played frames. Lab callbacks decode for diagnostic cost but do not alter either. A new cold episode clears the two-source cache; its first act supplies initial RAM-derived geometry and resets movement history through the episode identifier. Terminal branches stop without fictitious acts or free cold resets.",
+    "group_membership": "One mask per declared category rasterizes each source rectangle once; scipy default4CC joins edge contact and overlap, not diagonal/toroidal contact. Membership from each filled rectangle top-left belongs to its unique connected component; enclosing-box holes do not create false membership. Static pills/power pills remain visible for precision and ineligible for movement.",
+    "oracle_separation": "RAM source labels flow only to private scene/group/motion scoring. Reference.observe receives only ordinary pooled RGB; reference.extract on branch images is read-only for background state. Changed-pixel targets and their digest are computed from intervention/control RGB only. Synthetic removal of labels leaves ordinary RGB, RGB boxes, target digest, restored state and costs unchanged.",
+    "scope": "Exactly two declared games, repeat4/lab mode and branch cadence128. These prepared modules are not yet a reviewed complete runner or benchmark protocol."
+  },
+  "closed_findings": [
+    {
+      "id": "cpu_resume_after_decoder_failure",
+      "initial_witness": "Native frame5 was paid but not decoded; a later successful step reached native9 while scorer/ordinary history reported8, silently bridging the missing frame.",
+      "resolution": "Engine failure latch refuses every later step; pool failure latch refuses every later batch. Original type/error and partial cost remain readable. Independently repeated mid-episode witness now stays at native(3,4,5), ordinary4,charge605 after refusal.",
+      "closed": true
+    },
+    {
+      "id": "cold_motion_origin",
+      "initial_witness": "Cold frame0 box x10 and first acted frame1 box x11 form pooled geometry, but moving eligibility is0 because frame0 was not observed by the scorer.",
+      "resolution": "Parent explicitly chose the prospective convention: movement history contains ordinary acted images only; frame0 supplies geometry, and cold0-to1 is outside moving eligibility. Code comment and terminal1 test preserve visible1/eligible0/null. Carry this convention into the future protocol and result limitations.",
+      "closed": true,
+      "closure_type": "Explicit scientific scope choice, not evidence that the omitted transition has no movement."
+    }
+  ],
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_restorable_ram_history_v70.py tests/test_visible_reference_pool_v70.py tests/test_visible_temporal_groups_v70.py tests/test_visible_scene_v70.py",
+    "passed": 28,
+    "seconds": 2.46,
+    "additional_witnesses": [
+      "Base-versus-new-engine synthetic comparison at terminal frames1,5,509: identical ordinary/branch RGB, three RAM, sticky state and complete ledger.",
+      "Actual dispatch with fake connection rejects getRAM/clone/restore/branch_pair; only step/report/close accepted.",
+      "Transient mid-episode decoder failure pays frame5, permanently refuses continuation, and keeps report unchanged.",
+      "Two fake worker replies are fully drained after one error; reports from both workers remain accessible; retry sends no new batch."
+    ]
+  },
+  "limitations": [
+    "No emulator, ROM, fresh seed, capture, compiled-native execution, benchmark or full calibration was run. Synthetic and AST equivalence do not establish exhaustive native/ALE equivalence or throughput.",
+    "The source mapping lists the eight primary modules/tests reviewed here, with selected dependency fingerprints; it is not the final transitive closure of a future runner, compiler/backend or protocol. Final source/runtime/build/evidence sealing is still required.",
+    "After any failure, perception and decoded-frame counts are partial; physical paid frames can exceed successfully decoded frames. Consumers must reject the failed trajectory and preserve the complete aggregate cost instead of treating its report as a valid full result.",
+    "Cold frame0 contributes geometry but never movement eligibility. This declared omission must be prominent in the future protocol; empty moving denominators remain null and must not become success.",
+    "Component membership and motion use render-slot/piece keys and center changes, not proven persistent physical identities. Animation, visibility and slot reuse can affect this external metric; static pills are explicitly exempt from movement eligibility only.",
+    "Scorer sidecar restoration is established for the reviewed ordinary-step/branch_pair path. Arbitrary hidden native mutation, importing untrusted snapshot histories, or wiring other lab/reset paths is outside this review.",
+    "The optional native reference backend/build was not exercised or fully audited here. Real wiring, compiled-target invariance, benchmark scope and proof prerequisites require their own prospective review.",
+    "Old raw calibration and corrected temporal source-frame composition remain distinct evidence. No new independently validated raw judge, learned perception, transfer, acceleration, training permission or gate result is established.",
+    "The CPU corrections were made by the parent in new prepared sources; the reviewer changed no existing file, sealed source or result and made no commit."
+  ]
+}

@@ -29,6 +29,7 @@ class VisibleReferenceEngine:
             self.reference=NativeReferenceExtractor(build_manifest=native_build)
         else:self.reference=ReferenceExtractor()
         self._phase='ordinary';self._source_labels=deque(maxlen=2)
+        self._failure=None
         self._ordinary_frames=self._episode=self._steps=0
         self._lab_decoded=self._pairs=self._changed_pixels=0
         self._label_digest=hashlib.sha256()
@@ -47,11 +48,22 @@ class VisibleReferenceEngine:
         if not self._source_labels:
             if tap.frame_numbers[-1]!=1:raise ValueError('Source history must start at the cold first act')
             self._source_labels.append(self._decoder(tap.previous,tap.before_previous))
+            # Frame0 supplies pooled geometry only. As in the other reference
+            # diagnostics, movement history begins with ordinary acted frames;
+            # the cold0->1 transition is not a movement-eligible observation.
         self._source_labels.append(labels)
         self._ordinary_frames+=1
         self.scorer.observe_truth(labels,frame=self._ordinary_frames,episode=self._episode)
 
     def step(self,action):
+        if self._failure is not None:
+            raise ValueError('Trajectory stopped after an earlier failure; only report/close remain')
+        try:return self._step(action)
+        except BaseException as error:
+            self._failure=dict(error_type=type(error).__name__,error=str(error))
+            raise
+
+    def _step(self,action):
         pixels=self.engine.step(action)
         boxes=self.reference.observe(pixels)
         if len(self._source_labels)!=2:raise ValueError('Both pooled source scenes are required')
@@ -74,7 +86,7 @@ class VisibleReferenceEngine:
             reset_convention='fixed_hardware_cold_start_v1',decisions=self._steps,
             ordinary_raw_frames=self._ordinary_frames,branch_pairs=self._pairs,
             decoded_branch_frames=self._lab_decoded,changed_pixels=self._changed_pixels,
-            self_generated_label_sha256=self._label_digest.hexdigest())
+            self_generated_label_sha256=self._label_digest.hexdigest(),failure=self._failure)
 
 
 def _serve_visible(connection,config,branch_every,reference_backend,native_build):
@@ -90,7 +102,11 @@ def _serve_visible(connection,config,branch_every,reference_backend,native_build
                 elif command=='report':value=engine.report()
                 else:raise ValueError('Unknown visible reference command')
                 connection.send((True,value))
-            except Exception as exc:connection.send((False,(type(exc).__name__,str(exc))))
+            except Exception as exc:
+                # The trajectory is poisoned by step(); keep the transport open
+                # for its partial accounting report, without allowing another act.
+                kind='ValueError' if command=='step' else type(exc).__name__
+                connection.send((False,(kind,f'{type(exc).__name__}: {exc}')))
     except EOFError:pass
     except Exception as exc:
         try:connection.send((False,(type(exc).__name__,str(exc))))
@@ -105,6 +121,7 @@ class VisibleReferencePool(EmulatorPool):
         if not 1<=len(configs)<=16 or not all(isinstance(c,EmulatorConfig) for c in configs):
             raise ValueError('Supply1..16 EmulatorConfig instances')
         self._timeout,self._closed=60.,False
+        self._step_failed=False
         self._connections,self._processes=[],[]
         ctx=mp.get_context('spawn')
         try:
@@ -120,3 +137,11 @@ class VisibleReferencePool(EmulatorPool):
         except BaseException:self.close();raise
 
     def report(self,index=0):return self._one(index,'report')
+
+    def step(self,actions):
+        if self._step_failed:
+            raise ValueError('Visible pool trajectory stopped; only report/close remain')
+        try:return super().step(actions)
+        except BaseException:
+            self._step_failed=True
+            raise
