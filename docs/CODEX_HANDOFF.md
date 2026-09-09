@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-Mis à jour le 9 septembre 2026 vers 19:35 Paris. Continuer d'un jalon au suivant,
+Mis à jour le 9 septembre 2026 vers 19:54 Paris. Continuer d'un jalon au suivant,
 sans terminer à chaque commit. Arrêt uniquement demandé par Jérémie, travail
 achevé, ou décision exigeant son avis. L'audit partage d'écran/RC a été annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
@@ -19,8 +19,8 @@ scripts.recover_confirm_v62`, enfant 22896 `scripts.confirm_v61 --lineage 1
 État `craft_v6_out/v62_confirm_recovery_state.json` : running/confirm_s1.
 Lignée 0 complète (3 mondes/9), 25433 s ; agrégat et 14 checkpoints validés contre
 le contrôleur, puis committés 9deb244. SHA agrégat 3d30c06f….
-Lignée 1 démarrée 18:41. À 19:32, log s1_8310 : M4 trois objectifs terminés à
-2101 s ; Fa premier objectif terminé à 2865 s. Aucun verdict intermédiaire.
+Lignée 1 démarrée 18:41. À 19:53, log s1_8310 : M4 trois objectifs terminés à
+2101 s ; Fa deuxième objectif terminé à 3648 s. Aucun verdict intermédiaire.
 Vérifier les commandes ET `craft_v6_out/v61_confirm_s1.log`, puis s2.
 
 Reprise à 11:37 Paris après Windows Update ; bras incomplet rejoué mêmes graines.
@@ -46,7 +46,7 @@ Sous 1000 et 2000 proposés : problème d'ingénierie à résoudre avant GPU ARC
 Revue finale `v70_mspacman_cpu/cpu_chain_result_review_v0.json`, SHA40f640d4…,
 115 sources/233 preuves, commit ebf4a80. Ces 115 sources/DLL/build ne bougent pas.
 Pas de débit universel : mesures séquentielles sous charge ARC 3. Tous les processus
-CPU de mesure/capture sont terminés ; aucune collecte native actuellement lancée.
+CPU des benchmarks/captures sont terminés ; aucune collecte native actuellement lancée.
 
 Ast CPU v0 FAILED : Unknown player graphics bank au décodage anticipé RAM frame0,
 265 charges, aucune décision, aucun retry/substitut/benchmark v0. Échec cbc0ef2.
@@ -86,23 +86,53 @@ Nouveaux modules dans `ragnarok/learning/`, sans enseignant RAM/palette/référe
 - G/I : grouping_v70.py / identity_v70.py, doc ARC4_EMBEDDING_OBJECTIVES_DRAFT.
   G utilise m/d propres détachés, voisins4/tolérance0,5pixel, variance par groupe
   et marge1. I : InfoNCE visible à lag8 exact, même flux/époque, négatifs obligatoires.
-  Revue EN COURS par review_recovery_v62 ; défaut reshape géométrique corrigé dans
-  d6521d9 (15 tests PASS). Collapse exact G et I stationnaire, contre-exemples gardés.
+  Revue PASS `embedding_objectives_review_v0.json` SHAcb41aa1e…(11 sources/17 tests),
+  reçu committé93e23c8. Défaut reshape géométrique corrigé dansd6521d9 ; domaine
+  float32/64 seulement à37e5d90 (gradientfloat16 pouvaitdéborder, AMPnonvalidé).
+  Collapse exact G et I stationnaire, contre-exemples gardés.
   Ancres admissibles ne prouvent ni gradient ni entraînement.
-- Assemblage perception_stream_v70.py à 879b624, 6 tests PASS, NON encore relu.
+- Assemblage perception_stream_v70.py initial879b624, finaldd08dbd/doccd0fc78,
+  8 tests PASS, revue indépendante EN COURS parreview_recovery_v62.
   Images synthétiques, max des deux dernières RGB, G/I + transition P séparée.
   Horizon fixé4, P inconnu si transition1..3, I exact8. Mémoire pixels uint8/trackers
   sans graphes ; réévaluation avec poids courants ; erreurs tardives atomiques.
   C reste séparé, pas de collecteur attestant actions/délais/provenance.
+  Corrections93e23c8 : zéroP tronqué sûr (pas sumoverflow), gardepertesfinies
+  avantadmissibilité. dd08dbd : tagsstream/epochreadonly etorigineconservée dans
+  chaqueentrée ; nouveaumémoiresurresetagentdécidé, jamaisresetALEoracle.
+  Fenêtre[t−8,t]inclusive : jusqu'à9observations, pas8échantillons.
+- Catégorieslocales `visual_categories_v70.py` +test/doc à34036e9 :5testsPASS,
+  NONencorerelu.42features[f32,logsize2,RGB8],distance.6,max64catégories,
+  refusatomiqueaucunefusionforcée,coastsexclus. Exportlocalexcludel'héritage.
+  Fusioncomportementale nonimplémentée,aucunevalidationAtari.
 
 Le pool existant rend du RGB poolé ordinaire, pas directement les deux dernières
 images brutes ni une chronologie de collecte. Les métadonnées d'époque doivent
 suivre les réinitialisations de mémoire décidées par l'agent, pas devenir un
 signal de mort oracle issu de RAM/ALE. Résoudre cette interface avant collecte.
-Aucun ME/buttons/reader/drives/codebook/S/policy/ledger apprenant implémenté.
+Aucun ME/buttons/reader/drives/S/policy/ledger apprenant implémenté.
 
-Suite utile : terminer revue G/I, faire relire l'assemblage ; intégration C et
-collecteur, ou diagnostic CPU Ms à partir des archives existantes. Préserver les
+## Diagnostic CPU externe en cours
+
+ProfilageofflineMs17471 terminé, session46226 fermée. Sources/protocole46f42d1
+avant exécution ; résultats/tentativecommittésb56dfa0 dansv70_mspacman_cpu/
+offline_scoring_profile_v0.json.8192images,2051groupessynthétiques,329multiactions.
+Composants avecsurcoûtprofileur : decode13,148s,grouping7,319s,histoire4,439s,
+matching3,139s,référence1,531s ; loop30,949s.0émulation,aucundébitnatifdéduit.
+
+Nouveauxadaptateursdujugeàb56dfa0 : vector_visible_mspacman_v70.py (imageintégrale,
+ancienclippingocclusion),cached_visible_groups_v70.py (dernièreentréecomplètepar
+type,membrescompris).5testsPASS :256masques4×2,100populationsrectangles,groupes
+ordonnés/cache/identités/validation. Les115sourcesoriginellesintactes.
+AuditexhaustifOFFLINE ENCOURS, session30037 : scripts.check_visible_acceleration_v70.
+Sources/protocole860319dcommittésAVANTlancement ;40965pairesDEV/RES/raw17471,
+24576groupes,3collections8192. Sortieprévuev70_visible_cpu/vector_cached_equivalence_v0.json
+et_attempt. Aucunautreprofilage/natif/GPU. Ne modifier les sources/preuves auditées.
+Aprèsfin : reçus/sources/digests/équivalenceindépendante, puis seulement protocole
+prospectif de nouvellechaînenative. Ne pas annoncer580→nouveaudébitsansmesure.
+
+Suite utile : terminer revue assemblage, revuecatégories, équivalenceCPUsecteur ;
+intégration C/collecteur sansoracle. Préserver les
 sources relues, créer des adaptations prospectives, aucune relance native improvisée.
 `ARC4_VISION.md` §§2,5,6,11 et `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 de8images
 sur16 points courants, 3944 charges expérimentales /19720 totales, pas16×18.
