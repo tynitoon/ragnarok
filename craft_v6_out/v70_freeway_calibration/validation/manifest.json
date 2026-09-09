@@ -1,0 +1,131 @@
+{
+  "kind": "scorer_only_cold_raw_development_fixture",
+  "game": "freeway",
+  "mode": 0,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "seed": 17212,
+  "action_seed": 117212,
+  "frames": 4096,
+  "action_repeat": 16,
+  "raw_every_real_frame": true,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "sticky_implementation": "worker-python-random-per-frame",
+  "created_utc": "2026-09-09T00:17:58Z",
+  "elapsed_seconds": 15.78791469999851,
+  "accounting": {
+    "ordinary_frames": 4228,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 4228,
+    "charged_frames": 4228,
+    "ordinary_agent_steps": 4096,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 544900,
+    "reset_emulated_frames": 72,
+    "bootstrap_emulated_frames": 132,
+    "format_detection_emulated_frames": 60,
+    "cold_loads": 1,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2"
+  },
+  "shards": [
+    {
+      "path": "frames_00001_00256.npz",
+      "sha256": "ab7971f40210ff1c62bc57778694ef06207399e5f169d09119d6eaa773e3c3d1",
+      "frames": 256
+    },
+    {
+      "path": "frames_00257_00512.npz",
+      "sha256": "d372d2ddcc04b0a0174d5e6fb4155c5f83f04a4eb0d5f63e234bb4edb8eac755",
+      "frames": 256
+    },
+    {
+      "path": "frames_00513_00768.npz",
+      "sha256": "918f42eadaeb9803c3f99a70f9c8a0bd2fde28ffb255ed4f1b43f4621ef7e975",
+      "frames": 256
+    },
+    {
+      "path": "frames_00769_01024.npz",
+      "sha256": "80eb9cc79404fd204c15cd6c490b1a4dbda17ef159ed829076a412105e38bfb4",
+      "frames": 256
+    },
+    {
+      "path": "frames_01025_01280.npz",
+      "sha256": "a3731484db166f19c033e13d17f9d780583f6bc1a00600a2b92ddc5e4301a266",
+      "frames": 256
+    },
+    {
+      "path": "frames_01281_01536.npz",
+      "sha256": "a1da88ad0ea37fe8c57e833d34d37c43f45a5f62832c2cad6c3bac9fbc698d4e",
+      "frames": 256
+    },
+    {
+      "path": "frames_01537_01792.npz",
+      "sha256": "26647461a0db3006088f634b70cef1fae0042eb12777b0aee6ae7143cf891d25",
+      "frames": 256
+    },
+    {
+      "path": "frames_01793_02048.npz",
+      "sha256": "a9399526997ee5b07685ff27529d52ef4b07aec755e2b2e9e13ee67ceb7ab8c0",
+      "frames": 256
+    },
+    {
+      "path": "frames_02049_02304.npz",
+      "sha256": "cbf11cdd336f745a613ce2f15e0782cbcb21d648dd793ad4981f3792a05f79a9",
+      "frames": 256
+    },
+    {
+      "path": "frames_02305_02560.npz",
+      "sha256": "af20732c01c295eff4894861a5005314c4143548f84bee135f0580cc877a3629",
+      "frames": 256
+    },
+    {
+      "path": "frames_02561_02816.npz",
+      "sha256": "5d4997ff231c9704e905cc79c01261bb7ec967131abdfdcc137363d2aac12863",
+      "frames": 256
+    },
+    {
+      "path": "frames_02817_03072.npz",
+      "sha256": "5d25bf1cb426ed437f36154a627d164dcdd34f04cf8ee878b24106d017da3a3e",
+      "frames": 256
+    },
+    {
+      "path": "frames_03073_03328.npz",
+      "sha256": "d27bd483f770b5a6aa2b92b5fdb4a49330c03200c25b0f39b470f1fc2b02636d",
+      "frames": 256
+    },
+    {
+      "path": "frames_03329_03584.npz",
+      "sha256": "0c60c69bc5221d63baf1e46e54e38993d606eff794513fbce5c52ea64bd53e6c",
+      "frames": 256
+    },
+    {
+      "path": "frames_03585_03840.npz",
+      "sha256": "601b747c72d28cf0ae30a2fcf0266d629b18dcc53cc748c1e1b97168a60352a8",
+      "frames": 256
+    },
+    {
+      "path": "frames_03841_04096.npz",
+      "sha256": "1496a3baa4bdc5808ff5d3c3d633bc4bd2cb9119e5b2249fc99c5a0b0656cecf",
+      "frames": 256
+    }
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null
+}

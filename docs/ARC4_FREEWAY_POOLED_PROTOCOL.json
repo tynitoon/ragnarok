@@ -1,0 +1,20 @@
+{
+  "kind": "freeway_maxpool_calibration_before_development_capture",
+  "game": "freeway",
+  "development_seed": 17221,
+  "reserved_validation_seed": 17222,
+  "decisions": 2048,
+  "action_repeat": 4,
+  "action_schedule": "Random(seed+100000), uniform controller ID every4decisions, sticky0.25 every real frame",
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "capture": "Actual max of last two real RGB, both source RGB and RAM before/after final act; current tap after every cold start; all partial terminal windows and full load costs retained",
+  "raw_judge": "Unchanged Freeway V2 fixed in b9d5a2b before raw reserved17212; metadata indexing deviation documented separately",
+  "ram_temporal_candidate": "For each of the twelve identities, envelope of visible raw boxes in the two real source frames; missing boxes contribute nothing, including wrap disappearance",
+  "independent_pixel_check": "Unchanged raw RGB checker on each source. Within its boxes, retain actual semantic-colour pixels winning any max channel or in a full RGB tie; then envelope by identity. No RAM or generic reference.",
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "matching": "Cardinality-first matching; all observed windows in presence count, min(RAM,pixels) in geometry count, no filtering of failures",
+  "workflow": "Preserve development17221 baseline, corrections only on development, independent review and successful source seal commit before opening17222; keep any reserved failure without candidate tuning",
+  "scope": "Two-source contribution geometry, possibly ambiguous from maxRGB alone; inherited raw chicken-fragment/corner/timing approximations retained. No learned perception or death-F1 claim.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

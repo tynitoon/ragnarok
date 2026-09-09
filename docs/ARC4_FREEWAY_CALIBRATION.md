@@ -60,3 +60,16 @@ séparé de ce fichier de métadonnées intervient donc après la capture, contr
 de sceau antérieur. Le candidat et toutes ses empreintes étaient néanmoins
 fixés dans `b9d5a2b` ; aucun code ni critère n'a changé après ouverture.
 Les prochains lancements séparent les appels et contrôlent leur code de retour.
+
+## Résultat réservé, candidat inchangé
+
+17212 passe les douze types sur 4096 frames, 4228 facturées. Poulet joueur :
+présence 4083/4096 (99,6826 %), boîtes 4068/4083 (99,6326 %). Deuxième poulet
+exact. Toutes les boîtes de voitures sont à un pixel ; présence ≥99,4141 %.
+Les erreurs du checker et de la projection restent incluses.
+
+Les voitures suivent la même horloge déterministe dans les deux captures :
+leurs statistiques sont identiques. Le nouveau seed et les actions produisent
+une autre trajectoire du joueur, mais la validation ne constitue pas une nouvelle
+réplication indépendante des trajectoires des voitures. La couverture et la
+portée de cette calibration doivent être rapportées ainsi.
