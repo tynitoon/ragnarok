@@ -150,3 +150,24 @@ def test_unknown_new_ids_are_not_forced_to_match_and_duplicate_ids_fail():
     duplicate=replace(later,tracking=replace(later.tracking,observed=(later.tracking.observed[0],)*2))
     with pytest.raises(ValueError,match='Unique'):
         identity_loss(earlier,duplicate)
+
+
+def test_identity_rejects_same_area_but_reshaped_endpoint_geometry():
+    earlier,later=identity_pair()
+    earlier=replace(earlier,embedding=earlier.embedding.reshape(32,16,128))
+    later=replace(later,embedding=later.embedding.reshape(32,16,128))
+    with pytest.raises(ValueError,match='geometry'): identity_loss(earlier,later)
+
+
+def test_identity_anchors_are_eligible_targets_not_proof_of_gradient_or_collapse_escape():
+    earlier,later=identity_pair()
+    detached=identity_loss(replace(earlier,embedding=earlier.embedding.detach()),replace(later,embedding=later.embedding.detach()))
+    assert detached.supervised_anchors==4 and not detached.loss.requires_grad
+    same=torch.zeros_like(earlier.embedding)
+    same[0]=1
+    earlier=replace(earlier,embedding=same.clone().requires_grad_())
+    later=replace(later,embedding=same.clone().requires_grad_())
+    collapsed=identity_loss(earlier,later)
+    assert collapsed.loss.item()==pytest.approx(np.log(2))
+    collapsed.loss.backward()
+    assert torch.count_nonzero(earlier.embedding.grad)==torch.count_nonzero(later.embedding.grad)==0

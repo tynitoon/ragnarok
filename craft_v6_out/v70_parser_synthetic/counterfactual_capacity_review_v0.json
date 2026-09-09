@@ -1,0 +1,213 @@
+{
+  "kind": "counterfactual_targets_and_tracker_capacity_independent_source_review",
+  "created_utc": "2026-09-09T17:28:23.583436+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "native_preflight": false,
+  "native_execution_authorized": false,
+  "training_authorized": false,
+  "benchmark_authorized": false,
+  "gate_result": null,
+  "source_commit": "599fcec4666f97a910a3b34f6ffd448bb94f3c43",
+  "implementation_commit": "e7d228ab7645e6f2ad5971fcd861309de04b5aaf",
+  "source_sha256": {
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "tests/test_bounded_tracker_v70.py": "beb9347e6ea4436260593c792775fee81f03360e00ad2ba03dbd57442f8c5692",
+    "tests/test_counterfactual_targets_v70.py": "2d7259061749c54ea33d34ff3daf1a728712c9efe01ad35372ca377fbd20045c",
+    "docs/ARC4_BOUNDED_TRACKER_DRAFT.md": "00d88412847f447d4dd522c34a52ba03b57467cb40a340d9646d591c205b8ba7",
+    "docs/ARC4_COUNTERFACTUAL_TARGETS_DRAFT.md": "a15a286cb8ce81c201029502bb4c1eac8586735d0fcb983ce4083aaa57139939",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/test_instance_tracker_v70.py": "e6904cc834bec821cddfc752e86e5502000dac9f60a29ab9e722443647fe78b7",
+    "tests/test_visual_instances_v70.py": "0a0e580371e06bdf72fdc740e57edf9754a4fbe6cb4169aa750a2dd9529e922a",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "tensor_device": "cpu",
+    "torch_threads": 1,
+    "CUDA_VISIBLE_DEVICES": "",
+    "cuda_initialized": false
+  },
+  "checks": {
+    "source_closure": {
+      "files": 19,
+      "includes_transitive_repository_imports_and_package_initializers": true,
+      "all_committed_blobs_equal": true,
+      "prior_parser_10_sources_unchanged": true,
+      "prior_tracker_9_sources_unchanged": true,
+      "prior_trace_20_sources_unchanged": true,
+      "documentation_only_change_after_implementation": "599fcec clarifies partial visible projection and exact-horizon observation; target/capacity implementation and tests unchanged"
+    },
+    "bounded_tracker": {
+      "default_max_tracks": 512,
+      "permitted_declared_capacity": [
+        1,
+        4096
+      ],
+      "counts_observed_and_coasting": true,
+      "observations_over_capacity_refused_before_assignment": true,
+      "post_assignment_union_over_capacity_discards_candidate": true,
+      "no_silent_eviction": true,
+      "expiry_frees_capacity": true,
+      "fork_preserves_capacity": true,
+      "default_cost_matrix_max_shape": [
+        512,
+        1024
+      ],
+      "default_cost_matrix_bytes": 4194304,
+      "temporary_tracks_upper_bound_twice_capacity": true,
+      "memory_scope": "Cost matrix only; other temporary arrays, histories, copied state and Python storage are additional"
+    },
+    "counterfactual_target": {
+      "input": "Own instance source pixels and detached own predicted forward displacement; two RGBBranchTrace records",
+      "horizon_native_frames": [
+        1,
+        64
+      ],
+      "image_kind_explicit": [
+        "raw",
+        "pooled"
+      ],
+      "difference_frame": "Exact horizon−1 index within the actually observed common prefix",
+      "source_alignment": "Bilinear sampling at each source pixel plus predicted dx,dy; component mean copied to eligible source pixels",
+      "motion_guard": "Mean predicted displacement norm must exceed .25pixel by default",
+      "visibility": "Positive in-frame bilinear footprint, evidence normalized by its coverage",
+      "unknown_cases": [
+        "incomplete common horizon",
+        "no own predicted motion",
+        "fully out-of-frame projected support"
+      ],
+      "unknown_encoding": "weight0, metadata target null, no invented negative",
+      "visible_complete_no_difference": "eligible target0 at the chosen horizon",
+      "values_and_weights_copied_and_marked_readonly": true
+    },
+    "loss": {
+      "unbatched_source_aligned_C_head": true,
+      "targets_detached_numpy_inputs": true,
+      "logits_finite_float32_representable": true,
+      "target_and_weight_range": [
+        0,
+        1
+      ],
+      "weighted_BCE_reduction": "Float64 sum and normalization, float32 final loss",
+      "unknown_weight_zero_has_exact_zero_gradient": true,
+      "no_RAM_or_classical_teacher_calls": true
+    },
+    "tests": {
+      "command": "C:/Python314/python.exe with CUDA_VISIBLE_DEVICES empty, Torch threads1; pytest tests/test_bounded_tracker_v70.py tests/test_counterfactual_targets_v70.py",
+      "passed": 14,
+      "elapsed_seconds": 1.47
+    },
+    "independent_witnesses": {
+      "scalar_bilinear_projection": {
+        "shapes": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            7
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            3,
+            6
+          ],
+          [
+            7,
+            4
+          ]
+        ],
+        "cases": 5,
+        "maximum_target_error": 2.4381740404422203e-08,
+        "partial_and_outside_support_included": true
+      },
+      "transient_difference": {
+        "actual_change_frame": 3,
+        "requested_horizon": 4,
+        "raw_target": 0,
+        "pooled_target": 1,
+        "both_eligible": true
+      },
+      "complete_single_frame_horizon": "One common frame at horizon1 is eligible; zero common frames remains unknown",
+      "unknown_extreme_logits": {
+        "signs": [
+          -1,
+          1
+        ],
+        "magnitude": "float32 max",
+        "loss_zero": true,
+        "gradient_finite_and_exactly_zero": true
+      },
+      "analytical_BCE_derivative": "Matched (sigmoid(logit)−target)*weight/sum(weight) on mixed positive, negative, fractional and unknown targets",
+      "capacity_after_assignment": {
+        "max_tracks": 3,
+        "assignment_shape": [
+          3,
+          6
+        ],
+        "candidate_tracks": 6,
+        "refusal_keeps_original_clock_ids_and_three_tracks": true
+      },
+      "capacity_after_expiry": {
+        "expired_ids": [
+          0,
+          1,
+          2
+        ],
+        "new_ids": [
+          3,
+          4,
+          5
+        ],
+        "at_frame": 31,
+        "no_id_reuse": true
+      }
+    },
+    "new_emulated_frames": 0,
+    "new_training_steps": 0,
+    "gpu_work": false,
+    "Atari_or_archive_inputs_read": false
+  },
+  "findings": [],
+  "clarifications_added_during_review": [
+    "A pixel centre just outside the image can remain eligible when its bilinear footprint overlaps the image; evidence is normalized by positive coverage.",
+    "The target describes the difference at the requested horizon, not any earlier divergence. Raw and pooled targets can legitimately differ for a transient change."
+  ],
+  "limitations_and_items_before_execution": [
+    "This review concerns bounded source behavior and synthetic gradients only. It does not authorize an emulator, collection, training, performance benchmark or gate, and establishes no perception/control skill.",
+    "The target function cannot certify that two pixel arrays came from one paid branch pair, a common archived anchor, the correct effect, authorized agent data or the requested prediction horizon. The future collector must bind these facts prospectively and retain actual branch lengths and failures.",
+    "The learning module uses the existing RGB trace type and difference helper, which transitively import the frozen environment base definitions. This review checks the pure data path only; no engine construction or private state access occurs.",
+    "Controllability is a hypothesis from branch pixel differences at an own predicted position. Other objects, indirect consequences, faulty motion, pooling and sticky action delays can create or hide evidence; there is no ME decision or causal isolation guarantee.",
+    "A complete unchanged endpoint is a negative target only for that effect, projected support, image kind and horizon. It does not establish absence of control at another delay or elsewhere in the trajectory.",
+    "Partial coverage is renormalized and then given unit supervision weight, even when the visible fraction is small. Targets average equally over projected source pixels and are broadcast per component; projection collisions and segmentation errors are not resolved into true physical causes.",
+    "The actual track capacity, image dimensions, observation interval, target horizon, motion threshold, raw/pooled choice and training weights remain to be fixed in a prospective collection/training protocol.",
+    "The default4MiB bound applies only to the main assignment cost matrix. Full RSS and copy time remain unmeasured; input materialization, other matrices, histories and up to twice-capacity temporary candidate tracks remain additional costs. Maximum allowed4096 capacity yields a256MiB main matrix, not4MiB.",
+    "A post-assignment refusal has performed synthetic tracker computation but commits no tracking state. In future live wiring, already paid image/branch work must still be recorded even when learning-side capacity rejects the update.",
+    "Group and identity objectives, the collector and any integrated learner are separate new modules outside this receipt. No previous raw/temporal calibration or CPU result is reinterpreted as learner validation."
+  ]
+}

@@ -56,3 +56,13 @@ une erreur. Un objet revu après une absence reste admissible si le propre track
 lui rend son identifiant. Les tokens de flux/époque ne prouvent pas à eux seuls
 la provenance des images : leur attribution et l'alignement restent à intégrer
 et vérifier dans le collecteur. Aucun décodeur de jeu ne corrige ces correspondances.
+
+Les pixels, les boîtes serrées et les cinq premières coordonnées du descripteur
+sont vérifiés contre la géométrie de l'embedding : reformer une image en conservant
+seulement son aire ne conserve pas l'alignement des objets. Ce contrôle ne prouve
+toujours pas que le contenu des pixels appartient à la bonne date.
+Le compteur `supervised_anchors` compte des cibles contrastives admissibles ; il
+ne prouve ni une connexion au graphe, ni une mise à jour des poids. La perte peut
+être évaluée sur des embeddings détachés, mais l'assemblage doit vérifier ses
+gradients. I présente aussi un point stationnaire à l'effondrement exact : deux
+objets avec des représentations identiques donnent log(2) et un gradient nul.

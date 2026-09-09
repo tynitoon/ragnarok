@@ -7,6 +7,7 @@ from torch.nn import functional as F
 
 from ragnarok.learning.grouping_v70 import validate_embedding
 from ragnarok.learning.instance_tracker_v70 import TrackerFrame,TrackedObservation
+from ragnarok.learning.visual_instances_v70 import VisualInstance
 
 
 @dataclass(frozen=True)
@@ -42,7 +43,16 @@ def _visible_features(observation):
         if (not isinstance(row,TrackedObservation) or type(row.track_id) is not int
                 or row.track_id<0 or row.track_id in descriptors):
             raise ValueError('Unique nonnegative own track IDs required')
-        pixels=row.instance.source_pixels
+        instance=row.instance
+        if (not isinstance(instance,VisualInstance) or not isinstance(instance.descriptor,np.ndarray)
+                or instance.descriptor.shape!=(49,) or instance.descriptor.dtype!=np.float32
+                or not np.isfinite(instance.descriptor).all() or len(instance.box)!=4
+                or any(type(v) is not int for v in instance.box)):
+            raise ValueError('Own visual geometry and49-float descriptor required')
+        x,y,w,h=instance.box
+        if not (0<=x<x+w<=width and 0<=y<y+h<=height):
+            raise ValueError('Own instance box must belong to the embedding image geometry')
+        pixels=instance.source_pixels
         if (not isinstance(pixels,np.ndarray) or pixels.ndim!=1 or not len(pixels)
                 or not np.issubdtype(pixels.dtype,np.integer) or (pixels<0).any() or (pixels>=height*width).any()):
             raise ValueError('Observed own source pixels must match this embedding frame')
@@ -50,6 +60,11 @@ def _visible_features(observation):
         if len(members)!=len(pixels) or occupied&members:
             raise ValueError('Identity observations may not duplicate source pixels')
         occupied.update(members)
+        py,px=np.divmod(pixels,width)
+        geometry=[(x+w/2)/width,(y+h/2)/height,w/width,h/height,len(pixels)/(height*width)]
+        if ((int(px.min()),int(py.min()),int(px.max()-px.min()+1),int(py.max()-py.min()+1))!=instance.box
+                or not np.allclose(instance.descriptor[:5],geometry,rtol=1e-5,atol=1e-7)):
+            raise ValueError('Own pixels, box and descriptor must match the embedding image geometry')
         index=torch.tensor(pixels.astype(np.int64),device=features.device)
         descriptors[row.track_id]=features.reshape(32,-1)[:,index].mean(dim=1)
     ids=sorted(descriptors)
