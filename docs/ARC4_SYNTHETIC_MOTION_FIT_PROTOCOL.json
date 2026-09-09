@@ -1,0 +1,60 @@
+{
+  "kind": "prospective_synthetic_motion_fit_v0",
+  "spec": {
+    "arms": [
+      "pooled",
+      "ordered"
+    ],
+    "seed": 764,
+    "updates_per_arm": 256,
+    "batch_size": 2,
+    "objective": "prediction_image_l1_only",
+    "learning_rate": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay": 0.0,
+    "max_gradient_norm": 1.0,
+    "measure_at": [
+      0,
+      1,
+      8,
+      32,
+      128,
+      256
+    ],
+    "max_work_seconds": 300,
+    "pooled_common_prediction_lower_bound": 0.0234375,
+    "ordered_fit_threshold": 0.01171875,
+    "cpu_threads": 1,
+    "emulated_frames": 0,
+    "gpu_used": false,
+    "independent_generalization_test": false
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "torch": "2.11.0+cu126",
+    "scipy": "1.17.1",
+    "torch_threads": 1,
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "gate_result": null,
+  "limitations": [
+    "Two fixed synthetic scenes are used for both fitting and measurements. This tests fitting only, with no independent generalization, Atari, transfer or accelerated-learning claim.",
+    "Exactly256P-image-L1-only Adam updates per arm, pooled then ordered, seed764; no early stop on loss, no retry, no replacement seed or extension after a miss.",
+    "Pooled deterministic mean error has lower bound0.0234375; declared ordered fitting criterion is final mean error strictly below0.01171875. Numerical execution completion is reported separately.",
+    "Each input contains only the observed RGB pair or its pool, and an identical UNKNOWN12-effect vector. Only future RGB supervises P; coordinates and direction do not enter the model as labels.",
+    "Only synthetic CPU tensors, no native environment, real archive, GPU or reusable trained checkpoint. No measured architecture speed comparison; ARC3 may continue independently.",
+    "Work ceiling300seconds before updates and at end, excluding source-proof hashing; retain errors and any uncertain optimizer step, and never retry that attempt.",
+    "Fitting uses only the prediction image term; this is not the future P/C/G/I training recipe. Pixel-loss/local-gradient counterexamples and prior negative C observations remain unchanged."
+  ]
+}
