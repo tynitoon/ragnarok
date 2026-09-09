@@ -1,0 +1,313 @@
+{
+  "kind": "independent_seaquest_v3_enemy_missile_development_diagnostic",
+  "recorded_at_utc": "2026-09-09T02:26:13.467376+00:00",
+  "reviewer": "Codex independent subagent /root/audit_gate_v62",
+  "seed": 17351,
+  "scope": "Existing development captures only. This records the completed audit performed before V4 edits; recording did not repeat the scan.",
+  "provenance": {
+    "baseline_result": "craft_v6_out/v70_seaquest_calibration/coverage3_geometry_v3.json",
+    "baseline_result_sha256": "b3da39f0f6f653b0050724689ffa5c91d812573e8b5cce72d9c30899e8dc16e5",
+    "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/coverage3_development/manifest.json",
+    "fixture_manifest_sha256": "31f4f37fb00a961fd19fe924b19eccb524e2e7618ab85c0c9d840b4fbd262227",
+    "audited_module_sha256": "82e693f57c57792ecf83427812e1a245ca4c66080b329bde3093110cc2b95b72",
+    "source_hash_asserted_before_scan": true,
+    "verified_shards_during_scan": 128,
+    "shard_hash_registry": "coverage3_development/manifest.json",
+    "current_v4_source_not_used": true
+  },
+  "audit_execution": {
+    "mode": "Inline Python, CPU, existing NPZ files; stdout result, no audit script file was retained.",
+    "elapsed_seconds": 14.297918299998855,
+    "method": "Loaded the hash-checked V3 source into two isolated in-memory modules. The second module changed only the enemy-missile support flip to False. Iterated all 32768 recorded RGB/RAM pairs in the 128 hash-checked shards. Reused the unchanged V3 RGB _blue_actors checker and frozen compare_boxes Hungarian cardinality-first comparison for enemy_missile. No source, capture or calibration output was edited.",
+    "in_memory_change_from": "ENEMY_MISSILE_SUPPORT, flip=not bool(r[89+lane]&8)",
+    "in_memory_change_to": "ENEMY_MISSILE_SUPPORT, flip=False",
+    "baseline_reproduced_exactly": true,
+    "new_rom_or_gpu_execution": false
+  },
+  "enemy_missile_counts": {
+    "v3": {
+      "frames": 32768,
+      "presence_count_agreement": 32760,
+      "positive_frames": 9089,
+      "positive_count_agreement": 9081,
+      "ram_objects": 14195,
+      "pixel_objects": 14187,
+      "joint_matches": 14187,
+      "boxes_within1": 13790,
+      "boxes_exact": 13789
+    },
+    "diagnostic_no_flip": {
+      "frames": 32768,
+      "presence_count_agreement": 32760,
+      "positive_frames": 9089,
+      "positive_count_agreement": 9081,
+      "ram_objects": 14195,
+      "pixel_objects": 14187,
+      "joint_matches": 14187,
+      "boxes_within1": 14186,
+      "boxes_exact": 14186
+    },
+    "v3_box_fraction": 0.9720166349474871,
+    "diagnostic_no_flip_box_fraction": 0.9999295129343766,
+    "new_matches_within1": 396,
+    "new_exact_matches": 397
+  },
+  "by_ram_direction_bit8": {
+    "0": {
+      "active_instance_frames": 7329,
+      "v3_visible": 7159,
+      "no_flip_visible": 7159,
+      "pixel_visible": 7155,
+      "v3_exact": 6757,
+      "no_flip_exact": 7154,
+      "changed_boxes": 401,
+      "fixed_exact": 397
+    },
+    "1": {
+      "active_instance_frames": 7158,
+      "v3_visible": 7036,
+      "no_flip_visible": 7036,
+      "pixel_visible": 7032,
+      "v3_exact": 7032,
+      "no_flip_exact": 7032,
+      "changed_boxes": 0,
+      "fixed_exact": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "ram_support_orientation",
+      "severity": "P2",
+      "conclusion": "The enemy projectile support has the same observed orientation in both movement directions: ..#### on the upper row, ####.. three rows lower. V3 flips it incorrectly when RAM bit8 is 0. Setting flip to bool(bit8) would instead break the other direction.",
+      "first_eight_frames": [
+        1042,
+        1043,
+        1127,
+        1128,
+        1158,
+        1159,
+        1163,
+        1164
+      ],
+      "occlusion_examples": [
+        1042,
+        1043,
+        1127,
+        1128,
+        1163,
+        1164
+      ],
+      "screen_clip_examples": [
+        1158,
+        1159
+      ],
+      "rgb_component_correct_on_these_examples": true
+    },
+    {
+      "id": "missing_player_projectile_occlusion",
+      "severity": "P2",
+      "frame": 14875,
+      "conclusion": "The yellow player projectile occludes all upper blue pixels. V3 subtracts player-body and lane-enemy support from blue support, but does not subtract the player projectile.",
+      "player_projectile_box": [
+        61,
+        73,
+        8,
+        1
+      ],
+      "v3_and_no_flip_ram_box": [
+        63,
+        73,
+        6,
+        4
+      ],
+      "observed_blue_box": [
+        63,
+        76,
+        4,
+        1
+      ],
+      "remaining_geometry_failures_after_no_flip": 1
+    },
+    {
+      "id": "tiny_blue_category_ambiguity",
+      "severity": "measured_limitation",
+      "frames": [
+        3282,
+        3283,
+        19623,
+        19624,
+        24673,
+        24674,
+        26107,
+        26108
+      ],
+      "conclusion": "A one- or two-pixel missile remnant is visible at a screen edge after the last grey submarine in the lane disappears. The RGB tiny-fragment grey-context rule classifies it as diver. This explains all eight remaining enemy-missile presence disagreements. No threshold change or frame exclusion is proposed."
+    }
+  ],
+  "witnesses": [
+    {
+      "frame": 1042,
+      "shard": "coverage3_development/frames_01025_01280.npz",
+      "index_zero_based": 17,
+      "shard_sha256": "2688acadcf6163064879a97a13e258ee39a55dcaf718d368f7e200c084f5a073",
+      "purpose": "enemy occlusion, bit8=0",
+      "details": {
+        "v3_ram": [
+          47,
+          124,
+          1,
+          1
+        ],
+        "rgb": [
+          47,
+          121,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "frame": 1158,
+      "shard": "coverage3_development/frames_01025_01280.npz",
+      "index_zero_based": 133,
+      "shard_sha256": "2688acadcf6163064879a97a13e258ee39a55dcaf718d368f7e200c084f5a073",
+      "purpose": "right clipping, bit8=0",
+      "details": {
+        "v3_ram": [
+          158,
+          121,
+          2,
+          1
+        ],
+        "rgb": [
+          158,
+          124,
+          2,
+          1
+        ]
+      }
+    },
+    {
+      "frame": 2694,
+      "shard": "coverage3_development/frames_02561_02816.npz",
+      "index_zero_based": 133,
+      "shard_sha256": "af033392be5e6db97e6f7f92aed6c9a7ccfa85a57e8cc57d59fd3ae890387624",
+      "purpose": "unoccluded opposite direction",
+      "details": {
+        "lane": 3,
+        "ram_phase": 13,
+        "origin": [
+          117,
+          73
+        ],
+        "rgb_rows": [
+          "..BBBB",
+          "......",
+          "......",
+          "BBBB.."
+        ]
+      }
+    },
+    {
+      "frame": 2817,
+      "shard": "coverage3_development/frames_02817_03072.npz",
+      "index_zero_based": 0,
+      "shard_sha256": "957396e0642f95314d6a9bdcd770b0c4c38f0605fc255965f12e36d68cde35dc",
+      "purpose": "unoccluded opposite direction",
+      "details": {
+        "lane": 0,
+        "ram_phase": 13,
+        "origin": [
+          79,
+          145
+        ],
+        "rgb_rows": [
+          "..BBBB",
+          "......",
+          "......",
+          "BBBB.."
+        ]
+      }
+    },
+    {
+      "frame": 3073,
+      "shard": "coverage3_development/frames_03073_03328.npz",
+      "index_zero_based": 0,
+      "shard_sha256": "70882ef3bbffb94cf87f495cdb087d0ddeb6e30035a725795c629c8f684f0f8c",
+      "purpose": "unoccluded opposite direction",
+      "details": {
+        "lane": 2,
+        "ram_phase": 12,
+        "origin": [
+          85,
+          97
+        ],
+        "rgb_rows": [
+          "..BBBB",
+          "......",
+          "......",
+          "BBBB.."
+        ]
+      }
+    },
+    {
+      "frame": 14875,
+      "shard": "coverage3_development/frames_14849_15104.npz",
+      "index_zero_based": 26,
+      "shard_sha256": "2f2dae5f7a15c3aa4ce9e02be254c5f5534b2ee7d0e5e2ff32315373165df36a",
+      "purpose": "player projectile occlusion",
+      "details": {
+        "ram": [
+          63,
+          73,
+          6,
+          4
+        ],
+        "rgb": [
+          63,
+          76,
+          4,
+          1
+        ],
+        "yellow_projectile": [
+          61,
+          73,
+          8,
+          1
+        ]
+      }
+    },
+    {
+      "frame": 3282,
+      "shard": "coverage3_development/frames_03073_03328.npz",
+      "index_zero_based": 209,
+      "shard_sha256": "70882ef3bbffb94cf87f495cdb087d0ddeb6e30035a725795c629c8f684f0f8c",
+      "purpose": "tiny fragment without grey context",
+      "details": {
+        "ram_enemy_missile": [
+          8,
+          97,
+          2,
+          1
+        ],
+        "rgb_diver": [
+          8,
+          97,
+          2,
+          1
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "This is a development-only counterfactual diagnostic, not a new official calibration result or reserved validation.",
+    "The scan recalculated only enemy_missile scores; it does not establish all six categories or surface-submarine calibration.",
+    "The player-projectile occlusion correction was not included in the no-flip aggregate. Its conclusion comes from the conserved frame14875 and adjacent frames14874/14876.",
+    "Full sprite envelopes can hide an incorrect internal shape. Both movement directions were inspected directly in RGB in addition to aggregate box counts.",
+    "Direction groups are instance-frames within one development collection, not independent replications.",
+    "V3 failures remain preserved. Any production correction must be recalibrated without changing thresholds before sealing.",
+    "The audit code was executed inline and not retained as a standalone script; this JSON records its method, exact single in-memory mutation, historical stdout counts and witness provenance."
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null
+}

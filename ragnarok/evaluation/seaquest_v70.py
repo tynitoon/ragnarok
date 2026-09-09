@@ -11,7 +11,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="seaquest_raw_development_sprite_occlusion_v3"
+REVISION="seaquest_raw_development_surface_and_projectiles_v4"
 KINDS=("player","shark","submarine","diver","enemy_missile","player_missile")
 ROI=(0,33,160,165)
 PLAYER_COLOURS=((187,187,53),(236,236,236))
@@ -48,6 +48,11 @@ SUBMARINE_SUPPORT=(
     ("..##....",)*4+("######..","########","#.######","#######.",".#######",".......#","........"),
 )
 ENEMY_MISSILE_SUPPORT=("..####","......","......","####..")
+SURFACE_ANIMATION={
+    164: ("..#.....",)+("..##....",)*4+("######.#","########","#.#####."),
+    178: ("..#.....",)+("..##....",)*4+("######.#","#######.","#.######"),
+    192: ("..#.....",)+("..##....",)*4+("######..","########","#.######"),
+}
 
 
 def _sprite_points(x,y,rows,*,flip=False,surface=False):
@@ -91,6 +96,9 @@ def decode_seaquest_ram(ram):
     r=list(map(int,ram))
     objects=[]
     player_points=set()
+    projectile_points=set()
+    if 0<r[103]<160 and not 53<=r[97]+40<57:
+        projectile_points=_sprite_points(r[103],r[97]+40,("########",))
     if r[105]==0 or (r[105]>=15 and r[105]%2==1):
         player_points=_sprite_points(r[70],r[97]+33,PLAYER_ANIMATION.get(r[24],PLAYER_SUPPORT),
                                       flip=r[86]==0,surface=True)
@@ -117,16 +125,17 @@ def decode_seaquest_ram(ram):
             missile=3<r[89+lane]%8<7
             kind="enemy_missile" if missile else "diver"
             if missile:
-                points=_sprite_points(r[74-i]+2,145-24*lane,ENEMY_MISSILE_SUPPORT,
-                                      flip=not bool(r[89+lane]&8))
+                # The two strokes keep the same orientation in both travel
+                # directions; edge clipping and occlusion make this observable.
+                points=_sprite_points(r[74-i]+2,145-24*lane,ENEMY_MISSILE_SUPPORT)
             else:
                 rows=DIVER_SUPPORT[int(r[89+lane]%8==1)]
                 points=_sprite_points(r[74-i],142-24*lane,rows,flip=bool(r[89+lane]&8))
-            objects.append(_points_box(kind,f"blue:{lane}",points-player_points-foreground[lane]))
+            objects.append(_points_box(kind,f"blue:{lane}",points-player_points-projectile_points-foreground[lane]))
     if r[60]>=2 and r[118]<160:
-        objects.append(_clipped("submarine","surface",r[118],45,8,11))
-    if 0<r[103]<160 and not 53<=r[97]+40<57:
-        objects.append(_sprite_box("player_missile","player_missile",r[103],r[97]+40,("########",)))
+        points=_sprite_points(r[118],45,SURFACE_ANIMATION.get(r[24],SURFACE_ANIMATION[164]),surface=True)
+        objects.append(_points_box("submarine","surface",points-player_points-projectile_points))
+    objects.append(_points_box("player_missile","player_missile",projectile_points))
     return [o for o in objects if o is not None]
 
 
@@ -230,6 +239,8 @@ def _player_and_projectiles(rgb):
                 if not np.array_equal(mask[compare],actual[compare]):
                     continue
                 body={px+i for i,v in enumerate(mask[7]) if v}
+                if not all(full_row[v] for v in body):
+                    continue
                 residue=set(map(int,np.flatnonzero(full_row[8:160])+8))-body
                 if not residue:
                     continue
@@ -275,6 +286,8 @@ unseen types remain explicit calibration concerns rather than inferred labels.
     groups={kind:[] for kind in KINDS}
     groups["player"],groups["player_missile"]=_player_and_projectiles(rgb)
     groups["shark"]=_merge_fragments(_components(rgb,SHARK_COLOURS),8,7)
-    groups["submarine"]=_components(rgb,(SUBMARINE_COLOUR,))
+    grey=_components(rgb,(SUBMARINE_COLOUR,))
+    groups["submarine"]=[box for box in grey if box[1]>=57]+_merge_fragments(
+        [box for box in grey if box[1]<57],8,8)
     groups["diver"],groups["enemy_missile"]=_blue_actors(rgb)
     return [ObjectLabel(kind,box) for kind in KINDS for box in groups[kind]]

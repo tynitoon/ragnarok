@@ -1,0 +1,15 @@
+{
+  "kind": "seaquest_development_correction_v4_before_reserved_capture",
+  "original_protocol": "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+  "previous_negative": "craft_v6_out/v70_seaquest_calibration/coverage4_geometry_v3.json",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "ram_changes": "Development-only corrections reviewed independently: enemy projectile strokes retain orientation in both travel directions; visible blue supports subtract the yellow projectile where it occludes them. Surface submarine uses three empirical eight-row masks selected by RAM24, left clip at8 and water stripe53:57 removed, subtracting yellow foreground. Four observed one-pixel surface shifts are retained as residuals rather than patched by an ad-hoc state rule.",
+  "rgb_changes": "Internal player-projectile hypotheses also require all expected player pixels on the projectile row, so the complete row equals template union projectile. Surface grey fragments are merged only when their union fits8x8, independently of RAM. Existing tiny-blue category ambiguity and common empirical player masks remain documented limitations.",
+  "development_coverage": "All frames of17311,17331,17341,17351,17361 are retained and scored separately. Previous insufficient-coverage verdicts stay FAIL. The final development geometry must meet the original per-collection thresholds, plus99percent positive-frame presence for each observed additional type.17361 itself must cover all six categories and the surface subtype with at least50joint instance-frame matches; no pooled dilution. No reserved sequence opened.",
+  "limits": "This is an external evaluator, not a learned agent. Shared empirical templates and ambiguous same-colour contacts limit independent interpretation. No thresholds lowered, no empty type passes, no agent/reference training or advanced entry states from these captures.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

@@ -180,3 +180,31 @@ masquées. Première apparition réellement visible frame7469, pas frame6701
 (premier drapeau RAM). Le baseline `coverage4_geometry_v3.json` reste FAIL :
 surface 0 % de boîtes correctes, missiles ennemis 95,832 %, sous-marins agrégés
 84,709 %. Les défauts sont diagnostiqués sur développement ; aucun seuil changé.
+
+## V4 corrigée : une collection complète passe, une ancienne échoue encore
+
+Les revues indépendantes sont consignées dans les JSON
+`enemy_missile_independent_audit_v3.json` et
+`surface_geometry_independent_audit_17361.json`. Les traits du missile ennemi
+ne changent pas d'orientation avec son déplacement ; le tir jaune masque les
+points bleus. La surface utilise les trois supports observés et le regroupement
+RGB des fragments gris, avec les quatre résidus verticaux d'un pixel conservés.
+Le contrôle du missile interne exige aussi tous les pixels attendus du joueur.
+
+La V4 passe les six catégories observées dans17331 et17351. Dans17361, les sept
+catégories/sous-type passent ensemble : surface4788/4788 présences et boîtes à
+un pixel près, dont4784 exactes ; tous les missiles ennemis appariés sont exacts.
+Cela ne suffit pas au scellement :17341 reste négative, joueur74,678 % de
+présence positive et sous-marins97,957 %. Les six témoins vérifiés par Ohm
+montrent un filtre RGB qui refuse les silhouettes joueur de hauteur6 et compte
+séparément des fragments gris au bord. Correction minimale préparée ensuite,
+sans exclure cette ancienne collecte ni abaisser les critères. Les contacts
+jaunes larges mais bas restent une limite à mesurer.
+
+Un exécutable séparé prépare la validation fixe17312/17362, uniquement après
+accord géométrique sur les cinq développements et couverture complète17361.
+Sources puis sceau doivent être effectivement commitées avant toute émulation.
+Les réservés17332/17342/17352 restent fermés et sont retirés de cette calibration.
+La revue du raccord a corrigé le nom de format attendu par le lecteur scellé ;
+un test capture simulée → vrai lecteur valide désormais ce raccord et les coûts.
+Aucun réservé ouvert à ce stade.

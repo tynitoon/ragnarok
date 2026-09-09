@@ -1,0 +1,100 @@
+{
+  "kind": "independent_seaquest_surface_geometry_development_audit",
+  "recorded_utc": "2026-09-09T02:24:55Z",
+  "reviewer": "audit_arc4_reprise",
+  "game": "seaquest",
+  "seed": 17361,
+  "recording_method": "Transcription of the completed independent in-memory audit. No fixture scan was repeated to create this record; only the manifest and coverage receipt were reread and hashed.",
+  "fixture": {
+    "directory": "craft_v6_out/v70_seaquest_calibration/coverage4_development",
+    "manifest_sha256": "1835d4c29ef926b7a6c6197f85ef6f1637c687b2c3641d4862e813bc143927e5",
+    "frames": 32768,
+    "charged_frames": 33280,
+    "cold_loads": 4,
+    "bootstrap_frames_per_load": 128,
+    "restores": 0,
+    "experiment_frames": 0,
+    "shards": 128,
+    "all_shard_hashes_verified_during_initial_audit": true,
+    "capture_and_shard_fingerprints": "Recorded in the fingerprinted fixture manifest; no current source-file hash is substituted for those historical fingerprints."
+  },
+  "baseline_provenance": {
+    "coverage_receipt": "craft_v6_out/v70_seaquest_calibration/coverage4_development_v3.json",
+    "coverage_receipt_sha256": "f2b34c65eb52c4c866d3b9faeaa938a532fe2ed62c5c946ac3bee9ac39dd8021",
+    "decoder_source_sha256_recorded_by_coverage_receipt": "82e693f57c57792ecf83427812e1a245ca4c66080b329bde3093110cc2b95b72",
+    "coverage_protocol_sha256": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "audit_program_sha256": null,
+    "audit_program_note": "The diagnostic programs ran from standard input and were not saved or fingerprinted. This record documents their observed results, not an independently rerunnable sealed execution."
+  },
+  "independent_pixel_method": {
+    "colour_rgb": [170, 170, 170],
+    "band_y_half_open": [33, 61],
+    "initial_objects": "Eight-connected components of exact grey pixels across the entire band, without RAM positions or candidate search boxes.",
+    "proposal_objects": "One bounding envelope of all original grey pixels in this surface band. No filled or inferred pixels contribute to that envelope."
+  },
+  "original_rectangle_diagnostic": {
+    "ram_rule": "r60 >= 2 and r118 < 160; rectangle (r118, 45, 8, 11), clipped to the general screen ROI.",
+    "ram_present_frames": 5367,
+    "rgb_present_frames": 4788,
+    "all_frame_count_agreement": 32181,
+    "ram_present_rgb_absent_frames": 579,
+    "all_579_absences_have_r118_zero": true,
+    "first_ram_flag_frame": 6701,
+    "first_grey_frame": 7469,
+    "first_grey_box": [159, 50, 1, 3],
+    "single_component_joint_frames": 4780,
+    "single_component_boxes_within1": 0,
+    "frames_with_box_x_45_8_8": 4364,
+    "two_fragment_frames": [15387, 15388, 15389, 16410, 18075, 18076, 18077, 26819],
+    "two_fragment_example": {
+      "frame": 15387,
+      "r118": 1,
+      "boxes": [[8, 50, 1, 1], [8, 52, 1, 1]],
+      "interpretation": "One clipped patrol actor is counted as two connected components."
+    }
+  },
+  "development_support_observation": {
+    "origin": "r118, y45",
+    "visible_x_half_open": [8, 160],
+    "visible_y_half_open": [45, 53],
+    "common_first_five_rows": ["..#.....", "..##....", "..##....", "..##....", "..##...."],
+    "last_three_rows_by_existing_animation_byte_r24": {
+      "164": ["######.#", "########", "#.#####."],
+      "178": ["######.#", "#######.", "#.######"],
+      "192": ["######..", "########", "#.######"]
+    },
+    "ordinary_interior_patterns_by_r24": {"164": 1455, "178": 1453, "192": 1455},
+    "occlusion_example": {
+      "frame": 8824,
+      "description": "Two expected grey pixels at y52 are yellow player pixels; subtracting the existing RAM-side player support explains them without changing the patrol bounding box."
+    }
+  },
+  "in_memory_development_proposal": {
+    "ram_method": "Use the observed surface support indexed by r24, clip x to [8,160), and subtract existing RAM-side player sprite points. The diagnostic used support164 as a fallback for other r24 values; no observed patrol result establishes that fallback for unseen animations.",
+    "pixel_method": "The independent surface-band envelope described above.",
+    "frames": 32768,
+    "ram_present_frames": 4788,
+    "rgb_present_frames": 4788,
+    "presence_agreement_frames": 32768,
+    "joint_boxes": 4788,
+    "boxes_within1": 4788,
+    "boxes_exact": 4784,
+    "exact_support_frames_including_empty_frames": 32764,
+    "remaining_support_residual_frames": [18945, 27536, 27537, 27538],
+    "residual_description": "Four supports start one pixel lower and remain cut at y53. All occur with player r105=23, but no additional causal or RAM rule was inferred from that coincidence."
+  },
+  "limits": [
+    "This is a diagnostic and fitted proposal on the already opened development collection 17361; it is not reserved validation or the subsequently running V4 calibration.",
+    "No calibration threshold changed, no frame was excluded, and no prior receipt or source was edited by this audit.",
+    "The original 5367 RAM-indicated instance-frames include 579 invisible frames. They must not be described as 5367 pixel-visible patrol observations.",
+    "Instance-frame counts do not establish independent actor lifetimes or coverage of every game state, orientation, animation or occlusion.",
+    "The pixel comparison is independent of RAM boxes; the proposed RAM-side occlusion calculation reuses the existing empirical player support.",
+    "The four one-pixel residuals remain explicit; no post hoc special-case rule was added to eliminate them."
+  ],
+  "new_rom_or_seed_opened": false,
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "calibration_pass": null,
+  "gate_result": null
+}

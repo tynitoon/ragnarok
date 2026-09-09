@@ -12,7 +12,7 @@ from ragnarok.evaluation.seaquest_v70 import KINDS, REVISION, decode_seaquest_ra
 from ragnarok.evaluation.cold_fixtures_v70 import cold_fixture_frames
 
 SOURCE_PATHS = ("ragnarok/evaluation/seaquest_v70.py","ragnarok/evaluation/cold_fixtures_v70.py",
-                "scripts/calibrate_seaquest_v70.py","docs/ARC4_SEAQUEST_CALIBRATION_V3_PROTOCOL.json",
+                "scripts/calibrate_seaquest_v70.py","docs/ARC4_SEAQUEST_CALIBRATION_V4_PROTOCOL.json",
                 "scripts/capture_cold_v70.py","ragnarok/environments/cold_emu_pool_v70.py",
                 "ragnarok/environments/emu_pool.py","ragnarok/environments/frame_budget_v70.py",
                 "ragnarok/evaluation/pong_v70.py","scripts/calibrate_breakout_v70.py")
@@ -20,8 +20,8 @@ SOURCE_PATHS = ("ragnarok/evaluation/seaquest_v70.py","ragnarok/evaluation/cold_
 
 def calibrate(directory):
     root = Path(__file__).resolve().parents[1]
-    protocol = json.loads((root/"docs/ARC4_SEAQUEST_CALIBRATION_V3_PROTOCOL.json").read_text(encoding="utf-8"))
-    manifest = json.loads((directory/"manifest.json").read_text())
+    protocol = json.loads((root/"docs/ARC4_SEAQUEST_CALIBRATION_V4_PROTOCOL.json").read_text(encoding="utf-8"))
+    manifest = json.loads((directory/"manifest.json").read_text(encoding="utf-8"))
     if (manifest["game"]!="seaquest" or manifest["frames"]!=protocol["frames"] or
             manifest["seed"] not in (protocol["development_seed"],protocol["reserved_validation_seed"])):
         raise ValueError("Fixture is outside the declared calibration")
@@ -32,7 +32,7 @@ def calibrate(directory):
         raise ValueError("Fixture parameters differ from the declared calibration")
     hashes={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in SOURCE_PATHS}
     if manifest["seed"]==protocol["reserved_validation_seed"]:
-        seal=json.loads((directory.parent/"validation_seal.json").read_text())
+        seal=json.loads((directory.parent/"validation_seal.json").read_text(encoding="utf-8"))
         if seal.get("validation_seed")!=manifest["seed"] or seal.get("source_sha256")!=hashes:
             raise ValueError("Reserved calibration requires the unchanged sealed sources")
     stats = {kind:dict(frames=0,presence_count_agreement=0,joint_matches=0,boxes_within1=0,boxes_exact=0,
@@ -60,6 +60,8 @@ def calibrate(directory):
         s["passed"] = (s["joint_matches"]>=criteria["minimum_joint_matches"] and
                        s["presence_fraction"]>=criteria["presence_count_agreement_fraction"] and
                        s["box_fraction"]>=criteria["matched_boxes_all_edges_within1pixel_fraction"])
+    if hashes!={p:hashlib.sha256((root/p).read_bytes()).hexdigest() for p in SOURCE_PATHS}:
+        raise RuntimeError("Calibration sources changed during the run")
     return dict(kind="independent_seaquest_raw_calibration",created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
                 decoder_revision=REVISION, seed=manifest["seed"], per_type=stats,
                 calibration_pass=all(s["passed"] for s in stats.values()),first_disagreements=examples,
