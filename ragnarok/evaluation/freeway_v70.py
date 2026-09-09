@@ -9,7 +9,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="freeway_raw_wrapped_visible_cars_v1"
+REVISION="freeway_raw_wrapped_visible_cars_lane4_phase_v2"
 CHICKEN_COLOUR=(252,252,84)
 CAR_COLOURS=((167,26,26),(180,231,117),(105,105,15),(228,111,111),(24,26,167),
              (162,98,33),(84,92,214),(184,50,50),(135,183,84),(210,210,64))
@@ -28,7 +28,9 @@ def decode_freeway_ram(ram):
     objects=[_clipped("player",44,193-int(ram[14]),6,8),
              _clipped("chicken_2",108,193-int(ram[15]),6,8)]
     for i in range(10):
-        x=(int(ram[117-i])-3)%160
+        # The fastest left-moving lane is empirically one pixel ahead of r-3 in
+        # development, compatible with a one-frame phase; internal draw order is unproven.
+        x=(int(ram[117-i])-3+int(i==4))%160
         # Development shows horizontal wrap and an eight-pixel left render blank.
         # This projects visible sprite extent, with one-pixel timing/corner residuals.
         left,right=max(8,x),min(160,x+8)

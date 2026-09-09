@@ -23,6 +23,6 @@
   "scope": "CPU raw geometry only, no learning claim. A stationary second chicken remains visible but is not automatically motion eligible. ALE lives are always zero here; no death-F1 claim.",
   "baseline_protocol": "docs/ARC4_FREEWAY_CALIBRATION_PROTOCOL.json at dd49826",
   "thresholds_unchanged": true,
-  "candidate_ram": "Same chicken geometry; visible cars at x(r117-i-3)%160,y28+16i,width8,height8, clipped by observed left render blank x8 and screen right160. Timing/corner residuals remain scored.",
+  "candidate_ram": "Same chicken geometry; visible cars at x(r117-i-3+int(i==4))%160,y28+16i,width8,height8, clipped by observed left render blank x8 and screen right160. Lane4 has a consistent one-pixel rendering/RAM phase shift; other timing/corner residuals remain scored. V1 without phase correction failed car4 presence and is preserved before this V2 correction.",
   "development_correction_reason": "Initial checker conflated chicken colour with road markings, and RAM car boxes missed wrap/left blank. Baseline FAIL preserved fc180c0 before either correction. Reserved17212 remains unopened."
 }

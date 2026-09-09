@@ -1,0 +1,12 @@
+{
+  "kind": "complete_breakout_native_cpu_report_equivalence",
+  "all_worker_reports_equal": true,
+  "workers": 16,
+  "decisions_per_worker": 2048,
+  "baseline_sha256": "9babfa0357254c152082d1b33a8a348b9dedea2885b34914b273dc7f568b7de5",
+  "native_sha256": "1282260409566c71fc3df8f47c799397611e898a9605d527737afb75176d0e87",
+  "baseline_sps": 642.6144782598905,
+  "native_sps": 1005.4122370433536,
+  "gate_result": null,
+  "limitation": "Sequential runs under variable ARC3 load; exact reports establish semantics, timings are diagnostic."
+}

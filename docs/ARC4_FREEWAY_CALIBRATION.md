@@ -18,3 +18,35 @@ de présence et de boîtes à un pixel seront appliqués à chaque type. Toutes 
 frames restent incluses. Un résultat négatif sera conservé avant correction.
 Pas de gate ni d'entraînement. L'absence de vies ALE dans ce jeu interdit de
 présenter sa calibration comme validation d'une mesure de mort.
+
+## Corrections de développement, avant validation
+
+Baseline négative préservée dans `fc180c0` : le checker couleur des poulets
+englobait les lignes jaunes du milieu de route. Le protocole correctif distinct
+`ARC4_FREEWAY_CALIBRATION_V1_PROTOCOL.json` utilise des composantes huit-connexes
+dans chaque moitié d'écran, dimensions 7×8 à trois pixels près, comme le détecteur
+vision épinglé. Les marques de route d'un pixel de haut ne deviennent plus des
+poulets. Les erreurs de fusion/occlusion restent comptées, sans position RAM
+pour guider la recherche.
+
+La projection des voitures reçoit le bouclage horizontal et la zone non rendue
+observée à gauche, x<8, puis la hauteur visible huit. V1 conservée dans `45c78e3`
+échoue encore sur la présence de la voie 4 : 98,7793 %. V2 corrige son décalage
+empirique fixe de +1 pixel. Sur le développement, cette voiture parcourt les
+160 positions, se déplace de −1 à chacune des 4095 transitions ; 3690 boîtes
+non rognées montrent exactement ce décalage. Cela est compatible avec une phase
+d'une frame ; l'ordre interne de dessin et de mise à jour RAM n'est pas prouvé.
+Vingt-cinq coins visibles de largeur un ont une hauteur six au lieu de huit,
+restent comptés et respectent la tolérance d'un pixel aux deux bords.
+
+V2 passe les douze types. Poulet joueur : présence 4093/4096, boîtes 4083/4093
+conformes (99,7557 %). Deuxième poulet exact. Voitures : toutes les boîtes à
+un pixel près ; présence au moins 4072/4096 (99,4141 %). Les seuils et les
+dénominateurs restent ceux fixés avant la capture. La séquence ne fait monter
+le joueur que jusqu'à y=93 ; elle ne valide pas toute la traversée de la route.
+Les trois absences du checker joueur sont des fragments visibles trop étroits
+(frame 166 : 3×8 ; 167–168 : 3×8 et 1×2). Ces désaccords restent pénalisés ;
+le checker ne constitue pas une annotation parfaite des occlusions.
+
+Validation 17212 encore fermée à ce jalon ; revue et sceau nécessaires avant
+son ouverture.
