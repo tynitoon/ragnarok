@@ -1,0 +1,16 @@
+{
+  "kind": "prospective_seaquest_raw_reference_diagnostic",
+  "seed": 17371,
+  "frames": 8192,
+  "action_schedule": "Uniform actions from PythonRandom(seed+100000), held16real frames, same cold hardware and sticky0.25 convention",
+  "input": "A fresh ordinary uniform capture. Do not fit the reference on the calibration coverage controllers or either reserved-pair fixture, which prohibit reference training.",
+  "prerequisite": "Passed committed raw reserved pair and unchanged25source seal before fresh capture and diagnostic",
+  "reference": "Existing causal RGB-only modal background and4-connected foreground components. Continuous ordinary history across deaths, no oracle reset, RAM, palette, score, labels or game name supplied to the extractor.",
+  "scoring": "Existing ScenePerceptionScorer, one-to-one visible centers within4pixels, maximum cardinality then minimum distance. All predictions and stationary visible objects participate in precision. Each kind+RAM allocation slot is a scoring key, not proof of persistent individual identity.",
+  "motion": "Visible box center changed within the last8real frames, as in the existing scorer. Animation, clipping and slot reuse can change that center; report the limitation rather than claiming independently tracked biological objects. Episode reset affects only the external scorer, not the reference.",
+  "roi_xyxy": [0,33,160,165],
+  "report": "All8192frames, integer counts, mobile recall and visible precision, per-category denominators, and timing of reference/judge/scorer. Empty denominator is null, no game-quality or learned-parser claim. Timing excludes emulator/IPC/branches/learning.",
+  "agent_training_allowed": false,
+  "reference_background_update_allowed": true,
+  "gate_result": null
+}
