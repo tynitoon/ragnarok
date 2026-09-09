@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-Mis à jour le 9 septembre 2026 vers 21:52 Paris. Continuer d'un jalon au suivant,
+Mis à jour le 9 septembre 2026 vers 22:00 Paris. Continuer d'un jalon au suivant,
 sans terminer à chaque commit. Arrêt seulement demandé par Jérémie, travail
 achevé, ou décision exigeant son avis. L'audit partage d'écran/RC est annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
@@ -88,6 +88,11 @@ Résultat47d3b86248d79cd7e9222136a25452b5166ac83d3a13f0a354358e038434dcf4 ;
 attemptc3b1aec4… ; aucune nouvelle émulation, aucune substitution au natif.
 Revue résultat à faire par review_recovery_v62 APRÈS préflight natifordinaire.
 Aucun audit chronométré, capture ou benchmark CPU encore actif.
+Adaptateur gather SEUL406105a : gather_visible_pool_v70.py,8testsPASS4,10s,
+ARC4_GATHER_CPU_DRAFT.md. Grouping/_step/_on_frame originaux ; garde d'échec même
+si allocationdiagnostic échoue, transportspawn drainé. Pas de cachegroupes,
+pas de protocole/run/revue native encore. Attendre revue résultatoffline avant
+nouvelle validation prospective et mesure complète ; aucun ancienrésultat remplacé.
 
 ## ARC 4 — raccord apprenant et limite numérique
 
@@ -145,9 +150,8 @@ revue inventaire entrée. Raccords ordinairesRGB/modèle encore synthétiques.
 Préparation native ordinaire877be12 (après c45445c/4093c6c) :
 - scripts/check_owned_ordinary_native_v70.py, tests/test_owned_ordinary_native_v70.py,
   docs/ARC4_OWNED_ORDINARY_NATIVE_PROTOCOL.json et DRAFT.md ;11testsPASS2,52s.
-- 33sources/11preuves ; ancien proofs() readonlyc45445c PASS, sources corrigées
-  à contre-vérifier par reviewer avant reçu preflight_v0.json dans
-  craft_v6_out/v70_owned_ordinary_native/. Aucun natif lancé, aucune tentative.
+- 33sources/11preuves ; préflight2cd186f3… committé4d3d65e AVANT natif.
+  Revue11tests+9cassynthétiques+défaillances tardives, sources877be12 exactes.
 - 9cas,18instances,cap2000chacune/36000total.6jeux seed19200,146steps,branche8vsNOOP
   après index143 puis2steps ;3Pong19211/12/13 limites509/510/511,130steps pour
   préfixes1/2/3 obligatoires. Pas de claim natifT0 si non observé, pas débit/GPU.
@@ -162,10 +166,18 @@ Préparation native ordinaire877be12 (après c45445c/4093c6c) :
   Fix877be12 : drapeauincertain du témoin step/branch, arrêt immédiat sansallocation,
   diagnostics+agrégation propagentFalse et gardent la borne de coûts connue.
   Tests600/660charges connues après duréeinvalide et refusréemploi, sourcehistoriquepréservée.
-- Après reçu indépendant committé : .\.venv-arc4\Scripts\python.exe -u -m
-  scripts.check_owned_ordinary_native_v70 avecOMP/OPENBLAS/MKL1, console exclusive
-  wiring_v0_console.log àpréserver exact via.gitattributes -text puis résultat+revue.
-  Ne lancer qu'une fois ; ne pas réviser le protocole après résultats.
+- NATIF TERMINÉ PASS21:58:31 : session28423 FERMÉE, résultats a307984.
+  9cas/18instances/14908charges ;6normaux584imageslivrées époque0 ; préfixes
+  Pong1/2/3 réellementobservés puisépoque1/frame8 ;9NPZpreservés (~771Ko compressés).
+  Résultat5db50e4ee27fedf0ec77a62fab9c13efd309749f7a127e47d73ec4f56ae886af ;
+  attemptd56542ad… ; console5635505f… exacte .gitattributes -text.
+  24constructionsfroides=3160,10116imagesordinaires,192branches,1440restores=14908.
+  Revue wiring_review_v0.json attendue de review_recovery_v62 APRÈS revuegather.
+  Aucun modèle appelé surcesarchives, aucun retry natif. Étape suivante utile :
+  diagnostic P/C/G/I/gradients SUR CPU, sources/protocole prospectifs à préparer
+  avantpremièreinférenceréelle ; pas d'optimiseur/entraînement/gate à cette étape.
+  Python système Torch n'a PAS ale_py ; archives permettentdiagnostic sansinstallation
+  ni modification environnementGPU ARC3. Lesmodules basniveau n'importentpasALE.
 
 ME/buttons/reader/drives/S/
 policy/ledger/fusion catégories restent absents ; boutons→12effets non résolus.
