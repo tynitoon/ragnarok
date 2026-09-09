@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 16:48 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 16:55 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -26,7 +26,8 @@ Commandes : `C:/Python314/python.exe -u -m scripts.recover_confirm_v62`, puis
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier les commandes et logs, pas seulement les PID ou un ancien état running.
 `s0_8300` terminé à 8326 s ; `s0_8301` entièrement terminé après G’ à 18089 s.
-`s0_8302` commencé, objectifs [3,1,0], tiers [2,3,4], nav min 0,883.
+`s0_8302` commencé, objectifs [3,1,0], tiers [2,3,4], nav min 0,883 ; premier
+objectif M4 terminé à 18841 s, aucun verdict intermédiaire.
 Deux mondes terminés sur neuf ; aucun verdict avant les trois lignées et revue.
 Logs réels `v61_confirm_s0.log`, puis s1/s2 ; stderr contrôleur vide au contrôle.
 
@@ -87,15 +88,18 @@ Toutes les sessions de capture/score antérieures sont terminées.
 
 ## Suite immédiate : références fraîches, puis CPU
 
-Relecteur `/root/review_recovery_v62` actif sur le préflight **sans ALE** de
+Relecteur `/root/review_recovery_v62` a clos le préflight **sans ALE** de
 `scripts/visible_reference_v70.py`, protocole `ARC4_VISIBLE_REFERENCE_PROTOCOL.json`.
 Les deux fingerprints sont remplis dans `visible_temporal_prerequisite_v70.py`.
 99 sources committées ; quatre vraies preuves raw/temporal PASS et 34 tests PASS.
-Reçu attendu `craft_v6_out/v70_visible_reference/preflight_review_v0.json` :
-passed, source_sha256 exact, runtime, raw_proof_sha256 et temporal_proof_sha256
-avec les deux jeux. Vérifier/committer avant les vrais check/capture.
+Reçu `craft_v6_out/v70_visible_reference/preflight_review_v0.json` : PASS,
+SHA 51240040d6be4772bde7bccf4a4fbbc7c3c098773df1606053f3197ba353f40c,
+99 sources, 181 preuves, runtime et quatre validations exacts. Deux captures
+entièrement synthétiques aussi vérifiées. Reçu committé **efeaa54** avant toute
+nouvelle construction ; vrais checks des deux jeux PASS (sessions 4126/46477 closes).
 
-Graines **17471 Ms / 17571 Ast toujours fermées**. Ensuite, une seule capture
+Capture **17471 Ms lancée à 16:55**, session **74795**, ALE effectivement ouvert ;
+**17571 Ast pas encore ouverte**. Ensuite, une seule capture
 par jeu avec `python -m scripts.visible_reference_v70 --game <jeu> --stage capture`,
 puis `--stage score` ; faire `--stage check` avant. 8192 frames brutes, actions
 uniformes tenues 16 frames, vrai précédent RAM y compris frame 0. Sorties
