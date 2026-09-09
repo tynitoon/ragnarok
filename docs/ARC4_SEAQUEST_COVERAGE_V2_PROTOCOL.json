@@ -1,0 +1,22 @@
+{
+  "kind": "prospective_seaquest_additional_raw_coverage_v2",
+  "game": "seaquest",
+  "development_seed": 17341,
+  "reserved_validation_seed": 17342,
+  "frames": 32768,
+  "action_repeat": 4,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 4227200,
+  "previous_collection": "17331 preserved: submerged submarines and enemy missiles observed, surface submarine absent. The first controller chases divers horizontally and collides with incoming enemies; its recorded HUD count never exceeded two rescued divers.",
+  "controller": "Fixed RGB-only policy in scripts/seaquest_coverage_controller_v2.py, never used by an agent or reference extractor. Hold a central horizontal position while divers approach; select nearby diver lane vertically, face and continuously fire at visible nearby enemies, wait before crossing an enemy-occupied lane. Wait for oxygen refill in surface frames; ascend after6rescued divers or oxygen<=20, approaching the surface away from a visible patrol submarine. No RAM/reward/calibration score/snapshot drives the controller.",
+  "stop": "Exactly32768ordinary real frames. Retain all preparation, failures, deaths and cold loads. Early exception/budget exhaustion is an incomplete failed capture. Never stop upon favourable coverage or calibration agreement.",
+  "coverage_and_combination": "Keep17311,17331and17341 separate; never pool their fractions. For every type, all-frame presence>=99% in each collection; geometry>=99% where joint matches exist. In each additional collection require>=99% count agreement on frames with RAM-or-RGB positives, with empty denominator=null/uncovered. Each category and surface-submarine subtype must have>=50joint instance-frame matches in17341itself. The insufficient-coverage verdict on17331remains FAIL; do not relabel it after this additional attempt. Report absent types as uncalibrated within their collection, never as vacuous success. Previous negative results are unchanged.",
+  "reserved_capture_disabled": "17312,17332and17342 remain closed. The v2 executable allows development only until the full reviewed geometry/checker/protocol and successful-commit seal is implemented. Preserve any later reserved failure without tuning on it.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

@@ -115,3 +115,10 @@ contrôleur poursuit les plongeurs horizontalement et tourne ainsi parfois le
 dos aux requins. Une seconde tentative de couverture est préparée séparément,
 avec maintien d'une position centrale et tir vers l'ennemi proche. Le premier
 échec de couverture reste un échec ; aucun verdict ancien n'est réétiqueté.
+
+La politique de couverture V2 et son protocole fixent17341/17342, à nouveau
+32768frames. Revue Ohm : séparation/coût/seuils conformes, défaut d'orientation
+au contact d'un missile corrigé en mesurant le corps hors de sa ligne. Trois
+tests hors ROM passent, dont deux positions de contact qui doivent maintenir
+FIRE sans avancer. La capture réservée reste désactivée. Chaque catégorie,
+surface comprise, devra atteindre50appariements dans17341elle-même.
