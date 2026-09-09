@@ -199,12 +199,19 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   rappel99,7407%, précision51,7902% seulement, joueur97,4016% ; erreurs conservées.
   Chaîne NumPy878,38/s, native1430,58/s, mêmes16rapports,165808frames facturées.
   Revue Meitner close ; dossier `v70_freeway_pooled/`, docs de calibration.
-- Seaquest : protocole/candidat fixé `339704a` avant8192frames17311,6constructions,
-  8960frames facturées. Baseline négative conservée `31752a2` : aucun type passe,
-  sous-marins et missiles ennemis absents RAM ; bulles bleues confondues par le
-  checker avec des missiles, dimensions joueur/plongeur approximatives. 17312
-  reste fermée. Diagnostic sur développement en cours ; revue Ohm des limites
-  et de la couverture supplémentaire. Aucun changement de seuil ni passe vide.
+- Seaquest (9 septembre, 04:15) : baseline `31752a2`, corrections V1/V2 négatives
+  conservées. V3 passe les quatre types présents dans 17311 ; les deux absents
+  restent non calibrés. Couverture supplémentaire 17331 : six catégories passent
+  en géométrie V3, surface absente. 17341 conservée malgré un blocage du contrôleur
+  à la surface ; correction prospective `913c1f6` avant 17351. Cette troisième
+  capture conserve 32768 images/33280 frames facturées, mais aucun sous-marin de
+  surface et géométrie missiles ennemis 97,2017 %, donc FAIL. Revue Meitner V3
+  close avec limite des masques partagés et cas synthétique à renforcer sur la
+  ligne du missile interne. Revue complémentaire des erreurs ennemies en cours.
+  Collecte V4 `06caf0a` commitée avant 17361, exécution en cours : oxygène <=8 et
+  poursuite des plongeurs hors ennemi proche. Revue Ohm et trois tests passent.
+  Toutes les validations réservées restent fermées. Aucun seuil abaissé ni
+  succès vide. Voir `docs/ARC4_SEAQUEST_CALIBRATION.md` pour les résultats exacts.
   Toujours séparer les appels dépendants et inspecter les codes de retour.
 
 Les sceaux bruts/temporaux listent les SHA des sources : **ne pas modifier ces

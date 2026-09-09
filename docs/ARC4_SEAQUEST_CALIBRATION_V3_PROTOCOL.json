@@ -1,0 +1,14 @@
+{
+  "kind": "seaquest_development_correction_v3_before_reserved_capture",
+  "original_protocol": "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+  "previous_negative": "craft_v6_out/v70_seaquest_calibration/coverage_geometry_v2.json",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "ram_changes": "Exact three player animation masks selected byRAM24 (164,178,192), empirically identified from25298unoccluded development images; original union fallback for unseen values. Submarine animation masks, two disconnected missile strokes, clipping and foreground sprite occlusion inferred on17311/17331/17341. Geometry remains external, no agent access. Surface subtype is not yet corrected or calibrated.",
+  "rgb_changes": "Blue actors measured inside fixed nine-row body bands, joining disconnected strokes and excluding decorative bubbles above. Tiny ambiguous fragments use visible grey lane context, never the RAM type flag. Internal player-colour projectiles require an exact player-template match outside the projectile row and a unique eight-pixel interval explaining every extra palette pixel. Player/actor boxes still come from RGB support; template animation is inferred from pixels, not RAM24.",
+  "limits": "Same-colour contacts at screen edges remain ambiguous. Shared empirical sprite masks do not independently prove rendering rules; the RGB checker requires observed support conformance, but wrong shared shape assumptions remain a concern for independent review. All frames remain counted and thresholds unchanged. Prior failures are retained, no reserved data has been opened.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

@@ -11,7 +11,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="seaquest_raw_development_fragments_and_contacts_v2"
+REVISION="seaquest_raw_development_sprite_occlusion_v3"
 KINDS=("player","shark","submarine","diver","enemy_missile","player_missile")
 ROI=(0,33,160,165)
 PLAYER_COLOURS=((187,187,53),(236,236,236))
@@ -34,20 +34,42 @@ DIVER_SUPPORT=(
 PLAYER_SUPPORT=("....##..........",)+("....####........",)*4+(
     "############..##","################","################",
     "################","..##############","..............##")
+PLAYER_ANIMATION={
+    164: PLAYER_SUPPORT[:5]+("############..##","################","##..##########..",
+                            "################","..##############","................"),
+    178: PLAYER_SUPPORT[:5]+("############..##","##############..","##..############",
+                            "################","..############..","..............##"),
+    192: PLAYER_SUPPORT[:5]+("############....","################","##..############",
+                            "##############..","..##############","..............##"),
+}
+SUBMARINE_SUPPORT=(
+    ("..##....",)*4+("######.#","########","#.#####.","########",".#######","........","........"),
+    ("..##....",)*4+("######.#","#######.","#.######","########",".######.",".......#","........"),
+    ("..##....",)*4+("######..","########","#.######","#######.",".#######",".......#","........"),
+)
+ENEMY_MISSILE_SUPPORT=("..####","......","......","####..")
 
 
-def _sprite_box(kind,slot,x,y,rows,*,flip=False,surface=False):
-    points=[]
+def _sprite_points(x,y,rows,*,flip=False,surface=False):
+    points=set()
     for dy,row in enumerate(rows):
         for dx,pixel in enumerate(row[::-1] if flip else row):
             px,py=x+dx,y+dy
             if (pixel=="#" and 8<=px<160 and ROI[1]<=py<ROI[3]
                     and not (surface and 53<=py<57)):
-                points.append((px,py))
+                points.add((px,py))
+    return points
+
+
+def _points_box(kind,slot,points):
     if not points:
         return None
     xs,ys=zip(*points)
     return SlottedLabel(kind,(min(xs),min(ys),max(xs)-min(xs)+1,max(ys)-min(ys)+1),slot)
+
+
+def _sprite_box(kind,slot,x,y,rows,*,flip=False,surface=False):
+    return _points_box(kind,slot,_sprite_points(x,y,rows,flip=flip,surface=surface))
 
 
 @dataclass(frozen=True)
@@ -68,9 +90,12 @@ def decode_seaquest_ram(ram):
         raise ValueError("Expected128 uint8 RAM bytes")
     r=list(map(int,ram))
     objects=[]
+    player_points=set()
     if r[105]==0 or (r[105]>=15 and r[105]%2==1):
-        objects.append(_sprite_box("player","player",r[70],r[97]+33,PLAYER_SUPPORT,
-                                   flip=r[86]==0,surface=True))
+        player_points=_sprite_points(r[70],r[97]+33,PLAYER_ANIMATION.get(r[24],PLAYER_SUPPORT),
+                                      flip=r[86]==0,surface=True)
+        objects.append(_points_box("player","player",player_points))
+    foreground=[set() for _ in range(4)]
     for lane in range(4):
         submarine=3<r[89+lane]%8<7
         for slot in range(3):
@@ -79,22 +104,25 @@ def decode_seaquest_ram(ram):
                 kind="submarine" if submarine else "shark"
                 y=141-24*lane+(0 if submarine else r[93]-4)
                 if submarine:
-                    objects.append(_clipped(kind,f"enemy:{lane}:{slot}",x,y,8,11))
+                    rows=SUBMARINE_SUPPORT[r[89+lane]%8-4]
+                    points=_sprite_points(x,y,rows,flip=not bool(r[89+lane]&8))
                 else:
                     rows=SHARK_SUPPORT[int(r[89+lane]%8!=0)]
-                    objects.append(_sprite_box(kind,f"enemy:{lane}:{slot}",x,y,rows,
-                                               flip=bool(r[89+lane]&8)))
+                    points=_sprite_points(x,y,rows,flip=bool(r[89+lane]&8))
+                foreground[lane] |= points
+                objects.append(_points_box(kind,f"enemy:{lane}:{slot}",points-player_points))
     for i in range(4):
         lane=3-i
         if 0<r[74-i]<160:
             missile=3<r[89+lane]%8<7
             kind="enemy_missile" if missile else "diver"
             if missile:
-                objects.append(_clipped(kind,f"blue:{lane}",r[74-i]+3,145-24*lane,6,4))
+                points=_sprite_points(r[74-i]+2,145-24*lane,ENEMY_MISSILE_SUPPORT,
+                                      flip=not bool(r[89+lane]&8))
             else:
                 rows=DIVER_SUPPORT[int(r[89+lane]%8==1)]
-                objects.append(_sprite_box(kind,f"blue:{lane}",r[74-i],142-24*lane,rows,
-                                           flip=bool(r[89+lane]&8)))
+                points=_sprite_points(r[74-i],142-24*lane,rows,flip=bool(r[89+lane]&8))
+            objects.append(_points_box(kind,f"blue:{lane}",points-player_points-foreground[lane]))
     if r[60]>=2 and r[118]<160:
         objects.append(_clipped("submarine","surface",r[118],45,8,11))
     if 0<r[103]<160 and not 53<=r[97]+40<57:
@@ -181,7 +209,59 @@ def _player_and_projectiles(rgb):
             players.append(box)
         elif h==1 and w<=8 and y>=57:
             missiles.append(box)
+    # A projectile can fill a one-pixel hole inside the player's silhouette
+    # without widening its component. Require an exact sprite match outside
+    # the projectile row and a unique eight-pixel interval explaining all
+    # additional palette pixels. Shape templates alone never supply a box.
+    for px,py,pw,ph in players:
+        if pw!=16 or ph not in (10,11) or py<57 or py+11>ROI[3]:
+            continue
+        row_y=py+7
+        if any(my==row_y for _,my,_,_ in missiles):
+            continue
+        part=rgb[py:py+11,px:px+16]
+        actual=np.any(np.stack([np.all(part==c,axis=2) for c in PLAYER_COLOURS]),axis=0)
+        full_row=np.any(np.stack([np.all(rgb[row_y]==c,axis=1) for c in PLAYER_COLOURS]),axis=0)
+        hypotheses=set()
+        for rows in PLAYER_ANIMATION.values():
+            for flip in (False,True):
+                mask=np.array([[v=="#" for v in (row[::-1] if flip else row)] for row in rows])
+                compare=np.arange(11)!=7
+                if not np.array_equal(mask[compare],actual[compare]):
+                    continue
+                body={px+i for i,v in enumerate(mask[7]) if v}
+                residue=set(map(int,np.flatnonzero(full_row[8:160])+8))-body
+                if not residue:
+                    continue
+                for left in range(max(1,min(residue)-7),min(159,max(residue))+1):
+                    strip=set(range(max(8,left),min(160,left+8)))
+                    if strip-body==residue and all(full_row[v] for v in strip):
+                        hypotheses.add((max(8,left),row_y,min(160,left+8)-max(8,left),1))
+        if len(hypotheses)==1:
+            missiles.append(hypotheses.pop())
     return players,missiles
+
+
+def _blue_actors(rgb):
+    divers,missiles=[],[]
+    for base in (69,93,117,141):
+        # Bubbles are above the body band. The lane contains at most one blue
+        # actor, whose disconnected projectile segments must stay one object.
+        yy,xx=np.where(np.all(rgb[base+1:base+10]==BLUE,axis=2))
+        if not len(xx):
+            continue
+        box=(int(xx.min()),base+1+int(yy.min()),int(xx.max()-xx.min()+1),int(yy.max()-yy.min()+1))
+        x,y,w,h=box
+        if y<base+4 or y+h>base+8:
+            divers.append(box)
+        elif w>=3:
+            missiles.append(box)
+        else:
+            # A tiny edge remnant is ambiguous by shape. Visible grey actors
+            # in this lane provide RGB context, never the RAM lane-type flag.
+            grey=np.any(np.all(rgb[base:base+11]==SUBMARINE_COLOUR,axis=2))
+            (missiles if grey else divers).append(box)
+    return divers,missiles
 
 
 def screen_seaquest_objects(rgb):
@@ -196,7 +276,5 @@ unseen types remain explicit calibration concerns rather than inferred labels.
     groups["player"],groups["player_missile"]=_player_and_projectiles(rgb)
     groups["shark"]=_merge_fragments(_components(rgb,SHARK_COLOURS),8,7)
     groups["submarine"]=_components(rgb,(SUBMARINE_COLOUR,))
-    for box in _components(rgb,(BLUE,)):
-        if box[2]>2:
-            groups["diver" if box[3]>5 else "enemy_missile"].append(box)
+    groups["diver"],groups["enemy_missile"]=_blue_actors(rgb)
     return [ObjectLabel(kind,box) for kind in KINDS for box in groups[kind]]

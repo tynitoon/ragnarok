@@ -15,8 +15,15 @@ from ragnarok.evaluation.seaquest_v70 import KINDS, REVISION, decode_seaquest_ra
 from scripts.calibrate_breakout_v70 import compare_boxes
 from scripts.calibrate_seaquest_v70 import SOURCE_PATHS as RAW_SOURCES
 from scripts.capture_seaquest_coverage_v70 import SOURCE_PATHS as CAPTURE_SOURCES
+from scripts.capture_seaquest_coverage_v2 import SOURCE_PATHS as CAPTURE_V2_SOURCES
+from scripts.capture_seaquest_coverage_v3 import SOURCE_PATHS as CAPTURE_V3_SOURCES
 
-SOURCE_PATHS = tuple(dict.fromkeys((*RAW_SOURCES, *CAPTURE_SOURCES,
+COLLECTIONS = {
+    17331: ("docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json", CAPTURE_SOURCES, "instrumentation_rgb_controller_v1"),
+    17341: ("docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json", CAPTURE_V2_SOURCES, "instrumentation_rgb_controller_v2"),
+    17351: ("docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json", CAPTURE_V3_SOURCES, "instrumentation_rgb_controller_v3"),
+}
+SOURCE_PATHS = tuple(dict.fromkeys((*RAW_SOURCES, *CAPTURE_SOURCES, *CAPTURE_V2_SOURCES, *CAPTURE_V3_SOURCES,
                                   "scripts/calibrate_seaquest_coverage_v70.py")))
 
 
@@ -52,18 +59,21 @@ def finish(s):
 
 def calibrate(directory, original_result):
     root = Path(__file__).resolve().parents[1]
-    protocol = json.loads((root/"docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json").read_text(encoding="utf-8"))
     manifest = json.loads((directory/"manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("seed") not in COLLECTIONS:
+        raise ValueError("Outside the declared development coverage; reserved execution is disabled")
+    protocol_path, capture_sources, action_schedule = COLLECTIONS[manifest["seed"]]
+    protocol = json.loads((root/protocol_path).read_text(encoding="utf-8"))
     expected = dict(game="seaquest", seed=protocol["development_seed"], frames=protocol["frames"],
                     action_repeat=protocol["action_repeat"], mode=0, raw_every_real_frame=True,
-                    action_schedule="instrumentation_rgb_controller_v1", episode_limit=protocol["episode_limit"],
+                    action_schedule=action_schedule, episode_limit=protocol["episode_limit"],
                     sticky_probability=.25, sticky_implementation="worker-python-random-per-frame",
                     reset_convention="fixed_hardware_cold_start_v1", agent_training_allowed=False,
                     reference_training_allowed=False, agent_entry_states_allowed=False)
     if any(manifest.get(k) != v for k, v in expected.items()):
         raise ValueError("Outside the declared development coverage; reserved execution is disabled")
     hashes = {p: hashlib.sha256((root/p).read_bytes()).hexdigest() for p in SOURCE_PATHS}
-    if manifest.get("source_sha256") != {p: hashes[p] for p in CAPTURE_SOURCES}:
+    if manifest.get("source_sha256") != {p: hashes[p] for p in capture_sources}:
         raise ValueError("Coverage capture sources differ from the pre-capture controller/protocol")
     original = json.loads(original_result.read_text(encoding="utf-8"))
     if (original.get("seed") != 17311 or original.get("kind") != "independent_seaquest_raw_calibration" or

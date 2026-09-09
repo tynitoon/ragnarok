@@ -33,7 +33,8 @@ def coverage(directory):
         s["episodes"] = sorted(s["episodes"])
         s["minimum_50_instances_observed"] = s["instances"] >= 50
     root = Path(__file__).resolve().parents[1]
-    protocols = ("docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json", "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json")
+    protocols = ("docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json", "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json",
+                 "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json")
     collection_protocols = {p: manifest["source_sha256"][p] for p in protocols if p in manifest["source_sha256"]}
     sources = ("scripts/check_seaquest_coverage_v70.py", "ragnarok/evaluation/seaquest_v70.py",
                "ragnarok/evaluation/cold_fixtures_v70.py", *collection_protocols)

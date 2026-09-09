@@ -136,3 +136,39 @@ V3 de la collecte, fixée avant17351 : seuls les deux tests d'arrivée en surfac
 passent du centre rogné au sommet visible y<=46. Revue Ohm sur la frame8192 réelle
 de17341 : boîte(72,47,12,6), oxygène18 ; V2 attend, V3 poursuit avec UPFIRE.
 Deux tests CPU passent. Critères,32768frames et verrou réservé inchangés.
+
+## Développement V3 : progrès et limites conservées
+
+Le diagnostic des animations utilise 25298 images de développement sans
+occultation du joueur, dans 17311/17331/17341. Trois motifs correspondent aux
+valeurs 164,178,192 de RAM24. Le juge RAM sélectionne le motif par cet octet ;
+le checker RGB cherche sa conformité dans les pixels, sans recevoir la RAM.
+Ces motifs empiriques partagés limitent l'indépendance du modèle de rendu.
+Les exclusions du diagnostic ne retirent aucune frame des calibrations.
+
+`development_v3.json` passe les quatre types présents sur 17311 : présence
+joueur 99,2554 %, requins/plongeurs 100 %, missiles du joueur 99,8779 % ; toutes
+les boîtes appariées sont à un pixel près. Sous-marins et missiles ennemis
+restent absents et non calibrés : le verdict global reste négatif.
+
+Sur 17331, `coverage_geometry_v3.json` passe les six catégories présentes,
+mais pas le sous-type de surface absent. La capture V3 17351, après le commit
+`913c1f6`, conserve 32768 images, quatre constructions et 33280 frames facturées.
+Elle remonte correctement, mais ne débloque toujours pas la patrouille de
+surface. Son accord géométrique V3 échoue sur les missiles ennemis :
+13790/14187 boîtes à un pixel près (97,2017 %). Les cinq autres catégories
+présentes passent ; la présence positive des sous-marins est proche du seuil,
+99,0213 %. Aucun de ces résultats ne permet encore un scellement.
+
+Revue Meitner close : empreintes conformes, aucun accès RAM dans le checker
+RGB, limite des motifs partagés explicitée. Un cas synthétique manque encore
+au contrôle du projectile interne : supprimer un pixel attendu du joueur sur
+la ligne du projectile, hors de celui-ci, reste accepté. Aucun faux positif
+réel établi ; ne pas revendiquer une explication complète template + missile
+tant que cette condition n'est pas vérifiée.
+
+Une quatrième collecte est fixée dans des fichiers distincts et commitée
+`06caf0a` avant 17361 : retour à oxygène <=8 et poursuite des plongeurs seulement
+si aucun ennemi proche ne prend priorité. Revue Ohm close, trois tests CPU
+passent. Durée, couverture et seuils identiques ; toutes les validations
+réservées restent fermées, y compris 17362.
