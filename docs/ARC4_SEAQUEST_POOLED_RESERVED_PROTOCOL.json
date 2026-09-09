@@ -1,0 +1,13 @@
+{
+  "kind": "prospective_seaquest_pooled_reserved_execution",
+  "reserved_seed": 17322,
+  "decisions": 8192,
+  "policy": "Apply the unchanged definitions and thresholds of ARC4_SEAQUEST_POOLED_PROTOCOL.json. No candidate or development source changes.",
+  "prerequisites": "Passed complete development17321, all31development sources plus this protocol and separate executor committed. Baseline and manifest committed, archives verified. Complete33source seal metadata separately committed before ROM. Raw committed reserved pair prerequisite also verified.",
+  "capture": "Same actual repeat4, controllerV4 each decision, cold128loads, paired final2RAM/RGB and exactmax. Reserved partition in the existing reader format. Marker persisted before construction; never replace or retry an existing attempt, even incomplete.",
+  "scoring": "All8192windows, six categories and surface subtype, unchanged accumulators and thresholds. Source/seal and development evidence checked before capture, between capture and scoring, and after scoring. Preserve failure, no tuning on17322.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
