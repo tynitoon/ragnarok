@@ -1,0 +1,23 @@
+{
+  "kind": "prospective_seaquest_two_raw_frame_calibration",
+  "development_seed": 17321,
+  "reserved_validation_seed": 17322,
+  "decisions": 8192,
+  "action_repeat": 4,
+  "mode": 0,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "prerequisite": "Successfully completed raw reserved pair17312/17362 with the sealed V5 judge, unchanged source registry and committed proof. No pooled emulator construction before this check.",
+  "capture": "A separate prospective capture executable will use the unchanged instrumentation RGB controllerV4, selecting from the current raw RGB once per ordinary decision. Record the actual final two raw frames, their paired RAM, and the exact wrapper maxRGB. Fixed8192decisions including truncations, failures and all cold loads, no favourable early stop. Final protocol and capture executable committed before17321.",
+  "definition": "For each category, spatial union of visible raw-source box envelopes across the actual final two frames, using4-connectivity. Side-touching envelopes join; diagonal-only contact remains separate. This is not continuous individual identity. RGB envelopes retain only source pixels which win at least one max channel or tie all channels, never consult RAM. Different categories remain separate.",
+  "surface_subtype": "In addition to all submarine components, separately score submarine components whose top is y<57 on both RAM and RGB sides. Do not infer an identity from a RAM slot absent in RGB output.",
+  "matching": "Use the unchanged compare_boxes helper from the sealed raw Breakout calibrator, independently per category and per surface subtype. Match min(number RAM,number RGB) boxes, prefer the largest number of within-one-pixel pairs before distance tie-breaking. Missing/excess counts are measured by presence-count agreement; matched geometry denominator is min(number RAM,number RGB), never only the successful matches.",
+  "temporal_accounting": "Each decision contains1..4ordinary real frames, including repeat truncations. Total charged=ordinary real frames+128*cold_loads; conservative cap1081472=128+8192*(128+4). Reinstall the RAM tap after every cold start. Both RGB and RAM source frames must belong to the new construction, never bridge an old terminal frame.",
+  "scope": "All six raw categories plus surface-submarine subtype separately. HUD excluded. Minimum50joint component-window matches each, presence-count agreement>=99percent on all windows and RAM-or-RGB-positive windows, matched box edges all within1pixel on>=99percent. Empty positive denominator is null and uncovered, never a pass. Preserve failed baselines and validate a sealed candidate once on17322.",
+  "limits": "Two-source provenance can be ambiguous from maxRGB alone, especially same-colour contacts. Rectangle envelopes may survive nominally when the source's actual pixels do not; calibration must measure this limitation. Component-window counts are not independent lifetimes. No learning or gate verdict from calibration.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
