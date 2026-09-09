@@ -1,0 +1,74 @@
+{
+  "kind": "prospective_isolated_rgb_native_v0",
+  "spec": {
+    "case_names": [
+      "pong",
+      "breakout",
+      "freeway",
+      "seaquest",
+      "ms_pacman",
+      "asteroids",
+      "pong_prefix_1",
+      "pong_prefix_2",
+      "pong_prefix_3"
+    ],
+    "max_constructions": 9,
+    "max_charge_per_engine": 2000,
+    "max_total_charge": 18000,
+    "expected_success_charge": 7454,
+    "ordinary_decisions": 1266,
+    "branch_pairs": 6,
+    "selected_indices": [
+      0,
+      1,
+      2,
+      3,
+      126,
+      127,
+      128,
+      129
+    ],
+    "peer_timeout_seconds": 30,
+    "max_work_seconds": 300,
+    "optimizer_updates": 0,
+    "model_inferences": 0
+  },
+  "child_runtime": {
+    "executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "ale_py": "0.12.1",
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "cuda_visible_devices": ""
+  },
+  "parent_runtime": {
+    "parent_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "torch": "2.11.0+cu126",
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "agent_training_allowed": false,
+  "gpu_used": false,
+  "gate_result": null,
+  "limitations": [
+    "Engineering fidelity check reusing exactly the previously disclosed development-game seeds and commands; no independent learning population or training.",
+    "Nine new single-worker cases,1266ordinary decisions and6paired experiments; all paid charges count, including bootstrap and restores. Expected7454; hard maximum18000.",
+    "All ordinary RGB fields are hashed in exact order;72selected records and6complete branch pairs are compared bytewise with immutable archives. No new pixel archive is collected.",
+    "No model inference, optimizer, GPU, throughput claim, native16-worker claim, nativeT0 claim or gate result.",
+    "Runtime HELLO/CLOSE inspection before this protocol loaded no ROM and initialized no ALE engine. Every native INIT now requires the exact committed independent preflight.",
+    "One attempt; preserve failure, known and unknown costs. Cooperative300second work ceiling before commands and at end, excluding source-proof hashing;30second transport batch deadline. Cleanup in finally.",
+    "ARC3 GPU confirmation may continue. No other native CPU capture or benchmark may overlap this check.",
+    "Runtime/accounting/error metadata are external evidence only; no RAM, native state, score, lives or effect truth enters a learner. Session IDs are normalized only in comparison metadata."
+  ]
+}
