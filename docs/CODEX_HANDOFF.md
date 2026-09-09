@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 17:42 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 17:52 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -27,7 +27,7 @@ Commandes : `C:/Python314/python.exe -u -m scripts.recover_confirm_v62`, puis
 Vérifier les commandes et logs, pas seulement les PID ou un ancien état running.
 `s0_8300` terminé à 8326 s ; `s0_8301` entièrement terminé après G’ à 18089 s.
 `s0_8302` commencé, objectifs [3,1,0], tiers [2,3,4], nav min 0,883 ; premier
-objectif M4 terminé à 18841 s, deuxième à 19649 s, troisième à 20496 s ; aucun verdict intermédiaire.
+M4 terminé à 20496 s ; Fa objectifs 3/1 terminés à 21420/22319 s ; aucun verdict intermédiaire.
 Deux mondes terminés sur neuf ; aucun verdict avant les trois lignées et revue.
 Logs réels `v61_confirm_s0.log`, puis s1/s2 ; stderr contrôleur vide au contrôle.
 
@@ -129,8 +129,10 @@ paires et trois digests intégralement reproduits. Revue CPU finale PASS :
 `v70_visible_cpu/preflight_review_v0.json`, SHA
 `f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9`,
 115 sources / 221 preuves / 69 tests et vraies barrières des deux jeux.
-Sources CPU gelées à **b9c65a5** ; commit de cette revue puis lancement des
-géométries complètes avec leur vrai préflight intégré, avant tout nouveau moteur.
+Sources CPU gelées à **b9c65a5**, revue committée **f1d5486** avant lancement.
+Géométries complètes Ms/Ast PASS le 9 septembre à17:51 : 8192DEV+8192RESERVED
+par jeu, aucune frame nouvelle ; sessions44601/18293 closes. Sorties
+`v70_<jeu>_cpu/cpu_geometry_v0.json` et tentatives. Commit avant wiring18176/77/78.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -153,9 +155,14 @@ ajouté, RAM/récompenses/vies/snapshots refusés. 18 tests totaux, dont deux vr
 processus avec moteurs synthétiques ; aucun vrai ALE. Une violation native
 avant inscription au registre ferme aussi les actions et marque le coût
 potentiellement incomplet. La
-revue et contrôle natif encore requis. Comparaison `rgb_trace_difference_v70.py`
+revue préliminaire est PASS (e7fc7ee0… ; dix sources), contrôle natif encore
+requis. Comparaison `rgb_trace_difference_v70.py`
 sur le seul préfixe commun, délai brut/poolé explicite ; sept tests supplémentaires
 PASS. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites, aucun ME encore implémenté.
+Protocole natif distinct `ARC4_RGB_BRANCH_TRACE_PROTOCOL.json` et lanceur
+`check_rgb_branch_trace_v70.py` préparés, sept tests synthétiques supplémentaires
+PASS. 26 constructeurs au maximum, chacun2000charges, graines18700sixjeux,
+18711/12Pongterminaux1/0,18720Pongspawn ; aucune ouverture avant revue finale.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.
