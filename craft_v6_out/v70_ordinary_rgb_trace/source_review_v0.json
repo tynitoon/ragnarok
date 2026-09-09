@@ -1,0 +1,105 @@
+{
+  "kind": "ordinary_rgb_trace_independent_source_review",
+  "created_at_utc": "2026-09-09T18:13:08.702061+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "source_commit": "1cb9f68267daf80bceb1164f7f9317a3bcbf5653",
+  "source_sha256": {
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5"
+  },
+  "native_preflight": false,
+  "transport_reviewed": false,
+  "native_benchmark_authorized": false,
+  "agent_training_allowed": false,
+  "new_emulated_frames": 0,
+  "gate_result": null,
+  "runtime": {
+    "python_executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "pytest": "9.0.3",
+    "execution": "CPU synthetic native stand-ins only; no ALE/ROM construction or GPU"
+  },
+  "checks": {
+    "committed_closure": "Eleven implementation/document/test/local-dependency/package-initializer paths match committed blobs at1cb9f68. Earlier trace and perception receipts and their complete source maps are unchanged.",
+    "base_rules": "The adapter invokes the inherited step/_advance path. It does not replace native act, sticky RNG, cold admission, paid-frame accounting, terminal truncation or branch restoration. Ordinary tracing fixes repeat4 and refuses nested recordings and manual snapshot sessions.",
+    "start_and_images": "The two-buffer RGB start is copied after a possible cold construction and immediately before requested acts. Cold buffers duplicate the same first screen, not two actual native frames. Every returned raw/pooled row corresponds to a paid act; no truncation padding is added.",
+    "validation": "Trace validation requires uint8 dimensions,0..4 actual rows, exact adjacent max pooling and the inherited endpoint; endpoint_pair handles0/1/2+ rows by returning independent arrays.",
+    "failure_and_accounting": "Paid retrieval/output failures preserve ledger charges and poison future paid actions. Budget refusal before any charge stays recoverable. A native elapsed-frame invariant may fail after act but before charging, so accounting_complete=false is preserved rather than asserting a zero-cost event.",
+    "chronology": "Only the previous actual raw screen and next actual raw start are compared. A changed earlier pooling buffer alone does not create discontinuity. The delivered-act clock adds only trace row count; cold bootstrap and restore charges are not fake observations. A changed current start begins a new local epoch at0.",
+    "atomic_memory": "Resolution, pooling, endpoint and clock-range checks occur before chronology commit. Copied last RGB and a fully constructed RGBChronologyStep precede assignment; malformed trace or allocation failure cannot advance the old chronology.",
+    "oracle_boundary": "Ordinary output fields contain images only: start_pair/raw/pooled/endpoint. There is no native episode counter, reset/terminal flag, RAM, reward, lives or snapshot in the output. Visual discontinuity is derived from those pixels, not an independently supplied native annotation."
+  },
+  "verification": {
+    "suite": "tests/test_ordinary_rgb_trace_v70.py",
+    "passed": 9,
+    "elapsed_seconds": 0.36,
+    "independent_witnesses": {
+      "cold_zero_to_four": [
+        {
+          "actual_rows": 0,
+          "charged_frames": 132
+        },
+        {
+          "actual_rows": 1,
+          "charged_frames": 133
+        },
+        {
+          "actual_rows": 2,
+          "charged_frames": 134
+        },
+        {
+          "actual_rows": 3,
+          "charged_frames": 135
+        },
+        {
+          "actual_rows": 4,
+          "charged_frames": 136
+        }
+      ],
+      "all_five_cold_cases_match_unchanged_base_endpoint_state_rng_and_ledger": true,
+      "rgb_retrieval_failure_at_second_act": {
+        "real_standin_frames": 2,
+        "charged_delta": 2,
+        "actions_stopped": true,
+        "recorders_cleared": true,
+        "accounting_complete": false
+      },
+      "native_elapsed_invariant_failure": {
+        "real_standin_frames": 2,
+        "charged_delta": 0,
+        "accounting_complete": false
+      },
+      "clock_boundary": {
+        "two_to_the_53_reached_exactly": true,
+        "next_frame_refused_atomically": true
+      },
+      "caller_trace_mutation_does_not_alias_history": true
+    }
+  },
+  "limitations": [
+    "This is a preliminary source/synthetic review. No real emulator was constructed; native trace fidelity, transport, parser integration, learning and gate behavior are not validated by this receipt.",
+    "The delivered-act clock is not the full charged/emulated-frame clock. Its choice for future I/P objectives and external denominators must be fixed prospectively, including invisible cold gaps.",
+    "A native reset with identical current pixels cannot be detected. Cross-gap temporal targets may therefore remain wrong; no RAM/terminal signal is admitted to repair them.",
+    "A cold start returned after an action request is retrospective evidence for that action. A controller must not recompute the already-issued command using the newly returned start.",
+    "A zero-row trace does not advance PerceptionStream, whose observer requires a strictly increasing clock. The future assembler must explicitly handle zero progress, visible discontinuity, epoch reset and target eligibility.",
+    "RGBChronology does not attest operation IDs, stream ownership, action/effect association or replay exclusion. A closed transport/collector must bind each trace and paid branch pair to the intended operation without exposing scorer/native state.",
+    "The first duplicated cold buffer pair and changed pooling history are wrapper conventions. Only current raw-screen mismatch drives the provided continuity rule; no death-detection claim follows.",
+    "The inherited conservative poison report can mark accounting incomplete even when known ledger charges are preserved. Partial construction and transport failures still require outer durable reports; this prototype alone is not a run ledger.",
+    "No older frozen trace/CPU sources were edited and no native authorization is implied by their prior successful proofs."
+  ]
+}
