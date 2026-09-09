@@ -1,0 +1,182 @@
+{
+  "kind": "own_instance_tracker_independent_source_review",
+  "created_utc": "2026-09-09T17:13:50.261609+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "native_execution_authorized": false,
+  "training_authorized": false,
+  "benchmark_authorized": false,
+  "gate_result": null,
+  "source_commit": "b9e1a1d96b777fb3ab8b93fabf35f1fe837a7f69",
+  "source_sha256": {
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/test_instance_tracker_v70.py": "e6904cc834bec821cddfc752e86e5502000dac9f60a29ab9e722443647fe78b7",
+    "tests/test_visual_instances_v70.py": "0a0e580371e06bdf72fdc740e57edf9754a4fbe6cb4169aa750a2dd9529e922a",
+    "docs/ARC4_TRACKER_DRAFT.md": "bacb63c6e3ba9237cb800ddeecfd75b230328907a01d8aa12fef660cf7cdb732",
+    "docs/ARC4_VISUAL_INSTANCES_DRAFT.md": "95fa14cb04a310fe68ea54b20f1ec7f5c3bfb7e7e4ba62b70c4b185728f8f559",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "ARC4_VISION.md": "250f5b65b0d94d311af66bb77418cefc80f5fc68e4bbd93208aeb49320e80450"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "tensor_device": "cpu",
+    "torch_threads": 1,
+    "CUDA_VISIBLE_DEVICES": "",
+    "cuda_initialized": false
+  },
+  "checks": {
+    "all_nine_source_blobs_committed_and_equal": true,
+    "previous_parser_receipt_ten_sources_unchanged": true,
+    "imports": "Own VisualInstance type plus standard library, NumPy and SciPy linear_sum_assignment; no emulator, RAM, reward, palette, reference/scorer, environment clock or archive input.",
+    "matching": {
+      "radius_pixels": 8,
+      "appearance_weight": 8,
+      "objective": "Maximum admissible match cardinality, then minimum total predicted pixel distance plus8*cosine distance",
+      "unmatched": "Finite dummy columns; inadmissible pairs excluded from returned matches",
+      "cost_scale": "Common max(radius,appearance_weight,1); dummy4*(number_of_tracks+1)",
+      "centres": "Exact pixel centres from integer boxes; no float32 normalized-centre round trip",
+      "motion": "Normalized descriptor displacement converted to pixel velocity using supplied horizon",
+      "tolerance": "1e-12pixel + float32 epsilon times norm of elapsed predicted displacement",
+      "input_order": "Stable by minimum row-major source pixel; external per-image instance numbers are not track IDs"
+    },
+    "history": {
+      "window": "Entries from supplied frame−4 through frame, inclusive",
+      "empty_recent_window_fallback": "Last observed embedding",
+      "coast_through_missing_frames": 30,
+      "expiry_when_missing_frames_exceed": 30,
+      "observed_and_coasted_outputs_separate": true,
+      "reappearance_only_after_an_observed_missing_update": true
+    },
+    "memory": {
+      "descriptors_and_history_private_copies": true,
+      "fork_independent": true,
+      "updates_staged_in_deepcopy_before_commit": true,
+      "validation_or_allocation_failure_preserves_original": true,
+      "clock_strictly_increasing": true,
+      "horizon_positive_same_clock_unit": true
+    },
+    "geometry": {
+      "descriptor_float32_length": 49,
+      "finite_required": true,
+      "embedding_components_bounded": [
+        -1,
+        1
+      ],
+      "pixels_unique_within_and_across_instances": true,
+      "tight_box_matches_source_pixels": true,
+      "descriptor_box_and_area_checked": true
+    },
+    "tests": {
+      "command": "C:/Python314/python.exe with CUDA_VISIBLE_DEVICES empty, Torch threads1; pytest tests/test_instance_tracker_v70.py",
+      "passed": 11,
+      "elapsed_seconds": 1.59
+    },
+    "independent_witnesses": {
+      "brute_force_assignment": {
+        "cases": 80,
+        "track_counts": [
+          1,
+          2,
+          3
+        ],
+        "candidate_counts": [
+          1,
+          2,
+          3
+        ],
+        "cardinality_and_cost_equal": true
+      },
+      "history_windows_at_frames_0_2_4_5": [
+        [
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          4
+        ],
+        [
+          2,
+          4,
+          5
+        ]
+      ],
+      "coast_boundary": "Last seen5 remains coasting at35 and expires at36",
+      "exact_eight_static_boundary": "138 tested starts at width160 now match; nine-pixel candidate remains new identity",
+      "exact_eight_dynamic_boundary": {
+        "cases": 10,
+        "predicted_dx": [
+          -4,
+          -2,
+          0,
+          2,
+          4
+        ],
+        "candidate_offsets_from_prediction": [
+          -8,
+          8
+        ],
+        "all_match": true
+      },
+      "extreme_finite_parameters": "Separately maximal float64 radius or appearance weight, two tracks and one observation, both produce a visible match plus one coast without infeasible dummy costs",
+      "late_allocation_errors": [
+        "Second TrackedObservation allocation",
+        "TrackerFrame allocation after staged expiration"
+      ],
+      "failure_snapshot": "Clock, ID counter, track keys, first/last seen, descriptor/centre/velocity bytes, history and missed flags all unchanged; retry adds one observation only",
+      "malformed_support": "source_pixels=[0] with box(10,10,2,2) rejected before state change"
+    },
+    "new_emulated_frames": 0,
+    "new_training_steps": 0,
+    "gpu_work": false,
+    "Atari_or_archive_inputs_read": false
+  },
+  "resolved_findings": [
+    {
+      "problem": "Source pixels inside the image could disagree with the declared box and area.",
+      "resolution": "Tight support box and descriptor area checked before the staged update.",
+      "commit": "b9e1a1d96b777fb3ab8b93fabf35f1fe837a7f69"
+    },
+    {
+      "problem": "An output allocation error could leave advanced tracks behind an old clock and duplicate observations on retry.",
+      "resolution": "Full update staged in a private copy and committed after successful result construction.",
+      "commit": "b9e1a1d96b777fb3ab8b93fabf35f1fe837a7f69"
+    },
+    {
+      "problem": "Float32 normalized centres spuriously rejected exact eight-pixel matches at width160.",
+      "resolution": "Pixel centres retained from boxes, with a documented tolerance for descriptor displacement rounding.",
+      "commit": "b9e1a1d96b777fb3ab8b93fabf35f1fe837a7f69"
+    },
+    {
+      "problem": "Finite maximal radius/appearance parameters overflowed dummy costs to infinity.",
+      "resolution": "Common normalized pair costs and bounded finite dummy penalties.",
+      "commit": "b9e1a1d96b777fb3ab8b93fabf35f1fe837a7f69"
+    }
+  ],
+  "limitations_and_items_before_freeze_or_benchmark": [
+    "Synthetic state association checks do not establish Atari identity accuracy, ME, semantic objects, learning, transfer or a gate result.",
+    "The caller must define a monotone observation clock and the horizon actually represented by the displacement. The module cannot attest paid-frame provenance, terminal/cold reset policy, branch-clock alignment or native restoration.",
+    "Every update deep-copies tracking memory and allocates a dense N_tracks by(N_instances+N_tracks) assignment matrix. There is currently no independent active/coasting track capacity. A4096-instance bound per image does not bound accumulated tracks to4096. A prospective capacity, explicit refusal behavior and measured cost are required before benchmark or collection.",
+    "Maximum-cardinality assignment prefers any geometrically admissible match over leaving a track unmatched, even with poor appearance. This is a disclosed candidate association rule, not a proof of identity.",
+    "Zero or near-zero mean embeddings contribute no distinguishing appearance evidence under the current cosine fallback. Constant-velocity coasting and appearance averaging remain unvalidated under occlusion, acceleration, splitting, merging and changing appearance.",
+    "The visual groups can themselves contain disconnected pieces or multiple same-appearance objects. Tracking them does not repair the limitations of P targets or establish physical objecthood.",
+    "Readonly input outputs are not a security boundary. Internal stored descriptors are copied, but TrackedObservation exposes the caller supplied VisualInstance; callers must not confuse this returned view with an immutable external audit record.",
+    "The numeric tolerance is declared from floating-point uncertainty; no empirical enlargement of the eight-pixel radius has been selected on game data.",
+    "The pending counterfactual C targets, collector, action/effect discovery and any native branch integration are explicitly outside this receipt and require separate review."
+  ]
+}

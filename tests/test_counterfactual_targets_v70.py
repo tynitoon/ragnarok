@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 from ragnarok.environments.rgb_branch_trace_v70 import RGBBranchTrace
 from ragnarok.learning.visual_instances_v70 import extract_instances
-from ragnarok.learning.counterfactual_targets_v70 import component_targets,controllability_loss
+from ragnarok.learning.counterfactual_targets_v70 import component_targets,controllability_loss,ControllabilityTargets
 from tests.test_visual_instances_v70 import scene
 
 
@@ -71,3 +71,16 @@ def test_unknown_targets_have_zero_gradient_but_positive_own_target_trains_c_hea
     assert controllability_loss(logits,unknown).item()==0
     controllability_loss(logits,unknown).backward()
     assert torch.count_nonzero(logits.grad)==0
+
+
+def test_loss_reduction_stays_finite_and_rejects_values_before_overflowing_cast():
+    torch=pytest.importorskip('torch')
+    zeros=np.zeros((10,12),dtype=np.float32)
+    target=ControllabilityTargets(zeros,np.ones_like(zeros),(),4,4,'pooled')
+    logits=torch.full((10,12),torch.finfo(torch.float32).max,requires_grad=True,device='cpu')
+    loss=controllability_loss(logits,target)
+    assert torch.isfinite(loss)
+    loss.backward()
+    assert torch.isfinite(logits.grad).all()
+    huge=torch.full((10,12),torch.finfo(torch.float64).max,dtype=torch.float64)
+    with pytest.raises(ValueError,match='Finite'): controllability_loss(huge,target)

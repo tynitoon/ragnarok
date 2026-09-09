@@ -103,7 +103,8 @@ def controllability_loss(logits, targets):
     from torch.nn import functional as F
     if (not isinstance(targets,ControllabilityTargets) or not isinstance(logits,torch.Tensor)
             or logits.shape!=targets.values.shape or not logits.is_floating_point()
-            or not torch.isfinite(logits).all()):
+            or targets.weights.shape!=targets.values.shape or not torch.isfinite(logits).all()
+            or (logits.abs()>torch.finfo(torch.float32).max).any()):
         raise ValueError('Finite source-aligned C logits and own branch targets required')
     values=torch.tensor(targets.values,dtype=torch.float32,device=logits.device)
     weights=torch.tensor(targets.weights,dtype=torch.float32,device=logits.device)
@@ -111,4 +112,5 @@ def controllability_loss(logits, targets):
             or (values<0).any() or (values>1).any() or (weights<0).any() or (weights>1).any()):
         raise ValueError('Targets and weights must be finite in[0,1]')
     loss=F.binary_cross_entropy_with_logits(logits.float(),values,reduction='none')
-    return (loss*weights).sum()/weights.sum().clamp_min(1)
+    # Finite float32 losses can overflow a float32 sum before division.
+    return ((loss*weights).sum(dtype=torch.float64)/weights.sum(dtype=torch.float64).clamp_min(1)).float()

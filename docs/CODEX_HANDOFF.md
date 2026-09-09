@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-Mis à jour le9septembre2026 vers19:00Paris. Les instructions actuelles de Jérémie
+Mis à jour le9septembre2026 vers19:22Paris. Les instructions actuelles de Jérémie
 priment sur les pauses historiques. Continuer d'un jalon au suivant ; ne terminer
 que sur sa demande, au terme du travail ou pour une décision exigeant son avis.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
@@ -134,15 +134,20 @@ SHAf6d18381…(10sources/17tests),sourcefinaled728bae,aucunGPU/Atari.
 Nouveau `instance_tracker_v70.py` +tests/doc :11testsCPU PASS, déplacement
 prédit+Hungarianapparence, horloge/horizonfournisexplicitement,mémoire4/coast30,
 coastsdistinctsvisibles,identitésstables/réapparitions,forksansmutationordinaire.
-Revue trackerencours :boîtes/airepixelvérifiées,miseàjouratomiccopieavantcommit,
+Revue trackerPASS `tracker_review_v0.json` SHA5d25929f…(9sources,11tests) :
+boîtes/airepixelvérifiées,miseàjouratomiccopieavantcommit,
 centrespixelexacts+tolérancearrondid,normalisationcoûtsévitantinf.
 138frontières8pxetexception2eobservationtestées. Nonvalidénativement.
-Nouveau `counterfactual_targets_v70.py` +tests/doc :7testsTorchCPU PASS ;
+Nouvel adaptateur `bounded_tracker_v70.py` :512pistes maximum, coasts compris ;
+refus atomique sans éviction silencieuse,6testsPASS, revue indépendante à faire.
+Nouveau `counterfactual_targets_v70.py` +tests/doc :8testsTorchCPU PASS ;
 projectiondesproprespixels parleurddansdiffRGBfuture,horizon/kindexplicites,
 ciblesinconnuespoids0enbranchesincomplètes/sansmouvement/horschamp ; BCEC.
 Provenancepaire/effet/horizondoitêtregarantiedanscollecteur(encorenonbranché).
-Suite selon `ARC4_VISION.md` §§2,5,6,11 : C/G/I/tracker/ME/buttons/reader/drives.
-Descripteur49floats corrigé(addition), nonimplémenté. `ARC4_ENTRY_BUDGET_DRAFT.md` :
+Réduction BCE float64 puis float32 pour éviter les débordements de sommes.
+Revue C indépendante à faire. Suite selon `ARC4_VISION.md` §§2,5,6,11 :
+G/I, intégration C/tracker, ME/buttons/reader/drives. Descripteur49floats implémenté.
+`ARC4_ENTRY_BUDGET_DRAFT.md` :
 29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
 Traces8framespartageables avecCpréfixe4 ; provenance/points/couverture/unitélag
 à figer. MortALE : Pong/Freewaysansvies, régler éligibilité avant gel, pas fauxF1.
