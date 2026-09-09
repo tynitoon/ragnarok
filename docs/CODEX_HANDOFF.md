@@ -75,7 +75,10 @@ résultatSHAe43ecd3a3f055e03bf3e7cfe7d7f0ee857493924f8244f5bc1e197ec606a5542.
 Ms **natif complet session33396close**, 580,7928décisions/s,171364charges,
 16rapports/digests strictement égauxNumPy ; résultatSHA4851a2cb….
 16×2048décisions, graines18000+i, branch128, source/protocoles gelés.
-Résultat sous1000 et2000proposés ; aucune nouvelle mesure ni gate. Revue finale à faire.
+Résultat sous1000 et2000proposés ; aucune nouvelle mesure ni gate. RevuefinalePASS
+`cpu_chain_result_review_v0.json` SHA40f640d4…(115sources/233preuves),16rapports
+égaux,58froids,2042framesdebranche ; rappel107283/113037=94,9096%,
+précision306322/771010=39,730%,C84pixels/256paires. Aucunapprentissage.
 
 Ast diagnostic offline a1df7db/0e23739 : cinq RAM0archivées17571déclenchent même garde ;
 ce n'est pas la RAM18176nonarchivée, aucune RGB0calibrée. Frame0nonconsommée
@@ -86,7 +89,9 @@ Revue préliminaire `v70_asteroids_cpu/deferred_source_review_v0.json` SHA01313b
 ne pas déclarer leurs rapports identiques. Auditofflineconsommation complet :8192frames,
 2049groupes(2047×4+2×2), historique/scènes/membres égaux ; session9912close.
 Sources/protocole a22ac2b avantaudit, digest ebf68f4886dfd06835cfed54e3f149aefbe86ca4ea23de2f0e1149e299557c34.
-Résultats `deferred_source_consumption_v0*`, revuefinale àfaire. Aucune émulation Ast.
+Résultats `deferred_source_consumption_v0*`, revuefinaleSHA b43a95f5…,
+121sources/38preuves, reproductionexacte.225groupesontplusieursactions :
+pasunrolloutnatifrepeat4. Aucune émulation Ast.
 
 ## ARC4 — traces et archive, puis apprenant
 
@@ -103,9 +108,10 @@ sauvegardes privées20000/2GBpayload, jeu ordinaire continue ; paire sur archive
 2T+180(troisrestores), retour au point courant. Pas de retour durableE4 ni RPC.
 15testsPASS, revuepréliminaire `v70_rgb_archive/source_review_v0.json` SHAafbe5846…,
 11sources, sources7a7fe35/817bb97 ; allocation/calculcompteur protégé avantmutation.
-Nouveau transport `rgb_archive_pool_v70.py`,7testsPASS dont2vraisworkerssynthétiques :
+Nouveau transport `rgb_archive_pool_v70.py`,8testsPASS dont2vraisworkerssynthétiques :
 plafondtotalpool réparti parworker, RPCfermé, erreurslatchées, cleanup/reportpréservés.
-Transport encore àrelire ; aucune modification des11sources déjàrevues.
+Transportcorrigéeaad4c0 : échecdedropferme aussileparent,cleanup/reportrestent.
+Revuefinaleprototype encours ; aucune modification des11sources déjàrevues.
 Aucune nouvelle émulation autorisée par ce prototype.
 
 Nouveau parser+P draft `ragnarok/learning/{parser,pixel_prediction}_v70.py`,
@@ -115,6 +121,9 @@ lefondnouvellementcouvert et manquerl'intérieur uniforme. Objectifnonmodifié,
 témoincorrigé +limite testée/doc. AucunAtari/GPU/poidsentraîné/C/G/I/S/tracker.
 Têtesvisuellesindépendantesdes12effets ; seule dconditionnée. Correspondance
 babillage→effetsinconnue àrésoudre, zéro explicite enattendant.
+`visual_instances_v70.py` +tests/doc :5testsCPU PASS,49floats implémentés,
+seulementpropsprédites parparser/CC/kmeans,aucunRAM/type/ROI/paletteenseignée.
+Identifiantparimage seulement ; déplacementparintervalleobservé, pasframe/seconde.
 Suite selon `ARC4_VISION.md` §§2,5,6,11 : C/G/I/tracker/ME/buttons/reader/drives.
 Descripteur49floats corrigé(addition), nonimplémenté. `ARC4_ENTRY_BUDGET_DRAFT.md` :
 29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
