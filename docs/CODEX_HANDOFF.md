@@ -62,9 +62,17 @@ Vérifications locales au moment du transfert :
 
 ## ARC 3 v62 : reprendre sans changer les règles
 
-**État actuel, 9 septembre à 11:30 : confirmatoire interrompue par Windows
-Update ; aucun calcul GPU Ragnarok actif.** Les anciens PID18416/8368 sont
-absents. `v62_confirm_state.json` est le relevé historique resté `running`,
+**État actuel, 9 septembre à 11:37 : confirmatoire REPRISE et active.** Revue
+indépendante close, huit tests passent, preuves et lanceur committés `b815be2`.
+Dry-run complet conforme, puis contrôle des commandes et lancement à11:37:39
+Paris : nouveau contrôleur PID20936, enfant s0 PID17340. Source active
+`scripts/recover_confirm_v62.py` ; état `v62_confirm_recovery_state.json` =
+`running/confirm_s0`. Logs `v62_confirm_recovery_stdout.log` / stderr, progression
+expérimentale dans `v61_confirm_s0.log` puis s1/s2. Vérifier ces fichiers et les
+commandes réelles, jamais les seuls numéros de PID (Windows les réutilise).
+
+La première tentative a été interrompue par Windows Update. Les anciens
+processus18416/8368 ont disparu. `v62_confirm_state.json` est le relevé historique resté `running`,
 pas la preuve d'un processus vivant. L'événement système1074 à06:30:31 annonce
 le redémarrage planifié ; dernier boot06:39:14.502. Deux objectifs M4 du premier
 monde sont au log, mais le répertoire des checkpoints de bras est vide : le bras
@@ -73,11 +81,11 @@ Copies des quatre fichiers et événements : `v62_confirm_interruption_20260909/
 Son `budget_correction.json` recalcule correctement les ISO UTC :2166s facturées,
 84742,0902837s restantes, projection totale34,3461h. Le champ9366s du premier
 `interruption.json` est une erreur PowerShell préservée, pas le budget retenu.
-Lanceur distinct `scripts/recover_confirm_v62.py`, huit tests CPU passent,
-revue indépendante en cours. Il ne modifie aucun ancien état ni lanceur,
+Le lanceur distinct `scripts/recover_confirm_v62.py` ne modifie aucun ancien état ni lanceur,
 préserve le préfixe du journal gelé en append et utilisera
-`v62_confirm_recovery_state.json` / stdout / stderr distincts. Il n'a PAS encore
-été lancé ; exiger revue, commits, dry-run et contrôle des processus avant cela.
+`v62_confirm_recovery_state.json` / stdout / stderr distincts. Son lancement
+est confirmé ci-dessus. Ne modifier aucun lanceur, preuve, état antérieur ou
+source gelée pendant son exécution ; ne jamais lancer un deuxième calcul.
 
 Sources : `ARC3_PLAN.md` §12–12.6, fin de `preregistration.md`, commit de gel
 `a189ea5` et tag `v62-stage0-freeze` (tag à vérifier avant utilisation).
