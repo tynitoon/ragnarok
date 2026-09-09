@@ -163,7 +163,7 @@ C:/Python314/python.exe :Torch2.11.0+cu126/scipy1.17.1,numpy2.4.4,pasale_py.
 TestsCPU :CUDA_VISIBLE_DEVICESvide,OMP/OPENBLAS/MKL1,torchthreads1 ;pasGPUARC4.
 .venv-arc4/Scripts/python.exe :Python3.14.3/ALE.12.1/numpy2.4.4/scipy1.18.1,
 pytest9.0.3/pillow12.3.0,sansTorch. Aucunereinstallation/rebuildenvironnement.
-Ryzen53600X6c/12t,RTX408016Go. Réutiliserreview_recovery_v62 pourrevuesmajoritaires
+Ryzen53600X6c/12t,RTX408016Go. Réutiliserreview_recovery_v62 pourrevuescontradictoires
 explicitementprévuesAGENTS ;audit_gate_v62ancienannulépending_init,nepasréveiller.
 TOUTESsessionsracineCPUfermées à00:14 ;ARC3GPUtoujoursactif. Ne pasfinirdansattente,
 poursuivredèsreçupreflight. Anciennespreuves/commandesdanshistoire2357/2338/2314.
