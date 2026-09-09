@@ -56,7 +56,8 @@ class OwnedPixelObjectives:
 Methods execute and consume one operation themselves: there is no intake of
 caller-supplied records, anchors with substituted pixels, or old predictions.
 Model weights and the collector must not be modified concurrently elsewhere.
-Any failure stops this owner. Paid records surviving a processing failure stay
+Any step/branch failure stops this owner. Diagnostic/access errors alone do not.
+Paid records surviving a processing failure stay
 available through failure_records(); an unsuccessful take stays in collector.
 This is an in-memory diagnostic contract, not durable training storage.
 """

@@ -34,7 +34,10 @@ commun insuffisant, une absence de mouvement prédit ou une projection entièrem
 hors écran restent inconnus. Les cibles supervisent les pixels sources propres.
 
 Toutes les têtes du parser et les pertes rendues doivent être finies. Toute
-erreur arrête ce propriétaire, y compris une erreur avant paiement. Si une
+erreur dans une opération P/C (`step` ou `branch`) arrête ce propriétaire, y
+compris une erreur avant paiement. Les erreurs d'accès aux ancrages ou aux
+diagnostics libèrent le verrou et n'arrêtent pas à elles seules le propriétaire.
+Si une
 inférence échoue après consommation, les enregistrements RGB restent accessibles
 en copie par `failure_records`, sans répétition de commande payée. Si `take`
 échoue, le collecteur garde son opération en attente. Les rapports de dépenses
