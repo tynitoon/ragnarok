@@ -115,8 +115,8 @@ CPU préparé : `bench_visible_reference_v70.py`, `check_visible_cpu_v70.py`,
 `visible_reference_pool_v70.py`, histoire RAM restaurable et groupes raster.
 Références finales committées **8a289fe**, hash de revue rempli. Nouveau draft
 CPU **284bda4**, 115 sources prévues, 69 tests concernés PASS ; revue préliminaire
-**bd117616…** ancienne, aucune ouverture de graines. `FAST_REVIEW_SHA256=None`
-bloque le CPU jusqu'à la revue finale du nouvel adaptateur de performance Ms.
+**bd117616…** ancienne, aucune ouverture de graines. Le fingerprint de la revue
+d'équivalence est rempli ; la revue finale CPU complète reste nécessaire.
 `fast_visible_mspacman_v70.py` évite le recalcul des gommes intactes et des
 fantômes jetés, en conservant les occlusions legacy. Les 99 sources de référence
 sont intactes. `check_fast_visible_mspacman_v70.py` committé avant exécution :
@@ -124,7 +124,8 @@ sont intactes. `check_fast_visible_mspacman_v70.py` committé avant exécution :
 fraîches et leurs frames 0 ; RAM inchangée. Résultat
 `v70_visible_cpu/fast_mspacman_equivalence_v0.json`, session51252 close.
 Temps décodeur seul 135,35 s →37,08 s ; aucun débit complet ni gate.
-Relecteur existant clôture la revue du résultat, puis revue CPU finale à faire.
+Revue d'équivalence finale **945c47fc…** : 102 sources / 166 preuves, les 40965
+paires et trois digests intégralement reproduits. Revue CPU finale à faire.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des

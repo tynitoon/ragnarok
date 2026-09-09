@@ -15,7 +15,7 @@ PREFLIGHT_REVIEW='craft_v6_out/v70_visible_cpu/preflight_review_v0.json'
 REFERENCE_REVIEW='craft_v6_out/v70_visible_reference/result_review_v0.json'
 REFERENCE_REVIEW_SHA256='cefb04be064767ded9303e2256abcf1381505657b12ec7519c7d306bbfe1a6cd'
 FAST_REVIEW='craft_v6_out/v70_visible_cpu/fast_mspacman_equivalence_review_v0.json'
-FAST_REVIEW_SHA256=None  # Complete ordered equivalence and independent review required before freezing.
+FAST_REVIEW_SHA256='945c47fc3e4b83d8063339f02c9968a30b3fc53bed404e3b4f6e92ca633578e4'
 NATIVE_BUILD=ROOT/'craft_v6_out/v70_native_reference/build_v0/build.json'
 SOURCE_PATHS=tuple(dict.fromkeys((*reference.SOURCE_PATHS,*fast_check.SOURCE_PATHS,PROTOCOL,
     'scripts/bench_visible_reference_v70.py','scripts/check_visible_cpu_v70.py',
