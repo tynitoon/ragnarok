@@ -38,3 +38,24 @@ conversion vers les entiers Python, sans changement de géométrie, permet
 l'export distinct `development_nominal_v0_serialized.json`. Les statistiques
 sont exactement celles du préfixe complet du premier export. Le défaut de
 sérialisation avait échappé à la revue préalable.
+
+Les diagnostics distincts précisent le rendu : RAM57bit0 alterne les images des
+rochers et celles du vaisseau/tirs. Pour les rochers,224 est une sentinelle ;
+les autres valeurs hautes de y peuvent représenter une position négative. Les
+deux groupes de registres ont un décalage vertical et les trois tailles ont des
+enveloppes différentes de V0. Les glyphes complets ont été mesurés sur les seules
+composantes de développement non coupées, puis la candidate est scorée sur
+toutes les images, y compris les sorties, collisions et éclatements.
+
+`rock_raster_development_v1.json` reste **négatif** :3838/4096comptages positifs
+égaux,25966/26368boîtes à un pixel près. Les pièces de bord sont regroupées par
+connectivité à travers x159↔x0 ; la représentation reste une boîte par morceau
+visible, sans prétention d'identité physique persistante. Une nouvelle analyse
+des erreurs distingue désaccord de pixels et désaccord de regroupement.
+
+Le premier diagnostic indépendant vaisseau/tirs annonçait un passage, mais la
+revue parent a détecté un défaut : RAM et RGB conservaient des pixels ày194 et
+au-delà, alors que la borne gelée194 est exclusive. Ce résultat et son candidat
+sont conservés comme **non conformes au périmètre**, avec correction séparée
+et nouveau calcul requis. Il ne constitue pas encore un PASS conforme du jeu.
+Réservé17512 toujours fermé.

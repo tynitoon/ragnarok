@@ -1,0 +1,20 @@
+{
+  "kind": "asteroids_development_palette_inventory",
+  "seed": 17511,
+  "frames": 8192,
+  "kinds": [
+    "player",
+    "asteroid",
+    "player_missile"
+  ],
+  "payload_sha256": "0477c7782702a1114d2b8e375a9f9616f30f999685e5c8d7b2dbbefc807ecb80",
+  "manifest_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "source_sha256": {
+    "scripts/diagnose_asteroids_palette_v70.py": "e0e602ebdd7f2f0f2d920fdac695f39b19f5193f411e886494e8b1330c096c0f",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e"
+  },
+  "note": "Derived from every archived raw development image. Palette assignments are nominal, not certified labels. No training data or agent observations.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
