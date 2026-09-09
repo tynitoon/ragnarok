@@ -1,0 +1,108 @@
+{
+  "kind": "local_visual_categories_independent_source_review",
+  "created_at_utc": "2026-09-09T18:01:14.827465+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "native_preflight": false,
+  "training_authorized": false,
+  "benchmark_authorized": false,
+  "gate": null,
+  "source_commit": "bf1366735472fcdf713e89351f70774ff9b313ec",
+  "source_sha256": {
+    "ragnarok/learning/visual_categories_v70.py": "5d64bc522c9c5c53ed1b9219dff7872488b0992a0a64c2719cc8d6811ec75d61",
+    "tests/test_visual_categories_v70.py": "b296a504d2b698ef8dac2acda0fc2569eddd4b95eb10ba8e75879a0eba324587",
+    "docs/ARC4_VISUAL_CATEGORIES_DRAFT.md": "9a459abbc9c4f550853039005ab537377a3d28de8e1e86da4610d4cdd8e3935a",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/test_instance_tracker_v70.py": "e6904cc834bec821cddfc752e86e5502000dac9f60a29ab9e722443647fe78b7",
+    "tests/test_visual_instances_v70.py": "0a0e580371e06bdf72fdc740e57edf9754a4fbe6cb4169aa750a2dd9529e922a",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "device": "cpu",
+    "torch_num_threads": 1,
+    "cuda_visible_devices": "",
+    "cuda_initialized": false
+  },
+  "checks": {
+    "committed_closure": "All ten implementation, test, documentation, local dependency and package-initializer paths match source_commit Git blobs. Earlier parser, tracker and perception assembly sources/receipts remain unchanged.",
+    "features": "Exactly 42 float64 features from the own finite float32 descriptor: embedding[7:39], log width/height fractions[2:4], normalized own RGB histogram[41:49]. Position, area, displacement, controllability and solidity do not enter the Euclidean distance.",
+    "causal_assignment": "Observed instances only, geometry-sorted by minimum distinct source pixel; current-frame earlier categories are immediately available. Nearest category at distance<=threshold is reused; exact ties choose the earliest index. The mean has equal weight per accepted observation, not per track or per pixel.",
+    "atomicity": "Validation precedes a private category copy. Capacity, count overflow and allocation errors cannot commit category/clock changes. A successful retry contributes once. No silent merges, evictions or excess-category truncation.",
+    "bounds": "Category capacity1..64; observed-frame capacity1..4096, default512; strictly increasing Python-integer frame0..2**53; category count guard2**53. Feature bounds and float64 log/norm/update prevent overflow on the declared feature domain.",
+    "ownership": "New centers own independent copies; exported lists are detached and JSON-compatible. Coasting contributes no update. Category and track numbers supply no semantic game labels. No RAM, native state, Atari data, teacher, game type or cross-game prior enters this prototype."
+  },
+  "corrected_findings": [
+    {
+      "finding": "CategoryAssignment.created was numpy.bool_ after the first category and failed json.dumps(dataclasses.asdict(...)).",
+      "resolution": "bf13667 explicitly casts to Python bool. New and existing assignments now both serialize; the centroid rule is unchanged."
+    }
+  ],
+  "verification": {
+    "suite": "tests/test_visual_categories_v70.py",
+    "passed": 5,
+    "elapsed_seconds": 0.15,
+    "mode": "Synthetic CPU only; one Torch thread; no CUDA initialization, emulator, data archive, optimizer or benchmark.",
+    "independent_witnesses": {
+      "scalar_reference": {
+        "observations": 100,
+        "all_assignments_counts_identical": true,
+        "max_centroid_absolute_error": 0.0
+      },
+      "threshold_boundary": [
+        {
+          "distance": 0.4999999701976776,
+          "created": false
+        },
+        {
+          "distance": 0.5,
+          "created": false
+        },
+        {
+          "distance": 0.5000000596046448,
+          "created": true
+        }
+      ],
+      "capacity_and_order": {
+        "categories": 64,
+        "permutations_identical": 20,
+        "sixty_fifth_category_refused_without_clock_or_mean_mutation": true,
+        "exact_tie_selected_category": 0
+      },
+      "atomic_failures": [
+        "MemoryError during candidate deepcopy",
+        "MemoryError during final assignment construction after centroid update",
+        "Category count beyond2**53",
+        "Capacity refusal after an existing center would have changed"
+      ],
+      "alias_and_domain": [
+        "Mutation of caller descriptor cannot change stored centers",
+        "Detached local export cannot change stored centers",
+        "Smallest positive float32 size fractions produce finite logarithms and JSON-compatible exported centers",
+        "Changes only in ignored descriptor fields leave category features identical"
+      ]
+    }
+  },
+  "limitations": [
+    "This receipt is a preliminary synthetic source review, not an experiment freeze, native preflight, learning run, measured throughput result or gate.",
+    "The module assumes instances already validated by the upstream tracker. It has no image H/W and cannot independently attest tight boxes, source-pixel bounds or descriptor geometry consistency.",
+    "A future assembler must guarantee fresh empty codebooks at every game entry in every arm and exclude these local diagnostic exports from lineage inheritance; carried_across_games=false is a declaration, not external provenance enforcement.",
+    "Category centers depend on temporal order and historical parser embeddings. Weight changes can make old centers inconsistent with new features. No semantic truth or retrospective relabeling resolves that drift here.",
+    "The proposed threshold0.6 and equal feature scaling are not scientifically calibrated. Segmentation noise, animation, palette changes and scale changes can exhaust capacity; future protocols must record refusals and define their treatment before data collection.",
+    "The numerical bounds do not establish total memory or runtime bounds for real workloads. Input pixel validation and deep copies have additional cost.",
+    "No behavior-based merging, reusable skill, persistent semantic identity, downstream loss or collector integration is included."
+  ]
+}

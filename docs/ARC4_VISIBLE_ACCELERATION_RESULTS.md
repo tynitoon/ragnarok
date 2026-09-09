@@ -26,3 +26,8 @@ débit natif mesuré. Aucune extrapolation ne le remplace, aucun gate n'est lanc
 Résultat : `craft_v6_out/v70_visible_cpu/vector_cached_equivalence_v0.json`,
 SHA256 `9f13705297c1517a1ca9156ef2636938c29bc7a3fa022855921b432cff05d8ce`.
 Le fichier de tentative est conservé à côté ; la revue indépendante reste à faire.
+
+Limite supplémentaire : cet audit n'a pas inscrit son runtime dans son résultat.
+Le runtime d'une contre-vérification ultérieure doit donc être présenté séparément,
+sans le faire passer pour celui mesuré. L'équivalence exhaustive du cache concerne
+ici MsPacman ; les vérifications Asteroids restent synthétiques.
