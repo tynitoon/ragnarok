@@ -85,8 +85,29 @@ class _WitnessEngine(_ColdPixelEngine):
     """Keep the original step/advance/act path; record its existing RGB read calls."""
     def __init__(self,config):
         self._witness_raw=None;self.last_trace=None
+        self._witness_incomplete=False
         super().__init__(config)
         self.set_native_wrapper(lambda native:_RGBReadTap(native,self))
+
+    def _paid_call(self,method,*args,**kwargs):
+        if self._witness_incomplete:raise ValueError('Native witness stopped after an uncertain operation')
+        try:return method(*args,**kwargs)
+        except BaseException:
+            # A native act can succeed before the old elapsed-frame check or
+            # accounting call fails. Keep the known ledger as a lower bound.
+            # Set the stop/uncertainty flag before allocating any diagnostic.
+            self._witness_incomplete=True
+            raise
+
+    def step(self,action):return self._paid_call(super().step,action)
+
+    def branch_pair(self,action,control=0,frames=4):
+        return self._paid_call(super().branch_pair,action,control,frames)
+
+    def diagnostic_report(self):
+        failure=None if not self._witness_incomplete else dict(error_type='WitnessOperationFailure',
+            accounting_complete=False,error='An operation failed; known costs are retained without claiming complete native accounting')
+        return dict(accounting=self.accounting(),failure=failure)
 
     def _advance(self,action,frames,*,experimental):
         start=np.stack(tuple(self._frames))
@@ -135,9 +156,17 @@ class _Reports:
             if name not in self.known and name not in self.errors:
                 try:self.read(name)
                 except BaseException:pass
+        uncertain=[]
+        for name,report in self.known.items():
+            failure=report.get('failure')
+            if (report['accounting'].get('accounting_complete') is False
+                    or failure is not None and (not isinstance(failure,dict)
+                    or failure.get('accounting_complete') is not True)):
+                uncertain.append(name)
         return dict(constructor_count=self.count,constructor_without_return=self.constructing,
             engine_reports=self.known,report_errors=self.errors,
-            accounting_complete=self.constructing is None and len(self.known)==self.count,
+            uncertain_engine_reports=uncertain,
+            accounting_complete=self.constructing is None and len(self.known)==self.count and not uncertain,
             known_charged_frames=sum(r['accounting']['charged_frames'] for r in self.known.values()))
 
 
@@ -151,7 +180,7 @@ def run_case(case,reports):
     digest=hashlib.sha256();histogram=Counter();epoch=frame=0
     try:
         reports.begin(name+'/witness');witness=_WitnessEngine(config(case))
-        reports.register(name+'/witness',lambda:dict(accounting=witness.accounting(),failure=None))
+        reports.register(name+'/witness',witness.diagnostic_report)
         reports.begin(name+'/worker');pool=OrdinaryRGBPool([config(case)])
         reports.register(name+'/worker',lambda:pool.report(0))
         owner=OwnedRGBCollector(pool,1,session_id='owned-ordinary-v0/'+name)

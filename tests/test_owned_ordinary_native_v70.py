@@ -17,6 +17,7 @@ def synthetic(cls,cfg):
     obj=base_synthetic(cls,cfg)
     obj._ordinary_starts=None
     obj._witness_raw=None;obj.last_trace=None;obj._native_wrapper=None
+    obj._witness_incomplete=False
     if cls is WITNESS_CLASS:
         obj.set_native_wrapper(lambda native:check._RGBReadTap(native,obj))
         cold=obj._cold_start
@@ -117,6 +118,32 @@ def test_known_report_survives_peer_error_without_reading_first_again():
     result=reports.collect()
     assert result['known_charged_frames']==852 and not result['accounting_complete'] and calls==['known']
     assert reports.collect()==result and calls==['known']
+
+
+def test_returned_but_incomplete_worker_report_never_becomes_complete_globally():
+    reports=check._Reports();reports.begin('failed')
+    reports.register('failed',lambda:dict(accounting={'charged_frames':132},failure={'accounting_complete':False}))
+    result=reports.collect()
+    assert result['known_charged_frames']==132 and result['uncertain_engine_reports']==['failed']
+    assert result['accounting_complete'] is False
+
+
+@pytest.mark.parametrize('operation',['step','branch_pair'])
+def test_witness_native_elapsed_failure_keeps_known_lower_bound_and_forbids_reuse(operation):
+    witness=synthetic(WITNESS_CLASS,check.config(check.CASES[0]))
+    witness._budget.record_play(468,agent_steps=0)  # Admit the prospective branch before its first act.
+    native=witness._ale.native;act=native.act
+    def unexpected_duration(action):
+        result=act(action);native.frame+=1
+        return result
+    native.act=unexpected_duration
+    with pytest.raises(RuntimeError,match='one real ALE frame'):getattr(witness,operation)(1)
+    report=witness.diagnostic_report()
+    assert report['failure']['accounting_complete'] is False
+    assert report['accounting']['charged_frames']==(600 if operation=='step' else 660)
+    for command in (witness.step,witness.branch_pair):
+        with pytest.raises(ValueError,match='stopped'):command(1)
+    assert witness.diagnostic_report()==report
 
 
 def test_missing_preflight_refuses_before_native_or_attempt(monkeypatch,tmp_path):

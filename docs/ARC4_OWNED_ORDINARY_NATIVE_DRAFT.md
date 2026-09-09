@@ -35,3 +35,13 @@ Les rapports réussis sont mémorisés dès réception et ne sont jamais relus a
 un échec d'un autre rapport. La perte d'un constructeur reste un coût inconnu
 explicite. Les plafonds sont 2 000 charges par instance, 18 instances au total,
 donc au plus 36 000 charges connues sur une exécution entièrement comptabilisée.
+
+Revue avant lancement : le premier agrégateur à4093c6c pouvait annoncer une
+comptabilité complète alors qu'un rapport retourné indiquait explicitement une
+incertitude. Le témoin déclarait aussi toujours une absence d'erreur, même si
+un acte natif avait réussi avant un échec de contrôle de durée. La correction
+propage ces incertitudes, conserve les charges connues comme borne inférieure
+et bloque les nouvelles actions du témoin dès une opération échouée. Ses boucles
+de succès restent celles du moteur original. Les refus avant paiement peuvent
+ainsi être marqués incertains par prudence ; aucune exécution native n'a précédé
+cette correction.
