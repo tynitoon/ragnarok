@@ -1,0 +1,824 @@
+{
+  "kind": "seaquest_development_coverage_geometry",
+  "seed": 17331,
+  "decoder_revision": "seaquest_raw_development_fragments_and_contacts_v2",
+  "created_utc": "2026-09-09T01:41:43Z",
+  "per_type": {
+    "player": {
+      "frames": 32768,
+      "presence_count_agreement": 32731,
+      "positive_frames": 29024,
+      "positive_count_agreement": 28987,
+      "ram_objects": 29024,
+      "pixel_objects": 28987,
+      "joint_matches": 28987,
+      "boxes_within1": 28987,
+      "boxes_exact": 21605,
+      "presence_fraction": 0.998870849609375,
+      "positive_presence_fraction": 0.9987251929437707,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "shark": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 17004,
+      "positive_count_agreement": 17004,
+      "ram_objects": 60032,
+      "pixel_objects": 60032,
+      "joint_matches": 60032,
+      "boxes_within1": 60032,
+      "boxes_exact": 60028,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 311,
+      "positive_count_agreement": 311,
+      "ram_objects": 989,
+      "pixel_objects": 989,
+      "joint_matches": 989,
+      "boxes_within1": 612,
+      "boxes_exact": 0,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 0.6188068756319515,
+      "passed": false
+    },
+    "diver": {
+      "frames": 32768,
+      "presence_count_agreement": 32410,
+      "positive_frames": 1632,
+      "positive_count_agreement": 1274,
+      "ram_objects": 3024,
+      "pixel_objects": 2328,
+      "joint_matches": 2328,
+      "boxes_within1": 2259,
+      "boxes_exact": 2208,
+      "presence_fraction": 0.98907470703125,
+      "positive_presence_fraction": 0.7806372549019608,
+      "box_fraction": 0.970360824742268,
+      "passed": false
+    },
+    "enemy_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 32352,
+      "positive_frames": 419,
+      "positive_count_agreement": 3,
+      "ram_objects": 546,
+      "pixel_objects": 1305,
+      "joint_matches": 530,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "presence_fraction": 0.9873046875,
+      "positive_presence_fraction": 0.007159904534606206,
+      "box_fraction": 0.0,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 31640,
+      "positive_frames": 19761,
+      "positive_count_agreement": 18633,
+      "ram_objects": 19761,
+      "pixel_objects": 18633,
+      "joint_matches": 18633,
+      "boxes_within1": 18633,
+      "boxes_exact": 18633,
+      "presence_fraction": 0.965576171875,
+      "positive_presence_fraction": 0.9429178685289206,
+      "box_fraction": 1.0,
+      "passed": false
+    },
+    "surface_submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 0,
+      "positive_count_agreement": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": null,
+      "box_fraction": null,
+      "passed": false
+    }
+  },
+  "original_collection_agreement": {
+    "player": true,
+    "shark": true,
+    "submarine": true,
+    "diver": false,
+    "enemy_missile": false,
+    "player_missile": true
+  },
+  "original_collection_calibration_pass": false,
+  "coverage_collection_pass": false,
+  "combined_development_pass": false,
+  "first_disagreements": {
+    "player": [
+      {
+        "frame": 696,
+        "episode": 0,
+        "ram": [
+          [
+            73,
+            57,
+            16,
+            7
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 1836,
+        "episode": 0,
+        "ram": [
+          [
+            73,
+            57,
+            16,
+            7
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 2277,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 2973,
+        "episode": 1,
+        "ram": [
+          [
+            74,
+            57,
+            16,
+            7
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 4087,
+        "episode": 1,
+        "ram": [
+          [
+            75,
+            47,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 4506,
+        "episode": 1,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6520,
+        "episode": 2,
+        "ram": [
+          [
+            75,
+            47,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 7323,
+        "episode": 2,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "shark": [],
+    "submarine": [
+      {
+        "frame": 21174,
+        "episode": 8,
+        "ram": [
+          [
+            159,
+            117,
+            1,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            121,
+            1,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 21175,
+        "episode": 8,
+        "ram": [
+          [
+            159,
+            117,
+            1,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            121,
+            1,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 21176,
+        "episode": 8,
+        "ram": [
+          [
+            159,
+            117,
+            1,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            121,
+            1,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 21177,
+        "episode": 8,
+        "ram": [
+          [
+            158,
+            117,
+            2,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            158,
+            121,
+            2,
+            5
+          ]
+        ]
+      },
+      {
+        "frame": 21178,
+        "episode": 8,
+        "ram": [
+          [
+            158,
+            117,
+            2,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            158,
+            121,
+            2,
+            5
+          ]
+        ]
+      },
+      {
+        "frame": 21179,
+        "episode": 8,
+        "ram": [
+          [
+            157,
+            117,
+            3,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            157,
+            116,
+            3,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 21180,
+        "episode": 8,
+        "ram": [
+          [
+            157,
+            117,
+            3,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            157,
+            116,
+            3,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 21181,
+        "episode": 8,
+        "ram": [
+          [
+            157,
+            117,
+            3,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            157,
+            116,
+            3,
+            10
+          ]
+        ]
+      }
+    ],
+    "diver": [
+      {
+        "frame": 133,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            73,
+            1,
+            1
+          ],
+          [
+            8,
+            97,
+            1,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 134,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            73,
+            1,
+            1
+          ],
+          [
+            8,
+            97,
+            1,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 135,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            73,
+            1,
+            1
+          ],
+          [
+            8,
+            97,
+            1,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 136,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            73,
+            1,
+            1
+          ],
+          [
+            8,
+            97,
+            1,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 137,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            73,
+            1,
+            1
+          ],
+          [
+            8,
+            97,
+            1,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 138,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            70,
+            2,
+            4
+          ],
+          [
+            8,
+            94,
+            2,
+            4
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 139,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            70,
+            2,
+            4
+          ],
+          [
+            8,
+            94,
+            2,
+            4
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 140,
+        "episode": 0,
+        "ram": [
+          [
+            8,
+            70,
+            2,
+            4
+          ],
+          [
+            8,
+            94,
+            2,
+            4
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "enemy_missile": [
+      {
+        "frame": 143,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            3,
+            4
+          ],
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 144,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            3,
+            4
+          ],
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 145,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            3,
+            4
+          ],
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 146,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            73,
+            3,
+            1
+          ],
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 147,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 148,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            3,
+            4
+          ],
+          [
+            8,
+            94,
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 149,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            4,
+            5
+          ],
+          [
+            8,
+            94,
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "frame": 150,
+        "episode": 0,
+        "ram": [],
+        "pixels": [
+          [
+            8,
+            70,
+            4,
+            5
+          ],
+          [
+            8,
+            94,
+            4,
+            5
+          ]
+        ]
+      }
+    ],
+    "player_missile": [
+      {
+        "frame": 132,
+        "episode": 0,
+        "ram": [
+          [
+            77,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 149,
+        "episode": 0,
+        "ram": [
+          [
+            77,
+            75,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 166,
+        "episode": 0,
+        "ram": [
+          [
+            67,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 181,
+        "episode": 0,
+        "ram": [
+          [
+            52,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 193,
+        "episode": 0,
+        "ram": [
+          [
+            40,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 202,
+        "episode": 0,
+        "ram": [
+          [
+            31,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 210,
+        "episode": 0,
+        "ram": [
+          [
+            24,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 216,
+        "episode": 0,
+        "ram": [
+          [
+            24,
+            78,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "surface_submarine": []
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "964c80cb2783c6d13ac0fe00c1738721decaf2d9d718bb68b40132435f185b4c",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "9f7a7942848cae9439b8eda3a1f21f4c5a78e446456952e7385e6f4cc7c377fe",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V2_PROTOCOL.json": "6d2c18e0191bdf5085bc621f90bb473098e86e982972d6cc2d581de299cc3fb8",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/calibrate_seaquest_coverage_v70.py": "4f7f70c6e6408114c35efe2882a89d60c6ad0523e9a57dd440320ae8789500d9"
+  },
+  "original_result_sha256": "d5a479ebf2f3468efaf54c8edc10b2774a172e5268735ca41ce348482f93a7d5",
+  "fixture_manifest_sha256": "dd7777ad5cfee7928349bb4d91455f3cb29d7711a4380326baba75deecf17f22",
+  "scope": "Separate per-collection fractions. Empty original types remain uncalibrated there; all types and the surface subtype require50joint instance-frame matches in the additional collection. No pooled dilution.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

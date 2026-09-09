@@ -11,7 +11,7 @@ from scipy import ndimage
 
 from ragnarok.evaluation.pong_v70 import ObjectLabel
 
-REVISION="seaquest_raw_development_sprite_support_v1"
+REVISION="seaquest_raw_development_fragments_and_contacts_v2"
 KINDS=("player","shark","submarine","diver","enemy_missile","player_missile")
 ROI=(0,33,160,165)
 PLAYER_COLOURS=((187,187,53),(236,236,236))
@@ -97,8 +97,8 @@ def decode_seaquest_ram(ram):
                                            flip=bool(r[89+lane]&8)))
     if r[60]>=2 and r[118]<160:
         objects.append(_clipped("submarine","surface",r[118],45,8,11))
-    if 0<r[103]<160:
-        objects.append(_clipped("player_missile","player_missile",r[103],r[97]+40,8,1))
+    if 0<r[103]<160 and not 53<=r[97]+40<57:
+        objects.append(_sprite_box("player_missile","player_missile",r[103],r[97]+40,("########",)))
     return [o for o in objects if o is not None]
 
 
@@ -119,6 +119,71 @@ def _components(rgb,colours,*,vertical_gap=0):
             for item in ndimage.find_objects(labels) if item is not None for y,x in (item,)]
 
 
+def _merge_fragments(boxes,max_width,max_height):
+    """Join support fragments only when their complete union fits one sprite.
+
+No RAM boxes are consulted. Shark formations have eight blank pixels between
+full sprites, so two actors cannot fit inside an eight-pixel-wide union.
+"""
+    boxes=sorted(boxes)
+    changed=True
+    while changed:
+        changed=False
+        for i,a in enumerate(boxes):
+            for j in range(i+1,len(boxes)):
+                b=boxes[j]
+                x,y=min(a[0],b[0]),min(a[1],b[1])
+                right,bottom=max(a[0]+a[2],b[0]+b[2]),max(a[1]+a[3],b[1]+b[3])
+                if right-x<=max_width and bottom-y<=max_height:
+                    boxes[i]=(x,y,right-x,bottom-y)
+                    boxes.pop(j)
+                    changed=True
+                    break
+            if changed:
+                break
+    return sorted(boxes,key=lambda b:(b[1],b[0]))
+
+
+def _player_and_projectiles(rgb):
+    players,missiles=[],[]
+    boxes=_merge_fragments(_components(rgb,PLAYER_COLOURS,vertical_gap=4),16,11)
+    for box in boxes:
+        x,y,w,h=box
+        if h>6:
+            if w>16:
+                part=rgb[y:y+h,x:x+w]
+                mask=np.any(np.stack([np.all(part==c,axis=2) for c in PLAYER_COLOURS]),axis=0)
+                splits=[]
+                for row in range(h):
+                    without=mask.copy()
+                    without[row]=False
+                    yy,xx=np.where(without)
+                    if len(xx) and xx.max()-xx.min()+1<=16 and yy.max()-yy.min()+1>=7:
+                        left,right=int(xx.min()),int(xx.max())+1
+                        outside=np.flatnonzero(mask[row] & ((np.arange(w)<left)|(np.arange(w)>=right)))
+                        if len(outside):
+                            splits.append((row,left,right,outside))
+                if len(splits)==1:
+                    row,left,right,outside=splits[0]
+                    support=mask[:,left:right]
+                    yy,xx=np.where(support)
+                    players.append((x+left+int(xx.min()),y+int(yy.min()),int(xx.max()-xx.min()+1),int(yy.max()-yy.min()+1)))
+                    # A horizontal projectile is eight pixels wide before
+                    # screen clipping. Its exposed end anchors the contact.
+                    if int(outside.max())<left:
+                        mx=x+int(outside.min())
+                    else:
+                        mx=x+int(outside.max())-7
+                    ml,mr=max(8,mx),min(160,mx+8)
+                    if mr>ml:
+                        missiles.append((ml,y+row,mr-ml,1))
+                    continue
+            players.append(box)
+        elif h==1 and w<=8 and y>=57:
+            missiles.append(box)
+    return players,missiles
+
+
 def screen_seaquest_objects(rgb):
     """Palette/shape connected components only; no RAM or candidate search boxes.
 
@@ -128,12 +193,8 @@ unseen types remain explicit calibration concerns rather than inferred labels.
     if not isinstance(rgb,np.ndarray) or rgb.dtype!=np.uint8 or rgb.shape!=(210,160,3):
         raise ValueError("Expected raw210x160RGB")
     groups={kind:[] for kind in KINDS}
-    for box in _components(rgb,PLAYER_COLOURS,vertical_gap=4):
-        if box[3]>6:
-            groups["player"].append(box)
-        elif box[3]==1 and box[2]>=4:
-            groups["player_missile"].append(box)
-    groups["shark"]=_components(rgb,SHARK_COLOURS)
+    groups["player"],groups["player_missile"]=_player_and_projectiles(rgb)
+    groups["shark"]=_merge_fragments(_components(rgb,SHARK_COLOURS),8,7)
     groups["submarine"]=_components(rgb,(SUBMARINE_COLOUR,))
     for box in _components(rgb,(BLUE,)):
         if box[2]>2:

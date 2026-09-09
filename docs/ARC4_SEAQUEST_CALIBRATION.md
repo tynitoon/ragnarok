@@ -77,3 +77,41 @@ avant son ouverture. Sous-marin de surface évalué séparément, pas de dilutio
 des erreurs anciennes, ni de confusion entre comptages d'objets par frame et
 apparitions indépendantes. Les fixtures ne servent pas à entraîner l'agent,
 la référence RGB ou à lui fournir des états avancés.
+
+## Résultats de développement v2 et couverture 17331
+
+Après le commit du protocole/captureur `9800cec`, 17331 a été collectée en entier :
+32768 images, 14 chargements froids, 34560 frames facturées. Les sous-marins
+immergés apparaissent sur 311 frames (989 instances-frame) et leurs missiles
+sur 223 frames (546 instances-frame), tous dans un seul épisode. Aucun
+sous-marin de surface : couverture globale toujours incomplète. Ne pas déduire
+de ces comptages une calibration géométrique ou des apparitions indépendantes.
+
+Sur l'ancien développement 17311, V2 passe pour joueur, requins et missiles du
+joueur : respectivement 99,255 %, 100 % et 99,438 % de présence ; toutes les
+boîtes appariées respectent la tolérance d'un pixel. Plongeurs et missiles
+ennemis restent en échec et les deux catégories absentes restent non calibrées.
+V2 regroupe les fragments de requins et sépare certains contacts jaune sur jaune
+en ancrant le projectile à son extrémité exposée. Revue Ohm : 128 contacts
+reconstruits, tous dans la palette visible, sans accès RAM dans ce chemin.
+
+**Limite conservée** : au bord x8 ou x160, l'extrémité peut être elle-même coupée.
+Un corps x10:26 et deux pixels exposés x8:10 peuvent correspondre aussi bien à
+un missile nominal x2:10, visible sur deux pixels, qu'à x8:16, large de huit.
+L'image est identique ; le checker choisit huit. Cette reconstruction n'est pas
+une preuve de visibilité ou d'identité parfaite lors des occultations.
+
+`coverage_geometry_v2.json` applique les critères supplémentaires prévus avant
+17331. Joueur et requins passent ; sous-marins immergés échouent en géométrie
+(61,881 %), plongeurs échouent en présence positive (78,064 %), missiles ennemis
+en présence et géométrie. Missiles du joueur : toutes les boîtes appariées sont
+exactes, mais présence positive94,292 %, donc échec. Surface vide, dénominateur
+positif null, pas de succès fictif. Deux tests du scoreur vérifient qu'une longue
+suite vide ne dilue pas les acteurs manqués et qu'une catégorie absente échoue.
+
+La capture a conservé 52 morts ; le HUD lu dans les images concorde avec la RAM
+sur toutes les32768frames et ne dépasse jamais deux plongeurs embarqués. Le
+contrôleur poursuit les plongeurs horizontalement et tourne ainsi parfois le
+dos aux requins. Une seconde tentative de couverture est préparée séparément,
+avec maintien d'une position centrale et tir vers l'ennemi proche. Le premier
+échec de couverture reste un échec ; aucun verdict ancien n'est réétiqueté.

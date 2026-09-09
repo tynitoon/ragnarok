@@ -1,0 +1,14 @@
+{
+  "kind": "seaquest_development_correction_v2_before_reserved_capture",
+  "original_protocol": "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+  "previous_negative": "craft_v6_out/v70_seaquest_calibration/development_v1.json",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "ram_changes": "V1 empirical sprite support retained. Player projectiles are absent in the surface mask y53:57 and clipped by the left eight-pixel display mask.",
+  "rgb_changes": "Merge fragments whose entire union fits one player16x11 or shark8x7. For a player-colour component wider than16, a unique one-row extension can identify the projectile: remove that row to measure body extent, anchor an eight-pixel projectile to its exposed end. Unresolved contacts remain errors. Separate one-row projectiles at the underwater screen edge may be narrower than4. Blue checker remains the V1 heuristic and still has known edge-fragment errors.",
+  "scope": "Development corrections only, not a calibration pass or an assertion that same-colour overlapping identities are always recoverable from a single image. No thresholds relaxed, no frames excluded, previous failures preserved.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
