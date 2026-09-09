@@ -1,0 +1,133 @@
+{
+  "kind": "asteroids_player_missile_roi_correction_receipt",
+  "created_utc": "2026-09-09T11:01:09.947816+00:00",
+  "correction_checked": true,
+  "development_categories_pass": true,
+  "reserved_validation_pass": null,
+  "frozen_roi": {
+    "x_min": 0,
+    "y_min": 16,
+    "x_max_exclusive": 160,
+    "y_max_exclusive": 194
+  },
+  "superseded_claim": {
+    "result": "player_render_development_diagnostic_v1.json",
+    "receipt": "player_missile_development_review.json",
+    "status": "Initial PASS does not conform to the frozen ROI and must not be used as calibration evidence.",
+    "defect": "The initial player included row194; missiles and RGB checker used the region through209. The fourth ROI coordinate was mistakenly treated as a height.",
+    "preservation": "All initial artifacts remain byte-for-byte equal to their recorded hashes, including the inaccurate initial claim.",
+    "initial_pixel_inventory_actual_y_range": "16 through209 inclusive; retained as exploratory evidence only. New scoring reads the original raw fixture and clips to the frozen ROI."
+  },
+  "correction": [
+    "Distinct module, diagnostic script, tests and result; no initial source or result overwritten.",
+    "Both RAM and RGB instruments import the frozen nominal ROI and exclude every pixel y>=194.",
+    "The direct red-pixel classifier also enforces the ROI; asteroid-colour phase cues outside the ROI are ignored.",
+    "RGB templates explicitly accept the one clipped physical line194 of a full glyph. Paired wrap templates use the same ROI. A two-pixel boundary missile is not promoted to a player.",
+    "All16 ship glyphs, all3 explosion glyphs, graphics pointers and support-to-box grouping are AST-identical to the initial candidate.",
+    "All8192 original archived frames were rescored, with unchanged category criteria and matcher. No frames excluded."
+  ],
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2299,
+      "positive_count_agreement": 2299,
+      "joint_matches": 2309,
+      "boxes_within1": 2309,
+      "boxes_exact": 2309,
+      "ram_objects": 2309,
+      "pixel_objects": 2309,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 956,
+      "positive_count_agreement": 956,
+      "joint_matches": 966,
+      "boxes_within1": 966,
+      "boxes_exact": 964,
+      "ram_objects": 966,
+      "pixel_objects": 966,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "delta_from_initial": {
+    "player_joint_matches_before": 2313,
+    "player_joint_matches_after": 2309,
+    "player_positive_frames_before_and_after": 2299,
+    "player_count_changed_zero_based_frames": [
+      6447,
+      6449,
+      7159,
+      8119
+    ],
+    "explanation": "Four pieces located exclusively on row194 are now outside ROI;29 player-frame boxes are clipped or removed. Every affected image remains scored."
+  },
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest tests/test_asteroids_player_roi_v70.py -q",
+    "passed": 11,
+    "failed": 0,
+    "seconds": 0.8
+  },
+  "retained_residuals": [
+    {
+      "zero_based_frame": 5143,
+      "ram_box": [
+        1,
+        17,
+        1,
+        2
+      ],
+      "rgb_box": [
+        1,
+        18,
+        1,
+        2
+      ]
+    },
+    {
+      "zero_based_frame": 5145,
+      "ram_box": [
+        3,
+        189,
+        1,
+        2
+      ],
+      "rgb_box": [
+        3,
+        190,
+        1,
+        2
+      ]
+    }
+  ],
+  "limits": [
+    "Empirical development17511 only; reserved17512 remains closed.",
+    "Two red-missile vertical differences remain unexplained and within the original1-pixel tolerance.",
+    "Blue-only asteroid frames with only tiny fragments remain a possible RGB ambiguity on unseen states.",
+    "The asteroid category is outside this diagnostic. Parent review is still required before any seal.",
+    "No ROM, capture, new seed, GPU or commit. MsPacman sources were not modified."
+  ],
+  "artifacts_sha256": {
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "scripts/diagnose_asteroids_player_roi_v70.py": "1d3694b724883e54e464b41a0060b4e0dd629f71eb98250d4e377beab1c9bcb4",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "craft_v6_out/v70_asteroids_calibration/player_render_roi_development_diagnostic_v2.json": "38954ac5418d0cc330de3cf38d55c7ec3ad04799c814684194440b3f034fd1af",
+    "craft_v6_out/v70_asteroids_calibration/player_missile_development_review.json": "62bcd82364968c84aaea83a6931057458e4334da858b8984f700ab4ba391616a",
+    "craft_v6_out/v70_asteroids_calibration/player_render_development_diagnostic_v1.json": "30cf0a8aca8c80ade7f226c244c6cd3d0b4de3f246eec299de6ca1079b435acd",
+    "ragnarok/evaluation/asteroids_player_v70.py": "dc3b33b49c3b699104ddb0d99ebac0c9630842beb733fc61107f3612ad1b6de1",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "craft_v6_out/v70_asteroids_calibration/development/manifest.json": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3"
+  },
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "gate_result": null
+}

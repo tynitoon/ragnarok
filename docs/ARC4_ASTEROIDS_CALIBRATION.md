@@ -59,3 +59,18 @@ au-delà, alors que la borne gelée194 est exclusive. Ce résultat et son candid
 sont conservés comme **non conformes au périmètre**, avec correction séparée
 et nouveau calcul requis. Il ne constitue pas encore un PASS conforme du jeu.
 Réservé17512 toujours fermé.
+
+
+La correction du ROI a été recalculée dans des fichiers distincts :
+`asteroids_player_roi_v70.py` et `player_render_roi_development_diagnostic_v2.json`.
+Sur toutes les8192images conservées, les comptages des deux catégories sont
+exacts. Vaisseau :2309/2309boîtes exactes ; tirs :966/966à un pixel près,
+964exactes. Quatre pièces visibles uniquement ày194 sont désormais hors ROI,
+mais leurs images ne sont pas exclues. Onze tests passent ; le reçu
+`player_missile_roi_correction_review.json` relie explicitement le résultat
+initial non conforme et sa correction. Le jeu reste incomplet : les rochers
+n'ont pas encore passé les critères.
+L'inventaire complet `rock_raster_error_inventory_v1.json` conserve258images
+avec désaccord de comptage et335avec au moins une erreur géométrique.
+Sur279images en erreur, l'union des pixels prédits est pourtant exacte :
+le diagnostic doit distinguer formes, occultations et regroupement des objets.

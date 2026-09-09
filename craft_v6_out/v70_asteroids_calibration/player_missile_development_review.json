@@ -1,0 +1,132 @@
+{
+  "kind": "asteroids_player_missile_independent_development_diagnostic_receipt",
+  "created_utc": "2026-09-09T10:49:39.730537+00:00",
+  "seed": 17511,
+  "frames": 8192,
+  "candidate_ready_for_parent_review": true,
+  "held_out_certified": false,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2299,
+      "positive_count_agreement": 2299,
+      "joint_matches": 2313,
+      "boxes_within1": 2313,
+      "boxes_exact": 2313,
+      "ram_objects": 2313,
+      "pixel_objects": 2313,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 956,
+      "positive_count_agreement": 956,
+      "joint_matches": 966,
+      "boxes_within1": 966,
+      "boxes_exact": 964,
+      "ram_objects": 966,
+      "pixel_objects": 966,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "formulas": [
+    "Current RAM57 bit0 gates the ship/missile render frame. RGB does not read this byte.",
+    "RAM111=224 means no rendered player, even when logicalRAM74 is already active. Otherwise RAM111 equals signedRAM74 plus89 on the observed negative-y wrap.",
+    "Normal directionRAM60&15 selects one of16 literal glyphs. RAM109/110 graphics pointer guards that choice; canonical pointer175/181/187 selects one of3 explosion glyphs.",
+    "Coarse x_position(RAM73), y=18+2*signedRAM74+(RAM107&1). Double-height glyph rows; negative-y pieces repeat at+178. Visible player kernel lines begin18+fraction and end194 inclusive.",
+    "ExplosionRAM67 alone is insufficient because that timer is active during ordinary ship render as well.",
+    "Missile x=(x_position(RAM83+slot)+1)%160, nominal y=17+2*RAM86+slot,1x2; sentinel224. Subtract the RAM-predicted player support for visible missile pieces. No temporal delay is applied.",
+    "The independent RGB matcher sees only pixel sets and19 fixed development glyphs. It groups explosions and paired vertical wrap pieces; leftover components are retained under the nominal geometric split.",
+    "Blue missiles use only RGB phase evidence: other asteroid palette present or a blue component larger than2x3 means asteroid phase."
+  ],
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest tests/test_asteroids_player_v70.py -q",
+    "passed": 7,
+    "failed": 0,
+    "seconds": 0.93,
+    "witnesses": [
+      "render-scratch birth absence",
+      "six-dot explosion classified as one player",
+      "both vertical wrap pieces retained",
+      "new blue missile fully occluded by ship",
+      "missile horizontal wrap",
+      "RGB palette phase and HUD",
+      "unknown graphics pointer fails"
+    ]
+  },
+  "evidence": [
+    "Every immutable development shard and complete8852-frame charge ledger verified by strict reader.",
+    "Derived RAM/episodes exactly equal the original palette inventory. Original inventory source hashes and manifest unchanged.",
+    "No predicted player pixel absent from red RGB. All remaining red pixels are46 pairs corresponding to visible red missiles.",
+    "All blue missile pixels agree exactly after RAM-only player occultation.",
+    "All8192 frames scored through separate RAM and RGB code paths; unchanged category criteria and cardinality-first matcher."
+  ],
+  "residuals": [
+    {
+      "zero_based_frame": 5143,
+      "kind": "red_missile",
+      "ram_box": [
+        1,
+        17,
+        1,
+        2
+      ],
+      "rgb_box": [
+        1,
+        18,
+        1,
+        2
+      ]
+    },
+    {
+      "zero_based_frame": 5145,
+      "kind": "red_missile",
+      "ram_box": [
+        3,
+        189,
+        1,
+        2
+      ],
+      "rgb_box": [
+        3,
+        190,
+        1,
+        2
+      ]
+    }
+  ],
+  "limits": [
+    "Empirically corrected on development17511; independent reserved17512 remains closed.",
+    "Glyph tables informed both development instruments; this is consistency evidence, not independent proof of all future rendering states.",
+    "Player labels are one box per visible vertical band; disconnected dots in one explosion form one band. This convention is explicit, with no frame excluded.",
+    "The2 red-missile vertical offsets remain unexplained; no criterion was changed and both are within the original1-pixel tolerance.",
+    "Blue-only asteroid frames containing exclusively tiny fragments remain an unseen-state RGB ambiguity; root is reviewing the asteroid checker independently.",
+    "No asteroid-category certification, no agent learning or transfer claim; noROM/seed/capture/GPU/commit was performed."
+  ],
+  "artifacts_sha256": {
+    "ragnarok/evaluation/asteroids_player_v70.py": "dc3b33b49c3b699104ddb0d99ebac0c9630842beb733fc61107f3612ad1b6de1",
+    "tests/test_asteroids_player_v70.py": "e358ca52b49d14ed6155a51777101c3d82c98d40851793a7ef9557b939b892cd",
+    "scripts/diagnose_asteroids_player_pixels_v70.py": "6233e9a5034892062def8f78fd1e2e607e23120ba7194fe7565a20832e4beab7",
+    "scripts/diagnose_asteroids_player_render_v70.py": "98f5ab2eef4d29a3be772c86c3cbcb230afc13fa50ac29fc130ef3276ba08478",
+    "craft_v6_out/v70_asteroids_calibration/player_render_development_diagnostic_v1.json": "30cf0a8aca8c80ade7f226c244c6cd3d0b4de3f246eec299de6ca1079b435acd",
+    "craft_v6_out/v70_asteroids_calibration/development_player_pixels_v0.json": "c39fd2b448205389cd2eac0d519349501c86f61db59b5a306fe0fdac7f2451b0",
+    "craft_v6_out/v70_asteroids_calibration/development_player_pixels_v0.npz": "b6cc9610c52afa92eb9f12364a0da32b6f5aebc083000aa9541c88b42904d1cd",
+    "craft_v6_out/v70_asteroids_calibration/development_palette_inventory_v0.json": "3c4070d529d2a8b6ed324c122fb765d363e7ca5322d4cc4e962d4907895c5764",
+    "craft_v6_out/v70_asteroids_calibration/development_palette_inventory_v0.npz": "0477c7782702a1114d2b8e375a9f9616f30f999685e5c8d7b2dbbefc807ecb80",
+    "craft_v6_out/v70_asteroids_calibration/development/manifest.json": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+    "craft_v6_out/v70_asteroids_calibration/development_nominal_v0.json": "7afc48b4352c8310ee82225bbdac764280a5bc1343a57358a3cb6620dd9cded5",
+    "craft_v6_out/v70_asteroids_calibration/development_nominal_v0_serialized.json": "6992e66a49e1fbe1baa38ae21a89fff0259a89274816b269643bf908c9c92a60",
+    "craft_v6_out/v70_asteroids_calibration/player_wrap_and_explosion_frames.png": "2fc8a2b76ed993ce60e89f3ef169caaa3737955c1b47b37907f16780ae5c825a"
+  },
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "gate_result": null
+}

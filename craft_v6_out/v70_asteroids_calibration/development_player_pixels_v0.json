@@ -1,0 +1,37 @@
+{
+  "kind": "asteroids_player_pixel_development_inventory",
+  "seed": 17511,
+  "frames": 8192,
+  "columns": [
+    "zero_based_frame",
+    "x",
+    "y"
+  ],
+  "colours": {
+    "red": [
+      240,
+      128,
+      128
+    ],
+    "blue": [
+      117,
+      181,
+      239
+    ]
+  },
+  "roi": [
+    0,
+    16,
+    160,
+    194
+  ],
+  "payload_sha256": "b6cc9610c52afa92eb9f12364a0da32b6f5aebc083000aa9541c88b42904d1cd",
+  "palette_inventory_sha256": "0477c7782702a1114d2b8e375a9f9616f30f999685e5c8d7b2dbbefc807ecb80",
+  "manifest_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "source_sha256": {
+    "scripts/diagnose_asteroids_player_pixels_v70.py": "6233e9a5034892062def8f78fd1e2e607e23120ba7194fe7565a20832e4beab7"
+  },
+  "provenance": "Every archived development frame; strict reader verifies every shard and complete accounting. RAM and episodes equal the original palette inventory.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

@@ -1,0 +1,658 @@
+{
+  "kind": "mspacman_raw_visible_development_calibration",
+  "decoder_revision": "mspacman_raw_visible_maze_development_v3",
+  "seed": 17411,
+  "created_utc": "2026-09-09T10:49:27Z",
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 8192,
+      "positive_count_agreement": 8192,
+      "joint_matches": 8192,
+      "boxes_within1": 8192,
+      "boxes_exact": 8120,
+      "ram_objects": 8192,
+      "pixel_objects": 8192,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "ghost": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 7785,
+      "positive_count_agreement": 7785,
+      "joint_matches": 19591,
+      "boxes_within1": 19562,
+      "boxes_exact": 18894,
+      "ram_objects": 19591,
+      "pixel_objects": 19591,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 0.9985197284467358,
+      "passed": true
+    },
+    "fruit": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 0,
+      "positive_count_agreement": 0,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": null,
+      "box_fraction": null,
+      "passed": false
+    },
+    "power_pill": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 8192,
+      "positive_count_agreement": 8192,
+      "joint_matches": 15497,
+      "boxes_within1": 15497,
+      "boxes_exact": 15497,
+      "ram_objects": 15497,
+      "pixel_objects": 15497,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "pill": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 8192,
+      "positive_count_agreement": 8192,
+      "joint_matches": 1057318,
+      "boxes_within1": 1057318,
+      "boxes_exact": 1057318,
+      "ram_objects": 1057318,
+      "pixel_objects": 1057318,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": {
+    "player": [],
+    "ghost": [
+      {
+        "frame": 819,
+        "episode": 0,
+        "ram": [
+          [
+            114,
+            159,
+            8,
+            10
+          ],
+          [
+            109,
+            75,
+            8,
+            10
+          ],
+          [
+            122,
+            27,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            109,
+            75,
+            8,
+            10
+          ],
+          [
+            114,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            29,
+            8,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 1330,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 1332,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 1346,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 1348,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 1362,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 1364,
+        "episode": 0,
+        "ram": [
+          [
+            98,
+            52,
+            8,
+            10
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ],
+          [
+            17,
+            3,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            17,
+            3,
+            8,
+            10
+          ],
+          [
+            98,
+            54,
+            8,
+            8
+          ],
+          [
+            87,
+            27,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 2082,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            133,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ],
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 2083,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            133,
+            8,
+            10
+          ],
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            138,
+            42,
+            8,
+            10
+          ],
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 2084,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            133,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ],
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 2085,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            133,
+            8,
+            10
+          ],
+          [
+            138,
+            42,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            138,
+            42,
+            8,
+            10
+          ],
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 2098,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            133,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            76,
+            159,
+            8,
+            10
+          ],
+          [
+            122,
+            50,
+            8,
+            10
+          ],
+          [
+            122,
+            135,
+            8,
+            8
+          ]
+        ]
+      }
+    ],
+    "fruit": [],
+    "power_pill": [],
+    "pill": []
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a"
+  },
+  "fixture_manifest_sha256": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "ram_history": "Previous ordinary RAM within same episode; explicit current fallback at each archived cold start.",
+  "rgb_history": "One causal pixel judge for the entire sequence; no oracle episode resets.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

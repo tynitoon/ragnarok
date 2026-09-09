@@ -1,0 +1,56 @@
+{
+  "kind": "mspacman_maze_v3_independent_composition_review",
+  "passed": true,
+  "commit": "96eb0a0",
+  "created_utc": "2026-09-09T10:54:02.181813+00:00",
+  "scope": "Static and bounded archive review only; completeV3 calibration results still require review.",
+  "methods": [
+    "Read candidate renderer, RGBjudge, calibration driver, four regression tests and preserved negativeV2 coverage.",
+    "Candidate source/test and negativeV2 equal commit96eb0a0; two files have only working-treeCRLF versus gitLF representation differences, with gitdiff empty.",
+    "All25sourceSHA256 entries bound by negativeV2coverage still match current files.",
+    "Tests/test_mspacman_maze_v70.py:4passed in1.18seconds.",
+    "Independently verified selected shard hashes for archive frames1,418/419,3797/3798,4329,7891.",
+    "Instrumented RGBghost call for the archived flash: only8336previously learned wall pixels became black; every other pixel unchanged, learnedwall mask unchanged.",
+    "Separate palette registries: blue begins empty and learns146small-pill anchors; existing pink pill/power registries remain unchanged.",
+    "Archived3798:3RAM/RGBghost pieces exactly match, including the1x8left-edge piece and7x10right-edge piece.",
+    "Archived419:bothpower-pill boxes exactly match RGB, including partially occulted4x3at(8,19).",
+    "ASTcomparison: allcategory pass criteria identical toV2.",
+    "RAMhistory resets only on same-episode boundary; RGBjudge persists across sequence and receives only currentRGB."
+  ],
+  "findings": [],
+  "limits": [
+    "Review of implementation/provenance is closed; no claim that all five categories have passed fullV3 scoring.",
+    "Two observed maze palettes are empirical development coverage; a future different layout reusing a palette is not separately indexed.",
+    "A pill whose first appearance is already occulted can still fail the inherited causal anchor learner; nofuture frame is consulted.",
+    "Grayflash recognition is an empirical95%threshold overmore than2000knownwall pixels; unusual flashes can remain failures.",
+    "No ROM/capture/newseed/reserved17412or17432 access, no complete calibration rerun, no source edit or commit."
+  ],
+  "preserved_negative": {
+    "seed": 17431,
+    "calibration_pass": false,
+    "failed_categories": [
+      "ghost",
+      "power_pill",
+      "pill"
+    ],
+    "player_and_fruit_pass": true
+  },
+  "artifact_sha256": {
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+    "tests/test_mspacman_maze_v70.py": "2c2d8e5324e38d85ae99e50bfb78fe4fa3831963ed96c61ed01362aff0b9a412",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "craft_v6_out/v70_mspacman_calibration/coverage_visible_v2.json": "30f49a71fea473aa063fe6897f573abf12f198b68d35ab28f2110a53364205a2",
+    "craft_v6_out/v70_mspacman_calibration/development_visible_v2.json": "1e4fd336948b35ce5e260220e414da07baf306bf72a4af7284fae8e30f11ca36",
+    "craft_v6_out/v70_mspacman_calibration/coverage_development_v1/manifest.json": "62762f99abb602875b8cd7ecb05b055c9561a25c513a6fa8ffc004785f38944d"
+  },
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "calibration_pass": null,
+  "gate_result": null
+}

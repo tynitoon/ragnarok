@@ -1,0 +1,533 @@
+{
+  "kind": "asteroids_player_render_roi_development_diagnostic",
+  "seed": 17511,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2299,
+      "positive_count_agreement": 2299,
+      "joint_matches": 2309,
+      "boxes_within1": 2309,
+      "boxes_exact": 2309,
+      "ram_objects": 2309,
+      "pixel_objects": 2309,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 956,
+      "positive_count_agreement": 956,
+      "joint_matches": 966,
+      "boxes_within1": 966,
+      "boxes_exact": 964,
+      "ram_objects": 966,
+      "pixel_objects": 966,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "all_disagreements": {
+    "player": [],
+    "player_missile": []
+  },
+  "player_predicted_pixels_absent_from_red": 0,
+  "blue_missile_pixel_missed": 0,
+  "blue_missile_pixel_extra": 0,
+  "red_pixels_remaining_after_player_support": {
+    "2801": [
+      [
+        79,
+        107
+      ],
+      [
+        79,
+        108
+      ]
+    ],
+    "2803": [
+      [
+        75,
+        107
+      ],
+      [
+        75,
+        108
+      ]
+    ],
+    "2805": [
+      [
+        71,
+        107
+      ],
+      [
+        71,
+        108
+      ]
+    ],
+    "2807": [
+      [
+        67,
+        107
+      ],
+      [
+        67,
+        108
+      ]
+    ],
+    "2809": [
+      [
+        63,
+        107
+      ],
+      [
+        63,
+        108
+      ]
+    ],
+    "2811": [
+      [
+        59,
+        107
+      ],
+      [
+        59,
+        108
+      ]
+    ],
+    "2813": [
+      [
+        55,
+        107
+      ],
+      [
+        55,
+        108
+      ]
+    ],
+    "2815": [
+      [
+        51,
+        107
+      ],
+      [
+        51,
+        108
+      ]
+    ],
+    "2817": [
+      [
+        47,
+        107
+      ],
+      [
+        47,
+        108
+      ]
+    ],
+    "2819": [
+      [
+        43,
+        107
+      ],
+      [
+        43,
+        108
+      ]
+    ],
+    "3425": [
+      [
+        125,
+        95
+      ],
+      [
+        125,
+        96
+      ]
+    ],
+    "3427": [
+      [
+        124,
+        101
+      ],
+      [
+        124,
+        102
+      ]
+    ],
+    "3429": [
+      [
+        123,
+        107
+      ],
+      [
+        123,
+        108
+      ]
+    ],
+    "3431": [
+      [
+        122,
+        113
+      ],
+      [
+        122,
+        114
+      ]
+    ],
+    "3433": [
+      [
+        121,
+        119
+      ],
+      [
+        121,
+        120
+      ]
+    ],
+    "3435": [
+      [
+        120,
+        125
+      ],
+      [
+        120,
+        126
+      ]
+    ],
+    "3437": [
+      [
+        119,
+        131
+      ],
+      [
+        119,
+        132
+      ]
+    ],
+    "3439": [
+      [
+        118,
+        137
+      ],
+      [
+        118,
+        138
+      ]
+    ],
+    "3441": [
+      [
+        117,
+        143
+      ],
+      [
+        117,
+        144
+      ]
+    ],
+    "3443": [
+      [
+        116,
+        149
+      ],
+      [
+        116,
+        150
+      ]
+    ],
+    "3445": [
+      [
+        115,
+        155
+      ],
+      [
+        115,
+        156
+      ]
+    ],
+    "3447": [
+      [
+        114,
+        161
+      ],
+      [
+        114,
+        162
+      ]
+    ],
+    "3449": [
+      [
+        113,
+        167
+      ],
+      [
+        113,
+        168
+      ]
+    ],
+    "5121": [
+      [
+        139,
+        83
+      ],
+      [
+        139,
+        84
+      ]
+    ],
+    "5123": [
+      [
+        141,
+        77
+      ],
+      [
+        141,
+        78
+      ]
+    ],
+    "5125": [
+      [
+        143,
+        71
+      ],
+      [
+        143,
+        72
+      ]
+    ],
+    "5127": [
+      [
+        145,
+        65
+      ],
+      [
+        145,
+        66
+      ]
+    ],
+    "5129": [
+      [
+        147,
+        59
+      ],
+      [
+        147,
+        60
+      ]
+    ],
+    "5131": [
+      [
+        149,
+        53
+      ],
+      [
+        149,
+        54
+      ]
+    ],
+    "5133": [
+      [
+        151,
+        47
+      ],
+      [
+        151,
+        48
+      ]
+    ],
+    "5135": [
+      [
+        153,
+        41
+      ],
+      [
+        153,
+        42
+      ]
+    ],
+    "5137": [
+      [
+        155,
+        35
+      ],
+      [
+        155,
+        36
+      ]
+    ],
+    "5139": [
+      [
+        157,
+        29
+      ],
+      [
+        157,
+        30
+      ]
+    ],
+    "5141": [
+      [
+        159,
+        23
+      ],
+      [
+        159,
+        24
+      ]
+    ],
+    "5143": [
+      [
+        1,
+        18
+      ],
+      [
+        1,
+        19
+      ]
+    ],
+    "5145": [
+      [
+        3,
+        190
+      ],
+      [
+        3,
+        191
+      ]
+    ],
+    "6865": [
+      [
+        124,
+        127
+      ],
+      [
+        124,
+        128
+      ]
+    ],
+    "6867": [
+      [
+        124,
+        119
+      ],
+      [
+        124,
+        120
+      ]
+    ],
+    "6869": [
+      [
+        124,
+        111
+      ],
+      [
+        124,
+        112
+      ]
+    ],
+    "6871": [
+      [
+        124,
+        103
+      ],
+      [
+        124,
+        104
+      ]
+    ],
+    "6873": [
+      [
+        124,
+        95
+      ],
+      [
+        124,
+        96
+      ]
+    ],
+    "6875": [
+      [
+        124,
+        87
+      ],
+      [
+        124,
+        88
+      ]
+    ],
+    "6877": [
+      [
+        124,
+        79
+      ],
+      [
+        124,
+        80
+      ]
+    ],
+    "6879": [
+      [
+        124,
+        71
+      ],
+      [
+        124,
+        72
+      ]
+    ],
+    "6881": [
+      [
+        124,
+        63
+      ],
+      [
+        124,
+        64
+      ]
+    ],
+    "6883": [
+      [
+        124,
+        55
+      ],
+      [
+        124,
+        56
+      ]
+    ]
+  },
+  "methods": [
+    "All 8192 archived frames, strict shard SHA/accounting reader; no exclusions. Frozen scoring ROI x[0,160),y[16,194) used by BOTH instruments.",
+    "RAM renderer and stateless RGB-only glyph matcher invoked separately.",
+    "Unchanged cardinality-first matcher and category criteria; no pooling.",
+    "Ship explosion dots grouped by complete glyph; wrapped ship has one box per visible vertical band.",
+    "RGB asteroid phase identified only by non-blue asteroid colours or a blue component larger than2x3."
+  ],
+  "limitations": [
+    "Empirical development correction only; no held-out17512 result. Initialv1 PASS was outside the frozenROI and remains preserved as nonconforming.",
+    "Asteroids category not reviewed or certified here.",
+    "Blue-only asteroid frames containing only tiny fragments could remain ambiguous on unseen states.",
+    "Two red missiles have an unexplained1-pixel vertical difference, retained within frozen tolerance.",
+    "Finite observed player y(-5..83), missile y(0..88), bank/pointer guards; unknown states fail."
+  ],
+  "source_sha256": {
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/diagnose_asteroids_player_roi_v70.py": "1d3694b724883e54e464b41a0060b4e0dd629f71eb98250d4e377beab1c9bcb4",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693"
+  },
+  "fixture_manifest_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "palette_inventory_sha256": "0477c7782702a1114d2b8e375a9f9616f30f999685e5c8d7b2dbbefc807ecb80",
+  "pixel_inventory_sha256": "b6cc9610c52afa92eb9f12364a0da32b6f5aebc083000aa9541c88b42904d1cd",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "gate_result": null
+}

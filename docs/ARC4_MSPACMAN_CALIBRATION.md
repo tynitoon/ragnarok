@@ -145,3 +145,18 @@ hors de ce masque restent analysés. Le juge RAM applique les supports bouclés
 des fantômes et les occultations aux deux tailles de pastilles. Quatre témoins
 ciblés passent. Les deux calculs complets V3 sont en cours ; aucune source de
 ces calculs ne doit changer avant leur fin. Réservés17412/17432 fermés.
+
+
+V3 complète sur les deux développements : uniforme17411 conserve le fruit
+absent/null/FAIL et les quatre catégories observées passent. Couverture17431 :
+les cinq catégories passent, sans mélanger les séquences. Les comptages sont
+exacts sur toutes les images pour joueur, fantômes, fruits et grosses pastilles.
+Les fantômes gardent704erreurs géométriques sur86 503appariements
+(99,1862 % à un pixel près). Les petites pastilles gardent45désaccords de
+comptage sur32 768images et21erreurs géométriques sur2 374 804appariements.
+Les grosses pastilles ont27 954boîtes exactes. Ces résidus restent dans le score.
+Reçus indépendants de composition et de résultats V3 clos. Le protocole distinct
+`ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json` prépare les réservés17412/17432 :
+scellé des sources et métadonnées avant lancement, deux séquences séparées,
+fruit uniforme strictement absent toujours null/FAIL. Aucun réservé ouvert à
+ce point documentaire.
