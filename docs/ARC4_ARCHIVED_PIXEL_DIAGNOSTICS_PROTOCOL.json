@@ -1,0 +1,55 @@
+{
+  "kind": "prospective_archived_pixel_cpu_diagnostics_v0",
+  "spec": {
+    "cases": [
+      "pong",
+      "breakout",
+      "freeway",
+      "seaquest",
+      "ms_pacman",
+      "asteroids",
+      "pong_prefix_1",
+      "pong_prefix_2",
+      "pong_prefix_3"
+    ],
+    "ordinary_indices": [
+      0,
+      1,
+      2,
+      3,
+      126,
+      127,
+      128,
+      129
+    ],
+    "ordinary_records": 72,
+    "branch_pairs": 6,
+    "parser_seed": 764,
+    "reset_identical_weights_per_case": true,
+    "max_tracks": 512,
+    "max_groups": 512,
+    "gradient_norm_bound": 1.0,
+    "cpu_threads": 1,
+    "max_work_seconds": 900,
+    "optimizer_updates": 0,
+    "new_emulated_frames": 0
+  },
+  "inputs": "Exactly the reviewed native wiring result and its nine own RGB archives; all72 predeclared ordinary positions and six already-paid branch pairs, without new selection or collection.",
+  "initialization": "One explicit seed764, restoring identically initialized untrained CPU weights for every case; no pretrained or task-trained checkpoint.",
+  "checks": "All five heads, every P/C/G/I diagnostic term and admitted gradient must be finite; incomplete P horizons remain unknown; archive gaps restart identity memory; model weight hash remains exactly unchanged. Every declared record must finish.",
+  "objective_scope": "Unit-coefficient diagnostic sum of P, foreground BCE, G pull, G separation and I exercises graphs only. C is exercised separately on its own pooled frame4. No optimizer or training schedule is defined.",
+  "work_ceiling": "900 seconds of work checked before each record/pair and after final work; no preemptive interruption of an individual PyTorch call. Initial/final proof hashing is outside this work ceiling.",
+  "stop": "One attempt. Preserve any failure, its case/index/phase, completed cases and partial current-case rows. Do not retry, substitute initialization or alter criteria after outputs.",
+  "prerequisites": "Commit exact sources and protocol, then commit independent source review and exact CPU-runtime preflight before first model inference on real archives.",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "limitations": [
+    "No new emulation, GPU use, optimizer update, trained checkpoint, perception accuracy or transfer experiment.",
+    "Finite losses or gradients, including zero targets or clipped gradients, do not establish object binding, useful supervision or stable learning.",
+    "These are short preselected engineering clips from already-used development games, not a learning dataset or an independent evaluation population.",
+    "Only archived own RGB and the previously recorded12-effect assumption enter the model; raw buttons, game names and accounting stay as external bookkeeping.",
+    "I uses delivered ordinary-image chronology within each contiguous clip. Collection gaps and visible discontinuities reset memory, without labeling invisible native resets or deaths.",
+    "C at pooled frame4 may be entirely unknown because of absent own motion, missing future or projection outside the image; report its supervised count rather than treating absence as a learned negative.",
+    "ARC3 continues independently; this check has no model throughput or full-chain performance claim."
+  ]
+}
