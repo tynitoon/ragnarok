@@ -1,0 +1,12 @@
+{
+  "kind": "complete_pong_native_cpu_report_equivalence",
+  "all_worker_reports_equal": true,
+  "workers": 16,
+  "decisions_per_worker": 2048,
+  "numpy_sha256": "46bf6ad613073f619c1e7db1391980386bf35eb6c70b885cf221d555c475a685",
+  "native_sha256": "52b462731aca8ebfce6859a23eb02cf6b897d854324efcdb267aa89a2b2805e0",
+  "numpy_sps": 1592.6150486849965,
+  "native_sps": 1355.5429694213194,
+  "gate_result": null,
+  "limitation": "Sequential runs under variable ARC3 and host load; native was slower in this full run despite exact algorithm equivalence. No controlled speedup claim."
+}

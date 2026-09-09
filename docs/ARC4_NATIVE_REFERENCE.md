@@ -48,3 +48,10 @@ de temps sont des diagnostics, pas une mesure contrôlée d'un facteur de gain.
 Le minimum technique provisoire 1000 est juste dépassé ; la cible 2000 du
 brouillon reste non atteinte. Aucun gate ni apprentissage n'en découle.
 Le backend reste optionnel (`--reference-backend native --native-build ...`).
+
+Un contrôle ultérieur de Pong avec le même backend donne 1355,54 décisions/s,
+contre 1592,62 pour sa mesure NumPy antérieure : cette fois le débit complet est
+inférieur, malgré l'égalité exacte des 16 rapports. Ces données sont aussi
+conservées dans `v70_pong_pooled/cpu_native_equivalence.json`. Elles confirment
+qu'un calcul local plus rapide ne suffit pas à attribuer le temps de chaîne
+globale sous charge variable ; aucun gain universel n'est établi.

@@ -171,11 +171,29 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   **Le juge décrit les deux sources ; une occlusion de même rouge peut rendre
   l'identité indécidable depuis le seul maxRGB.** Garder cette portée dans toute
   mesure de perception. `docs/ARC4_BREAKOUT_POOLED_CALIBRATION.md`.
-- Intégration Breakout dans `reference_pool_v70.py` et `scene_adapters_v70.py`,
-  16 tests référence/scène passent. Benchmark froid 16 × 2048 lancé ; résultat
-  attendu `craft_v6_out/v70_breakout_pooled/cpu_chain_16_workers_baseline.json`.
-  Revue de l'intégration confiée à Meitner. Ne pas changer ses sources pendant
-  ce benchmark. Puis optimiser si nécessaire, avec égalité des rapports.
+- Chaîne Breakout : baseline 642,61/s, intervalles équivalents 803,66/s,
+  backend de calcul RGB compilé 1005,41/s. Les 16 rapports restent exactement
+  identiques, 186450 frames facturées. Cible 2000 non atteinte. Backend optionnel
+  `native_reference_v70.py`, C/DLL x64 sans imports avec empreintes vérifiées,
+  revue Meitner close, 18 tests natif/référence passent. Aucun changement aux
+  décodeurs scellés. Voir `docs/ARC4_NATIVE_REFERENCE.md`. Contrôle Pong natif
+  ultérieur 1355,54/s, inférieur au NumPy antérieur sous charge variable, mêmes
+  16 rapports : ne pas affirmer de gain contrôlé ou universel.
+- Freeway brut : baseline négative `fc180c0`, V1 encore négative `45c78e3`,
+  V2 corrige checker poulet/ligne jaune, bouclage/clip visible voitures et phase
+  empirique voie4. Critères inchangés, revue Ohm close. Sources finales et dix
+  empreintes commitées `b9d5a2b` avant17212. Échec ponctuel d'index Git sur le
+  sceau JSON ; capture poursuivie, métadonnées commitées ensuite `92c0a42`.
+  Déviation documentée, ne pas présenter ce dernier commit comme antérieur à
+  l'ouverture. Candidat inchangé et hash antérieur vérifié. 17212 passe12types,
+  présence joueur99,683%, boîtes99,633%,4228frames facturées. Trajectoires voitures
+  identiques entre seeds ; leur répétition n'est pas une validation indépendante.
+  Voir `docs/ARC4_FREEWAY_CALIBRATION.md`.
+- Freeway temporel : protocole/candidat fixé `ed7fd7a` avant17221, 2048 fenêtres,
+  8323frames facturées, une seule construction, dernière répétition tronquée.
+  Baseline passe12types ;17222 encore fermée. Prochaine action : préserver,
+  revue puis sceau **commité avec succès** avant17222. Toujours séparer les
+  appels dépendants et inspecter chaque code de sortie.
 
 Les sceaux bruts/temporaux listent les SHA des sources : **ne pas modifier ces
 fichiers**, y compris moteurs et décodeurs partagés, pour les optimisations.
@@ -185,7 +203,7 @@ Les anciens fichiers Pong scellés restent aussi des références historiques.
 
 ### Suite autorisée
 
-Terminer le débit Breakout, puis calibrer Freeway, Seaquest, MsPacman, Asteroids
+Terminer Freeway temporel et son intégration CPU, puis calibrer Seaquest, MsPacman, Asteroids
 sur développement avec protocole préalable, baseline conservée, revue, scellement
 avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
