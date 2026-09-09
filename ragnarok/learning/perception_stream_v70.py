@@ -129,8 +129,16 @@ def transition_prediction(source,following):
     elapsed=following.native_frame-source.native_frame
     if type(elapsed) is not int or not 1<=elapsed<=4:
         raise ValueError('Expected one ordinary transition of1..4 actual frames')
+    if (not torch.isfinite(source.output.displacement).all()
+            or not torch.isfinite(source.output.foreground_logits).all()):
+        raise ValueError('Source prediction fields must be finite before any P target')
     if elapsed<4:
-        zero=(source.output.displacement.sum()+source.output.foreground_logits.sum())*0
+        # Indexing preserves a zero gradient to each tensor without an overflowing
+        # reduction of individually finite values before multiplying by zero.
+        zero=(source.output.displacement.reshape(-1)[0]*0
+              +source.output.foreground_logits.reshape(-1)[0]*0)
         return TransitionPrediction(False,elapsed,'truncated_prediction_horizon',zero,zero)
     result=prediction_terms(source.pooled_rgb,following.pooled_rgb,source.output)
+    if not torch.isfinite(result['image_l1']) or not torch.isfinite(result['foreground_bce']):
+        raise ValueError('Nonfinite P loss; no eligible training transition may be returned')
     return TransitionPrediction(True,elapsed,'complete_prediction_horizon',result['image_l1'],result['foreground_bce'])

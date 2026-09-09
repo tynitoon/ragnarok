@@ -115,3 +115,19 @@ def test_observation_clock_and_effect_domain_are_checked_without_committing():
     with pytest.raises(ValueError): own.observe(rgb(),rgb(),native_frame=4,effect=np.array([3]))
     with pytest.raises(ValueError): own.observe(rgb(),rgb(),native_frame=4,effect=np.full(12,2.,np.float64))
     assert own._tracker._frame==0 and set(own._history)=={0}
+
+
+def test_extreme_finite_fields_cannot_make_unknown_p_nan_or_eligible_p_infinite():
+    own=stream()
+    first=own.observe(rgb(),rgb(),native_frame=0)
+    later=own.observe(rgb(),rgb(1),native_frame=4)
+    extreme=torch.finfo(torch.float32).max
+    output=replace(first.output,
+        displacement=torch.full_like(first.output.displacement,extreme,requires_grad=True),
+        foreground_logits=torch.full_like(first.output.foreground_logits,extreme,requires_grad=True))
+    source=replace(first,output=output)
+    unknown=transition_prediction(source,replace(later,native_frame=2))
+    assert not unknown.eligible and unknown.image_l1.item()==unknown.foreground_bce.item()==0
+    (unknown.image_l1+unknown.foreground_bce).backward()
+    assert torch.count_nonzero(output.displacement.grad)==torch.count_nonzero(output.foreground_logits.grad)==0
+    with pytest.raises(ValueError,match='Nonfinite P loss'): transition_prediction(source,later)

@@ -37,3 +37,10 @@ provenance. La correspondance des boutons avec les effets reste à apprendre.
 C est encore un objectif séparé : lier de façon attestée son effet, son point de
 départ et ses deux branches exige l'intégration du collecteur. La gestion de
 terminaison, les choix de données, coefficients et mises à jour ne sont pas figés.
+
+La perte P héritée reste inchangée. L'assemblage refuse de rendre une transition
+admissible si cette perte n'est pas finie ; des logits individuellement finis
+mais extrêmes peuvent faire déborder sa réduction. Le zéro d'une transition
+tronquée ne réduit pas de grandes valeurs avant multiplication par zéro. Ce
+contrôle de perte ne rembobine pas des observations déjà reçues : un futur
+lanceur doit conserver leur comptabilité et arrêter l'apprentissage défaillant.

@@ -1,0 +1,203 @@
+{
+  "kind": "own_grouping_and_identity_objectives_independent_source_review",
+  "created_utc": "2026-09-09T17:38:57.300967+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "training_authorized": false,
+  "native_execution_authorized": false,
+  "benchmark_authorized": false,
+  "gate_result": null,
+  "source_commit": "37e5d90f73278ea7fd7f686fa4b7e46d1af96739",
+  "source_sha256": {
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "tests/test_embedding_objectives_v70.py": "0790585b144dbdd595b0ba1e0f46351243a7805e2a22f47e27d106baf57363e3",
+    "docs/ARC4_EMBEDDING_OBJECTIVES_DRAFT.md": "dee3b08a54e812915aaf02fcd7cfcc3fcc943eecaf4990d0639e804c3de2c1b3",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/test_instance_tracker_v70.py": "e6904cc834bec821cddfc752e86e5502000dac9f60a29ab9e722443647fe78b7",
+    "tests/test_visual_instances_v70.py": "0a0e580371e06bdf72fdc740e57edf9754a4fbe6cb4169aa750a2dd9529e922a",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "tensor_device": "cpu",
+    "torch_threads": 1,
+    "CUDA_VISIBLE_DEVICES": "",
+    "cuda_initialized": false
+  },
+  "checks": {
+    "source_closure": {
+      "files": 11,
+      "all_committed_blobs_equal": true,
+      "transitive_local_imports_and_initializers_included": true,
+      "earlier_reviewed_parser_tracker_counterfactual_sources_unchanged": true,
+      "new_perception_stream_assembly_excluded": true
+    },
+    "grouping": {
+      "target_inputs": "Own detached foreground logits and forward displacement only; appearance embedding is not used to generate G labels",
+      "foreground": "Strictly positive logits",
+      "graph": "Four-neighbour edges when displacement difference norm is at most declared tolerance",
+      "default_tolerance_pixels": 0.5,
+      "declared_horizon_frames": [
+        1,
+        64
+      ],
+      "default_group_capacity": 512,
+      "maximum_permitted_group_capacity": 4096,
+      "capacity_failure_explicit": true,
+      "label_order": "Components in first row-major foreground-pixel order, -1 unknown",
+      "pull": "Mean of per-group mean squared Euclidean residuals, equal weight per group",
+      "separation": "Mean squared hinge max(0,margin−Euclidean centroid distance)^2 over unordered group pairs",
+      "default_margin": 1,
+      "unknown_pixel_gradient_zero": true,
+      "m_and_d_receive_no_G_target_gradient": true
+    },
+    "identity": {
+      "input": "Two own TrackerFrames and supplied endpoint embedding tensors",
+      "positive": "Shared visible own track ID",
+      "lag_frames": 8,
+      "same_stream_and_epoch_required": true,
+      "coasting_excluded_from_positive_and_negative_candidates": true,
+      "new_ids_never_forced_into_positive": true,
+      "descriptor_source": "Means recalculated from supplied embedding pixels at both endpoints; saved descriptor appearance is not used",
+      "normalization": "Instance embedding mean normalized with eps1e-6",
+      "loss": "Cross entropy in each direction with at least two opposite-side visible candidates; average of eligible directions",
+      "default_temperature": 0.1,
+      "temperature_domain": [
+        0.0001,
+        1
+      ],
+      "supervised_anchors_meaning": "Count of admissible contrastive targets, not proof of a computation graph or optimizer update",
+      "pixel_box_descriptor_geometry_checked": true
+    },
+    "numerical_domain": {
+      "embedding_components": [
+        -1,
+        1
+      ],
+      "supported_input_dtypes": [
+        "float32",
+        "float64"
+      ],
+      "internal_embedding_computation": "float32",
+      "float16_and_bfloat16_rejected": true,
+      "AMP_not_claimed": true
+    },
+    "tests": {
+      "command": "C:/Python314/python.exe with CUDA_VISIBLE_DEVICES empty, Torch threads1; pytest tests/test_embedding_objectives_v70.py",
+      "passed": 17,
+      "elapsed_seconds": 0.28
+    },
+    "independent_witnesses": {
+      "graph_union_find_reference": {
+        "cases": 40,
+        "shapes": [
+          [
+            1,
+            9
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            7,
+            8
+          ]
+        ],
+        "canonical_labels_exact": true
+      },
+      "G_scalar_reference": {
+        "unequal_group_sizes": true,
+        "loss_absolute_error": 1.4474984433299198e-08,
+        "finite_difference_coordinates": 3,
+        "maximum_gradient_error": 8.850060044807151e-07,
+        "background_gradient_zero": true
+      },
+      "I_stable_logsumexp_reference": {
+        "previous_candidates": 2,
+        "current_candidates": 3,
+        "loss_absolute_error": 1.1137002342564983e-07,
+        "finite_difference_endpoints": 2,
+        "maximum_gradient_error": 2.036517530612514e-05,
+        "gradient_reaches_both_supplied_endpoints": true
+      },
+      "I_one_sided_negatives": {
+        "previous_candidates": 2,
+        "current_candidates": 1,
+        "shared_ids": 1,
+        "supervised_anchors": 1
+      },
+      "saved_appearance_descriptor_mutation": "Loss bitwise unchanged when saved descriptor[7:39] changes and current endpoint embeddings remain the same",
+      "geometry_regression": "Tracker32x64 with both embeddings reshaped32x16x128 is now rejected",
+      "detached_endpoint_counterexample": {
+        "eligible_anchors": 4,
+        "loss_requires_grad": false,
+        "status": "Allowed evaluation, explicitly not proof of training"
+      },
+      "exact_I_collapse": {
+        "two_objects_loss": "log2",
+        "gradient_at_both_endpoints": 0,
+        "status": "Preserved negative counterexample"
+      },
+      "near_zero_mean_dtype_regression": {
+        "float16_original_gradient": "infinity; now rejected",
+        "float32_loss": 0.34659630060195923,
+        "float64_loss": 0.34659630060195923,
+        "maximum_supported_gradient": 625000.0,
+        "supported_gradients_finite": true
+      }
+    },
+    "new_emulated_frames": 0,
+    "new_training_steps": 0,
+    "gpu_work": false,
+    "Atari_or_archive_inputs_read": false
+  },
+  "resolved_findings": [
+    {
+      "problem": "Same-area reshaped embeddings passed the index-range check while no longer matching instance spatial geometry.",
+      "resolution": "VisualInstance type, tight pixel box and descriptor first five coordinates verified against embedding height/width.",
+      "commit": "d6521d9d40d00ccf205b38e7abbc2a8b98d06f59"
+    },
+    {
+      "problem": "Eligible anchor counts could be mistaken for evidence of recomputation/autograd; exact identity collapse was not stated.",
+      "resolution": "Detached evaluation and the log2/zero-gradient collapse counterexample are documented and tested; admissibility is distinguished from training.",
+      "commit": "d6521d9d40d00ccf205b38e7abbc2a8b98d06f59"
+    },
+    {
+      "problem": "Finite float16 embeddings could produce infinite backward gradients near a zero instance mean.",
+      "resolution": "Supported embedding dtypes explicitly restricted to float32/float64; float16/bfloat16 rejected before loss calculation.",
+      "commit": "37e5d90f73278ea7fd7f686fa4b7e46d1af96739"
+    }
+  ],
+  "limitations_and_items_before_training": [
+    "This is a synthetic source and autograd review. No learned segmentation, identity accuracy, game competence, calibration, transfer, throughput or gate result is established.",
+    "G uses local motion agreement. Transitive chains can join distant motion values; own foreground and flow errors can merge or split physical objects. Appearance separation also pushes similar but disconnected objects apart.",
+    "Exact collapsed representations are stationary for the disclosed G margin and for the tested I contrastive configuration. A positive loss or nonzero eligible-anchor count is not a guarantee of a useful gradient or collapse avoidance.",
+    "Near-zero instance means can create large finite float32 gradients (625000 in the preserved witness). Finite arithmetic is not a stability guarantee; optimization, clipping/normalization choices and their evaluation remain prospective.",
+    "I is trained from the tracker that itself uses appearance embeddings. ID switches, fragmentation, false negatives and reappearance mistakes can reinforce errors; no independent identity oracle corrects them.",
+    "Stream, reset epoch, exact lag and geometry checks do not attest the actual timestamp/content of images, native paid-frame history, instance visibility provenance or recomputation through current network weights. The collector/assembly must prove these bindings and prevent cached detached embeddings from substituting for a training graph.",
+    "Supplied tensors may be detached for loss evaluation. Supervised_anchors counts admissible targets only; it is neither an optimizer-step count nor proof that either endpoint connects to model parameters.",
+    "One-sided contrastive supervision is permitted when only the opposite endpoint provides a negative. Coasts are ignored even if they carry plausible predicted locations, and no new ID is forced into a correspondence.",
+    "The graph horizon/tolerance, group capacity, margin, temperature, loss weights, observation clock and training schedule remain draft choices to freeze prospectively. Graph and contrastive matrix costs and backward memory have not been benchmarked.",
+    "Input float64 is accepted but features are computed in float32. Float16, bfloat16 and AMP are not supported by this reviewed contract.",
+    "The new perception stream assembly, memory integration, collector and any full P/C/G/I optimizer are excluded from this receipt and require separate review."
+  ]
+}
