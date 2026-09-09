@@ -101,3 +101,16 @@ positifs,26497/26607within1 dont26478exacts. Comptage encore FAIL, sans exclusio
 V5 ajoute séparément les glyphes coupés aux frontières physiques et au ROI,
 avec accord exact et unique des supports. Onze tests chronologie/bords passent ;
 le résultat complet V5 est en cours.17512 reste fermé.
+
+
+V5 est complète :8161/8192comptages globaux et4065/4096comptages positifs égaux,
+26628/26673boîtes within1 dont26610exactes. Les31images en désaccord restent
+incluses ; les débris d'explosion et certains contacts ambigus demeurent des
+limites du modèle. La composition `development_visible_v1.json` reproduit ces
+compteurs, ainsi que2309boîtes joueur exactes et966tirs within1 (964exacts).
+Les trois catégories passent sur le développement. Revue indépendante close,
+26tests de modèles et14tests de validation passent. Le protocole distinct
+`ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json` définit le test17512 unique.
+Le lanceur/scorer a été revu ; les commits des sources puis du scellé et le vrai
+préflight sont encore requis avant construction. Aucun apprentissage ni résultat
+réservé n'est déduit de ce passage en développement.

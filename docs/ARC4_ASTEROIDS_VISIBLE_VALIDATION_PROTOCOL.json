@@ -1,0 +1,23 @@
+{
+  "kind": "prospective_asteroids_visible_reserved_validation_v1",
+  "game": "asteroids",
+  "seed": 17512,
+  "frames": 8192,
+  "action_repeat": 16,
+  "action_seed": 117512,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 1089668,
+  "capture": "One capture using the unchanged capture_cold_v70, uniform PythonRandom(117512) buttons held16 raw frames. Preserve all8192 ordinary images, including failures, deaths and terminal frames. Cold loads cost132each. No branches or restores. Write the durable attempt after a committed source/metadata seal and before the first emulator construction. Never retry an existing attempt or select another seed after a failure.",
+  "scope": "The original three categories, separately in ROI[0,16,160,194): player, asteroid, player_missile. Asteroid labels are connected visible pieces within each RAM allocation, with torus connectivity across the horizontal screen edge and one box per visible band. Different RAM allocations are never merged, including same-colour contacts. These labels do not certify physical asteroid identities. The player groups the visible pieces of each ship/explosion glyph. Every unmatched RGB component, ambiguous glyph decomposition and unexplained debris remains scored.",
+  "methods": "The unchanged development composition combines the corrected player/missile ROI renderer, rock RAM chronology and predicted P0-over-P1 support occlusion, and the RGB-only exact two-glyph checker including physical top clipping and the frozen bottom bound. Full glyph origins determine row parity. All exact explanations must agree on visible supports before a component is split. Prior RAM is adjacent within the same episode; the first archived cold frame uses explicit current fallback. The RGB path gets only the raw image and uses a pure shape cache, without RAM, timestamps or episode boundaries.",
+  "criteria": "For EACH of the three categories: >=50 joint instance-frame matches; RAM/RGB count agreement>=0.99 of all frames AND>=0.99 of positive frames; all four matched box edges within1 pixel for>=0.99 of joint matches, using the unchanged cardinality-first Breakout matcher. Empty denominators remain null and FAIL. No pooling, frame exclusion or category exemption.",
+  "seal": "Independently review the complete development composition/result and this validation implementation; commit all sources, then commit SHA256 metadata binding the source commit, full development result, supporting diagnostics, development manifest and review receipts. Verify working bytes, Git HEAD/source blobs, Python/package versions and ALE binary before any emulator construction and again after capture. Unknown states, corrupt archives or changed sources stop and preserve the attempt.",
+  "stop": "Stop for independent scientific review after the one reserved result, whether positive or negative. A reserved failure is preserved without tuning on17512, weakening criteria, dropping fragments or collecting a substitute seed. No training or benchmark gate is authorized by a calibration-only pass.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

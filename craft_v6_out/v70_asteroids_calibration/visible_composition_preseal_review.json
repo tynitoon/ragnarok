@@ -1,0 +1,161 @@
+{
+  "kind": "asteroids_visible_composition_independent_preseal_review",
+  "created_utc": "2026-09-09T11:53:35.864750+00:00",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "passed": true,
+  "code_review_passed": true,
+  "development_result_review_passed": true,
+  "reserved_validation_passed": null,
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "scope": "Read-only preseal review of V5 clipped RGB deblending, RAM chronology and the complete three-category external composition. The complete development result arrived during the review and its provenance and arithmetic were verified; no full scoring was rerun.",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f"
+  },
+  "additional_reviewed_source_sha256": {
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "scripts/diagnose_asteroids_edges_v70.py": "8c132b27ad29663ca61c3daacf7bc8c1832381baa7732f0c3a636a82a6303ff8",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "result_sha256": {
+    "development_visible_v1.json": "91a65c38877bd4506ca81507049aade7e5c18cc9fe0e6046571651171c3cbf04",
+    "rock_edges_development_v5.json": "4463d6a0779302407cb66c56cef1e0da5cbfa199816e4dc853ff21cc6e092fbc",
+    "player_render_roi_development_diagnostic_v2.json": "38954ac5418d0cc330de3cf38d55c7ec3ad04799c814684194440b3f034fd1af"
+  },
+  "fixture_manifest_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2299,
+      "positive_count_agreement": 2299,
+      "joint_matches": 2309,
+      "boxes_within1": 2309,
+      "boxes_exact": 2309,
+      "ram_objects": 2309,
+      "pixel_objects": 2309,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "asteroid": {
+      "frames": 8192,
+      "presence_count_agreement": 8161,
+      "positive_frames": 4096,
+      "positive_count_agreement": 4065,
+      "joint_matches": 26673,
+      "boxes_within1": 26628,
+      "boxes_exact": 26610,
+      "ram_objects": 26687,
+      "pixel_objects": 26846,
+      "presence_fraction": 0.9962158203125,
+      "positive_presence_fraction": 0.992431640625,
+      "box_fraction": 0.998312900686087,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 956,
+      "positive_count_agreement": 956,
+      "joint_matches": 966,
+      "boxes_within1": 966,
+      "boxes_exact": 964,
+      "ram_objects": 966,
+      "pixel_objects": 966,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "checks": {
+    "dependency_closure": "All local explicit Python imports reachable from the20 declared source/metadata paths are covered; no missing executable dependency or duplicate path found. Package initializers contain docstrings/version only and are additionally hashed here.",
+    "clipping": "Clipped candidate support is filtered only by absolute y>=18+full_origin_parity and y<194. Every remaining pixel must lie in the observed component; no crop is allowed at an arbitrary component boundary. Horizontal coordinates preserve torus connectivity.",
+    "exact_cover": "Both interior and clipped deblending compare all admissible pair explanations as ordered foreground and visible-background support sets. A single-glyph explanation, multiple distinct supports, or no explanation retains the original component. Pixels are neither dropped nor duplicated.",
+    "ram_rgb_separation": "RAM decoder accepts current RAM plus previous adjacent RAM only; player/missile uses current RAM, rocks use guarded chronology. RGB checker receives only the raw image; its caches are pure functions of image-derived shape data, with no RAM, episode or chronological input.",
+    "continuity": "Strict fixture reader verifies contiguous charged frames, episode changes and shard hashes. Scorer resets previous RAM at episode changes and copies current RAM after decoding every image; no image/phase subset is excluded from denominators.",
+    "criteria": "The unchanged cardinality-first Breakout matcher and all three frozen per-category99% thresholds are used, including all frames and union-positive frames separately. Minimum50 matches; empty fractions remain null/FAIL. All3 categories must pass, with no pooling.",
+    "provenance": "Complete result has exactly the20 declared source hashes, all equal current files. Capture provenance equals immutable manifest. Manifest SHA agrees with V5. Player/missile dictionaries exactly equal their earlier ROI-corrected diagnostic; every asteroid counter/fraction equals V5. Source hashes are checked before/after the production scoring loop."
+  },
+  "verification": {
+    "pytest": {
+      "command": ".venv-arc4/Scripts/python.exe -m pytest tests/test_asteroids_history_edges_v70.py tests/test_asteroids_deblend_v70.py tests/test_asteroids_player_roi_v70.py -q",
+      "passed": 26,
+      "seconds": 1.62
+    },
+    "actual_finalizer_ast_cases": [
+      "empty denominators FAIL",
+      "49matches FAIL",
+      "exact99% thresholds PASS",
+      "all-frame count below99% FAIL",
+      "positive-frame count below99% FAIL",
+      "geometry below99% FAIL"
+    ],
+    "independent_absolute_support_enumeration": {
+      "frames_1based": [
+        2193,
+        3329,
+        3509,
+        5797,
+        7023,
+        7203
+      ],
+      "unique_clipped_pairs_checked": 6,
+      "result": "PASS: independent absolute-coordinate enumeration gives exactly one foreground/background visible-support pair, equal to the implementation on every witness. Union/disjointness checked for every component in those six images; read shard SHA verified."
+    }
+  },
+  "limits": [
+    "Development PASS is not a reserved17512 result and not a learning/transfer claim. Reserve remains unopened by this reviewer.",
+    "31 asteroid count-error images and45 matched pairs beyond1pixel remain included. Player is2309/2309 exact; missiles966/966within1 with964exact. No exceptions were removed to obtain PASS.",
+    "Clipped and interior pair uniqueness is conditional on the declared four-glyph, two-opposite-parity model. Ambiguous/debris/more-complex shapes remain counted through fallback. V5 records97unique interior pairs,66unique clipped pairs,1interior ambiguity and2clipped ambiguities.",
+    "RAM/RGB share development glyph hypotheses; common modelling error and blue-only tiny-rock phase ambiguity remain possible. Reserved validation must keep the same fixed method and thresholds.",
+    "Rock labels are connected visible pieces within each allocation, with separate edge bands; player/explosion labels follow their existing visible-vertical-band grouping. Neither label convention certifies physical lifetimes.",
+    "Previous-RAM adjacency is a caller contract enforced by the fixture reader/scorer, not inferable from two uint8 arrays alone."
+  ],
+  "prospective_seal_requirements": [
+    "Freeze the complete composition, all20 declared paths, relevant tests, executable package initializers and the future reserved launcher/scorer before opening17512.",
+    "Bind this receipt, development result and fixture manifest, V5/actor diagnostics, historical negatives and protocol provenance in committed metadata; fix Python/runtime package versions and ALE binary/ROM identity.",
+    "Reserved scorer must preserve the same history resets, scoring loop, all8192frames, ROI[0,16,160,194), minimum50 and separate99% thresholds. No absence exemption is appropriate for these3required categories.",
+    "Reserved capture requires its own reviewed one-attempt admission, source/metadata checks before and after capture and a preserved failed attempt on interruption; this code review does not review a reserved launcher."
+  ],
+  "preservation": {
+    "existing_sources_modified": false,
+    "existing_results_modified": false,
+    "reserved_data_opened": false,
+    "emulator_launched": false,
+    "new_capture": false,
+    "full_rescore": false,
+    "commit_created": false
+  }
+}
