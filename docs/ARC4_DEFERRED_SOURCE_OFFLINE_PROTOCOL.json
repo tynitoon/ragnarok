@@ -1,0 +1,14 @@
+{
+  "kind": "offline_deferred_source_consumption_equivalence",
+  "game": "asteroids",
+  "archived_seed": 17571,
+  "archived_frames": 8192,
+  "archived_episodes": 5,
+  "input": "craft_v6_out/v70_asteroids_calibration/raw_reference_v0",
+  "grouping": "Replay every archived ordinary frame through the new callback. Consume its last two source scenes every four frames within each archived episode, also consuming the final partial group of each episode and collection. Directly decode the actual archived current RAM with its actual previous RAM as the independent source sequence. Compare ordered objects, grouped envelopes with source membership, and every raw movement-history state. If a consumed group has only one source, decode the actual cold frame0 with the original guard; do not replace an unsupported source with an empty scene.",
+  "scope": "Callback/cache equivalence on already archived frames, not a native trajectory, throughput measurement, new raw calibration or proof of the failed18176 state. Archived actions can change within a replay grouping; no claim that grouping is an actual repeat4 rollout. No emulator, retry, substitute seed, agent training or gate. The original115 CPU sources and failed v0 attempt remain unchanged.",
+  "failure": "Commit sources and this protocol before the offline audit. Create an exclusive durable attempt before reading frames, preserve failure and any prefix counts; do not overwrite or select another collection. A guard on any consumed source fails this audit. Verify input and source hashes before and after work.",
+  "new_emulated_frames": 0,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
