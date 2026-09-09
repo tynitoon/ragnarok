@@ -142,7 +142,9 @@ def run():
     try:
         native=json.loads((ROOT/NATIVE_RESULT).read_text(encoding='utf-8'))
         for case in native['cases']:
-            record['current_case']=case['name'];record['current_phase']='load_and_initialize'
+            case_rows=[];branch_row=None
+            record.update(current_case=case['name'],current_phase='load_and_initialize',
+                current_case_rows=case_rows,current_branch=None,current_index=None)
             with np.load(ROOT/case['selected_trace_archive'],allow_pickle=False) as archive:
                 arrays={name:archive[name] for name in archive.files}
             steps=read_steps(case,arrays)
@@ -152,15 +154,13 @@ def run():
             if initial_weights is None:initial_weights=weights
             if weights!=initial_weights:raise ValueError('Every case must begin with exactly the same untrained weights')
             diagnostic=ArchivedPixelDiagnostics(parser,stream_id='native-wiring-archive/'+case['name'])
-            case_rows=[];branch_row=None
-            record['current_case_rows']=case_rows;record['current_branch']=None
             for index,saved in steps:
                 if time.perf_counter()-started>SPEC['max_work_seconds']:raise ValueError('Declared CPU diagnostic work ceiling reached')
                 record.update(current_phase='ordinary',current_index=index)
                 row=diagnostic.step(index,saved);case_rows.append(row);ordinary_count+=1
             if case['branch'] is not None:
                 if time.perf_counter()-started>SPEC['max_work_seconds']:raise ValueError('Declared CPU diagnostic work ceiling reached')
-                record['current_phase']='branch'
+                record.update(current_phase='branch',current_index=None)
                 meta=case['branch']
                 if (meta['requested_action'],meta['control_action'],meta['requested_frames'],meta['effect_assumption'])!=(5,0,8,[0.]*12):
                     raise ValueError('The archived counterfactual command contract changed')

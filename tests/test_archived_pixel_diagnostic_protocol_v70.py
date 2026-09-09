@@ -109,3 +109,20 @@ def test_unexpected_parameter_mutation_fails_instead_of_claiming_no_training(mon
     with pytest.raises(ValueError,match='modified model weights'):check.run()
     attempt=json.loads(check.ATTEMPT.read_text())
     assert attempt['status']=='failed' and not check.OUTPUT.exists()
+
+
+def test_next_archive_load_failure_cannot_misattribute_previous_case_rows(monkeypatch,tmp_path):
+    setup(monkeypatch,tmp_path)
+    load=np.load
+    def fail(path,*args,**kwargs):
+        if path.name=='breakout.npz':raise OSError('synthetic unavailable next archive')
+        return load(path,*args,**kwargs)
+    monkeypatch.setattr(np,'load',fail)
+    with pytest.raises(OSError,match='next archive'):check.run()
+    attempt=json.loads(check.ATTEMPT.read_text())
+    assert attempt['status']=='failed' and attempt['current_case']=='breakout'
+    assert attempt['current_phase']=='load_and_initialize' and attempt['current_case_rows']==[]
+    assert attempt['current_branch'] is None and attempt['current_index'] is None
+    assert attempt['completed_ordinary_records']==8 and attempt['completed_branch_pairs']==1
+    assert len(attempt['completed_cases'])==1 and attempt['completed_cases'][0]['case']=='pong'
+    assert len(attempt['completed_cases'][0]['ordinary'])==8 and not check.OUTPUT.exists()
