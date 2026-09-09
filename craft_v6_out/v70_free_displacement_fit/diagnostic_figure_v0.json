@@ -1,0 +1,17 @@
+{
+  "kind": "reviewed_free_field_diagnostic_figure",
+  "result_sha256": "c4e72945902e06430e2cff84bf604d9860f6aaef110bba2a12fd4775f41b9e68",
+  "review_sha256": "5def75f0ef5e097e4810435e0b235f272bc966e5f8c1e1119cd09ac813753241",
+  "script_sha256": "feda357c9559755ff4da3e1ccb01a9d9fda6f70f0b3ff6fab8a0f27aff9f4446",
+  "image_sha256": "a5cb583f0fd9c93cfcfc25dbed8f58c29782da61892c40edb0dbea817688bbf2",
+  "native_scene_l1": [
+    0.0,
+    0.02602926455438137
+  ],
+  "native_fit_below_declared_threshold": false,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "new_emulated_frames": 0,
+  "gpu_used": false,
+  "figure_only": true
+}
