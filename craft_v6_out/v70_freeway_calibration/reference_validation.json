@@ -1,0 +1,119 @@
+{
+  "kind": "freeway_raw_reference_development_diagnostic",
+  "metrics": {
+    "frames": 4096,
+    "observed_raw_frames": 4096,
+    "predictions": 85941,
+    "matched_visible": 44509,
+    "eligible_moving": 43199,
+    "recalled_moving": 43087,
+    "recall_moving": 0.9974073473923007,
+    "precision_visible": 0.5179018163623882,
+    "per_type": {
+      "player": {
+        "visible": 4096,
+        "eligible": 2540,
+        "recalled": 2474,
+        "recall_moving": 0.974015748031496
+      },
+      "chicken_2": {
+        "visible": 4096,
+        "eligible": 0,
+        "recalled": 0,
+        "recall_moving": null
+      },
+      "car_0": {
+        "visible": 4071,
+        "eligible": 4056,
+        "recalled": 4050,
+        "recall_moving": 0.9985207100591716
+      },
+      "car_1": {
+        "visible": 4072,
+        "eligible": 4068,
+        "recalled": 4061,
+        "recall_moving": 0.9982792527040315
+      },
+      "car_2": {
+        "visible": 4072,
+        "eligible": 4069,
+        "recalled": 4060,
+        "recall_moving": 0.9977881543376751
+      },
+      "car_3": {
+        "visible": 4072,
+        "eligible": 4070,
+        "recalled": 4057,
+        "recall_moving": 0.9968058968058968
+      },
+      "car_4": {
+        "visible": 4071,
+        "eligible": 4070,
+        "recalled": 4070,
+        "recall_moving": 1.0
+      },
+      "car_5": {
+        "visible": 4070,
+        "eligible": 4069,
+        "recalled": 4068,
+        "recall_moving": 0.9997542393708528
+      },
+      "car_6": {
+        "visible": 4070,
+        "eligible": 4069,
+        "recalled": 4068,
+        "recall_moving": 0.9997542393708528
+      },
+      "car_7": {
+        "visible": 4069,
+        "eligible": 4068,
+        "recalled": 4066,
+        "recall_moving": 0.9995083579154376
+      },
+      "car_8": {
+        "visible": 4068,
+        "eligible": 4067,
+        "recalled": 4064,
+        "recall_moving": 0.9992623555446275
+      },
+      "car_9": {
+        "visible": 4066,
+        "eligible": 4053,
+        "recalled": 4049,
+        "recall_moving": 0.999013076733284
+      }
+    },
+    "gate_result": null
+  },
+  "created_utc": "2026-09-09T00:31:18Z",
+  "calibration_sha256": "2fe1fdaee36c6bf21f184f08f7e526aaa91087098c94bd9c36ca26a78eb2a311",
+  "fixture_manifest_sha256": "190b688fc5bfca02923822e0c5531f629a72bac9d43893f5ee1da8fa50d2df73",
+  "source_sha256": {
+    "scripts/check_freeway_reference_v70.py": "578c2b811075db9463792d40c4673a04b1db78a441f5d1933b4fdbefec9fb7d1",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "docs/ARC4_FREEWAY_REFERENCE_PROTOCOL.json": "07d6315d7eef38fd48a42e5b3b0db92fa7b845088b2f5087ae24f410900c3501"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "decode_seconds": 0.13079859998470056,
+  "reference_seconds": 5.967908599825023,
+  "score_seconds": 1.2350565000524512,
+  "wall_seconds": 7.719281499998033,
+  "measured_raw_frames_per_second": 558.5126774778654,
+  "including_fixture_io_raw_frames_per_second": 530.6193329004835,
+  "oracle_reset_control": false,
+  "gate_result": null,
+  "agent_training": false,
+  "limitations": [
+    "Raw Freeway only, not pooled observations or a gate.",
+    "Reference is never a learned-parser teacher and receives only ordinary RGB.",
+    "All frames included; judge motion reset stays separate from reference history.",
+    "The second chicken and each lane car have distinct identities; stationary visible objects count for precision.",
+    "Timing excludes emulator, IPC, branch generation and learned parser."
+  ]
+}

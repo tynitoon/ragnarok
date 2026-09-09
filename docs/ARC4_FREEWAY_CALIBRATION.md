@@ -73,3 +73,17 @@ leurs statistiques sont identiques. Le nouveau seed et les actions produisent
 une autre trajectoire du joueur, mais la validation ne constitue pas une nouvelle
 réplication indépendante des trajectoires des voitures. La couverture et la
 portée de cette calibration doivent être rapportées ainsi.
+
+## Extracteur de référence, pixels seuls
+
+Protocole distinct `ARC4_FREEWAY_REFERENCE_PROTOCOL.json` fixé dans `9a272f3`
+avant son application à17212 : fond modal causal continu, composantes quatre
+connexes, aucun signal oracle d'épisode. Le rappel mobile est43087/43199
+(99,7407 %), dont2474/2540 pour le joueur (97,4016 %). Le deuxième poulet reste
+stationnaire : son dénominateur mobile est vide, son rappel vaut null.
+
+La précision est seulement44509/85941 (51,7902 %) :41432 prédictions non
+appariées. Ce résultat faible est conservé ; le rappel élevé ne signifie pas
+que les objets sont proprement segmentés. Temps brut mesuré558,51frames/s,
+hors émulation, IPC et branches. Voir `reference_validation.json` dans le dossier
+de calibration. Aucun verdict de gate ni compétence apprise.

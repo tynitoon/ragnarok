@@ -1,0 +1,1896 @@
+{
+  "kind": "freeway_maxpooled_repeat4_cpu_chain_benchmark",
+  "game": "freeway",
+  "created_utc": "2026-09-09T00:32:52Z",
+  "reference_backend": "numpy",
+  "native_reference_build": null,
+  "observation_mode": "maxpooled",
+  "calibration_sha256": "4603cfd95e4b870055ab1c231afa0dd5e8934d57b6c1038b490ea8b58dc67502",
+  "reset_convention": "cold",
+  "workers": 16,
+  "ordinary_decisions_per_worker": 2048,
+  "action_repeat": 4,
+  "branch_every_decisions": 128,
+  "startup_seconds": 8.46064600000318,
+  "work_seconds": 37.30484459999934,
+  "ordinary_agent_steps_per_second": 878.3845731393444,
+  "including_experiment_agent_steps_per_second": 892.1093320946467,
+  "emulated_frames_per_second": 3564.577239922408,
+  "logical_processors": 12,
+  "worker_reports": [
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33047,
+        "matched_visible": 22423,
+        "eligible_moving": 21776,
+        "recalled_moving": 21732,
+        "recall_moving": 0.9979794268919912,
+        "precision_visible": 0.6785184736889884,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1355,
+            "recalled": 1336,
+            "recall_moving": 0.9859778597785978
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 165,
+      "self_generated_label_sha256": "f57c5025d105bcf67c8cc9b439bdfb0be48dd2a016771ae667f2f30acad25495"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33032,
+        "matched_visible": 22418,
+        "eligible_moving": 21766,
+        "recalled_moving": 21712,
+        "recall_moving": 0.9975190664338878,
+        "precision_visible": 0.6786752240251877,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1345,
+            "recalled": 1316,
+            "recall_moving": 0.9784386617100371
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 371,
+      "self_generated_label_sha256": "7fd64f8d8e881e5404d1ba943ab9df0f0fe765dc687d9726bedac37d2b09ae89"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33044,
+        "matched_visible": 22422,
+        "eligible_moving": 21793,
+        "recalled_moving": 21743,
+        "recall_moving": 0.9977056853117974,
+        "precision_visible": 0.6785498123713836,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1372,
+            "recalled": 1347,
+            "recall_moving": 0.9817784256559767
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 151,
+      "self_generated_label_sha256": "e2e2ff5bdecdbfb3a0307e9c2eadf2fd8b68f2c33fa6bbad23e16a2222cd8911"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33046,
+        "matched_visible": 22413,
+        "eligible_moving": 21787,
+        "recalled_moving": 21733,
+        "recall_moving": 0.9975214577500344,
+        "precision_visible": 0.6782363977485929,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1366,
+            "recalled": 1337,
+            "recall_moving": 0.9787701317715959
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 388,
+      "self_generated_label_sha256": "f96325f682cb3e8897936fc0f9f3873bd7b50ca3da7b712edf5809af4661db7a"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 32997,
+        "matched_visible": 22411,
+        "eligible_moving": 21796,
+        "recalled_moving": 21740,
+        "recall_moving": 0.9974307212332538,
+        "precision_visible": 0.6791829560263054,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1375,
+            "recalled": 1344,
+            "recall_moving": 0.9774545454545455
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 251,
+      "self_generated_label_sha256": "528b0604c5bd66a9af7510036fe1b47dddfde7a3e900ac3699f39b12158e49b9"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33043,
+        "matched_visible": 22413,
+        "eligible_moving": 21775,
+        "recalled_moving": 21713,
+        "recall_moving": 0.9971526980482205,
+        "precision_visible": 0.6782979753654329,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1354,
+            "recalled": 1317,
+            "recall_moving": 0.9726735598227474
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 398,
+      "self_generated_label_sha256": "3db53a1f347657855642516a41cf3b45776404f8058afbc19e316d67c75585ef"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33013,
+        "matched_visible": 22428,
+        "eligible_moving": 21782,
+        "recalled_moving": 21737,
+        "recall_moving": 0.99793407400606,
+        "precision_visible": 0.6793687335292158,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1361,
+            "recalled": 1341,
+            "recall_moving": 0.9853049228508449
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 212,
+      "self_generated_label_sha256": "202b1513a58c3f808cc82c45204414228c879e8cd8115c947f827e86782d4cad"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33044,
+        "matched_visible": 22421,
+        "eligible_moving": 21776,
+        "recalled_moving": 21718,
+        "recall_moving": 0.9973365172667157,
+        "precision_visible": 0.6785195496913207,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1355,
+            "recalled": 1322,
+            "recall_moving": 0.9756457564575646
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 262,
+      "self_generated_label_sha256": "cdf77890cb114637936e4a1dcac23f41a0271446adc7ea9f6cc26b734d119736"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33049,
+        "matched_visible": 22417,
+        "eligible_moving": 21785,
+        "recalled_moving": 21736,
+        "recall_moving": 0.9977507459260959,
+        "precision_visible": 0.6782958637175104,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1364,
+            "recalled": 1340,
+            "recall_moving": 0.9824046920821115
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 170,
+      "self_generated_label_sha256": "2770880a350abe2b6a8b5adedb7decf2d60924adadd5e16cae95f151aa24398f"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33215,
+        "matched_visible": 22421,
+        "eligible_moving": 21771,
+        "recalled_moving": 21717,
+        "recall_moving": 0.9975196362133113,
+        "precision_visible": 0.6750263435194942,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1350,
+            "recalled": 1321,
+            "recall_moving": 0.9785185185185186
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 326,
+      "self_generated_label_sha256": "fdbba8b7acaf0b1c02cc5156f407b4c0298feb04bb9976d09da0888f2520d050"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33055,
+        "matched_visible": 22425,
+        "eligible_moving": 21789,
+        "recalled_moving": 21745,
+        "recall_moving": 0.9979806324292074,
+        "precision_visible": 0.6784147632733323,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1368,
+            "recalled": 1350,
+            "recall_moving": 0.9868421052631579
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2024,
+            "recall_moving": 0.9990128331688055
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 177,
+      "self_generated_label_sha256": "5dad7ad8266e9188e21173f39ecee147063552dbcf769c01af569c873ed4b1ca"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33098,
+        "matched_visible": 22405,
+        "eligible_moving": 21774,
+        "recalled_moving": 21721,
+        "recall_moving": 0.9975659042895196,
+        "precision_visible": 0.6769291195842649,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1353,
+            "recalled": 1325,
+            "recall_moving": 0.9793052475979305
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 275,
+      "self_generated_label_sha256": "608a1cb3e13b7ce502a025eaba5452e71e62111bed1bbb9761ba6ef39f794713"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33053,
+        "matched_visible": 22420,
+        "eligible_moving": 21782,
+        "recalled_moving": 21736,
+        "recall_moving": 0.997888164539528,
+        "precision_visible": 0.6783045411914198,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1361,
+            "recalled": 1340,
+            "recall_moving": 0.9845701689933872
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 246,
+      "self_generated_label_sha256": "0b1378410d3ca03d69233aca7492cfce011a1d2fd00843b0d7cd711198609e59"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33044,
+        "matched_visible": 22417,
+        "eligible_moving": 21779,
+        "recalled_moving": 21721,
+        "recall_moving": 0.9973368841544608,
+        "precision_visible": 0.6783984989710689,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1358,
+            "recalled": 1325,
+            "recall_moving": 0.975699558173785
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 400,
+      "self_generated_label_sha256": "ce454de8ad3a60438ae54522127bdcff22e6e4650b7e37d088fda2c8555f5f64"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33012,
+        "matched_visible": 22427,
+        "eligible_moving": 21767,
+        "recalled_moving": 21720,
+        "recall_moving": 0.9978407681352506,
+        "precision_visible": 0.6793590209620743,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1346,
+            "recalled": 1324,
+            "recall_moving": 0.9836552748885586
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 234,
+      "self_generated_label_sha256": "60e487ea2e11fd0f447cfe3fb0e13c4b1801ff47e11a47a3f903cef7e7ad02b5"
+    },
+    {
+      "accounting": {
+        "ordinary_frames": 8323,
+        "experiment_frames": 120,
+        "restores": 32,
+        "restore_charges": 1920,
+        "emulated_frames": 8443,
+        "charged_frames": 10363,
+        "ordinary_agent_steps": 2048,
+        "experiment_agent_steps": 32,
+        "experiment_fraction": 0.2,
+        "max_charged_frames": 100000,
+        "reset_emulated_frames": 72,
+        "bootstrap_emulated_frames": 132,
+        "format_detection_emulated_frames": 60,
+        "cold_loads": 1,
+        "reset_convention": "fixed_hardware_cold_start_v1",
+        "system_random_seed": 4753849,
+        "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+        "sticky_implementation": "worker-python-random-per-frame",
+        "sticky_probability": 0.25
+      },
+      "perception": {
+        "frames": 2048,
+        "observed_raw_frames": 8191,
+        "predictions": 33135,
+        "matched_visible": 22419,
+        "eligible_moving": 21763,
+        "recalled_moving": 21709,
+        "recall_moving": 0.9975187244405642,
+        "precision_visible": 0.676595744680851,
+        "per_type": {
+          "player": {
+            "visible": 2048,
+            "eligible": 1342,
+            "recalled": 1313,
+            "recall_moving": 0.9783904619970194
+          },
+          "chicken_2": {
+            "visible": 2048,
+            "eligible": 0,
+            "recalled": 0,
+            "recall_moving": null
+          },
+          "car_0": {
+            "visible": 2038,
+            "eligible": 2037,
+            "recalled": 2037,
+            "recall_moving": 1.0
+          },
+          "car_1": {
+            "visible": 2036,
+            "eligible": 2035,
+            "recalled": 2035,
+            "recall_moving": 1.0
+          },
+          "car_2": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2030,
+            "recall_moving": 0.9912109375
+          },
+          "car_3": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_4": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_5": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_6": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_7": {
+            "visible": 2048,
+            "eligible": 2048,
+            "recalled": 2047,
+            "recall_moving": 0.99951171875
+          },
+          "car_8": {
+            "visible": 2035,
+            "eligible": 2035,
+            "recalled": 2034,
+            "recall_moving": 0.9995085995085995
+          },
+          "car_9": {
+            "visible": 2037,
+            "eligible": 2026,
+            "recalled": 2025,
+            "recall_moving": 0.9995064165844028
+          }
+        },
+        "gate_result": null
+      },
+      "reset_convention": "cold",
+      "decisions": 2048,
+      "ordinary_raw_frames": 8191,
+      "branch_pairs": 16,
+      "decoded_branch_frames": 120,
+      "changed_pixels": 372,
+      "self_generated_label_sha256": "60ba36c37824b97ef7b0bca359eee1bff41f3a414dad12297ddbbc99f329236e"
+    }
+  ],
+  "source_sha256": {
+    "scripts/bench_reference_pool_v70.py": "6e90d40dd31b3b4a492ab56afe8deb686248c03fb8516d541649eceedb572779",
+    "ragnarok/evaluation/reference_pool_v70.py": "8f946678519a61b815670ca1d71bd77fd86f39e301519718d246c3c4aa462f7f",
+    "scripts/ref_extract_v70.py": "82dc8e7405cabd80ef75d65468674ff3edd8bb76fa723ffa690b7758253ab42a",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pooled_pong_v70.py": "b346388a250a458111f31de7f655df0e01cc1b1ebaea248658f56c0ade45eab7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/scene_adapters_v70.py": "4e765e798c38b28b65fa87f6702a10177637016631b9a3a766616798beb2683f",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "ragnarok/evaluation/fast_pooled_breakout_v70.py": "e530614e103527313141e9c3fb20dc2962189448f8a7646ba13834d2868736eb",
+    "ragnarok/evaluation/freeway_v70.py": "44981fe097998a22c7908ba2f6c11eaf3a80f66f4ade4f47e23df54efd68f2d5",
+    "ragnarok/evaluation/pooled_freeway_v70.py": "ae3489117ea53f83089fa8aa7b5a8bfd0d29e69d112cd7963870abd5482a2d2e"
+  },
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "gate_result": null,
+  "gpu_used": false,
+  "reference_uses_oracle_reset": false,
+  "ordinary_and_branch_images": "maximum_last_two_raw_frames",
+  "limitations": [
+    "freeway development only; the image convention is shared by ordinary play and branches.",
+    "Includes per-step full RGB IPC, causal reference, every-real-frame RAM decoding, end-of-repeat scoring, charged branch pairs and pixel C targets.",
+    "Startup separately reported; ARC3 GPU pretraining is concurrently active.",
+    "Temporal labels describe two-source provenance; same-colour occlusion can be ambiguous from maxRGB alone.",
+    "No learned parser, other games, reader/drives or complete gate0-A verdict."
+  ]
+}

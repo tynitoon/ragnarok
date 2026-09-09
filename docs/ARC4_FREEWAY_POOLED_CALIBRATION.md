@@ -15,5 +15,18 @@ RGB montrent seulement le fond : résidu de phase du brut, pas un décalage du t
 Revue indépendante Ohm close sans défaut matériel : dix empreintes concordantes,
 2047 répétitions complètes puis trois frames, 8191+132=8323 frames facturées.
 Sceau commité avec succès `0c96911` **avant** capture réservée 17222. Cette capture
-compte aussi 2048 fenêtres et 8323 frames, toutes incluses. Résultat réservé
-en cours d'évaluation à ce jalon ; aucun critère ou candidat n'est modifié.
+compte aussi 2048 fenêtres et 8323 frames, toutes incluses. Le résultat réservé
+passe les douze types sans changement : joueur présence100%, boîtes2044/2048
+(99,8047 %), deuxième poulet exact. Voitures : boîtes100% à un pixel, présence
+car2 toujours2031/2048, autres100%. Leurs trajectoires déterministes répétées
+ne constituent pas des réplications indépendantes entre seeds.
+
+## Chaîne CPU complète
+
+16 workers ×2048 décisions : NumPy878,38décisions/s, backend de calcul RGB
+compilé1430,58décisions/s. Les16rapports sont strictement identiques, dont
+comptes, perception et cibles C ; reçu `cpu_native_equivalence.json`. Émulation,
+IPC RGB, extraction, juge à chaque frame et branches sont compris. Démarrage
+séparé5,5335s pour le natif, calcul22,9054s. Charge ARC3/hôte variable entre
+exécutions : pas de facteur de gain contrôlé. Minimum technique1000 dépassé,
+cible provisoire2000 toujours non atteinte. Aucun verdict de gate.

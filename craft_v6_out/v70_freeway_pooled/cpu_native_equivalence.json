@@ -1,0 +1,13 @@
+{
+  "kind": "complete_freeway_native_cpu_report_equivalence",
+  "all_worker_reports_equal": true,
+  "workers": 16,
+  "decisions_per_worker": 2048,
+  "charged_frames": 165808,
+  "numpy_sha256": "37b9d6dc731cdb811c795debcc96024afc532a786d8bac30e97040136bd9bd3f",
+  "native_sha256": "df693aa95854d0ab8eb994346ad5a0fd2d9354201b9c4a160703aa91ab39d5f2",
+  "numpy_sps": 878.3845731393444,
+  "native_sps": 1430.5792514403747,
+  "gate_result": null,
+  "limitation": "Sequential runs under variable ARC3/host load; exact semantics, no controlled speedup claim."
+}

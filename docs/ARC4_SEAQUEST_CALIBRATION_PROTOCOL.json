@@ -1,0 +1,21 @@
+{
+  "kind": "seaquest_raw_calibration_before_development_capture",
+  "game": "seaquest",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "action_repeat": 16,
+  "action_schedule": "Random(seed+100000), uniform controller every16real frames; wrapper sticky0.25 per frame",
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "episode_limit": 108000,
+  "objects": "Six moving-actor categories: player, sharks, enemy submarines (surface included), divers, enemy missiles, player missile. All instances included; HUD gauges/score/lives excluded. ROI x0:160/y33:165.",
+  "baseline_ram": "Pinned OCAtari coordinate/formation facts, explicit signed integer arithmetic, screen clipping. RAM slots recorded for future evaluator adapters, without asserting lifetime identity across respawns.",
+  "independent_pixel_check": "Eight-connected palette components inside the fixed actor ROI; player height>6, yellow projectile height1/width>=4; blue height>5 divers, other blue enemy missiles; submarine grey and five shark colours. No RAM, candidate boxes or generic reference. Baseline can fail on fragmentation/occlusion.",
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "matching": "Maximum number of boxes with all edges within1px first, then distance; all8192frames in presence denominator, min(RAM,pixels) in geometry denominator",
+  "coverage": "Every declared category requires50joint matches. Absent/rare types do not pass vacuously; record not calibrated and design any additional development coverage prospectively before opening reserved data.",
+  "workflow": "Preserve baseline, corrections only on17311, independent review and successful source seal commit before17312; preserve reserved failure without candidate tuning",
+  "scope": "CPU raw geometry only, no learned perception, no complete-game calibration or gate. Life/death evaluation is a separate instrument.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
