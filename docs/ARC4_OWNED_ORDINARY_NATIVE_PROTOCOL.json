@@ -102,12 +102,13 @@
       128,
       129
     ],
+    "archive_full_normal_branch": true,
     "max_constructions": 18,
     "max_total_charge": 36000
   },
   "comparison": "Complete ordered start/raw/pooled/endpoint RGB equality versus an independent tap on the original paid engine; full accounting equal, no RAM or other oracle.",
   "prerequisites": "Exact committed sources and independent preflight before construction; independent review of results before subsequent learner integration.",
-  "archives": "Exactly the eight predeclared ordinary indices per case; own RGB and command/chronology metadata, no external labels. Preserve every archive and attempt, including failure.",
+  "archives": "Exactly the eight predeclared ordinary indices per case, plus the already-paid branch pair in each normal case (start, raw, pooled and endpoint RGB); own command/chronology metadata, no external labels. Preserve every archive and attempt, including failure.",
   "stop": "One attempt only, no substitute seed or result-dependent changes. Required short prefixes1/2/3 must actually appear. Close workers and retain known and unknown constructor/report costs on any failure.",
   "agent_training_allowed": false,
   "gpu_used": false,

@@ -68,6 +68,11 @@ def test_branch_never_ages_ordinary_clock_and_all_costs_are_compared(monkeypatch
     assert result['branch']['anchor_frame']==576 and result['final_delivered_frame']==584
     assert result['accounting']['charged_frames']==132+584+136
     assert result['accounting']['restores']==2
+    with np.load(tmp_path/result['selected_trace_archive'],allow_pickle=False) as archive:
+        assert len(archive.files)==39 and archive['branch_start_pair'].shape==(2,210,160,3)
+        for name in ('intervention','control'):
+            assert archive[f'branch_{name}_raw'].shape==(8,210,160,3)
+            np.testing.assert_array_equal(archive[f'branch_{name}_endpoint'],archive[f'branch_{name}_pooled'][-1])
 
 
 def test_second_constructor_failure_records_first_known_cost_and_unknown_peer(monkeypatch,tmp_path):

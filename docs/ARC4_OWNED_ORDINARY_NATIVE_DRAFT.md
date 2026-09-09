@@ -24,6 +24,10 @@ leurs vrais tableaux RGB et métadonnées de commande propres. Ce sont des trace
 d'ingénierie destinées à un futur essai de raccord sur CPU ; aucune entrée du
 juge et aucun objectif supervisé externe ne sont ajoutés. Aucun entraînement,
 checkpoint, gain d'apprentissage ou mesure de débit n'est produit ici.
+Les six paires de branches déjà prévues et payées sont aussi archivées entièrement
+avec leur départ : cela permettra de vérifier le raccord C sur CPU sans ajouter
+une collecte. Cet ajout précède toute revue préalable ou exécution native ; il
+ne modifie aucune action, trajectoire ou charge du protocole.
 
 Une revue préalable exacte est obligatoire avant la première construction.
 Toute tentative, dépense partielle et archive créée est conservée après échec.

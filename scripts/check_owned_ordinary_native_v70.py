@@ -33,7 +33,8 @@ CASES=[dict(name=game,game=game,seed=19200,limit=108000,decisions=146,branch_aft
          decisions=130,branch_after=None,required_short_length=length) for length in (1,2,3)]
 SHARED=dict(frame_skip=4,sticky_probability=.25,experiment_fraction=.2,mode='lab',
     cap_per_engine=2000,branch_action=5,control_action=0,branch_frames=8,
-    selected_ordinary_indices=[0,1,2,3,126,127,128,129],max_constructions=18,max_total_charge=36000)
+    selected_ordinary_indices=[0,1,2,3,126,127,128,129],archive_full_normal_branch=True,
+    max_constructions=18,max_total_charge=36000)
 
 
 def proofs():
@@ -197,7 +198,12 @@ def run_case(case,reports):
                         or not np.array_equal(after.pair,np.stack(tuple(witness._frames)))):
                     raise ValueError('Branch changed ordinary anchor or delivered-image time')
                 branch_record=dict(operation_id=list(branch_operation),intervention_frames=len(branch.intervention.raw),
-                    control_frames=len(branch.control.raw),anchor_frame=frame,anchor_epoch=epoch)
+                    control_frames=len(branch.control.raw),anchor_frame=frame,anchor_epoch=epoch,
+                    requested_action=5,control_action=0,requested_frames=8,effect_assumption=[0.]*12)
+                arrays['branch_start_pair']=branch.anchor.pair.copy()
+                for branch_name,trace in (('intervention',branch.intervention),('control',branch.control)):
+                    for field in ('raw','pooled','endpoint'):
+                        arrays[f'branch_{branch_name}_{field}']=getattr(trace,field).copy()
         required=case['required_short_length']
         if required is not None and histogram[required]<1:raise ValueError('Predeclared terminal prefix was not covered')
         left=reports.read(name+'/witness');right=reports.read(name+'/worker')
