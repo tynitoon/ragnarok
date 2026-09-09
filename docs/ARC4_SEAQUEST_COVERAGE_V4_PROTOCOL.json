@@ -1,0 +1,22 @@
+{
+  "kind": "prospective_seaquest_additional_raw_coverage_v4",
+  "game": "seaquest",
+  "development_seed": 17361,
+  "reserved_validation_seed": 17362,
+  "frames": 32768,
+  "action_repeat": 4,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 4227200,
+  "previous_collections": "17331,17341,17351preserved, all missing the surface patrol subtype. V3 correctly finishes surfacing, but waits for diver crossings and returns early with partial loads.",
+  "controller": "Same RGB-only policy as v3, with two explicit collection changes: return at visible oxygen<=8 instead of20, and follow a selected diver horizontally when no nearby-lane enemy is within48pixels horizontally. Enemy-facing fire still takes priority inside that distance. All other thresholds, surface recognition and stationary firing logic unchanged. No RAM/reward/calibration score/snapshot drives the controller; it is an experimenter aid, never an agent skill, teacher or reference.",
+  "stop": "Exactly32768ordinary real frames with all preparation, failures, deaths and cold loads retained. Early exception or budget exhaustion is an incomplete failed capture. Never stop upon favourable coverage or geometry agreement.",
+  "coverage_and_combination": "Separate fractions for every collection. All-frame presence>=99% per type; geometry>=99% where joint matches exist. Additional collections require count agreement>=99% on RAM-or-RGB-positive frames, empty=null/uncovered. Every category and surface-submarine subtype must reach>=50joint instance-frame matches in17361itself. Previous insufficient-coverage verdicts remain FAIL. Earlier development geometry must also pass before sealing a final candidate; no pooled dilution.",
+  "reserved_capture_disabled": "All reserved seeds17312,17332,17342,17352,17362remain closed. Development only until the full reviewed geometry/checker/protocol and successful-commit seal is implemented. Preserve later reserved failures without tuning on them.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
