@@ -1,0 +1,23 @@
+{
+  "kind": "exact_breakout_temporal_implementation_equivalence",
+  "windows": 4096,
+  "all_equal": true,
+  "object_label_sha256": "ff81e6b4d499f5aca5a329ca5d6b7ee227aa5030e5c1670bb12bddb29cd2d2d6",
+  "raster_seconds": 8.30305390007561,
+  "interval_seconds": 0.5505712000049243,
+  "source_sha256": {
+    "scripts/check_breakout_intervals_v70.py": "16970e0fb4c15fdec7791b3f31e712c493d9e713164854d9fbcf93cf57f4e83b",
+    "ragnarok/evaluation/fast_pooled_breakout_v70.py": "e530614e103527313141e9c3fb20dc2962189448f8a7646ba13834d2868736eb",
+    "ragnarok/evaluation/pooled_breakout_v70.py": "261228f809d2ef4cec5242fe1c77f8c248a2196d4e9e670bbe10565022af477f",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_pooled_fixtures_v70.py": "6b93d9072a36a2424eb7432bd8e4fb16a9f033b2c2bef274f499ba6abe99af89",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083"
+  },
+  "fixture_manifests": {
+    "craft_v6_out\\v70_breakout_pooled\\development": "6e53e316115ffe30c29954b03d2442badd3ea1674d7edea209f0f1f30a697a0c",
+    "craft_v6_out\\v70_breakout_pooled\\validation": "730e279e1ef880f3e541e825caa8b8b4bd79fea80f39598890616e8be6de7132"
+  },
+  "new_emulated_frames": 0,
+  "gate_result": null,
+  "agent_training_allowed": false
+}

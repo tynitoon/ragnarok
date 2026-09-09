@@ -64,7 +64,7 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
                "ragnarok/environments/frame_budget_v70.py", "ragnarok/evaluation/pooled_pong_v70.py",
                "ragnarok/environments/cold_emu_pool_v70.py", "ragnarok/evaluation/scene_perception_v70.py",
                "ragnarok/evaluation/scene_adapters_v70.py", "ragnarok/evaluation/breakout_v70.py",
-               "ragnarok/evaluation/pooled_breakout_v70.py"]
+               "ragnarok/evaluation/pooled_breakout_v70.py", "ragnarok/evaluation/fast_pooled_breakout_v70.py"]
     return dict(kind=f"{game}_{observation_mode}_repeat4_cpu_chain_benchmark", game=game, created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
                 observation_mode=observation_mode, calibration_sha256=calibration_hash, reset_convention=reset_convention,
                 workers=workers, ordinary_decisions_per_worker=steps, action_repeat=4,
