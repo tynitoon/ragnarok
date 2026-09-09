@@ -1,0 +1,22 @@
+{
+  "kind": "prospective_mspacman_raw_geometry_calibration",
+  "development_seed": 17411,
+  "reserved_validation_seed": 17412,
+  "frames": 8192,
+  "game": "ms_pacman",
+  "mode": 0,
+  "action_repeat": 16,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "capture": "Existing immutable capture_cold_v70: uniform PythonRandom(seed+100000) actions held16real frames. Archive exactly8192ordinary gameplay raw frames with paired RAM, including unsuccessful play and terminal frames. Preparation/reset frames are charged at132per construction but are not individually archived. Actual cost=8192+132*cold_loads, conservative cap1089668=132+8192*(132+1). Commit this protocol and initial candidate/calibrator before17411.",
+  "scope": "All visible objects in ROI[0,0,160,171): player, all ghosts, moving fruit, power_pill and ordinary pill. Each pill is its own fixed grid-cell instance, never a giant merged maze target. HUD/lives/score/decorative fruit below171 excluded. Score five categories separately; no aggregation dominated by pills. Ghost color/frightened status is not a separate identity.",
+  "initial_hypotheses": "Functional RAM decoder from pinned MIT OCAtari467accd5f3da379d83705b008094ffb787eec8a1 facts: player/ghost/fruit nominal9x10, powerpill4x7, pill4x2 and two bit grids. Independent RGB palette components within ROI, all ghost components across all declared normal/frightened colors. These are unvalidated nominal hypotheses, not already correct visible boxes.",
+  "criteria": "Each category must have>=50joint instance-frame matches; equal RAM/RGB object counts in>=99percent of all frames AND>=99percent of RAM-or-RGB-positive frames; every matched box edge within1pixel for>=99percent of min(nRAM,nRGB) pairs, using sealed Breakout cardinality-first matching. Empty positive/match denominator is null and FAIL, never success. No fraction pooled across categories or additional captures.",
+  "corrections": "Preserve baseline and every failed candidate. Changes may use development only and must be reviewed, with full source and metadata commits before a single reserved17412validation. If a category is absent or insufficiently covered, keep it uncalibrated; any additional fixed capture/controller must have a separate prospective protocol before opening it. Do not discard difficult categories after observations.",
+  "limits": "Allocation slots are not persistent lifetimes. Animation, blinking, clipping, wrapping, occlusion, same-color ghost contacts and pill occlusion may invalidate initial hypotheses. Report and fix measured development errors without consulting reserved data. This validates external instruments only; no agent receives RAM, labels or palette rules.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
