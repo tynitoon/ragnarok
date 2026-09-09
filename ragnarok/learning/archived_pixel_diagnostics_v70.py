@@ -9,6 +9,7 @@ from dataclasses import asdict
 import hashlib
 import json
 from threading import Lock
+from weakref import WeakKeyDictionary
 
 import numpy as np
 import torch
@@ -21,6 +22,14 @@ from ragnarok.learning.pixel_prediction_v70 import prediction_terms
 from ragnarok.learning.visual_instances_v70 import DensePrediction,extract_instances
 from ragnarok.learning.counterfactual_targets_v70 import component_targets,controllability_loss
 from ragnarok.learning.gradient_guard_v70 import admit_adam_gradients
+
+
+# A parser is dedicated for its lifetime, including after a stopped diagnostic.
+# Weak keys do not keep otherwise unreachable networks alive. This registry
+# prevents two diagnostic owners; callers must also keep outside code away from
+# the owned network and must not construct aliases sharing its parameter storage.
+_OWNED_PARSERS=WeakKeyDictionary()
+_OWNERSHIP_LOCK=Lock()
 
 
 def weight_sha256(parser):
@@ -43,13 +52,18 @@ intermediate observations. RGB-derived epochs are preserved as bookkeeping.
     def __init__(self,parser,*,stream_id):
         if (not isinstance(parser,CounterfactualParser) or not isinstance(stream_id,str) or not stream_id
                 or any(p.device.type!='cpu' or p.dtype!=torch.float32 or not torch.isfinite(p).all()
+                       or p.grad is not None
                        for p in parser.parameters())):
-            raise ValueError('Own finite float32 CPU parser and explicit archive stream required')
+            raise ValueError('Own finite float32 CPU parser without gradients and explicit archive stream required')
         self._parser,self._stream_id=parser,stream_id
         self._lock=Lock();self._stopped=False
         self._initial_weights=weight_sha256(parser)
         self._index=None;self._end=None;self._epoch=None;self._pair=None;self._stream=None
         self._experiments=set()
+        # Claim only after all other constructor allocations have succeeded.
+        with _OWNERSHIP_LOCK:
+            if parser in _OWNED_PARSERS:raise ValueError('Parser already owned by an archived diagnostic')
+            _OWNED_PARSERS[parser]=True
 
     def _enter(self):
         if not self._lock.acquire(blocking=False):raise ValueError('Another archived diagnostic is active')
@@ -66,17 +80,21 @@ intermediate observations. RGB-derived epochs are preserved as bookkeeping.
         return source,output
 
     def _backward(self,losses):
-        if any(not torch.isfinite(value) for value in losses.values()):raise ValueError('Nonfinite diagnostic term')
-        total=sum(losses.values())
-        if not torch.isfinite(total):raise ValueError('Nonfinite diagnostic sum')
         self._parser.zero_grad(set_to_none=True)
-        total.backward()
-        admission=admit_adam_gradients(self._parser,max_norm=1.)
-        if weight_sha256(self._parser)!=self._initial_weights:
-            raise ValueError('Diagnostic unexpectedly modified model weights')
-        self._parser.zero_grad(set_to_none=True)
-        return dict(losses={name:float(value.detach()) for name,value in losses.items()},
-            diagnostic_sum=float(total.detach()),gradient=asdict(admission),weights_unchanged=True)
+        try:
+            if any(not torch.isfinite(value) for value in losses.values()):raise ValueError('Nonfinite diagnostic term')
+            total=sum(losses.values())
+            if not torch.isfinite(total):raise ValueError('Nonfinite diagnostic sum')
+            total.backward()
+            admission=admit_adam_gradients(self._parser,max_norm=1.)
+            if weight_sha256(self._parser)!=self._initial_weights:
+                raise ValueError('Diagnostic unexpectedly modified model weights')
+            return dict(losses={name:float(value.detach()) for name,value in losses.items()},
+                diagnostic_sum=float(total.detach()),gradient=asdict(admission),weights_unchanged=True)
+        finally:
+            # A late failure must not leave the preceding backward available to
+            # an accidental consumer. The diagnostic remains stopped on error.
+            self._parser.zero_grad(set_to_none=True)
 
     def step(self,index,record):
         self._enter()

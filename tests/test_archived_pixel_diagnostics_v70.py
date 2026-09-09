@@ -1,10 +1,13 @@
 """Numerical archive-intake mechanics on synthetic RGB, never native archives."""
 import copy
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import replace
+from threading import Barrier
 
 import numpy as np
 import pytest
 import torch
+import ragnarok.learning.archived_pixel_diagnostics_v70 as archived
 
 from ragnarok.environments.owned_rgb_collector_v70 import OwnedRGBCollector
 from ragnarok.learning.archived_pixel_diagnostics_v70 import ArchivedPixelDiagnostics,weight_sha256
@@ -131,3 +134,41 @@ def test_reentrant_processing_is_refused_without_disturbing_current_lock():
         assert not diagnostic._stopped
     finally:diagnostic._lock.release()
     assert diagnostic.step(0,saved)['weights_unchanged']
+
+
+def test_concurrent_owners_of_same_network_are_refused_before_processing():
+    parser=ScriptedParser();barrier=Barrier(2)
+    def construct(index):
+        barrier.wait(timeout=5)
+        try:return ArchivedPixelDiagnostics(parser,stream_id=str(index))
+        except ValueError as error:return error
+    with ThreadPoolExecutor(max_workers=2) as workers:
+        owners=list(workers.map(construct,range(2)))
+    assert sum(isinstance(owner,ArchivedPixelDiagnostics) for owner in owners)==1
+    rejected=next(owner for owner in owners if isinstance(owner,ValueError))
+    assert 'already owned' in str(rejected)
+    accepted=next(owner for owner in owners if isinstance(owner,ArchivedPixelDiagnostics))
+    own,_=collector()
+    assert accepted.step(0,record(own))['weights_unchanged']
+
+
+def test_late_admission_failure_cleans_gradients_and_forbids_new_owner(monkeypatch):
+    own,_=collector();parser=ScriptedParser();before=weight_sha256(parser)
+    diagnostic=ArchivedPixelDiagnostics(parser,stream_id='failure')
+    def fail_after_backward(model,**_kwargs):
+        assert any(p.grad is not None for p in model.parameters())
+        raise MemoryError('late admission failure')
+    monkeypatch.setattr(archived,'admit_adam_gradients',fail_after_backward)
+    with pytest.raises(MemoryError,match='late admission'):diagnostic.step(0,record(own))
+    assert diagnostic._stopped and all(p.grad is None for p in parser.parameters())
+    assert weight_sha256(parser)==before
+    with pytest.raises(ValueError,match='already owned'):
+        ArchivedPixelDiagnostics(parser,stream_id='replacement')
+
+
+def test_constructor_preserves_existing_external_gradients():
+    parser=ScriptedParser();parameter=next(parser.parameters())
+    parameter.grad=torch.ones_like(parameter);before=parameter.grad.clone()
+    with pytest.raises(ValueError,match='without gradients'):
+        ArchivedPixelDiagnostics(parser,stream_id='dirty')
+    torch.testing.assert_close(parameter.grad,before,rtol=0,atol=0)

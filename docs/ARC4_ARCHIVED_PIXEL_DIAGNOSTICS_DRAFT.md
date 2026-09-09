@@ -31,3 +31,13 @@ d'entraînement figée. La norme est mesurée en float64, le garde de gradient d
 relu est appliqué, les gradients sont effacés, et l'empreinte des poids doit rester
 identique. Toute erreur bloque la suite du diagnostic. Une revue et un protocole
 prospectif du lanceur demeurent nécessaires avant les données natives réelles.
+
+La revue du premier prototype a reproduit deux défauts sur données synthétiques :
+deux diagnostics pouvaient effacer mutuellement les gradients du même parser ;
+une erreur tardive d'admission laissait les gradients calculés en mémoire. La
+correction attribue maintenant chaque objet parser à un seul diagnostic pour
+toute sa durée de vie, y compris après échec, et nettoie les gradients dans un
+`finally` après backward/admission. Une construction refuse des gradients déjà
+présents sans les effacer. L'accès par du code extérieur et les modèles distincts
+partageant le stockage de paramètres restent interdits par le contrat d'appel ;
+ce n'est pas une isolation mémoire contre un appelant qui contourne cette règle.

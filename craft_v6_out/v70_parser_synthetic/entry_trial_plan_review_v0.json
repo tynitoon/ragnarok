@@ -1,0 +1,65 @@
+{
+  "kind": "entry_trial_plan_independent_source_review",
+  "passed": true,
+  "created_utc": "2026-09-09T20:12:50.211Z",
+  "reviewer": "independent /root/review_recovery_v62",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/learning/entry_trial_plan_v70.py": "1fa8715c8216d01cfe8a9300e1b16c0a0f41a4ee40706773d632f6e5a0606f95",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_entry_trial_plan_v70.py": "c5b7ff517ecf9fdeb0b1d024b6860d2dd37b43bbb484d70126dd01c1d38d3f0e",
+    "docs/ARC4_ENTRY_TRIAL_PLAN_DRAFT.md": "7e242daaa053b9ea7bfefe88b5bb801eab33f61e45673b8f342a1d23858cda72",
+    "docs/ARC4_ENTRY_BUDGET_DRAFT.md": "cb37e0c016974322cf7df2821cb7ffbb668a60ccd43336097744b09a68f3eafd"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "pytest": "9.0.3"
+  },
+  "source_commit": "5a84af1d3315f3e500e239a55926b4caffd3901d",
+  "evidence_sha256": {},
+  "scope": "Pure prospective inventory and budget admission only; no collection, emulator, archived Atari input, model inference or gate.",
+  "checks": {
+    "inventory": "Local random.Random(seed) produces one full permutation of18 actions followed by11 distinct actions from a second permutation. Sixteen immutable points allocate two pairs to the first13 and one pair to the last3. No global RNG mutation, effect labels or result-dependent replacement.",
+    "arithmetic": "Each complete pair costs16 raw branch frames plus two60-charge restores=136.29 pairs cost3944 including464 raw frames and3480 restore charges;58 restores. The complete plan ends at19720 charges with15776 ordinary charged frames, leaving280 before the fixed entry cap20000.",
+    "shared_budget": "Admission uses the existing FrameBudget including all experimental and restore costs; it neither debits nor subtracts other experiments. Its exact20% fraction and fixed60 restore cost are enforced. A larger game cap does not bypass the20000 entry limit.",
+    "thresholds": "Independently reconstructed every lot from the declared charge thresholds for both128 and132 bootstrap conventions. After every full lot, experimental charges equal exactly20% of current charged total; each point check leaves the ledger unchanged.",
+    "immutability_and_scope": "The point tuple and dataclasses are frozen, and returned actions are immutable tuples. A truncated or empty pair does not enlarge the inventory or manufacture a semantic effect. Every plan source/dependency blob matches commit5a84af1."
+  },
+  "tests": {
+    "repository": "5 passed in0.26s: tests/test_entry_trial_plan_v70.py under .venv-arc4 with OMP/OPENBLAS/MKL=1.",
+    "independent": "1002 plan constructions including seeds0 and2**32-1 plus range(1000): every plan has18 first-pass distinct actions,11 distinct second draws, exactly11 actions observed twice and7 once, no duplicate within a point and constant3944 maximum experimental charge. Global random state unchanged.",
+    "budget_witnesses": [
+      {
+        "bootstrap": 128,
+        "charged_frames": 19720,
+        "ordinary_frames": 15776,
+        "ordinary_agent_steps": 3912,
+        "experiment_frames": 464,
+        "experiment_agent_steps": 58,
+        "restores": 58,
+        "restore_charges": 3480
+      },
+      {
+        "bootstrap": 132,
+        "charged_frames": 19720,
+        "ordinary_frames": 15776,
+        "ordinary_agent_steps": 3911,
+        "experiment_frames": 464,
+        "experiment_agent_steps": 58,
+        "restores": 58,
+        "restore_charges": 3480
+      }
+    ]
+  },
+  "limitations": [
+    "This resolves a pure capacity calculation only. Sixteen planned points do not establish sixteen distinct native states, adequate diversity or discovery of a control/effect table.",
+    "The chosen seed, complete action inventory, controller trajectory and point schedule must be fixed in a future collection protocol. This helper validates point shape/cost, not cryptographic provenance, plan membership, execution order or once-only consumption.",
+    "A collector must bind trials to current owned anchors, serialize admission with paid operations, retain failures and consume attempted trials even after truncation. The actual paid engine admission remains required.",
+    "Other E1/E2/E3/E4/C costs can postpone or prevent later points. The complete19720 example assumes no such additional experiments and no extra cold-start cost beyond the stated bootstrap; it is not a promised native cost.",
+    "Action0 versus NOOP and visually ineffective or truncated commands can remain unknown. No automatic null-effect or semantic label is produced.",
+    "Budget reports remain external diagnostic data and must not become learner observations. No protocol seal, native preflight, gate, training or parameter update is authorized by this source review."
+  ]
+}
