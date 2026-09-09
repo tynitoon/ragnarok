@@ -1,13 +1,13 @@
 # Ragnarok — point de reprise
 
-Mis à jour le 9 septembre 2026 vers 21:32 Paris. Continuer d'un jalon au suivant,
+Mis à jour le 9 septembre 2026 vers 21:52 Paris. Continuer d'un jalon au suivant,
 sans terminer à chaque commit. Arrêt seulement demandé par Jérémie, travail
 achevé, ou décision exigeant son avis. L'audit partage d'écran/RC est annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
 ne prouve pas une accélération. ARC 2 : transfert 3/6 contre 0/6 ; accélération
 non détectable (delta0,069, bruit0,076). Aucun entraînement Atari ni gate0 ARC4.
 
-Historique : docs/history/CODEX_HANDOFF_20260909_2105.md, puis20:33,19:54,19:35,18:11,16:48.
+Historique : docs/history/CODEX_HANDOFF_20260909_2132.md, puis21:05,20:33,19:54,19:35,18:11,16:48.
 Lire les sections utiles, pas les logs entiers. Calibrations réservées au juge,
 jamais à l'agent. Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts.
 
@@ -17,8 +17,8 @@ Processus vérifiés21:32 : contrôleur20936 C:/Python314/python.exe -u -m
 scripts.recover_confirm_v62 ; enfant22896 C:/Python314/python.exe -u -m
 scripts.confirm_v61 --lineage 1 --n-units 3 --b-max 6 --num-envs 64
 --store-persists --g-units 2 --resume.
-État running/confirm_s1. s1_8310 terminé à6447s +L ; à21:32, s1_8311 M4 terminé
-8656s, Fa deuxième objectif terminé10135s. Aucun score/verdict intermédiaire.
+État running/confirm_s1. s1_8310 terminé à6447s +L ; à21:49, s1_8311 M4 terminé
+8656s, Fa terminé10836s. Aucun score/verdict intermédiaire.
 Lignée0 complète3mondes/9,25433s : agrégat+14checkpoints validés, committés9deb244.
 SHA agrégat3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
 Relire seulement la fin de craft_v6_out/v61_confirm_s1.log pour progrès.
@@ -62,7 +62,8 @@ Benchmark unique natif16×2048 terminé21:30, session72419 fermée ; c2e6734.
 égaux au natif original. Sous581original, aucun gain total démontré, sous1000/2000.
 Résultat b6806d0e638ea31ab2aed0a52380c7ce4c7cca6f4e1a2b68014e97be4e43e3ad ;
 attempt f721cd82… ; console b1095974… préservée exacte. Aucun retry.
-Revue finale EN COURS par review_recovery_v62 vers native_chain_review_v0.json.
+Revue finale native_chain_review_v0.json PASS158d1dee… committée fb078ef,
+126sources/368preuves,58coldloads/512restores. Baisse observée7,1405%, pas causale.
 Charge ARC3 concurrente différente : pas comparaison contrôlée universelle.
 Ne pas modifier les126sources. Plus aucune collecte/mesure CPU native active.
 
@@ -79,12 +80,14 @@ Candidat gather séparé2422e53 : lecture groupée des8pixels/pastille nominale 
 4tests synthétiques PASS, acteur/yeux/super-pastilles inchangés, AST original.
 Protocole et runner016c84d : scripts/check_gather_visible_v70.py et
 docs/ARC4_GATHER_DECODER_PROTOCOL.json ;8testsPASS avec gardes protocole.
-Audit prospectif40965paires/3613727labels exacts,3collections existantes ; alterne
-premier appel original/candidat, sans natif/groupe ni nouveau seed. AUCUNE archive
-exécutée, aucun temps candidat mesuré. proofs() readonly puis préflight indépendant
-committé gather_decoder_preflight_v0.json requis AVANT run ; résultat+revue ensuite.
-Commande : .\.venv-arc4\Scripts\python.exe -u -m scripts.check_gather_visible_v70,
-OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1. Pas de mesure CPU concurrente.
+Préflight9a5266ad…108sources/269preuves +8tests/2432témoins, committé23518b7 AVANT
+audit. Audit terminé21:47:30, session67710 FERMÉE, résultat4425fe7 :40965paires /
+3613727labels exacts et3anciensdigests égaux. original24,7933042s contre
+gather16,5103002s, appels premiers alternés ; gain composant uniquement.
+Résultat47d3b86248d79cd7e9222136a25452b5166ac83d3a13f0a354358e038434dcf4 ;
+attemptc3b1aec4… ; aucune nouvelle émulation, aucune substitution au natif.
+Revue résultat à faire par review_recovery_v62 APRÈS préflight natifordinaire.
+Aucun audit chronométré, capture ou benchmark CPU encore actif.
 
 ## ARC 4 — raccord apprenant et limite numérique
 
@@ -136,9 +139,35 @@ Traces RGB natives anciennes PASS9cas/22604charges,20sources87c0507 et revue
 Archives privées/transport revus synthétiquement afbe5846…/36731edf…, pas nativement,
 20000entrées/2Go payload totalpool, pasRSS ; pairearchive2T+180, pasretourdurableE4.
 
-Suite active : revue finale cache ; audit gather après préflight indépendant ;
-revue inventaire entrée. Raccords ordinairesRGB/modèle validés uniquement en synthétique :
-validation native ordinaire à préparer séparément. ME/buttons/reader/drives/S/
+Suite active : préflight puis wiring natifordinaire ; revue résultat gather ;
+revue inventaire entrée. Raccords ordinairesRGB/modèle encore synthétiques.
+
+Préparation native ordinaire877be12 (après c45445c/4093c6c) :
+- scripts/check_owned_ordinary_native_v70.py, tests/test_owned_ordinary_native_v70.py,
+  docs/ARC4_OWNED_ORDINARY_NATIVE_PROTOCOL.json et DRAFT.md ;11testsPASS2,52s.
+- 33sources/11preuves ; ancien proofs() readonlyc45445c PASS, sources corrigées
+  à contre-vérifier par reviewer avant reçu preflight_v0.json dans
+  craft_v6_out/v70_owned_ordinary_native/. Aucun natif lancé, aucune tentative.
+- 9cas,18instances,cap2000chacune/36000total.6jeux seed19200,146steps,branche8vsNOOP
+  après index143 puis2steps ;3Pong19211/12/13 limites509/510/511,130steps pour
+  préfixes1/2/3 obligatoires. Pas de claim natifT0 si non observé, pas débit/GPU.
+- Témoin copie les lecturesRGB de l'ancien moteur APRÈS paiement sans changer
+  sa boucle ; compare chaque départ/raw/pool/fin au poolOrdinary+OwnedCollector.
+  Chronologie écran courant/longueurs livrées seulement ; comptabilités égales.
+- Archive8positions0,1,2,3,126,127,128,129 parcas, plus paires de branches complètes
+  des6cas normaux. PropresRGB et commandes/horloge, jamaisRAM/labels du juge.
+  Prépare futur raccord P/C/G/I surCPU, pas entraînement.
+- Défaut4093c6c confirmé avantexécution : rapportfailure.accounting_completeFalse
+  devenaitTrueglobal ; témoinelapsed2aprèsact restaitfailureNone etglobalTrue264.
+  Fix877be12 : drapeauincertain du témoin step/branch, arrêt immédiat sansallocation,
+  diagnostics+agrégation propagentFalse et gardent la borne de coûts connue.
+  Tests600/660charges connues après duréeinvalide et refusréemploi, sourcehistoriquepréservée.
+- Après reçu indépendant committé : .\.venv-arc4\Scripts\python.exe -u -m
+  scripts.check_owned_ordinary_native_v70 avecOMP/OPENBLAS/MKL1, console exclusive
+  wiring_v0_console.log àpréserver exact via.gitattributes -text puis résultat+revue.
+  Ne lancer qu'une fois ; ne pas réviser le protocole après résultats.
+
+ME/buttons/reader/drives/S/
 policy/ledger/fusion catégories restent absents ; boutons→12effets non résolus.
 ARC4_VISION.md§§2,5,6,11 ; budgetentrydraft29pairesE1sur16points,
 3944exp/19720total. Gate0≤12GPUh proposé, non gelé. Éligibilité mortPong/Freeway
