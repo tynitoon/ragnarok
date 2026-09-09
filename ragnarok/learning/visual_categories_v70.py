@@ -81,7 +81,7 @@ cross-game skill or semantic identity. Behaviour-based merges are not provided.
         for _,track_id,features in rows:
             distances=np.array([np.linalg.norm(features-c.center) for c in candidate])
             nearest=int(distances.argmin()) if len(distances) else None
-            created=nearest is None or distances[nearest]>self.distance_threshold
+            created=bool(nearest is None or distances[nearest]>self.distance_threshold)
             if created:
                 if len(candidate)==self.max_categories:
                     raise ValueError('Visual category capacity exceeded; no forced merge or eviction')

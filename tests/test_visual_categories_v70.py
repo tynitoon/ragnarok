@@ -1,5 +1,5 @@
 """Synthetic own descriptors; no game names, semantic types or palette truth."""
-from dataclasses import replace
+from dataclasses import asdict,replace
 import json
 
 import numpy as np
@@ -20,6 +20,8 @@ def test_same_appearance_and_relative_size_reuse_category_without_using_position
     result=book.observe(tracked)
     assert [r.category_id for r in result]==[0,0]
     assert [r.created for r in result]==[True,False]
+    assert all(type(r.created) is bool for r in result)
+    json.dumps([asdict(r) for r in result],allow_nan=False)
     later=replace(tracked,frame=4,observed=tuple(replace(row,track_id=row.track_id+100) for row in reversed(tracked.observed)))
     assert [r.category_id for r in book.observe(later)]==[0,0]
     assert book.export_local()['categories'][0]['observations']==4

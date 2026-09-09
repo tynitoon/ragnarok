@@ -27,3 +27,11 @@ comportements et la contrôlabilité, le registre d'interactions et les compéte
 réutilisables restent à construire. Les animations, changements de palette,
 bruits de segmentation et variations de taille peuvent créer trop de catégories ;
 aucun nom d'objet ni vérité RAM ne vient corriger ce problème dans ce prototype.
+
+Le module suppose les instances déjà validées par le tracker : il ne possède
+pas de hauteur/largeur d'image pour revérifier les boîtes contre les supports.
+Le futur assemblage doit imposer la remise à zéro à l'entrée d'un jeu. Malgré
+l'ordre géométrique à l'intérieur d'une image, les moyennes restent dépendantes
+de l'ordre temporel ; elles peuvent aussi devenir incohérentes quand les poids
+du parser changent et que les embeddings dérivent. Aucune fusion ni correction
+par une catégorie vraie n'est ajoutée pour masquer ces limites.
