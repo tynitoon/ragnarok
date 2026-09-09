@@ -1,0 +1,568 @@
+{
+  "kind": "independent_seaquest_v5_development_preseal_review",
+  "recorded_at_utc": "2026-09-09T02:46:30.057101+00:00",
+  "reviewer": "Codex independent subagent /root/audit_gate_v62",
+  "head_at_review": "e942942769f7766e39abab225b868e27b60f35bf",
+  "verdict": "development_preconditions_satisfied_no_material_blocker_found",
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "2301a419ccd5e7b16c37c3fb76e69488f6c2919fc383a617eb534a513885bc4b",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "5c6458d73d946cf332ca68bbdb7be59b8ae19783d75492b3e49b09c5b44b2770",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V5_PROTOCOL.json": "7dec9a052aeff387e9914f8e9b2e74ae334960ffbd955fc3e40d3dbcc451fb14",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c",
+    "docs/ARC4_SEAQUEST_RESERVED_PROTOCOL.json": "7facc4e41c2aaab2119513f3224a72962ce229ae143e15638e65ea9e183def37",
+    "scripts/committed_seal_v70.py": "63e7e2d287989ca9f97358c1bd97599debe41e6e6d2299585bfed95a6404b048",
+    "scripts/validate_seaquest_reserved_v70.py": "409b50df61eb71c0ce578a8d761aec717622bef632171554ca79a5cd943b0980"
+  },
+  "development_evidence": {
+    "craft_v6_out/v70_seaquest_calibration/development_v5.json": "ceaad2d5d29960e8d22b01c541a3584b744465d71fd0e9b1feb50211f4bccc66",
+    "craft_v6_out/v70_seaquest_calibration/coverage_geometry_v5.json": "05a5c600d81404ce0b7c048de4052a52d58a2e4edcb2de10a90af51ad550a32a",
+    "craft_v6_out/v70_seaquest_calibration/coverage2_geometry_v5.json": "12df19d2918e78970c68ef854118501ee864bef375d2f59ad4d42f7116f3fc4c",
+    "craft_v6_out/v70_seaquest_calibration/coverage3_geometry_v5.json": "6daaee3fd8a7e7ff8dfce2047282ca0ec6f672ffcb01d024176b19b8a28235a7",
+    "craft_v6_out/v70_seaquest_calibration/coverage4_geometry_v5.json": "576195f74a5f2790c2a8bb04495c3fe4008076799761980f2263c16be8eb12f6"
+  },
+  "reports": [
+    {
+      "seed": 17311,
+      "path": "craft_v6_out/v70_seaquest_calibration/development_v5.json",
+      "sha256": "ceaad2d5d29960e8d22b01c541a3584b744465d71fd0e9b1feb50211f4bccc66",
+      "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/development/manifest.json",
+      "fixture_manifest_sha256": "725c307ce9cf7e1ad32a6a7b29316708c96af92d7090600844ddfd00cce270e5",
+      "source_count": 10,
+      "frames": 8192,
+      "charged_frames": 8960,
+      "cold_loads": 6,
+      "observed_types": [
+        "player",
+        "shark",
+        "diver",
+        "player_missile"
+      ],
+      "absent_unvalidated_types": [
+        "submarine",
+        "enemy_missile"
+      ],
+      "observed_geometry_pass": true,
+      "full_collection_calibration_pass": false,
+      "min_all_frame_presence": 0.998779296875,
+      "min_positive_presence": null,
+      "min_observed_box_fraction": 0.9995456610631531,
+      "per_type_counts": {
+        "player": {
+          "presence_count_agreement": 8187,
+          "joint_matches": 6603,
+          "boxes_within1": 6600,
+          "boxes_exact": 6600,
+          "ram_objects": 6608,
+          "pixel_objects": 6603
+        },
+        "shark": {
+          "presence_count_agreement": 8192,
+          "joint_matches": 5635,
+          "boxes_within1": 5635,
+          "boxes_exact": 5633,
+          "ram_objects": 5635,
+          "pixel_objects": 5635
+        },
+        "submarine": {
+          "presence_count_agreement": 8192,
+          "joint_matches": 0,
+          "boxes_within1": 0,
+          "boxes_exact": 0,
+          "ram_objects": 0,
+          "pixel_objects": 0
+        },
+        "diver": {
+          "presence_count_agreement": 8192,
+          "joint_matches": 10861,
+          "boxes_within1": 10861,
+          "boxes_exact": 10861,
+          "ram_objects": 10861,
+          "pixel_objects": 10861
+        },
+        "enemy_missile": {
+          "presence_count_agreement": 8192,
+          "joint_matches": 0,
+          "boxes_within1": 0,
+          "boxes_exact": 0,
+          "ram_objects": 0,
+          "pixel_objects": 0
+        },
+        "player_missile": {
+          "presence_count_agreement": 8182,
+          "joint_matches": 971,
+          "boxes_within1": 971,
+          "boxes_exact": 971,
+          "ram_objects": 981,
+          "pixel_objects": 971
+        }
+      }
+    },
+    {
+      "seed": 17331,
+      "path": "craft_v6_out/v70_seaquest_calibration/coverage_geometry_v5.json",
+      "sha256": "05a5c600d81404ce0b7c048de4052a52d58a2e4edcb2de10a90af51ad550a32a",
+      "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/coverage_development/manifest.json",
+      "fixture_manifest_sha256": "dd7777ad5cfee7928349bb4d91455f3cb29d7711a4380326baba75deecf17f22",
+      "source_count": 22,
+      "frames": 32768,
+      "charged_frames": 34560,
+      "cold_loads": 14,
+      "observed_types": [
+        "player",
+        "shark",
+        "submarine",
+        "diver",
+        "enemy_missile",
+        "player_missile"
+      ],
+      "absent_unvalidated_types": [
+        "surface_submarine"
+      ],
+      "observed_geometry_pass": true,
+      "full_collection_calibration_pass": false,
+      "min_all_frame_presence": 0.99810791015625,
+      "min_positive_presence": 0.9968625069581499,
+      "min_observed_box_fraction": 0.999689772844783,
+      "per_type_counts": {
+        "player": {
+          "presence_count_agreement": 32755,
+          "positive_frames": 29024,
+          "positive_count_agreement": 29011,
+          "ram_objects": 29024,
+          "pixel_objects": 29011,
+          "joint_matches": 29011,
+          "boxes_within1": 29002,
+          "boxes_exact": 29002
+        },
+        "shark": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 17004,
+          "positive_count_agreement": 17004,
+          "ram_objects": 60032,
+          "pixel_objects": 60032,
+          "joint_matches": 60032,
+          "boxes_within1": 60032,
+          "boxes_exact": 60030
+        },
+        "submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 311,
+          "positive_count_agreement": 311,
+          "ram_objects": 989,
+          "pixel_objects": 989,
+          "joint_matches": 989,
+          "boxes_within1": 989,
+          "boxes_exact": 23
+        },
+        "diver": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 1632,
+          "positive_count_agreement": 1632,
+          "ram_objects": 3024,
+          "pixel_objects": 3024,
+          "joint_matches": 3024,
+          "boxes_within1": 3024,
+          "boxes_exact": 3024
+        },
+        "enemy_missile": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 222,
+          "positive_count_agreement": 222,
+          "ram_objects": 540,
+          "pixel_objects": 540,
+          "joint_matches": 540,
+          "boxes_within1": 540,
+          "boxes_exact": 540
+        },
+        "player_missile": {
+          "presence_count_agreement": 32706,
+          "positive_frames": 19761,
+          "positive_count_agreement": 19699,
+          "ram_objects": 19761,
+          "pixel_objects": 19699,
+          "joint_matches": 19699,
+          "boxes_within1": 19699,
+          "boxes_exact": 19699
+        },
+        "surface_submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 0,
+          "positive_count_agreement": 0,
+          "ram_objects": 0,
+          "pixel_objects": 0,
+          "joint_matches": 0,
+          "boxes_within1": 0,
+          "boxes_exact": 0
+        }
+      }
+    },
+    {
+      "seed": 17341,
+      "path": "craft_v6_out/v70_seaquest_calibration/coverage2_geometry_v5.json",
+      "sha256": "12df19d2918e78970c68ef854118501ee864bef375d2f59ad4d42f7116f3fc4c",
+      "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/coverage2_development/manifest.json",
+      "fixture_manifest_sha256": "53e571c66be6bb24af67ae7180e027d3bd5ffcb2e038301b3cf115f87d4e2f24",
+      "source_count": 22,
+      "frames": 32768,
+      "charged_frames": 32896,
+      "cold_loads": 1,
+      "observed_types": [
+        "player",
+        "shark",
+        "submarine",
+        "diver",
+        "enemy_missile",
+        "player_missile"
+      ],
+      "absent_unvalidated_types": [
+        "surface_submarine"
+      ],
+      "observed_geometry_pass": true,
+      "full_collection_calibration_pass": false,
+      "min_all_frame_presence": 0.999969482421875,
+      "min_positive_presence": 0.9998531139835488,
+      "min_observed_box_fraction": 1.0,
+      "per_type_counts": {
+        "player": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 32624,
+          "positive_count_agreement": 32624,
+          "ram_objects": 32624,
+          "pixel_objects": 32624,
+          "joint_matches": 32624,
+          "boxes_within1": 32624,
+          "boxes_exact": 32624
+        },
+        "shark": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 22531,
+          "positive_count_agreement": 22531,
+          "ram_objects": 75447,
+          "pixel_objects": 75447,
+          "joint_matches": 75447,
+          "boxes_within1": 75447,
+          "boxes_exact": 75434
+        },
+        "submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 21339,
+          "positive_count_agreement": 21339,
+          "ram_objects": 71085,
+          "pixel_objects": 71085,
+          "joint_matches": 71085,
+          "boxes_within1": 71085,
+          "boxes_exact": 3111
+        },
+        "diver": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 16046,
+          "positive_count_agreement": 16046,
+          "ram_objects": 20058,
+          "pixel_objects": 20058,
+          "joint_matches": 20058,
+          "boxes_within1": 20058,
+          "boxes_exact": 20058
+        },
+        "enemy_missile": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 13447,
+          "positive_count_agreement": 13447,
+          "ram_objects": 23241,
+          "pixel_objects": 23241,
+          "joint_matches": 23241,
+          "boxes_within1": 23241,
+          "boxes_exact": 23241
+        },
+        "player_missile": {
+          "presence_count_agreement": 32767,
+          "positive_frames": 6808,
+          "positive_count_agreement": 6807,
+          "ram_objects": 6808,
+          "pixel_objects": 6807,
+          "joint_matches": 6807,
+          "boxes_within1": 6807,
+          "boxes_exact": 6807
+        },
+        "surface_submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 0,
+          "positive_count_agreement": 0,
+          "ram_objects": 0,
+          "pixel_objects": 0,
+          "joint_matches": 0,
+          "boxes_within1": 0,
+          "boxes_exact": 0
+        }
+      }
+    },
+    {
+      "seed": 17351,
+      "path": "craft_v6_out/v70_seaquest_calibration/coverage3_geometry_v5.json",
+      "sha256": "6daaee3fd8a7e7ff8dfce2047282ca0ec6f672ffcb01d024176b19b8a28235a7",
+      "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/coverage3_development/manifest.json",
+      "fixture_manifest_sha256": "31f4f37fb00a961fd19fe924b19eccb524e2e7618ab85c0c9d840b4fbd262227",
+      "source_count": 22,
+      "frames": 32768,
+      "charged_frames": 33280,
+      "cold_loads": 4,
+      "observed_types": [
+        "player",
+        "shark",
+        "submarine",
+        "diver",
+        "enemy_missile",
+        "player_missile"
+      ],
+      "absent_unvalidated_types": [
+        "surface_submarine"
+      ],
+      "observed_geometry_pass": true,
+      "full_collection_calibration_pass": false,
+      "min_all_frame_presence": 0.9996337890625,
+      "min_positive_presence": 0.9991198151611839,
+      "min_observed_box_fraction": 0.9999055326384734,
+      "per_type_counts": {
+        "player": {
+          "presence_count_agreement": 32765,
+          "positive_frames": 31760,
+          "positive_count_agreement": 31757,
+          "ram_objects": 31760,
+          "pixel_objects": 31757,
+          "joint_matches": 31757,
+          "boxes_within1": 31754,
+          "boxes_exact": 31754
+        },
+        "shark": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 21787,
+          "positive_count_agreement": 21787,
+          "ram_objects": 54754,
+          "pixel_objects": 54754,
+          "joint_matches": 54754,
+          "boxes_within1": 54754,
+          "boxes_exact": 54728
+        },
+        "submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 13896,
+          "positive_count_agreement": 13896,
+          "ram_objects": 30576,
+          "pixel_objects": 30576,
+          "joint_matches": 30576,
+          "boxes_within1": 30576,
+          "boxes_exact": 1339
+        },
+        "diver": {
+          "presence_count_agreement": 32760,
+          "positive_frames": 21474,
+          "positive_count_agreement": 21466,
+          "ram_objects": 30167,
+          "pixel_objects": 30175,
+          "joint_matches": 30167,
+          "boxes_within1": 30167,
+          "boxes_exact": 30167
+        },
+        "enemy_missile": {
+          "presence_count_agreement": 32760,
+          "positive_frames": 9089,
+          "positive_count_agreement": 9081,
+          "ram_objects": 14195,
+          "pixel_objects": 14187,
+          "joint_matches": 14187,
+          "boxes_within1": 14187,
+          "boxes_exact": 14187
+        },
+        "player_missile": {
+          "presence_count_agreement": 32756,
+          "positive_frames": 26626,
+          "positive_count_agreement": 26614,
+          "ram_objects": 26626,
+          "pixel_objects": 26614,
+          "joint_matches": 26614,
+          "boxes_within1": 26614,
+          "boxes_exact": 26614
+        },
+        "surface_submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 0,
+          "positive_count_agreement": 0,
+          "ram_objects": 0,
+          "pixel_objects": 0,
+          "joint_matches": 0,
+          "boxes_within1": 0,
+          "boxes_exact": 0
+        }
+      }
+    },
+    {
+      "seed": 17361,
+      "path": "craft_v6_out/v70_seaquest_calibration/coverage4_geometry_v5.json",
+      "sha256": "576195f74a5f2790c2a8bb04495c3fe4008076799761980f2263c16be8eb12f6",
+      "fixture_manifest": "craft_v6_out/v70_seaquest_calibration/coverage4_development/manifest.json",
+      "fixture_manifest_sha256": "1835d4c29ef926b7a6c6197f85ef6f1637c687b2c3641d4862e813bc143927e5",
+      "source_count": 22,
+      "frames": 32768,
+      "charged_frames": 33280,
+      "cold_loads": 4,
+      "observed_types": [
+        "player",
+        "shark",
+        "submarine",
+        "diver",
+        "enemy_missile",
+        "player_missile",
+        "surface_submarine"
+      ],
+      "absent_unvalidated_types": [],
+      "observed_geometry_pass": true,
+      "full_collection_calibration_pass": true,
+      "min_all_frame_presence": 0.999603271484375,
+      "min_positive_presence": 0.9994788534776509,
+      "min_observed_box_fraction": 0.9998110652769469,
+      "per_type_counts": {
+        "player": {
+          "presence_count_agreement": 32765,
+          "positive_frames": 31760,
+          "positive_count_agreement": 31757,
+          "ram_objects": 31760,
+          "pixel_objects": 31757,
+          "joint_matches": 31757,
+          "boxes_within1": 31751,
+          "boxes_exact": 31751
+        },
+        "shark": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 16896,
+          "positive_count_agreement": 16896,
+          "ram_objects": 50174,
+          "pixel_objects": 50174,
+          "joint_matches": 50174,
+          "boxes_within1": 50174,
+          "boxes_exact": 50127
+        },
+        "submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 12082,
+          "positive_count_agreement": 12082,
+          "ram_objects": 32313,
+          "pixel_objects": 32313,
+          "joint_matches": 32313,
+          "boxes_within1": 32313,
+          "boxes_exact": 5910
+        },
+        "diver": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 7490,
+          "positive_count_agreement": 7490,
+          "ram_objects": 10673,
+          "pixel_objects": 10673,
+          "joint_matches": 10673,
+          "boxes_within1": 10673,
+          "boxes_exact": 10673
+        },
+        "enemy_missile": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 5855,
+          "positive_count_agreement": 5855,
+          "ram_objects": 12619,
+          "pixel_objects": 12619,
+          "joint_matches": 12619,
+          "boxes_within1": 12619,
+          "boxes_exact": 12619
+        },
+        "player_missile": {
+          "presence_count_agreement": 32755,
+          "positive_frames": 24945,
+          "positive_count_agreement": 24932,
+          "ram_objects": 24945,
+          "pixel_objects": 24932,
+          "joint_matches": 24932,
+          "boxes_within1": 24932,
+          "boxes_exact": 24932
+        },
+        "surface_submarine": {
+          "presence_count_agreement": 32768,
+          "positive_frames": 4788,
+          "positive_count_agreement": 4788,
+          "ram_objects": 4788,
+          "pixel_objects": 4788,
+          "joint_matches": 4788,
+          "boxes_within1": 4788,
+          "boxes_exact": 4784
+        }
+      }
+    }
+  ],
+  "checks": {
+    "exact_same_candidate_sources": true,
+    "all_five_collections_checked_separately": true,
+    "serialized_fractions_recalculated_from_integer_counts": true,
+    "per_type_verdicts_recalculated": true,
+    "manifest_hashes_and_declared_frame_counts_verified": true,
+    "manifest_accounting_identities_verified": true,
+    "read_only_development_evidence_guard_passed": true,
+    "final_17361_all_categories_and_surface_at_least50_joint_matches": true,
+    "old_absent_category_failures_preserved": true,
+    "thresholds_unchanged": true,
+    "writer_to_actual_reader_regression_reviewed": true,
+    "each_older_collection_negative_guard_reviewed": true
+  },
+  "test_evidence": {
+    "targeted_tests_reported_passed_by_implementer": 32,
+    "groups": [
+      17,
+      2,
+      5,
+      8
+    ],
+    "rerun_by_this_review": false,
+    "reviewed_regressions": [
+      "reserved writer with fake2-frame engine produces realNPZ/manifest accepted by cold_fixture_frames",
+      "17331/17341/17351 each individually blocks development_evidence when positive presence is98percent",
+      "uncommitted seal and changed source/metadata rejection",
+      "incomplete reserved capture preserved and repeat attempt refused"
+    ]
+  },
+  "limitations": [
+    "This receipt reviews existing development reports, their arithmetic and provenance. It did not repeat RGB/RAM scoring or reread every NPZ shard; shard contents are bound by the verified fixture manifests and the strict reader used for calibration.",
+    "Observed geometry means all box edges within1pixel, not exact segmentation. Underwater submarine exact-box rates remain low while within1pixel rates pass.",
+    "17311 still has two absent unvalidated types;17331/17341/17351 still lack the surface subtype and retain their full-collection FAIL verdicts. Only17361 supplies complete category/subtype coverage.",
+    "Player rendering templates are partly shared by RAM evaluator and RGB checker. Their agreement does not independently establish every rendering rule.",
+    "Same-colour contacts, the eight tiny-blue category errors on17351, and four surface one-pixel shifts remain measured limitations.",
+    "Development instance-frames and controller trajectories are not independent statistical replications, agent training, transfer or accelerated-learning evidence.",
+    "No reserved capture or reserved result was inspected or produced by this review. This is not a reserved calibration verdict.",
+    "This receipt does not attest that source or seal metadata commits have already occurred. Those are still enforced by create_seal and verify_committed_seal before opening17312/17362."
+  ],
+  "next_required_steps": [
+    "Commit the exact reviewed sources.",
+    "Create the fixed-pair seal from these five evidence hashes, then successfully commit the seal metadata.",
+    "Verify the committed seal before the single authorized17312/17362 reserved attempt; preserve every failure or incomplete result without tuning."
+  ],
+  "retired_reserved_seeds": [
+    17332,
+    17342,
+    17352
+  ],
+  "reserved_execution_by_this_review": false,
+  "source_or_existing_result_edits_by_this_review": false,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
