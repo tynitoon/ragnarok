@@ -14,8 +14,25 @@ from ragnarok.evaluation.cached_visible_groups_v70 import CachedVisibleGroups
 class CachedVisibleEngine(VisibleReferenceEngine):
     def __init__(self,config,*,branch_every=128,reference_backend='numpy',native_build=None):
         if config.game!='ms_pacman':raise ValueError('This prospective cached chain is MsPacman only')
+        self._cache_chain_stopped=False
         self._group_cache=CachedVisibleGroups(config.game)
         super().__init__(config,branch_every=branch_every,reference_backend=reference_backend,native_build=native_build)
+
+    def step(self,action):
+        if self._cache_chain_stopped:raise ValueError('Trajectory stopped after an earlier cached-chain failure')
+        try:return super().step(action)
+        except BaseException:
+            # The frozen parent's diagnostic dict allocation may itself fail.
+            # This allocation-free latch still prevents the next paid command.
+            self._cache_chain_stopped=True
+            raise
+
+    def report(self):
+        result=super().report()
+        if self._cache_chain_stopped and result['failure'] is None:
+            result['failure']=dict(error_type='UnreportedStepFailure',
+                                   error='Step failed before its diagnostic could be allocated; trajectory stopped')
+        return result
 
     def _step(self,action):
         pixels=self.engine.step(action)

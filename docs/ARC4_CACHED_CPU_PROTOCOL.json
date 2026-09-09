@@ -1,7 +1,7 @@
 {
   "kind": "prospective_mspacman_cached_group_cpu_v1",
   "game": "ms_pacman",
-  "change": "Only replace group_visible_sources with the reviewed exact last-input cache per kind. Keep the original fast V2 decoder, native reference DLL, scorer, motion history, digest and paid branch/restore chain unchanged. The slower integral-image decoder is excluded.",
+  "change": "On successful trajectories only replace group_visible_sources with the reviewed exact last-input cache per kind. Keep the original fast V2 decoder, native reference DLL, scorer, motion history, digest and paid branch/restore chain unchanged. Add an allocation-free failure latch around the inherited step so an allocation failure in its diagnostic cannot reopen a paid trajectory; report an undescribed failure explicitly when later memory permits. The slower integral-image decoder is excluded.",
   "benchmark": {
     "workers": 16,
     "ordinary_decisions_per_worker": 2048,

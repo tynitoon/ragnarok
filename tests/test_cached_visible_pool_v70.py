@@ -66,6 +66,22 @@ def test_cache_failure_remains_paid_and_cannot_restart_the_inherited_chain(monke
     assert subject.report()==report
 
 
+def test_diagnostic_allocation_failure_still_latches_before_another_paid_step(monkeypatch):
+    install_fixture(monkeypatch)
+    subject=cached.CachedVisibleEngine(EmulatorConfig(game='ms_pacman'))
+    before=subject.report()['accounting']['charged_frames']
+    def fail(*args,**kwargs):raise MemoryError('synthetic error diagnostic allocation')
+    monkeypatch.setattr(subject._group_cache,'group',fail)
+    monkeypatch.setattr(original,'dict',fail,raising=False)
+    with pytest.raises(MemoryError):subject.step(1)
+    assert subject._cache_chain_stopped and subject._failure is None
+    with pytest.raises(ValueError,match='Trajectory stopped'):subject.step(1)
+    monkeypatch.delattr(original,'dict')
+    report=subject.report()
+    assert report['accounting']['charged_frames']==before+4
+    assert report['failure']['error_type']=='UnreportedStepFailure'
+
+
 def serve_synthetic(connection,config,branch_every,reference_backend,native_build):
     with pytest.MonkeyPatch.context() as patch:
         install_fixture(patch)
