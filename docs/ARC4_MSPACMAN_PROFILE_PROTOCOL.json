@@ -1,0 +1,22 @@
+{
+  "kind": "offline_external_scoring_diagnostic",
+  "input": "craft_v6_out/v70_mspacman_calibration/raw_reference_v0",
+  "seed": 17471,
+  "raw_frames": 8192,
+  "episodes": 5,
+  "order": "All archived raw frames in recorded order; consume each complete four-frame group and each final partial group with two real RGB frames available.",
+  "components": ["decode", "movement_history", "reference", "grouping", "matching_score"],
+  "reference": "Existing frozen native reference build, history updated only at synthetic group boundaries and retained across archived episodes as in the existing benchmark.",
+  "profiling": "One pass, cProfile only around the five components; per-component wall times include profiler overhead. Archive IO, pooling and digests are outside these component times but inside the loop wall time.",
+  "new_emulated_frames": 0,
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "limitations": [
+    "The archive is existing17471 ordinary raw data, not the18000+i full-chain benchmark trajectories.",
+    "A synthetic four-frame group can contain several archived requested actions; this is not native repeat4 execution.",
+    "No emulator, IPC, branches, restoration or online model inference is timed.",
+    "Profiler overhead and concurrent ARC3 load prevent interpreting these numbers as native full-chain throughput or a controlled speedup.",
+    "Scorer metrics are diagnostic outputs on existing development data, not a new calibration, gate or learner result.",
+    "No code correction, threshold change or repeat of a failed native run is authorized by this diagnostic result."
+  ]
+}
