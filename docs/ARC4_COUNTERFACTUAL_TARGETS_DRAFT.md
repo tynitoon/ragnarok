@@ -29,3 +29,10 @@ au collecteur ; aucune capture d'instrumentation n'a été utilisée ici.
 Les tests portent sur des données synthétiques : déplacement rapide, demi-pixel,
 support hors cadre, branches0/1/3frames, gradient d'une cible positive et gradient
 nul d'une cible inconnue. Aucun résultat de perception ou de jeu n'est établi.
+
+Précisions de mesure : « visible » signifie ici un recouvrement bilinéaire
+strictement positif avec l'image. Un centre légèrement hors cadre peut donc
+conserver un support visible ; l'évidence est renormalisée par cette couverture.
+La cible mesure la différence à l'horizon demandé, pas toute différence apparue
+auparavant. Une différence transitoire à l'image3 peut disparaître de la cible
+brute à l'image4 et rester dans la cible poolée à cause du maximum des deux images.
