@@ -1,0 +1,124 @@
+{
+  "kind": "prospective_owned_ordinary_native_v0",
+  "cases": [
+    {
+      "name": "pong",
+      "game": "pong",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "breakout",
+      "game": "breakout",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "freeway",
+      "game": "freeway",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "seaquest",
+      "game": "seaquest",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "ms_pacman",
+      "game": "ms_pacman",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "asteroids",
+      "game": "asteroids",
+      "seed": 19200,
+      "limit": 108000,
+      "decisions": 146,
+      "branch_after": 143,
+      "required_short_length": null
+    },
+    {
+      "name": "pong_prefix_1",
+      "game": "pong",
+      "seed": 19211,
+      "limit": 509,
+      "decisions": 130,
+      "branch_after": null,
+      "required_short_length": 1
+    },
+    {
+      "name": "pong_prefix_2",
+      "game": "pong",
+      "seed": 19212,
+      "limit": 510,
+      "decisions": 130,
+      "branch_after": null,
+      "required_short_length": 2
+    },
+    {
+      "name": "pong_prefix_3",
+      "game": "pong",
+      "seed": 19213,
+      "limit": 511,
+      "decisions": 130,
+      "branch_after": null,
+      "required_short_length": 3
+    }
+  ],
+  "shared": {
+    "frame_skip": 4,
+    "sticky_probability": 0.25,
+    "experiment_fraction": 0.2,
+    "mode": "lab",
+    "cap_per_engine": 2000,
+    "branch_action": 5,
+    "control_action": 0,
+    "branch_frames": 8,
+    "selected_ordinary_indices": [
+      0,
+      1,
+      2,
+      3,
+      126,
+      127,
+      128,
+      129
+    ],
+    "max_constructions": 18,
+    "max_total_charge": 36000
+  },
+  "comparison": "Complete ordered start/raw/pooled/endpoint RGB equality versus an independent tap on the original paid engine; full accounting equal, no RAM or other oracle.",
+  "prerequisites": "Exact committed sources and independent preflight before construction; independent review of results before subsequent learner integration.",
+  "archives": "Exactly the eight predeclared ordinary indices per case; own RGB and command/chronology metadata, no external labels. Preserve every archive and attempt, including failure.",
+  "stop": "One attempt only, no substitute seed or result-dependent changes. Required short prefixes1/2/3 must actually appear. Close workers and retain known and unknown constructor/report costs on any failure.",
+  "agent_training_allowed": false,
+  "gpu_used": false,
+  "gate_result": null,
+  "limitations": [
+    "Engineering wiring on the six already-used development games; no training, gate, score, transfer or faster-learning result.",
+    "No throughput timing; ARC3 may continue using its GPU, but no other CPU capture or timing trial may overlap.",
+    "The clock counts only delivered ordinary act images. Identical RGB across a native reset may leave the same epoch; this is not a death detector.",
+    "Zero-length ordinary traces remain synthetically covered unless naturally observed here; no native T0 coverage claim is inferred from branch T0.",
+    "All ordinary frames are compared online and hashed; only the predeclared eight positions per case are archived for later replay.",
+    "Branch endpoints, restored RGB, accounting and subsequent ordinary RGB are compared. Internal state equality and complete branch RGB also rely on the earlier independent native trace review.",
+    "No PyTorch model, feature extractor, teacher, effect truth, policy or optimizer is present; an all-zero effect assumption means unknown."
+  ]
+}
