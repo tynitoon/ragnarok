@@ -33,11 +33,14 @@ def coverage(directory):
         s["episodes"] = sorted(s["episodes"])
         s["minimum_50_instances_observed"] = s["instances"] >= 50
     root = Path(__file__).resolve().parents[1]
+    protocols = ("docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json", "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json")
+    collection_protocols = {p: manifest["source_sha256"][p] for p in protocols if p in manifest["source_sha256"]}
     sources = ("scripts/check_seaquest_coverage_v70.py", "ragnarok/evaluation/seaquest_v70.py",
-               "ragnarok/evaluation/cold_fixtures_v70.py", "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json")
+               "ragnarok/evaluation/cold_fixtures_v70.py", *collection_protocols)
     return dict(kind="seaquest_raw_ram_coverage_only", seed=manifest["seed"], frames=manifest["frames"],
                 charged_frames=manifest["accounting"]["charged_frames"], per_type=stats,
                 progression_ram61=sorted(levels), surface_unlock_ram60=sorted(surface_levels),
+                collection_protocol_source_sha256=collection_protocols,
                 intended_coverage_observed=all(s["minimum_50_instances_observed"] for s in stats.values()),
                 source_sha256={p: hashlib.sha256((root/p).read_bytes()).hexdigest() for p in sources},
                 fixture_manifest_sha256=hashlib.sha256((directory/"manifest.json").read_bytes()).hexdigest(),

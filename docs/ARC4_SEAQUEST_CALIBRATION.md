@@ -122,3 +122,12 @@ au contact d'un missile corrigé en mesurant le corps hors de sa ligne. Trois
 tests hors ROM passent, dont deux positions de contact qui doivent maintenir
 FIRE sans avancer. La capture réservée reste désactivée. Chaque catégorie,
 surface comprise, devra atteindre50appariements dans17341elle-même.
+
+17341 collectée après `572151b` :32768images/32896frames facturées, un seul
+épisode. Davantage de phases observées (RAM61 atteint2), mais RAM60 reste0 :
+aucun sous-marin de surface, couverture toujours FAIL. À partir d'environ8000,
+le contrôleur reste trop près de la surface : le centre de la partie visible
+fait croire qu'il a atteint le niveau de recharge alors que son sommet est
+encore y47. Le jeu exige le retour au sommet visible y46. Le contrôleur attend
+donc sans finir la remontée. Ce défaut du contrôleur de collecte sera corrigé
+dans une version distincte ; cette capture reste complète et conservée.

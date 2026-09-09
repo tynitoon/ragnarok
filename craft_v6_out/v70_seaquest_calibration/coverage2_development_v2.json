@@ -1,0 +1,92 @@
+{
+  "kind": "seaquest_raw_ram_coverage_only",
+  "seed": 17341,
+  "frames": 32768,
+  "charged_frames": 32896,
+  "per_type": {
+    "player": {
+      "frames": 32624,
+      "instances": 32624,
+      "episodes": [
+        0
+      ],
+      "first_frame": 1,
+      "minimum_50_instances_observed": true
+    },
+    "shark": {
+      "frames": 22531,
+      "instances": 75447,
+      "episodes": [
+        0
+      ],
+      "first_frame": 277,
+      "minimum_50_instances_observed": true
+    },
+    "submarine": {
+      "frames": 21425,
+      "instances": 71537,
+      "episodes": [
+        0
+      ],
+      "first_frame": 938,
+      "minimum_50_instances_observed": true
+    },
+    "diver": {
+      "frames": 16050,
+      "instances": 20066,
+      "episodes": [
+        0
+      ],
+      "first_frame": 133,
+      "minimum_50_instances_observed": true
+    },
+    "enemy_missile": {
+      "frames": 13481,
+      "instances": 23360,
+      "episodes": [
+        0
+      ],
+      "first_frame": 1042,
+      "minimum_50_instances_observed": true
+    },
+    "player_missile": {
+      "frames": 6808,
+      "instances": 6808,
+      "episodes": [
+        0
+      ],
+      "first_frame": 132,
+      "minimum_50_instances_observed": true
+    },
+    "surface_submarine": {
+      "frames": 0,
+      "instances": 0,
+      "episodes": [],
+      "first_frame": null,
+      "minimum_50_instances_observed": false
+    }
+  },
+  "progression_ram61": [
+    0,
+    1,
+    2
+  ],
+  "surface_unlock_ram60": [
+    0
+  ],
+  "collection_protocol_source_sha256": {
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7"
+  },
+  "intended_coverage_observed": false,
+  "source_sha256": {
+    "scripts/check_seaquest_coverage_v70.py": "01ac68ac9f955c28d91fe01dc0914dc4cd9a83f2de8d0d2585a7d2c94085093c",
+    "ragnarok/evaluation/seaquest_v70.py": "964c80cb2783c6d13ac0fe00c1738721decaf2d9d718bb68b40132435f185b4c",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7"
+  },
+  "fixture_manifest_sha256": "53e571c66be6bb24af67ae7180e027d3bd5ffcb2e038301b3cf115f87d4e2f24",
+  "scope": "Counts of RAM-indicated visible actors only. Instances sums objects over frames, not independent lifetimes. No RGB agreement, no geometry pass, no agent result",
+  "calibration_pass": null,
+  "agent_training_allowed": false,
+  "gate_result": null
+}
