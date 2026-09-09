@@ -1,0 +1,3 @@
+# Preserve exact prospective native validation and timing console bytes.
+wiring_v0_console.log -text
+native_chain_v0_console.log -text

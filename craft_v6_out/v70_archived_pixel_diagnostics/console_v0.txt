@@ -1,0 +1,10 @@
+{"case": "pong", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 112, "c_supervised_pixels": 0}
+{"case": "breakout", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 122, "c_supervised_pixels": 0}
+{"case": "freeway", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 288, "c_supervised_pixels": 0}
+{"case": "seaquest", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 154, "c_supervised_pixels": 0}
+{"case": "ms_pacman", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 378, "c_supervised_pixels": 0}
+{"case": "asteroids", "ordinary_records": 8, "prediction_eligible": 8, "identity_anchors": 78, "c_supervised_pixels": 0}
+{"case": "pong_prefix_1", "ordinary_records": 8, "prediction_eligible": 7, "identity_anchors": 56, "c_supervised_pixels": null}
+{"case": "pong_prefix_2", "ordinary_records": 8, "prediction_eligible": 7, "identity_anchors": 56, "c_supervised_pixels": null}
+{"case": "pong_prefix_3", "ordinary_records": 8, "prediction_eligible": 7, "identity_anchors": 56, "c_supervised_pixels": null}
+{"passed": true, "ordinary_records": 72, "branch_pairs": 6}

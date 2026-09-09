@@ -1,0 +1,2 @@
+# Preserve the exact diagnostic console bytes for independent review.
+console_v0.txt -text
