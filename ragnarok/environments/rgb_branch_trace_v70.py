@@ -41,6 +41,16 @@ class _RGBTraceColdEngine(_ColdPixelEngine):
         if self._trace_failure is not None:
             raise ValueError('Trajectory stopped after a paid RGB trace failure')
 
+    def _paid_call(self, method, *args):
+        self._guard()
+        before = self._budget.charged_frames
+        try:
+            return method(*args)
+        except BaseException as error:
+            if self._budget.charged_frames != before:
+                self._trace_failure = dict(error_type=type(error).__name__, error=str(error))
+            raise
+
     def _advance(self, action, frames, *, experimental):
         if self._recording is None:
             return super()._advance(action, frames, experimental=experimental)
@@ -77,17 +87,14 @@ class _RGBTraceColdEngine(_ColdPixelEngine):
             self._recording = None
 
     def step(self, action):
-        self._guard()
-        return super().step(action)
+        return self._paid_call(super().step, action)
 
     def branch_pair(self, action, control=0, frames=4):
-        self._guard()
-        return super().branch_pair(action, control, frames)
+        return self._paid_call(super().branch_pair, action, control, frames)
 
     def clone(self):
         self._guard()
         return super().clone()
 
     def restore(self, token):
-        self._guard()
-        return super().restore(token)
+        return self._paid_call(super().restore, token)

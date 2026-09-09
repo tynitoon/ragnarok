@@ -28,10 +28,16 @@ Une panne de l'enregistrement après une frame conserve sa charge et celle de
 la restauration, puis interdit les actions ultérieures. Les tableaux retournés
 ne partagent pas la mémoire du moteur restauré.
 
-Il manque encore la revue indépendante, le contrôle avec les vrais émulateurs,
-le transport fermé des traces et l'archive persistante. Aucun nouveau jeu ou
-nouvelle graine n'a été ouvert pour ce prototype, qui reste séparé des
-115 sources du benchmark CPU de référence en préparation.
+Le transport `rgb_trace_pool_v70.py` n'autorise que les images, les actions,
+les branches et les comptes ; RAM, récompenses, vies et états natifs sont
+refusés. Une erreur payée conserve un rapport et interdit les actions suivantes.
+Les échecs de transport peuvent encore rendre des coûts inconnus : le futur
+lanceur devra préserver ses tentatives et les rapports déjà reçus.
+
+Il manque encore la revue indépendante, le contrôle avec les vrais émulateurs
+et l'archive persistante. Aucun nouveau jeu ou nouvelle graine d'émulateur n'a
+été ouvert pour ce prototype, qui reste séparé des 115 sources du benchmark
+CPU de référence en préparation.
 
 `rgb_trace_difference_v70.py` compare ensuite uniquement le préfixe réellement
 observé dans les deux branches, avec un choix explicite brut/poolé. Le premier
@@ -41,3 +47,7 @@ Les queues tronquées sont comptées séparément. Sept tests synthétiques couv
 ces cas et l'effet de persistance du pooling. Aucune décision ME ni identité
 d'objet n'est dérivée de ces seuls pixels. La provenance commune des deux
 branches doit encore être imposée par le transport et le protocole de collecte.
+
+Au total, 17 tests passent, dont un vrai échange de tableaux par deux processus
+Windows avec moteurs entièrement synthétiques, puis fermeture vérifiée. Ce
+test de transport ne valide pas encore le comportement des vrais jeux.

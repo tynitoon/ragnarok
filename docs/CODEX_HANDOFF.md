@@ -143,7 +143,9 @@ Frame 0 fournit la géométrie, pas l’éligibilité au mouvement ; pilules sta
 Implémenter parser/tracker/ME/buttons/reader/drives selon `ARC4_VISION.md` §§2,5,6,11.
 Prototype distinct `rgb_branch_trace_v70.py` et cinq tests synthétiques PASS :
 RGB brut/poolé de chaque frame de branche déjà payée, RNG/charges/reprise
-inchangés, panne payée ferme les actions. Pas de vrai ALE ni de nouveau RPC ;
+inchangés, panne payée ferme les actions. Transport fermé `rgb_trace_pool_v70.py`
+ajouté, RAM/récompenses/vies/snapshots refusés. 17 tests totaux, dont deux vrais
+processus avec moteurs synthétiques ; aucun vrai ALE. La
 revue et contrôle natif encore requis. Comparaison `rgb_trace_difference_v70.py`
 sur le seul préfixe commun, délai brut/poolé explicite ; sept tests supplémentaires
 PASS. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites, aucun ME encore implémenté.
