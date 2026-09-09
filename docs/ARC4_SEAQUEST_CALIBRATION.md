@@ -260,3 +260,9 @@ Fichiers : `reserved_raw_result.json`, `reserved_coverage_result.json`,
 les limites des motifs communs et de l'identité lors des occultations. Cette
 validation concerne le juge d'images brutes, pas la perception apprise, le
 jeu autonome, le transfert, ni les observations temporelles encore à tester.
+
+Revue indépendante Meitner close :25sources, antériorité des deux commits,
+160NPZ et40960enregistrements vérifiés,41984frames facturées. La surface
+réservée compte3462boîtes exactes sur3463, toutes dans la tolérance d'un pixel.
+Reçu `independent_reserved_v5_audit.json`. Les captures et résultats réservés
+sont conservés au commit `99750ad`.
