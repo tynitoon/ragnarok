@@ -83,21 +83,77 @@ def test_reversed_frame_witness_is_detected_with_all_three_paid_ledgers(monkeypa
     assert record['completed_cases']==[]
 
 
+class SyntheticPool:
+    def __init__(self,configs):
+        self.engine = synthetic(_RGBTraceColdEngine,configs[0])
+        self._processes = [SimpleNamespace(is_alive=lambda:False)]
+    def _one(self,index,command):raise ValueError('Unknown RGB trace command')
+    def step(self,actions):return [self.engine.step(actions[0])]
+    def branch_pair_trace(self,*args,**kwargs):return self.engine.branch_pair_trace(*args,**kwargs)
+    def report(self):return dict(accounting=self.engine.accounting(),failure=self.engine._trace_failure)
+    def close(self):pass
+
+
 def test_complete_synthetic_wiring_has_26_paid_reports_and_one_declared_counter_difference(monkeypatch,tmp_path):
     setup(monkeypatch,tmp_path)
-    class Pool:
-        def __init__(self,configs):
-            self.engine = synthetic(_RGBTraceColdEngine,configs[0])
-            self._processes = [SimpleNamespace(is_alive=lambda:False)]
-        def _one(self,index,command):raise ValueError('Unknown RGB trace command')
-        def step(self,actions):return [self.engine.step(actions[0])]
-        def branch_pair_trace(self,*args,**kwargs):return self.engine.branch_pair_trace(*args,**kwargs)
-        def report(self):return dict(accounting=self.engine.accounting(),failure=self.engine._trace_failure)
-        def close(self):pass
-    monkeypatch.setattr(check,'RGBTracePool',Pool)
+    monkeypatch.setattr(check,'RGBTracePool',SyntheticPool)
     result = check.run()
     assert result['passed'] and result['constructor_count']==len(result['engine_reports'])==26
     assert len(result['cases'])==9 and all(c['passed'] for c in result['cases'])
     assert result['charged_frames']==sum(r['accounting']['charged_frames'] for r in result['engine_reports'])
     assert result['charged_frames']<=52000 and result['accounting_complete']
     assert json.loads((tmp_path/'result_attempt.json').read_text())['status']=='complete'
+
+
+def test_successful_accounting_response_is_cached_before_a_later_read_could_fail(monkeypatch,tmp_path):
+    setup(monkeypatch,tmp_path)
+    monkeypatch.setattr(check,'RGBTracePool',SyntheticPool)
+    calls = []
+    def create(cfg):
+        obj = synthetic(_RGBTraceColdEngine,cfg)
+        original = obj.accounting
+        seen = []
+        calls.append(seen)
+        def read():
+            seen.append(True)
+            if len(seen)>1:raise RuntimeError('synthetic second report lost')
+            return original()
+        obj.accounting = read
+        return obj
+    monkeypatch.setattr(check,'_RGBTraceColdEngine',create)
+    result = check.run()
+    assert result['passed'] and result['accounting_complete']
+    assert len(calls)==9 and all(len(seen)==1 for seen in calls)
+    assert result['engine_reports'][0]['accounting']['charged_frames']==844
+
+
+def test_later_peer_report_failure_never_discards_the_first_successful_cost(monkeypatch,tmp_path):
+    setup(monkeypatch,tmp_path)
+    trace_reads,endpoint_reads = [],[]
+    def create_trace(cfg):
+        obj = synthetic(_RGBTraceColdEngine,cfg)
+        original = obj.accounting
+        def read():
+            trace_reads.append(True)
+            if len(trace_reads)>1:raise RuntimeError('first known cost cannot be read again')
+            return original()
+        obj.accounting = read
+        return obj
+    count = []
+    def create_cold(cfg):
+        obj = synthetic(_ColdPixelEngine,cfg)
+        count.append(True)
+        if len(count)==1:
+            def read():
+                endpoint_reads.append(True)
+                raise RuntimeError('synthetic peer report failure')
+            obj.accounting = read
+        return obj
+    monkeypatch.setattr(check,'_RGBTraceColdEngine',create_trace)
+    monkeypatch.setattr(check,'_ColdPixelEngine',create_cold)
+    with pytest.raises(RuntimeError,match='peer report'):check.run()
+    record = json.loads((tmp_path/'result_attempt.json').read_text())
+    assert record['engine_reports'][0]['accounting']['charged_frames']==844
+    assert 'accounting_error' in record['engine_reports'][1]
+    assert record['known_charged_frames']==1688 and record['accounting_complete'] is False
+    assert trace_reads==endpoint_reads==[True]

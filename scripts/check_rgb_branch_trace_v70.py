@@ -15,6 +15,8 @@ PREFLIGHT = 'craft_v6_out/v70_rgb_branch_trace/wiring_preflight_v0.json'
 OUTPUT = ROOT/'craft_v6_out/v70_rgb_branch_trace/wiring_v0.json'
 GAMES = ('pong', 'breakout', 'freeway', 'seaquest', 'ms_pacman', 'asteroids')
 SOURCE_PATHS = (
+    'ragnarok/__init__.py', 'ragnarok/environments/__init__.py',
+    'ragnarok/evaluation/__init__.py', 'scripts/__init__.py', 'tests/__init__.py',
     'ragnarok/environments/emu_pool.py', 'ragnarok/environments/cold_emu_pool_v70.py',
     'ragnarok/environments/frame_budget_v70.py', 'ragnarok/environments/rgb_branch_trace_v70.py',
     'ragnarok/environments/rgb_trace_difference_v70.py', 'ragnarok/environments/rgb_trace_pool_v70.py',
@@ -110,7 +112,7 @@ def trace_digests(traces):
     return result
 
 
-def direct_case(create, game, seed, warmup, limit, expected=None):
+def direct_case(create, game, seed, warmup, limit, expected=None, *, read_report=None):
     cfg = config(game, seed, limit)
     subject = create(f'{game}:{seed}:trace', lambda: _RGBTraceColdEngine(cfg))
     endpoint = create(f'{game}:{seed}:endpoint_witness', lambda: _ColdPixelEngine(cfg))
@@ -137,7 +139,8 @@ def direct_case(create, game, seed, warmup, limit, expected=None):
         if (not all(np.array_equal(images[0], image) for image in images[1:])
                 or not same_state(subject, endpoint) or not same_state(subject, witness)):
             raise ValueError('Ordinary continuation or next cold differs after restoration')
-    a, b, c = [e.accounting() for e in (subject, endpoint, witness)]
+    reader = read_report if read_report is not None else lambda obj: obj.accounting()
+    a, b, c = [reader(e) for e in (subject, endpoint, witness)]
     if (a != b or a['experiment_agent_steps'] != 2 or c['experiment_agent_steps'] != sum(lengths)
             or {k:v for k,v in a.items() if k != 'experiment_agent_steps'} !=
                {k:v for k,v in c.items() if k != 'experiment_agent_steps'}):
@@ -155,6 +158,7 @@ def run():
     record = dict(status='started', started_utc=utc(), **proof)
     write_new(attempt, record)
     objects, collected, cases = [], [], []
+    known_reports = {}
     pool = None
     constructing = None
     constructor_count = 0
@@ -170,22 +174,41 @@ def run():
         constructing = None
         return obj
 
+    def read_report(obj):
+        name = next(name for name, existing in objects if existing is obj)
+        if name in known_reports:
+            if 'accounting' not in known_reports[name]:
+                raise RuntimeError(known_reports[name]['accounting_error'])
+            return known_reports[name]['accounting']
+        try:
+            accounting = obj.accounting()
+        except BaseException as error:
+            known_reports[name] = dict(name=name, accounting_error=str(error))
+            raise
+        # Retain each successful response immediately, even if a later metadata
+        # read or another engine's report fails. Never re-query a known report.
+        known_reports[name] = dict(name=name, accounting=accounting)
+        known_reports[name]['failure'] = getattr(obj, '_trace_failure', None)
+        return accounting
+
     def drain():
         for name, obj in objects:
-            try:
-                collected.append(dict(name=name, accounting=obj.accounting(),
-                    failure=getattr(obj, '_trace_failure', None)))
-            except BaseException as error:
-                collected.append(dict(name=name, accounting_error=str(error)))
+            if name not in known_reports:
+                try:
+                    read_report(obj)
+                except BaseException as error:
+                    known_reports.setdefault(name, dict(name=name, accounting_error=str(error)))
+            collected.append(known_reports.pop(name))
         objects.clear()
 
     try:
         for game in GAMES:
-            cases.append(direct_case(create, game, 18700, 128, 108000))
+            cases.append(direct_case(create, game, 18700, 128, 108000, read_report=read_report))
             drain()
         for case in TERMINALS:
             cases.append(direct_case(create, case['game'], case['seed'],
-                case['ordinary_decisions_before_branch'], 509, case['expected_trace_frames_per_branch']))
+                case['ordinary_decisions_before_branch'], 509, case['expected_trace_frames_per_branch'],
+                read_report=read_report))
             drain()
         cfg = config('pong', 18720, 108000)
         direct = create('spawn_direct', lambda: _RGBTraceColdEngine(cfg))
@@ -212,7 +235,7 @@ def run():
                 raise ValueError('Spawn continuation RGB differs')
         report = pool.report()
         collected.append(dict(name='spawn_worker', **report))
-        if report != dict(accounting=direct.accounting(), failure=direct._trace_failure):
+        if report != dict(accounting=read_report(direct), failure=direct._trace_failure):
             raise ValueError('Spawn/direct complete report differs')
         processes = list(pool._processes)
         pool.close()
