@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "reason": "Mixed subplot grids overlap probe title and top x labels; initial text assertions alone were insufficient."
+}

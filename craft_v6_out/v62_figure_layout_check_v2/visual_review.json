@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "experimental_data_used": false,
+  "source_sha256": "d8d45dd6931accd26553d3b29030e35cf8fecbdee8edf2ecb916eb74e23e21cd",
+  "checks": [
+    "Both synthetic store regimes inspected",
+    "No panel/title/label overlap or clipping",
+    "Probe n values visible",
+    "17 frozen scientific sources untouched",
+    "Actual confirmatory result remains pending"
+  ]
+}

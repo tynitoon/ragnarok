@@ -1,0 +1,25 @@
+{
+  "kind": "synthetic_figure_label_layout_check",
+  "passed": true,
+  "experimental_data_used": false,
+  "cases": [
+    {
+      "regime": "persistent",
+      "annotation_text": [
+        "head start\n(weights only)",
+        "head start\n(weights + carried store)",
+        "head start\n(weights + carried store)"
+      ],
+      "output_sha256": "469a3585e074af73c4646b84dbd795e16631cdaf7ff2017ad04f9c4329f0cc4e"
+    },
+    {
+      "regime": "reset",
+      "annotation_text": [
+        "head start\n(weights only)",
+        "head start\n(weights only)",
+        "head start\n(weights only)"
+      ],
+      "output_sha256": "46736d69cf627e519496209431f59506a8c4528967b9114f3c242aa8ba36b6f1"
+    }
+  ]
+}

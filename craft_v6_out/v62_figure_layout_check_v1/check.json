@@ -1,0 +1,27 @@
+{
+  "kind": "synthetic_figure_label_check",
+  "passed": true,
+  "experimental_data_used": false,
+  "cases": [
+    {
+      "regime": "persistent",
+      "xlabels": [
+        "practice rounds on this goal (b)\nb=0 head start: weights only",
+        "practice rounds on this goal (b)\nb=0 head start: weights + carried store",
+        "practice rounds on this goal (b)\nb=0 head start: weights + carried store",
+        ""
+      ],
+      "output_sha256": "5d8c2dc616bb140a6e8f272de32aadbe59466ef350e00e5b258e4365a7fb79e9"
+    },
+    {
+      "regime": "reset",
+      "xlabels": [
+        "practice rounds on this goal (b)\nb=0 head start: weights only",
+        "practice rounds on this goal (b)\nb=0 head start: weights only",
+        "practice rounds on this goal (b)\nb=0 head start: weights only",
+        ""
+      ],
+      "output_sha256": "7fc0f181a957ab820a7ab5483548f921f354706f505d009beeeb760ee586ae32"
+    }
+  ]
+}

@@ -698,9 +698,10 @@ The probe samples up to 3 goals * 4 episodes * 64 envs = 768 first proposals PER
 keep the two-sample pooled standard error already frozen in code and in the v61 pre-gate corrections.
 This clarification changes neither sampling nor the threshold.
 
-Before delivering a figure, apply the already declared 12.6 labels: store persists within a world;
-b=0 on tiers 3/4 contains weights + carried store. The old figure script still prints per-goal store
-and weights-only labels; it must not be used uncorrected for v62. Do not claim law-head AUC on test
+The figure now applies the already declared 12.6 labels from explicit store metadata: the store
+persists within a world, and b=0 on tiers 3/4 contains weights + carried store. The per-arm probe
+sample sizes are displayed; the final figure still awaits complete confirmatory data and review.
+Do not claim law-head AUC on test
 worlds from the confirmatory JSON: the frozen runner does not record that measurement.
 
 ### 13.4 Completed pretraining and mechanism probe, 2026-09-09

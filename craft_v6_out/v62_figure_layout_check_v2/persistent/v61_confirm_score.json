@@ -1,0 +1,28 @@
+{
+  "N": 1,
+  "B": 6,
+  "verdict": "SYNTHETIC LAYOUT ONLY",
+  "sentence": "No scientific result",
+  "delta_learn": 0.0,
+  "se": 0.1,
+  "per_tier": {
+    "2": {
+      "delta": 0.0,
+      "se": 0.1,
+      "delta_0": 0.0,
+      "endpoint_gap": 0.0
+    },
+    "3": {
+      "delta": 0.0,
+      "se": 0.1,
+      "delta_0": 0.0,
+      "endpoint_gap": 0.0
+    },
+    "4": {
+      "delta": 0.0,
+      "se": 0.1,
+      "delta_0": 0.0,
+      "endpoint_gap": 0.0
+    }
+  }
+}

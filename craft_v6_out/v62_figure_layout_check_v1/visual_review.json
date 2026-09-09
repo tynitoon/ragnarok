@@ -1,0 +1,4 @@
+{
+  "passed": false,
+  "reason": "Axes and x labels separated, but a long tier title extends beyond the right edge. Split the numeric title across two lines."
+}
