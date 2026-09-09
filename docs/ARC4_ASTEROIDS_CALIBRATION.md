@@ -169,3 +169,20 @@ préflight SHA5bd30d86… close ;30tests pertinents passent. Elle a fait renforc
 les bornes et identités des dénominateurs et la présence des métadonnées au
 commit annoncé dans le scellé. Tentatives de capture/scoring distinctes et
 durables ; aucun second essai. Aucun accès17522 à cette étape.
+
+Réserve 17522 achevée après le commit du scellé f9217e3. Les 8 192 décisions
+contiennent 8 182 avances de quatre frames et dix de deux, soit 32 748 frames
+ordinaires + 14 × 132 de démarrage = 34 596 facturées. Les trois catégories
+passent : comptages positifs joueur 4199/4217, rochers 8168/8192, tirs 1922/1924 ;
+géométrie within1 respectivement 4231/4232, 53195/53249 et 1931/1931.
+Les 18/24/2 fenêtres de comptage erroné et 1/54/0 erreurs géométriques restent
+dans `pooled_reserved_geometry_v1.json`, sans nouveau réglage.
+
+La revue `pooled_reserved_result_review_v1.json`, SHA15b8931c…,
+confirme les 64 archives, le RNG et les actions, les 49 sources et la chronologie.
+Ses 33 fenêtres témoins reproduisent 25 désaccords stockés et sept explosions
+aux positions y=-1 et y=-4, absentes du développement : toutes leurs boîtes
+joueur sont exactes. Aucun y=-2 dans la réserve ; l'audit local reste borné.
+Calibration temporelle close. Les futurs diagnostics de référence utiliseront
+le juge source corrigé sous une limitation explicite : ce résultat temporel
+ne constitue pas une nouvelle validation brute indépendante.

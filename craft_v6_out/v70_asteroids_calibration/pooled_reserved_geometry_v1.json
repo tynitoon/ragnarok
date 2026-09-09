@@ -1,0 +1,1888 @@
+{
+  "kind": "asteroids_two_raw_frame_reserved_calibration",
+  "seed": 17522,
+  "decoder_revision": "asteroids_two_raw_spatial_envelopes_wrapped_explosion_v1",
+  "created_utc": "2026-09-09T13:43:33Z",
+  "calibration_pass": true,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8174,
+      "positive_frames": 4217,
+      "positive_count_agreement": 4199,
+      "ram_objects": 4232,
+      "pixel_objects": 4250,
+      "joint_matches": 4232,
+      "boxes_within1": 4231,
+      "boxes_exact": 4231,
+      "presence_fraction": 0.997802734375,
+      "positive_presence_fraction": 0.9957315627223144,
+      "box_fraction": 0.9997637051039697,
+      "passed": true
+    },
+    "asteroid": {
+      "frames": 8192,
+      "presence_count_agreement": 8168,
+      "positive_frames": 8192,
+      "positive_count_agreement": 8168,
+      "ram_objects": 53249,
+      "pixel_objects": 53469,
+      "joint_matches": 53249,
+      "boxes_within1": 53195,
+      "boxes_exact": 53155,
+      "presence_fraction": 0.9970703125,
+      "positive_presence_fraction": 0.9970703125,
+      "box_fraction": 0.9989858964487596,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8190,
+      "positive_frames": 1924,
+      "positive_count_agreement": 1922,
+      "ram_objects": 1931,
+      "pixel_objects": 1933,
+      "joint_matches": 1931,
+      "boxes_within1": 1931,
+      "boxes_exact": 1929,
+      "presence_fraction": 0.999755859375,
+      "positive_presence_fraction": 0.998960498960499,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "first_disagreements": {
+    "player": [
+      {
+        "decision": 5792,
+        "ram": [],
+        "pixels": [
+          [
+            6,
+            93,
+            5,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 5793,
+        "ram": [],
+        "pixels": [
+          [
+            4,
+            95,
+            4,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 5794,
+        "ram": [],
+        "pixels": [
+          [
+            3,
+            96,
+            5,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 5795,
+        "ram": [],
+        "pixels": [
+          [
+            2,
+            98,
+            4,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 5796,
+        "ram": [
+          [
+            159,
+            108,
+            1,
+            2
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            100,
+            4,
+            8
+          ]
+        ]
+      },
+      {
+        "decision": 5797,
+        "ram": [
+          [
+            158,
+            106,
+            2,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            102,
+            3,
+            8
+          ],
+          [
+            158,
+            106,
+            2,
+            6
+          ]
+        ]
+      },
+      {
+        "decision": 5798,
+        "ram": [
+          [
+            157,
+            103,
+            3,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            157,
+            103,
+            3,
+            10
+          ],
+          [
+            0,
+            105,
+            2,
+            4
+          ]
+        ]
+      },
+      {
+        "decision": 7778,
+        "ram": [],
+        "pixels": [
+          [
+            6,
+            74,
+            5,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 7779,
+        "ram": [],
+        "pixels": [
+          [
+            6,
+            73,
+            4,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 7780,
+        "ram": [],
+        "pixels": [
+          [
+            6,
+            72,
+            5,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 7781,
+        "ram": [],
+        "pixels": [
+          [
+            5,
+            71,
+            4,
+            10
+          ]
+        ]
+      },
+      {
+        "decision": 7782,
+        "ram": [],
+        "pixels": [
+          [
+            5,
+            71,
+            5,
+            10
+          ]
+        ]
+      }
+    ],
+    "asteroid": [
+      {
+        "decision": 105,
+        "ram": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            15,
+            84,
+            8,
+            14
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            43,
+            138,
+            8,
+            14
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            18,
+            84,
+            8,
+            14
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            43,
+            138,
+            8,
+            14
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "decision": 674,
+        "ram": [
+          [
+            3,
+            18,
+            8,
+            14
+          ],
+          [
+            13,
+            19,
+            8,
+            12
+          ],
+          [
+            157,
+            51,
+            3,
+            8
+          ],
+          [
+            0,
+            53,
+            1,
+            4
+          ],
+          [
+            57,
+            71,
+            4,
+            8
+          ],
+          [
+            13,
+            122,
+            8,
+            14
+          ],
+          [
+            91,
+            175,
+            4,
+            8
+          ],
+          [
+            23,
+            176,
+            4,
+            8
+          ]
+        ],
+        "pixels": [
+          [
+            3,
+            18,
+            8,
+            14
+          ],
+          [
+            13,
+            19,
+            8,
+            12
+          ],
+          [
+            0,
+            51,
+            1,
+            2
+          ],
+          [
+            158,
+            51,
+            1,
+            2
+          ],
+          [
+            3,
+            53,
+            1,
+            2
+          ],
+          [
+            159,
+            55,
+            1,
+            2
+          ],
+          [
+            4,
+            57,
+            1,
+            2
+          ],
+          [
+            157,
+            57,
+            1,
+            2
+          ],
+          [
+            2,
+            59,
+            1,
+            2
+          ],
+          [
+            158,
+            61,
+            1,
+            2
+          ],
+          [
+            0,
+            63,
+            1,
+            2
+          ],
+          [
+            4,
+            65,
+            1,
+            2
+          ],
+          [
+            158,
+            65,
+            1,
+            2
+          ],
+          [
+            13,
+            122,
+            8,
+            14
+          ],
+          [
+            23,
+            176,
+            4,
+            8
+          ]
+        ]
+      },
+      {
+        "decision": 738,
+        "ram": [
+          [
+            0,
+            44,
+            5,
+            14
+          ],
+          [
+            157,
+            46,
+            3,
+            10
+          ],
+          [
+            73,
+            75,
+            4,
+            8
+          ],
+          [
+            0,
+            95,
+            7,
+            14
+          ],
+          [
+            157,
+            97,
+            3,
+            10
+          ],
+          [
+            145,
+            118,
+            4,
+            8
+          ],
+          [
+            13,
+            129,
+            4,
+            8
+          ],
+          [
+            39,
+            149,
+            4,
+            8
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            44,
+            5,
+            14
+          ],
+          [
+            157,
+            46,
+            3,
+            10
+          ],
+          [
+            73,
+            75,
+            4,
+            8
+          ],
+          [
+            0,
+            95,
+            7,
+            14
+          ],
+          [
+            157,
+            97,
+            3,
+            10
+          ],
+          [
+            146,
+            118,
+            1,
+            2
+          ],
+          [
+            148,
+            118,
+            1,
+            2
+          ],
+          [
+            151,
+            120,
+            1,
+            2
+          ],
+          [
+            147,
+            122,
+            1,
+            2
+          ],
+          [
+            145,
+            124,
+            1,
+            2
+          ],
+          [
+            152,
+            124,
+            1,
+            2
+          ],
+          [
+            150,
+            126,
+            1,
+            2
+          ],
+          [
+            146,
+            128,
+            1,
+            2
+          ],
+          [
+            13,
+            129,
+            4,
+            8
+          ],
+          [
+            148,
+            130,
+            1,
+            2
+          ],
+          [
+            146,
+            132,
+            1,
+            2
+          ],
+          [
+            152,
+            132,
+            1,
+            2
+          ],
+          [
+            39,
+            149,
+            4,
+            8
+          ]
+        ]
+      },
+      {
+        "decision": 763,
+        "ram": [
+          [
+            149,
+            18,
+            7,
+            8
+          ],
+          [
+            23,
+            51,
+            4,
+            8
+          ],
+          [
+            31,
+            71,
+            4,
+            8
+          ],
+          [
+            149,
+            122,
+            8,
+            14
+          ],
+          [
+            65,
+            175,
+            4,
+            8
+          ]
+        ],
+        "pixels": [
+          [
+            151,
+            18,
+            6,
+            9
+          ],
+          [
+            149,
+            23,
+            1,
+            2
+          ],
+          [
+            150,
+            27,
+            1,
+            2
+          ],
+          [
+            152,
+            29,
+            1,
+            2
+          ],
+          [
+            150,
+            31,
+            1,
+            2
+          ],
+          [
+            156,
+            31,
+            1,
+            2
+          ],
+          [
+            23,
+            51,
+            4,
+            8
+          ],
+          [
+            31,
+            71,
+            4,
+            8
+          ],
+          [
+            149,
+            122,
+            8,
+            14
+          ],
+          [
+            65,
+            175,
+            4,
+            8
+          ]
+        ]
+      },
+      {
+        "decision": 978,
+        "ram": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            16,
+            86,
+            16,
+            28
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            4,
+            140,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            19,
+            86,
+            16,
+            28
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            4,
+            140,
+            16,
+            28
+          ]
+        ]
+      },
+      {
+        "decision": 1162,
+        "ram": [
+          [
+            45,
+            59,
+            8,
+            14
+          ],
+          [
+            126,
+            62,
+            16,
+            28
+          ],
+          [
+            45,
+            79,
+            8,
+            14
+          ],
+          [
+            0,
+            114,
+            7,
+            14
+          ],
+          [
+            48,
+            115,
+            16,
+            28
+          ],
+          [
+            159,
+            120,
+            1,
+            4
+          ],
+          [
+            113,
+            134,
+            8,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            45,
+            59,
+            1,
+            2
+          ],
+          [
+            47,
+            59,
+            1,
+            2
+          ],
+          [
+            50,
+            61,
+            1,
+            2
+          ],
+          [
+            126,
+            62,
+            16,
+            28
+          ],
+          [
+            46,
+            63,
+            1,
+            2
+          ],
+          [
+            49,
+            65,
+            1,
+            2
+          ],
+          [
+            52,
+            65,
+            1,
+            2
+          ],
+          [
+            47,
+            67,
+            1,
+            2
+          ],
+          [
+            45,
+            71,
+            1,
+            2
+          ],
+          [
+            49,
+            71,
+            1,
+            2
+          ],
+          [
+            52,
+            73,
+            1,
+            2
+          ],
+          [
+            48,
+            75,
+            1,
+            2
+          ],
+          [
+            46,
+            77,
+            1,
+            2
+          ],
+          [
+            48,
+            79,
+            1,
+            2
+          ],
+          [
+            52,
+            79,
+            1,
+            2
+          ],
+          [
+            0,
+            114,
+            7,
+            14
+          ],
+          [
+            48,
+            115,
+            16,
+            28
+          ],
+          [
+            159,
+            120,
+            1,
+            4
+          ],
+          [
+            113,
+            134,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "decision": 1447,
+        "ram": [
+          [
+            11,
+            27,
+            8,
+            14
+          ],
+          [
+            81,
+            42,
+            8,
+            14
+          ],
+          [
+            31,
+            62,
+            4,
+            8
+          ],
+          [
+            127,
+            131,
+            8,
+            14
+          ],
+          [
+            123,
+            151,
+            8,
+            14
+          ],
+          [
+            43,
+            166,
+            4,
+            8
+          ],
+          [
+            129,
+            185,
+            4,
+            8
+          ],
+          [
+            59,
+            186,
+            8,
+            8
+          ]
+        ],
+        "pixels": [
+          [
+            11,
+            27,
+            8,
+            14
+          ],
+          [
+            80,
+            42,
+            8,
+            14
+          ],
+          [
+            31,
+            62,
+            4,
+            8
+          ],
+          [
+            127,
+            131,
+            8,
+            14
+          ],
+          [
+            123,
+            151,
+            8,
+            14
+          ],
+          [
+            44,
+            166,
+            1,
+            2
+          ],
+          [
+            46,
+            166,
+            1,
+            2
+          ],
+          [
+            49,
+            168,
+            1,
+            2
+          ],
+          [
+            45,
+            170,
+            1,
+            2
+          ],
+          [
+            43,
+            172,
+            1,
+            2
+          ],
+          [
+            50,
+            172,
+            1,
+            2
+          ],
+          [
+            48,
+            174,
+            1,
+            2
+          ],
+          [
+            44,
+            176,
+            1,
+            2
+          ],
+          [
+            46,
+            178,
+            1,
+            2
+          ],
+          [
+            44,
+            180,
+            1,
+            2
+          ],
+          [
+            50,
+            180,
+            1,
+            2
+          ],
+          [
+            129,
+            185,
+            4,
+            8
+          ]
+        ]
+      },
+      {
+        "decision": 1465,
+        "ram": [
+          [
+            132,
+            25,
+            8,
+            14
+          ],
+          [
+            118,
+            45,
+            8,
+            14
+          ],
+          [
+            134,
+            79,
+            4,
+            8
+          ],
+          [
+            38,
+            94,
+            4,
+            8
+          ],
+          [
+            6,
+            99,
+            8,
+            14
+          ],
+          [
+            64,
+            114,
+            8,
+            14
+          ],
+          [
+            86,
+            148,
+            8,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            132,
+            25,
+            8,
+            14
+          ],
+          [
+            118,
+            45,
+            8,
+            14
+          ],
+          [
+            134,
+            79,
+            4,
+            8
+          ],
+          [
+            38,
+            94,
+            4,
+            8
+          ],
+          [
+            6,
+            99,
+            8,
+            14
+          ],
+          [
+            64,
+            114,
+            8,
+            14
+          ],
+          [
+            86,
+            148,
+            8,
+            14
+          ],
+          [
+            27,
+            168,
+            1,
+            2
+          ],
+          [
+            29,
+            170,
+            1,
+            2
+          ],
+          [
+            26,
+            172,
+            1,
+            2
+          ],
+          [
+            28,
+            174,
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "decision": 1573,
+        "ram": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            16,
+            86,
+            16,
+            28
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            41,
+            138,
+            8,
+            14
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            19,
+            86,
+            16,
+            28
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ],
+          [
+            41,
+            138,
+            8,
+            14
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "decision": 1583,
+        "ram": [
+          [
+            14,
+            46,
+            16,
+            28
+          ],
+          [
+            0,
+            77,
+            12,
+            28
+          ],
+          [
+            156,
+            83,
+            4,
+            14
+          ],
+          [
+            43,
+            98,
+            8,
+            14
+          ],
+          [
+            0,
+            118,
+            11,
+            25
+          ],
+          [
+            157,
+            131,
+            3,
+            10
+          ],
+          [
+            0,
+            149,
+            5,
+            14
+          ],
+          [
+            157,
+            151,
+            3,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            14,
+            46,
+            16,
+            28
+          ],
+          [
+            0,
+            77,
+            12,
+            28
+          ],
+          [
+            156,
+            83,
+            4,
+            14
+          ],
+          [
+            43,
+            98,
+            8,
+            14
+          ],
+          [
+            3,
+            118,
+            8,
+            15
+          ],
+          [
+            1,
+            129,
+            1,
+            2
+          ],
+          [
+            158,
+            129,
+            1,
+            2
+          ],
+          [
+            159,
+            133,
+            1,
+            2
+          ],
+          [
+            1,
+            135,
+            1,
+            2
+          ],
+          [
+            157,
+            135,
+            1,
+            2
+          ],
+          [
+            4,
+            137,
+            1,
+            2
+          ],
+          [
+            158,
+            139,
+            1,
+            2
+          ],
+          [
+            0,
+            141,
+            1,
+            2
+          ],
+          [
+            2,
+            141,
+            1,
+            2
+          ],
+          [
+            158,
+            143,
+            1,
+            2
+          ],
+          [
+            4,
+            147,
+            1,
+            2
+          ],
+          [
+            159,
+            147,
+            1,
+            2
+          ],
+          [
+            2,
+            149,
+            1,
+            2
+          ],
+          [
+            157,
+            149,
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "decision": 1644,
+        "ram": [
+          [
+            13,
+            19,
+            8,
+            12
+          ],
+          [
+            61,
+            32,
+            8,
+            14
+          ],
+          [
+            139,
+            37,
+            4,
+            8
+          ],
+          [
+            145,
+            52,
+            8,
+            14
+          ],
+          [
+            11,
+            141,
+            8,
+            14
+          ],
+          [
+            0,
+            158,
+            14,
+            28
+          ],
+          [
+            155,
+            161,
+            5,
+            17
+          ]
+        ],
+        "pixels": [
+          [
+            13,
+            19,
+            8,
+            12
+          ],
+          [
+            61,
+            32,
+            8,
+            14
+          ],
+          [
+            140,
+            37,
+            1,
+            2
+          ],
+          [
+            142,
+            37,
+            1,
+            2
+          ],
+          [
+            145,
+            39,
+            1,
+            2
+          ],
+          [
+            141,
+            41,
+            1,
+            2
+          ],
+          [
+            139,
+            43,
+            1,
+            2
+          ],
+          [
+            146,
+            43,
+            1,
+            2
+          ],
+          [
+            144,
+            45,
+            1,
+            2
+          ],
+          [
+            140,
+            47,
+            1,
+            2
+          ],
+          [
+            142,
+            49,
+            1,
+            2
+          ],
+          [
+            140,
+            51,
+            1,
+            2
+          ],
+          [
+            145,
+            51,
+            8,
+            15
+          ],
+          [
+            11,
+            141,
+            8,
+            14
+          ],
+          [
+            0,
+            158,
+            14,
+            28
+          ],
+          [
+            155,
+            161,
+            5,
+            17
+          ]
+        ]
+      },
+      {
+        "decision": 1769,
+        "ram": [
+          [
+            20,
+            18,
+            8,
+            8
+          ],
+          [
+            121,
+            32,
+            8,
+            14
+          ],
+          [
+            65,
+            66,
+            4,
+            8
+          ],
+          [
+            109,
+            86,
+            8,
+            14
+          ],
+          [
+            49,
+            107,
+            4,
+            8
+          ],
+          [
+            119,
+            127,
+            8,
+            14
+          ],
+          [
+            51,
+            161,
+            8,
+            14
+          ],
+          [
+            23,
+            190,
+            4,
+            4
+          ]
+        ],
+        "pixels": [
+          [
+            20,
+            18,
+            8,
+            8
+          ],
+          [
+            121,
+            32,
+            8,
+            14
+          ],
+          [
+            65,
+            66,
+            4,
+            8
+          ],
+          [
+            109,
+            86,
+            8,
+            14
+          ],
+          [
+            50,
+            107,
+            1,
+            2
+          ],
+          [
+            52,
+            107,
+            1,
+            2
+          ],
+          [
+            55,
+            109,
+            1,
+            2
+          ],
+          [
+            51,
+            111,
+            1,
+            2
+          ],
+          [
+            49,
+            113,
+            1,
+            2
+          ],
+          [
+            56,
+            113,
+            1,
+            2
+          ],
+          [
+            54,
+            115,
+            1,
+            2
+          ],
+          [
+            50,
+            117,
+            1,
+            2
+          ],
+          [
+            52,
+            119,
+            1,
+            2
+          ],
+          [
+            50,
+            121,
+            1,
+            2
+          ],
+          [
+            56,
+            121,
+            1,
+            2
+          ],
+          [
+            23,
+            190,
+            4,
+            4
+          ]
+        ]
+      }
+    ],
+    "player_missile": [
+      {
+        "decision": 5796,
+        "ram": [],
+        "pixels": [
+          [
+            159,
+            108,
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "decision": 5799,
+        "ram": [],
+        "pixels": [
+          [
+            0,
+            109,
+            1,
+            2
+          ]
+        ]
+      }
+    ]
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/asteroids_raw_prerequisite_v70.py": "720e09afae7e49f1151c9b18a25c9ececebe01f9528122ec907a996934383cac",
+    "docs/ARC4_ASTEROIDS_POOLED_PROTOCOL.json": "7ae8212b975d1268143898153919f5ed755bf2f364fe04dfe6ff3bc139f8e2f4",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_asteroids_v70.py": "4ec46f77be8ff3eaa3a0ae2e887b2200ae809ce7f6580213f460b10921672fe8",
+    "scripts/capture_asteroids_pooled_v70.py": "451de5496dc89af48afc4641451d32cc824eb2f3512eb50f74b27a3365b6e483",
+    "scripts/calibrate_asteroids_pooled_v70.py": "7b3124e1015d8211354bd8716ea06e6b0d93e184151bc2c8057f6e6cffc577cd",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_asteroids_pooled_v70.py": "d7dd637d8936b644859a31f034f58b1fad7c37804cdb1b11ce848b77139ed30c",
+    "ragnarok/evaluation/pooled_asteroids_wrap_v70.py": "8437c83232d1af5c4f2fa29680125e28e2013c8c8ca6e79ea396729fb83762e0",
+    "scripts/calibrate_asteroids_pooled_wrap_v70.py": "95b0178589a8d91f6be6ac8de756419235c74839a6ed930e31e5a7d79fd41cbe",
+    "tests/test_asteroids_pooled_wrap_v70.py": "2eb3c2310af6fff91898c70627f8013191d38e5dddb49611dd374f5190c03b80",
+    "docs/ARC4_ASTEROIDS_POOLED_RESERVED_PROTOCOL.json": "b613aba38da641f7c9c889a001b242ffb465510d8d725e93750e8d354e31c32c",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "scripts/validate_asteroids_pooled_v70.py": "0025af7cb6a0f644d565d61c6cc671c9ba82096625706156d53d42d1235cba38",
+    "tests/test_temporal_validation_seal_v70.py": "a145f0576d9eae3910ec2a7b4e5c630b04394ec4386a662fd15683f61862a0a9",
+    "tests/test_asteroids_pooled_reserved_v70.py": "f5d88421436496b1979daec5daee3600056e4cb124af77be7c72d45e0ef96677"
+  },
+  "fixture_manifest_sha256": "3ee1ae0e6c8ac36b8a6af95a9a453c5930f9a7131e7c315edac168baa26b058f",
+  "raw_calibration_proof_sha256": "d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9",
+  "validation_seal_sha256": "cdd9b4677fd45b51916413d4928113850412abf0e7abff2a6fb5dc21442ed5b9",
+  "scope": "Four-connected contributing source envelopes, separate three categories; empty denominators null/FAIL.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

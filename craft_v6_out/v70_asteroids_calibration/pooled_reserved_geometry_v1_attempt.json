@@ -1,0 +1,10 @@
+{
+  "status": "complete",
+  "seed": 17522,
+  "started_utc": "2026-09-09T13:34:13Z",
+  "output": "F:\\dev\\ragnarok\\craft_v6_out\\v70_asteroids_calibration\\pooled_reserved_geometry_v1.json",
+  "fixture_manifest_sha256": "3ee1ae0e6c8ac36b8a6af95a9a453c5930f9a7131e7c315edac168baa26b058f",
+  "completed_utc": "2026-09-09T13:43:33Z",
+  "result_sha256": "759d0f426b4bd24dc231c7ec927d2cd3b12ddf33d47977d6bb778eb594ccb40d",
+  "calibration_pass": true
+}
