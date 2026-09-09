@@ -1,0 +1,51 @@
+{
+  "kind": "prospective_offline_rectangle_groups_v0",
+  "spec": {
+    "games": [
+      "ms_pacman",
+      "asteroids"
+    ],
+    "seeds": [
+      17471,
+      17571
+    ],
+    "raw_frames_each": 8192,
+    "episodes_each": 5,
+    "paired_groups_each": 8187,
+    "population": "every_consecutive_pair_of_observed_raw_scenes_within_an_episode",
+    "call_order": "global_pair_even_raster_first_odd_rectangles_first",
+    "equality": "complete_ordered_groups_kind_box_and_frozen_member_set",
+    "max_work_seconds": 300,
+    "numerical_threads": 1,
+    "new_emulated_frames": 0,
+    "agent_training_allowed": false,
+    "full_chain_timing": false
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "gate_result": null,
+  "limitations": [
+    "Only the complete existing raw MsPacman17471 and Asteroids17571 archives,8192frames and5episodes each. No new emulator, seed, archive, training or gate.",
+    "Every within-episode adjacent scene pair is grouped:8187pergame,16374total. First frames are decoded but yield no pair; no cold frame0 scene is invented.",
+    "Ordered categories, boxes and member sets must be exactly equal. External RAM and labels remain judge-only data, never learner inputs or physical identity guarantees.",
+    "Component calls alternate globally between raster-first and rectangles-first. Timings exclude archive loading, decoding and hashing; no full-chain throughput or controlled causal speedup is established.",
+    "One attempt and300second cooperative work bound excluding proof checks. Any mismatch, mutation, incomplete population or failure is retained with its known prefix; no retry or replacement.",
+    "Committed independent candidate-source review and exact committed preflight required before opening arrays. Final sources/evidence must remain unchanged.",
+    "No live native engine, frozen decoder, prior result or proposed gate threshold is modified. Native fidelity and chain timing would require a separate prospective protocol."
+  ]
+}

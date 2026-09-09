@@ -1,0 +1,82 @@
+{
+  "kind": "rectangle_visible_groups_independent_source_review",
+  "created_utc": "2026-09-09T23:35:30Z",
+  "reviewer": "independent_subagent_audit_motion_bootstrap",
+  "passed": true,
+  "source_commit": "d715c921ff3cec8c72bfc42f6aa1c27682594b1b",
+  "review_scope": "Revue source et témoins synthétiques de l'équivalence exacte au group_visible_sources gelé ; aucune archive native, aucun raccord ni mesure de débit.",
+  "source_sha256": {
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/perception_v70.py": "1f3ea60026b9f185262b13d29c4d9fbbca371e091a8a69ffdc1b15e5b9044dc9",
+    "ragnarok/evaluation/scene_perception_v70.py": "592fe5132cc6fddadf8a4f1d50aedfbea5bd9c3d3eb2819f04bfc4052657ab81",
+    "ragnarok/evaluation/visible_temporal_groups_v70.py": "c71434b9a96957fd5aaf6c68c9c71be2fac8240aa8f93c1ce391bbde72cf7dff",
+    "ragnarok/evaluation/rectangle_visible_groups_v70.py": "23b114a05d7873cf9b2c8f0ee65381cc7657dff1d7742a711113a4c18b1c2ed9",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_rectangle_visible_groups_v70.py": "fca9c40c27305edb712b21ae77ed35e36aacd496da63b374d40cce92b7ad7c8a"
+  },
+  "evidence_sha256": {
+    "docs/ARC4_RECTANGLE_GROUPS_DRAFT.md": "ec69dd129af287469a82f2f23c0ce1ecde0f6346729ee14fa11390c79225cc22"
+  },
+  "findings": [],
+  "tests": {
+    "existing_suite": {
+      "path": "tests/test_rectangle_visible_groups_v70.py",
+      "passed": 6,
+      "failed": 0,
+      "includes": "Contacts arête/coin, recouvrements, premier pixel raster différent du coin de boîte, ordre des catégories, doublons, identifiants répétés, entrées invalides et 64 scènes de graine19764 par jeu."
+    },
+    "independent_comparisons": {
+      "exhaustive_pairs": 2664,
+      "unit_pixel_triples": 1008,
+      "named_adversaries": 36,
+      "total": 3708,
+      "all_complete_outputs_exact": true,
+      "exhaustive_pairs_description": "36 rectangles entiers possibles dans une grille3×3 ; 666 paires avec répétition, deux ordres, pour chacun des deux jeux :2664 comparaisons.",
+      "unit_pixel_triples_description": "84 triples distincts parmi les9 pixels de la grille3×3, toutes les6 permutations, pour chacun des deux jeux :1008 comparaisons.",
+      "named_adversaries_description": "9 cas par jeu, ordre original et inverse : pont fusionnant deux composantes, ordre premier pixel, inclusions, trou et contact de coin, ID répété éloigné et doublon exact, même boîte avec can_move différent, rectangles de ROI entière pour toutes catégories, quatre coins de ROI, entrée vide.36 comparaisons.",
+      "input_iterators_used": true,
+      "input_sequence_unchanged": true
+    },
+    "independent_check_code": "\nimport contextlib, hashlib, io, itertools, json, sys\nfrom pathlib import Path\nimport numpy as np\nimport scipy\nimport pytest\nfrom ragnarok.evaluation.scene_perception_v70 import SceneObject\nfrom ragnarok.evaluation.rectangle_visible_groups_v70 import rectangle_visible_groups\nfrom ragnarok.evaluation.visible_temporal_groups_v70 import REGISTRY, group_visible_sources\n\npaths = [\n'ragnarok/__init__.py', 'ragnarok/evaluation/__init__.py',\n'ragnarok/evaluation/pong_v70.py', 'ragnarok/evaluation/perception_v70.py',\n'ragnarok/evaluation/scene_perception_v70.py',\n'ragnarok/evaluation/visible_temporal_groups_v70.py',\n'ragnarok/evaluation/rectangle_visible_groups_v70.py',\n'tests/__init__.py', 'tests/test_rectangle_visible_groups_v70.py',\n'docs/ARC4_RECTANGLE_GROUPS_DRAFT.md']\nbefore = {path:hashlib.sha256(Path(path).read_bytes()).hexdigest() for path in paths}\ncapture = io.StringIO()\nwith contextlib.redirect_stdout(capture), contextlib.redirect_stderr(capture):\n    status = pytest.main(['-q', '-p', 'no:cacheprovider', 'tests/test_rectangle_visible_groups_v70.py'])\nassert status == 0, capture.getvalue()\ncounts = dict(exhaustive_pairs=0, unit_pixel_triples=0, named_adversaries=0)\ndef compare(objects, game, category):\n    snapshot = list(objects)\n    expected = group_visible_sources(snapshot, game=game)\n    actual = rectangle_visible_groups(iter(snapshot), game=game)\n    assert actual == expected, (game, category, objects, actual, expected)\n    assert list(objects) == snapshot\n    counts[category] += 1\n\nfor game, (roi, kinds, _) in REGISTRY.items():\n    xbase, ybase = roi[:2]\n    kind = kinds[-1]\n    boxes = [(xbase+x, ybase+y, r-x, b-y)\n             for x in range(3) for r in range(x+1,4)\n             for y in range(3) for b in range(y+1,4)]\n    assert len(boxes) == 36\n    for a, b in itertools.combinations_with_replacement(boxes, 2):\n        pair = [SceneObject('a', kind, a, False), SceneObject('b', kind, b, True)]\n        compare(pair, game, 'exhaustive_pairs')\n        compare(pair[::-1], game, 'exhaustive_pairs')\n    for points in itertools.combinations(itertools.product(range(3), repeat=2), 3):\n        triple = [SceneObject(str(i), kind, (xbase+x, ybase+y, 1, 1))\n                  for i, (x,y) in enumerate(points)]\n        for ordered in itertools.permutations(triple):\n            compare(ordered, game, 'unit_pixel_triples')\n    def objects(rectangles):\n        return [SceneObject(str(i), kind, (xbase+x,ybase+y,w,h), bool(i%2))\n                for i,(x,y,w,h) in enumerate(rectangles)]\n    cases = [\n        objects([(0,0,1,4),(4,0,1,4),(0,3,5,1)]),\n        objects([(8,1,1,3),(0,3,9,1),(4,1,1,1)]),\n        objects([(0,0,8,8),(2,2,2,2),(5,5,2,2)]),\n        objects([(0,0,1,1),(0,2,1,1),(1,1,1,1)]),\n        [SceneObject('same',kind,(xbase,ybase,1,1),False),\n         SceneObject('same',kind,(roi[2]-1,roi[3]-1,1,1),True),\n         SceneObject('same',kind,(xbase,ybase,1,1),False)],\n        [SceneObject('same-box',kind,(xbase,ybase,2,2),False),\n         SceneObject('same-box',kind,(xbase,ybase,2,2),True)],\n        [SceneObject(k,k,(xbase,ybase,roi[2]-xbase,roi[3]-ybase)) for k in kinds],\n        [SceneObject(str(i),kind,(x,y,1,1)) for i,(x,y) in enumerate(\n         [(xbase,ybase),(roi[2]-1,ybase),(xbase,roi[3]-1),(roi[2]-1,roi[3]-1)])],\n        [],\n    ]\n    for items in cases:\n        for ordered in [items, items[::-1]]:\n            compare(ordered, game, 'named_adversaries')\n\nassert counts == dict(exhaustive_pairs=2664, unit_pixel_triples=1008, named_adversaries=36), counts\nafter = {path:hashlib.sha256(Path(path).read_bytes()).hexdigest() for path in paths}\nassert before == after\nassert 'ale_py' not in sys.modules and 'torch' not in sys.modules\nresult = dict(passed=True, pytest_passed=6, independent_comparisons=counts,\n              source_sha256={k:v for k,v in before.items() if k.endswith('.py')},\n              evidence_sha256={k:v for k,v in before.items() if k.endswith('.md')},\n              unchanged_source_hashes=True, no_ale_or_torch_import=True,\n              runtime=dict(executable=sys.executable, python=sys.version.split()[0],\n                           numpy=np.__version__, scipy=scipy.__version__, pytest=pytest.__version__))\nprint(json.dumps(result))\n",
+    "exit_code": 0,
+    "sources_unchanged_before_after": true
+  },
+  "checks": {
+    "filled_rectangle_connectivity": "Chaque rectangle entier non vide est quatre-connexe. Pour deux rectangles demi-ouverts, overlap_x>0 et overlap_y>=0, ou overlap_x>=0 et overlap_y>0, équivaut exactement à une intersection de pixels ou une adjacency par arête. Les deux recouvrements nuls ne donnent qu'un coin, donc aucune connexion.",
+    "graph_to_raster": "Une chaîne d'arêtes du graphe donne un chemin de pixels à quatre voisins. Réciproquement, tout chemin dans l'union raster ne passe d'un rectangle à un autre que par une intersection ou une adjacency reconnue. Les composantes du graphe et du masque sont donc identiques.",
+    "sweep_completeness": "L'ordre de traitement est non décroissant en top. Un ancien bottom<top ne peut plus partager de pixel ni d'arête avec le rectangle actuel ou les suivants. Conserver bottom==top préserve les contacts verticaux. Chaque paire susceptible d'être connexe est donc examinée exactement une fois.",
+    "union_correctness": "Seules des racines sont réunies ; la compression de chemins conserve les composantes. Les ponts transitifs et permutations ont été confrontés au raster.",
+    "membership_and_bbox": "Le même dédoublonnage de SceneObject est repris. Un rectangle appartient entièrement à une composante raster ; l'appartenance obtenue depuis son pixel supérieur gauche dans l'original est donc celle du graphe. Les frozenset d'identifiants et extrema des rectangles donnent exactement membres et boîte, y compris ID répétés dans plusieurs composantes.",
+    "raster_order": "Le premier pixel occupé d'une composante est min((top,left) des rectangles membres), pas nécessairement le coin supérieur gauche de sa boîte. Ce minimum trie les composantes comme le parcours raster. Deux composantes distinctes ne peuvent avoir le même premier pixel.",
+    "registry_and_validation": "REGISTRY est partagé, l'ordre des kinds et les ROI restent ceux du raster. La validation complète de chaque objet, des coordonnées entières et du confinement ROI reprend le code original avant tout groupement.",
+    "adoption_status": "Candidate valide pour cette revue source. Aucun ancien appelant, collecteur, score ou résultat n'est remplacé."
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "numerical_threads": 1,
+    "cuda_visible_devices": "",
+    "pytest_plugin_autoload": false,
+    "python_bytecode_writes": false,
+    "pytest_cache_writes": false,
+    "no_ale_or_torch_import": true
+  },
+  "new_emulated_frames": 0,
+  "optimizer_updates": 0,
+  "gpu_used": false,
+  "native_archives_read": false,
+  "performance_timing": false,
+  "limitations": [
+    "Les témoins exécutés sont synthétiques et bornés ; la preuve porte sur les rectangles entiers remplis, catégories et ROI du contrat gelé.",
+    "Aucun contrôle hors ligne sur les entrées natives déjà conservées n'a été exécuté par cette revue.",
+    "Aucun débit, coût CPU comparé ou gain de chaîne n'a été mesuré. Le pire cas du balayage reste quadratique en nombre de rectangles.",
+    "Les identifiants conservés sont des slots externes du juge, pas une garantie d'identité physique, de vision apprise ou de contrôle.",
+    "Cette revue n'autorise pas une nouvelle émulation ni l'adoption implicite dans un collecteur ; les protocoles futurs restent distincts.",
+    "Les anciennes sources, preuves, références et scores sont inchangés. Aucun commit effectué par cette revue."
+  ]
+}
