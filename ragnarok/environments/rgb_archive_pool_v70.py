@@ -70,4 +70,7 @@ class RGBArchivePool(RGBTracePool):
 
     def archive_drop(self, token, index=0):
         # Resource cleanup and reports remain available after any action failure.
-        return self._one(index,'archive_drop',token)
+        try: return self._one(index,'archive_drop',token)
+        except BaseException:
+            self._stopped = True
+            raise

@@ -71,3 +71,14 @@ def test_parent_stops_after_failed_archive_action_but_preserves_reports_and_drop
 def test_invalid_global_caps_refuse_before_any_worker_starts(entries,byte_limit):
     with pytest.raises(ValueError):
         SyntheticPool([EmulatorConfig(seed=i) for i in range(2)],max_archive_entries=entries,max_archive_bytes=byte_limit)
+
+
+def test_failed_cleanup_stops_all_worker_actions_but_other_cleanup_remains_possible():
+    with SyntheticPool([EmulatorConfig(seed=i) for i in range(2)]) as subject:
+        left,right=subject.archive_save(0),subject.archive_save(1)
+        with pytest.raises(ValueError,match='token'): subject.archive_drop('unknown',0)
+        before=subject.report(1)
+        with pytest.raises(ValueError,match='stopped'): subject.archive_pair_trace(right,1,index=1)
+        assert subject.report(1)==before
+        subject.archive_drop(left,0);subject.archive_drop(right,1)
+        assert subject.report(0)['archive']['entries']==subject.report(1)['archive']['entries']==0
