@@ -96,3 +96,25 @@ de routage passent. Le reçu `coverage_precollection_review.json` lie les dix
 sources de collecte, les tests et les résultats uniformes par SHA256. Il autorise
 la collecte de développement après commit ; il ne garantit pas l'apparition du
 fruit et ne valide aucun jeu réservé.
+
+Collecte17431 terminée après commit `de0f7d3` :32 768images ordinaires,
+33 560frames facturées,6constructions froides,182,42secondes. Le fruit est
+maintenant observé. La calibration V1 s'interrompt à l'image1315 sur un état
+d'animation joueur inconnu ; le diagnostic complet compte5787images concernées.
+Le reçu `coverage_visible_v1_failure.json` conserve cet échec sans score partiel.
+
+La RAM55/56 est un espace temporaire partagé avec le fruit. La liste spéciale
+de rendu, distincte de la liste des fantômes, utilise RAM34 pour sa longueur,
+RAM45/46 pour ses codes et RAM51/52+53/54 pour ses pointeurs. Elle explique
+les images où le joueur ou le fruit clignote, malgré une position logique active.
+Le nouveau module joueur séparé utilise son pointeur compensé par y pour choisir
+la silhouette ; son diagnostic indépendant conserve les pixels résiduels.
+
+Les diagnostics `fruit_list_development_diagnostic.json` et
+`fruit_support_development_diagnostic.json` gardent la première hypothèse8×10,
+qui échoue géométriquement pour la seconde forme de fruit. Les deux formes
+observées sont distinctes : cerises8×10 à(x−12,y+1), fraise6×8 à(x−11,y+3).
+La liste prédit exactement les10 677images avec fruit ;475silhouettes perdent
+leur dernière ligne visible, résidu conservé. Trois tests du module RAM fruit
+passent, dont les images où la liste affiche seulement le fruit ou le joueur.
+La composition V2 sera scorée séparément sur17411 et17431 ; aucun réservé ouvert.

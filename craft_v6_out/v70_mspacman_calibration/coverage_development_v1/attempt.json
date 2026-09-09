@@ -1,0 +1,19 @@
+{
+  "kind": "mspacman_coverage_development_attempt",
+  "source_commit": "de0f7d3b3acf0b0dfc1931f97ddbe672d68c1e49",
+  "source_sha256": {
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2"
+  },
+  "seed": 17431,
+  "status": "started",
+  "started_utc": "2026-09-09T10:06:00Z"
+}

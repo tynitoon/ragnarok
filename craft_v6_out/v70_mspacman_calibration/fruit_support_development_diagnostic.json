@@ -1,0 +1,84 @@
+{
+  "kind": "mspacman_fruit_support_development_diagnostic",
+  "seed": 17431,
+  "frames": 32768,
+  "full_body_crops": 10677,
+  "patterns": {
+    "0": [
+      {
+        "rows": [
+          96,
+          152,
+          20,
+          18,
+          38,
+          79,
+          111,
+          246,
+          240,
+          96
+        ],
+        "count": 6817,
+        "first_frame": 938
+      },
+      {
+        "rows": [
+          96,
+          152,
+          20,
+          18,
+          38,
+          79,
+          111,
+          246,
+          240,
+          0
+        ],
+        "count": 234,
+        "first_frame": 11451
+      }
+    ],
+    "1": [
+      {
+        "rows": [
+          0,
+          0,
+          60,
+          118,
+          94,
+          122,
+          110,
+          60,
+          52,
+          24
+        ],
+        "count": 3385,
+        "first_frame": 5406
+      },
+      {
+        "rows": [
+          0,
+          0,
+          60,
+          118,
+          94,
+          122,
+          110,
+          60,
+          52,
+          0
+        ],
+        "count": 241,
+        "first_frame": 5470
+      }
+    ]
+  },
+  "compensated_pointer_counts": {
+    "(0, 57108)": 7051,
+    "(1, 57130)": 3626
+  },
+  "source_sha256": "559443854b85c71bc1979fb5b49b487ad7697f37a961e9a283662efc6af81122",
+  "fixture_sha256": "62762f99abb602875b8cd7ecb05b055c9561a25c513a6fa8ffc004785f38944d",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

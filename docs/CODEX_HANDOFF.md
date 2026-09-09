@@ -332,14 +332,22 @@ grosses15359/15497within1, petites1057309boîtes exactes avec9erreurs de comptag
 Modules distincts `mspacman_ghosts/pixels/support/visible_v70.py`, source V0 intacte.
 Registre RGB causal, silhouettes RAM indépendantes ; aucune donnée oracle pour
 l'agent. `docs/ARC4_MSPACMAN_CALIBRATION.md` détaille les diagnostics conservés.
-Protocole et collecteur supplémentaires17431/17432 préparés mais **jamais lancés** :
-32 768images, marcheur de labyrinthe RGB seul. Revue indépendante en clôture après
-correction du départ Dijkstra et de l'immobilité ; trois tests controller passent.
-Exiger commits des sources/protocole/revue avant toute capture. Ne pas toucher
-aux sources hachées pendant son exécution.17412/17432 toujours fermés.
-Après couverture du fruit et revue, terminer MsPacman puis calibrer Asteroids
-sur développement avec protocole préalable, baseline conservée, revue, scellement
-avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
+Protocole, collecteur et revue supplémentaires committés `de0f7d3` avant lancement.
+Collecte17431 **terminée**, sortie `coverage_development_v1/` :32 768images,
+33 560facturées,6constructions,182,42s. Fruit présent ; V1 échoue par exception
+à1315 car RAM55/56 décrit parfois le fruit. `coverage_visible_v1_failure.json`
+conserve ce défaut(5787frames de scratch inconnu), sans score partiel favorable.
+Deux listes de rendu distinctes déterminent visibilité et supports. Nouveau
+candidat joueur `mspacman_player_list_v70.py` en diagnostic indépendant, fruit
+`mspacman_fruit_v70.py` avec types0/1 observés ; composition distincte
+`mspacman_list_visible_v70.py`, calibrateur `calibrate_mspacman_list_v70.py`.
+Ne pas relancer cette graine ou réutiliser sa sortie.17412/17432 restent fermés.
+Asteroids : protocole/sources/revue committés8cbc41d avant17511, capture8192images,
+8852facturées,5constructions. Baseline FAIL trois catégories ; erreur d'export
+int64 préservée, nouvelle sérialisation aux entiersPython sans changement des
+statistiques. Voir `docs/ARC4_ASTEROIDS_CALIBRATION.md`. Réservé17512 fermé.
+Terminer les diagnostics et calibrations de développement, puis revue et
+scellement avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
 allocation expérimentale commune, budget proposé 12 GPU-h et débit CPU. La mesure
 mort F1 sur cinq des six jeux est impossible telle quelle : Pong et Freeway
