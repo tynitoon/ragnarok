@@ -1,0 +1,62 @@
+{
+  "kind": "asteroids_visible_prospective_validation_seal_v1",
+  "created_utc": "2026-09-09T11:57:59Z",
+  "source_commit": "73fdf4c18c48bd58695350d9fcf4c2662823acc2",
+  "seed": 17512,
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "metadata_sha256": {
+    "craft_v6_out/v70_asteroids_calibration/development/manifest.json": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+    "craft_v6_out/v70_asteroids_calibration/development_visible_v1.json": "91a65c38877bd4506ca81507049aade7e5c18cc9fe0e6046571651171c3cbf04",
+    "craft_v6_out/v70_asteroids_calibration/player_render_roi_development_diagnostic_v2.json": "38954ac5418d0cc330de3cf38d55c7ec3ad04799c814684194440b3f034fd1af",
+    "craft_v6_out/v70_asteroids_calibration/player_missile_roi_correction_review.json": "fe7fee4a6d172278646eca75344fcf61766903924d38d0892e1202621a63ace5",
+    "craft_v6_out/v70_asteroids_calibration/rock_edges_development_v5.json": "4463d6a0779302407cb66c56cef1e0da5cbfa199816e4dc853ff21cc6e092fbc",
+    "craft_v6_out/v70_asteroids_calibration/rock_visible_piece_scope_review.json": "4207e7fb4e9bbd4633940ec85ce8018b9e5d3be7b6a92f37f80a25b3f7437a94",
+    "craft_v6_out/v70_asteroids_calibration/visible_composition_preseal_review.json": "91c7ffc56a5c67c7d2e31b639b134090d7fc5a0d2153deb61764aaa9b928e954",
+    "craft_v6_out/v70_asteroids_calibration/visible_validation_preflight_review.json": "910a0ef9fa0aabf47ded94679b9f93e058fdd32aa5923227b574840a57b3e248"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "notes": "All31 sources and8 development/review metadata files committed first. Commit this seal separately and run the real preflight before the single17512 capture. Every result and failure is preserved without tuning on the reserved sequence."
+}
