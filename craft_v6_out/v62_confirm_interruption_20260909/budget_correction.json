@@ -1,0 +1,14 @@
+{
+  "kind": "v62_confirm_interruption_utc_budget_correction",
+  "evidence_sha256": "0d12cfdfd7813eb0530e3e20c96fcba8e4b562febc6930e8ec8579be6d02a72f",
+  "original_started_utc": "2026-09-09T04:03:09Z",
+  "upper_bound_end_utc": "2026-09-09T04:39:14.5020020Z",
+  "elapsed_upper_bound_seconds": 2165.502002,
+  "charged_upper_bound_seconds": 2166,
+  "prior_remaining_seconds": 86908.0902837,
+  "remaining_seconds": 84742.0902837,
+  "rejected_initial_field": 9366.0,
+  "reason": "PowerShell ConvertFrom-Json inferred DateTime and its later DateTimeOffset string conversion dropped the UTC zone, overcounting two hours. This correction parses the explicit ISO8601 UTC strings directly with Python datetime.fromisoformat; the original evidence is preserved.",
+  "projected_total_hours": 34.34608603230555,
+  "authoritative_for_budget": true
+}

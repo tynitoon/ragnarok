@@ -1,0 +1,2 @@
+Starting confirm_s0 (24.14 h remaining)
+Child PID 8368: ['C:\\Python314\\python.exe', '-u', '-m', 'scripts.confirm_v61', '--lineage', '0', '--n-units', '3', '--b-max', '6', '--num-envs', '64', '--store-persists', '--g-units', '2', '--resume']

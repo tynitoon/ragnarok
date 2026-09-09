@@ -1,0 +1,54 @@
+{
+  "kind": "v62_confirm_recovery_independent_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T09:36:07.935034+00:00",
+  "reviewer": "independent Codex subagent /root/review_recovery_v62",
+  "interruption_sha256": "0d12cfdfd7813eb0530e3e20c96fcba8e4b562febc6930e8ec8579be6d02a72f",
+  "budget_correction_sha256": "6491a9096ab42474bdf21156c60afb88b2de987523363624ed498ebe8771689a",
+  "original_state_sha256": "6a069898b90b51b4cdad85730b92295c99ea98ba8e8e1367e9eb8927e3496515",
+  "launcher_sha256": "a0602eb5db3f1116b185573dae57559767f2c7de3ff594f20907c0a3b6c74134",
+  "tests_sha256": "6d4fb0333d2af775481631ef58511d1deb562a50d742aacbace4a4607d391d78",
+  "findings": [],
+  "methods": [
+    "Read AGENTS.md, docs/CODEX_HANDOFF.md, ARC3_PLAN.md sections 12.6 and 13, SETUP.md, recovery launcher/tests, and the inherited orchestration and frozen confirmatory resume paths.",
+    "Executed the 8 recovery tests with .venv-arc4/Scripts/python.exe (Python 3.14.3, pytest 9.0.3): 8 passed in 0.35 seconds. Tests cover explicit UTC parsing, process failure, interruption, exclusive recovery state, validation time exhaustion, historical log prefix preservation, successful three-lineage completion, and later mutation of a completed arm.",
+    "Independently reparsed ISO8601 UTC strings with Python datetime: 04:03:09Z to 04:39:14.5020020Z is 2165.502002 seconds, rounded upward to 2166; verified correction evidence hash, remaining allowance and total projection.",
+    "Queried Windows System events 1074, 6005 and 6006 for the interruption window and Win32_OperatingSystem.LastBootUpTime: the nine timestamps and final boot match the archive, with planned update restarts at 04:30:31.9798155Z, 04:37:22.0912632Z and 04:38:29.2858938Z.",
+    "Verified all four historical copies byte for byte against current original files and their recorded lengths/SHA256; inspected the complete 493-byte experimental log, which contains only two completed M4 goals on s0_8300 and no complete arm checkpoint.",
+    "Verified the freeze tag resolves to a189ea5bb0f9c8b7e9016a50aefc1cbca603426f; Git diff of all 17 registered frozen sources is empty. Inherited verify_inputs passes for these sources, two original inputs, gate, prior state, review, both prior launchers and all 16 completed pretraining/probe output hashes.",
+    "Verified the prior launchers and probe/review match HEAD. Original provenance and completed artifacts equal v62_resume_state.json. Original allowance equals REMAINING_SECONDS 110818.85 minus prior elapsed 23910.7597163, and its entire design equals the inherited frozen design calculation.",
+    "Compared all three original argv arrays exactly with C:\\Python314\\python.exe -u -m scripts.confirm_v61 --lineage 0/1/2 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume. The original Python executable exists. No result-based seed, arm, threshold, command or allocation selection is introduced.",
+    "Queried process identities and command lines: no ARC3 training/controller process was found. PID 8368 was absent; PID 18416 had been reused by RazerAppEngine.exe, not the original controller. Verified empty production checkpoint directory, no production confirmatory JSON and no recovery state.",
+    "Executed the actual recovery preflight up to its expected refusal of the absent independent review; no child was dispatched. Audited the remaining review/source/archive hash binding and Git-commit requirements, historical controller byte equality, experimental append-only prefix, and exclusive state creation.",
+    "Audited deadline checks before each dispatch, after child and validation, and before final completion, inherited timeout/termination handling, repeated immutable input checks, completed-lineage/checkpoint hash checks, exact final merge validation, and stop for independent result review before scoring."
+  ],
+  "budget": {
+    "rejected_original_field_seconds": 9366.0,
+    "authoritative_correction": "craft_v6_out/v62_confirm_interruption_20260909/budget_correction.json",
+    "charged_interruption_seconds": 2166,
+    "original_remaining_seconds": 86908.0902837,
+    "remaining_seconds": 84742.0902837,
+    "projected_confirmatory_seconds": 57188.0,
+    "projected_total_hours": 34.34608603230555,
+    "ceiling_hours": 42,
+    "b_max": 6,
+    "n_units_total": 9,
+    "g_units": 2,
+    "num_envs": 64
+  },
+  "replay_scope": {
+    "reason": "Operating-system update interrupted the first lineage before any complete arm checkpoint or aggregate existed.",
+    "preserved_partial_observations": "Two logged M4 goals on s0_8300 remain in the immutable archive and the original append-only log prefix; the original controller state/stdout/stderr are unchanged.",
+    "action": "Replay the unfinished first arm from its frozen initialization via the same --resume commands, then complete all three lineages within the corrected remaining allowance.",
+    "interpretation": "Operational recovery only; the interrupted fragment remains recorded and is not an independent replicate. No scientific verdict or accelerated-learning claim follows from this review."
+  },
+  "limitations": [
+    "This is a CPU/source/evidence review. No GPU, ROM, capture, training or actual recovered child was launched, and CUDA bitwise replay equivalence was not tested or claimed.",
+    "The initial 9366-second field is erroneous and preserved as historical evidence; only the separately verified 2166-second correction is authoritative for budget.",
+    "The interval is a conservative machine-runtime upper bound including restart time; it is not a direct measurement of GPU utilization and excludes idle time after the final boot.",
+    "Process absence is a point-in-time check. The launcher excludes repeated/overlapping use through exclusive recovery state but does not enumerate unrelated manual training processes; the root agent must repeat the process check immediately before launch.",
+    "Review, launcher and evidence were uncommitted during this review. Their commit is required before the authoritative dry-run and launch; this receipt does not claim those later steps are complete.",
+    "Operating-system hard termination can bypass Python cleanup; another such interruption requires a new explicit evidence and budget review. Current timeout and checkpoint validation paths are covered without changing frozen experiment code.",
+    "The archived commands/design are safe for this single audited recovery because the exact original state is hash-bound to this receipt, archived, committed before launch and compared byte for byte. This is not a generic recovery tool for arbitrary states."
+  ]
+}

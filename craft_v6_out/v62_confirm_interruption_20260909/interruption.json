@@ -1,0 +1,91 @@
+{
+  "kind": "v62_confirm_windows_update_interruption",
+  "recorded_utc": "2026-09-09T09:27:19.7251540Z",
+  "original_started_utc": "2026-09-09T04:03:09Z",
+  "last_boot_utc": "2026-09-09T04:39:14.5020020Z",
+  "charged_upper_bound_seconds": 9366.0,
+  "reason": "Windows System event1074 records planned operating-system update restarts, followed by EventLog stop/start; original controller and child are absent.",
+  "charging_rule": "Ceil(last observed machine boot time minus original controller start). This conservatively includes the whole attempted run and intervening reboot time, but not the idle hours after the last boot.",
+  "events": [
+    {
+      "time_utc": "2026-09-09T04:39:34.8804007Z",
+      "id": 6005,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:38:43.7268623Z",
+      "id": 6006,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:38:29.2858938Z",
+      "id": 1074,
+      "provider": "User32",
+      "planned_update_restart": true
+    },
+    {
+      "time_utc": "2026-09-09T04:38:25.4540948Z",
+      "id": 6005,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:37:31.9786876Z",
+      "id": 6006,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:37:22.0912632Z",
+      "id": 1074,
+      "provider": "User32",
+      "planned_update_restart": true
+    },
+    {
+      "time_utc": "2026-09-09T04:32:49.8902728Z",
+      "id": 6005,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:31:50.8503146Z",
+      "id": 6006,
+      "provider": "EventLog",
+      "planned_update_restart": false
+    },
+    {
+      "time_utc": "2026-09-09T04:30:31.9798155Z",
+      "id": 1074,
+      "provider": "User32",
+      "planned_update_restart": true
+    }
+  ],
+  "observed_checkpoints": [],
+  "snapshots": [
+    {
+      "path": "v61_confirm_s0.log",
+      "sha256": "e15614f167b2652de864059294f2de7aa4477cabd5a7768b1734293a14c0e157",
+      "bytes": 493
+    },
+    {
+      "path": "v62_confirm_state.json",
+      "sha256": "6a069898b90b51b4cdad85730b92295c99ea98ba8e8e1367e9eb8927e3496515",
+      "bytes": 10635
+    },
+    {
+      "path": "v62_confirm_stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "v62_confirm_stdout.log",
+      "sha256": "475419f4aa6fb2420a67c3bb02a98923a12284f18d5c8d54ff3b82ff60a0ee22",
+      "bytes": 245
+    }
+  ],
+  "original_controller_pid": 18416,
+  "original_child_pid": 8368,
+  "recovery_launched": false
+}

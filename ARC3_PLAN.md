@@ -732,3 +732,32 @@ allowance. Both independent reviewers closed their findings; 15 CPU tests
 pass, including failure, interruption, checkpoint mutation and deadline cases.
 It runs the three frozen commands and stops for review before scoring or figure
 generation. No experimental source, threshold or budget-cut order is changed.
+
+### 13.5 Operating-system interruption of the first confirmatory attempt
+
+The confirmatory started at 2026-09-09 04:03:09 UTC. Windows System event1074
+records a planned OS update restart at 04:30:31 UTC, followed by shutdown and
+additional update boots; the last recorded boot is 04:39:14.502002 UTC. At the
+11:24 Paris follow-up, both original processes were absent. Two M4 goals of
+unit s0_8300 were logged, but no complete arm checkpoint or confirmatory JSON
+had been written. This is an infrastructure interruption, not a scientific STOP.
+
+The four original files are copied to
+`craft_v6_out/v62_confirm_interruption_20260909/` with hashes. The interrupted
+state is kept unchanged. The frozen experiment log uses append mode. Replaying
+the incomplete arm with the same seeds and commands is allowed only after
+independent recovery review; no result-dependent seed or arm selection occurs.
+
+Conservatively charge ceil(last boot minus start)=2166 seconds, including the
+intervening update restarts. `budget_correction.json` parses the explicit UTC
+strings in Python. The first PowerShell receipt's 9366-second numerical field
+overcounted two hours through DateTime conversion; that error remains recorded
+and must not be mistaken for the corrected arithmetic. The remaining allowance
+is 84742.0902837 seconds; the full B6/N9/G'2 design projects a total of
+34.3460860323 hours, still below42. Later actual runtime remains charged.
+
+The separate `recover_confirm_v62.py` controller requires the matching committed
+review, evidence and launcher, verifies the original log prefix, rejects any
+unexpected complete output and writes a new exclusive recovery state. It keeps
+the original frozen-code/output validation and deadline guards, then stops for
+review before scoring. No GPU relaunch is implied by this documentation entry.
