@@ -1,0 +1,156 @@
+{
+  "kind": "priority_warp_independent_source_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T23:06:09Z",
+  "source_sha256": {
+    "docs/ARC4_PREDICTION_OCCLUSION_LIMITS.md": "8aa1741fc12e611005bfaeac02f814639497bef4969e0cbe2c469f056303fbc9",
+    "docs/ARC4_PRIORITY_WARP_DRAFT.md": "d56b3a97ae66f53ad714e2d26bb423ac20aa3ea75f252ff129933e5849da76b2",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/priority_warp_rgb_v70.py": "7b4b2f055f4ce034ad581d0832a467e0a764504bae8f0757347ef69bcd37a643",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_prediction_occlusion_limits_v70.py": "9f4d6b889909492ce04181ce9123e3ba05855ba7c30f6a8bab790b2ae32784b4",
+    "tests/test_priority_warp_rgb_v70.py": "640c4d396bb35eebc141ce7aac8b28cd9056fb168628598a67d0f03a8c06f91a"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/prediction_occlusion_review_v0.json": "6ff374ae3723b8728f77bdfba7401de06aab53f681006b8d41c6cc80d84de8e0",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7"
+  },
+  "source_commit": "a78829b1d46a6871f3fa4b88b4ea9f729890ca4e",
+  "review_head": "16fe02d4dcb830385acf5bce9316a0e280d4ef8b",
+  "runtime": {
+    "cuda_initialized": false,
+    "executable": "C:\\Python314\\python.exe",
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch": "2.11.0+cu126",
+    "torch_threads": 1,
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "local_python_closure": [
+    "ragnarok/__init__.py",
+    "ragnarok/learning/__init__.py",
+    "ragnarok/learning/pixel_prediction_v70.py",
+    "ragnarok/learning/priority_warp_rgb_v70.py",
+    "tests/__init__.py",
+    "tests/test_prediction_occlusion_limits_v70.py",
+    "tests/test_priority_warp_rgb_v70.py"
+  ],
+  "tests": {
+    "passed": 8,
+    "elapsed_seconds": 6.98,
+    "command": "C:/Python314/python.exe -m pytest -q tests/test_priority_warp_rgb_v70.py",
+    "real_optimizer_updates": 0
+  },
+  "findings": [
+    {
+      "status": "resolved_before_any_fit",
+      "initial_commit": "7d14f93",
+      "correction_commit": "a78829b1d46a6871f3fa4b88b4ea9f729890ca4e",
+      "issue": "Le plancher relatif au maximum prioritaire contributif assombrissait une destination géométriquement pleine dès une arrivée infinitésimale.",
+      "reproduction": {
+        "source": "ones([1,3,1,2])",
+        "log_priority": [
+          -20,
+          20
+        ],
+        "stationary_first_pixel": true,
+        "second_dx_before": -2,
+        "second_dx_after": -1.9999998807907104,
+        "before_rgb": 1,
+        "initial_after_rgb": 0.11920928955078125,
+        "geometry_after": 1.0000001192092896,
+        "initial_after_dx_gradient": 999999.9375
+      },
+      "correction": "Sommes pondérées en float64 ; dénominateur = priorité moyenne pondérée * max(couverture géométrique,1e-6). Atténuation uniquement géométrique.",
+      "independently_retested": {
+        "before_rgb": 1,
+        "after_rgb": 1,
+        "before_and_after_flow_gradient_zero": true,
+        "floor_active_before_and_after": false
+      },
+      "retained_evidence": "Le commit initial, le défaut et sa régression sont conservés dans le dépôt et la documentation de la candidate."
+    }
+  ],
+  "checks": [
+    "Neuf sources liées, fermeture des sept modules Python locaux et __init__.py vérifiée par AST. Tous les blobs et preuves sont committés ; les sources anciennes communes sont identiques à leurs reçus précédents.",
+    "Contrat public strict : RGB BCHW, déplacement B2HW, log-priorité B1HW float32, finis et sur le même appareil ; RGB dans[0,1], log-priorité dans[-20,20], aucun clipping silencieux des priorités.",
+    "Le mélange pondéré équivaut, sur une destination non vide, à somme(w*exp(z)*RGB)/somme(w*exp(z)) multiplié par min(couverture_geometrique/1e-6,1). Les destinations vides restent noires.",
+    "Les contributions utilisent le même calcul de coordonnées/poids géométriques que le module historique. Les sommes colorées et pondérées sont float64, les RGB et la couverture géométrique retournent float32 ; la couverture pondérée retourne float64 et l'indicateur de plancher bool.",
+    "Un ajout commun aux log-priorités admissibles se simplifie dans le mélange, y compris lorsque l'atténuation géométrique est active. Les témoins d'offset passent sans modifier la géométrie.",
+    "Les priorités nulles retrouvent la formule uniforme, avec une accumulation différente. Les témoins annoncent 2e-7 pour les RGB et 1e-6 pour la couverture pondérée ; aucune identité bit à bit générale ni reprise d'anciens résultats n'est revendiquée.",
+    "Projection pondérée NumPy indépendante sur un témoin fractionnaire : RGB, couverture géométrique et couverture pondérée exactement égaux aux sorties contrôlées.",
+    "Gradients de déplacement et de priorité vérifiés à quatre coordonnées, loin des changements de support, par différences centrales et réduction scalaire float64. Erreur absolue maximale 4.543101089993229e-6 avec pas0.01.",
+    "Témoins de priorités extrêmes ±20, géométrie subnormale1e-40, sorties entièrement hors cadre et déplacements ±maxfloat32 : sorties/gradients finis dans les cas contrôlés.",
+    "Six combinaisons de mauvais dtypes image/flow float64/float16/bfloat16 sont refusées. Les entrées non contiguës reproduisent les mêmes valeurs que leurs copies contiguës ; aucun input n'est modifié.",
+    "Les priorités du rectangle sont fournies uniquement par le juge constructif : elles établissent une capacité de représentation, sans priorité apprise, entrée oracle de modèle, réseau, collecte ou raccord m/C."
+  ],
+  "independent_numpy": {
+    "rgb_exact": true,
+    "geometry_exact": true,
+    "weighted_coverage_max_abs_error": 0
+  },
+  "finite_difference_checks": [
+    {
+      "absolute_error": 8.07730568652687e-7,
+      "autograd": -0.04463747888803482,
+      "finite_difference": -0.04463828661860347,
+      "index": 0,
+      "variable": "flow"
+    },
+    {
+      "absolute_error": 0.000004543101089993229,
+      "autograd": -0.04045577347278595,
+      "finite_difference": -0.04046031657387594,
+      "index": 11,
+      "variable": "flow"
+    },
+    {
+      "absolute_error": 4.208481527712138e-7,
+      "autograd": -0.030603768303990364,
+      "finite_difference": -0.030603347455837593,
+      "index": 0,
+      "variable": "priority"
+    },
+    {
+      "absolute_error": 6.856725480730574e-7,
+      "autograd": 0.030341830104589462,
+      "finite_difference": 0.030342515777137535,
+      "index": 5,
+      "variable": "priority"
+    }
+  ],
+  "primary_source": {
+    "title": "Niklaus & Liu, Softmax Splatting for Video Frame Interpolation, CVPR 2020",
+    "url": "https://arxiv.org/html/2003.05534v1",
+    "checked_sections": [
+      "Equation 13",
+      "Section 3.1, equations 14-15 and single-image importance convergence limitation",
+      "Section 3.2 interpolation inputs and optical flow"
+    ],
+    "scope": "L'équation 13 normalise les projections pondérées par une exponentielle. Le système du papier utilise deux images d'interpolation connues et une estimation de flot ; sa métrique photométrique utilise leur accord. Les auteurs rapportent aussi une absence de convergence de l'importance obtenue depuis une seule image. Seul le principe de l'opérateur est repris, sans poids, flot pré-entraîné, métrique dépendant du futur ou garantie d'apprentissage."
+  },
+  "limitations": [
+    "Revue de source et de témoins synthétiques seulement. Aucune tête de priorité, provenance propriétaire, recette de pertes, fit, validation native ou évaluation Atari n'est comprise dans ce reçu.",
+    "L'opérateur ne peut pas attester l'origine de ses tenseurs. Le futur ne doit pas fournir les priorités de reconstruction ; un raccord distinct devra garantir des observations propres disponibles et l'effet choisi.",
+    "Des priorités appropriées au juge ne prouvent pas qu'un agent pourra les apprendre. L'opérateur peut aussi masquer un déplacement faux si ses priorités sont erronées.",
+    "La couverture géométrique ou pondérée n'est ni une probabilité de visibilité ni une étiquette de premier plan. Les trous restent noirs et les correspondances occultées de m/C restent à définir.",
+    "Les dérivées sont examinées sur quelques cas ; indices, changements de support, plancher et validations créent des zones non lisses. Aucun théorème de gradient utile, convergence ou absence de non-fini sous toute perte amont n'est établi.",
+    "Le float64 interne modifie les arrondis et peut coûter davantage en temps/mémoire. Aucune performance GPU ou CPU de chaîne n'a été mesurée ; les anciens résultats restent associés à leur ancien reconstructeur.",
+    "La tolérance z=0 concerne les témoins déclarés, pas une borne universelle sur toutes les tailles et tous les regroupements de collisions.",
+    "Le défaut initial est conservé et sa correction a été revue avant toute utilisation dans un fit. Aucun seuil, budget ou résultat expérimental antérieur n'est modifié."
+  ],
+  "review_execution": {
+    "network_forwards": 0,
+    "optimizer_updates": 0,
+    "new_emulated_frames": 0,
+    "gpu_used": false
+  },
+  "gate_result": null
+}
