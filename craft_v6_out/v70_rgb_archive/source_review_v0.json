@@ -1,0 +1,147 @@
+{
+  "kind": "paid_rgb_archive_independent_preliminary_source_review_v0",
+  "created_utc": "2026-09-09T16:30:20.450005+00:00",
+  "passed": true,
+  "native_preflight": false,
+  "review_scope": "Private archive prototype, source and synthetic checks only. No ALE state was serialized/restored by this review and no native wiring, collection or training is authorized.",
+  "source_commit": "817bb97fa6ce29d93c53e3e1ea71347c69b0e951",
+  "head_at_review": "a22ac2b147d4fe5666b9483e74e56fb878db5449",
+  "source_sha256": {
+    "ragnarok/environments/rgb_archive_v70.py": "960963da95e48fe7e0175733957db7b4dbcd024e8cdbd79179fd2e9ea69f7731",
+    "tests/test_rgb_archive_v70.py": "27d7542b34f72886465e60b66e72203aec27f5be3805d0186f687fb330abc516",
+    "docs/ARC4_RGB_ARCHIVE_DRAFT.md": "1a2428e9829ffbbaeb11df5313ea5af2d0f79338868cde9ac5f5e42cfbb36604",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902",
+    "craft_v6_out/v70_visible_cpu/preflight_review_v0.json": "f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9",
+    "craft_v6_out/v70_rgb_branch_trace/source_review_v0.json": "e7fc7ee0eb5141cb92c9e03f2e05411b3c6c2ae1cd39ee3f20baaa765bbf176c",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_preflight_v0.json": "f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96"
+  },
+  "checks": {
+    "closure_and_frozen_sources": "Eleven source/draft/test files cover the new private adapter and its local base/test imports, including package initializers. Each real committed-blob check passed. All20 frozen RGB-trace sources and115 frozen CPU sources remain unchanged.",
+    "ordinary_play": "archive_save captures a private native/RGB/native-RNG/sticky-RNG/last-action snapshot without populating legacy _saves. Ordinary actions remain ordinary after saving. Legacy clone, restore and release are disabled; archive calls require lab-capable ordinary play and no active recording/session.",
+    "privacy": "Only a random worker-local opaque token is returned. Native serialized bytes and the Python encoding stay inside the private engine; there is no path/bytes import interface or state payload in an agent observation. Pickle decoding is only for bytes generated and retained by this engine. No transport/RPC for this new prototype is implemented.",
+    "paid_pair": "The full2T+180 budget is admitted before decoding or loading the archive. The three restores load the archive, reload it for control, and return to current play. Each actual frame uses the unchanged paid trace loop. Terminal branches remain short or empty; endpoints match the recorded final pooled image.",
+    "restoration": "Successful pairs return native state, native RNG, sticky RNG, last action and both RGB history images to the current anchor, while costs remain monotone. Serialized archives survive a later synthetic cold recreation and keep their earlier anchor. Independent decoded RGB mutations do not alter stored bytes or other decoded copies.",
+    "errors": "Internal encode/token/insertion/counter errors poison the trajectory. Counter values are calculated before insertion/removal; entry/byte-cap and invalid-argument refusals remain recoverable without cost or replacement. Paid branch/restoration failures preserve known ledger charges; later actions and new saved/archived experiments are refused. Metadata and explicit archive deletion remain possible.",
+    "final_restore_failure": "If returning to current native state fails, the failed restore is still charged; the current trajectory is not claimed restored. The engine is poisoned and accounting_complete=false, preventing continuation from the wrong state.",
+    "capacity": "Strict positive integer caps cannot exceed20000entries or2000000000serialized payload bytes. Byte totals equal the sum of retained payload lengths; drop releases the exact size. The cap is not RSS: temporary capture/decoding buffers, traces, native objects, dicts and allocator overhead are excluded.",
+    "no_durable_E4": "archive_pair_trace is retrospective experimentation followed by return to current play, not durable relocation. No E4 return policy, cell ranking, eviction policy, learned target or training loop is introduced."
+  },
+  "validation": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_rgb_archive_v70.py",
+    "pytest_passed": 15,
+    "pytest_elapsed_seconds": 0.3,
+    "independent_witnesses": [
+      {
+        "case": "second branch recorder allocation fails on its first actual frame",
+        "known_charged_delta": 189,
+        "restores": 3,
+        "current_state_restored": true,
+        "poisoned": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "archive reload for control fails",
+        "known_charged_delta": 188,
+        "restores": 3,
+        "current_state_restored": true,
+        "poisoned": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "final current-state restore fails",
+        "known_charged_delta": 196,
+        "restores": 3,
+        "current_state_restored": false,
+        "poisoned": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "native two-frame invariant fails on control first act",
+        "known_charged_delta": 188,
+        "restores": 3,
+        "unaccounted_native_execution_possible": true,
+        "current_state_restored": true,
+        "poisoned": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "three independent archived anchors visited in reverse order",
+        "entries": 3,
+        "payload_bytes_exact_at_each_step": true,
+        "decoded_RGB_mutation_does_not_alias_archive": true,
+        "current_native_RGB_and_RNG_preserved": true
+      },
+      {
+        "case": "injected byte-total allocation errors before save and drop mutation",
+        "operations": [
+          "save",
+          "drop"
+        ],
+        "payload_and_counter_unchanged": true,
+        "ledger_unchanged": true,
+        "poisoned": true
+      },
+      {
+        "case": "strict malformed frame and action arguments",
+        "invalid_frames": 7,
+        "invalid_actions": 5,
+        "zero_cost_or_mutation": true,
+        "recoverable": true
+      },
+      {
+        "case": "ordinary step terminal and synthetic cold constructor before replay of older archive",
+        "cold_loads": 2,
+        "trace_lengths": [
+          1,
+          1
+        ],
+        "charged_delta": 182,
+        "return_to_current_and_continuation_equal": true
+      }
+    ]
+  },
+  "resolved_findings": [
+    {
+      "issue": "Internal token/insertion or byte-count allocation could escape failure poison, and counter arithmetic followed payload mutation",
+      "resolution": "All internal save/drop arithmetic now runs under the failure handler before mutation; cap comparisons reuse the computed size and remain recoverable. Token test plus independent save/drop allocation injections pass."
+    }
+  ],
+  "open_findings": [],
+  "limitations": [
+    "The tests use synthetic native snapshot serialization and constructors. The installed ALEState(bytes)/serialize()->bytes signatures were checked in the local API stub, but actual ALE native serialization, cross-cold restoration and process transport are not validated here.",
+    "An archive payload cap does not bound peak process or native memory. No large-memory capacity benchmark was run. A future entry protocol must budget archive operations and memory explicitly.",
+    "Archive reports and tokens are private engine methods; no reviewed closed archive RPC, durable archive file format, provenance manifest or one-shot native launcher exists yet.",
+    "Any unknown native cost after an invariant or restoration failure remains explicit; successful return is not assumed. A poisoned trajectory must not resume even if archive cleanup succeeds.",
+    "The existing20-source native trace PASS concerns current-anchor pairs and does not automatically validate serialized archived pairs or authorize new game seeds.",
+    "No agent training, learned memory, ME competence, E4 durable return or gate outcome is established."
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "operations": {
+    "native_constructor_called": false,
+    "new_seed_opened": false,
+    "frozen_source_modified": false,
+    "existing_result_modified": false,
+    "commit_created": false
+  }
+}

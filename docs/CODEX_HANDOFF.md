@@ -24,7 +24,7 @@ scripts.recover_confirm_v62`, enfant17340 `scripts.confirm_v61 --lineage 0
 et log réel `craft_v6_out/v61_confirm_s0.log`, puis s1/s2, pas seulement les PID.
 Deux mondes entièrement terminés/9 : s0_8300à8326s, s0_8301aprèsG'à18089s.
 s0_8302([3,1,0],tiers[2,3,4]) : M4fini20496s, Fafini23090s,
-Fbobjectif3fini23849s. Aucun verdict intermédiaire avant toutes les lignées/revue.
+Fbobjectifs3/1finis23849/24613s. Aucun verdict intermédiaire avant toutes les lignées/revue.
 
 Reprise11:37:39Paris après WindowsUpdate06:30/boot06:39. Bras incomplet rejoué
 mêmes graines. Interruption2166s facturées ; ancien9366erroné préservé/corrigé.
@@ -81,8 +81,10 @@ aprèsrepeat4 mais nécessaire surrepeat1. Prototype séparé
 `deferred_visible_source_v70.py`,8testsPASS, original115inchangé.
 Revue préliminaire `v70_asteroids_cpu/deferred_source_review_v0.json` SHA01313bf8…,
 118sources/38preuves ; erreurs1frame différées après1observation, ancienéchec0,
-ne pas déclarer leurs rapports identiques. Prochaine preuve : équivalence offline
-sur scènes réellement consommées, historique continu. Aucune nouvelle émulation Ast.
+ne pas déclarer leurs rapports identiques. Auditofflineconsommation complet :8192frames,
+2049groupes(2047×4+2×2), historique/scènes/membres égaux ; session9912close.
+Sources/protocole a22ac2b avantaudit, digest ebf68f4886dfd06835cfed54e3f149aefbe86ca4ea23de2f0e1149e299557c34.
+Résultats `deferred_source_consumption_v0*`, revuefinale àfaire. Aucune émulation Ast.
 
 ## ARC4 — traces et archive, puis apprenant
 
@@ -97,8 +99,11 @@ Ne modifier aucune des20sources de ce protocole, dont ARC4_BRANCH_TRACE_DRAFT.md
 Nouveau draft **non gelé** `rgb_archive_v70.py` +tests/doc ARC4_RGB_ARCHIVE_DRAFT :
 sauvegardes privées20000/2GBpayload, jeu ordinaire continue ; paire sur archive
 2T+180(troisrestores), retour au point courant. Pas de retour durableE4 ni RPC.
-15testsPASS, agent `/root/review_recovery_v62` relit. Findingallocation corrigé :
-calcul compteur avantinsertion, erreurs internes souspoison, refuscaprécupérable.
+15testsPASS, revuepréliminaire `v70_rgb_archive/source_review_v0.json` SHAafbe5846…,
+11sources, sources7a7fe35/817bb97 ; allocation/calculcompteur protégé avantmutation.
+Nouveau transport `rgb_archive_pool_v70.py`,7testsPASS dont2vraisworkerssynthétiques :
+plafondtotalpool réparti parworker, RPCfermé, erreurslatchées, cleanup/reportpréservés.
+Transport encore àrelire ; aucune modification des11sources déjàrevues.
 Aucune nouvelle émulation autorisée par ce prototype.
 
 Suite selon `ARC4_VISION.md` §§2,5,6,11 : parser/tracker/ME/buttons/reader/drives.
