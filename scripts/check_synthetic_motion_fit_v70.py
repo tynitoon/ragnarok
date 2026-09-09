@@ -30,7 +30,7 @@ REVIEWS={
         'c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4',
     'craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json':
         '968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b'}
-NEW_SOURCES=(PROTOCOL,'docs/ARC4_SYNTHETIC_MOTION_FIT_DRAFT.md',
+NEW_SOURCES=(PROTOCOL,'docs/ARC4_SYNTHETIC_MOTION_FIT_DRAFT.md','scripts/__init__.py',
     'scripts/check_synthetic_motion_fit_v70.py','tests/test_synthetic_motion_fit_protocol_v70.py',
     'tests/test_prediction_loss_translation_limits_v70.py','docs/ARC4_PREDICTION_LOSS_LIMITS.md')
 SPEC=dict(arms=['pooled','ordered'],seed=764,updates_per_arm=256,batch_size=2,

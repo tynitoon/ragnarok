@@ -34,3 +34,10 @@ Aucune émulation ni archive réelle, aucun GPU, aucune sauvegarde de modèle
 entraîné réutilisable. Les empreintes initiales/finales et les courbes sont
 conservées ; ces poids de diagnostic ne seront transférés à aucun jeu.
 Préflight indépendant committé obligatoire avant la première mise à jour.
+
+La revue préalable a trouvé une omission dans la fermeture des sources :
+`scripts/__init__.py`, vide actuellement mais exécuté lors de l'import du
+lanceur, n'était pas inclus dans les empreintes. Il a été ajouté avant toute
+optimisation. Le marqueur de pas d'optimiseur en cours reste un état en mémoire,
+persisté par le finally sur exception ; un arrêt brutal laisse la tentative
+started comme état incertain et ne permet aucun nouvel essai.
