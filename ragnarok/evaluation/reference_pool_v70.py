@@ -61,7 +61,8 @@ class _RawColdBranchEngine(_ColdPixelEngine):
 
 
 class _ReferenceEngine:
-    def __init__(self, config, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy"):
+    def __init__(self, config, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy",
+                 reference_backend="numpy", native_build=None):
         if type(branch_every) is not int or branch_every < 128:
             raise ValueError("A branch cadence below128 decisions exceeds the proposed 20% allocation")
         if config.frame_skip != 4 or config.mode != "lab":
@@ -72,13 +73,19 @@ class _ReferenceEngine:
             raise ValueError("Reference scorer supports calibrated Pong/Breakout with a known reset convention")
         if config.game != "pong" and reset_convention != "cold":
             raise ValueError("Breakout requires the calibrated cold-start convention")
+        if reference_backend not in ("numpy","native") or (reference_backend=="native" and native_build is None):
+            raise ValueError("Select NumPy or native reference with an explicit build manifest")
         self.observation_mode = observation_mode
         self.reset_convention = reset_convention
         if reset_convention == "cold":
             self.engine = (_RawColdBranchEngine if observation_mode == "raw" else _ColdPixelEngine)(config)
         else:
             self.engine = (_RawBranchEngine if observation_mode == "raw" else _PixelEngine)(config)
-        self.reference = ReferenceExtractor()
+        if reference_backend=="native":
+            from ragnarok.evaluation.native_reference_v70 import NativeReferenceExtractor
+            self.reference = NativeReferenceExtractor(build_manifest=native_build)
+        else:
+            self.reference = ReferenceExtractor()
         if config.game == "pong":
             self.scorer = PerceptionScorer()
             self._decoder, self._pooled_decoder = decode_pong_ram, pooled_ram_objects
@@ -144,10 +151,10 @@ class _ReferenceEngine:
                     changed_pixels=self._changed_pixels, self_generated_label_sha256=self._label_digest.hexdigest())
 
 
-def _serve_reference(connection, config, branch_every, observation_mode, reset_convention):
+def _serve_reference(connection, config, branch_every, observation_mode, reset_convention, reference_backend, native_build):
     try:
         engine = _ReferenceEngine(config, branch_every=branch_every, observation_mode=observation_mode,
-                                  reset_convention=reset_convention)
+                                  reset_convention=reset_convention,reference_backend=reference_backend,native_build=native_build)
         connection.send((True, None))
         while True:
             command, args = connection.recv()
@@ -176,7 +183,8 @@ def _serve_reference(connection, config, branch_every, observation_mode, reset_c
 
 class ReferencePool(EmulatorPool):
     """Reuse the tested closed transport/cleanup, with a dedicated evaluator worker."""
-    def __init__(self, configs, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy"):
+    def __init__(self, configs, *, branch_every=128, observation_mode="raw", reset_convention="natural_legacy",
+                 reference_backend="numpy", native_build=None):
         configs = list(configs)
         if not 1 <= len(configs) <= 16 or not all(isinstance(c, EmulatorConfig) for c in configs):
             raise ValueError("Supply1..16 EmulatorConfig instances")
@@ -187,7 +195,8 @@ class ReferencePool(EmulatorPool):
             for config in configs:
                 parent, child = ctx.Pipe()
                 process = ctx.Process(target=_serve_reference,
-                                     args=(child, config, branch_every, observation_mode, reset_convention), daemon=True)
+                                     args=(child, config, branch_every, observation_mode, reset_convention,
+                                           reference_backend, native_build), daemon=True)
                 try:
                     process.start()
                 except BaseException:

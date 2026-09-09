@@ -1,0 +1,28 @@
+{
+  "kind": "local_freestanding_reference_arithmetic_build",
+  "created_utc": "2026-09-09T00:06:45Z",
+  "source": "ragnarok/native/reference_update_v70.c",
+  "source_sha256": "c9da6748793cf0bae0c0b805d6947cf3d2082aa71c6d79297c7875d07d878b65",
+  "dll": "reference_update_v70.dll",
+  "dll_sha256": "958ae2e7f516bb10f7eabecd1929baf52f9f2c52921b91ddf0cc123ac200493e",
+  "compiler": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\cl.exe",
+  "compiler_sha256": "e6d57100c82ae0310c18b16abfe52bc0df8fbb272ca6c5fb287d485807cfce91",
+  "linker_sha256": "3ef8fcf80d409fab22ddd89ee19249f31a26ad9914d3e3e48573c30998fa24de",
+  "command": [
+    "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64\\cl.exe",
+    "/nologo",
+    "/O2",
+    "/LD",
+    "/GS-",
+    "/Zl",
+    "/TC",
+    "/FoF:\\dev\\ragnarok\\craft_v6_out\\v70_native_reference\\build_v0\\reference_update_v70.obj",
+    "/FeF:\\dev\\ragnarok\\craft_v6_out\\v70_native_reference\\build_v0\\reference_update_v70.dll",
+    "F:\\dev\\ragnarok\\ragnarok\\native\\reference_update_v70.c",
+    "/link",
+    "/NOENTRY",
+    "/NODEFAULTLIB",
+    "/MACHINE:X64"
+  ],
+  "build_output": "reference_update_v70.c\n   Cr\u00c3\u00a9ation de la biblioth\u00c3\u00a8que F:\\dev\\ragnarok\\craft_v6_out\\v70_native_reference\\build_v0\\reference_update_v70.lib et de l'objet F:\\dev\\ragnarok\\craft_v6_out\\v70_native_reference\\build_v0\\reference_update_v70.exp\n"
+}

@@ -15,7 +15,8 @@ from ragnarok.environments.emu_pool import EmulatorConfig
 from ragnarok.evaluation.reference_pool_v70 import ReferencePool
 
 
-def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset_convention="cold", game="pong"):
+def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset_convention="cold", game="pong",
+              reference_backend="numpy", native_build=None):
     root = Path(__file__).resolve().parents[1]
     calibration_hash = None
     if game not in ("pong","breakout"):
@@ -48,7 +49,8 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
         calibration_hash = hashlib.sha256(calibration.read_bytes()).hexdigest()
     configs = [EmulatorConfig(game=game,seed=18000+i, frame_skip=4, max_charged_frames=100_000) for i in range(workers)]
     started = time.perf_counter()
-    with ReferencePool(configs, observation_mode=observation_mode, reset_convention=reset_convention) as pool:
+    with ReferencePool(configs, observation_mode=observation_mode, reset_convention=reset_convention,
+                       reference_backend=reference_backend,native_build=native_build) as pool:
         startup_seconds = time.perf_counter() - started
         tic = time.perf_counter()
         for step in range(steps):
@@ -65,7 +67,14 @@ def benchmark(workers, steps, *, observation_mode="raw", calibration=None, reset
                "ragnarok/environments/cold_emu_pool_v70.py", "ragnarok/evaluation/scene_perception_v70.py",
                "ragnarok/evaluation/scene_adapters_v70.py", "ragnarok/evaluation/breakout_v70.py",
                "ragnarok/evaluation/pooled_breakout_v70.py", "ragnarok/evaluation/fast_pooled_breakout_v70.py"]
+    native_provenance=None
+    if reference_backend=="native":
+        sources += ["ragnarok/native/reference_update_v70.c","ragnarok/evaluation/native_reference_v70.py",
+                    "scripts/build_reference_native_v70.py"]
+        native_provenance=dict(manifest_sha256=hashlib.sha256(native_build.read_bytes()).hexdigest(),
+                               build=json.loads(native_build.read_text(encoding="utf-8")))
     return dict(kind=f"{game}_{observation_mode}_repeat4_cpu_chain_benchmark", game=game, created_utc=time.strftime("%Y-%m-%dT%H:%M:%SZ",time.gmtime()),
+                reference_backend=reference_backend,native_reference_build=native_provenance,
                 observation_mode=observation_mode, calibration_sha256=calibration_hash, reset_convention=reset_convention,
                 workers=workers, ordinary_decisions_per_worker=steps, action_repeat=4,
                 branch_every_decisions=128, startup_seconds=startup_seconds, work_seconds=work_seconds,
@@ -91,6 +100,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workers",type=int,choices=(1,2,4,8,16),default=2)
     parser.add_argument("--game",choices=("pong","breakout"),default="pong")
+    parser.add_argument("--reference-backend",choices=("numpy","native"),default="numpy")
+    parser.add_argument("--native-build",type=Path)
     parser.add_argument("--steps",type=int,default=512)
     parser.add_argument("--out",type=Path,required=True)
     parser.add_argument("--observation-mode",choices=("raw","maxpooled"),default="raw")
@@ -102,7 +113,8 @@ if __name__ == "__main__":
     if args.out.exists():
         parser.error("Keep old measurements; choose a new output")
     result = benchmark(args.workers,args.steps,observation_mode=args.observation_mode,calibration=args.calibration,
-                       reset_convention=args.reset_convention,game=args.game)
+                       reset_convention=args.reset_convention,game=args.game,
+                       reference_backend=args.reference_backend,native_build=args.native_build)
     args.out.parent.mkdir(parents=True,exist_ok=True)
     with args.out.open("x",encoding="utf-8") as stream:
         json.dump(result,stream,indent=2,allow_nan=False)
