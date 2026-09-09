@@ -179,3 +179,16 @@ Les erreurs restent consignées. Calibration brute close pour le périmètre
 annoncé ; aucune exactitude universelle ni capacité d'apprentissage n'en découle.
 La suite temporelle utilisera un adaptateur distinct à trois instantanés RAM,
 car chaque image brute doit être décodée avec son prédécesseur.
+
+Le protocole temporel distinct fixe17421développement et17422réservé,
+8192décisions repeat4 avec le même contrôleur RGB de couverture. Les images
+intermédiaires non archivées sont facturées ; plafond conservateur1114244frames.
+Trois RAM adjacentes et leurs numéros sont archivés pour les deux RGB réels.
+Le lecteur vérifie les troncations, recouvrements, démarrages froids et charges.
+Chaque composante regroupe par connexité4 les rectangles sources remplis,
+après reboîtage des pixels contributeurs côté RGB. Les cinq catégories gardent
+les seuils séparés99% et50appariements minimum, sans exemption de fruit absent.
+43tests passent. La revue a fait corriger le refus d'installation chaude et les
+reçus d'échecs : budget partiel capturé lorsque disponible, coût constructeur
+inconnu explicite sinon, tentative de scoring séparée. Ce dispositif reste
+prospectif : sources et reçu doivent être committés avant toute construction17421.

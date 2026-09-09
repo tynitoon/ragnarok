@@ -1,0 +1,175 @@
+{
+  "kind": "mspacman_pooled_development_independent_preflight_review_v0",
+  "passed": true,
+  "created_utc": "2026-09-09T12:30:28.875064+00:00",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+    "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "docs/ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json": "22294fab4d285080a94b37fe8dcef1d278d0362a385a4801563678a3c4fd9348",
+    "scripts/validate_mspacman_raw_v70.py": "5724f38d8fe817ccd1a2a6a6b01d40214104e1ed6cf3dd2bcddf5abea269c8d5",
+    "scripts/calibrate_mspacman_reserved_v70.py": "f4eddb8bbd8cb0f37b960070ac44bcaf491a71919f090cd0c7ace2e72f18c2b4",
+    "tests/test_mspacman_raw_validation_v70.py": "915e8ec693c82f25408b5eb24daf596da384f3d0058f48e5ff5b547895c7d301",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/mspacman_raw_prerequisite_v70.py": "62968f2997b8040162847764002886e4bc48434dc16193c9f4ff00d6992951c4",
+    "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_mspacman_v70.py": "e8b231d7e95d01a94690eb8e2aaf57e21f1f6ac59a21747d17170c8d2d7f796e",
+    "scripts/capture_mspacman_pooled_v70.py": "4bdd86fc958e42806dc485efaba639f330448b26927629b866a0a06e1c7fc447",
+    "scripts/calibrate_mspacman_pooled_v70.py": "d12f9c73f046fff5f0ce2281f6ef8468e4937108a379c3822db5ab0fdd319bd1",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_mspacman_pooled_v70.py": "94e74fcaa14804562fc023e9577a618d6c32585a2d186337b3686d843175a9f0"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "raw_calibration_proof_sha256": "8c0aaedd3f4d70d0ecac4b9681dcdbd5ac91164854c4f7013701b0de3c16359a",
+  "conclusion": "The complete prospective development capture/reader/candidate/scorer is reviewed and internally consistent. Earlier topology, cold-installation and failure-evidence findings are closed. This is a precollection implementation review, not a temporal-calibration result; sources plus this exact receipt must be committed and the real capture check must pass before17421.",
+  "checks": {
+    "source_closure": "The exact 45 paths in capture.SOURCE_PATHS have no duplicates or missing explicit local Python imports. Package initializers, raw sealed sources, prerequisite, protocol, new modules, scripts and three test files are included. Working hashes were verified again at receipt creation.",
+    "raw_prerequisite": "The real require_raw_calibration() passed read-only: frozen 31-source raw seal and runtime, pinned independent reserved-pair receipt, its evidence hashes and committed Git blobs, and the unchanged separate-sequence pair verdict. The returned raw pair SHA is recorded exactly above. No raw archive rescoring or emulator construction was used.",
+    "history": "The tap installs only at cold frame 0, copies RAM independently and retains frames t-2, t-1 and t. The decoder receives (previous,before_previous) and (current,previous), never RGB. At local frame 1, indices (0,0,1) and duplicated initial RAM are explicit. Capture fetches engine._ale after every step so recreated cold taps replace old history.",
+    "sparse_rgb_causality": "One fresh pooled pixel judge is used per scoring sequence. Its internal raw judge sees the earlier then current RGB for each window, including declared overlaps, with no unseen intermediate images or RAM, action or episode arguments. The controller sees only current raw RGB once per decision; labels, RAM, terminal flags and scores are not passed to it.",
+    "topology": "Within each category, a source contributes exact declared palette pixels that strictly win at least one channel or tie all three channels. Remaining contributors are enclosed by their minimal filled rectangle. Empty contributions add nothing. Filled masks use four-connectivity and side contacts, with no diagonal or torus joins. The RAM baseline fills raw visible envelopes decoded with each source RAM predecessor. Categories remain separate.",
+    "reader": "The reader validates the exact field set, shapes and dtypes, unique shard paths inside the directory and their SHA, one to four ordinary advances, 132-frame cold charges, adjacent RAM frame indices, explicit fallback, exact max RGB, RAM/RGB overlap links across one- or two-step windows, all decisions and the final ordinary/cold ledger. No failed, terminal or truncated window is dropped.",
+    "capture_admission": "Only the fixed 17421 development sequence of 8192 repeat-four decisions can be captured. check() requires exact protocol constants, raw calibration proof, a passed independent receipt with exact source/runtime/proof mappings, and all 45 sources plus the receipt committed at HEAD. An existing destination or attempt blocks a second capture; the exclusive attempt precedes directory and engine construction. Seed 17422 has no enabled path.",
+    "provenance": "check() is repeated after capture and scoring. Manifest, attempt and scorer bind source SHA, runtime, raw proof, preflight receipt SHA, source commit and accounting. The scorer accepts only the complete fixed development attempt and exact manifest fields.",
+    "failures": "Failed capture records completed decisions, elapsed time and the available partial engine ledger. Constructor failure explicitly leaves cost unknown and prevents retry. Scoring writes a separate exclusive attempt before manifest checks or calibration, recording the fixture SHA and error or result SHA. Raw data and capture status are preserved; prior outputs cannot be overwritten.",
+    "budget_and_criteria": "The cap is 1114244 = 132 + 8192*(132+4). Every ordinary advance and cold load is charged, with no experiments or restores. The unchanged cardinality-first matcher scores all 8192 windows for each of five categories: minimum 50 matches and separate 99% thresholds for all-window counts, positive-window counts and matched edges within one pixel. Empty denominators remain null/FAIL; there is no fruit exemption or pooled dilution."
+  },
+  "verification": {
+    "pytest": {
+      "command": ".venv-arc4/Scripts/python.exe -m pytest tests/test_triple_ram_tap_v70.py tests/test_triple_pooled_fixtures_v70.py tests/test_mspacman_pooled_v70.py -q",
+      "passed": 43,
+      "seconds": 1.52
+    },
+    "independent_preflight_faults": {
+      "cases": [
+        "positive",
+        "source_bytes_changed",
+        "review_pass_false",
+        "runtime_mismatch",
+        "raw_proof_mismatch",
+        "HEAD_blob_mismatch",
+        "protocol_seed_changed"
+      ],
+      "all_passed": true,
+      "method": "Actual check() control flow with synthetic files, proof, runtime and Git providers in temporary directories; no production-check bypass or emulator."
+    },
+    "independent_palette_checks": {
+      "declared_colours": 15,
+      "all_passed": true,
+      "partial_channel_ties_without_strict_win_excluded": true,
+      "undeclared_colour_excluded": true
+    },
+    "capture_writer_reader_witness": {
+      "real_capture_loop": true,
+      "synthetic_engine_and_controller": true,
+      "decisions": 128,
+      "source_images_per_window": 2,
+      "ram_states_per_window": 3,
+      "first_three_frame_triples": [
+        [
+          2,
+          3,
+          4
+        ],
+        [
+          3,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "first_three_episodes": [
+        0,
+        0,
+        1
+      ],
+      "first_three_fallbacks": [
+        false,
+        false,
+        true
+      ],
+      "first_three_charged_frames": [
+        136,
+        137,
+        270
+      ],
+      "ordinary_frames": 506,
+      "cold_loads": 2,
+      "charged_frames": 770,
+      "strict_reader_accepts_actual_written_shard": true,
+      "forced_stop_after_one_shard_preserved_failed_attempt_and_partial_ledger": true
+    },
+    "topology_witness": "The corrected rebox-and-fill convention retains one source envelope from two isolated contributing pixels. Tests separately verify side, diagonal and opposite-edge contacts, and the order of causal overlapping RGB updates."
+  },
+  "findings_closed": [
+    "The protocol now defines filled minimal contributor rectangles explicitly.",
+    "The tap rejects hot installation and limits its discontinuity guarantee to observed RAM/frame changes; capture fetches each new cold tap.",
+    "Capture failure records the available budget and explicitly reports unknown constructor cost.",
+    "Scoring exceptions now have a distinct durable failure artifact."
+  ],
+  "limitations": [
+    "No emulator or image for seeds 17421 or 17422 was opened. There is no observed temporal result or category-coverage claim.",
+    "The pooled RAM baseline ignores actual RGB max contribution and may disagree with the RGB envelopes clipped to their contributing pixels. Such negative outcomes must be preserved, not excluded or redefined.",
+    "Sparse or duplicated raw RGB updates may change the causal wall and pill registries. The new sequence deliberately tests this effect; passing raw calibration does not imply a temporal PASS.",
+    "The first cold one-frame window includes the prepared initial image and explicit initial RAM duplication. Unknown raw decoding states must produce a preserved failure, not a scoring exemption.",
+    "The tap detects RAM/frame discontinuity, not arbitrary hidden native mutation. The reviewed sealed capture uses live mode, has no reset/restore calls, and is not an agent RPC.",
+    "Component-window envelopes are not persistent object identities and need both raw sources; identification from max RGB alone is not claimed.",
+    "The real production check awaits committed sources and this receipt. Synthetic operational checks cannot replace it.",
+    "Any development correction uses seed 17421 only and preserves this baseline. Seed 17422 remains closed until independent review and prospective sealing. No training, entry states, transfer claim or benchmark gate is authorized."
+  ],
+  "preservation": {
+    "existing_sources_modified": false,
+    "existing_results_modified": false,
+    "arc3_state_touched": false,
+    "raw_sealed_sources_or_metadata_modified": false,
+    "emulator_launched": false,
+    "new_capture": false,
+    "new_seed_opened": false,
+    "full_rescore": false,
+    "commit_created": false
+  }
+}
