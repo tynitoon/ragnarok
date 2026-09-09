@@ -1,0 +1,211 @@
+{
+  "kind": "scorer_only_cold_raw_development_fixture",
+  "game": "seaquest",
+  "mode": 0,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "seed": 17311,
+  "action_seed": 117311,
+  "frames": 8192,
+  "action_repeat": 16,
+  "raw_every_real_frame": true,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "sticky_implementation": "worker-python-random-per-frame",
+  "created_utc": "2026-09-09T00:41:07Z",
+  "elapsed_seconds": 5.878933599997254,
+  "accounting": {
+    "ordinary_frames": 8960,
+    "experiment_frames": 0,
+    "restores": 0,
+    "restore_charges": 0,
+    "emulated_frames": 8960,
+    "charged_frames": 8960,
+    "ordinary_agent_steps": 8192,
+    "experiment_agent_steps": 0,
+    "experiment_fraction": 0.2,
+    "max_charged_frames": 1056896,
+    "reset_emulated_frames": 408,
+    "bootstrap_emulated_frames": 128,
+    "format_detection_emulated_frames": 360,
+    "cold_loads": 6,
+    "reset_convention": "fixed_hardware_cold_start_v1",
+    "system_random_seed": 4753849,
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "sticky_implementation": "worker-python-random-per-frame",
+    "sticky_probability": 0.25
+  },
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4"
+  },
+  "source_sha256": {
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2"
+  },
+  "shards": [
+    {
+      "path": "frames_00001_00256.npz",
+      "sha256": "37643c76519f4b57dd35800d32c0e37d5cb2f27597f773d0bb7b4ede3d3a1c99",
+      "frames": 256
+    },
+    {
+      "path": "frames_00257_00512.npz",
+      "sha256": "4aad4b329005e4fc30b149f44536da0aeeb12105e10cf1581dbe815115fa6a74",
+      "frames": 256
+    },
+    {
+      "path": "frames_00513_00768.npz",
+      "sha256": "0770d22d60ed0d57b3fe2fa71b7acb2eeec86e457ebd9db459c013a05b42802c",
+      "frames": 256
+    },
+    {
+      "path": "frames_00769_01024.npz",
+      "sha256": "c645021dd7c37b52726f5a232dac22eb135f77801a3434a40458418e792b614a",
+      "frames": 256
+    },
+    {
+      "path": "frames_01025_01280.npz",
+      "sha256": "81793499dd22e1c26e4a280f2466cea8184b04208d27c6519a8362645374fede",
+      "frames": 256
+    },
+    {
+      "path": "frames_01281_01536.npz",
+      "sha256": "3905ff4797b7984869cb64df24e62715360fe594cce69f9b2857d30ee8535dbe",
+      "frames": 256
+    },
+    {
+      "path": "frames_01537_01792.npz",
+      "sha256": "27c5ba8c6f5b30942f93acde103ed7ae99266d5dfcabaf9dd3a9fbc1889b41c1",
+      "frames": 256
+    },
+    {
+      "path": "frames_01793_02048.npz",
+      "sha256": "f62c524c735bf603db5dbb611904e0e9ecbcf13ba04a4e3011787826ce94e302",
+      "frames": 256
+    },
+    {
+      "path": "frames_02049_02304.npz",
+      "sha256": "0b7851c26da0d3d5345eebc0959c88429fee2ee8e82b0b79139e2e401b22c642",
+      "frames": 256
+    },
+    {
+      "path": "frames_02305_02560.npz",
+      "sha256": "5a5551e8c81d8fa8f68d7a223108eab92262d453f024e86cfeb0e497e4b3279b",
+      "frames": 256
+    },
+    {
+      "path": "frames_02561_02816.npz",
+      "sha256": "5a1127cf6ce7abb60a1bacc9aadaff800b9dc346368b70a2a28b118a9fa17688",
+      "frames": 256
+    },
+    {
+      "path": "frames_02817_03072.npz",
+      "sha256": "f3e0ef30995b41483e7942a88f5cb20c8a3f797239f6e91feca88ff8cc781814",
+      "frames": 256
+    },
+    {
+      "path": "frames_03073_03328.npz",
+      "sha256": "d83ccf9b5d9c05360000b24f681b601b224de64c1eb6ad95005221c8d35caace",
+      "frames": 256
+    },
+    {
+      "path": "frames_03329_03584.npz",
+      "sha256": "ccd91fbe6271bafd050d785a5f64fa9d87605e25333d822545048662389dede0",
+      "frames": 256
+    },
+    {
+      "path": "frames_03585_03840.npz",
+      "sha256": "d8bf44ab4fbdc926430e2258fcdfa8e391e373b9cc254bdab75f8d45661b05c2",
+      "frames": 256
+    },
+    {
+      "path": "frames_03841_04096.npz",
+      "sha256": "45b9eec839349612191020ce4d3ec8041a3919cbad5baf5c9ec235e6ad22424e",
+      "frames": 256
+    },
+    {
+      "path": "frames_04097_04352.npz",
+      "sha256": "01d3d0f31631e2de821ec5df09f41fec9ebc7bc83fc3cb583fe60f3711884f30",
+      "frames": 256
+    },
+    {
+      "path": "frames_04353_04608.npz",
+      "sha256": "12938f75c4794ab5b9f6480b1909486f677337fcdc53a809676515e304993a41",
+      "frames": 256
+    },
+    {
+      "path": "frames_04609_04864.npz",
+      "sha256": "b08d856312d45efecb6e6f0f4a89dbde98d81bae25219231a2fd27a4df9c199f",
+      "frames": 256
+    },
+    {
+      "path": "frames_04865_05120.npz",
+      "sha256": "ff52ddd38d16b93465857bd613783d0f48a4d3c378d543a8bc0b2d0c09c34e46",
+      "frames": 256
+    },
+    {
+      "path": "frames_05121_05376.npz",
+      "sha256": "197027ee60cf5cebadd35790df9e50bf1aefaabac70c883b6c9364a97ddf63b2",
+      "frames": 256
+    },
+    {
+      "path": "frames_05377_05632.npz",
+      "sha256": "76180626f8e7f864f1f6f4b80beaef6df1280ed23678d88a7aa435e686a2c951",
+      "frames": 256
+    },
+    {
+      "path": "frames_05633_05888.npz",
+      "sha256": "ffe744887a18bfe0f9cc9210b056c28f01b2f8afea944da8187e7deb9894d47a",
+      "frames": 256
+    },
+    {
+      "path": "frames_05889_06144.npz",
+      "sha256": "0baf4e1db615b54d4a6c0d2f9e045c4c8102126afce29178328eab2db7e6ef63",
+      "frames": 256
+    },
+    {
+      "path": "frames_06145_06400.npz",
+      "sha256": "ab97712dd8c2642cebb920d1a8a422059991ba01e4f9496fb1ba5a9d49faf05d",
+      "frames": 256
+    },
+    {
+      "path": "frames_06401_06656.npz",
+      "sha256": "2181a62ba8ce3b95e70eb7e70e9655bced97966fcaed6098350bba0e06610c40",
+      "frames": 256
+    },
+    {
+      "path": "frames_06657_06912.npz",
+      "sha256": "7ab1f2978c8e477f13d051608d3fd4b4c38ba2cc35844154c0f80f23d12b643b",
+      "frames": 256
+    },
+    {
+      "path": "frames_06913_07168.npz",
+      "sha256": "b9ecf1fb59de37045eda729773f1af83d811ea19f7d2cc8e9746b8828fafd0f9",
+      "frames": 256
+    },
+    {
+      "path": "frames_07169_07424.npz",
+      "sha256": "9bbe5dc92af1fc6c7a59d056887c17d82c439689870409267c925b060cdb20e3",
+      "frames": 256
+    },
+    {
+      "path": "frames_07425_07680.npz",
+      "sha256": "fd74d55d9ddb642b3d9db79ac95f49e2778a63207e2f877542b9f62433a26271",
+      "frames": 256
+    },
+    {
+      "path": "frames_07681_07936.npz",
+      "sha256": "40d2b0268dcdb505adbf61a901bde0942237d437ddf77596de0c9c6449c89b8c",
+      "frames": 256
+    },
+    {
+      "path": "frames_07937_08192.npz",
+      "sha256": "1f58e78fb8762bf1f223f765e541c06f527780e15511e40268d61c25c5c2eef3",
+      "frames": 256
+    }
+  ],
+  "agent_training_allowed": false,
+  "gate_result": null
+}

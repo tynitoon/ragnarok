@@ -1,0 +1,743 @@
+{
+  "kind": "independent_seaquest_raw_calibration",
+  "created_utc": "2026-09-09T00:42:09Z",
+  "decoder_revision": "seaquest_raw_visible_actor_baseline_v0",
+  "seed": 17311,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 7415,
+      "joint_matches": 6183,
+      "boxes_within1": 1795,
+      "boxes_exact": 1151,
+      "ram_objects": 6960,
+      "pixel_objects": 6183,
+      "presence_fraction": 0.9051513671875,
+      "box_fraction": 0.2903121462073427,
+      "passed": false
+    },
+    "shark": {
+      "frames": 8192,
+      "presence_count_agreement": 8090,
+      "joint_matches": 5658,
+      "boxes_within1": 4794,
+      "boxes_exact": 4689,
+      "ram_objects": 5678,
+      "pixel_objects": 5788,
+      "presence_fraction": 0.987548828125,
+      "box_fraction": 0.8472958642629904,
+      "passed": false
+    },
+    "submarine": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "presence_fraction": 1.0,
+      "box_fraction": null,
+      "passed": false
+    },
+    "diver": {
+      "frames": 8192,
+      "presence_count_agreement": 7641,
+      "joint_matches": 9762,
+      "boxes_within1": 5872,
+      "boxes_exact": 0,
+      "ram_objects": 10861,
+      "pixel_objects": 9762,
+      "presence_fraction": 0.9327392578125,
+      "box_fraction": 0.6015160827699242,
+      "passed": false
+    },
+    "enemy_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 3026,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 21104,
+      "presence_fraction": 0.369384765625,
+      "box_fraction": null,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 7916,
+      "joint_matches": 761,
+      "boxes_within1": 741,
+      "boxes_exact": 730,
+      "ram_objects": 1021,
+      "pixel_objects": 777,
+      "presence_fraction": 0.96630859375,
+      "box_fraction": 0.973718791064389,
+      "passed": false
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": [
+    {
+      "frame": 1,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 2,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 3,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 4,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 5,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 6,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 7,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 8,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 9,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 10,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 11,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 12,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 13,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 14,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 15,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 16,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 17,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 18,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 19,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 20,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 21,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 22,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 23,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 24,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 25,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 26,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 27,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 28,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 29,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 30,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 31,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    },
+    {
+      "frame": 32,
+      "kind": "player",
+      "ram": [
+        [
+          76,
+          46,
+          16,
+          11
+        ]
+      ],
+      "pixels": [
+        [
+          76,
+          46,
+          16,
+          7
+        ]
+      ]
+    }
+  ],
+  "fixture_manifest_sha256": "725c307ce9cf7e1ad32a6a7b29316708c96af92d7090600844ddfd00cce270e5",
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "07e2b3cd2587c922b879678727d59e66471ad3d5fc07657c283bdf937708c893",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "3272fcbd5fbea12c671f0c9c3b43b5a6c977aee57f90ea2ef4f01f679eeb520c",
+    "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json": "1a7977439b2b1a193ca73fd6e0f97ceeab3aea312a8d195273ba0fb5953fea35",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}
