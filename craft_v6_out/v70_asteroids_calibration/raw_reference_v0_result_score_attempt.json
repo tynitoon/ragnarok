@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "game": "asteroids",
+  "started_utc": "2026-09-09T15:01:52Z",
+  "fixture_manifest_sha256": "80da5c106803fd27ec9778afb76e61b44f37771b92f0829086d2738dd03c5d0e",
+  "completed_utc": "2026-09-09T15:04:27Z",
+  "result_sha256": "1521e8000500c52521b7388de9965fd0911594fe71554f7b739e0b54d0fe7612"
+}

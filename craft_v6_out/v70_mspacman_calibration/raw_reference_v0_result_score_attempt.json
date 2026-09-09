@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "game": "ms_pacman",
+  "started_utc": "2026-09-09T14:58:54Z",
+  "fixture_manifest_sha256": "115ddbf1d72ba2634b943ffa6c46e42d6d3202ca9cf5abed92128a20bfa149f7",
+  "completed_utc": "2026-09-09T15:02:11Z",
+  "result_sha256": "f9c0627e4a69e067e8505ef4d91a0c0802848a9eef1244ed2f80470a7d3e2440"
+}

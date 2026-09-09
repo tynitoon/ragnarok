@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 16:55 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 17:16 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -20,14 +20,14 @@ aux observations ni à l’enseignement du futur agent.
 
 ## ARC 3 v62 — calcul confirmatoire actif
 
-Contrôle réel à 16:47 : contrôleur **20936**, enfant **17340**, GPU 31 %, 4238 MiB.
+Commandes des processus revérifiées à 17:16 : contrôleur **20936**, enfant **17340**.
 Commandes : `C:/Python314/python.exe -u -m scripts.recover_confirm_v62`, puis
 `scripts.confirm_v61 --lineage 0 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier les commandes et logs, pas seulement les PID ou un ancien état running.
 `s0_8300` terminé à 8326 s ; `s0_8301` entièrement terminé après G’ à 18089 s.
 `s0_8302` commencé, objectifs [3,1,0], tiers [2,3,4], nav min 0,883 ; premier
-objectif M4 terminé à 18841 s, aucun verdict intermédiaire.
+objectif M4 terminé à 18841 s, deuxième à 19649 s, aucun verdict intermédiaire.
 Deux mondes terminés sur neuf ; aucun verdict avant les trois lignées et revue.
 Logs réels `v61_confirm_s0.log`, puis s1/s2 ; stderr contrôleur vide au contrôle.
 
@@ -64,8 +64,8 @@ ne pas dupliquer, mettre en pause à la clôture ou si avis utilisateur requis.
 | Breakout | PASS, revus | terminé ; ≈99,20 %, ≈1005 décisions/s |
 | Freeway | PASS, revus | terminé ; ≈99,74 %, ≈1431 décisions/s |
 | Seaquest | PASS, revus | terminé ; ≈93,64 %, ≈1312 décisions/s |
-| Ms. Pac-Man | PASS, revus | sources prêtes, préflight final en cours |
-| Asteroids | PASS, revus | sources prêtes, préflight final en cours |
+| Ms. Pac-Man | PASS, revus | référence brute revue : rappel 97,39 %, précision 29,46 % ; CPU à faire |
+| Asteroids | PASS, revus | référence brute revue : rappel 94,09 %, précision 92,37 % ; CPU à faire |
 
 Mesures d’instruments, pas de perception apprise. Débits sous charge ARC 3,
 comparaisons séquentielles ; pas de gain universel ni de gate de débit déclaré.
@@ -99,9 +99,11 @@ entièrement synthétiques aussi vérifiées. Reçu committé **efeaa54** avant 
 nouvelle construction ; vrais checks des deux jeux PASS (sessions 4126/46477 closes).
 
 Captures **17471 Ms / 17571 Ast complètes**, chacune 8192 frames + cinq démarrages
-de 132 = **8852 charges**. Sessions 74795/35390 closes. Scores uniques en cours :
-**37597 Ms**, Ast lancé à 17:01. Commande
-`python -m scripts.visible_reference_v70 --game <jeu> --stage score`.
+de 132 = **8852 charges**. Captures committées **71ad5e6** ; sessions capture et
+score 74795/35390/37597/67957 toutes closes. Les deux scores sont complets et
+intégralement reproduits par revue indépendante : 99 sources, 82 preuves dont
+64 archives. Reçu `v70_visible_reference/result_review_v0.json`, PASS, SHA
+`cefb04be064767ded9303e2256abcf1381505657b12ec7519c7d306bbfe1a6cd`.
 Ne pas relancer les captures ni les scores existants. 8192 frames brutes, actions
 uniformes tenues 16 frames, vrai précédent RAM y compris frame 0. Sorties
 `v70_<jeu>_calibration/raw_reference_v0*`, marqueurs capture/score distincts.
@@ -114,6 +116,10 @@ CPU préparé : `bench_visible_reference_v70.py`, `check_visible_cpu_v70.py`,
 Commit **2f0cd99**, 112 sources prévues, 45 tests PASS ; revue préliminaire
 **bd117616…** (à actualiser après empreinte Ms), aucune ouverture de graines.
 `REFERENCE_REVIEW_SHA256=None` bloque tout jusqu’à revue finale des deux références.
+Profil hors émulation `v70_visible_cpu/profile_mspacman_source_v0/` : le calcul
+répété des gommes domine le juge Ms. Adaptateur de performance envisagé dans
+un nouveau fichier, équivalence ordonnée stricte exigée ; les 99 sources de
+référence restent gelées. Aucun adaptateur ni nouveau benchmark encore lancé.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
