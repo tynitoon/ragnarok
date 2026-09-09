@@ -32,3 +32,12 @@ Il manque encore la revue indépendante, le contrôle avec les vrais émulateurs
 le transport fermé des traces et l'archive persistante. Aucun nouveau jeu ou
 nouvelle graine n'a été ouvert pour ce prototype, qui reste séparé des
 115 sources du benchmark CPU de référence en préparation.
+
+`rgb_trace_difference_v70.py` compare ensuite uniquement le préfixe réellement
+observé dans les deux branches, avec un choix explicite brut/poolé. Le premier
+changement est numéroté en frames natives depuis l'ancrage ; zéro veut dire
+« aucun changement observé dans ce préfixe », pas absence de contrôlabilité.
+Les queues tronquées sont comptées séparément. Sept tests synthétiques couvrent
+ces cas et l'effet de persistance du pooling. Aucune décision ME ni identité
+d'objet n'est dérivée de ces seuls pixels. La provenance commune des deux
+branches doit encore être imposée par le transport et le protocole de collecte.

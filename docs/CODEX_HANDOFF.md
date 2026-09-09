@@ -143,7 +143,9 @@ Implémenter parser/tracker/ME/buttons/reader/drives selon `ARC4_VISION.md` §§
 Prototype distinct `rgb_branch_trace_v70.py` et cinq tests synthétiques PASS :
 RGB brut/poolé de chaque frame de branche déjà payée, RNG/charges/reprise
 inchangés, panne payée ferme les actions. Pas de vrai ALE ni de nouveau RPC ;
-revue et contrôle natif encore requis. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites.
+revue et contrôle natif encore requis. Comparaison `rgb_trace_difference_v70.py`
+sur le seul préfixe commun, délai brut/poolé explicite ; sept tests supplémentaires
+PASS. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites, aucun ME encore implémenté.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.
