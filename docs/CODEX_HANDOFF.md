@@ -1,166 +1,121 @@
 # Ragnarok — point de reprise
 
-Mis à jour le9septembre2026 vers19:22Paris. Les instructions actuelles de Jérémie
-priment sur les pauses historiques. Continuer d'un jalon au suivant ; ne terminer
-que sur sa demande, au terme du travail ou pour une décision exigeant son avis.
+Mis à jour le 9 septembre 2026 vers 19:35 Paris. Continuer d'un jalon au suivant,
+sans terminer à chaque commit. Arrêt uniquement demandé par Jérémie, travail
+achevé, ou décision exigeant son avis. L'audit partage d'écran/RC a été annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
-ne prouve pas une accélération. Audit partage d'écran/RC annulé (mauvaise session).
+ne prouve pas une accélération. ARC 2 clos : transfert 3/6 contre 0/6 ; accélération
+non détectable (delta 0,069, bruit 0,076). ARC 4 : aucun entraînement Atari ni gate 0.
 
-## Lecture courte et preuves
+Historique technique détaillé : `docs/history/CODEX_HANDOFF_20260909_1935.md`, puis
+celui de 18:11 et de 16:48. Lire uniquement les sections utiles ; pas tous les logs.
+Les captures de calibration sont réservées à l'instrumentation, jamais à l'agent.
 
-Historique détaillé conservé dans `docs/history/CODEX_HANDOFF_20260909_1811.md`
-et celui de16:48. Lire seulement les plans utiles, jamais tous les logs Claude.
-ARC2 clos : transfert3/6 contre0/6 ; accélération non détectable(delta0,069/bruit0,076).
-ARC4 : aucun apprenant entraîné ni gate0 lancé. Premier parser prototype CPU.
-Vision apprise puis mémoire/transfert,
-Atari→NES→16bits→PC. RAM/palettes/référence classique réservées à l'évaluation,
-jamais observations ni enseignement du futur agent.
+## ARC 3 v62 — confirmation GPU active
 
-## ARC3 v62 — confirmation active
-
-Commandes revérifiées18:44 : contrôleur20936 `C:/Python314/python.exe -u -m
-scripts.recover_confirm_v62`, enfant22896 `scripts.confirm_v61 --lineage 1
+Vérifié 19:27 : contrôleur 20936 `C:/Python314/python.exe -u -m
+scripts.recover_confirm_v62`, enfant 22896 `scripts.confirm_v61 --lineage 1
 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
-État `v62_confirm_recovery_state.json` running/confirm_s1 ; vérifier commandes
-et log réel `craft_v6_out/v61_confirm_s0.log`, puis s1/s2, pas seulement les PID.
-**Première lignée complète, trois mondes/9**,25433s ; artifacts0et14checkpoints
-validés/scellés dans l'état ducontrôleur avantlaunchsuivant. Résultats0SHA3d30c06f….
-Ces15artifactsfinalisés committés9deb244 aprèsvalidate_lineage/verify_completed.
-s1démarré18:41, s1_8310([1,0,2],tiers[2,3,4]), navmin0,910.
-Aucun verdict intermédiaire avant toutes les lignées/revue.
+État `craft_v6_out/v62_confirm_recovery_state.json` : running/confirm_s1.
+Lignée 0 complète (3 mondes/9), 25433 s ; agrégat et 14 checkpoints validés contre
+le contrôleur, puis committés 9deb244. SHA agrégat 3d30c06f….
+Lignée 1 démarrée 18:41. À 19:32, log s1_8310 : M4 trois objectifs terminés à
+2101 s ; Fa premier objectif terminé à 2865 s. Aucun verdict intermédiaire.
+Vérifier les commandes ET `craft_v6_out/v61_confirm_s1.log`, puis s2.
 
-Reprise11:37:39Paris après WindowsUpdate06:30/boot06:39. Bras incomplet rejoué
-mêmes graines. Interruption2166s facturées ; ancien9366erroné préservé/corrigé.
-Budget reprise84742,0902837s ; projection initiale34,3461GPU-h sur42, pas garantie.
-Preuves/recovery commitb815be2, `v62_confirm_interruption_20260909/`.
-`ARC3_PLAN.md` §12.6 fait autorité, §§13.1–13.5preuves/budget. B6/N9/3lignées/G'2,
-store persistant pour tous les bras. Tag gel=a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
-Ne modifier aucun des17fichiers scientifiques, des trois lanceurs resume_v62,
-confirm_resume_v62/recover_confirm_v62, états ou checkpoints. Aucun second GPUtraining.
-Gate/probe PASS revus : M4618/768,R398/768,delta0,286458>3SE0,072446.
-Après fin : sources/checkpoints/budget, revue, score gelé, puis figure réelle.
-Figure_v61(non gelée) labels/layout corrigés423b770, revueaf94a62 ; rendus
-synthétiques seulement, v0/v1échecs conservés, v2PASS, aucun score partiel.
-Suivi horaire existant `suivi-ragnarok-arc-3` : ne pas dupliquer.
+Reprise à 11:37 Paris après Windows Update ; bras incomplet rejoué mêmes graines.
+Interruption facturée 2166 s (ancien 9366 erroné préservé/corrigé). Budget de reprise
+84742,0902837 s. Projection initiale 34,3461 GPU-h/42, pas une garantie.
+Preuves/recovery b815be2, `v62_confirm_interruption_20260909/`.
+Autorité : `ARC3_PLAN.md` §12.6 ; budget/preuves §§13.1–13.5. B6/N9/3 lignées/G'2,
+store persistant pour tous les bras. Gel a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
+Aucun changement des 17 sources scientifiques, des 3 lanceurs, états/checkpoints.
+Aucun deuxième entraînement GPU. Gate/probe PASS revus, pas verdict confirmatoire.
+Après `confirm_complete_review_required` : sources, tous les mondes, checkpoints,
+budget, revue indépendante, score gelé, puis vraie figure. Figure corrigée/revue
+423b770/af94a62 sur données synthétiques seulement. Suivi horaire existant
+`suivi-ragnarok-arc-3` : ne pas dupliquer ni créer de nouvelle tâche.
 
-## ARC4 — instruments et CPU
+## ARC 4 — instruments achevés, difficultés conservées
 
-Les six calibrations brutes et temporelles sont PASS/revues. Sources scellées
-immuables. Détails dans `docs/ARC4_<JEU>_CALIBRATION.md` et protocoles associés.
-Références CPU précédentes : Pong≈1356, Breakout≈1005, Freeway≈1431,
-Seaquest≈1312décisions/s natif. Comparaisons séquentielles sous chargeARC3 ;
-aucun débit universel ni gate. Instruments, pas compétences apprises.
+Six calibrations brutes et temporelles PASS/revues ; sources scellées immuables.
+Références CPU : Pong ≈1356, Breakout ≈1005, Freeway ≈1431, Seaquest ≈1312 décisions/s.
+MsPacman complet : NumPy 552,129/s, natif 580,793/s, 171364 charges chacun ;
+16 rapports/digests strictement égaux, 58 constructions, 2042 images de branche.
+Sous 1000 et 2000 proposés : problème d'ingénierie à résoudre avant GPU ARC 4.
+Revue finale `v70_mspacman_cpu/cpu_chain_result_review_v0.json`, SHA40f640d4…,
+115 sources/233 preuves, commit ebf4a80. Ces 115 sources/DLL/build ne bougent pas.
+Pas de débit universel : mesures séquentielles sous charge ARC 3. Tous les processus
+CPU de mesure/capture sont terminés ; aucune collecte native actuellement lancée.
 
-Ms17422temporalV2 :33545charges, résultat8e6f930e…/revuee8cfc5c2…,
-sources02b5dc7, scellé9ebdfdf, résultate7334f7, relecture/fingerprints c77b860.
-Ast17522temporalV1 :34596charges, résultat759d0f42…/revue15b8931c…, a14b07d.
-Références brutes fraîches17471Ms/17571Ast :8192frames+5×132=8852charges chacune.
-Sources99gelées, préflightefeaa54, captures71ad5e6, scores/revue8a289fe.
-Revue commune `v70_visible_reference/result_review_v0.json`, SHAcefb04be…,
-99sources/82preuves/64archives, scores exactement reproduits.
-Ms rappel97,394%/précision29,463% ; Ast94,090%/92,366%. Juge corrigé source-frame
-sans nouvelle calibration brute indépendante : chiffres conditionnels.
+Ast CPU v0 FAILED : Unknown player graphics bank au décodage anticipé RAM frame0,
+265 charges, aucune décision, aucun retry/substitut/benchmark v0. Échec cbc0ef2.
+Prototype séparé `deferred_visible_source_v70.py`, revue source 01313bf8….
+Audit offline complet sur les 8192 images déjà archivées (17571) : 2049 groupes,
+scènes/membres/historique identiques ; 225 groupes contiennent plusieurs actions,
+donc ce n'est pas un rollout natif repeat4. Revue finale b43a95f5… à ebf4a80,
+121 sources/38 preuves. Aucune nouvelle émulation Ast autorisée par ce seul audit.
 
-FastMs : équivalence40965paires/3613727labels ordonnés/RAMinchangée, committée0cafc2d,
-revue `v70_visible_cpu/fast_mspacman_equivalence_review_v0.json` SHA945c47fc…,
-102sources/166preuves, commitb9c65a5. Temps décodeur seul135,35→37,08s.
-CPU115sources **gelées** àb9c65a5, préflightfinalf1d5486 avant toute géométrie ;
-`v70_visible_cpu/preflight_review_v0.json` SHA f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9.
-69tests/221preuves ; ne reconstruire ni modifier DLL/build ni115sources.
-Géométrie Ms/Ast8192DEV+8192RES chacune PASS hors émulation, commit29cc843.
-Wiring18176/18177/18178 : MsPASS3618charges ; AstFAIL265charges au premieract,
-Unknown player graphics bank sur décodage anticipéframe0. Échec conservécbc0ef2,
-aucune décision rendue ; **aucun retry/substitut ni benchmark Astv0**.
-Ms NumPy complet :32768décisions/59,3484s=552,129/s,171364charges, commit7997db0,
-résultatSHAe43ecd3a3f055e03bf3e7cfe7d7f0ee857493924f8244f5bc1e197ec606a5542.
-Ms **natif complet session33396close**, 580,7928décisions/s,171364charges,
-16rapports/digests strictement égauxNumPy ; résultatSHA4851a2cb….
-16×2048décisions, graines18000+i, branch128, source/protocoles gelés.
-Résultat sous1000 et2000proposés ; aucune nouvelle mesure ni gate. RevuefinalePASS
-`cpu_chain_result_review_v0.json` SHA40f640d4…(115sources/233preuves),16rapports
-égaux,58froids,2042framesdebranche ; rappel107283/113037=94,9096%,
-précision306322/771010=39,730%,C84pixels/256paires. Aucunapprentissage.
+Traces RGB natives PASS : 9 cas, 26 instances, 32 constructions, 22604 charges.
+Sources 20 gelées 87c0507 ; préflight f0d8a22a… committé avant lancement ; résultats,
+tentative, console exacte et revue 64e82d1b… à 0e23739. Seul Seaquest a une différence
+non nulle ; validité du transport, pas contrôlabilité apprise. Ne pas modifier
+ces 20 sources, y compris `docs/ARC4_BRANCH_TRACE_DRAFT.md` (texte historique).
+Archive privée + transport : nouveaux prototypes relus, pas validés nativement.
+`rgb_archive_v70.py` : paire sur archive 2T+180, retour au point courant ; pas de
+retour durable E4. Capacité totale pool 20000 entrées/2 Go de payload, pas de RSS.
+Revues préliminaires source afbe5846… (11 sources/15 tests), transport 36731edf…
+(16 sources/23 tests) ; sources 7a7fe35/817bb97/eaad4c0 inchangées.
 
-Ast diagnostic offline a1df7db/0e23739 : cinq RAM0archivées17571déclenchent même garde ;
-ce n'est pas la RAM18176nonarchivée, aucune RGB0calibrée. Frame0nonconsommée
-aprèsrepeat4 mais nécessaire surrepeat1. Prototype séparé
-`deferred_visible_source_v70.py`,8testsPASS, original115inchangé.
-Revue préliminaire `v70_asteroids_cpu/deferred_source_review_v0.json` SHA01313bf8…,
-118sources/38preuves ; erreurs1frame différées après1observation, ancienéchec0,
-ne pas déclarer leurs rapports identiques. Auditofflineconsommation complet :8192frames,
-2049groupes(2047×4+2×2), historique/scènes/membres égaux ; session9912close.
-Sources/protocole a22ac2b avantaudit, digest ebf68f4886dfd06835cfed54e3f149aefbe86ca4ea23de2f0e1149e299557c34.
-Résultats `deferred_source_consumption_v0*`, revuefinaleSHA b43a95f5…,
-121sources/38preuves, reproductionexacte.225groupesontplusieursactions :
-pasunrolloutnatifrepeat4. Aucune émulation Ast.
+## ARC 4 — apprenant en construction, uniquement CPU synthétique
 
-## ARC4 — traces et archive, puis apprenant
+Nouveaux modules dans `ragnarok/learning/`, sans enseignant RAM/palette/référence.
+- Parser + P + instances : 428677 paramètres, 49 floats/instance, déplacement
+  prédit par intervalle, 12 effets fixes, zéro=effet inconnu. Mapping boutons→effets
+  non résolu. Revue préliminaire f6d18381… (10 sources/17 tests), sources d728bae.
+  Limites conservées : P peut manquer l'intérieur uniforme et marquer un fond
+  nouvellement couvert ; groupes k-means possiblement disjoints.
+- Tracker : revue 5d25929f… (9 sources/11 tests), source b9e1a1d. Centres pixel
+  exacts, extrapolation selon horizon explicite, mémoire4/coast30, rayonnement8px,
+  affectation maximale puis coût minimal, coasts distincts du visible, update atomique.
+- Adaptateur borné : 512 pistes coasts compris, refus atomique sans éviction.
+  C : projette les pixels propres dans la différence future, branches incomplètes
+  inconnues ; support bilinéaire partiel renormalisé, différence À l'horizon.
+  Revue commune `counterfactual_capacity_review_v0.json` SHA1d9dc215…,
+  19 sources/14 tests, source e7d228a/doc599fcec, reçu committé d6521d9.
+- G/I : grouping_v70.py / identity_v70.py, doc ARC4_EMBEDDING_OBJECTIVES_DRAFT.
+  G utilise m/d propres détachés, voisins4/tolérance0,5pixel, variance par groupe
+  et marge1. I : InfoNCE visible à lag8 exact, même flux/époque, négatifs obligatoires.
+  Revue EN COURS par review_recovery_v62 ; défaut reshape géométrique corrigé dans
+  d6521d9 (15 tests PASS). Collapse exact G et I stationnaire, contre-exemples gardés.
+  Ancres admissibles ne prouvent ni gradient ni entraînement.
+- Assemblage perception_stream_v70.py à 879b624, 6 tests PASS, NON encore relu.
+  Images synthétiques, max des deux dernières RGB, G/I + transition P séparée.
+  Horizon fixé4, P inconnu si transition1..3, I exact8. Mémoire pixels uint8/trackers
+  sans graphes ; réévaluation avec poids courants ; erreurs tardives atomiques.
+  C reste séparé, pas de collecteur attestant actions/délais/provenance.
 
-Trace RGB native **complète PASS** :9cas/26instances/32froids/22604charges
-(19158ordinaires+326branches+52×60restores). Sources20gelées87c0507 ;
-préflight `v70_rgb_branch_trace/wiring_preflight_v0.json` SHAf0d8a22a…committécbc0ef2
-avant18700sixjeux/18711/12/20Pong. Résultats/tentative/console exacte/revue0e23739.
-Revue finale `result_review_v0.json` SHA64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902.
-SeulSeaquest18700diffnon-nulle ; validité du transport, aucune compétence ME.
-Ne modifier aucune des20sources de ce protocole, dont ARC4_BRANCH_TRACE_DRAFT.md.
+Le pool existant rend du RGB poolé ordinaire, pas directement les deux dernières
+images brutes ni une chronologie de collecte. Les métadonnées d'époque doivent
+suivre les réinitialisations de mémoire décidées par l'agent, pas devenir un
+signal de mort oracle issu de RAM/ALE. Résoudre cette interface avant collecte.
+Aucun ME/buttons/reader/drives/codebook/S/policy/ledger apprenant implémenté.
 
-Nouveau draft **non gelé** `rgb_archive_v70.py` +tests/doc ARC4_RGB_ARCHIVE_DRAFT :
-sauvegardes privées20000/2GBpayload, jeu ordinaire continue ; paire sur archive
-2T+180(troisrestores), retour au point courant. Pas de retour durableE4 ni RPC.
-15testsPASS, revuepréliminaire `v70_rgb_archive/source_review_v0.json` SHAafbe5846…,
-11sources, sources7a7fe35/817bb97 ; allocation/calculcompteur protégé avantmutation.
-Nouveau transport `rgb_archive_pool_v70.py`,8testsPASS dont2vraisworkerssynthétiques :
-plafondtotalpool réparti parworker, RPCfermé, erreurslatchées, cleanup/reportpréservés.
-Transportcorrigéeaad4c0 : échecdedropferme aussileparent,cleanup/reportrestent.
-RevuepréliminairepoolPASS `transport_review_v0.json` SHA36731edf…,
-16sources/23testscomplets, committé d728bae ; aucune modification des11sources.
-Aucune nouvelle émulation autorisée par ce prototype.
-
-Nouveau parser+P draft `ragnarok/learning/{parser,pixel_prediction}_v70.py`,
-428677paramètres,10testsCPU synthétiques PASS avecPythonGPUmaisCPUexplicite/1thread.
-Commitinitial3e6d731 conserve le témoinéchoué du flotglobal : targetPpeutmarquer
-lefondnouvellementcouvert et manquerl'intérieur uniforme. Objectifnonmodifié,
-témoincorrigé +limite testée/doc. AucunAtari/GPU/poidsentraîné/C/G/I/S/tracker.
-Têtesvisuellesindépendantesdes12effets ; seule dconditionnée. Correspondance
-babillage→effetsinconnue àrésoudre, zéro explicite enattendant.
-`visual_instances_v70.py` +tests/doc :7testsCPU PASS,49floats implémentés,
-seulementpropsprédites parparser/CC/kmeans,aucunRAM/type/ROI/paletteenseignée.
-Identifiantparimage seulement ; déplacementparintervalleobservé, pasframe/seconde.
-Corrections numériquesf4da860/d728bae : gridbornéeavantdoublement/wherehorscadre,
-RGBP eteffets[0,1],embedding[-1,1],drepresentablefloat32,réductionsfloat64.
-CCconnexeinitialmaisgroupeskmeanspossiblementdisjoints,limiteexplicite.
-Revuepréliminaireparser/instancesPASS `v70_parser_synthetic/source_review_v0.json`,
-SHAf6d18381…(10sources/17tests),sourcefinaled728bae,aucunGPU/Atari.
-Nouveau `instance_tracker_v70.py` +tests/doc :11testsCPU PASS, déplacement
-prédit+Hungarianapparence, horloge/horizonfournisexplicitement,mémoire4/coast30,
-coastsdistinctsvisibles,identitésstables/réapparitions,forksansmutationordinaire.
-Revue trackerPASS `tracker_review_v0.json` SHA5d25929f…(9sources,11tests) :
-boîtes/airepixelvérifiées,miseàjouratomiccopieavantcommit,
-centrespixelexacts+tolérancearrondid,normalisationcoûtsévitantinf.
-138frontières8pxetexception2eobservationtestées. Nonvalidénativement.
-Nouvel adaptateur `bounded_tracker_v70.py` :512pistes maximum, coasts compris ;
-refus atomique sans éviction silencieuse,6testsPASS, revue indépendante à faire.
-Nouveau `counterfactual_targets_v70.py` +tests/doc :8testsTorchCPU PASS ;
-projectiondesproprespixels parleurddansdiffRGBfuture,horizon/kindexplicites,
-ciblesinconnuespoids0enbranchesincomplètes/sansmouvement/horschamp ; BCEC.
-Provenancepaire/effet/horizondoitêtregarantiedanscollecteur(encorenonbranché).
-Réduction BCE float64 puis float32 pour éviter les débordements de sommes.
-Revue C indépendante à faire. Suite selon `ARC4_VISION.md` §§2,5,6,11 :
-G/I, intégration C/tracker, ME/buttons/reader/drives. Descripteur49floats implémenté.
-`ARC4_ENTRY_BUDGET_DRAFT.md` :
-29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
-Traces8framespartageables avecCpréfixe4 ; provenance/points/couverture/unitélag
-à figer. MortALE : Pong/Freewaysansvies, régler éligibilité avant gel, pas fauxF1.
-Plafond gate0proposé12GPU-h ; aucun lancement avant instruments/revue/gel.
-Boxing/Frostbite/Riverraid/Kangaroo **jamais ouverts**. Pas d'apprentissage sur
-captures d'instrumentation, aucune RAM/palette/jugement oracle dans le futur agent.
+Suite utile : terminer revue G/I, faire relire l'assemblage ; intégration C et
+collecteur, ou diagnostic CPU Ms à partir des archives existantes. Préserver les
+sources relues, créer des adaptations prospectives, aucune relance native improvisée.
+`ARC4_VISION.md` §§2,5,6,11 et `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 de8images
+sur16 points courants, 3944 charges expérimentales /19720 totales, pas16×18.
+Protocole de collecte/gate encore à figer ; mort ALE Pong/Freeway sans vies : régler
+l'éligibilité avant gel. Gate0 proposé≤12 GPU-h, aucun lancement avant résolution,
+revue et gel. Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts.
 
 ## Environnement et préservation
 
-master, commits ciblés, pas de push ni suppression. Ne pas lire les configurations
-locales, notamment `.codex/config.toml`. Exclure sortiesARC3actives/ancienssmokes.
-`SETUP.md` : GPU C:/Python314/python.exe Torch2.11.0+cu126 ; CPU
-.venv-arc4/Scripts/python.exe Python3.14.3, ALE0.12.1, numpy2.4.4, scipy1.18.1,
-pytest9.0.3, pillow12.3.0, sansTorch. Bench OMP/OPENBLAS/MKL=1.
-Ryzen53600X6c/12t, RTX408016GB. Pas de réinstallation/reconstruction scellée.
-Réutiliser le relecteur aux jalons scientifiques ; audit_gate_v62 ancien annulé.
+Master, commits ciblés, pas de push ni suppression. Ne pas lire `.codex/config.toml`.
+Exclure `.codex/`, sorties ARC3 actives (`v61_confirm.json`, s1/s2/états), anciens smokes.
+`SETUP.md` : C:/Python314/python.exe Torch2.11.0+cu126 ; aussi utilisé explicitement
+sur CPU pour tests Torch, CUDA_VISIBLE_DEVICES vide, OMP/OPENBLAS/MKL=1, torch threads1.
+.venv-arc4/Scripts/python.exe : Python3.14.3/ALE0.12.1/numpy2.4.4/scipy1.18.1,
+pytest9.0.3/pillow12.3.0, sans Torch. Ryzen53600X 6c/12t, RTX4080 16Go.
+Réutiliser review_recovery_v62 aux jalons ; audit_gate_v62 ancien annulé.
