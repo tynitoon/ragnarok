@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-Mis à jour le9septembre2026 vers18:27Paris. Les instructions actuelles de Jérémie
+Mis à jour le9septembre2026 vers19:00Paris. Les instructions actuelles de Jérémie
 priment sur les pauses historiques. Continuer d'un jalon au suivant ; ne terminer
 que sur sa demande, au terme du travail ou pour une décision exigeant son avis.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
@@ -25,6 +25,7 @@ scripts.recover_confirm_v62`, enfant22896 `scripts.confirm_v61 --lineage 1
 et log réel `craft_v6_out/v61_confirm_s0.log`, puis s1/s2, pas seulement les PID.
 **Première lignée complète, trois mondes/9**,25433s ; artifacts0et14checkpoints
 validés/scellés dans l'état ducontrôleur avantlaunchsuivant. Résultats0SHA3d30c06f….
+Ces15artifactsfinalisés committés9deb244 aprèsvalidate_lineage/verify_completed.
 s1démarré18:41, s1_8310([1,0,2],tiers[2,3,4]), navmin0,910.
 Aucun verdict intermédiaire avant toutes les lignées/revue.
 
@@ -111,19 +112,28 @@ sauvegardes privées20000/2GBpayload, jeu ordinaire continue ; paire sur archive
 Nouveau transport `rgb_archive_pool_v70.py`,8testsPASS dont2vraisworkerssynthétiques :
 plafondtotalpool réparti parworker, RPCfermé, erreurslatchées, cleanup/reportpréservés.
 Transportcorrigéeaad4c0 : échecdedropferme aussileparent,cleanup/reportrestent.
-Revuefinaleprototype encours ; aucune modification des11sources déjàrevues.
+RevuepréliminairepoolPASS `transport_review_v0.json` SHA36731edf…,
+16sources/23testscomplets, committé d728bae ; aucune modification des11sources.
 Aucune nouvelle émulation autorisée par ce prototype.
 
 Nouveau parser+P draft `ragnarok/learning/{parser,pixel_prediction}_v70.py`,
-428677paramètres,7testsCPU synthétiques PASS avecPythonGPUmaisCPUexplicite/1thread.
+428677paramètres,10testsCPU synthétiques PASS avecPythonGPUmaisCPUexplicite/1thread.
 Commitinitial3e6d731 conserve le témoinéchoué du flotglobal : targetPpeutmarquer
 lefondnouvellementcouvert et manquerl'intérieur uniforme. Objectifnonmodifié,
 témoincorrigé +limite testée/doc. AucunAtari/GPU/poidsentraîné/C/G/I/S/tracker.
 Têtesvisuellesindépendantesdes12effets ; seule dconditionnée. Correspondance
 babillage→effetsinconnue àrésoudre, zéro explicite enattendant.
-`visual_instances_v70.py` +tests/doc :5testsCPU PASS,49floats implémentés,
+`visual_instances_v70.py` +tests/doc :7testsCPU PASS,49floats implémentés,
 seulementpropsprédites parparser/CC/kmeans,aucunRAM/type/ROI/paletteenseignée.
 Identifiantparimage seulement ; déplacementparintervalleobservé, pasframe/seconde.
+Corrections numériquesf4da860/d728bae : gridbornéeavantdoublement/wherehorscadre,
+RGBP eteffets[0,1],embedding[-1,1],drepresentablefloat32,réductionsfloat64.
+CCconnexeinitialmaisgroupeskmeanspossiblementdisjoints,limiteexplicite.
+Relecteur `/root/review_recovery_v62` finalisele reçupréliminaireparser/instances.
+Nouveau `instance_tracker_v70.py` +tests/doc d728bae :7testsCPU PASS, déplacement
+prédit+Hungarianapparence, horloge/horizonfournisexplicitement,mémoire4/coast30,
+coastsdistinctsvisibles,identitésstables/réapparitions,forksansmutationordinaire.
+Trackeràrelire,nonvalidénativement.17+7tests=24ensemblePASS ; toussurCPU.
 Suite selon `ARC4_VISION.md` §§2,5,6,11 : C/G/I/tracker/ME/buttons/reader/drives.
 Descripteur49floats corrigé(addition), nonimplémenté. `ARC4_ENTRY_BUDGET_DRAFT.md` :
 29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
