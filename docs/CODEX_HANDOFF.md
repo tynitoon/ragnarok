@@ -139,14 +139,19 @@ pendant le décodage anticipé de la frame0 au premier act ; **265 charges**
 conservées (133 sujet,132 témoin), aucune décision rendue. Aucun retry/substitut
 de graine et aucun benchmark Ast v0. Les115sources restent intactes ; diagnostic
 hors émulation à poursuivre. Le benchmark Ms peut suivre son wiring committé.
-Wiring/réception finale traces committés **cbc0ef2** avant les lancements suivants.
-Benchmark Ms NumPy **session68765 en cours**, journal cpu_chain_numpy_v0_console.log.
+Wiring Ms/Ast et préflight traces committés **cbc0ef2** avant les lancements suivants.
+Benchmark Ms NumPy **session68765 close**, 32768 décisions en59,3484s soit552,129/s,
+171364charges. Résultat SHAe43ecd3a3f055e03bf3e7cfe7d7f0ee857493924f8244f5bc1e197ec606a5542.
 Ne pas lancer le natif avant résultat NumPy complet et committé.
 Ast : `cold_cache_diagnostic_v0.json` reproduit le même garde sur les cinq RAM
 frame0 archivées17571 ; frame0 est jetée après un repeat4, nécessaire sur repeat1.
 Aucune RGB frame0 calibrée ici. Prototype séparé `deferred_visible_source_v70.py`
 diffère son décodage jusqu'à son usage, garde strict si nécessaire ; huit tests
-PASS, revue et protocole natif encore requis. Aucune modification du v0 gelé.
+PASS ; revue préliminaire PASS, `deferred_source_review_v0.json`, SHA01313bf8…,
+118sources/38preuves, sans émulation. L'erreur différée compte une observation
+ordinaire avant le garde, contre zéro dans l'échec v0 ; les trajectoires échouées
+ne sont pas déclarées équivalentes. Faire une preuve offline distincte sur les
+scènes consommées. Aucun retry natif Ast v0, aucune modification des115sources.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -185,6 +190,7 @@ Revue finale `v70_rgb_branch_trace/wiring_preflight_v0.json` PASS, SHA
 Revue finale `result_review_v0.json` PASS, SHA64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902.
 20sources/7preuves. Seul Seaquest18700 a une différence de branche non nulle :
 fidélité du transport établie sur ce protocole, aucune compétence ME démontrée.
+Résultats, tentatives, console exacte et revue committés **0e23739**.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.
