@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-9 septembre 2026, vers23:38 Paris. Poursuivre d'un jalon au suivant sans final
+9 septembre 2026, vers23:57 Paris. Poursuivre d'un jalon au suivant sans final
 à chaque commit. Arrêt seulement sur demande, travail achevé ou avis réellement
 nécessaire. User a passé Astra en Maximum ; acquitté, aucun réglage changé ici.
 L'audit partage d'écran/RC est annulé. Objectif : apprendre puis réutiliser pour
@@ -8,7 +8,7 @@ apprendre plus vite ; une avance initiale ne prouve pas cette accélération.
 ARC2 :3/6 contre0/6, delta0,069<bruit0,076 ; aucune accélération démontrée.
 Aucun entraînement Atari/checkpoint ni gate0 ARC4. PasdeGPUARC4.
 
-Histoire détaillée : docs/history/CODEX_HANDOFF_20260909_2314.md puis2232,2200,2132,
+Histoire détaillée : docs/history/CODEX_HANDOFF_20260909_2338.md puis2314,2232,2200,2132,
 2105,2033. Lire les sections utiles, pas logs complets/sessionClaude/configlocale.
 Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts. Oracle uniquementdansjuge.
 
@@ -21,7 +21,7 @@ C:/Python314/python.exe -u -m scripts.recover_confirm_v62 ; enfant
 Lignée0 complète3mondes/9,25433s :15JSON vérifiés/committés9deb244,
 SHAagrégat3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
 Lignée1 :s1_8310 terminé6447s+L ; s1_8311 terminé13634s+L ; s1_8312 en cours,
-M4but3à14798s, but0à15791s, but1à16760s à23:38. Lire seulementtailv61_confirm_s1.log.
+M4but3à14798s, but0à15791s, but1à16760s ; Fa3à17843s à23:56. Lire seulementtailv61_confirm_s1.log.
 Aucun score/verdict partiel. Ne pas committer s1 ou agrégat/liveétats.
 Autorité ARC3_PLAN.md§12.6, gel a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
 17sources+3lanceurs/checkpoints/états immuables. Reprise11:37aprèsWindowsUpdate,
@@ -88,8 +88,9 @@ Archivesprivéesettransport revussynthétiquement seulement,20k/2Gopayload ; pas
 
 ## Travail immédiat — transport natif prospectif et modèle ordonné
 
-Review_recovery_v62 ACTIF sur PRÉFLIGHT TRANSPORT natif98d6919. Aucune INIT native
-à ce jour. Ensuite revue flux/owners ordonnés258fae5/fd0c704 et limitesPf47f214.
+Review_recovery_v62 ACTIF sur PRÉFLIGHT FIT SYNTHÉTIQUE86eeb9f, aucunoptimizer.
+Transport natif et flux/owners ordonnés désormais REVUS. Ensuite revue des
+candidatsblur5047c5f et limiteslagME1d37797 (pasintégrés).
 Ne pas relancer/créer d'autre agent ; cet agent connaît les périmètres.
 
 Transport codec/serveur/client fadaacc/16dc3ab/6e0e4a7 désormais REVU/committé4e42567 :
@@ -100,9 +101,9 @@ Ancienfinding b34 :601charges connues remplacées parNone après rapportultérie
 Fix6e0e4a7 garde dernierledger siNone/régresse etcompleteFalse. Sourcesdésormaisgelées.
 Détailscodec/peers etlimitescleanup dans histoire2314 ; paspickle/oracleRPC.
 
-Protocole natif98d6919 (NOUVEAU, aucuneexécution) :
+Protocole natif98d6919 (EXÉCUTÉ/REVU, pasderejeu) :
 - scripts/check_isolated_rgb_native_v70.py ; tests/test_isolated_rgb_native_protocol_v70.py
-  8PASS0,75s ; docs/ARC4_ISOLATED_RGB_NATIVE_{DRAFT.md,PROTOCOL.json}.
+  8PASS0,75s ; docs/ARC4_ISOLATED_RGB_NATIVE_{DRAFT.md,PROTOCOL.json}. Sourcesgelées.
 - Parent C:/Python314 (Torchmetadata seulement, aucun importmodèle/Torch/ALE), enfant
   .venv-arc4 explicite ; runtimeexact obtenuHELLO/CLOSE AVANTprotocole,0ROM/0ALEInterface.
 - Répétition déclarée des9cas/sameseeds/actions baselineRGBordinaire19200/19211/12/13,
@@ -111,11 +112,17 @@ Protocole natif98d6919 (NOUVEAU, aucuneexécution) :
 - FULL ordered_trace_sha256 de chaqueanciencas +72positionsbytewise/6branchescomplètes,
   métadonnées/horloges/comptes strictement égaux ; aucunenouvellearchiveRGB.
 - Workcap300scoopératifexcluantproofhashes,30slottransport,aucuntiming/GPU/model.
-- proofs()PASS :46sources/26preuves,session5585FERMÉE. Préflightindépendantattendu
-  craft_v6_out/v70_isolated_rgb_native/preflight_v0.json,kindisolated_rgb_native_independent_preflight.
-  COMMITTER CE REÇU AVANT run(), puisexécutercommandeprotocoleunefois,préserverconsole.
-  Préserveréchec/coûtsincertains/finallycleanup,aucunautrecaptureCPUconcurrente.
-  Revue résultat avantintégrationmodèle ; pasclaimnatif16workers/T0/débit.
+- Préflight f4362b1306a1aee45181e0d6f0f37b371842bf9a63f6e4032aa45e77641a482c
+  committé8f2eade AVANT run. Exécution23:43:51→23:44:51Paris,session86381FERMÉE,
+  résultatsca94418 :9casPASS,1266pas/6paires/7454charges/9constructs/accountingcomplete.
+  wiring_v0.json SHA81e366e2ec82dc9f3b888429a8c7c878216d067cfad3cec7b46e4b7de75951cb ;
+  attempt90897ffdef434eacdc12d95e8c073a16b3554a790677e894abc4e99dff60c3d4 ;
+  consoleb4d9fb52fa1c7ba628953f5fd91d2d2b7e9d9049c3e281629ec5500f8ba6babd (-text).
+- Revue résultat committée09cb979 :wiring_review_v0.json
+  SHAe93d2932c0ad5973558f51729dc189c99523ec5efbc08fce11fd7a93c06ca287.
+  46sources/30preuves ;9digests/rapports égaux,330anciensarraysvérifiés ;7454=
+  5058ordinaires+1580froids+96expérimentales+720restores.0serveur/runneractif.
+  Aucuneinférence/optimiseur/modèle/Torchimportdansparent natif. Pasclaim16workers/T0/débit.
 
 Modèle ordonné4e42567 désormaisREVU/committé258fae5 :
 craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json
@@ -130,7 +137,7 @@ SHA138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f.
   maisancienneinférenceéchoue ; nouveaufuturlanceur doitvalidercontratAVANTpayer.
   Aucunancienrésultatréattribué, aucunmodèleordonné exécutésurvraiesimages.
 
-Flux+owners ordonnés SÉPARÉS, enattentederevue :
+Flux+owners ordonnés SÉPARÉS, désormaisREVUS0b474ab :
 -258fae5 ordered_perception_stream_v70.py +6testsPASS6,82s, ARC4_ORDERED_TEMPORAL_DRAFT.md.
   exacttypeOrderedMotionParser,min8,5têtesfinies, mêmeP4/Iexact8, mémoire2RGBuint8
   sansgraphes+trackingcopy, étatsatomiques. Fenêtre8/max9horodatages ; doubleRGBmémoire.
@@ -142,7 +149,12 @@ Flux+owners ordonnés SÉPARÉS, enattentederevue :
   TemporalUNKNOWN, P/Chypothèseenregistrée. Testsrefusold/ordre/branchsansaging/
   échecpostpaid garde4images/604etrefusnext. Premieréchectestbouton5fixture0/1corrigé1.
   Sessions47201et80662FERMÉES, pascodeancienmodifié.
-- Reçufutur v70_parser_synthetic/ordered_temporal_review_v0.json, indépendant demandé.
+- Reçuv70_parser_synthetic/ordered_temporal_review_v0.json
+  SHAbed82176921166623ce4f289b1b9c595121e91dd9af7f63fd71727bfd07da270.
+  51sources/12preuves,13tests+témoins :2workerséchectardif1208/2records/mémoiresinchangées ;
+  T1/3/4horloge1/4/8 ;T0x2horloge0charges864 ;refusfloat64/NaN/H7avantcommandes.
+  _pendingpeutretenirgraphesaprèséchec,lotborné/ownerstoppé ;pasclaimedmémoirelibérée.
+  Aucunevraiearchive/optimizer. Ces sources/doc/tests désormaisgelés.
 
 LimiteP supplémentaire f47f214 : tests/test_prediction_loss_translation_limits_v70.py
 2PASS5,81s +docs/ARC4_PREDICTION_LOSS_LIMITS.md. Sansparser/optimizer/native : carrépoolé
@@ -152,6 +164,41 @@ ConserverordredesRGB n'assurepasàluiseulapprentissageparP. Aucunloss/gatecritè
 Àexaminer avec revueordonnée, puisprépareruncontrôled'apprentissagesynthétiqueannoncé
 avantentraînementAtari. docs/ARC4_BOOTSTRAP_LIMITS.md gardeaussiboucleeffets/C/ME :
 UNKNOWNneconditionnepasboutons, Cnécessitemouvementpréditetfuturcomplet ; C0réelconservé.
+
+## Prochain essai — fit synthétique original P, pas Atari
+
+86eeb9f :scripts/check_synthetic_motion_fit_v70.py ;tests/test_synthetic_motion_fit_protocol_v70.py
+4PASS9,70s,session34306FERMÉE ;docs/ARC4_SYNTHETIC_MOTION_FIT_{DRAFT.md,PROTOCOL.json}.
+proofs()54sources/12preuvesPASS,session71074FERMÉE. RevueindépendanteENCOURS, aucun
+optimizerupdate. Préflightfutur craft_v6_out/v70_synthetic_motion_fit/preflight_v0.json
+kindsynthetic_motion_fit_independent_preflight exactprooffields ; COMMITTERAVANTrun().
+-2scènesexactesMAXtémoin4/5→8/9 et5/4→1/0 ; SAME training/measurement, pasgénéralisation.
+-pooledpuisordered,seed764 chacun,batch2entier,256updatesAdam3e-4/β.9,.999/eps1e-8/
+ weightdecay0/foreachfalse/fusedfalse/maxnorm1, seulePimageL1 (pasm/C/G/I/S).
+-mesures0/1/8/32/128/256,CPU300scoopératifexcluantproofhashes,0émulation/GPU/realarchives,
+ pascheckpointmodèleréutilisable. Pooledborne.0234375 ;critèrefitorderedfin<.01171875.
+ Exécutioncomplète DISTINCTEdeseuilatteint, passtopanticipé/rerun/substitutgraine.
+-Marqueuravantoptimizer.step,gardeoptimizer_step_in_progresssiéchecaprèspartialupdate.
+ Tests n'exécutentAUCUNoptimizerupdate, le fauxoptimizerlèveMemoryError.
+-Runfutur sortie fit_v0.json/fit_v0_attempt.json(+consoleàpréserver). Avisrevueavantfit,
+ puisrevuerésultatsnummétriques/poids avantnouvelledécision. Ne pas modifierles54sources.
+
+Candidatspréparés AVANTrésultatfit original, PASINTÉGRÉS :
+-1d37797 tests/test_agency_timing_limits_v70.py,2PASS0,88s,ARC4_AGENCY_TIMING_LIMITS.md.
+ simulationRGB2objets, Acommandé puisBdépenddeA dansmêmeframe :les2divergentlag1.
+ Stickyframe1retardelag2mêmeobjetdirect. PasMElabelauparser/pasAtarifréquence.
+ Hypothèsevisionlag1direct/lag>=2indirectpaspropriétéuniverselle. Revueultérieure.
+-5047c5f blurred_prediction_loss_v70.py,7PASS12,27s,session77624FERMÉE,
+ tests/test_blurred_prediction_loss_v70.py,ARC4_BLURRED_PREDICTION_DRAFT.md.
+ RGBreconstruction/futurnormalisés, meanL1deslargeursbox1/3/7,stride1/padzero,
+ filtreseulementdansloss,pasfront-end/mask/flowlabel. Translationdx±.25ducontre-
+ exemple :gradientorientéversfuturalorsnatifplat. Pasoptimizer/model/native.
+ Aucunprotocolefitblurencorecréé ; revuecandidateavantusage. Peutgommerdétails,
+ nedémontrepasapprentissage/généralisation,aucunancienP/gatecritèrechangé.
+
+LectureprofilCPUancien(seulementlue,pasrejouée) :v70_mspacman_cpu/offline_scoring_profile_v0.json,
+8192raw/2051syntheticsteps :decode13,148s/movement4,439/reference1,531/group7,319/matching3,139,
+ instrumenté. Optimisationscache/gatherdéjànegativesglobalement ; nepasconcluregainaveccomposants.
 
 ## Environnement / règles
 
