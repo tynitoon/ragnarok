@@ -1,0 +1,22 @@
+{
+  "kind": "prospective_seaquest_additional_raw_coverage_v3",
+  "game": "seaquest",
+  "development_seed": 17351,
+  "reserved_validation_seed": 17352,
+  "frames": 32768,
+  "action_repeat": 4,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 4227200,
+  "previous_collections": "17331and17341preserved with insufficient surface-submarine coverage. In17341the controller stalls at visible player top y47, wrongly treating its cropped centre as a completed surfacing.",
+  "controller": "Same RGB-only stationary firing policy as v2, except surface/refill recognition now requires visible player top y<=46 instead of cropped-box centre py<=51. No RAM/reward/calibration score/snapshot drives the controller. This is an experimenter collection aid, never an agent skill or teacher.",
+  "stop": "Exactly32768ordinary real frames, retaining all preparation, failures, deaths and cold loads. Early exception/budget exhaustion is an incomplete failed capture. Never stop upon favourable coverage or calibration agreement.",
+  "coverage_and_combination": "Keep all collections separate, never pool fractions. Each type requires all-frame presence>=99%; geometry>=99% where joint matches exist. Additional collections require count agreement>=99% on RAM-or-RGB-positive frames, empty denominator=null/uncovered. Each category and the surface-submarine subtype must reach>=50joint instance-frame matches in17351itself. Prior insufficient-coverage verdicts remain FAIL and are not relabelled. Geometry agreement on older development collections must also hold before sealing a final candidate.",
+  "reserved_capture_disabled": "All reserved seeds17312,17332,17342,17352remain closed. The v3 executable permits development only until a full reviewed geometry/checker/protocol and successful-commit seal is implemented. Preserve later reserved failures without tuning on them.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

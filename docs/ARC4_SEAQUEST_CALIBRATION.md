@@ -131,3 +131,8 @@ fait croire qu'il a atteint le niveau de recharge alors que son sommet est
 encore y47. Le jeu exige le retour au sommet visible y46. Le contrôleur attend
 donc sans finir la remontée. Ce défaut du contrôleur de collecte sera corrigé
 dans une version distincte ; cette capture reste complète et conservée.
+
+V3 de la collecte, fixée avant17351 : seuls les deux tests d'arrivée en surface
+passent du centre rogné au sommet visible y<=46. Revue Ohm sur la frame8192 réelle
+de17341 : boîte(72,47,12,6), oxygène18 ; V2 attend, V3 poursuit avec UPFIRE.
+Deux tests CPU passent. Critères,32768frames et verrou réservé inchangés.
