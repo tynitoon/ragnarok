@@ -1,0 +1,320 @@
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+{"name": "pong", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\breakout.bin
+  Cart Name: Breakout - Breakaway IV (1978) (Atari)
+  Cart MD5:  f34f08e5eb96e500e851a80be3277a56
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\breakout.bin
+  Cart Name: Breakout - Breakaway IV (1978) (Atari)
+  Cart MD5:  f34f08e5eb96e500e851a80be3277a56
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+{"name": "breakout", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\freeway.bin
+  Cart Name: Freeway (1981) (Activision) [!]
+  Cart MD5:  8e0ab801b1705a740b476b7f588c6d16
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\freeway.bin
+  Cart Name: Freeway (1981) (Activision) [!]
+  Cart MD5:  8e0ab801b1705a740b476b7f588c6d16
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+{"name": "freeway", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\seaquest.bin
+  Cart Name: Seaquest (1983) (Activision) [!]
+  Cart MD5:  240bfbac5163af4df5ae713985386f92
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        4096
+  Bankswitch Type: AUTO-DETECT ==> 4K
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\seaquest.bin
+  Cart Name: Seaquest (1983) (Activision) [!]
+  Cart MD5:  240bfbac5163af4df5ae713985386f92
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        4096
+  Bankswitch Type: AUTO-DETECT ==> 4K
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+{"name": "seaquest", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\ms_pacman.bin
+  Cart Name: Ms. Pac-Man (1982) (Atari)
+  Cart MD5:  87e79cd41ce136fd4f72cc6e2c161bee
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        8192
+  Bankswitch Type: AUTO-DETECT ==> F8
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\ms_pacman.bin
+  Cart Name: Ms. Pac-Man (1982) (Atari)
+  Cart MD5:  87e79cd41ce136fd4f72cc6e2c161bee
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        8192
+  Bankswitch Type: AUTO-DETECT ==> F8
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+{"name": "ms_pacman", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\asteroids.bin
+  Cart Name: Asteroids [p1]
+  Cart MD5:  ccbd36746ed4525821a8083b0d6d2c2c
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        8192
+  Bankswitch Type: AUTO-DETECT ==> F8
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\asteroids.bin
+  Cart Name: Asteroids [p1]
+  Cart MD5:  ccbd36746ed4525821a8083b0d6d2c2c
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        8192
+  Bankswitch Type: AUTO-DETECT ==> F8
+
+Running ROM file...
+Random seed is 19200
+Sending Reset...
+Sending Reset...
+Sending Reset...
+{"name": "asteroids", "passed": true, "decisions": 146, "length_counts": {"4": 146}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19211
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19211
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19211
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19211
+{"name": "pong_prefix_1", "passed": true, "decisions": 130, "length_counts": {"4": 129, "1": 1}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19212
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19212
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19212
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19212
+{"name": "pong_prefix_2", "passed": true, "decisions": 130, "length_counts": {"4": 129, "2": 1}}
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19213
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19213
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19213
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+Game console created:
+  ROM file:  F:\dev\ragnarok\.venv-arc4\Lib\site-packages\ale_py\roms\pong.bin
+  Cart Name: Video Olympics (1978) (Atari)
+  Cart MD5:  60e0ea3cbe0913d39803477945e9e5ec
+  Display Format:  AUTO-DETECT ==> NTSC
+  ROM Size:        2048
+  Bankswitch Type: AUTO-DETECT ==> 2K
+
+Running ROM file...
+Random seed is 19213
+{"name": "pong_prefix_3", "passed": true, "decisions": 130, "length_counts": {"4": 129, "3": 1}}
+{"passed": true, "charged_frames": 14908}
