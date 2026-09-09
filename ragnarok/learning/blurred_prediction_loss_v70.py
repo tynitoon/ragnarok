@@ -11,14 +11,15 @@ def blurred_prediction_loss(reconstructed,following):
     """Equal mean of RGB L1 at box widths1/3/7, preserving every image pixel.
 
 The same differentiable filter is applied to both images. Padding is zero and
-included in each fixed denominator. Native width1 stays in the objective so a
-good blurred fit alone cannot make the complete loss vanish.
+    included in each fixed denominator. Native width1 stays in the objective so a
+    good blurred fit alone cannot make the complete loss vanish. The observed
+    future must be detached; both numerical paths compute in float32.
 """
     if (not isinstance(reconstructed,torch.Tensor) or not isinstance(following,torch.Tensor)
             or reconstructed.ndim!=4 or reconstructed.shape[1]!=3 or not len(reconstructed)
             or min(reconstructed.shape[-2:])<7 or reconstructed.shape!=following.shape
             or reconstructed.device!=following.device or not reconstructed.is_floating_point()
-            or not following.is_floating_point()
+            or not following.is_floating_point() or following.requires_grad
             or not torch.isfinite(reconstructed).all() or not torch.isfinite(following).all()
             or (reconstructed<0).any() or (reconstructed>1).any()
             or (following<0).any() or (following>1).any()):

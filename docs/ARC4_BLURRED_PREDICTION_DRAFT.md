@@ -24,3 +24,11 @@ Une éventuelle comparaison d'ajustement devra annoncer son budget, ses termes,
 ses graines et son critère avant la première mise à jour. Le diagnostic original
 P natif est conservé avec son budget et ses résultats, qu'ils soient positifs ou
 négatifs. Aucun critère de gate Atari n'est changé par ce prototype.
+
+La lecture indépendante a précisé deux contrats : le calcul est en float32,
+même pour une entrée float64, et le premier helper autorisait un gradient vers
+l'argument futur. La candidate refuse désormais un futur qui requiert un
+gradient : seul le modèle reconstructeur peut être optimisé. Ce garde ne prouve
+pas la provenance d'une image détachée ; l'appelant doit toujours fournir
+l'observation future issue de ses propres données. La correction précède tout
+entraînement utilisant cette perte.

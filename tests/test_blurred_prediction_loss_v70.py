@@ -37,6 +37,12 @@ def test_flat_background_cannot_hide_a_native_pixel_mismatch():
     assert result['loss']>0 and result['scale_l1'][1]>0
 
 
+def test_future_cannot_be_an_optimizable_target():
+    rgb=torch.zeros((1,3,16,16),requires_grad=True)
+    future=torch.ones_like(rgb,requires_grad=True)
+    with pytest.raises(ValueError):blurred_prediction_loss(rgb,future)
+
+
 @pytest.mark.parametrize('bad',[float('nan'),-1.,2.])
 def test_nonfinite_or_out_of_domain_rgb_is_refused(bad):
     rgb=torch.zeros((1,3,16,16));other=rgb.clone();other[0,0,0,0]=bad
