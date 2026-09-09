@@ -1,0 +1,294 @@
+{
+  "kind": "independent_temporal_v1_corrections_review",
+  "created_utc": "2026-09-09T13:02:05Z",
+  "passed": true,
+  "candidate_conformance_pass": true,
+  "full_v1_results_reviewed": false,
+  "calibration_pass": null,
+  "verdict": "PASS for the bounded RAM-side candidate corrections and scorer conformance. No complete V1 calibration verdict is issued. The negative Ms V0 result and failed Asteroids V0 scoring attempt remain preserved.",
+  "source_sha256": {
+    "mspacman": {
+      "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+      "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+      "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+      "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+      "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+      "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+      "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+      "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+      "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+      "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+      "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+      "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+      "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+      "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+      "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+      "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+      "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+      "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+      "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+      "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+      "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+      "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+      "ragnarok/evaluation/mspacman_maze_visible_v70.py": "eeaeb7ccbd3bcba76e31d590565a533d0427688f1ebdcbd043555f7f6566fba6",
+      "scripts/calibrate_mspacman_maze_v70.py": "64af41b5b3bacf83a5a7b27b3298b572f09e21a091ae5191a6eb75f834df9f1a",
+      "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+      "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc",
+      "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+      "docs/ARC4_MSPACMAN_RAW_VALIDATION_PROTOCOL.json": "22294fab4d285080a94b37fe8dcef1d278d0362a385a4801563678a3c4fd9348",
+      "scripts/validate_mspacman_raw_v70.py": "5724f38d8fe817ccd1a2a6a6b01d40214104e1ed6cf3dd2bcddf5abea269c8d5",
+      "scripts/calibrate_mspacman_reserved_v70.py": "f4eddb8bbd8cb0f37b960070ac44bcaf491a71919f090cd0c7ace2e72f18c2b4",
+      "tests/test_mspacman_raw_validation_v70.py": "915e8ec693c82f25408b5eb24daf596da384f3d0058f48e5ff5b547895c7d301",
+      "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+      "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+      "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+      "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scripts/mspacman_raw_prerequisite_v70.py": "62968f2997b8040162847764002886e4bc48434dc16193c9f4ff00d6992951c4",
+      "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5",
+      "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+      "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+      "ragnarok/evaluation/pooled_mspacman_v70.py": "e8b231d7e95d01a94690eb8e2aaf57e21f1f6ac59a21747d17170c8d2d7f796e",
+      "scripts/capture_mspacman_pooled_v70.py": "4bdd86fc958e42806dc485efaba639f330448b26927629b866a0a06e1c7fc447",
+      "scripts/calibrate_mspacman_pooled_v70.py": "d12f9c73f046fff5f0ce2281f6ef8468e4937108a379c3822db5ab0fdd319bd1",
+      "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+      "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+      "tests/test_mspacman_pooled_v70.py": "94e74fcaa14804562fc023e9577a618d6c32585a2d186337b3686d843175a9f0",
+      "ragnarok/evaluation/pooled_mspacman_rows_v70.py": "259a74a90ca1fac51dab7635f41d9beab6c9263b8bf70121f6918c1230f66985",
+      "scripts/calibrate_mspacman_pooled_rows_v70.py": "70fa945ccecb506d396e09425b859cd498e7b940d8b5774e4b9bcd69beb8edf1",
+      "tests/test_mspacman_pooled_rows_v70.py": "56ea68e1c7c45b3b0e47289d968e87058c251e643be078c4c78b7915de9a9c42"
+    },
+    "asteroids": {
+      "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+      "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+      "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+      "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+      "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+      "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+      "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+      "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+      "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+      "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+      "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+      "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+      "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+      "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+      "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+      "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+      "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+      "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+      "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+      "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+      "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+      "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+      "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+      "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+      "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+      "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+      "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+      "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+      "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+      "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+      "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scripts/asteroids_raw_prerequisite_v70.py": "720e09afae7e49f1151c9b18a25c9ececebe01f9528122ec907a996934383cac",
+      "docs/ARC4_ASTEROIDS_POOLED_PROTOCOL.json": "7ae8212b975d1268143898153919f5ed755bf2f364fe04dfe6ff3bc139f8e2f4",
+      "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+      "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+      "ragnarok/evaluation/pooled_asteroids_v70.py": "4ec46f77be8ff3eaa3a0ae2e887b2200ae809ce7f6580213f460b10921672fe8",
+      "scripts/capture_asteroids_pooled_v70.py": "451de5496dc89af48afc4641451d32cc824eb2f3512eb50f74b27a3365b6e483",
+      "scripts/calibrate_asteroids_pooled_v70.py": "7b3124e1015d8211354bd8716ea06e6b0d93e184151bc2c8057f6e6cffc577cd",
+      "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+      "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+      "tests/test_asteroids_pooled_v70.py": "d7dd637d8936b644859a31f034f58b1fad7c37804cdb1b11ce848b77139ed30c",
+      "ragnarok/evaluation/pooled_asteroids_wrap_v70.py": "8437c83232d1af5c4f2fa29680125e28e2013c8c8ca6e79ea396729fb83762e0",
+      "scripts/calibrate_asteroids_pooled_wrap_v70.py": "95b0178589a8d91f6be6ac8de756419235c74839a6ed930e31e5a7d79fd41cbe",
+      "tests/test_asteroids_pooled_wrap_v70.py": "2eb3c2310af6fff91898c70627f8013191d38e5dddb49611dd374f5190c03b80"
+    }
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "head_at_review": "a2fccaf4792dace7a2cfed1ffb82a1eae8644dcf",
+  "evidence_sha256": {
+    "mspacman_protocol": {
+      "path": "docs/ARC4_MSPACMAN_POOLED_PROTOCOL.json",
+      "sha256": "2ed0b20e670c8b4c941cd80dbaa009c5c9f2e710b5578c8a8041b48d3fb4ccf5"
+    },
+    "asteroids_protocol": {
+      "path": "docs/ARC4_ASTEROIDS_POOLED_PROTOCOL.json",
+      "sha256": "7ae8212b975d1268143898153919f5ed755bf2f364fe04dfe6ff3bc139f8e2f4"
+    },
+    "mspacman_top_row_inventory": {
+      "path": "craft_v6_out/v70_mspacman_calibration/pooled_ghost_top_row_inventory_v0.json",
+      "sha256": "b79539e1f7c5e849d4693e63c9b8f6e920d5c916844f3dada0f0891bba9416b9"
+    },
+    "mspacman_inventory_script": {
+      "path": "scripts/diagnose_mspacman_ghost_rows_v70.py",
+      "sha256": "2bfaef2ec80044b9af2cb1fe8a9e8f7851bb26397c895ae934516330a1cbe74d"
+    },
+    "mspacman_v0_result": {
+      "path": "craft_v6_out/v70_mspacman_calibration/pooled_geometry_development_v0.json",
+      "sha256": "3f97993ca6bf4da7f6af74bea7d53b129f7d94cec1de35e14b02331d1eb104bc"
+    },
+    "mspacman_v0_result_review": {
+      "path": "craft_v6_out/v70_mspacman_calibration/pooled_development_result_review_v0.json",
+      "sha256": "d4faf514d814793631cc022a186b753d908e1963b773e86db85288a00e70812c"
+    },
+    "mspacman_capture_manifest": {
+      "path": "F:/dev/ragnarok/craft_v6_out/v70_mspacman_calibration/pooled_development_v0/manifest.json",
+      "sha256": "6a1289c2671af811a22c4e5e9a60cafbbbbe6366054add1e43f7c796a333c7e7"
+    },
+    "asteroids_player_guard_inventory": {
+      "path": "craft_v6_out/v70_asteroids_calibration/pooled_player_guard_inventory_v0.json",
+      "sha256": "a1c5e515cf5de926017e0a5c81a5e9129bfedec169c4fe7224b01408f8bc810c"
+    },
+    "asteroids_v0_scoring_failure": {
+      "path": "craft_v6_out/v70_asteroids_calibration/pooled_geometry_development_v0_attempt.json",
+      "sha256": "226cd6c6ca1e02545b2effa8b9779503000aa8c71bfaef53a6c5c544c1489b11"
+    },
+    "asteroids_capture_manifest": {
+      "path": "F:/dev/ragnarok/craft_v6_out/v70_asteroids_calibration/pooled_development_v0/manifest.json",
+      "sha256": "64d5750363fb01fa4ff5744e1a5b121a93ed9f4e9db841badd73558ffd9f770e"
+    }
+  },
+  "checks": [
+    "Read both temporal protocols, the six proposed source/test files, the sealed raw player and ghost implementations, pooled helpers, complete inventory summaries and relevant negative evidence. No existing source was edited.",
+    "The actual original capture.check() passed independently for both games without constructing an emulator. All fixed raw prerequisites, precollection reviews, runtime and sealed source hashes remain valid; both completed capture manifests and attempts match these proofs.",
+    "Each revised scorer lists exactly its full original source set plus the new candidate, scorer and tests: 48 MsPacman paths and 44 Asteroids paths. Static local absolute imports across these closures have no missing Python source file. Original package initializers and transitive shared sources remain included.",
+    "The new_stats, accumulate, finish and durable run functions in each revised scorer are AST-identical to that game temporal V0. The per-window scoring loops and original manifest/attempt checks remain unchanged apart from selecting the new RAM decoder and recording/checking its larger source mapping.",
+    "Original source/runtime/evidence check runs before and after scoring. A full candidate hash snapshot is taken before the fixture loop and compared after; the same snapshot is returned in the successful result.",
+    "Synthetic in-memory executions with an empty fixture iterator verified that a changed new-candidate hash and a changed original preflight receipt each raise the final scoring guard. No actual file mutation or full calibration was used for these witnesses.",
+    "RGB functions/classes, ROI, palette contribution logic, filled rectangle construction, four-connected union, matcher, minimum 50 joint pairs and each >=0.99 criterion remain identical imports/AST. Empty or insufficient denominators still fail. There are no extra exclusions, substitute frames, seeds or absence exemptions.",
+    "The old durable scorer wrapper still creates an exclusive output-specific attempt before reading/scoring, records failure or the completed result hash, and refuses either an existing output or attempt. The original V0 evidence is retained."
+  ],
+  "mspacman": {
+    "revision": "mspacman_two_raw_spatial_envelopes_blank_ghost_row_v1",
+    "development_seed": 17421,
+    "change": "For a RAM-decoded ghost with its nominal top inside ROI and y congruent to 1 modulo 12, clear only that top row in its fresh wrapped support mask and recompute the same visible-column-band envelopes. Each source retains its own RAM predecessor.",
+    "scope": "No RGB enters the RAM decoder. Non-ghost labels are copied from the unchanged V0 raw decoder, including its existing occultation model; RGB judge identity and all pooling helpers are unchanged.",
+    "inventory": {
+      "matching_source_draw_entries": 1557,
+      "top_four_palette_pixels_absent": 1557,
+      "top_pixel_histogram": {
+        "0": 1557
+      },
+      "inventory_script_and_manifest_hashes_verified": true
+    },
+    "witness_decisions": [
+      246,
+      1250,
+      1275,
+      1311
+    ],
+    "witness_result": "All four old 3-component RAM predictions become 4, with non-ghost output exactly unchanged. The 246 source box (54,37,8,10) becomes (54,38,8,9), retaining the lower edge; this matches the independently reviewed RGB box.",
+    "limits": [
+      "The y-modulo rule is an empirical development rendering hypothesis, not a physical-object identity rule or altered contact definition. Generalization is not established.",
+      "The complete top-row inventory was read and its arithmetic/provenance checked; it was not recomputed during this bounded correction review. Earlier independently decoded witnesses 246/1250 establish the observed top-row loss and absence of max suppression locally.",
+      "Non-ghost occultation remains the old model as required by the narrow scope; this review does not claim coupled pellet-support errors have been corrected. The full unchanged-criteria score must retain any such errors."
+    ]
+  },
+  "asteroids": {
+    "revision": "asteroids_two_raw_spatial_envelopes_wrapped_explosion_v1",
+    "development_seed": 17521,
+    "change": "Only on the player phase, expected graphics bank 223 and signed y in [-5,-1], normalize pointer p to p+5+y on a copied RAM array if that value is one of the three known explosion pointers. The old decoder still validates all remaining player and missile state. Rocks receive the original RAM and predecessor.",
+    "witnesses": [
+      {
+        "decision": 5320,
+        "y": -2,
+        "original_pointer": 172,
+        "normalized_pointer": 175,
+        "exact_player_boxes": [
+          [
+            34,
+            18,
+            5,
+            6
+          ],
+          [
+            35,
+            192,
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "decision": 5321,
+        "y": -2,
+        "original_pointer": 178,
+        "normalized_pointer": 181,
+        "exact_player_boxes": [
+          [
+            32,
+            18,
+            7,
+            6
+          ],
+          [
+            36,
+            192,
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "decision": 5322,
+        "y": -2,
+        "original_pointer": 184,
+        "normalized_pointer": 187,
+        "exact_player_boxes": [
+          [
+            34,
+            18,
+            5,
+            6
+          ],
+          [
+            34,
+            192,
+            1,
+            2
+          ]
+        ]
+      }
+    ],
+    "witness_verification": "All three source shard hashes and current RAM arrays match the inventory. The old pointer/direction guard raises and the new player boxes equal the independent RGB decoder exactly, including both top and bottom pieces within exclusive row 194. Input RAM stays unchanged.",
+    "pointer_ambiguity_checks": "Enumerated all five declared negative-y values: corrected explosion pointer sets are distinct and disjoint from all normal ship pointers at that same y; nonzero shifts do not collide with nominal explosion pointers. All 80 direction/y normal ship combinations retain the previous labels.",
+    "retained_guard_witnesses": [
+      "Unknown graphics bank",
+      "Logical/rendered y chronology mismatch",
+      "Signed y below the declared -5 boundary",
+      "Unknown pointer 1"
+    ],
+    "limits": [
+      "Observed new evidence covers only the three explosion glyphs at y=-2. Applying the same existing wrap offset throughout [-5,-1] is an explicit structural extrapolation requiring calibration.",
+      "The diagnostic reports three exceptions across the full development inventory. This review matched all three raw RAM witnesses but did not independently repeat the full pointer inventory.",
+      "Missile occlusion uses the corrected ship support through the old decoder; no separate missile formula, RGB interpretation or asteroid geometry changes."
+    ]
+  },
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_mspacman_pooled_rows_v70.py tests/test_asteroids_pooled_wrap_v70.py",
+    "passed": 10,
+    "seconds": 1.14,
+    "additional_in_memory_guard_checks": 4,
+    "normal_wrapped_ship_combinations_checked": 80
+  },
+  "limitations": [
+    "This receipt approves code conformance and bounded evidence, not full V1 success. Complete development results for all 8192 windows in each game remain to be evaluated and independently reviewed.",
+    "The new candidate sources and this receipt must be committed as planned before the proposed full V1 development runs. The original capture preflight enforces old sealed HEAD blobs; the V1 scorer records/checks its new hashes but does not itself require a new candidate commit or this receipt. The parent commit step supplies that additional provenance.",
+    "No protocol, threshold, historical source, previous result or ARC3 state was changed. No emulator, new capture, GPU or reserved seed 17422/17522 was opened and no full score or commit was performed by this review.",
+    "Before either reserved validation, preserve all V0 negatives and V1 outputs, review the complete development results, then create a prospective source/metadata seal. This receipt alone does not authorize opening a reserved seed.",
+    "These are external instrument hypotheses. No agent observation, training target, transfer result or benchmark gate is supplied."
+  ],
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

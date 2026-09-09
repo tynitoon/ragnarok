@@ -152,3 +152,20 @@ traverse le bord. Sur une copie RAM, son application à l'explosion reproduit
 exactement les deux boîtes visibles de chacune des trois images, ày18et192.
 Adaptateur temporel V1 distinct `pooled_asteroids_wrap_v70.py`, cinq tests PASS ;
 autres gardes et juge RGB conservés. Recalcul complet requis ;17522reste fermé.
+
+V1 complète sur17521 : les trois catégories passent. Comptages positifs
+joueur4357/4388, rochers8165/8192, tirs1876/1882 ; géométrie within1 respectivement
+4415/4419,53018/53075,1900/1900. Les31/27/6 fenêtres de comptage erroné restent
+incluses. Résultat `pooled_geometry_development_v1.json`, SHA768e4dcf… ; revue
+indépendante `pooled_development_result_review_v1.json`, SHAedfdff3b… :64archives,
+8192fenêtres, ledger et44sources vérifiés, dix témoins reproduits. Sources V1
+committéesa2fccaf avant calcul. Le reçu commun de revue des corrections V1 a été
+créé pendant le calcul : ce décalage est consigné, aucune revue avant calcul
+n'est revendiquée. Le protocole de développement exigeait le gel avant réservé.
+
+Validation17522 préparée séparément :49sources et9métadonnées doivent être
+committées, puis le scellé distinct doit l'être avant construction. Revue du
+préflight SHA5bd30d86… close ;30tests pertinents passent. Elle a fait renforcer
+les bornes et identités des dénominateurs et la présence des métadonnées au
+commit annoncé dans le scellé. Tentatives de capture/scoring distinctes et
+durables ; aucun second essai. Aucun accès17522 à cette étape.

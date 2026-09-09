@@ -1,0 +1,28 @@
+{
+  "kind": "prospective_visible_temporal_reserved_validation",
+  "game": "asteroids",
+  "development_seed": 17521,
+  "reserved_seed": 17522,
+  "decisions": 8192,
+  "action_repeat": 4,
+  "episode_limit": 108000,
+  "mode": 0,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "max_charged_frames": 1114244,
+  "kinds": [
+    "player",
+    "asteroid",
+    "player_missile"
+  ],
+  "prerequisite": "The complete successful development on the declared seed must be independently reviewed. Preserve the original negative/incomplete V0 and its data. Source, runtime, all development/negative evidence and reviews must be committed, then the separate seal must be committed before any reserved construction.",
+  "candidate": "The separate wrapped explosion V1 candidate, exact source closure fixed by the seal. RGB decoder, rectangle unions, ROI, matching and thresholds remain as prospectively declared in the temporal development protocol. No reserved tuning.",
+  "capture": "Same live cold capture loop, accounting and actual final two RGB/three adjacent RAM, with only the declared reserved seed changed. Every decision, death, truncation and cold load retained. Exactly8192decisions. Durable attempt marker before construction; complete or failed with partial cost when available, unknown construction cost explicit otherwise. No second attempt, substitute seed or overwrite.",
+  "actions": "Python Random(117522), buttons0..17 held four repeat4 decisions, unchanged scheme from development",
+  "scoring": "Every category separately: at least50joint matches; count equality>=.99of all windows AND>=.99of positive windows; all four edges within1pixel for>=.99of min(nRAM,nRGB) pairs. Empty denominators null/FAIL. No category exemption. Cardinality-first unchanged matcher. Distinct durable score attempt and result file.",
+  "stop": "Any exception or failed criterion is preserved. Do not change the candidate, thresholds, sources, fixture or category scope using this reserved result. Independent result review is required before downstream reference/CPU work.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

@@ -1,0 +1,152 @@
+{
+  "kind": "asteroids_pooled_reserved_independent_preflight_review",
+  "revision": "v1",
+  "created_utc": "2026-09-09T13:28:08Z",
+  "passed": true,
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/asteroids_raw_prerequisite_v70.py": "720e09afae7e49f1151c9b18a25c9ececebe01f9528122ec907a996934383cac",
+    "docs/ARC4_ASTEROIDS_POOLED_PROTOCOL.json": "7ae8212b975d1268143898153919f5ed755bf2f364fe04dfe6ff3bc139f8e2f4",
+    "ragnarok/evaluation/triple_ram_tap_v70.py": "f903e9a3f0321846c93cb97e41ed14617e2145f9e33f03ebe15f541163b03412",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "ragnarok/evaluation/pooled_asteroids_v70.py": "4ec46f77be8ff3eaa3a0ae2e887b2200ae809ce7f6580213f460b10921672fe8",
+    "scripts/capture_asteroids_pooled_v70.py": "451de5496dc89af48afc4641451d32cc824eb2f3512eb50f74b27a3365b6e483",
+    "scripts/calibrate_asteroids_pooled_v70.py": "7b3124e1015d8211354bd8716ea06e6b0d93e184151bc2c8057f6e6cffc577cd",
+    "tests/test_triple_ram_tap_v70.py": "f9c5880dd30cec1d1c72f6ff0a96b6f7058ed1cd08076f8119dc3755e92df9bf",
+    "tests/test_triple_pooled_fixtures_v70.py": "f4f8d1f83b78bc34186c099b631845e0dc0dfbf52442ea286e286af1492b9f73",
+    "tests/test_asteroids_pooled_v70.py": "d7dd637d8936b644859a31f034f58b1fad7c37804cdb1b11ce848b77139ed30c",
+    "ragnarok/evaluation/pooled_asteroids_wrap_v70.py": "8437c83232d1af5c4f2fa29680125e28e2013c8c8ca6e79ea396729fb83762e0",
+    "scripts/calibrate_asteroids_pooled_wrap_v70.py": "95b0178589a8d91f6be6ac8de756419235c74839a6ed930e31e5a7d79fd41cbe",
+    "tests/test_asteroids_pooled_wrap_v70.py": "2eb3c2310af6fff91898c70627f8013191d38e5dddb49611dd374f5190c03b80",
+    "docs/ARC4_ASTEROIDS_POOLED_RESERVED_PROTOCOL.json": "b613aba38da641f7c9c889a001b242ffb465510d8d725e93750e8d354e31c32c",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "scripts/validate_asteroids_pooled_v70.py": "0025af7cb6a0f644d565d61c6cc671c9ba82096625706156d53d42d1235cba38",
+    "tests/test_temporal_validation_seal_v70.py": "a145f0576d9eae3910ec2a7b4e5c630b04394ec4386a662fd15683f61862a0a9",
+    "tests/test_asteroids_pooled_reserved_v70.py": "f5d88421436496b1979daec5daee3600056e4cb124af77be7c72d45e0ef96677"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "development_result_sha256": "768e4dcfad3c0fb2f85582285f029aea4a6a5542f086a92d38f05d658e6d72b6",
+  "development_review_sha256": "edfdff3b5a70c60584ba1b6ead32cc4c6b557183c0eb51a8e87b0b647d6314fc",
+  "raw_calibration_proof_sha256": "d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9",
+  "reserved_seed": 17522,
+  "development_seed": 17521,
+  "decoder_revision": "asteroids_two_raw_spatial_envelopes_wrapped_explosion_v1",
+  "verdict": "PASS for the reviewed reserved runner and seal controls after two guard corrections. Production source/metadata commit, separate committed seal and the real check must still precede any reserved emulator construction.",
+  "source_closure": {
+    "source_count": 49,
+    "development_source_count": 44,
+    "capture_source_count": 41,
+    "metadata_count": 9,
+    "metadata_paths": [
+      "craft_v6_out/v70_asteroids_calibration/pooled_development_v0/manifest.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_geometry_development_v1.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_development_v0_attempt.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_geometry_development_v1_attempt.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_development_result_review_v1.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_reserved_preflight_review_v1.json",
+      "craft_v6_out/v70_temporal_instruments/pooled_v1_corrections_review.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_geometry_development_v0_attempt.json",
+      "craft_v6_out/v70_asteroids_calibration/pooled_player_guard_inventory_v0.json"
+    ],
+    "all_local_import_sources_included": true
+  },
+  "corrected_findings": [
+    {
+      "issue": "Seal verification originally checked only source files against the announced source commit, while metadata were checked against HEAD only.",
+      "resolution": "verify_seal now checks every source_path and metadata_path against seal.source_commit, as well as current committed content; a metadata-not-present-at-source-commit witness is rejected.",
+      "closed": true
+    },
+    {
+      "issue": "The statistics guard originally accepted an impossible positive denominator of 9000 for 8192 windows and did not check equality of all/positive disagreement totals.",
+      "resolution": "All counters must now be nonnegative Python integers; positive and agreement counts are bounded; the all-window and positive-window disagreement counts must coincide. New impossible-count, mismatch, negative and float witnesses reject.",
+      "closed": true
+    }
+  ],
+  "checks": [
+    "Read the reserved protocol, shared seal helper, runner and both specified test modules. The declared seed, action schedule, count, frame repeat, ROI, categories, sticky probability, cold convention and budget agree with the reviewed temporal design.",
+    "All 44 V1 development source hashes are unchanged and match the complete passing result. The reserved source set adds only the prospective protocol, shared seal helper, reserved runner and two test modules. Static local imports throughout all 49 sources close without a missing Python module; package initializers remain included.",
+    "The RAM and RGB function objects are identical to the reviewed V1 development imports. new_stats, accumulate and finish are AST-identical; the full per-window label/scoring loop is AST-identical. No frame or category exemption, matcher change or threshold change was introduced.",
+    "The complete capture function is AST-identical to the original development capture after normalizing only the declared seed 17521 to 17522, action RNG 117521 to 117522, development to reserved partition and the added validation-seal hash field. It retains the actual last two RGB, three adjacent RAM, max verification, cold tap refresh, truncated repeats and full accounting.",
+    "The controller is only Python Random(117522) drawing buttons 0..17, held for four repeat4 decisions. It receives no RAM, RGB labels, score or future information. RAM snapshots remain exclusive to recording and external evaluation.",
+    "The capture refuses either an existing fixed destination or attempt. It performs the full seal check first, then writes an exclusive durable attempt before constructing the engine. Constructor failure burns the attempt with explicit unknown-cost status; later failure records completed decisions, elapsed time and partial live ledger when available.",
+    "The fixed CLI score output is distinct from the capture marker. Its exclusive output-specific attempt is written before manifest reading or scoring; exceptions retain the manifest hash and error, completed results retain their hash and verdict, and the prescribed output cannot be scored twice.",
+    "Development evidence validates the raw prerequisite, matching result/source revision/manifest/capture/scoring records, exact runtime, all three category PASS statistics, the strict reader over all 8192 development windows and the independent result review. The preflight review must bind the entire current source set, runtime and exact successful development result.",
+    "Before seal creation every source and all nine metadata files must match HEAD blobs. Verification recomputes the evidence, checks the announced source commit is an ancestor, requires all source and metadata blobs at that commit, and requires the seal itself to match committed HEAD content. Thus the seal cannot authorize construction while uncommitted.",
+    "Runtime binds the full Python version string, ale-py, NumPy, SciPy and Pillow versions plus the ALE extension binary SHA256. The raw prerequisite is independently checked and included in the seal.",
+    "Before/after capture checks compare source/runtime/raw proof, review and seal hashes; the scorer rechecks the seal and complete candidate source hash snapshot after the full loop. The successful manifest/result binds the exact seal and source mapping.",
+    "The actual development_evidence path was exercised read-only on the real 17521 proof. It passed the raw prerequisite, current result/attempt consistency, strengthened statistics guard, all archived-window integrity/ledger checks and independent development review, then stopped only because this preflight receipt had not yet been written. This was an expected pre-issuance stop, not a production check PASS.",
+    "Real Git blob checks accepted the unchanged V1 source and V0 failure metadata at a2fccaf and rejected that metadata at the earlier capture commit where it did not exist. These checks made no commits and created no production seal."
+  ],
+  "operational_witnesses": [
+    "Unsealed check rejection leaves both the reserved-attempt marker and engine constructor untouched in an isolated test.",
+    "A synthetic constructor observes the started marker before raising; failure records unknown construction cost and a second capture is refused.",
+    "An additional isolated fake engine completed three decisions and failed during the fourth after one additional charged frame. The marker retained completed_decisions=3, charged_frames=145 and partial_live_ledger. Its four actions exactly matched the first held Random(117522) draw; capture replay was refused.",
+    "An additional isolated score failure retained its input manifest hash and error, wrote no successful output, and refused the second call using the same prescribed output.",
+    "Synthetic tests reject failed development, altered capture seed/status/source commit/accounting, altered score manifest/result hash, missing or invalid reviews, changed runtime, corrupt reader input, invalid denominators and metadata absent at the declared source commit.",
+    "The whole capture/scoring identity checks are independent AST comparisons rather than reliance on synthetic seal success alone."
+  ],
+  "tests": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_temporal_validation_seal_v70.py tests/test_asteroids_pooled_reserved_v70.py",
+    "passed": 30,
+    "seconds": 2.64,
+    "additional_isolated_fake_failure_checks_passed": true,
+    "real_git_read_only_checks_passed": true,
+    "real_development_evidence_prefix_passed": true
+  },
+  "prospective_conditions": [
+    "Commit the 49 reviewed source files and all nine metadata files, including this exact receipt and the retained V0 failure/inventory and correction review.",
+    "Create the production seal from that committed evidence, commit the seal separately, then run the real check successfully before constructing any reserved engine.",
+    "Preserve the single reserved attempt, complete raw archives and ledger, every scoring failure and any negative result. No source or criterion may be tuned from 17522.",
+    "Review the completed reserved result independently before downstream reference or throughput work."
+  ],
+  "limitations": [
+    "No production seal was created or read and no real reserved fixture or seed was accessed. Synthetic seal files used by the requested tests existed only in test temporary directories.",
+    "A complete production verify_seal cannot be claimed at this stage: the new sources and this receipt still require the planned commit, and the prospective seal does not yet exist. The real check remains mandatory after both commits.",
+    "No emulator, ROM execution, GPU, capture or full label scoring was performed. Existing frozen scientific sources, historical results and ARC3 state were not modified; no commit was made.",
+    "The preceding development PASS is not reserved evidence. Its empirical wrap correction and retained raw/pooled residuals remain subject to the unchanged prospective thresholds.",
+    "This is an external calibration instrument; no agent observation, training result, transfer claim or benchmark gate is supplied."
+  ],
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
