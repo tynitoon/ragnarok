@@ -1,0 +1,41 @@
+{
+  "kind": "v62_pretraining_lineage1_completion_receipt",
+  "frozen_protocol": "v62-stage0-freeze",
+  "completed": {
+    "stage": "pretrain_s1",
+    "artifacts": {
+      "v61_pre_s1.json": "b272f5ca09b37a2374d4bca990d6e7017d0c331cbecc4bbd5770022a48e8d441",
+      "v61_pre_s1_M1.pt": "e3406e9aae7e567710c01a0926864219b947fc038a7f162d84e6e7df9c3ec73c",
+      "v61_pre_s1_M2.pt": "618aff515d7a90b5f6879876b1220b5a44097210b65499901c5e356f5aeccbff",
+      "v61_pre_s1_M3.pt": "129fbf15051b385469c81cec651d980eafffe017d64331082d4ee159f50b7d88",
+      "v61_pre_s1_M4.pt": "e7fac6481386357e8aedab7f442ed275c5794285cd7acf84695040dbc22807ea"
+    }
+  },
+  "elapsed_controller_seconds_at_s2_start": 15668.6495813,
+  "lineage_seconds": [
+    8100.2224589,
+    7568.4271224
+  ],
+  "log_lineage1_seconds": 7560,
+  "remaining_lineage_projection_seconds": 8100.2224589,
+  "projection_total_hours": 34.20505056672222,
+  "ceiling_hours": 42,
+  "B_test": 6,
+  "N": 9,
+  "G_prime_units": 2,
+  "cuts_required_by_this_projection": false,
+  "areas": [
+    0.25780833333333336,
+    0.42057500000000003,
+    0.26171666666666665,
+    0.4635416666666667
+  ],
+  "coverage_true": [
+    0.432,
+    0.591,
+    0.75,
+    0.886
+  ],
+  "probe_result": null,
+  "limitation": "Remaining lineage estimated using slower of the two measured durations. Pretraining summaries are not a transfer or accelerated-learning result."
+}

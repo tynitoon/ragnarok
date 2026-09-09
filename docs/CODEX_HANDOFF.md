@@ -105,11 +105,14 @@ confirmatoire n'a encore eu lieu. Ce suivi doit se mettre en pause à la clôtur
 de l'ARC 3 ou si une décision de Jérémie devient nécessaire.
 Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
 
-Dernier relevé du 9 septembre à02:43 : lineage0 terminée,4mondes/M1–M4 vérifiés,
-8090s dans sonlog (8100,22s contrôleur). Contrôleur29812 actif, nouveauprétrain
-lineage1 PID27396 en cours, deux mondes terminés (M2 à4419s), troisième entamé.
-Projection actualisée≈34,35h sous42h, B_test6/N9/G'2
-conservés ; pasdeprobe ni deconfirmatoire. Reçu `v62_pretrain_s0_receipt.json`.
+Dernier relevé du 9 septembre vers03:26 : lignées0 et1 terminées, quatre mondes
+M1–M4 chacune, sorties et empreintes vérifiées. Durées contrôleur8100,22s puis
+7568,43s (logs8090s/7560s). Contrôleur29812 actif, prétrain de la lignée2 PID22532
+en cours. Projection actualisée≈34,21h sous42h, en estimant la dernière lignée
+avec la plus lente des deux mesures. B_test6/N9/G'2 conservés ; pas de probe ni
+de confirmatoire. Reçus `v62_pretrain_s0_receipt.json` et `v62_pretrain_s1_receipt.json`.
+Revue indépendante Meitner close : cinq sorties et 17 sources gelées vérifiées,
+checkpoints M1–M4 intègres ; couverture finale exacte39/44, courbes complètes.
 Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
 les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
 
