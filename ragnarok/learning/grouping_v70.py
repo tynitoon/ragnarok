@@ -24,9 +24,9 @@ class GroupingLoss:
 
 def validate_embedding(embedding):
     if (not isinstance(embedding,torch.Tensor) or embedding.ndim!=3 or embedding.shape[0]!=32
-            or min(embedding.shape[1:])<1 or not embedding.is_floating_point()
+            or min(embedding.shape[1:])<1 or embedding.dtype not in (torch.float32,torch.float64)
             or not torch.isfinite(embedding).all() or (embedding.abs()>1).any()):
-        raise ValueError('Own finite32-channel embedding with components in[-1,1] required')
+        raise ValueError('Own finite32-channel float32/float64 embedding with components in[-1,1] required')
     return embedding.float()
 
 

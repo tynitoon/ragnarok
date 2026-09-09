@@ -171,3 +171,11 @@ def test_identity_anchors_are_eligible_targets_not_proof_of_gradient_or_collapse
     assert collapsed.loss.item()==pytest.approx(np.log(2))
     collapsed.loss.backward()
     assert torch.count_nonzero(earlier.embedding.grad)==torch.count_nonzero(later.embedding.grad)==0
+
+
+@pytest.mark.parametrize('dtype',[torch.float16,torch.bfloat16])
+def test_low_precision_embeddings_are_rejected_before_potential_gradient_overflow(dtype):
+    earlier,later=identity_pair()
+    earlier=replace(earlier,embedding=earlier.embedding.detach().to(dtype).requires_grad_())
+    with pytest.raises(ValueError,match='float32/float64'):
+        identity_loss(earlier,later)

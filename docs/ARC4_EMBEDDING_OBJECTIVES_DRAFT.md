@@ -66,3 +66,8 @@ ne prouve ni une connexion au graphe, ni une mise à jour des poids. La perte pe
 être évaluée sur des embeddings détachés, mais l'assemblage doit vérifier ses
 gradients. I présente aussi un point stationnaire à l'effondrement exact : deux
 objets avec des représentations identiques donnent log(2) et un gradient nul.
+
+Le domaine pris en charge pour G/I est float32 ou float64. La normalisation près
+d'un vecteur nul peut produire un grand gradient fini en float32 mais infini en
+float16 ; les embeddings float16/bfloat16 sont donc refusés explicitement.
+Aucune compatibilité AMP ou apprentissage en précision réduite n'est revendiquée.
