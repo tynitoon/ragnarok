@@ -74,7 +74,8 @@ def proofs():
     reviewed = json.loads(SOURCE_REVIEW.read_text(encoding='utf-8'))
     if earlier.get('passed') is not True or reviewed.get('passed') is not True:
         raise ValueError('Independent original-decoder and candidate-source reviews required')
-    if any(reviewed['source_sha256'].get(path) != sha(ROOT / path) for path in NEW_SOURCES[:3]):
+    candidate_reviewed = {**reviewed['evidence_sha256'], **reviewed['source_sha256']}
+    if any(candidate_reviewed.get(path) != sha(ROOT / path) for path in NEW_SOURCES[:3]):
         raise ValueError('Current candidate module, tests and documentation must be reviewed')
     sources = {path: sha(ROOT / path) for path in dict.fromkeys((*prior.SOURCE_PATHS, *NEW_SOURCES))}
     evidence = {EARLIER_REVIEW: EARLIER_REVIEW_SHA,
