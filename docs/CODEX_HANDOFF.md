@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-9 septembre 2026, vers23:14 Paris. Poursuivre d'un jalon au suivant sans final
+9 septembre 2026, vers23:38 Paris. Poursuivre d'un jalon au suivant sans final
 à chaque commit. Arrêt seulement sur demande, travail achevé ou avis réellement
 nécessaire. User a passé Astra en Maximum ; acquitté, aucun réglage changé ici.
 L'audit partage d'écran/RC est annulé. Objectif : apprendre puis réutiliser pour
@@ -8,20 +8,20 @@ apprendre plus vite ; une avance initiale ne prouve pas cette accélération.
 ARC2 :3/6 contre0/6, delta0,069<bruit0,076 ; aucune accélération démontrée.
 Aucun entraînement Atari/checkpoint ni gate0 ARC4. PasdeGPUARC4.
 
-Histoire détaillée : docs/history/CODEX_HANDOFF_20260909_2232.md puis2200,2132,
+Histoire détaillée : docs/history/CODEX_HANDOFF_20260909_2314.md puis2232,2200,2132,
 2105,2033. Lire les sections utiles, pas logs complets/sessionClaude/configlocale.
 Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts. Oracle uniquementdansjuge.
 
 ## ARC3 v62 — GPU actif, cinq mondes terminés sur neuf
 
-Contrôleur20936, enfant22896, vérifiés22:19 ; commandes :
+Contrôleur20936, enfant22896, vérifiés23:32 ; commandes :
 C:/Python314/python.exe -u -m scripts.recover_confirm_v62 ; enfant
 -m scripts.confirm_v61 --lineage 1 --n-units 3 --b-max 6 --num-envs 64
 --store-persists --g-units 2 --resume. s1 a démarré18:41:46Paris.
 Lignée0 complète3mondes/9,25433s :15JSON vérifiés/committés9deb244,
 SHAagrégat3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
 Lignée1 :s1_8310 terminé6447s+L ; s1_8311 terminé13634s+L ; s1_8312 en cours,
-M4but3à14798s, but0à15791s à23:13. Lire seulementtailv61_confirm_s1.log.
+M4but3à14798s, but0à15791s, but1à16760s à23:38. Lire seulementtailv61_confirm_s1.log.
 Aucun score/verdict partiel. Ne pas committer s1 ou agrégat/liveétats.
 Autorité ARC3_PLAN.md§12.6, gel a189ea5bb0f9c8b7e9016a50aefc1cbca603426f.
 17sources+3lanceurs/checkpoints/états immuables. Reprise11:37aprèsWindowsUpdate,
@@ -86,38 +86,72 @@ Entrée29paires/16points :entry_trial_plan_v70.py5a84af1,revue2362d59f…d6d1580
 Pascontrôleurexécutant/tableeffets/ME/reader/drives/S/policy/ledger/fusioncatégories.
 Archivesprivéesettransport revussynthétiquement seulement,20k/2Gopayload ; pasE4.
 
-## Travail immédiat — transport entre interpréteurs + mouvement ordonné
+## Travail immédiat — transport natif prospectif et modèle ordonné
 
-Review_recovery_v62 ACTIF sur codec/serveur/client, aucuneALEInterface réelle.
-- fadaacc :rgb_wire_v70.py,10tests,ARC4_SEPARATE_RUNTIME_DRAFT.md. JSONtypé+
-  RGBbytesuint8,1Mioheader/64Miopayload/8192nodes/16depth, sanspickle ; structure
-  seulement,pasprovenance/pooling,metadataarbitrairesneprouventpasabsenceoracle.
--16dc3ab :scripts/serve_ordinary_rgb_v70.py,7tests,ARC4_ISOLATED_WORKER_DRAFT.md.
-  Un moteur/processus sansdescendants ; HELLO runtime avantINIT ;6commandes
-  fermées,n°stricts ; stdoutbinairedédié/logsstderr ; écriturepartielle→exit,
-  aucunerenvoiaprèspaiement. Testsuniquementsynthetic+HELLO/CLOSEsansROM.
-- client b34f49c CORRIGÉ6e0e4a7 :isolated_rgb_pool_v70.py,10tests PASS1,41sPython
-  système,ARC4_ISOLATED_POOL_DRAFT.md.1..16peers_executableexplicit/runtimeexpected,
-  comptesavantcopies,réponsesdrainées/délailotpartagé,3threads/peer bornésarrêtés,
-  erreurtransport→killcepeer+dernierledgerborneconnue,arrêtpayantglobal.
-  Findingrevue :601reçusdansréponseSTEP puisREPORTaccountNone remplaçait601.
-  FixgardeancienledgerchiffrésilaterNoneouregression,erreurcourante+completeFalse.
-  Deuxnouveaux témoinsNone/0 PASS, contre-revueENCOURS. Aucun préflight/natifcodec.
-  Reçufutur craft_v6_out/v70_isolated_rgb_transport/source_review_v0.json.
-  Arrêtbrutalparentpasgarantieenfantadditionnelle ; futurharnessfinallyclose.
+Review_recovery_v62 ACTIF sur PRÉFLIGHT TRANSPORT natif98d6919. Aucune INIT native
+à ce jour. Ensuite revue flux/owners ordonnés258fae5/fd0c704 et limitesPf47f214.
+Ne pas relancer/créer d'autre agent ; cet agent connaît les périmètres.
 
-Nouvelle limite architecture àtraiter : docs/ARC4_BOOTSTRAP_LIMITS.md f27f5a5,
-  hypothèseUNKNOWN0neconditionnepasboutons etCdemandeproprevitesseavantME/table.
-  Pas verdictd'apprentissage. Testconstructif0afd78d :
-  tests/test_motion_observation_alias_v70.py,2PASSCPU5,20s +
-  docs/ARC4_ORDERED_MOTION_DRAFT.md. Carré2px,positions4→5 ou5→4 : MAXsourceégal,
-  futurs4imagesopposés ; ancienparserseed764sortiesexactementégales, aucunupdate.
-  L1cibles0,046875→bornepertemoyenne0,0234375 pourprédictiondéterministecommune.
-  C'estuncontre-exemplepossible,pasfréquence/erreurAtari. Ordre2RGBrésoutalias
-  d'entrée sansoracle. Variante apprise pourd avec2RGBordonnés àimplémenter
-  séparément,autrestêtesencorepoolées ; ancienparser/protocolesimmutables.
-  Ne règlepasàelleseuleamorcageC/effets/ME. Revuearchitecturenécessaireavant
-  entraînement/remplacementdansvision§2.1 ; Gate0toujoursproposé/nonfigé.
+Transport codec/serveur/client fadaacc/16dc3ab/6e0e4a7 désormais REVU/committé4e42567 :
+craft_v6_out/v70_isolated_rgb_transport/source_review_v0.json
+SHA97a3fc7d172d41b0dcb861d12872396bff17fecdaa62ebe1fade361d675a2414.
+21sources/3preuves,27testsPASS ; aucun vrai ALE, seulement HELLO/CLOSE.
+Ancienfinding b34 :601charges connues remplacées parNone après rapportultérieur.
+Fix6e0e4a7 garde dernierledger siNone/régresse etcompleteFalse. Sourcesdésormaisgelées.
+Détailscodec/peers etlimitescleanup dans histoire2314 ; paspickle/oracleRPC.
+
+Protocole natif98d6919 (NOUVEAU, aucuneexécution) :
+- scripts/check_isolated_rgb_native_v70.py ; tests/test_isolated_rgb_native_protocol_v70.py
+  8PASS0,75s ; docs/ARC4_ISOLATED_RGB_NATIVE_{DRAFT.md,PROTOCOL.json}.
+- Parent C:/Python314 (Torchmetadata seulement, aucun importmodèle/Torch/ALE), enfant
+  .venv-arc4 explicite ; runtimeexact obtenuHELLO/CLOSE AVANTprotocole,0ROM/0ALEInterface.
+- Répétition déclarée des9cas/sameseeds/actions baselineRGBordinaire19200/19211/12/13,
+  pasnouvellepopulation indépendante ni retrydel'anciennevalidation.1266pas/6paires,
+  unnouveauworkerparcas,9constructs/7454chargesattendues/18000max(9×2000).
+- FULL ordered_trace_sha256 de chaqueanciencas +72positionsbytewise/6branchescomplètes,
+  métadonnées/horloges/comptes strictement égaux ; aucunenouvellearchiveRGB.
+- Workcap300scoopératifexcluantproofhashes,30slottransport,aucuntiming/GPU/model.
+- proofs()PASS :46sources/26preuves,session5585FERMÉE. Préflightindépendantattendu
+  craft_v6_out/v70_isolated_rgb_native/preflight_v0.json,kindisolated_rgb_native_independent_preflight.
+  COMMITTER CE REÇU AVANT run(), puisexécutercommandeprotocoleunefois,préserverconsole.
+  Préserveréchec/coûtsincertains/finallycleanup,aucunautrecaptureCPUconcurrente.
+  Revue résultat avantintégrationmodèle ; pasclaimnatif16workers/T0/débit.
+
+Modèle ordonné4e42567 désormaisREVU/committé258fae5 :
+craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json
+SHA138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f.
+26sources/3preuves,8testsPASS3,83s,448965params ; aucun realarchive/optimizer/native.
+- Contre-exempleMAXsource4→5/5→4identique ; futur4framesopposé, L1distance.046875,
+  bornecommune.0234375 (atteignableimage noire). Ambiguïtépossible,pasfréquenceAtari.
+- OrderedMotionParser garde f/m/c/s/pyramidpoolésidentiquesoldàseed764. Nouvellebranche
+  apprise6→32canauxRGBordonnés, dconcat32pool+32motion+32effet. Effetuniquementd.
+  forward(previous,current,effect)refuseoldsignature, Pgradiententrebranche ;0update.
+- IMPORTANT : héritageCounterfactualParser faitaccepterobjetparanciensconstructeurs,
+  maisancienneinférenceéchoue ; nouveaufuturlanceur doitvalidercontratAVANTpayer.
+  Aucunancienrésultatréattribué, aucunmodèleordonné exécutésurvraiesimages.
+
+Flux+owners ordonnés SÉPARÉS, enattentederevue :
+-258fae5 ordered_perception_stream_v70.py +6testsPASS6,82s, ARC4_ORDERED_TEMPORAL_DRAFT.md.
+  exacttypeOrderedMotionParser,min8,5têtesfinies, mêmeP4/Iexact8, mémoire2RGBuint8
+  sansgraphes+trackingcopy, étatsatomiques. Fenêtre8/max9horodatages ; doubleRGBmémoire.
+  I recalculeparserCOMPLETavec2RGBanciens/poidscourants, pasoptimisationdecoût.
+-fd0c704 owned_ordered_perception_v70.py +5testsPASS11,70s : subclassanciensowners,
+  méthodespayantes/locks/stop/rétentionhéritéesinchangées, _infer etconstructeur/_newstream
+  ordonnés. Exactmodel/float32finis/deviceunique/ancragesmin8 AVANTleurscommandes ;
+  bootstrapémulateur déjàchargeappelant, cleanupsiéchecconstructeurresteappelant.
+  TemporalUNKNOWN, P/Chypothèseenregistrée. Testsrefusold/ordre/branchsansaging/
+  échecpostpaid garde4images/604etrefusnext. Premieréchectestbouton5fixture0/1corrigé1.
+  Sessions47201et80662FERMÉES, pascodeancienmodifié.
+- Reçufutur v70_parser_synthetic/ordered_temporal_review_v0.json, indépendant demandé.
+
+LimiteP supplémentaire f47f214 : tests/test_prediction_loss_translation_limits_v70.py
+2PASS5,81s +docs/ARC4_PREDICTION_LOSS_LIMITS.md. Sansparser/optimizer/native : carrépoolé
+4/5→8/9 ; translationuniformedx±.25/±.5:L1.046875,gradientdx0 ; dx4L1=0 ; jeterla
+sourcehorsécran donneL1.0234375. Pasclaimtousgradientsdense0/convergencenoire/fréquence.
+ConserverordredesRGB n'assurepasàluiseulapprentissageparP. Aucunloss/gatecritèremodifié.
+Àexaminer avec revueordonnée, puisprépareruncontrôled'apprentissagesynthétiqueannoncé
+avantentraînementAtari. docs/ARC4_BOOTSTRAP_LIMITS.md gardeaussiboucleeffets/C/ME :
+UNKNOWNneconditionnepasboutons, Cnécessitemouvementpréditetfuturcomplet ; C0réelconservé.
 
 ## Environnement / règles
 
