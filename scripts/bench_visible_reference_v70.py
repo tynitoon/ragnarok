@@ -7,14 +7,17 @@ from ragnarok.environments.emu_pool import EmulatorConfig
 from ragnarok.evaluation.visible_reference_pool_v70 import VisibleReferencePool
 from ragnarok.evaluation.raw_history_fixtures_v70 import raw_history_fixture_frames
 from scripts import visible_reference_v70 as reference
+from scripts import check_fast_visible_mspacman_v70 as fast_check
 from scripts.temporal_validation_seal_v70 import ROOT,sha,runtime,utc,write_new,require_committed
 
 PROTOCOL='docs/ARC4_VISIBLE_CPU_PROTOCOL.json'
 PREFLIGHT_REVIEW='craft_v6_out/v70_visible_cpu/preflight_review_v0.json'
 REFERENCE_REVIEW='craft_v6_out/v70_visible_reference/result_review_v0.json'
-REFERENCE_REVIEW_SHA256=None  # Must come from the completed independent review before freezing.
+REFERENCE_REVIEW_SHA256='cefb04be064767ded9303e2256abcf1381505657b12ec7519c7d306bbfe1a6cd'
+FAST_REVIEW='craft_v6_out/v70_visible_cpu/fast_mspacman_equivalence_review_v0.json'
+FAST_REVIEW_SHA256=None  # Complete ordered equivalence and independent review required before freezing.
 NATIVE_BUILD=ROOT/'craft_v6_out/v70_native_reference/build_v0/build.json'
-SOURCE_PATHS=tuple(dict.fromkeys((*reference.SOURCE_PATHS,PROTOCOL,
+SOURCE_PATHS=tuple(dict.fromkeys((*reference.SOURCE_PATHS,*fast_check.SOURCE_PATHS,PROTOCOL,
     'scripts/bench_visible_reference_v70.py','scripts/check_visible_cpu_v70.py',
     'ragnarok/evaluation/restorable_ram_history_v70.py','ragnarok/evaluation/visible_reference_pool_v70.py',
     'ragnarok/evaluation/visible_temporal_groups_v70.py','ragnarok/evaluation/native_reference_v70.py',
@@ -83,19 +86,54 @@ def require_native_build():
     return sha(NATIVE_BUILD)
 
 
+def require_fast_equivalence():
+    if not isinstance(FAST_REVIEW_SHA256,str) or len(FAST_REVIEW_SHA256)!=64:
+        raise ValueError('Complete independent fast source equivalence review required before CPU work')
+    path=ROOT/FAST_REVIEW
+    if sha(path)!=FAST_REVIEW_SHA256:raise ValueError('Fast source equivalence review changed')
+    review=json.loads(path.read_text(encoding='utf-8'))
+    result=json.loads(fast_check.OUTPUT.read_text(encoding='utf-8'))
+    proof=fast_check.hashes()
+    if (review.get('passed') is not True or result.get('passed') is not True
+            or result.get('kind')!='offline_ordered_mspacman_source_equivalence'
+            or review.get('result_sha256')!=sha(fast_check.OUTPUT)
+            or review.get('source_sha256')!=proof['source_sha256']
+            or any(result.get(k)!=v for k,v in proof.items())
+            or set(result.get('collections',{}))!={'development','reserved','fresh_raw'}
+            or any(result['collections'][name].get('windows')!=8192 for name in result['collections'])
+            or [result['collections'][name].get('source_pairs') for name in
+                ('development','reserved','fresh_raw')]!=[16384,16384,8197]):
+        raise ValueError('Every archived ordered source equivalence and review must agree')
+    evidence=review.get('evidence_sha256',{})
+    required={**proof['evidence_sha256'],
+        fast_check.OUTPUT.relative_to(ROOT).as_posix():sha(fast_check.OUTPUT),
+        fast_check.OUTPUT.with_name(fast_check.OUTPUT.stem+'_attempt.json').relative_to(ROOT).as_posix():
+            sha(fast_check.OUTPUT.with_name(fast_check.OUTPUT.stem+'_attempt.json'))}
+    if any(evidence.get(p)!=h for p,h in required.items()):
+        raise ValueError('Fast source review lacks complete equivalence evidence')
+    for p,h in evidence.items():
+        if sha(ROOT/p)!=h:raise ValueError('Fast source equivalence evidence changed')
+        require_committed(p)
+    require_committed(FAST_REVIEW)
+    return dict(result_sha256=sha(fast_check.OUTPUT),review_sha256=sha(path))
+
+
 def preflight(game):
     proof=require_reference(game);hashes=source_hashes()
     protocol=json.loads((ROOT/PROTOCOL).read_text(encoding='utf-8'))
     review=json.loads((ROOT/PREFLIGHT_REVIEW).read_text(encoding='utf-8'))
     native_hash=require_native_build()
+    fast_proof=require_fast_equivalence()
     if (protocol.get('games')!=['ms_pacman','asteroids'] or protocol.get('benchmark')!=BENCHMARK
             or review.get('passed') is not True or review.get('source_sha256')!=hashes
             or review.get('runtime')!=runtime() or review.get('proof_sha256',{}).get(game)!=proof
-            or review.get('native_build_manifest_sha256')!=native_hash):
+            or review.get('native_build_manifest_sha256')!=native_hash
+            or review.get('fast_source_equivalence')!=fast_proof):
         raise ValueError('Complete independent CPU preflight required before new seeds')
     for p in (*SOURCE_PATHS,PREFLIGHT_REVIEW):require_committed(p)
     return dict(source_sha256=hashes,proof_sha256=proof,runtime=runtime(),
-        preflight_review_sha256=sha(ROOT/PREFLIGHT_REVIEW),native_build_manifest_sha256=native_hash)
+        preflight_review_sha256=sha(ROOT/PREFLIGHT_REVIEW),native_build_manifest_sha256=native_hash,
+        fast_source_equivalence=fast_proof)
 
 
 def require_geometry(game,proof):

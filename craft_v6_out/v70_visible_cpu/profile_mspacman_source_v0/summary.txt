@@ -1,0 +1,26 @@
+         2278670 function calls in 2.922 seconds
+
+   Ordered by: cumulative time
+   List reduced from 54 to 18 due to restriction <18>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      512    0.072    0.000    3.132    0.006 visible_scene_v70.py:7(mspacman_visible_scene)
+      512    0.023    0.000    2.987    0.006 pooled_mspacman_eyes_v70.py:61(source_ram_objects)
+      512    0.706    0.001    2.820    0.006 mspacman_maze_visible_v70.py:50(decode_visible_ram)
+   471528    1.032    0.000    1.032    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+   312868    0.144    0.000    0.908    0.000 {method 'min' of 'numpy.ndarray' objects}
+   312868    0.084    0.000    0.764    0.000 _methods.py:43(_amin)
+   156434    0.073    0.000    0.450    0.000 {method 'max' of 'numpy.ndarray' objects}
+      512    0.144    0.000    0.448    0.001 mspacman_v70.py:59(decode_mspacman_ram)
+   156434    0.043    0.000    0.378    0.000 _methods.py:39(_amax)
+    80200    0.183    0.000    0.301    0.000 mspacman_v70.py:65(add)
+     2226    0.060    0.000    0.168    0.000 mspacman_maze_visible_v70.py:37(support_boxes)
+     3250    0.057    0.000    0.091    0.000 mspacman_maze_visible_v70.py:22(wrapped_ghost_supports)
+      512    0.035    0.000    0.071    0.000 mspacman_player_list_v70.py:77(player_list_render_box)
+     1024    0.003    0.000    0.041    0.000 mspacman_player_list_v70.py:67(player_list_support)
+     2226    0.004    0.000    0.034    0.000 _shape_base_impl.py:798(split)
+   167232    0.034    0.000    0.034    0.000 {method 'append' of 'list' objects}
+     2226    0.017    0.000    0.029    0.000 _shape_base_impl.py:737(array_split)
+   162448    0.023    0.000    0.023    0.000 {built-in method builtins.max}
+
+

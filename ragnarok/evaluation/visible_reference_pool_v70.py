@@ -10,7 +10,8 @@ import multiprocessing as mp
 import numpy as np
 from ragnarok.environments.emu_pool import EmulatorConfig,EmulatorPool
 from ragnarok.evaluation.restorable_ram_history_v70 import _ScorerHistoryColdEngine
-from ragnarok.evaluation.visible_scene_v70 import mspacman_visible_scene,asteroids_visible_scene
+from ragnarok.evaluation.visible_scene_v70 import asteroids_visible_scene
+from ragnarok.evaluation.fast_visible_mspacman_v70 import mspacman_visible_scene
 from ragnarok.evaluation.visible_temporal_groups_v70 import VisibleTemporalScorer,group_visible_sources,REGISTRY
 from scripts.ref_extract_v70 import ReferenceExtractor
 

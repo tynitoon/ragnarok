@@ -1,0 +1,10 @@
+{
+  "kind": "offline_source_decoder_engineering_profile",
+  "game": "ms_pacman",
+  "seed": 17471,
+  "frames": "first512",
+  "new_emulated_frames": 0,
+  "agent_training": false,
+  "reference_changed": false,
+  "gate_result": null
+}

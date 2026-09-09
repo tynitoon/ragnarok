@@ -41,6 +41,39 @@ def test_missing_final_reference_proof_cannot_open_cpu_seeds(monkeypatch):
     with pytest.raises(ValueError,match='independently reviewed'):bench.require_reference('asteroids')
 
 
+def test_missing_fast_source_review_cannot_open_cpu_seeds(monkeypatch):
+    monkeypatch.setattr(bench,'FAST_REVIEW_SHA256',None)
+    monkeypatch.setattr(bench.fast_check,'hashes',lambda:pytest.fail('went beyond missing review'))
+    with pytest.raises(ValueError,match='independent fast source'):bench.require_fast_equivalence()
+
+
+@pytest.mark.parametrize('defect',['missing_window','missing_frame_zero','missing_archive_review','none'])
+def test_fast_source_proof_requires_every_archived_pair_and_reviewed_file(tmp_path,monkeypatch,defect):
+    monkeypatch.setattr(bench,'ROOT',tmp_path)
+    monkeypatch.setattr(bench,'require_committed',lambda p:None)
+    archive=tmp_path/'archive.npz';archive.write_bytes(b'synthetic evidence, not an emulator fixture')
+    proof=dict(source_sha256={'source.py':'synthetic'},evidence_sha256={'archive.npz':bench.sha(archive)})
+    monkeypatch.setattr(bench.fast_check,'hashes',lambda:proof)
+    out=tmp_path/'equivalence.json';attempt=tmp_path/'equivalence_attempt.json';attempt.write_text('{}')
+    monkeypatch.setattr(bench.fast_check,'OUTPUT',out)
+    collections={name:dict(windows=8192,source_pairs=pairs) for name,pairs in
+        [('development',16384),('reserved',16384),('fresh_raw',8197)]}
+    if defect=='missing_window':collections['reserved']['windows']=8191
+    if defect=='missing_frame_zero':collections['fresh_raw']['source_pairs']=8192
+    out.write_text(json.dumps(dict(kind='offline_ordered_mspacman_source_equivalence',passed=True,
+        **proof,collections=collections)))
+    evidence={p.name:bench.sha(p) for p in (archive,out,attempt)}
+    if defect=='missing_archive_review':evidence.pop(archive.name)
+    review=tmp_path/'review.json'
+    review.write_text(json.dumps(dict(passed=True,source_sha256=proof['source_sha256'],
+        result_sha256=bench.sha(out),evidence_sha256=evidence)))
+    monkeypatch.setattr(bench,'FAST_REVIEW',review.name)
+    monkeypatch.setattr(bench,'FAST_REVIEW_SHA256',bench.sha(review))
+    if defect=='none':assert bench.require_fast_equivalence()==dict(result_sha256=bench.sha(out),review_sha256=bench.sha(review))
+    else:
+        with pytest.raises(ValueError,match='equivalence|evidence'):bench.require_fast_equivalence()
+
+
 @pytest.mark.parametrize('mode',['geometry','wiring','benchmark'])
 def test_preflight_failure_does_not_burn_attempt_or_construct(tmp_path,monkeypatch,mode):
     monkeypatch.setattr(bench,'base',lambda game:tmp_path)
