@@ -1,0 +1,80 @@
+{
+  "kind": "mspacman_special_list_composition_and_asteroids_export_independent_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T10:29:35.684652+00:00",
+  "reviewer": "independent Codex subagent /root/review_recovery_v62",
+  "scope": "Read-only composition review before any reserved seal; includes Asteroids integer-export correction. Full MsPacman V2 result review remains separate.",
+  "source_sha256": {
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "docs/ARC4_MSPACMAN_COVERAGE_PROTOCOL.json": "f7a95916d2fcbd6d242556ab82027116513bde01d8e7cb582e5b2b17de5eb366",
+    "docs/ARC4_MSPACMAN_RAW_PROTOCOL.json": "098907fb77a9438d75947b3550bcd913c9a37427406f85b8af6fa331cd7dc039",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "ragnarok/evaluation/mspacman_fruit_v70.py": "9e51455f54b68554a86e7e3a06576ea7c2ae42d52fafdf7b00ce3f3f47bf2d7b",
+    "ragnarok/evaluation/mspacman_ghosts_v70.py": "574dc81ab6edf29e9c7959a4b72d1489ce5d02640c5991024a1da37d974acd85",
+    "ragnarok/evaluation/mspacman_list_visible_v70.py": "759295895457e3df810c6541b7fd740c9c60e4d5272d298ba91f15008584fe84",
+    "ragnarok/evaluation/mspacman_pixels_v70.py": "eb16f9ab1f1fe22ef318c45f3ed99d57d980c4e830c9cd3b4a2fe3c961a63eb2",
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/mspacman_visible_v70.py": "6c6d76f062af3055f123cffbe6da288241c89c57e3f8794f4d5dd61cb5de9cad",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/calibrate_mspacman_list_v70.py": "22045b8a4df907cbf7440ec4e22a6f4d2f0630853b7790e5967fa4c0b2a09585",
+    "scripts/calibrate_mspacman_render_v70.py": "355dc0473fe0cc95e9fde32bc0b060aeff5e2c5b6477795ca98cb0e3aa726aa3",
+    "scripts/calibrate_mspacman_v70.py": "2722aed41ab284eace27f56c9a2c95d43d2469bcf71133fb529d2327645d21c4",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "scripts/capture_mspacman_coverage_v70.py": "d2e7e9fcf5e7827593359db26892ed24786cfe5d63048f856374f3acb08b6afa",
+    "scripts/mspacman_coverage_controller_v70.py": "e67190aa1a5828926a47a33fc591cdf0cef8f4274a53881d30372ff4ca2ca9dc"
+  },
+  "artifact_sha256": {
+    "fruit_list_development_diagnostic.json": "00728ea795985e10686e4ccc461ad38f7a3aab16fda6e9edf1c3d25118f05a03",
+    "fruit_support_development_diagnostic.json": "b302e47a2e997cafd9b1cbd0de63693a14207b78a9ceed736337c2ca2fc75718",
+    "player_special_list_development_diagnostic.json": "22093876f3d515d0ec51bef7a4b0c4139c0f15e40ce3b30087a917aa02ffaa8e",
+    "player_special_list_guard_review.json": "ba1b311de997b56a480691c8f6ef088c152f301f1d2bf76bd9122c7403717ff0",
+    "coverage_visible_v1_failure.json": "f88c64d7303f277ba52fd3233509cacf3065dceec0d52ba12a0a948348f3569e"
+  },
+  "fixture_manifest_sha256": {
+    "development": "f567e4093e54980ae3495663b1b5307ffeef8ba6f4b93cadb66b4f2636197801",
+    "coverage_development_v1": "62762f99abb602875b8cd7ecb05b055c9561a25c513a6fa8ffc004785f38944d"
+  },
+  "test_source_sha256": {
+    "tests/test_mspacman_fruit_v70.py": "03e216019cf7f25b8fc33fc49e0c6668f2225791cdfb50ae19ef8330407e1eaa",
+    "tests/test_asteroids_v70.py": "3c80fed6e1fd66dfa9b2882b12cef259a7a7c086bc564fdfffc5a242ccefd79c"
+  },
+  "findings": [],
+  "checks": [
+    "Read mspacman_fruit_v70.py, mspacman_list_visible_v70.py and calibrate_mspacman_list_v70.py plus the fruit list/support diagnostics. Their producer hashes and fixture hash match; both existing capture source manifests still match all actual source bytes.",
+    "Fruit selection uses previous same-episode RAM34 and codes45/46, type high nibble0/1, compensated pointers256*RAM[53+i]+RAM[51+i]+RAM17=0xDF14+22*type. Logical coordinates alone cannot create fruit. Unsupported types, pointers, lengths and multiple fruits fail explicitly. No RGB enters selection, geometry or support.",
+    "The two fixed fruit masks exactly equal their diagnostic dominant patterns. Type0 has8x10 envelope at(-12,+1); type1 has6x8 at(-11,+3). Player list source matches its final guarded review; older ghost and causal pill paths remain unchanged.",
+    "Composition unions RAM-only player, fruit and ghost support before subtracting occupied pixels from current nominal small-pill cells. A synthetic real fruit glyph fully removes a covered4x2 pill and clips a partially covered pill to its visible4x1 row. Power-pill visibility retains the prior uncorrected occlusion limitation.",
+    "The RGB judge is the same causal MsPacmanPixelJudge and receives only RGB. RAM history resets by external episode boundary; RGB history does not receive oracle resets. The per-category acceptance-loop AST is exactly equal to V1, including>=50 matches, all-frame and positive count>=.99, within1>=.99, null/FAIL on empty denominators.",
+    "Only development17411/17431 with their fixed schedules are accepted. Shard/continuity/accounting verification is inherited unchanged. Scorer binds its sources plus the capture-source union before/after computation and writes new output exclusively; the reviewed union contains25 source/protocol files.",
+    "Independently ran the three fruit tests and three Asteroids tests together:6 passed in0.96s. No full calibration was replayed."
+  ],
+  "asteroids_export": {
+    "commit": "9175078ed4319cf51edbbb5a9b9a88f5833d2117",
+    "partial_sha256": "7afc48b4352c8310ee82225bbdac764280a5bc1343a57358a3cb6620dd9cded5",
+    "failure_receipt_sha256": "82550ba2d8613fed82ea5fc95dc0d22b630cd80be6f4d4a28ff07b2e3069cbcb",
+    "complete_sha256": "6992e66a49e1fbe1baa38ae21a89fff0259a89274816b269643bf908c9c92a60",
+    "source_sha256": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "partial_prefix_statistics_equal": true,
+    "verification": "Parsed the complete prefix before first_disagreements from the original incomplete JSON. Every per_type statistic and the false global verdict equal the successful export exactly; all three categories had8192 frames. Original partial hash matches its failure receipt. Partial file, completed export and current source all match commit9175078. The inspected source diff only wraps box coordinates in tuple(map(int,...)), with no geometry or criterion change.",
+    "limitation": "My earlier precollection tests missed JSON serialization of NumPy integer boxes. The resulting export failure and negative statistics are preserved; this review closes that serialization issue only."
+  },
+  "limits": [
+    "This passes a source/composition review, not the full V2 scientific result. Both development result files must be checked and independently reviewed before deciding a reserved seal.",
+    "Fruit supports retain475 observed cases with a missing final row (234 type0 and241 type1); the fixed complete glyph overpredicts these pixels. Player masks retain72/568 imperfect frames on17411/17431. Ghost support is likewise empirical, so small-pill occlusion metrics must remain explicit.",
+    "Uniform17411 has no fruit and stays null/uncovered for that category. No pooled denominator can convert it into a fruit PASS. New or unknown fruit types fail; two observed glyphs do not establish all fruit types.",
+    "The future seal must cover the complete reviewed source union, both protocols, and associated review metadata with successful commits before any reserved action. This receipt itself does not permit17412/17432 or any new capture.",
+    "No existing file or source was modified, no GPU/ROM/seed/capture or full scorer was launched, and no commit was made in this review."
+  ],
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

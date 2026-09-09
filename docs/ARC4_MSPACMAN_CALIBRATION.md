@@ -118,3 +118,11 @@ La liste prédit exactement les10 677images avec fruit ;475silhouettes perdent
 leur dernière ligne visible, résidu conservé. Trois tests du module RAM fruit
 passent, dont les images où la liste affiche seulement le fruit ou le joueur.
 La composition V2 sera scorée séparément sur17411 et17431 ; aucun réservé ouvert.
+
+V2 uniforme17411 terminé : les neuf erreurs de comptage des petites pastilles
+disparaissent,8192/8192comptages égaux et1 057 318boîtes toutes exactes. Joueur
+8192/8192boîtes à un pixel près,8120exactes. Fantômes et grosses pastilles gardent
+leurs fractions V1. Le fruit demeure absent/null/FAIL sur cette séquence.
+La couverture17431 est encore en calcul. Revue de composition indépendante
+`list_composition_preseal_review.json` close,25sources liées ; ce reçu ne tient
+pas lieu de revue des résultats complets ni de validation réservée.

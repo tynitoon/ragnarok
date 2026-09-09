@@ -1,0 +1,95 @@
+{
+  "kind": "mspacman_player_special_list_guard_revision_review",
+  "passed": true,
+  "reviewed_utc": "2026-09-09T10:24:20.191708+00:00",
+  "prior_diagnostic_sha256": "22093876f3d515d0ec51bef7a4b0c4139c0f15e40ce3b30087a917aa02ffaa8e",
+  "preserved_initial_source": {
+    "path": "craft_v6_out/v70_mspacman_calibration/player_list_initial_source.py",
+    "sha256": "650da6ef07a0ba6afb9763c0f123c2d63018d6b63e9951e658187dccdb637bef"
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/mspacman_player_list_v70.py": "69bfbef7babd3c21c5d874a6f9bad6ad25bad5de6d580437ce04f0d4fa1bd8b1",
+    "ragnarok/evaluation/mspacman_support_v70.py": "688160835cd40fe017af07f00071a69510a633f3c0bf2ce69a705cd79813d4d3",
+    "ragnarok/evaluation/mspacman_render_v70.py": "efca4c8f59c4b9f437de99fc8f6e1b23fe22f4cb8a195c07c111e3ec09b9649b",
+    "ragnarok/evaluation/mspacman_v70.py": "c964d5be910b9b0f0c4201f2ec6b278785e339298d99253ac711863fe3975557",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_mspacman_player_list_v70.py": "39c16b9c0edfece3db0f54de27203948032ab11b83d47ed1e898041ca6b38f78"
+  },
+  "change": "Reject unobserved special-list length255 instead of borrowing the ghost-list empty convention. Only0 and1 are supported. Fruit-only lists0/1 still correctly emit no player.",
+  "verification": {
+    "frames_checked": 40960,
+    "sequences": {
+      "17411": {
+        "frames": 8192,
+        "last_index_counts": {
+          "0": 8192
+        },
+        "entries_equal": 8192
+      },
+      "17431": {
+        "frames": 32768,
+        "last_index_counts": {
+          "0": 23156,
+          "1": 9612
+        },
+        "entries_equal": 32768
+      }
+    },
+    "identical_support_and_box_function_asts": true,
+    "method": "On every hash-verified observed RAM frame, including explicit cold fallbacks, old/new selected entries are exactly equal as plain dataclass fields. Support and box function ASTs and all inherited source hashes are unchanged, so all prior diagnostic predictions and retained residuals are identical for this version. Tests separately require unknown255 to raise."
+  },
+  "tests": "19 CPU tests rerun successfully; dedicated255 refusal regression included.",
+  "metrics_by_sequence": {
+    "17411": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 8192,
+      "positive_count_agreement": 8192,
+      "ram_positive_frames": 8192,
+      "rgb_positive_frames": 8192,
+      "mask_exact_frames": 8120,
+      "extra_predicted_pixels": 332,
+      "missed_yellow_pixels": 0,
+      "joint_matches": 8192,
+      "boxes_within1": 8192,
+      "boxes_exact": 8120,
+      "presence_fraction": 1.0,
+      "positive_count_fraction": 1.0,
+      "box_fraction": 1.0,
+      "mask_exact_fraction": 0.9912109375,
+      "frozen_player_geometry_pass": true
+    },
+    "17431": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 31703,
+      "positive_count_agreement": 31703,
+      "ram_positive_frames": 31703,
+      "rgb_positive_frames": 31703,
+      "mask_exact_frames": 32200,
+      "extra_predicted_pixels": 2238,
+      "missed_yellow_pixels": 0,
+      "joint_matches": 31703,
+      "boxes_within1": 31703,
+      "boxes_exact": 31135,
+      "presence_fraction": 1.0,
+      "positive_count_fraction": 1.0,
+      "box_fraction": 1.0,
+      "mask_exact_fraction": 0.982666015625,
+      "frozen_player_geometry_pass": true
+    }
+  },
+  "limitations": [
+    "The initial diagnostic and its exact original source are preserved; its original broad255 convention was not evidence-based and is rejected here.",
+    "All previous imperfect-support residuals remain:72 frames on17411 and568 on17431. Geometry passes do not certify opaque supports for every occlusion.",
+    "No reserved frame, ROM, new capture, GPU or commit. The revision is a development-only empirical RAM judge."
+  ],
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
