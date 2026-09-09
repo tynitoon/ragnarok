@@ -1,0 +1,87 @@
+{
+  "kind": "perception_stream_assembly_independent_source_review",
+  "created_at_utc": "2026-09-09T17:56:17.649709+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "native_preflight": false,
+  "training_authorized": false,
+  "benchmark_authorized": false,
+  "gate": null,
+  "source_commit": "cd0fc783a39b29099b7d3fee7e190389423d924a",
+  "implementation_commit": "dd08dbdd76ca79711602588f0fc6f5de1dc5e223",
+  "source_sha256": {
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a"
+  },
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "device": "cpu",
+    "torch_num_threads": 1,
+    "cuda_visible_devices": "",
+    "cuda_initialized": false
+  },
+  "checks": {
+    "committed_closure": "All 13 reviewed local source/dependency paths match the Git blobs at source_commit. The final documentation-only change clarifies the inclusive memory window; implementation remains dd08dbd.",
+    "old_proofs": "Four previous independent receipts and every source hash they contain were rechecked unchanged.",
+    "raw_rgb_pooling": "Two supplied uint8 HWC arrays are copied before exact elementwise max pooling. Stored history RGB and tracking observations are detached copies without retained autograd graphs.",
+    "causality": "Only own RGB, predictions, instances, visible tracks and caller-supplied stream/epoch/frame tags enter the assembly. Current and historical endpoint embeddings for I are both recomputed with current parser weights. No RAM, reward, lives, native state or Atari archive was used in this review.",
+    "clock_and_identity": "P requires the same stream/epoch, fixed horizon four, and elapsed frames 1..4. Elapsed 1..3 remains unknown with zero loss. I requires exactly eight native-frame units, not two calls. Public stream/epoch properties are readonly and stored historical tags are retained.",
+    "atomic_observe": "Tracker/history changes commit only after all prediction, target, loss, memory and return-object construction succeeds. Independent late allocation failures and tag mismatch leave the previous tracker/history untouched.",
+    "finite_prediction": "Source d/m must be finite. Truncated zero uses selected tensor elements without an overflowing reduction and retains zero gradients over complete tensors. Complete P losses must both be finite before eligible=True.",
+    "memory_bounds": "History is the inclusive interval [t-8,t], up to nine observations at one-frame cadence; tracker capacity and its own bounded memory are inherited from reviewed dependencies."
+  },
+  "corrected_findings": [
+    {
+      "finding": "Finite extreme source fields previously made truncated zero NaN and could return an eligible full P loss with infinite BCE.",
+      "resolution": "93e23c8 adds finite field/loss guards and a reduction-free graph-connected zero; the older P implementation is unchanged."
+    },
+    {
+      "finding": "Mutable public stream/epoch could relabel saved history and admit cross-epoch I.",
+      "resolution": "dd08dbd makes public tags readonly, stores original memory tags, and rejects mismatches before state commit. A new PerceptionStream is required for a memory reset."
+    }
+  ],
+  "tests": {
+    "suite": "tests/test_perception_stream_v70.py",
+    "passed": 8,
+    "elapsed_seconds": 1.96,
+    "mode": "Synthetic CPU, one Torch thread, CUDA hidden and never initialized. No emulator, archive, optimizer or training loop.",
+    "independent_witnesses": [
+      "Six signed float32-max d/m cases, elapsed 1/2/3: both losses exactly zero and every source-field gradient zero. A non-finite full loss is rejected.",
+      "Actual assembled I on synthetic frames 0 and 8: eight visible instances, sixteen admissible anchors; gradients finite and nonzero on both recomputed endpoint embeddings, no gradient through the earlier returned frame graph, and all 428677 parameter values unchanged.",
+      "Injected MemoryError during final identity-memory construction and during final PerceptionFrame construction after I recomputation: tracker and history identity/content unchanged, successful retry commits once.",
+      "Public tag assignment raises AttributeError; deliberately foreign private-history epoch refuses I without advancing the tracker. A new epoch object starts with empty memory, and P across epochs is rejected.",
+      "Frames 0..9 retain exactly history keys 1..9, all uint8 tensors detached and private tracking descriptors owning independent NumPy storage."
+    ]
+  },
+  "limitations": [
+    "This is a synthetic source review, not native integration, a learning run, a calibration, a performance benchmark or a gate.",
+    "The ordinary native API does not yet expose the two most recent raw RGB frames. The caller must supply the correct causal pair; this module cannot attest its external provenance.",
+    "Stream IDs, epochs and clocks remain caller provenance. Epoch changes must follow an agent-decided memory reset, never automatic use of an ALE reset/life/death counter.",
+    "A late transition_prediction rejection does not roll back already accepted observations. A future runner must preserve all paid charges and stop a failed learning update.",
+    "Private history is detached, but returned PerceptionFrame objects contain live autograd graphs. A future training loop must manage graph lifetime and parameter-update boundaries.",
+    "I uses current-weight embeddings with endogenous track decisions recorded earlier; these IDs are not independent truth. Exact feature collapse and weak/ambiguous P targets remain documented limitations of the component objectives.",
+    "No collector, button-to-effect mapping, C integration, local-category module, optimizer schedule or learning claim is included in this receipt."
+  ]
+}
