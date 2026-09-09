@@ -17,13 +17,16 @@ from scripts.calibrate_seaquest_v70 import SOURCE_PATHS as RAW_SOURCES
 from scripts.capture_seaquest_coverage_v70 import SOURCE_PATHS as CAPTURE_SOURCES
 from scripts.capture_seaquest_coverage_v2 import SOURCE_PATHS as CAPTURE_V2_SOURCES
 from scripts.capture_seaquest_coverage_v3 import SOURCE_PATHS as CAPTURE_V3_SOURCES
+from scripts.capture_seaquest_coverage_v4 import SOURCE_PATHS as CAPTURE_V4_SOURCES
 
 COLLECTIONS = {
     17331: ("docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json", CAPTURE_SOURCES, "instrumentation_rgb_controller_v1"),
     17341: ("docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json", CAPTURE_V2_SOURCES, "instrumentation_rgb_controller_v2"),
     17351: ("docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json", CAPTURE_V3_SOURCES, "instrumentation_rgb_controller_v3"),
+    17361: ("docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json", CAPTURE_V4_SOURCES, "instrumentation_rgb_controller_v4"),
 }
 SOURCE_PATHS = tuple(dict.fromkeys((*RAW_SOURCES, *CAPTURE_SOURCES, *CAPTURE_V2_SOURCES, *CAPTURE_V3_SOURCES,
+                                  *CAPTURE_V4_SOURCES,
                                   "scripts/calibrate_seaquest_coverage_v70.py")))
 
 

@@ -172,3 +172,11 @@ Une quatrième collecte est fixée dans des fichiers distincts et commitée
 si aucun ennemi proche ne prend priorité. Revue Ohm close, trois tests CPU
 passent. Durée, couverture et seuils identiques ; toutes les validations
 réservées restent fermées, y compris 17362.
+
+17361 conserve 32768 images/33280 frames facturées, quatre constructions,
+57,51 secondes. Le premier comptage RAM V3 donne 5367 présences de surface,
+mais la revue RGB n'en voit que 4788 : 579 positions x0 sont entièrement
+masquées. Première apparition réellement visible frame7469, pas frame6701
+(premier drapeau RAM). Le baseline `coverage4_geometry_v3.json` reste FAIL :
+surface 0 % de boîtes correctes, missiles ennemis 95,832 %, sous-marins agrégés
+84,709 %. Les défauts sont diagnostiqués sur développement ; aucun seuil changé.

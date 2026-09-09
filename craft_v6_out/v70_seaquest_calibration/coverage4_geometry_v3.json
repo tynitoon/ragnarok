@@ -1,0 +1,1207 @@
+{
+  "kind": "seaquest_development_coverage_geometry",
+  "seed": 17361,
+  "decoder_revision": "seaquest_raw_development_sprite_occlusion_v3",
+  "created_utc": "2026-09-09T02:21:48Z",
+  "per_type": {
+    "player": {
+      "frames": 32768,
+      "presence_count_agreement": 32742,
+      "positive_frames": 31760,
+      "positive_count_agreement": 31734,
+      "ram_objects": 31760,
+      "pixel_objects": 31734,
+      "joint_matches": 31734,
+      "boxes_within1": 31734,
+      "boxes_exact": 31734,
+      "presence_fraction": 0.99920654296875,
+      "positive_presence_fraction": 0.9991813602015114,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "shark": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 16896,
+      "positive_count_agreement": 16896,
+      "ram_objects": 50174,
+      "pixel_objects": 50174,
+      "joint_matches": 50174,
+      "boxes_within1": 50174,
+      "boxes_exact": 50127,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32088,
+      "positive_frames": 12465,
+      "positive_count_agreement": 11785,
+      "ram_objects": 32892,
+      "pixel_objects": 32539,
+      "joint_matches": 32313,
+      "boxes_within1": 27372,
+      "boxes_exact": 973,
+      "presence_fraction": 0.979248046875,
+      "positive_presence_fraction": 0.9454472523064581,
+      "box_fraction": 0.8470894067403212,
+      "passed": false
+    },
+    "diver": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 7490,
+      "positive_count_agreement": 7490,
+      "ram_objects": 10673,
+      "pixel_objects": 10673,
+      "joint_matches": 10673,
+      "boxes_within1": 10673,
+      "boxes_exact": 10603,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "enemy_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 32768,
+      "positive_frames": 5855,
+      "positive_count_agreement": 5855,
+      "ram_objects": 12619,
+      "pixel_objects": 12619,
+      "joint_matches": 12619,
+      "boxes_within1": 12093,
+      "boxes_exact": 12093,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 0.9583168238370711,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 32768,
+      "presence_count_agreement": 32755,
+      "positive_frames": 24945,
+      "positive_count_agreement": 24932,
+      "ram_objects": 24945,
+      "pixel_objects": 24932,
+      "joint_matches": 24932,
+      "boxes_within1": 24932,
+      "boxes_exact": 24932,
+      "presence_fraction": 0.999603271484375,
+      "positive_presence_fraction": 0.9994788534776509,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "surface_submarine": {
+      "frames": 32768,
+      "presence_count_agreement": 32181,
+      "positive_frames": 5367,
+      "positive_count_agreement": 4780,
+      "ram_objects": 5367,
+      "pixel_objects": 4796,
+      "joint_matches": 4788,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "presence_fraction": 0.982086181640625,
+      "positive_presence_fraction": 0.8906279113098565,
+      "box_fraction": 0.0,
+      "passed": false
+    }
+  },
+  "original_collection_agreement": {
+    "player": true,
+    "shark": true,
+    "submarine": true,
+    "diver": true,
+    "enemy_missile": true,
+    "player_missile": true
+  },
+  "original_collection_calibration_pass": false,
+  "coverage_collection_pass": false,
+  "combined_development_pass": false,
+  "first_disagreements": {
+    "player": [
+      {
+        "frame": 3407,
+        "episode": 0,
+        "ram": [
+          [
+            134,
+            47,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 3684,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 4270,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            47,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 5855,
+        "episode": 0,
+        "ram": [
+          [
+            102,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 7210,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            47,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 8913,
+        "episode": 0,
+        "ram": [
+          [
+            76,
+            33,
+            16,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 10473,
+        "episode": 1,
+        "ram": [
+          [
+            76,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 11924,
+        "episode": 1,
+        "ram": [
+          [
+            134,
+            57,
+            16,
+            6
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "shark": [],
+    "submarine": [
+      {
+        "frame": 1362,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            141,
+            8,
+            10
+          ],
+          [
+            159,
+            121,
+            1,
+            6
+          ],
+          [
+            159,
+            73,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            73,
+            1,
+            1
+          ],
+          [
+            159,
+            75,
+            1,
+            2
+          ],
+          [
+            159,
+            78,
+            1,
+            1
+          ],
+          [
+            159,
+            121,
+            1,
+            1
+          ],
+          [
+            159,
+            123,
+            1,
+            2
+          ],
+          [
+            159,
+            126,
+            1,
+            1
+          ],
+          [
+            127,
+            140,
+            8,
+            11
+          ]
+        ]
+      },
+      {
+        "frame": 1363,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            141,
+            8,
+            10
+          ],
+          [
+            159,
+            121,
+            1,
+            6
+          ],
+          [
+            159,
+            73,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            73,
+            1,
+            1
+          ],
+          [
+            159,
+            75,
+            1,
+            2
+          ],
+          [
+            159,
+            78,
+            1,
+            1
+          ],
+          [
+            159,
+            121,
+            1,
+            1
+          ],
+          [
+            159,
+            123,
+            1,
+            2
+          ],
+          [
+            159,
+            126,
+            1,
+            1
+          ],
+          [
+            127,
+            140,
+            8,
+            11
+          ]
+        ]
+      },
+      {
+        "frame": 1364,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            141,
+            8,
+            10
+          ],
+          [
+            159,
+            121,
+            1,
+            6
+          ],
+          [
+            159,
+            73,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            73,
+            1,
+            1
+          ],
+          [
+            159,
+            75,
+            1,
+            2
+          ],
+          [
+            159,
+            78,
+            1,
+            1
+          ],
+          [
+            159,
+            121,
+            1,
+            1
+          ],
+          [
+            159,
+            123,
+            1,
+            2
+          ],
+          [
+            159,
+            126,
+            1,
+            1
+          ],
+          [
+            127,
+            140,
+            8,
+            11
+          ]
+        ]
+      },
+      {
+        "frame": 1447,
+        "episode": 0,
+        "ram": [
+          [
+            159,
+            145,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            145,
+            1,
+            1
+          ],
+          [
+            159,
+            147,
+            1,
+            2
+          ],
+          [
+            159,
+            150,
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1448,
+        "episode": 0,
+        "ram": [
+          [
+            159,
+            145,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            145,
+            1,
+            1
+          ],
+          [
+            159,
+            147,
+            1,
+            2
+          ],
+          [
+            159,
+            150,
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1449,
+        "episode": 0,
+        "ram": [
+          [
+            159,
+            145,
+            1,
+            6
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            145,
+            1,
+            1
+          ],
+          [
+            159,
+            147,
+            1,
+            2
+          ],
+          [
+            159,
+            150,
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 3179,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            141,
+            8,
+            9
+          ],
+          [
+            159,
+            121,
+            1,
+            5
+          ],
+          [
+            127,
+            69,
+            8,
+            9
+          ]
+        ],
+        "pixels": [
+          [
+            127,
+            68,
+            8,
+            10
+          ],
+          [
+            159,
+            121,
+            1,
+            2
+          ],
+          [
+            159,
+            124,
+            1,
+            2
+          ],
+          [
+            127,
+            140,
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "frame": 3180,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            141,
+            8,
+            9
+          ],
+          [
+            159,
+            121,
+            1,
+            5
+          ],
+          [
+            127,
+            69,
+            8,
+            9
+          ]
+        ],
+        "pixels": [
+          [
+            127,
+            68,
+            8,
+            10
+          ],
+          [
+            159,
+            121,
+            1,
+            2
+          ],
+          [
+            159,
+            124,
+            1,
+            2
+          ],
+          [
+            127,
+            140,
+            8,
+            10
+          ]
+        ]
+      }
+    ],
+    "diver": [],
+    "enemy_missile": [
+      {
+        "frame": 1042,
+        "episode": 0,
+        "ram": [
+          [
+            47,
+            76,
+            1,
+            1
+          ],
+          [
+            47,
+            124,
+            1,
+            1
+          ]
+        ],
+        "pixels": [
+          [
+            47,
+            73,
+            1,
+            1
+          ],
+          [
+            47,
+            121,
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1043,
+        "episode": 0,
+        "ram": [
+          [
+            47,
+            76,
+            2,
+            1
+          ],
+          [
+            47,
+            124,
+            2,
+            1
+          ]
+        ],
+        "pixels": [
+          [
+            47,
+            73,
+            2,
+            1
+          ],
+          [
+            47,
+            121,
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1127,
+        "episode": 0,
+        "ram": [
+          [
+            127,
+            73,
+            6,
+            4
+          ],
+          [
+            127,
+            121,
+            6,
+            4
+          ],
+          [
+            47,
+            148,
+            1,
+            1
+          ]
+        ],
+        "pixels": [
+          [
+            127,
+            73,
+            6,
+            4
+          ],
+          [
+            127,
+            121,
+            6,
+            4
+          ],
+          [
+            47,
+            145,
+            1,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1128,
+        "episode": 0,
+        "ram": [
+          [
+            128,
+            73,
+            6,
+            4
+          ],
+          [
+            128,
+            121,
+            6,
+            4
+          ],
+          [
+            47,
+            148,
+            2,
+            1
+          ]
+        ],
+        "pixels": [
+          [
+            128,
+            73,
+            6,
+            4
+          ],
+          [
+            128,
+            121,
+            6,
+            4
+          ],
+          [
+            47,
+            145,
+            2,
+            1
+          ]
+        ]
+      },
+      {
+        "frame": 1158,
+        "episode": 0,
+        "ram": [
+          [
+            158,
+            73,
+            2,
+            1
+          ],
+          [
+            158,
+            121,
+            2,
+            1
+          ],
+          [
+            73,
+            145,
+            6,
+            4
+          ]
+        ],
+        "pixels": [
+          [
+            158,
+            76,
+            2,
+            1
+          ],
+          [
+            158,
+            124,
+            2,
+            1
+          ],
+          [
+            73,
+            145,
+            6,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 1159,
+        "episode": 0,
+        "ram": [
+          [
+            159,
+            73,
+            1,
+            1
+          ],
+          [
+            159,
+            121,
+            1,
+            1
+          ],
+          [
+            74,
+            145,
+            6,
+            4
+          ]
+        ],
+        "pixels": [
+          [
+            159,
+            76,
+            1,
+            1
+          ],
+          [
+            159,
+            124,
+            1,
+            1
+          ],
+          [
+            74,
+            145,
+            6,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 1163,
+        "episode": 0,
+        "ram": [
+          [
+            92,
+            76,
+            1,
+            1
+          ],
+          [
+            92,
+            124,
+            1,
+            1
+          ],
+          [
+            78,
+            145,
+            6,
+            4
+          ]
+        ],
+        "pixels": [
+          [
+            92,
+            73,
+            1,
+            1
+          ],
+          [
+            92,
+            121,
+            1,
+            1
+          ],
+          [
+            78,
+            145,
+            6,
+            4
+          ]
+        ]
+      },
+      {
+        "frame": 1164,
+        "episode": 0,
+        "ram": [
+          [
+            92,
+            76,
+            2,
+            1
+          ],
+          [
+            92,
+            124,
+            2,
+            1
+          ],
+          [
+            79,
+            145,
+            6,
+            4
+          ]
+        ],
+        "pixels": [
+          [
+            92,
+            73,
+            2,
+            1
+          ],
+          [
+            92,
+            121,
+            2,
+            1
+          ],
+          [
+            79,
+            145,
+            6,
+            4
+          ]
+        ]
+      }
+    ],
+    "player_missile": [
+      {
+        "frame": 3682,
+        "episode": 0,
+        "ram": [
+          [
+            132,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 3684,
+        "episode": 0,
+        "ram": [
+          [
+            122,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 5969,
+        "episode": 0,
+        "ram": [
+          [
+            105,
+            62,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 11924,
+        "episode": 1,
+        "ram": [
+          [
+            147,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 12211,
+        "episode": 1,
+        "ram": [
+          [
+            132,
+            58,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 12213,
+        "episode": 1,
+        "ram": [
+          [
+            122,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 17035,
+        "episode": 1,
+        "ram": [
+          [
+            24,
+            62,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 17037,
+        "episode": 1,
+        "ram": [
+          [
+            14,
+            60,
+            8,
+            1
+          ]
+        ],
+        "pixels": []
+      }
+    ],
+    "surface_submarine": [
+      {
+        "frame": 6701,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6702,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6703,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6704,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6993,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6994,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6995,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 6996,
+        "episode": 0,
+        "ram": [
+          [
+            0,
+            45,
+            8,
+            11
+          ]
+        ],
+        "pixels": []
+      }
+    ]
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "82e693f57c57792ecf83427812e1a245ca4c66080b329bde3093110cc2b95b72",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "fa14b150152561fe65fa3442cafab7e86bf240ce419f99e7294ce45a4625cca7",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V3_PROTOCOL.json": "ffa84a5632bc21599d0d8f8322d16fa7a9d0ee75e44f5f6f21c8e8772e4405d7",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "scripts/capture_seaquest_coverage_v70.py": "435b7c2a0c22ea177075c8767813713f7687009dd478ba3ce6d8ff475fc5a004",
+    "docs/ARC4_SEAQUEST_COVERAGE_PROTOCOL.json": "ec782363b1ab648610c7c17013425c5e22a9b50268f16dc8cc0d6d421ce377e0",
+    "scripts/capture_seaquest_coverage_v2.py": "e62122e3de9d2d42b5a39acd3845deec7f70db6e6acf67306258c2c58459828d",
+    "scripts/seaquest_coverage_controller_v2.py": "4ab49ce91b7ebe553637d16e6a42f0bb504701cc0b22c344f6ddf500aac3596a",
+    "docs/ARC4_SEAQUEST_COVERAGE_V2_PROTOCOL.json": "af006b746f85da7aee9dca8765e0a6a5cb9de9ff0500cd64a7c80f59b76a54c7",
+    "scripts/capture_seaquest_coverage_v3.py": "3ca8ab3a717c716b4c240155cae4bcf0490e86bda55498da8806fa676a557c4a",
+    "scripts/seaquest_coverage_controller_v3.py": "9b7d2ca29cae84fbce42a5a1fe6d77e9af9809efe09d04abc3c107d10e158127",
+    "docs/ARC4_SEAQUEST_COVERAGE_V3_PROTOCOL.json": "6dc092e180212037ef8efdd35fa82e7be1fbc720f82d52ed516bc3da45242e75",
+    "scripts/capture_seaquest_coverage_v4.py": "ceb845666e92c1f7446648cb31213ec645ba2269e141fcde441514f033e7a884",
+    "scripts/seaquest_coverage_controller_v4.py": "f7e11cd897d45051bb15ef78cfee4061011ac5a7725d1cd62590d22c0d57043d",
+    "docs/ARC4_SEAQUEST_COVERAGE_V4_PROTOCOL.json": "f7c20f59bd66c7e5b8bb2466622a1d42592f6edc5e06594d6d0ec47abd1143ef",
+    "scripts/calibrate_seaquest_coverage_v70.py": "cdd7c7b8f58f1027da501c6f7e41fee440c5acc6f9408a31d4c798cbde53420c"
+  },
+  "original_result_sha256": "c84ff0e9f4bcfe974b4454c4c5b3a9d5fd0ae79b5f991f3468cd28c27eec7d01",
+  "fixture_manifest_sha256": "1835d4c29ef926b7a6c6197f85ef6f1637c687b2c3641d4862e813bc143927e5",
+  "scope": "Separate per-collection fractions. Empty original types remain uncalibrated there; all types and the surface subtype require50joint instance-frame matches in the additional collection. No pooled dilution.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
