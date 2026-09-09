@@ -1,0 +1,23 @@
+{
+  "kind": "asteroids_development_prelaunch",
+  "source_commit": "8cbc41dc874b8fe4c07ff960df7f7da179622f43",
+  "review_sha256": "f120b3a914be120a8e308dc583672a73c571b706ad0b21ba6fe5844e0548518f",
+  "verified_sources": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "6fad931f141945996181f0157893e0c9381c9566a9995ab6a7ccc20c665d7573",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "tests/test_asteroids_v70.py": "b2da4f99971e2e3985c344c493dd4dc91de4c15109d2b2123c2aa751292e8c7f"
+  },
+  "created_utc": "2026-09-09T10:15:58.116649+00:00",
+  "command": ".venv-arc4/Scripts/python.exe -u -m scripts.capture_cold_v70 --game asteroids --seed 17511 --frames 8192 --out craft_v6_out/v70_asteroids_calibration/development",
+  "status": "source_and_destination_verified_before_launch"
+}

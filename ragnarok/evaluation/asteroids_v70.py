@@ -49,7 +49,7 @@ def decode_asteroids_ram(ram):
         left, top = max(ROI[0], x), max(ROI[1], y)
         right, bottom = min(ROI[2], x+w), min(ROI[3], y+h)
         if left < right and top < bottom:
-            result.append(SlottedLabel(kind, (left, top, right-left, bottom-top), str(slot)))
+            result.append(SlottedLabel(kind, tuple(map(int, (left, top, right-left, bottom-top))), str(slot)))
 
     if r[74] != 224:
         direction = r[60] & 15

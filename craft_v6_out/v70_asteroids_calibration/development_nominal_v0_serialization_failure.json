@@ -1,0 +1,63 @@
+{
+  "kind": "asteroids_nominal_v0_serialization_failure",
+  "status": "8192_frames_scored_but_result_json_incomplete",
+  "error": "TypeError: Object of type int64 is not JSON serializable in first_disagreements RAM box",
+  "partial_output_sha256": "7afc48b4352c8310ee82225bbdac764280a5bc1343a57358a3cb6620dd9cded5",
+  "initial_source_commit": "8cbc41d",
+  "complete_prefix": {
+    "kind": "asteroids_raw_development_calibration",
+    "seed": 17511,
+    "decoder_revision": "asteroids_raw_nominal_v0",
+    "created_utc": "2026-09-09T10:17:25Z",
+    "per_type": {
+      "player": {
+        "frames": 8192,
+        "presence_count_agreement": 5725,
+        "positive_frames": 4650,
+        "positive_count_agreement": 2183,
+        "joint_matches": 2253,
+        "boxes_within1": 1790,
+        "boxes_exact": 150,
+        "ram_objects": 4622,
+        "pixel_objects": 2352,
+        "presence_fraction": 0.6988525390625,
+        "positive_presence_fraction": 0.46946236559139787,
+        "box_fraction": 0.7944962272525522,
+        "passed": false
+      },
+      "asteroid": {
+        "frames": 8192,
+        "presence_count_agreement": 1265,
+        "positive_frames": 8192,
+        "positive_count_agreement": 1265,
+        "joint_matches": 20974,
+        "boxes_within1": 9121,
+        "boxes_exact": 3189,
+        "ram_objects": 42006,
+        "pixel_objects": 26856,
+        "presence_fraction": 0.1544189453125,
+        "positive_presence_fraction": 0.1544189453125,
+        "box_fraction": 0.43487174597120243,
+        "passed": false
+      },
+      "player_missile": {
+        "frames": 8192,
+        "presence_count_agreement": 7114,
+        "positive_frames": 2004,
+        "positive_count_agreement": 926,
+        "joint_matches": 952,
+        "boxes_within1": 949,
+        "boxes_exact": 939,
+        "ram_objects": 1906,
+        "pixel_objects": 1323,
+        "presence_fraction": 0.868408203125,
+        "positive_presence_fraction": 0.4620758483033932,
+        "box_fraction": 0.9968487394957983,
+        "passed": false
+      }
+    },
+    "calibration_pass": false
+  },
+  "next_action": "Convert output RAM box coordinates to Python int without changing formulas; preserve this partial file and rescore to a distinct output",
+  "gate_result": null
+}

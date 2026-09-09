@@ -1,0 +1,614 @@
+{
+  "kind": "asteroids_raw_development_calibration",
+  "seed": 17511,
+  "decoder_revision": "asteroids_raw_nominal_v0",
+  "created_utc": "2026-09-09T10:20:39Z",
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 5725,
+      "positive_frames": 4650,
+      "positive_count_agreement": 2183,
+      "joint_matches": 2253,
+      "boxes_within1": 1790,
+      "boxes_exact": 150,
+      "ram_objects": 4622,
+      "pixel_objects": 2352,
+      "presence_fraction": 0.6988525390625,
+      "positive_presence_fraction": 0.46946236559139787,
+      "box_fraction": 0.7944962272525522,
+      "passed": false
+    },
+    "asteroid": {
+      "frames": 8192,
+      "presence_count_agreement": 1265,
+      "positive_frames": 8192,
+      "positive_count_agreement": 1265,
+      "joint_matches": 20974,
+      "boxes_within1": 9121,
+      "boxes_exact": 3189,
+      "ram_objects": 42006,
+      "pixel_objects": 26856,
+      "presence_fraction": 0.1544189453125,
+      "positive_presence_fraction": 0.1544189453125,
+      "box_fraction": 0.43487174597120243,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 7114,
+      "positive_frames": 2004,
+      "positive_count_agreement": 926,
+      "joint_matches": 952,
+      "boxes_within1": 949,
+      "boxes_exact": 939,
+      "ram_objects": 1906,
+      "pixel_objects": 1323,
+      "presence_fraction": 0.868408203125,
+      "positive_presence_fraction": 0.4620758483033932,
+      "box_fraction": 0.9968487394957983,
+      "passed": false
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": {
+    "player": [
+      {
+        "frame": 1,
+        "episode": 0,
+        "ram": [
+          [
+            84,
+            100,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 3,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 5,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 7,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 9,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 10,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            85,
+            101,
+            6,
+            8
+          ]
+        ]
+      },
+      {
+        "frame": 11,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 12,
+        "episode": 0,
+        "ram": [
+          [
+            85,
+            98,
+            6,
+            10
+          ]
+        ],
+        "pixels": [
+          [
+            85,
+            100,
+            6,
+            8
+          ]
+        ]
+      }
+    ],
+    "asteroid": [
+      {
+        "frame": 2,
+        "episode": 0,
+        "ram": [
+          [
+            36,
+            24,
+            16,
+            28
+          ],
+          [
+            48,
+            148,
+            16,
+            28
+          ],
+          [
+            126,
+            28,
+            16,
+            28
+          ],
+          [
+            124,
+            152,
+            16,
+            28
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 3,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            146,
+            16,
+            28
+          ],
+          [
+            126,
+            30,
+            16,
+            28
+          ],
+          [
+            124,
+            154,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            36,
+            22,
+            16,
+            28
+          ],
+          [
+            126,
+            31,
+            16,
+            28
+          ],
+          [
+            48,
+            146,
+            16,
+            28
+          ],
+          [
+            124,
+            155,
+            16,
+            28
+          ]
+        ]
+      },
+      {
+        "frame": 4,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            146,
+            16,
+            28
+          ],
+          [
+            126,
+            30,
+            16,
+            28
+          ],
+          [
+            124,
+            154,
+            16,
+            28
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 5,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            144,
+            16,
+            28
+          ],
+          [
+            126,
+            32,
+            16,
+            28
+          ],
+          [
+            124,
+            156,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            36,
+            20,
+            16,
+            28
+          ],
+          [
+            126,
+            33,
+            16,
+            28
+          ],
+          [
+            48,
+            144,
+            16,
+            28
+          ],
+          [
+            124,
+            157,
+            16,
+            28
+          ]
+        ]
+      },
+      {
+        "frame": 6,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            144,
+            16,
+            28
+          ],
+          [
+            126,
+            32,
+            16,
+            28
+          ],
+          [
+            124,
+            156,
+            16,
+            28
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 7,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            142,
+            16,
+            28
+          ],
+          [
+            126,
+            34,
+            16,
+            28
+          ],
+          [
+            124,
+            158,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            36,
+            18,
+            16,
+            28
+          ],
+          [
+            126,
+            35,
+            16,
+            28
+          ],
+          [
+            48,
+            142,
+            16,
+            28
+          ],
+          [
+            124,
+            159,
+            16,
+            28
+          ]
+        ]
+      },
+      {
+        "frame": 8,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            142,
+            16,
+            28
+          ],
+          [
+            126,
+            34,
+            16,
+            28
+          ],
+          [
+            124,
+            158,
+            16,
+            28
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 9,
+        "episode": 0,
+        "ram": [
+          [
+            48,
+            140,
+            16,
+            28
+          ],
+          [
+            126,
+            36,
+            16,
+            28
+          ],
+          [
+            124,
+            160,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            36,
+            18,
+            16,
+            26
+          ],
+          [
+            126,
+            37,
+            16,
+            28
+          ],
+          [
+            48,
+            140,
+            16,
+            28
+          ],
+          [
+            124,
+            161,
+            16,
+            28
+          ]
+        ]
+      }
+    ],
+    "player_missile": [
+      {
+        "frame": 35,
+        "episode": 0,
+        "ram": [
+          [
+            92,
+            99,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 37,
+        "episode": 0,
+        "ram": [
+          [
+            96,
+            97,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 39,
+        "episode": 0,
+        "ram": [
+          [
+            100,
+            95,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 41,
+        "episode": 0,
+        "ram": [
+          [
+            104,
+            93,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 43,
+        "episode": 0,
+        "ram": [
+          [
+            108,
+            91,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 45,
+        "episode": 0,
+        "ram": [
+          [
+            112,
+            89,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 47,
+        "episode": 0,
+        "ram": [
+          [
+            116,
+            87,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      },
+      {
+        "frame": 49,
+        "episode": 0,
+        "ram": [
+          [
+            120,
+            85,
+            1,
+            2
+          ]
+        ],
+        "pixels": []
+      }
+    ]
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1"
+  },
+  "fixture_manifest_sha256": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

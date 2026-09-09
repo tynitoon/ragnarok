@@ -20,3 +20,21 @@ les256orientations et120cas d'allocation/taille/visibilité vérifiés. Le reçu
 `precollection_review.json` lie les sources et le protocole ; il permet seulement
 la collecte de développement après commit. Aucun résultat de jeu ni de transfert
 n'est établi. RAM, palettes et labels restent réservés aux instruments externes.
+
+Collecte17511 exécutée après commit `8cbc41d` et vérification des13sources :
+8 192images, cinq constructions froides,8 852frames facturées. Baseline négative
+pour les trois catégories ; réservé17512 toujours fermé.
+
+| Catégorie | Comptage positif égal | Boîtes à un pixel près | Statut |
+|---|---:|---:|---|
+| Vaisseau | 2183/4650 | 1790/2253 | FAIL |
+| Astéroïdes | 1265/8192 | 9121/20974 | FAIL |
+| Tirs du joueur | 926/2004 | 949/952 | FAIL |
+
+Le premier export JSON a échoué après le calcul complet : des coordonnées
+NumPyint64 dans les exemples n'étaient pas sérialisables. Le fichier partiel
+`development_nominal_v0.json` et le reçu de cet échec sont conservés. Une
+conversion vers les entiers Python, sans changement de géométrie, permet
+l'export distinct `development_nominal_v0_serialized.json`. Les statistiques
+sont exactement celles du préfixe complet du premier export. Le défaut de
+sérialisation avait échappé à la revue préalable.

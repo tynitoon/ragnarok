@@ -22,6 +22,7 @@ def test_visibility_and_border_clip_keep_allocation():
     # Encoded10 -> x157; y184. Nominal16x28 is clipped to3x10.
     labels = decode_asteroids_ram(ram)
     assert [(o.kind, o.box, o.slot) for o in labels] == [("asteroid", (157, 184, 3, 10), "3")]
+    assert all(type(value) is int for o in labels for value in o.box)
     ram[3] = 128
     assert decode_asteroids_ram(ram) == []
 
