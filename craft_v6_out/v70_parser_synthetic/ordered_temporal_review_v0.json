@@ -1,0 +1,177 @@
+{
+  "kind": "ordered_temporal_independent_source_review",
+  "passed": true,
+  "created_utc": "2026-09-09 21:49:51 UTC",
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json": "f7d44de26f8115c91c664639c8be88a5984bd13584875fafa124d9f7026a5166",
+    "craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json": "968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/ordered_motion_review_v0.json": "138a3049877c38636a584cfa0de065c1c28d461aefcc5fa5b203e87a8b4b692f",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b"
+  },
+  "local_python_closure_count": 42,
+  "previous_source_hashes_verified": 46,
+  "review_head_commit": "86eeb9f54c4b88c0601009861fcd4fbd311488c1",
+  "runtime": {
+    "cuda_visible_devices": "",
+    "executable": "C:\\Python314\\python.exe",
+    "numerical_threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "numpy": "2.4.4",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "scipy": "1.17.1",
+    "torch": "2.11.0+cu126",
+    "torch_num_threads": 1
+  },
+  "source_sha256": {
+    "docs/ARC4_ORDERED_MOTION_DRAFT.md": "db98f51501e10cd312f8ed34bd55e3c1c0f168ff83274bcebc264ec374d7b20c",
+    "docs/ARC4_ORDERED_TEMPORAL_DRAFT.md": "a6b12c91bb2018bad87579adb7f24b470b7360656df7de7a9fed0cb534eb0052",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "docs/ARC4_PREDICTION_LOSS_LIMITS.md": "4c7d514715466bcdfa9f4d5670b94bd61b14fe8baff20dc93c2d138e6a58d8a7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/ordered_motion_parser_v70.py": "73a7cfe0b76abc44b260ac7ba9412ec658b65b7024ce2acde6b09b80d47c1daa",
+    "ragnarok/learning/ordered_perception_stream_v70.py": "b545c82e7192a141c54b08650ebdf5d774c2eba0283cd4a6d55303eacfce9829",
+    "ragnarok/learning/owned_ordered_perception_v70.py": "717426329e5eee2369c36858c7485e36ed895ca6aea583820b576883fbcde186",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_motion_observation_alias_v70.py": "bdb7a77dabaa8a169010ef493a4b38e21043eac72a98fc1fbd032fce9223c3b9",
+    "tests/test_ordered_motion_parser_v70.py": "43f200e009b4c289ae47abc54713bc3da4ccce8bc750692da5e7db95f47499d4",
+    "tests/test_ordered_perception_stream_v70.py": "3e5876098af6094a1bd485a7cd2f8b51a71358923d955882a9ad0841a3b64976",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_ordered_perception_v70.py": "9eaabd771d30bd8d899ce487de5654daab86a986e3df08ac4a4b1f84c62aaa8b",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "tests/test_prediction_loss_translation_limits_v70.py": "76cc0f62bd5bb0a9dec3b85d280e39f9ab668fc0d1507c561edd1c3fdf696379",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5"
+  },
+  "source_commits": {
+    "stream": "258fae538e0ac5f107a6e62346a224f4af5b1ad8",
+    "owned_adapters": "fd0c704c22f5d12734498c9d1b38a269de2d9c98",
+    "prediction_limits": "f47f21466cfc8c1d47ec26904d204820b8ae7535"
+  },
+  "reviewer": "independent_agent_review_recovery_v62",
+  "review_scope": "Candidat CPU synthétique uniquement : OrderedPerceptionStream, owners P/C et temporel ordonnés, et témoins mathématiques de la perte P. Aucun modèle sur archive réelle, aucune ALEInterface, aucun optimiseur ni mise à jour.",
+  "checks": {
+    "contracts": "Le flux et les owners exigent le type exact OrderedMotionParser. Les owners vérifient paramètres float32 finis sur un appareil unique et hauteur/largeur des ancrages >=8 avant leurs commandes. L'ancien parser est refusé, même si le nouveau en hérite. La construction initiale du moteur éventuel reste une opération antérieure relevant de l'appelant.",
+    "ordered_intake": "P/C infère rétrospectivement depuis les deux images copiées de l'ancrage effectivement payé et l'hypothèse d'effet enregistrée. La source de reconstruction et les autres têtes restent max-poolées. Aucun écran futur n'intervient dans la sélection de l'action déjà exécutée.",
+    "temporal_memory": "I conserve les deux écrans uint8 détachés et une copie du suivi propre par timestamp, flux et époque, puis recalcule avec les poids courants à lag exactement8. L'historique inclusif de8 images contient au plus9 timestamps ; aucun embedding périmé ni graphe n'y est conservé.",
+    "effect_routing": "Les observations temporelles utilisent UNKNOWN (zéro) ; les objectifs P/C utilisent séparément l'hypothèse d'effet de l'action enregistrée. Ni bouton brut, ni âge natif, ni annotation de mort ou vérité d'effet ne devient une caractéristique.",
+    "atomicity": "observe() prépare un tracker forké, un historique neuf et tous les résultats avant publication. L'héritage des méthodes publiques payantes, diagnostic, ancrage et fermeture a été confirmé par identité des objets fonctions pour12 méthodes. La copie superficielle de chaque stream dans la session ne modifie donc pas les anciennes mémoires lorsqu'un autre worker échoue.",
+    "clocks": "Les préfixes0..3 ne supervisent pas P4. Les durées1/3/4 sont comptées comme1/4/8 images livrées, pas comme trois repeats complets. T0 sans rupture visible n'ajoute aucun objectif temporel. Une rupture RGB visible crée une époque propre ; un reset natif visuellement invisible reste indétectable. Les branches ne vieillissent pas les mémoires ordinaires.",
+    "counterfactuals": "La méthode C héritée conserve les composants et déplacements propres recomputés avec l'effet choisi, les différences poolées à l'image4 et les branches tronquées inconnues. Une paire8 ne devient pas deux exemples C. Aucune modification des critères ou pertes précédemment relus.",
+    "failures": "Un échec après dépense arrête les owners et conserve les records ; les contrôles des cinq têtes et des pertes finies restent en place. L'échec multiworker conserve le lot entier et refuse toute nouvelle commande. Les verrous hérités couvrent toujours le traitement après paiement.",
+    "source_integrity": "51 sources et12 preuves vérifiées octet par octet et committées ; fermeture locale de42 fichiers Python. Les46 empreintes de sources des trois revues antérieures consultées sont restées exactes.",
+    "prediction_loss_limits": "La famille des translations uniformes du carré a L1=.046875 et gradient dx nul pour dx=±.25/±.5 ; dx4 donne0. Jeter la source hors champ donne une image noire avec L1=.0234375. Le gradient dense n'est pas nécessairement nul : témoin indépendant à dx=.25, somme du gradient uniforme0 mais somme absolue dense.0302734375."
+  },
+  "tests": {
+    "command": "C:/Python314/python.exe -m pytest -q tests/test_ordered_perception_stream_v70.py tests/test_owned_ordered_perception_v70.py tests/test_prediction_loss_translation_limits_v70.py",
+    "passed": 13,
+    "elapsed_seconds": 11.4,
+    "cpu_only": true,
+    "optimizer_updates": 0,
+    "independent_witnesses": {
+      "inherited_public_paid_methods_exact": 12,
+      "constructor_invalid_domains": [
+        "float64",
+        "nonfinite_parameter",
+        "7_pixel_height"
+      ],
+      "two_worker_late_failure": {
+        "known_charged_frames": 1208,
+        "retained_records": 2,
+        "retained_prediction_graphs": 2,
+        "no_memory_committed": true,
+        "retry_refused": true
+      },
+      "irregular_delivered_clock": {
+        "durations": [
+          1,
+          3,
+          4
+        ],
+        "times": [
+          1,
+          4,
+          8
+        ],
+        "P_eligible": [
+          false,
+          false,
+          true
+        ],
+        "known_charged_frames": 608,
+        "identity_anchors_at8": 1
+      },
+      "two_T0_calls": {
+        "observations": [
+          null,
+          null
+        ],
+        "history_unchanged": true,
+        "known_charged_frames": 864,
+        "ordinary_clock": 0
+      },
+      "translation_dense_gradient_scope": {
+        "loss": 0.046875,
+        "uniform_dx_gradient": 0,
+        "dense_gradient_abs_sum": 0.0302734375
+      },
+      "cuda_initialized": false,
+      "ale_imported": false
+    }
+  },
+  "findings": [],
+  "limitations": [
+    "PASS technique sur les contrats et témoins synthétiques uniquement. Aucun préflight natif, protocole d'entraînement, gate, résultat de vision apprise ou autorisation de remplacer les anciennes sources.",
+    "Conserver l'ordre distingue le contre-exemple MAX, mais une sortie d différente ne prouve ni direction correcte ni apprentissage. Les limites locales de P restent matérielles ; elles ne sont pas corrigées par ce raccord.",
+    "Les témoins de translation portent sur la composante image L1 et une famille particulière de champs. Ils ne prouvent ni gradient dense partout nul, ni convergence vers une image noire, ni fréquence d'échec sur Atari.",
+    "Les cibles G/I/C restent auto-produites et peuvent être pauvres ou absentes. L'ancre I unique observée dans le témoin irrégulier est une cible admissible, pas une preuve d'identité apprise ou d'un gradient utile.",
+    "Le nombre et la durée des images sont attestés par le collecteur propre. La classe flux seule accepte une horloge fournie et ne démontre pas cette provenance ; les resets invisibles restent hors de son information.",
+    "L'exclusivité du parser et du collecteur est un contrat Python de l'appelant ; elle n'empêche pas un alias externe ou une modification concurrente des poids hors API. Les contrôles de construction ne garantissent pas que les paramètres resteront finis après un futur optimiseur.",
+    "Après un échec temporel, _pending conserve au plus le lot courant de prédictions, y compris ses graphes P/C : le témoin à deux workers en conserve deux. close() ferme le collecteur mais ne purge pas ce lot ; l'appelant doit libérer le propriétaire pour libérer ces graphes. L'historique I reste détaché.",
+    "Les retours de succès portent leurs graphes pour backward ; les accumuler sans libération peut épuiser la mémoire. Aucune boucle durable de stockage, mise à jour, reprise après échec ou stabilité d'entraînement n'est validée.",
+    "Les tests ont été exécutés seulement après la fermeture annoncée du wiring natif du parent. Aucun optimiseur, GPU, émulateur ni archive native réelle n'a été utilisé par cette revue."
+  ]
+}
