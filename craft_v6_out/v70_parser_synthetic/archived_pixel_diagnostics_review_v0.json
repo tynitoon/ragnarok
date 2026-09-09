@@ -1,0 +1,129 @@
+{
+  "kind": "archived_pixel_diagnostics_independent_source_review",
+  "passed": true,
+  "created_utc": "2026-09-09T20:29:44.155Z",
+  "reviewer": "independent /root/review_recovery_v62",
+  "source_commit": "d6d158059ec2c79702336906f57fb8fa8d5137f9",
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b"
+  },
+  "prior_source_matches": 26,
+  "runtime": {
+    "cuda_initialized": false,
+    "cuda_visible_devices": "",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "torch_num_threads": 1,
+    "versions": {
+      "numpy": "2.4.4",
+      "pytest": "9.0.3",
+      "scipy": "1.17.1",
+      "torch": "2.11.0+cu126"
+    }
+  },
+  "source_sha256": {
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236"
+  },
+  "preflight_authorized": false,
+  "native_archive_inference_performed": false,
+  "checks": {
+    "closure": "AST-recursive local import closure contains28 Python files plus the final draft. All29 source blobs match d6d1580. The26 pre-existing imported source files match their earlier independent receipts; all eight prior receipts retain their previously recorded hashes.",
+    "inputs": "Copies and validates actual start/raw/pooled/endpoint RGB and own recorded effect. Only increasing archived indices in a contiguous block may share memory. Contiguous chronology is checked using current RGB, never a native reset/life/death annotation.",
+    "history": "A collection gap or actual current-screen discontinuity creates a fresh PerceptionStream. The actual source anchor is reused to initialize detached tracking/history, without inventing intermediate frames or returning an additional paid target. Exact8 delivered-frame identity semantics remain those of the reviewed stream.",
+    "objectives": "P and foreground loss use the real recorded source pair and complete four-image endpoint only;0..3 images are unknown with zero loss. Temporal G/I use unknown effect independently of P/C. C recomputes own dense predictions/instances from its branch anchor and recorded effect, and uses the fourth pooled image of both branches even when8 were recorded.",
+    "graphs": "Finite heads and finite individual losses/total required. Combined P/foreground/G/I backward and separate C backward use the reviewed float64 gradient guard with prospective norm1, followed by clearing parameter gradients. Full model-state hash is compared with initialization; no optimizer or weight update exists.",
+    "ownership": "A global locked WeakKeyDictionary now claims each parser object once for its lifetime. Concurrent second owners, replacements after failure, and parsers with pre-existing gradients are refused. The diagnostic-level nonblocking lock still protects each public operation.",
+    "failure": "A fatal processing error latches stopped; failed backward/admission clears gradients in finally. A rejected racing constructor leaves the current owner's gradients untouched. Failure does not promise rollback of already advanced private tracking/history; the stopped owner cannot continue.",
+    "scope": "The helper itself cannot attest archive provenance, exact sample population or prescribed initialization. Those remain requirements for the separately reviewed, committed prospective runner before any native-archive model inference."
+  },
+  "tests": {
+    "command": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1 C:/Python314/python.exe; torch.set_num_threads(1); pytest -q tests/test_archived_pixel_diagnostics_v70.py",
+    "final_suite": "12 passed in3.63s; CUDA remained uninitialized.",
+    "independent_final_witnesses": [
+      {
+        "case": "Shared parser ownership after first backward",
+        "method": "Suspend owner A in a patched admission function using an Event; attempt another constructor while A's gradient exists; verify that gradient tensor is unchanged, then resume A.",
+        "outcome": "Second owner refused before clearing or changing gradients; A finishes successfully and clears its own gradients."
+      },
+      {
+        "case": "Late admission MemoryError",
+        "outcome": "Stopped=true, all parameter.grad=None, exact initial weight hash retained; both same-owner continuation and a new owner for that parser are refused."
+      },
+      {
+        "case": "Positive one- and two-image ordinary prefixes",
+        "outcome": "P and foreground losses exactly0, prediction_eligible=false, successful gradient cleanup."
+      },
+      {
+        "case": "Change only intervention raw frames5..8 and rebuild their pooled recurrence/end",
+        "outcome": "The complete C result and gradient receipt remain identical;368 pixels supervised at C4 with common_prefix_frames=8. Branch processing leaves ordinary memory uninitialized/unchanged."
+      }
+    ],
+    "synthetic_only": "All observations originated in repository toy Python engines and synthetic arrays. No model read any real native archive; no emulator, ROM, GPU, optimizer or new collection was used."
+  },
+  "preserved_initial_anomalies": [
+    {
+      "commit": "f1f80d2",
+      "finding": "Two diagnostics accepted the same parser. A was paused after backward, B completed its own public step and zeroed shared gradients, then A failed admission.",
+      "observed": {
+        "second_succeeded": true,
+        "first_error": "ValueError: No gradient tensors supplied to Adam admission",
+        "first_stopped": true
+      },
+      "resolution": "d6d1580 rejects the second lifetime owner of the same parser; original successful owner's computation is preserved."
+    },
+    {
+      "commit": "f1f80d2",
+      "finding": "A MemoryError injected into admission after backward left a gradient despite the successful-path cleanup wording.",
+      "observed": {
+        "gradient_tensors_left": 1,
+        "scalar_gradient": 0.7923458218574524,
+        "weights_unchanged": true,
+        "stopped": true
+      },
+      "resolution": "d6d1580 clears gradients in finally while retaining stopped status. Existing external gradients are rejected and preserved at construction."
+    }
+  ],
+  "limitations": [
+    "Technical synthetic source review only; not a preflight receipt for the separate runner and not permission to infer on real native archives.",
+    "A finite, nonzero or clipped gradient does not demonstrate useful supervision, stable learning, control identification or improved performance. Unit loss coefficients and norm1 are prospective numerical diagnostics, not a frozen training recipe.",
+    "Ownership is enforced for the same parser object, not as memory isolation. External code and distinct models aliasing parameter storage remain explicitly forbidden by the caller contract.",
+    "Recorded indices, operation IDs, source epochs and RGB provenance are supplied by the caller. The later sealed runner must bind them to the reviewed72 ordinary records and six paid pairs; this helper alone does not certify them.",
+    "Identity uses exactly eight delivered ordinary frames within a clip. Reusing a captured source anchor does not create a new paid observation, and gaps never imply fabricated intermediate targets.",
+    "Private temporal memory may already have advanced before a late fatal error. No rollback or resumption is claimed; failure must be preserved and the diagnostic/model cannot be repurposed through another owner.",
+    "No native wiring, full archival inference, calibration, throughput, optimization step, training, transfer or gate result follows from this receipt."
+  ]
+}
