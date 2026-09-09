@@ -164,6 +164,20 @@ bounds. They cannot restore a connection or authorize another paid command.
     def _remember(self,index,report):
         if type(report) is not dict or 'accounting' not in report or 'failure' not in report:
             raise ValueError('An explicit worker ledger or unknown-accounting report is required')
+        accounting=report['accounting']
+        if accounting is not None and (type(accounting) is not dict
+                or type(accounting.get('charged_frames')) is not int or accounting['charged_frames']<0):
+            raise ValueError('A nonnegative integer known charge or explicitly unknown ledger is required')
+        previous=self._reports.get(index,{}).get('accounting')
+        if previous is not None and (accounting is None or accounting['charged_frames']<previous['charged_frames']):
+            # An unavailable/regressed later report cannot erase a charge that
+            # this process has already acknowledged. Keep the earlier ledger as
+            # a lower bound and expose the current failure alongside it.
+            failure=report['failure'] or dict(error_type='RegressedIsolatedLedger',
+                error='Later worker ledger is unavailable or lower than an acknowledged charge')
+            report=dict(report,accounting=previous,accounting_complete=False,failure=failure)
+        elif accounting is None:
+            report=dict(report,accounting_complete=False)
         # Deserialization gave this pool its own detached report. Retain it
         # immediately; an extra copy could fail after the ledger was received.
         self._reports[index]=report

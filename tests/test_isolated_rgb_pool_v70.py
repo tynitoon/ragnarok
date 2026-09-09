@@ -120,6 +120,27 @@ def test_lost_paid_reply_kills_that_peer_and_keeps_its_last_ledger_as_lower_boun
     finally:transport.close()
 
 
+@pytest.mark.parametrize('later_accounting',[None,{'charged_frames':0}])
+def test_failed_report_recovery_never_erases_a_previously_received_paid_ledger(monkeypatch,later_accounting):
+    peers,_=install(monkeypatch,step_failure=0);transport=pool(1)
+    original_send=peers[0].send
+    def failed_report(command,args):
+        sequence=original_send(command,args)
+        if command=='report':
+            peers[0].reply=(False,{'error_type':'SyntheticReportFailure','worker_report':{
+                'accounting':later_accounting,'accounting_complete':False,
+                'failure':{'error_type':'SyntheticReportFailure','accounting_complete':False}}})
+        return sequence
+    peers[0].send=failed_report
+    try:
+        with pytest.raises(isolated.IsolatedWorkerError) as caught:transport.step([1])
+        report=caught.value.known_worker_reports[0]
+        assert report['accounting']['charged_frames']==601
+        assert report['accounting_complete'] is False and report['failure']['error_type']=='SyntheticReportFailure'
+        assert transport.report()['accounting']['charged_frames']==601
+    finally:transport.close()
+
+
 def test_external_mutation_of_report_cannot_rewrite_known_ledger(monkeypatch):
     install(monkeypatch);transport=pool(1)
     try:

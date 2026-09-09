@@ -43,3 +43,10 @@ Le client ne définit aucun protocole d'apprentissage ou gain de vitesse. Un
 appelant doit toujours fermer le pool dans un `finally` ; un arrêt brutal du
 processus parent par le système ne dispose pas ici d'une garantie supplémentaire
 de terminaison des enfants.
+
+La revue a identifié une perte de preuve sur le premier client : un échec payé
+avait rendu601charges connues, puis un rapport de récupération sans compte les
+remplaçait par inconnu. Le client conserve désormais le dernier compte chiffré
+si un rapport ultérieur est absent ou régresse, tout en ajoutant l'erreur actuelle
+et `accounting_complete=false`. Les deux variantes du témoin sont testées ;
+elles ne permettent ni reprise du worker ni déduction des charges inconnues.
