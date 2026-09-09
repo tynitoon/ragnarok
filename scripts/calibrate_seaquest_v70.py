@@ -12,7 +12,7 @@ from ragnarok.evaluation.seaquest_v70 import KINDS, REVISION, decode_seaquest_ra
 from ragnarok.evaluation.cold_fixtures_v70 import cold_fixture_frames
 
 SOURCE_PATHS = ("ragnarok/evaluation/seaquest_v70.py","ragnarok/evaluation/cold_fixtures_v70.py",
-                "scripts/calibrate_seaquest_v70.py","docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+                "scripts/calibrate_seaquest_v70.py","docs/ARC4_SEAQUEST_CALIBRATION_V1_PROTOCOL.json",
                 "scripts/capture_cold_v70.py","ragnarok/environments/cold_emu_pool_v70.py",
                 "ragnarok/environments/emu_pool.py","ragnarok/environments/frame_budget_v70.py",
                 "ragnarok/evaluation/pong_v70.py","scripts/calibrate_breakout_v70.py")
@@ -20,7 +20,7 @@ SOURCE_PATHS = ("ragnarok/evaluation/seaquest_v70.py","ragnarok/evaluation/cold_
 
 def calibrate(directory):
     root = Path(__file__).resolve().parents[1]
-    protocol = json.loads((root/"docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json").read_text())
+    protocol = json.loads((root/"docs/ARC4_SEAQUEST_CALIBRATION_V1_PROTOCOL.json").read_text(encoding="utf-8"))
     manifest = json.loads((directory/"manifest.json").read_text())
     if (manifest["game"]!="seaquest" or manifest["frames"]!=protocol["frames"] or
             manifest["seed"] not in (protocol["development_seed"],protocol["reserved_validation_seed"])):

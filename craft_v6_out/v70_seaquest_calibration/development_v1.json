@@ -1,0 +1,699 @@
+{
+  "kind": "independent_seaquest_raw_calibration",
+  "created_utc": "2026-09-09T01:18:57Z",
+  "decoder_revision": "seaquest_raw_development_sprite_support_v1",
+  "seed": 17311,
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8064,
+      "joint_matches": 6480,
+      "boxes_within1": 6373,
+      "boxes_exact": 5637,
+      "ram_objects": 6608,
+      "pixel_objects": 6480,
+      "presence_fraction": 0.984375,
+      "box_fraction": 0.9834876543209876,
+      "passed": false
+    },
+    "shark": {
+      "frames": 8192,
+      "presence_count_agreement": 8089,
+      "joint_matches": 5635,
+      "boxes_within1": 5483,
+      "boxes_exact": 5479,
+      "ram_objects": 5635,
+      "pixel_objects": 5788,
+      "presence_fraction": 0.9874267578125,
+      "box_fraction": 0.9730257320319432,
+      "passed": false
+    },
+    "submarine": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 0,
+      "presence_fraction": 1.0,
+      "box_fraction": null,
+      "passed": false
+    },
+    "diver": {
+      "frames": 8192,
+      "presence_count_agreement": 7641,
+      "joint_matches": 9762,
+      "boxes_within1": 9737,
+      "boxes_exact": 9698,
+      "ram_objects": 10861,
+      "pixel_objects": 9762,
+      "presence_fraction": 0.9327392578125,
+      "box_fraction": 0.9974390493751281,
+      "passed": false
+    },
+    "enemy_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 7892,
+      "joint_matches": 0,
+      "boxes_within1": 0,
+      "boxes_exact": 0,
+      "ram_objects": 0,
+      "pixel_objects": 602,
+      "presence_fraction": 0.96337890625,
+      "box_fraction": null,
+      "passed": false
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 7929,
+      "joint_matches": 758,
+      "boxes_within1": 741,
+      "boxes_exact": 730,
+      "ram_objects": 1021,
+      "pixel_objects": 758,
+      "presence_fraction": 0.9678955078125,
+      "box_fraction": 0.9775725593667546,
+      "passed": false
+    }
+  },
+  "calibration_pass": false,
+  "first_disagreements": [
+    {
+      "frame": 128,
+      "kind": "player",
+      "ram": [
+        [
+          75,
+          47,
+          16,
+          11
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 133,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          73,
+          1,
+          1
+        ],
+        [
+          8,
+          97,
+          1,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 134,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          73,
+          1,
+          1
+        ],
+        [
+          8,
+          97,
+          1,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 135,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          73,
+          1,
+          1
+        ],
+        [
+          8,
+          97,
+          1,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 136,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          73,
+          1,
+          1
+        ],
+        [
+          8,
+          97,
+          1,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 137,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          73,
+          1,
+          1
+        ],
+        [
+          8,
+          97,
+          1,
+          1
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 138,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          2,
+          4
+        ],
+        [
+          8,
+          94,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 139,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          2,
+          4
+        ],
+        [
+          8,
+          94,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 140,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          2,
+          4
+        ],
+        [
+          8,
+          94,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 141,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          2,
+          4
+        ],
+        [
+          8,
+          94,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 142,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          2,
+          4
+        ],
+        [
+          8,
+          94,
+          2,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 143,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 143,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 144,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 144,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 145,
+      "kind": "player",
+      "ram": [
+        [
+          59,
+          47,
+          16,
+          11
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 145,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 145,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 146,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 146,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 147,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 147,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 148,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 148,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          3,
+          4
+        ],
+        [
+          8,
+          94,
+          3,
+          4
+        ]
+      ]
+    },
+    {
+      "frame": 149,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 149,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "frame": 150,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 150,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "frame": 151,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 151,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ]
+    },
+    {
+      "frame": 152,
+      "kind": "diver",
+      "ram": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ],
+      "pixels": []
+    },
+    {
+      "frame": 152,
+      "kind": "enemy_missile",
+      "ram": [],
+      "pixels": [
+        [
+          8,
+          70,
+          4,
+          5
+        ],
+        [
+          8,
+          94,
+          4,
+          5
+        ]
+      ]
+    }
+  ],
+  "fixture_manifest_sha256": "725c307ce9cf7e1ad32a6a7b29316708c96af92d7090600844ddfd00cce270e5",
+  "source_sha256": {
+    "ragnarok/evaluation/seaquest_v70.py": "cb066392f1f331ed27d9604b3a87f1217e74ebecd98655b2929d995f8d21a55e",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_seaquest_v70.py": "2ebfce6b1a3f47377e5e642fa273ebb9a63097822384f16d1515ff887cd7806e",
+    "docs/ARC4_SEAQUEST_CALIBRATION_V1_PROTOCOL.json": "4075bd614efdd4b76333c9dfc2a1ec2e102fcc1ff0f2dd66b865ba7926df6cf4",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd"
+  },
+  "versions": {
+    "numpy": "2.4.4",
+    "scipy": "1.18.1",
+    "ale-py": "0.12.1"
+  },
+  "gate_result": null,
+  "agent_training_allowed": false
+}

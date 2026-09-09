@@ -9,7 +9,7 @@ def test_formations_have_distinct_slots_and_signed_geometry():
     ram[30],ram[36],ram[93]=140,7,2
     objects=decode_seaquest_ram(ram)
     sharks=[o for o in objects if o.kind=="shark"]
-    assert [(o.slot,o.box) for o in sharks]==[("enemy:0:0",(140,139,8,7)),("enemy:0:1",(156,139,4,7))]
+    assert [(o.slot,o.box) for o in sharks]==[("enemy:0:0",(140,139,8,7)),("enemy:0:1",(156,141,4,5))]
     ram[89]=4
     subs=[o for o in decode_seaquest_ram(ram) if o.kind=="submarine"]
     assert len(subs)==2 and subs[0].box==(140,141,8,11)
@@ -23,7 +23,7 @@ def test_shared_blue_positions_change_category_without_leaking_into_rgb_checker(
     ram=np.zeros(128,dtype=np.uint8)
     ram[74]=20
     obj=[o for o in decode_seaquest_ram(ram) if o.slot=="blue:3"][0]
-    assert obj.kind=="diver" and obj.box==(20,69,8,11)
+    assert obj.kind=="diver" and obj.box==(20,70,8,9)
     ram[92]=4
     obj=[o for o in decode_seaquest_ram(ram) if o.slot=="blue:3"][0]
     assert obj.kind=="enemy_missile" and obj.box==(23,73,6,4)

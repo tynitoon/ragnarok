@@ -105,9 +105,10 @@ confirmatoire n'a encore eu lieu. Ce suivi doit se mettre en pause à la clôtur
 de l'ARC 3 ou si une décision de Jérémie devient nécessaire.
 Les 16 tests CPU du lanceur passent, en plus des 11 tests ARC 3.
 
-Dernier relevé du 9 septembre à01:25 : lineage0 terminée,4mondes/M1–M4 vérifiés,
+Dernier relevé du 9 septembre à02:43 : lineage0 terminée,4mondes/M1–M4 vérifiés,
 8090s dans sonlog (8100,22s contrôleur). Contrôleur29812 actif, nouveauprétrain
-lineage1 PID27396 en cours. Projection actualisée≈34,35h sous42h, B_test6/N9/G'2
+lineage1 PID27396 en cours, deux mondes terminés (M2 à4419s), troisième entamé.
+Projection actualisée≈34,35h sous42h, B_test6/N9/G'2
 conservés ; pasdeprobe ni deconfirmatoire. Reçu `v62_pretrain_s0_receipt.json`.
 Lire les logs réels `v61_pre_s0.log` puis s1/s2 :
 les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windows.
@@ -191,9 +192,17 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   Voir `docs/ARC4_FREEWAY_CALIBRATION.md`.
 - Freeway temporel : protocole/candidat fixé `ed7fd7a` avant17221, 2048 fenêtres,
   8323frames facturées, une seule construction, dernière répétition tronquée.
-  Baseline passe12types ;17222 encore fermée. Prochaine action : préserver,
-  revue puis sceau **commité avec succès** avant17222. Toujours séparer les
-  appels dépendants et inspecter chaque code de sortie.
+  Sceau commité `0c96911` avant17222 ; validation passe12types. Référence brute :
+  rappel99,7407%, précision51,7902% seulement, joueur97,4016% ; erreurs conservées.
+  Chaîne NumPy878,38/s, native1430,58/s, mêmes16rapports,165808frames facturées.
+  Revue Meitner close ; dossier `v70_freeway_pooled/`, docs de calibration.
+- Seaquest : protocole/candidat fixé `339704a` avant8192frames17311,6constructions,
+  8960frames facturées. Baseline négative conservée `31752a2` : aucun type passe,
+  sous-marins et missiles ennemis absents RAM ; bulles bleues confondues par le
+  checker avec des missiles, dimensions joueur/plongeur approximatives. 17312
+  reste fermée. Diagnostic sur développement en cours ; revue Ohm des limites
+  et de la couverture supplémentaire. Aucun changement de seuil ni passe vide.
+  Toujours séparer les appels dépendants et inspecter les codes de retour.
 
 Les sceaux bruts/temporaux listent les SHA des sources : **ne pas modifier ces
 fichiers**, y compris moteurs et décodeurs partagés, pour les optimisations.
@@ -203,7 +212,8 @@ Les anciens fichiers Pong scellés restent aussi des références historiques.
 
 ### Suite autorisée
 
-Terminer Freeway temporel et son intégration CPU, puis calibrer Seaquest, MsPacman, Asteroids
+Terminer Seaquest (géométrie et couverture supplémentaires à définir avant capture),
+puis calibrer MsPacman et Asteroids
 sur développement avec protocole préalable, baseline conservée, revue, scellement
 avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,

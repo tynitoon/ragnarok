@@ -18,3 +18,44 @@ Les six catégories exigent chacune au moins50appariements et les seuils99%
 déjà déclarés. Une catégorie absente ne sera pas créditée d'une calibration
 parfaite : il faudra définir prospectivement une couverture supplémentaire,
 sans ouvrir la validation pour régler le candidat. Aucun apprentissage ni gate.
+
+## Baseline conservée
+
+Protocole et code fixés `339704a` avant17311. 8192 frames, six constructions
+froides, 8960 frames facturées. Baseline `31752a2` : aucun type ne passe.
+Sous-marins et missiles ennemis n'apparaissent pas côté RAM et restent non
+calibrés. Les petites bulles bleues sont faussement classées comme missiles par
+le checker initial ; le détecteur primaire utilisait aussi largeur>2. Les
+dimensions du joueur et du corps des plongeurs demandent une correction de
+développement. Les bulles décoratives ne sont pas l'une des six catégories
+d'acteurs préalablement déclarées. Elles ne doivent pas être fusionnées au corps
+des plongeurs pour rendre artificiellement les boîtes plus hautes.
+
+Validation17312 fermée. Préserver chaque résultat avant correction ; toute
+nouvelle stratégie de couverture sera fixée avant de collecter ses données.
+
+## Correction de développement v1, toujours négative
+
+La bande y53:57 masque le joueur à la surface. Les fragments visibles doivent
+être regroupés verticalement, sans agrandir les boîtes avec les pixels ajoutés
+par cette opération. Le compteur de réapparition alterne aussi des frames
+visibles et invisibles. Aux bords, les boîtes doivent suivre le support du
+sprite : l'intersection de son rectangle nominal avec l'écran est insuffisante.
+Les masques du joueur, des requins et des plongeurs ont été inférés sur 17311
+uniquement ; ce sont des corrections empiriques du juge RAM externe.
+
+Le protocole correctif V1 conserve les seuils et les résultats originaux.
+`development_v1.json` échoue encore : boîtes joueur 98,349 % (baseline 29,031 %),
+requins 97,303 % (84,730 %), plongeurs 99,744 % (60,152 %). La présence des
+plongeurs reste à 93,274 % : les corps rognés au bord sont mal classés par le
+checker RGB. Les contacts jaune sur jaune perturbent encore les missiles du
+joueur. Aucun seuil n'est abaissé, aucune frame n'est exclue.
+
+Revue indépendante Ohm : aucun drapeau de sous-marin ni missile ennemi sur les
+8192 RAM, et compteurs de progression/sous-marin de surface toujours nuls. Le
+filtre bleu largeur>2 retire 20502 petites composantes, mais en laisse 602 de
+largeur 3 à 5 et hauteur 2 à 5. Celles-ci ne sont pas déclarées décoratives pour
+faire disparaître les désaccords. La capture supplémentaire devra utiliser un
+contrôleur pixels/boutons réservé à l'instrumentation, partir à froid et garder
+toutes les frames, morts et coûts. Sa couverture sera évaluée séparément de
+l'accord géométrique et ses résultats ne dilueront pas ceux de 17311.

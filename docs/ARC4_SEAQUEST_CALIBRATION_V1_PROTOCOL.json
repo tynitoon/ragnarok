@@ -1,0 +1,14 @@
+{
+  "kind": "seaquest_development_correction_before_reserved_capture",
+  "original_protocol": "docs/ARC4_SEAQUEST_CALIBRATION_PROTOCOL.json",
+  "development_seed": 17311,
+  "reserved_validation_seed": 17312,
+  "frames": 8192,
+  "criteria_per_type": {"minimum_joint_matches": 50, "presence_count_agreement_fraction": 0.99, "matched_boxes_all_edges_within1pixel_fraction": 0.99},
+  "ram_changes": "Visible sprite support masks inferred on development17311 for player, shark and diver, including left eight-pixel display mask, surface stripe y53:57 and observed respawn blink. Diver body excludes decorative bubbles. Slot category/orientation remains RAM-only. Unknown submarine/missile geometry remains uncalibrated.",
+  "rgb_changes": "Player components can connect vertically across at most four blank rows, with bounding boxes computed from original pixels only. Blue width>2 filter restored from pinned primary vision implementation. Remaining narrow actor fragments and same-colour player/projectile contacts remain errors; no frame exclusion.",
+  "known_limits": "Short blue fragments can still be ambiguous between clipped divers and missiles. No submarine or enemy missile occurred in17311. Masks are empirical development corrections, not an emulator rendering proof. Thresholds and original negative result are unchanged.",
+  "workflow": "Preserve every candidate result. Review coverage and geometry, commit successful source seal before opening any reserved fixture. This candidate is not presumed to pass.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}
