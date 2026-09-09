@@ -1,0 +1,31 @@
+{
+  "kind": "prospective_mspacman_cached_group_cpu_v1",
+  "game": "ms_pacman",
+  "change": "Only replace group_visible_sources with the reviewed exact last-input cache per kind. Keep the original fast V2 decoder, native reference DLL, scorer, motion history, digest and paid branch/restore chain unchanged. The slower integral-image decoder is excluded.",
+  "benchmark": {
+    "workers": 16,
+    "ordinary_decisions_per_worker": 2048,
+    "seed_first": 18000,
+    "action_repeat": 4,
+    "branch_every": 128,
+    "episode_limit": 108000,
+    "max_charged_frames_per_worker": 100000,
+    "sticky_probability": 0.25,
+    "experiment_fraction": 0.2,
+    "backend": "native"
+  },
+  "comparison": "Once, replay the original successful native benchmark's identical seeds/actions/parameters through the new cached adapter. Compare all16complete worker reports, ordered ordinary/branch RGB-box digests and charges exactly with preserved cpu_chain_native_v0.json. No new baseline run, seed search, NumPy rerun, retry, or result overwrite. Keep mismatches and a slower or insufficient throughput.",
+  "actions": "For worker i0..15 and step0..2047, action=(step//4+i)%18. Every128decisions execute the unchanged4-frame action/NOOP pair including both restores. No reference, RAM or measured throughput selects commands.",
+  "wiring": [
+    {"seed": 19176, "episode_limit": 300, "decisions": 128, "engines": ["original_native", "cached_native"]},
+    {"seed": 19177, "episode_limit": 509, "decisions": 129, "engines": ["original_native", "cached_native"]},
+    {"seed": 19178, "episode_limit": 108000, "decisions": 1, "engines": ["cached_native_spawn"]}
+  ],
+  "wiring_checks": "For each paired case compare every returned RGB/box array, full final reports and exact native three-RAM/action histories.19177must retain the terminal branch's zero acted frames and subsequent cold history(2,3,4). Spawned19178rejects oracle/state RPC and exits after one action3. Record all five engine constructor/action costs, including unknown costs on constructor/transport failure. Per-engine wiring cap20000charged frames.",
+  "prerequisites": "Committed sources/protocol, reviewed original CPU result and exhaustive offline cache equivalence, exact runtime/native build, synthetic adapter/transport/failure tests, and an independent current-source preflight committed BEFORE any new wiring construction. Commit complete wiring and its independent review BEFORE the benchmark. Recheck all pinned source/evidence hashes after paid work.",
+  "failure": "A durable no-overwrite attempt precedes any constructor. Decoder/cache/scorer/action failure stays paid, stops further actions, preserves available reports and closes workers. No retry or substitute seed. Report unknown constructor or transport costs explicitly. Geometry/report mismatch fails the engineering equivalence and prevents using its timing as validated-equivalent performance.",
+  "timing": "One native full-chain work interval: emulator, RGB/box IPC, unchanged reference, external per-real-frame decoder, movement, grouping, scorer, all digests, branches and restores. Startup is separate; report retrieval, closure and proof rechecks are outside work time, as in the original benchmark. Numerator32768ordinary decisions; also record actual native and charged frames. OMP/OPENBLAS/MKL each1. No other CPU capture/profile/benchmark runs concurrently; ARC3 GPU confirmation may remain active and is a timing limitation.",
+  "scope": "External engineering diagnostic, not learning or gate0. Offline component times suggested this candidate before its native result. No controlled universal speedup from comparison with an earlier run under different concurrent ARC3 load. Do not lower proposed1000/2000throughput thresholds. No Asteroids rerun, held-out game, learned RGB collection, model update or GPU ARC4 use.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

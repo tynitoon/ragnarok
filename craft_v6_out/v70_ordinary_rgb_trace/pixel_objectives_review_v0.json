@@ -1,0 +1,135 @@
+{
+  "kind": "owned_pixel_objectives_independent_source_review",
+  "created_at_utc": "2026-09-09T18:43:31.454868+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "source_commit": "3954377f464296071b27dc4b357adb3386d36ff7",
+  "implementation_commit": "379d7bdf6a85b62d2601359dd056ddd90853bbfb",
+  "source_sha256": {
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529"
+  },
+  "native_preflight": false,
+  "native_benchmark_authorized": false,
+  "full_temporal_integration_validated": false,
+  "agent_training_allowed": false,
+  "new_emulated_frames": 0,
+  "gate_result": null,
+  "runtime": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3",
+    "torch": "2.11.0+cu126",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pytest": "9.0.3",
+    "device": "cpu",
+    "torch_num_threads": 1,
+    "cuda_visible_devices": "",
+    "cuda_initialized": false,
+    "execution": "Synthetic engines/images only; no native emulator, ROM, Atari archive, optimizer or model-weight update"
+  },
+  "checks": {
+    "closure": "Twenty-eight committed source/document/test/dependency/package-initializer paths include the reviewed collector/transport, parser, P/C implementations and RGB difference helper. Four previous receipts and their entire source maps are unchanged. The final3954377 change is documentation/docstring only; numerical implementation remains379d7bd.",
+    "operation_provenance": "Public step/branch execute through the exclusively owned collector and consume that same operation once. There is no public intake of caller-substituted records or old predictions. Requested buttons remain command metadata; the parser receives the copied pre-action effect assumption.",
+    "actual_departure": "P source is the max of the operation recorded start_pair, after any cold construction, and target is the final pooled endpoint. Forward inference follows the paid response and cannot reselect the command already issued. T0 branches use the current owned anchor buffers.",
+    "P_horizon": "Zero-to-three actual rows remain ineligible, with explicit reason and reduction-free graph-connected zero. Four rows use the original prediction_terms over every pixel including holes. No duration rescaling, bootstrap frame insertion, padding or selective frame exclusion is added.",
+    "C_horizon": "Source parser output and own components are recomputed for this anchor and this effect. Detached own supports/displacement enter component_targets with horizon_frames4,image_kindpooled. Only index3 of the common real branch prefix supplies C; a longer pair supplies no extra C samples here.",
+    "C_unknowns_and_gradients": "Insufficient common prefix, absent own predicted motion and fully outside predicted support retain zero weights. C supervision remains aligned to own source pixels, with detached self-generated targets and a differentiable C-head BCE. No external identity or controllability label is introduced.",
+    "finite_state": "Every parser head is checked finite even when unused by the selected objective. P and C losses must be finite before a result is returned. Signed float32-max truncated P fields produce exact zero loss and complete-field zero gradients.",
+    "paid_failure_retention": "The full taken batch is stored before per-worker inference. If inference, target/loss computation or final result allocation fails, the owner stops and retains all paid records as detached copies. If take fails, the paid operation remains pending in the collector and its ID remains in the owner report. No paid operation is reissued.",
+    "concurrency_and_cleanup": "A non-blocking non-reentrant owner lock covers the collector call, take, post-payment inference and final result cleanup. It prevents another operation during the interval after the collector releases its lock. Finally releases the owner lock after failure; diagnostic access remains possible.",
+    "error_contract": "As clarified by3954377, step/branch errors stop the owner, including admission errors. Anchor/diagnostic errors alone release the lock and are recoverable. Concurrent calls refuse before entry without poisoning the active operation.",
+    "no_training_or_oracle": "No optimizer or policy is called. Real parser parameter values remain identical before/after the synthetic forwards and autograd checks. External accounting reports stay outside parser inputs; no RAM/reward/lives/native clock or teacher labels enter P/C."
+  },
+  "verification": {
+    "suite": "tests/test_owned_pixel_objectives_v70.py",
+    "passed": 12,
+    "elapsed_seconds": 1.04,
+    "final_docstring_checked_without_repeating_unchanged_suite": true,
+    "independent_witnesses": {
+      "nonblack_real_parser_P": {
+        "nonzero_source_values": 48,
+        "pooled_image_l1": 0.007516385987401009,
+        "counterfactual_raw_target_image_l1": 0.006373371463268995,
+        "d_head_weight_gradient_L1": 0.009685911238193512,
+        "m_head_weight_gradient_L1": 3.2256054878234863,
+        "foreground_target_has_no_gradient_to_d": true,
+        "all_parameter_values_unchanged": true
+      },
+      "C_suffix_invariance": {
+        "same_anchor_same_effect_paid_pairs": 2,
+        "requested_frames_each": 8,
+        "modified_frames": "Only5..8, retaining valid pooling/endpoints",
+        "targets_weights_and_loss_identical": true,
+        "weighted_source_pixels": 368,
+        "loss": 0.8956239819526672,
+        "charged_frames": 1472
+      },
+      "extreme_truncated_P": {
+        "signed_float32_max_cases": 8,
+        "actual_prefixes": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "all_losses_zero": true,
+        "all_complete_field_gradients_zero": true
+      },
+      "late_C_result_allocation_failure": {
+        "charged_frames": 736,
+        "entire_paid_branch_record_retained": true,
+        "copies_do_not_alias_retained_record": true,
+        "owner_lock_released": true,
+        "second_paid_call_refused": true
+      },
+      "read_only_bad_anchor_index": {
+        "owner_remains_healthy": true,
+        "later_valid_P_operation_succeeds": true
+      }
+    }
+  },
+  "limitations": [
+    "This source/synthetic receipt does not authorize native construction, collection, model training, a complete temporal bridge or a gate. No Atari performance or learned controllability claim follows.",
+    "The owner assumes exclusive access to its collector and parser weights. Python privacy, supplied session IDs and mutable objects do not provide security against outside modification; actual production objects and state must be frozen in a later prospective protocol.",
+    "Raw records and returned objective outputs retain distinct roles: failure_records contains detached record copies, while successful outputs retain live autograd graphs. Caller graph lifetime, optimizer scheduling, mixed loss coefficients and replay/update accounting remain undefined.",
+    "Float32 CPU witnesses establish the checked numerical cases, not exhaustive finite-gradient guarantees for every model state, dtype, autocast configuration or GPU backend. Finite loss checks alone are not a full gradient-stability proof.",
+    "Delivered-act time is distinct from hidden cold/bootstrap/restore charges. Invisible resets can still corrupt temporal interpretation. The first cold source is retrospective and must never guide a second selection of its already-issued action.",
+    "Own effect hypotheses, predicted motion and learned segmentation can be wrong. P motion ambiguity, C projection ambiguity, lack of motion and observation truncation remain disclosed self-supervision limits, not repaired by external truth.",
+    "The collector operation is consumed before processing; failures retain it in memory but do not provide crash-safe persistence. A failed take remains in the collector for controlled recovery rather than automatic replay. Outer durable attempts and cost records remain necessary.",
+    "No tracker, G/I, local categories, identity memory, temporal-session bridge or optimization schedule is part of this receipt. Their future integration requires separate review and explicit clock/epoch conventions.",
+    "Component timings, native throughput, full payload/RSS bounds and transfer speedup are not measured here."
+  ]
+}
