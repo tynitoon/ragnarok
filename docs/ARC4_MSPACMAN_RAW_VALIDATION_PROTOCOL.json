@@ -1,0 +1,20 @@
+{
+  "kind": "prospective_mspacman_visible_v3_reserved_pair",
+  "candidate": "mspacman_maze_visible_v70",
+  "uniform": {"seed": 17412, "frames": 8192, "action_repeat": 16, "action_seed": 117412, "max_charged_frames": 1089668},
+  "coverage": {"seed": 17432, "frames": 32768, "action_repeat": 2, "max_charged_frames": 4358276},
+  "game": "ms_pacman",
+  "mode": 0,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "reset_convention": "fixed_hardware_cold_start_v1",
+  "schedule": "One uniform capture using the unchanged capture_cold_v70 and one coverage capture using the unchanged RGB maze controller and exact development loop. Capture both fixed sequences before inspecting scores. Include all failures and terminal frames. No retry into another destination, no stopping when fruit appears. Every cold load costs132 frames. No branches, restores or agent entry states.",
+  "criteria": "For EACH category separately: at least50 joint matches; equal RAM/RGB counts on at least99% of all frames AND99% of positive frames; all four matched box edges within1 pixel on at least99% of joint matches. Preserve the exact development matcher, causal RGB state, within-episode previous RAM and cold-start current-RAM fallback. Empty positive and match denominators remain null and FAIL. Never pool sequences or categories.",
+  "pair_acceptance": "All five categories must PASS on coverage17432. On uniform17412, player, ghost, power_pill and pill must PASS. Fruit must also PASS if either instrument observes any fruit. Only a strictly absent uniform fruit (zero positive_frames, ram_objects, pixel_objects and joint_matches) is documented as uncovered and allowed as supplemental evidence; its individual passed flag and uniform calibration_pass remain false. Insufficient nonzero fruit coverage is a failure, not an absence exemption.",
+  "seal": "Before any emulator construction, independently review full development results and this validation implementation, commit every source, then commit a SHA256 seal binding those sources, both development results, both development manifests and the review receipts. Both source and metadata commits must exist before capture. Preflight checks unchanged working bytes and committed Git blobs, versions and ALE binary. Record a durable attempt before each capture. Unknown decoder states, corrupt data, changed sources or capture errors stop the attempt and are preserved.",
+  "stop": "After scoring both sequences, stop for independent scientific review. Any reserved failure is preserved without tuning on either reserved sequence. No automatic new seed, candidate, parameter change or inference of calibration from empty categories.",
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}
