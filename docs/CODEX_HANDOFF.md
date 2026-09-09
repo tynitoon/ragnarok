@@ -345,7 +345,7 @@ puis référence/débit. Trois RAM adjacentes sont nécessaires pour les deux RG
 `triple_ram_tap_v70.py` et six tests CPU préparés ; aucun émulateur temporel ni
 seed17421/17422 ouvert. Protocole et sources à figer avant ce développement.
 
-**Asteroids : réservé17512 terminé PASS, revue indépendante en cours.**
+**Asteroids : calibration brute réservée complète et revue.**
 Développement17511 :8192images/8852facturées/5loads, baseline et corrections
 négatives conservées. Le premier PASS joueur/tirs hors ROI est déclaré non
 conforme ; la composition finale respecte [16,194). Rochers V5 :4065/4096
@@ -359,8 +359,9 @@ Préflight réel PASS puis capture17512 à11:58:47Z, fin du scoring12:01:34Z.
 rochers4073/4096comptages positifs et27541/27577within1.23images de comptage
 en erreur gardées. `reserved_visible_v1.json`, SHA
 d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9,
-tentative=complete. Revue scientifique bornée confiée à review_recovery_v62,
-reçu demandé `visible_reserved_review.json`. Toutes les sources/preuves sont
+tentative=complete. Reçu indépendant `visible_reserved_review.json`, SHA
+d019a8992d59ef9b050ebe0bcf489d2783da3ddd39485d4de1465d825b827dc9,
+32archives et7témoins vérifiés ; validation confirmée. Toutes les sources/preuves sont
 figées ; ne pas relancer17512 ni régler ses erreurs. Voir le détail dans
 `docs/ARC4_ASTEROIDS_CALIBRATION.md`. Aucun autre jeu de confirmation ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,

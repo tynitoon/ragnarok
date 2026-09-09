@@ -1,0 +1,951 @@
+{
+  "kind": "asteroids_raw_visible_reserved_calibration",
+  "seed": 17512,
+  "decoder_revision": "asteroids_raw_visible_composition_v1",
+  "created_utc": "2026-09-09T12:01:28Z",
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2051,
+      "positive_count_agreement": 2051,
+      "joint_matches": 2051,
+      "boxes_within1": 2051,
+      "boxes_exact": 2051,
+      "ram_objects": 2051,
+      "pixel_objects": 2051,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "asteroid": {
+      "frames": 8192,
+      "presence_count_agreement": 8169,
+      "positive_frames": 4096,
+      "positive_count_agreement": 4073,
+      "joint_matches": 27577,
+      "boxes_within1": 27541,
+      "boxes_exact": 27524,
+      "ram_objects": 27590,
+      "pixel_objects": 27727,
+      "presence_fraction": 0.9971923828125,
+      "positive_presence_fraction": 0.994384765625,
+      "box_fraction": 0.9986945643108387,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 907,
+      "positive_count_agreement": 907,
+      "joint_matches": 918,
+      "boxes_within1": 918,
+      "boxes_exact": 918,
+      "ram_objects": 918,
+      "pixel_objects": 918,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "calibration_pass": true,
+  "validation_seal_sha256": "7b410031334df36aa47c0af1aa964a98f400d487b3ee13ae36f2d55a4b3f713f",
+  "first_disagreements": {
+    "player": [],
+    "asteroid": [
+      {
+        "frame": 53,
+        "episode": 0,
+        "ram": [
+          [
+            45,
+            96,
+            16,
+            28
+          ],
+          [
+            33,
+            150,
+            16,
+            28
+          ],
+          [
+            127,
+            27,
+            16,
+            28
+          ],
+          [
+            128,
+            79,
+            8,
+            14
+          ],
+          [
+            128,
+            99,
+            8,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            129,
+            79,
+            1,
+            2
+          ],
+          [
+            132,
+            79,
+            1,
+            2
+          ],
+          [
+            134,
+            81,
+            1,
+            2
+          ],
+          [
+            130,
+            83,
+            1,
+            2
+          ],
+          [
+            128,
+            85,
+            1,
+            2
+          ],
+          [
+            132,
+            85,
+            1,
+            2
+          ],
+          [
+            135,
+            87,
+            1,
+            2
+          ],
+          [
+            129,
+            89,
+            1,
+            2
+          ],
+          [
+            131,
+            91,
+            1,
+            2
+          ],
+          [
+            133,
+            91,
+            1,
+            2
+          ],
+          [
+            129,
+            93,
+            1,
+            2
+          ],
+          [
+            130,
+            97,
+            1,
+            2
+          ],
+          [
+            135,
+            97,
+            1,
+            2
+          ],
+          [
+            128,
+            99,
+            1,
+            2
+          ],
+          [
+            133,
+            99,
+            1,
+            2
+          ],
+          [
+            33,
+            150,
+            16,
+            28
+          ],
+          [
+            127,
+            27,
+            16,
+            28
+          ],
+          [
+            45,
+            96,
+            16,
+            28
+          ]
+        ]
+      },
+      {
+        "frame": 157,
+        "episode": 0,
+        "ram": [
+          [
+            24,
+            44,
+            8,
+            14
+          ],
+          [
+            24,
+            64,
+            8,
+            14
+          ],
+          [
+            37,
+            170,
+            16,
+            24
+          ],
+          [
+            136,
+            25,
+            8,
+            14
+          ],
+          [
+            135,
+            131,
+            16,
+            28
+          ],
+          [
+            120,
+            183,
+            8,
+            11
+          ]
+        ],
+        "pixels": [
+          [
+            24,
+            44,
+            1,
+            2
+          ],
+          [
+            26,
+            44,
+            1,
+            2
+          ],
+          [
+            29,
+            46,
+            1,
+            2
+          ],
+          [
+            25,
+            48,
+            1,
+            2
+          ],
+          [
+            28,
+            50,
+            1,
+            2
+          ],
+          [
+            31,
+            50,
+            1,
+            2
+          ],
+          [
+            26,
+            52,
+            1,
+            2
+          ],
+          [
+            24,
+            56,
+            1,
+            2
+          ],
+          [
+            28,
+            56,
+            1,
+            2
+          ],
+          [
+            31,
+            58,
+            1,
+            2
+          ],
+          [
+            27,
+            60,
+            1,
+            2
+          ],
+          [
+            25,
+            62,
+            1,
+            2
+          ],
+          [
+            27,
+            64,
+            1,
+            2
+          ],
+          [
+            31,
+            64,
+            1,
+            2
+          ],
+          [
+            136,
+            25,
+            8,
+            14
+          ],
+          [
+            135,
+            131,
+            16,
+            28
+          ],
+          [
+            37,
+            170,
+            16,
+            24
+          ],
+          [
+            120,
+            183,
+            8,
+            11
+          ]
+        ]
+      },
+      {
+        "frame": 419,
+        "episode": 0,
+        "ram": [
+          [
+            16,
+            86,
+            16,
+            28
+          ],
+          [
+            43,
+            138,
+            8,
+            14
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ],
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            101,
+            89,
+            8,
+            14
+          ],
+          [
+            0,
+            111,
+            3,
+            12
+          ],
+          [
+            155,
+            109,
+            5,
+            14
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            111,
+            3,
+            12
+          ],
+          [
+            155,
+            109,
+            5,
+            14
+          ],
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            19,
+            86,
+            16,
+            28
+          ],
+          [
+            3,
+            158,
+            8,
+            14
+          ],
+          [
+            43,
+            138,
+            8,
+            14
+          ],
+          [
+            101,
+            89,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "frame": 529,
+        "episode": 0,
+        "ram": [
+          [
+            50,
+            28,
+            8,
+            14
+          ],
+          [
+            0,
+            48,
+            6,
+            14
+          ],
+          [
+            158,
+            52,
+            2,
+            8
+          ],
+          [
+            14,
+            152,
+            8,
+            14
+          ],
+          [
+            8,
+            172,
+            8,
+            14
+          ],
+          [
+            94,
+            21,
+            8,
+            14
+          ],
+          [
+            2,
+            41,
+            8,
+            14
+          ],
+          [
+            1,
+            147,
+            16,
+            28
+          ]
+        ],
+        "pixels": [
+          [
+            2,
+            41,
+            8,
+            14
+          ],
+          [
+            1,
+            147,
+            21,
+            28
+          ],
+          [
+            0,
+            48,
+            6,
+            14
+          ],
+          [
+            158,
+            52,
+            2,
+            8
+          ],
+          [
+            50,
+            28,
+            8,
+            14
+          ],
+          [
+            94,
+            21,
+            8,
+            14
+          ],
+          [
+            8,
+            172,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "frame": 531,
+        "episode": 0,
+        "ram": [
+          [
+            50,
+            26,
+            8,
+            14
+          ],
+          [
+            0,
+            46,
+            5,
+            14
+          ],
+          [
+            157,
+            48,
+            3,
+            10
+          ],
+          [
+            15,
+            150,
+            8,
+            14
+          ],
+          [
+            7,
+            170,
+            8,
+            14
+          ],
+          [
+            93,
+            23,
+            8,
+            14
+          ],
+          [
+            3,
+            43,
+            8,
+            14
+          ],
+          [
+            2,
+            149,
+            16,
+            25
+          ]
+        ],
+        "pixels": [
+          [
+            3,
+            43,
+            8,
+            14
+          ],
+          [
+            2,
+            149,
+            21,
+            25
+          ],
+          [
+            0,
+            46,
+            5,
+            14
+          ],
+          [
+            157,
+            48,
+            3,
+            10
+          ],
+          [
+            50,
+            26,
+            8,
+            14
+          ],
+          [
+            93,
+            23,
+            8,
+            14
+          ],
+          [
+            7,
+            170,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "frame": 533,
+        "episode": 0,
+        "ram": [
+          [
+            51,
+            24,
+            8,
+            14
+          ],
+          [
+            0,
+            44,
+            5,
+            14
+          ],
+          [
+            157,
+            46,
+            3,
+            10
+          ],
+          [
+            15,
+            148,
+            8,
+            14
+          ],
+          [
+            7,
+            168,
+            8,
+            14
+          ],
+          [
+            93,
+            25,
+            8,
+            14
+          ],
+          [
+            4,
+            45,
+            7,
+            14
+          ],
+          [
+            2,
+            151,
+            16,
+            24
+          ]
+        ],
+        "pixels": [
+          [
+            4,
+            45,
+            7,
+            14
+          ],
+          [
+            2,
+            148,
+            21,
+            27
+          ],
+          [
+            0,
+            44,
+            5,
+            14
+          ],
+          [
+            157,
+            46,
+            3,
+            10
+          ],
+          [
+            51,
+            24,
+            8,
+            14
+          ],
+          [
+            93,
+            25,
+            8,
+            14
+          ],
+          [
+            7,
+            168,
+            8,
+            14
+          ]
+        ]
+      },
+      {
+        "frame": 1423,
+        "episode": 1,
+        "ram": [
+          [
+            16,
+            86,
+            16,
+            28
+          ],
+          [
+            4,
+            140,
+            16,
+            28
+          ],
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ]
+        ],
+        "pixels": [
+          [
+            4,
+            140,
+            16,
+            28
+          ],
+          [
+            0,
+            37,
+            10,
+            28
+          ],
+          [
+            154,
+            39,
+            6,
+            22
+          ],
+          [
+            19,
+            86,
+            16,
+            28
+          ],
+          [
+            0,
+            91,
+            12,
+            28
+          ],
+          [
+            156,
+            93,
+            4,
+            20
+          ]
+        ]
+      },
+      {
+        "frame": 1523,
+        "episode": 1,
+        "ram": [
+          [
+            0,
+            40,
+            15,
+            28
+          ],
+          [
+            159,
+            52,
+            1,
+            6
+          ],
+          [
+            9,
+            164,
+            16,
+            28
+          ],
+          [
+            3,
+            19,
+            16,
+            22
+          ],
+          [
+            1,
+            137,
+            16,
+            28
+          ],
+          [
+            5,
+            191,
+            12,
+            3
+          ]
+        ],
+        "pixels": [
+          [
+            0,
+            40,
+            15,
+            28
+          ],
+          [
+            159,
+            52,
+            1,
+            6
+          ],
+          [
+            3,
+            19,
+            16,
+            22
+          ],
+          [
+            1,
+            137,
+            24,
+            57
+          ]
+        ]
+      }
+    ],
+    "player_missile": []
+  },
+  "ram_history": "Previous adjacent raw RAM within episode, explicit current fallback at cold start. Pixels never enter RAM decoding.",
+  "rgb_history": "Stateless raw RGB only; pure glyph-fit cache has no time, RAM or episode input.",
+  "label_scope": "Visible connected pieces by allocation; no cross-allocation RAM merge, no physical lifetimes certified.",
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "fixture_manifest_sha256": "fdf2975b6b5ae6e81cda065ac443fcc0e4ce49e5efb4ab3fe30c5c4b54d9f5fc",
+  "versions": {
+    "ale-py": "0.12.1",
+    "numpy": "2.4.4",
+    "scipy": "1.18.1"
+  },
+  "agent_training_allowed": false,
+  "reference_training_allowed": false,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

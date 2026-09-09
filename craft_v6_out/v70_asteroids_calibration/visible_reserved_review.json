@@ -1,0 +1,210 @@
+{
+  "kind": "asteroids_visible_reserved_independent_scientific_review",
+  "created_utc": "2026-09-09T12:06:54.911073+00:00",
+  "reviewer": "independent_agent_review_recovery_v62",
+  "passed": true,
+  "reserved_calibration_pass_confirmed": true,
+  "gate_result": null,
+  "agent_training_allowed": false,
+  "conclusion": "The unchanged prospectively sealed composition passes the fixed3-category criteria on17512. All8192images and visible-piece errors are retained. This validates the declared external geometry/count instruments on this sequence; it does not certify persistent object identities, transfer, learning or universal Atari accuracy.",
+  "evidence_sha256": {
+    "craft_v6_out/v70_asteroids_calibration/visible_validation_seal_v1.json": "7b410031334df36aa47c0af1aa964a98f400d487b3ee13ae36f2d55a4b3f713f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "craft_v6_out/v70_asteroids_calibration/reserved_visible_v1.json": "d24fe0badfa72fb42601cb7e0e878251ad41db589344bfecc5b32e817408faf9",
+    "craft_v6_out/v70_asteroids_calibration/validation_visible_v1_attempt.json": "e2ec5507c39ae355a12a6f1a4dbdee8cd9ed73905f3c01d2b60056bc138ba265",
+    "craft_v6_out/v70_asteroids_calibration/validation_visible_v1/manifest.json": "fdf2975b6b5ae6e81cda065ac443fcc0e4ce49e5efb4ab3fe30c5c4b54d9f5fc"
+  },
+  "source_sha256": {
+    "ragnarok/evaluation/breakout_v70.py": "d24c29266b06979e818179b82ad1c0c367f96ba65ceb8a762fb1c604512ba3d8",
+    "ragnarok/evaluation/cold_fixtures_v70.py": "c3de8973a50de6de67db0fd8351727219a37493cc56f622d0e7f7b5eb7b6b88e",
+    "scripts/calibrate_breakout_v70.py": "3318eef82d462a3eb333172b96b54e3223515f2d9807603989e775c4aeec33bd",
+    "docs/ARC4_BREAKOUT_CALIBRATION_PROTOCOL.json": "a4d8c9985cf2f6913a5227cb897656f62f7cebf26bfed6e86bbd67c6a7cd30d5",
+    "scripts/capture_cold_v70.py": "3738020cb4eb5cd88435d0fd58cda00c77d24fb526df999e4ca181cdced1a9b0",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/evaluation/pong_v70.py": "fbe6592f8821a316ed89e7c0c57b7e24a3ab366b2d811e407c9b18f133e23083",
+    "docs/ARC4_ASTEROIDS_RAW_PROTOCOL.json": "706bd03b5a86f69f6c140d0ccd1f9c33fa148f915a91a3e45ba650865b0a8693",
+    "ragnarok/evaluation/asteroids_v70.py": "e09852f1ab000752037fe45f104ab5b75faae2d02c7d503cf4157734d4ac3fee",
+    "scripts/calibrate_asteroids_v70.py": "fb8f0d3c82d4dd76667b75cbeb1aea9d978e8e89f72c96b135e69846f4ef07c1",
+    "ragnarok/evaluation/asteroids_rocks_v70.py": "7e9c569830beaa5e3ee2eb69edfb92c14b7e803434e3c737f8137594df4f9c33",
+    "ragnarok/evaluation/asteroids_occlusion_v70.py": "c0c1fb0e062cfe6614d62c6e428118da3df20c6aefda56d8a23341ec92109f91",
+    "ragnarok/evaluation/asteroids_deblend_v70.py": "f0e75e8af7f401b6582abad1c54fb7d70b57a28d520a399bc1920eed77ff036d",
+    "ragnarok/evaluation/asteroids_deblend_edges_v70.py": "f7c825fdfbafa8493fb7383d97f97a464242d63d99ba4d705b4c28b42074947e",
+    "ragnarok/evaluation/asteroids_history_v70.py": "4b0b4408e1d4ba5cfdff8c1848acb5b9c02c65aa6bb550e1fc571d5b58800b3f",
+    "ragnarok/evaluation/asteroids_player_roi_v70.py": "b444c52753a49f5c684f8bb59fded50f7e042a4ae13b9e89a0a4cf00812f21d9",
+    "ragnarok/evaluation/asteroids_visible_v70.py": "cb996d21c9bfe331ad37f9da1f2187dbf1a4bc8499caf5b05bc11a470e75f4a5",
+    "scripts/calibrate_asteroids_visible_v70.py": "af1a634687dd8e740bb375a0424587973a0199f8ce72817b30d0ff86e4b6156f",
+    "docs/ARC4_ASTEROIDS_VISIBLE_VALIDATION_PROTOCOL.json": "6d20cf79774ac79087a079c89740dc5f291bf17c57bebc50205d1c0952bbed27",
+    "scripts/validate_asteroids_raw_v70.py": "9759f9fdb63f7ff0dfe6fae0bf7b8c69569678bec8e23b120bd3475d3ad474cd",
+    "scripts/calibrate_asteroids_reserved_v70.py": "fb16cf415be077d7b2f4635392f05e446962bfed9d9d7ca0f66041597e36dbd2",
+    "tests/test_asteroids_raw_validation_v70.py": "2053a2929f5519422c82b4ec92b121467d19126d0430f4319545bab0b84706c5",
+    "tests/test_asteroids_history_edges_v70.py": "bf8fc9fe0e61b1c5a9214d0e75cf67d049c90f5a360248d02e023e47ff2372a6",
+    "tests/test_asteroids_deblend_v70.py": "3ba123d50d61020ee0631015f6abae2846e3f851d8839744d67b4c4f19c2003d",
+    "tests/test_asteroids_player_roi_v70.py": "32ec03f16dce4f5a52c165daab5a5bba75bf28e6d5c3318688899122b1d2e0e7",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "sealed_metadata_sha256": {
+    "craft_v6_out/v70_asteroids_calibration/development/manifest.json": "12367ff06e29065009ca45d6244f19e3322c73bdb59add1f02475c5ed15271e3",
+    "craft_v6_out/v70_asteroids_calibration/development_visible_v1.json": "91a65c38877bd4506ca81507049aade7e5c18cc9fe0e6046571651171c3cbf04",
+    "craft_v6_out/v70_asteroids_calibration/player_render_roi_development_diagnostic_v2.json": "38954ac5418d0cc330de3cf38d55c7ec3ad04799c814684194440b3f034fd1af",
+    "craft_v6_out/v70_asteroids_calibration/player_missile_roi_correction_review.json": "fe7fee4a6d172278646eca75344fcf61766903924d38d0892e1202621a63ace5",
+    "craft_v6_out/v70_asteroids_calibration/rock_edges_development_v5.json": "4463d6a0779302407cb66c56cef1e0da5cbfa199816e4dc853ff21cc6e092fbc",
+    "craft_v6_out/v70_asteroids_calibration/rock_visible_piece_scope_review.json": "4207e7fb4e9bbd4633940ec85ce8018b9e5d3be7b6a92f37f80a25b3f7437a94",
+    "craft_v6_out/v70_asteroids_calibration/visible_composition_preseal_review.json": "91c7ffc56a5c67c7d2e31b639b134090d7fc5a0d2153deb61764aaa9b928e954",
+    "craft_v6_out/v70_asteroids_calibration/visible_validation_preflight_review.json": "910a0ef9fa0aabf47ded94679b9f93e058fdd32aa5923227b574840a57b3e248"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "per_type": {
+    "player": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 2051,
+      "positive_count_agreement": 2051,
+      "joint_matches": 2051,
+      "boxes_within1": 2051,
+      "boxes_exact": 2051,
+      "ram_objects": 2051,
+      "pixel_objects": 2051,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    },
+    "asteroid": {
+      "frames": 8192,
+      "presence_count_agreement": 8169,
+      "positive_frames": 4096,
+      "positive_count_agreement": 4073,
+      "joint_matches": 27577,
+      "boxes_within1": 27541,
+      "boxes_exact": 27524,
+      "ram_objects": 27590,
+      "pixel_objects": 27727,
+      "presence_fraction": 0.9971923828125,
+      "positive_presence_fraction": 0.994384765625,
+      "box_fraction": 0.9986945643108387,
+      "passed": true
+    },
+    "player_missile": {
+      "frames": 8192,
+      "presence_count_agreement": 8192,
+      "positive_frames": 907,
+      "positive_count_agreement": 907,
+      "joint_matches": 918,
+      "boxes_within1": 918,
+      "boxes_exact": 918,
+      "ram_objects": 918,
+      "pixel_objects": 918,
+      "presence_fraction": 1.0,
+      "positive_presence_fraction": 1.0,
+      "box_fraction": 1.0,
+      "passed": true
+    }
+  },
+  "chronology": {
+    "source_commit": "73fdf4c18c48bd58695350d9fcf4c2662823acc2",
+    "source_commit_utc": "2026-09-09T11:57:35Z",
+    "seal_created_utc": "2026-09-09T11:57:59Z",
+    "metadata_capture_commit": "158a976bc228a69918f7d54cbd0199019ec6aec1",
+    "metadata_commit_utc": "2026-09-09T11:58:13Z",
+    "attempt_started_utc": "2026-09-09T11:58:47Z",
+    "manifest_created_utc": "2026-09-09T11:58:52Z",
+    "capture_recorded_complete_utc": "2026-09-09T11:58:58Z",
+    "score_created_utc": "2026-09-09T12:01:28Z",
+    "attempt_completed_utc": "2026-09-09T12:01:34Z",
+    "verified": true
+  },
+  "archive_audit": {
+    "seed": 17512,
+    "frames": 8192,
+    "shards": 32,
+    "all_shard_sha256_verified": true,
+    "no_duplicate_missing_or_unlisted_npz": true,
+    "all_rgb_headers_ram_episode_action_charge_rows_verified": true,
+    "cold_loads": 5,
+    "cold_start_frames_1based": [
+      1,
+      1005,
+      2711,
+      4495,
+      5985
+    ],
+    "charged_frames": 8852,
+    "max_charged_frames": 1089668,
+    "action_repeat": 16,
+    "pythonrandom_117512_actions_exact": true,
+    "ordered_shard_hash_list_sha256": "31002d25dbae3b96a2f56e46d62abe775c1aa599844c4fcbff928672308048d7",
+    "method": "SHA256 of every shard, exact filenames/counts, RGB shape/dtype header and every RAM/episode/action/charge row checked. Within-episode increment1; next-episode increment133. Charges8192+132*5=8852, reset72*5 plus format60*5, no branches/restores/experiment frames. Only selected RGB arrays were decoded for witnesses; no full matching rerun."
+  },
+  "checks": [
+    "Real current verify_seal PASS:31sources,8metadata,Python/4packages,ALE binary,HEAD/source Git blobs and ancestry match.",
+    "Every source, metadata and seal blob equals the actual capture commit; sources also equal the earlier source commit, with no current source diff from the freeze. Both commits precede the recorded attempt start.",
+    "Attempt is complete, points to the exact manifest and result SHA, preserves accounting and records independent_scientific_review_required. Genuine reserved fixture/attempt admission check passes.",
+    "Result source dictionary equals seal; capture provenance is exactly the4immutable capture/engine files, matching the seal. Manifest, attempt, result and ALE binary hashes agree.",
+    "Recomputed all per-category fractions/pass flags and cardinality/count invariants. All3categories separately meet minimum50, all-frame99% count, positive-frame99% count and99% of matched boxes within1. No empty-category exemption or category/sequence pooling.",
+    "The already reviewed sealed scorer has the same development AST initialization/frame loop/finalizer. History is previous RAM only within episode with current fallback at cold start. RGB is stateless except pure shape caches, never given RAM. ROI stays[0,16,160,194)."
+  ],
+  "bounded_witnesses": {
+    "frames_1based": [
+      1,
+      2,
+      34,
+      53,
+      157,
+      419,
+      531
+    ],
+    "checks": [
+      "Frame1:4rock matches exact.",
+      "Frame2:1player match exact.",
+      "Frame34:1player and1missile match exact.",
+      "Frame53:5RAM/18RGBrocks,3/5within1.",
+      "Frame157:6RAM/18RGBrocks,4/6within1.",
+      "Frame419:8RAM/8RGBrocks,7/8within1.",
+      "Frame531:8RAM/7RGBrocks,6/7within1."
+    ],
+    "method": "Direct RAM/current-or-adjacent and stateless RGB composition evaluation on7selected immutable images. All stored RAM and RGB box lists for the4selected disagreements were reproduced exactly. Witnesses remain negative where originally negative."
+  },
+  "retained_errors": {
+    "asteroid_count_error_frames": 23,
+    "asteroid_pairs_beyond1": 36,
+    "asteroid_within1_nonexact_pairs": 17,
+    "player_count_error_frames": 0,
+    "player_pairs_beyond1": 0,
+    "missile_count_error_frames": 0,
+    "missile_pairs_beyond1": 0
+  },
+  "limits": [
+    "Rocks are connected visible pieces per allocation, with separate visible edge bands; player/explosion grouping follows the frozen glyph convention. These labels do not establish physical object lifetimes.",
+    "PASS permits the23retained count-error images and36matched rock pairs beyond1pixel; it is not a claim of perfect rendering.",
+    "Exact-cover uniqueness is conditional on the developed glyph model. Shared RAM/RGB glyph hypotheses and unsupported debris or blue-only tiny-rock ambiguity remain known limits; no reserved correction was made.",
+    "All full-result arithmetic/provenance and all archive accounting were checked, but full scoring was not independently rerun. Only7raw-image witnesses were rendered during this review.",
+    "Recorded Git/capture UTC chronology and pre/post-source checks establish prospectivity within the preserved records; no external tamper-proof timestamp service is claimed.",
+    "The fixed cold-start/action sequence contains correlated frames and a prescribed deterministic prefix. No iid confidence interval, global game coverage or learning-speed claim follows from these counts.",
+    "Preserve17512, all negatives, sealed sources and this result. Do not tune on the reserved archive, weaken criteria, remove fragments or replace the seed. Any next experiment needs its own prospective scope."
+  ],
+  "preservation": {
+    "existing_sources_modified": false,
+    "existing_results_modified": false,
+    "arc3_state_touched": false,
+    "mspacman_sources_or_results_modified": false,
+    "emulator_launched": false,
+    "new_capture": false,
+    "full_rescore": false,
+    "commit_created": false
+  }
+}

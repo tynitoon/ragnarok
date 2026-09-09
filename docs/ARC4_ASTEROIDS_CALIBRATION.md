@@ -114,3 +114,16 @@ Les trois catégories passent sur le développement. Revue indépendante close,
 Le lanceur/scorer a été revu ; les commits des sources puis du scellé et le vrai
 préflight sont encore requis avant construction. Aucun apprentissage ni résultat
 réservé n'est déduit de ce passage en développement.
+
+
+Le réservé17512 est complet et revu : source73fdf4c puis scellé158a976 committés
+avant la première construction à11:58:47Z. Préflight réel conforme,31sources,
+8métadonnées et runtime figés.8192images,8852frames facturées,5loads.
+Joueur2051/2051boîtes exactes et tirs918/918exactes, comptages tous égaux.
+Rochers :4073/4096comptages positifs,27541/27577within1 (27524exacts).
+Les23images de comptage en désaccord et36paires au-delà1pixel restent dans
+le résultat `reserved_visible_v1.json`. Le reçu `visible_reserved_review.json`,
+SHAd019a899…, vérifie32archives, comptabilité, boutons fixés, chronologie des
+commits, fractions et7témoins, dont4écarts reproduits. Les trois catégories
+passent le protocole réservé sans nouveau réglage. Calibration brute close
+pour les pièces visibles définies ; suite temporelle/référence distincte.
