@@ -43,6 +43,8 @@ class TransitionPrediction:
 
 @dataclass(frozen=True)
 class _IdentityMemory:
+    stream_id: str
+    epoch: int
     pooled_rgb: torch.Tensor
     tracking: TrackerFrame
 
@@ -63,10 +65,16 @@ supply P supervision. I uses exact8-frame endpoints, not two arbitrary steps.
             raise ValueError('An explicit own stream and reset epoch are required')
         if type(max_groups) is not int or not 1<=max_groups<=4096:
             raise ValueError('Declare motion group capacity in1..4096')
-        self.parser,self.stream_id,self.epoch=parser,stream_id,epoch
+        self.parser,self._stream_id,self._epoch=parser,stream_id,epoch
         self._tracker=BoundedInstanceTracker(image_shape,max_tracks=max_tracks)
         self.max_groups=max_groups
         self._history={}
+
+    @property
+    def stream_id(self): return self._stream_id
+
+    @property
+    def epoch(self): return self._epoch
 
     def observe(self,previous_rgb,current_rgb,*,native_frame,effect=None):
         """Observe without retaining autograd graphs or updating any model weights.
@@ -108,10 +116,10 @@ action, image alignment, stream and epoch; these arguments alone cannot do so.
             # uint8 pixels and own detached tracking, not stale computation graphs.
             earlier=self.parser(previous.pooled_rgb).embedding[0]
             identity=identity_loss(
-                IdentityObservation(self.stream_id,self.epoch,previous.tracking,earlier),
+                IdentityObservation(previous.stream_id,previous.epoch,previous.tracking,earlier),
                 IdentityObservation(self.stream_id,self.epoch,tracked,output.embedding[0]))
         history={t:value for t,value in self._history.items() if native_frame-t<=8}
-        history[native_frame]=_IdentityMemory(pooled.detach().clone(),copy.deepcopy(tracked))
+        history[native_frame]=_IdentityMemory(self.stream_id,self.epoch,pooled.detach().clone(),copy.deepcopy(tracked))
         result=PerceptionFrame(self.stream_id,self.epoch,native_frame,4,pooled,chosen,output,
                                tracked,grouping,identity)
         self._tracker,self._history=candidate,history

@@ -131,3 +131,19 @@ def test_extreme_finite_fields_cannot_make_unknown_p_nan_or_eligible_p_infinite(
     (unknown.image_l1+unknown.foreground_bce).backward()
     assert torch.count_nonzero(output.displacement.grad)==torch.count_nonzero(output.foreground_logits.grad)==0
     with pytest.raises(ValueError,match='Nonfinite P loss'): transition_prediction(source,later)
+
+
+def test_stream_tags_are_readonly_and_history_retains_original_epoch():
+    own=stream()
+    own.observe(rgb(),rgb(),native_frame=0)
+    with pytest.raises(AttributeError): own.epoch=1
+    with pytest.raises(AttributeError): own.stream_id='renamed'
+    assert own._history[0].epoch==0 and own._history[0].stream_id=='synthetic-live0'
+    # Even an accidentally mixed private history cannot relabel its old tags.
+    foreign=PerceptionStream(own.parser,(16,24),stream_id='other-live')
+    foreign.observe(rgb(),rgb(),native_frame=0)
+    own._history[0]=foreign._history[0]
+    before=own._tracker
+    with pytest.raises(ValueError,match='same stream/reset epoch'):
+        own.observe(rgb(),rgb(),native_frame=8)
+    assert own._tracker is before and own._tracker._frame==0

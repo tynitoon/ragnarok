@@ -11,6 +11,11 @@ images ordinaires effectivement émulées, un identifiant de flux et une époque
 mémoire. Chaque environnement ou branche a son propre flux. Les images de
 laboratoire et les charges de restauration ne font pas avancer l'horloge de la
 partie ordinaire ; une réinitialisation du tracker crée une nouvelle époque.
+Les identifiants publics de flux et d'époque sont en lecture seule : un reset
+de mémoire décidé par l'agent construit un nouveau flux, avec une mémoire vide.
+Chaque ancienne entrée conserve ses identifiants d'origine ; elle ne peut pas
+être réétiquetée par les identifiants courants. Un compteur de reset natif/ALE
+ne doit pas déclencher automatiquement cette opération ni servir de signal de mort.
 
 Le parser n'a pas d'entrée décrivant la durée. L'assemblage fixe donc d à un
 déplacement prédit sur quatre images réelles, conformément au frameskip proposé.
