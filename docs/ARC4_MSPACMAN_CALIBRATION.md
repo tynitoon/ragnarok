@@ -126,3 +126,22 @@ leurs fractions V1. Le fruit demeure absent/null/FAIL sur cette séquence.
 La couverture17431 est encore en calcul. Revue de composition indépendante
 `list_composition_preseal_review.json` close,25sources liées ; ce reçu ne tient
 pas lieu de revue des résultats complets ni de validation réservée.
+
+V2 couverture17431 terminée : joueur et fruit passent les comptages et boîtes
+à100 %. Le résultat global reste **FAIL** : fantômes31766/32117comptages positifs
+égaux, grosses19260/20646, petites30678/32108. Les résultats uniformes et ceux
+de couverture ne sont pas mélangés.
+
+Les1386images du nouveau labyrinthe utilisent le bleu(101,111,228), encore
+inconnu du checker rose. Les murs clignotent aussi en gris214 en fin de tableau
+(ex4329), confondu avec des fantômes. Le passage horizontal des fantômes produit
+une pièce visible à chaque bord (ex3798). Les grosses pastilles nécessitent
+également l'occultation par les silhouettes d'acteurs.
+
+Candidat V3 distinct : `mspacman_maze_visible_v70.py`. Registres RGB séparés par
+palette ; murs appris depuis les grandes composantes déjà vues et retirés du
+gris seulement pendant un flash couvrant95 % du masque appris. Les pixels gris
+hors de ce masque restent analysés. Le juge RAM applique les supports bouclés
+des fantômes et les occultations aux deux tailles de pastilles. Quatre témoins
+ciblés passent. Les deux calculs complets V3 sont en cours ; aucune source de
+ces calculs ne doit changer avant leur fin. Réservés17412/17432 fermés.

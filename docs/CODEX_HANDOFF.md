@@ -342,10 +342,24 @@ candidat joueur `mspacman_player_list_v70.py` en diagnostic indépendant, fruit
 `mspacman_fruit_v70.py` avec types0/1 observés ; composition distincte
 `mspacman_list_visible_v70.py`, calibrateur `calibrate_mspacman_list_v70.py`.
 Ne pas relancer cette graine ou réutiliser sa sortie.17412/17432 restent fermés.
+V2 est maintenant consignée : joueur/fruit PASS sur17431, autres catégories FAIL
+(palette du second labyrinthe, murs gris clignotants, wraps fantômes et occultation
+des grosses pastilles). V2 uniforme corrige les9comptages de pastilles. Sources
+et revue de composition committées3aef87d ; candidat distinct V3
+`mspacman_maze_visible_v70.py`, calibrateur `calibrate_mspacman_maze_v70.py`,
+quatre tests passent. **Calculs V3 en cours** sur les deux archives, sorties
+`development_visible_v3.json` et `coverage_visible_v3.json` : ne toucher aucune
+source de ces calculs avant leur fin.
 Asteroids : protocole/sources/revue committés8cbc41d avant17511, capture8192images,
 8852facturées,5constructions. Baseline FAIL trois catégories ; erreur d'export
 int64 préservée, nouvelle sérialisation aux entiersPython sans changement des
 statistiques. Voir `docs/ARC4_ASTEROIDS_CALIBRATION.md`. Réservé17512 fermé.
+Diagnostic indépendant joueur/tirs en clôture : nouveaux modules distincts,
+présence/boîtes passent sur8192images, explosions incluses. Root traite les
+rochers avec `asteroids_rocks_v70.py` ; `diagnose_asteroids_raster_v70.py` en cours,
+sortie `rock_raster_development_v1.json`. L'inventaire RGB dérivé et les variantes
+de phase/géométrie/glyphes sont conservés séparément ; pas de source historique
+modifiée. Ne pas confondre ces diagnostics avec une calibration réservée.
 Terminer les diagnostics et calibrations de développement, puis revue et
 scellement avant validation réservée. Aucun autre jeu de confirmation n'est ouvert.
 Résoudre avant gate 0 : registre des seeds/jeux, budget d'entrée E1, couverture,
