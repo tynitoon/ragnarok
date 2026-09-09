@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 17:52 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 18:04 Paris. Index, pas nouveau protocole.
 Détails précédents conservés dans [l’historique de 16:48](history/CODEX_HANDOFF_20260909_1648.md)
 et celui de 14:30. Lire uniquement les sections utiles, pas la session Claude entière.
 
@@ -133,6 +133,12 @@ Sources CPU gelées à **b9c65a5**, revue committée **f1d5486** avant lancement
 Géométries complètes Ms/Ast PASS le 9 septembre à17:51 : 8192DEV+8192RESERVED
 par jeu, aucune frame nouvelle ; sessions44601/18293 closes. Sorties
 `v70_<jeu>_cpu/cpu_geometry_v0.json` et tentatives. Commit avant wiring18176/77/78.
+Géométries committées **29cc843**. Wiring Ms PASS, **3618 charges**, session40458
+close. Wiring Ast **FAIL**, session73542 close : Unknown player graphics bank
+pendant le décodage anticipé de la frame0 au premier act ; **265 charges**
+conservées (133 sujet,132 témoin), aucune décision rendue. Aucun retry/substitut
+de graine et aucun benchmark Ast v0. Les115sources restent intactes ; diagnostic
+hors émulation à poursuivre. Le benchmark Ms peut suivre son wiring committé.
 Barrières : preuves des deux jeux, sources/build/DLL committés et exacts,
 rapports déjà reçus conservés sur panne, arrêt définitif après erreur,
 empreintes géométrie/wiring/paire inchangées après travail, digest ordonné des
@@ -160,9 +166,12 @@ requis. Comparaison `rgb_trace_difference_v70.py`
 sur le seul préfixe commun, délai brut/poolé explicite ; sept tests supplémentaires
 PASS. `ARC4_BRANCH_TRACE_DRAFT.md` donne les limites, aucun ME encore implémenté.
 Protocole natif distinct `ARC4_RGB_BRANCH_TRACE_PROTOCOL.json` et lanceur
-`check_rgb_branch_trace_v70.py` préparés, sept tests synthétiques supplémentaires
-PASS. 26 constructeurs au maximum, chacun2000charges, graines18700sixjeux,
-18711/12Pongterminaux1/0,18720Pongspawn ; aucune ouverture avant revue finale.
+`check_rgb_branch_trace_v70.py` : fermeture20sources,27testsPASS, deux findings
+de revue corrigés (init de packages et conservation immédiate de chaque rapport).
+Revue finale `v70_rgb_branch_trace/wiring_preflight_v0.json` PASS, SHA
+`f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96`.
+26 constructeurs au maximum, chacun2000charges, graines18700sixjeux,
+18711/12Pongterminaux1/0,18720Pongspawn ; commit de la revue avant vrai préflight.
 Descripteur corrigé à 49 floats (addition), pas encore implémenté. Aucun gate/poids ARC 4.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : 29 paires E1 au maximum dans 20k à20 %, pas 288 ;
 16 points courants, 3944 charges expérimentales / 19720 totales en simulation.
