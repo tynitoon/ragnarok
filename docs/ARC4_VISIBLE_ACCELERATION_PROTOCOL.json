@@ -1,0 +1,24 @@
+{
+  "kind": "prospective_offline_ordered_external_equivalence",
+  "collections": ["development", "reserved", "fresh_raw"],
+  "windows_each": 8192,
+  "source_pairs": 40965,
+  "groups": 24576,
+  "inputs": "Exactly the committed collections of scripts/check_fast_visible_mspacman_v70.py, with unchanged manifests/shards and previous ordered source digests.",
+  "comparisons": [
+    "Original fast V2 decoder followed by vector candidate per archived pair; complete ordered labels equal and RAM unchanged.",
+    "Original grouping followed by candidate cache per two-source window; complete ordered geometry and render-slot memberships equal.",
+    "For raw reference frames, maintain the actual adjacent source pair, including the archived cold RAM0 at each of five starts; no RGB0 is invented."
+  ],
+  "cache": "One fresh cache per collection; last input and result per kind only, no selective warmup or exclusions.",
+  "new_emulated_frames": 0,
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "limitations": [
+    "Existing development populations only; this is not a new independent RAM/RGB calibration.",
+    "Times are sequential function calls without cProfile on archived inputs under concurrentARC3 load; no controlled full-chain speedup is inferred.",
+    "Raw windows are adjacent archived frames, not a new native repeat4 trajectory.",
+    "No emulator, IPC, branches, model inference, new ROM or new seed is involved.",
+    "A passing equivalence audit does not itself launch or validate a revised native benchmark or gate."
+  ]
+}
