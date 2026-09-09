@@ -1,0 +1,534 @@
+{
+  "kind": "v62_pretraining_lineage2_completion_receipt",
+  "recorded_at_utc": "2026-09-09T03:28:59.494595+00:00",
+  "reviewer": "Codex independent subagent /root/audit_gate_v62",
+  "frozen_protocol": "v62-stage0-freeze",
+  "freeze_commit": "a189ea5bb0f9c8b7e9016a50aefc1cbca603426f",
+  "completed": {
+    "stage": "pretrain_s2",
+    "artifacts": {
+      "v61_pre_s2.json": "a3d5e94a74571069daa000d739e16de7ac6037459b7456b9a523ad03f2b28a47",
+      "v61_pre_s2_M1.pt": "67fb3e09c3f8ad60bdd622e9525e8bde51987f3707242f381fb8c6b52e1e95b4",
+      "v61_pre_s2_M2.pt": "65e7444441dd81f9990b40378b36e5317893d1cf0753e2879943db6241475bad",
+      "v61_pre_s2_M3.pt": "4dbae7372869184fb1c9ea1f94371a7e06122849fd360887b7349844a328ed15",
+      "v61_pre_s2_M4.pt": "b8f0bdba5fc5f3c361197f1b51bdfd25aec0ad639aec93ce5f6818faa35c8d58"
+    }
+  },
+  "source_sha256": {
+    "scripts/gate_v61.py": "2b9962e8726b8696a57765a564683a80cea4885b6132187208468c8be81bf3c3",
+    "scripts/pretrain_v61.py": "16bb7424184a30f03e7950bb40353f03e07e471c1075d2c07361dfa8b59d9126",
+    "scripts/probe_v61.py": "88801326490ee58a43df4a472a44047f4dbd59520157800ebc5d153fd472380f",
+    "scripts/confirm_v61.py": "d6f41254ace316fb57c9f21b0813f735eb693cef4d9b984148dd0494de1afbc2",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/pair_net_v61.py": "323b2d0cc78a7c766afb149e624cea04dee7eb20de575d471e319a2619892f4d",
+    "scripts/pair_store_v61.py": "997de1d0c7c8fd6033cc8d47f2bdaaa6a4df4df995436ee656f8539badcd345f",
+    "scripts/hand_v61.py": "f7f28f003c77a7e38a58367bb39f884f3962441cf3c59e8969b6c5bf1bccc5a5",
+    "scripts/sweeper_v61.py": "d582cc03272f4ce6b12952f5bed3976f6ee599ffb3919431025139457ea2af78",
+    "scripts/hidden_recipe_v55.py": "b9f48d97fdf9eb23eecc06ea92d9caf9efed819f9930effdd74b5842305bae19",
+    "scripts/depth_scaling_v49.py": "154db961adf35db76c8848629921e65b62d82d38374ab6376e5424fe865a3c91",
+    "scripts/childhood_v50.py": "46b8ceefa2ec510c996e4c4e4f99466a8783d9116913a5bd193a6d15b1a5192b",
+    "scripts/meta_manager_v51.py": "0698e82f66cbfcc2bc3001b968f05b8ef6cea68cc961f97a5217bbf16f3a0510",
+    "ragnarok/environments/law_world.py": "0396e369dcf00b6843ae0441194b43922a6b8e0fcd2abe9f139d7d5c2471bac7",
+    "ragnarok/environments/tech_tree.py": "9a86817cf3c27b4e8d7ccc636cfcdcea82941e676f592c27fae833e26afa0ad9",
+    "ragnarok/learning/ppo_discrete.py": "492654ebf712de4da9226aa9a0e10bf143782779c43da0885d8af9c8df5b1b01",
+    "ragnarok/infrastructure/device.py": "1cc5ce304446d734670edb8c35acaae46d4e203f788722bdd5f45992357377c9"
+  },
+  "input_sha256": {
+    "v55_skill_s0.pt": "668247e5915cd30367f4b0fedab95beddb9d5c5a32520cbf42ba3935f9a3d569",
+    "v61_roster.json": "9c4597371a6045352b91f71e921afda71201abc58cbfe2f9657c105e2d2bd6f1"
+  },
+  "gate_sha256": "db5d0a7ab62a266ec485c61582ed2ef543263b5747bf6dfb7e023621c6c9af8a",
+  "launcher_sha256": "f004f864fc7384c2f0909a87452790b7c30060abe645917718f920d8ea3f1015",
+  "state_snapshot_sha256": "d167290b78634579b292e5912a4dab5ae61848c89c07a8e90e9e6bdc9a618dcc",
+  "state_snapshot_status": "running",
+  "state_snapshot_stage": "probe",
+  "controller_pid": 29812,
+  "probe_child_pid_observed": 21096,
+  "probe_child_parent_pid_observed": 29812,
+  "probe_child_command_observed": "C:\\Python314\\python.exe -u -m scripts.probe_v61 --lineage 0 --num-envs 64",
+  "pretrain_command": [
+    "C:\\Python314\\python.exe",
+    "-u",
+    "-m",
+    "scripts.pretrain_v61",
+    "--lineage",
+    "2",
+    "--b-max",
+    "3",
+    "--num-envs",
+    "64",
+    "--store-persists",
+    "--resume"
+  ],
+  "worlds": [
+    {
+      "world": 8220,
+      "k": 1,
+      "goals": [
+        0,
+        4,
+        6,
+        9
+      ],
+      "tiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "area_recomputed": 0.39583333333333337,
+      "area_L": 1.0,
+      "coverage_true_rounded": 0.364,
+      "cells_world": 30,
+      "elapsed_log_seconds": 1834,
+      "curves": [
+        [
+          0.125,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0156,
+          0.25,
+          0.5469,
+          0.9531
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "sample_rows": [
+        [
+          673,
+          756,
+          674
+        ],
+        [
+          16,
+          16,
+          105
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "demos": [
+        [
+          215,
+          256,
+          256
+        ],
+        [
+          4,
+          4,
+          32
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "world": 8221,
+      "k": 2,
+      "goals": [
+        0,
+        2,
+        5,
+        7
+      ],
+      "tiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "area_recomputed": 0.6302,
+      "area_L": 1.0,
+      "coverage_true_rounded": 0.545,
+      "cells_world": 30,
+      "elapsed_log_seconds": 3559,
+      "curves": [
+        [
+          0.9844,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.9531,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.4062,
+          0.4062,
+          0.5312,
+          0.625
+        ]
+      ],
+      "sample_rows": [
+        [
+          98,
+          743,
+          858
+        ],
+        [
+          610,
+          828,
+          819
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          108,
+          203,
+          336
+        ]
+      ],
+      "demos": [
+        [
+          30,
+          214,
+          254
+        ],
+        [
+          186,
+          250,
+          255
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          34,
+          55,
+          97
+        ]
+      ]
+    },
+    {
+      "world": 8222,
+      "k": 3,
+      "goals": [
+        0,
+        10,
+        2,
+        9
+      ],
+      "tiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "area_recomputed": 0.5195333333333333,
+      "area_L": 1.0,
+      "coverage_true_rounded": 0.682,
+      "cells_world": 33,
+      "elapsed_log_seconds": 5437,
+      "curves": [
+        [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0469,
+          0.6094,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0312,
+          0.0625,
+          0.2031,
+          0.3594
+        ]
+      ],
+      "sample_rows": [
+        [
+          547,
+          689,
+          625
+        ],
+        [
+          42,
+          301,
+          776
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          13,
+          33
+        ]
+      ],
+      "demos": [
+        [
+          178,
+          256,
+          256
+        ],
+        [
+          12,
+          92,
+          232
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          9
+        ]
+      ]
+    },
+    {
+      "world": 8223,
+      "k": 4,
+      "goals": [
+        0,
+        6,
+        1,
+        4
+      ],
+      "tiers": [
+        2,
+        3,
+        4,
+        4
+      ],
+      "area_recomputed": 0.27474166666666666,
+      "area_L": 1.0,
+      "coverage_true_rounded": 0.795,
+      "cells_world": 29,
+      "elapsed_log_seconds": 7147,
+      "curves": [
+        [
+          0.0,
+          0.9531,
+          1.0,
+          0.9844
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0156,
+          0.1094,
+          0.1875,
+          0.0625
+        ]
+      ],
+      "sample_rows": [
+        [
+          91,
+          103,
+          68
+        ],
+        [
+          6,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "demos": [
+        [
+          29,
+          30,
+          18
+        ],
+        [
+          2,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "path": "v61_pre_s2_M1.pt",
+      "sha256": "67fb3e09c3f8ad60bdd622e9525e8bde51987f3707242f381fb8c6b52e1e95b4",
+      "bytes": 140517,
+      "zip_crc_valid": true,
+      "float32_storages": 10,
+      "float32_values": 34066,
+      "all_weights_finite": true,
+      "inspection": "Static pickle opcode and raw storage inspection; no pickle deserialization or torch import."
+    },
+    {
+      "path": "v61_pre_s2_M2.pt",
+      "sha256": "65e7444441dd81f9990b40378b36e5317893d1cf0753e2879943db6241475bad",
+      "bytes": 140517,
+      "zip_crc_valid": true,
+      "float32_storages": 10,
+      "float32_values": 34066,
+      "all_weights_finite": true,
+      "inspection": "Static pickle opcode and raw storage inspection; no pickle deserialization or torch import."
+    },
+    {
+      "path": "v61_pre_s2_M3.pt",
+      "sha256": "4dbae7372869184fb1c9ea1f94371a7e06122849fd360887b7349844a328ed15",
+      "bytes": 140517,
+      "zip_crc_valid": true,
+      "float32_storages": 10,
+      "float32_values": 34066,
+      "all_weights_finite": true,
+      "inspection": "Static pickle opcode and raw storage inspection; no pickle deserialization or torch import."
+    },
+    {
+      "path": "v61_pre_s2_M4.pt",
+      "sha256": "b8f0bdba5fc5f3c361197f1b51bdfd25aec0ad639aec93ce5f6818faa35c8d58",
+      "bytes": 140517,
+      "zip_crc_valid": true,
+      "float32_storages": 10,
+      "float32_values": 34066,
+      "all_weights_finite": true,
+      "inspection": "Static pickle opcode and raw storage inspection; no pickle deserialization or torch import."
+    }
+  ],
+  "exercised_cells": 70,
+  "true_cells_total": 44,
+  "true_cells_exercised": 35,
+  "coverage_true_exact": 0.7954545454545454,
+  "elapsed_controller_seconds_at_s2_start": 15668.6495813,
+  "elapsed_controller_seconds_at_probe_start": 22823.7297333,
+  "lineage_seconds": [
+    8100.2224589,
+    7568.4271224,
+    7155.080151999999
+  ],
+  "log_lineage2_seconds": 7147,
+  "lineage2_controller_overhead_above_rounded_log_seconds": 8.080151999998634,
+  "pretraining_actual_controller_hours": 6.339924925916666,
+  "projection_base_excluding_pretraining_hours": 27.602586111111,
+  "projection_base_note": "Supplied current planning base27.602586111111h, retaining the0.5h probe allowance and the frozen B6,N9,Gprime2 confirmatory estimates. Probe duration will be replaced by measured time after completion.",
+  "projection_total_hours": 33.942511037027664,
+  "ceiling_hours": 42,
+  "projection_margin_hours": 8.057488962972336,
+  "controller_remaining_seconds_at_probe_start": 87995.1202667,
+  "B_test": 6,
+  "N": 9,
+  "G_prime_units": 2,
+  "cuts_required_by_this_projection": false,
+  "checks": {
+    "all17_frozen_source_bytes_and_git_freeze_match": true,
+    "all_inputs_gate_and_launcher_unchanged": true,
+    "all_three_pretrain_completed_artifact_hashes_match_controller": true,
+    "lineage2_four_worlds_and16complete_curves": true,
+    "lineage2_four_distinct_finite_checkpoints": true,
+    "no_implicit_lineage2_resume_or_duplicate_stage_in_stdout": true,
+    "controller_transition_to_probe_observed": true
+  },
+  "probe_review_prepared": {
+    "world": 8150,
+    "lineage": 0,
+    "required_arms": [
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "R"
+    ],
+    "weights_frozen": true,
+    "store_empty": true,
+    "first_proposals_stochastic_temperature": 1,
+    "maximum_first_proposals_per_arm": 768,
+    "actual_n_required": true,
+    "pooled_rate": "(rM*nM+rR*nR)/(nM+nR)",
+    "standard_error": "sqrt(pooled*(1-pooled)*(1/nM+1/nR))",
+    "proceed_rule": "r(M4)-r(R)>=3*standard_error",
+    "auc_split_descriptive_not_override": true,
+    "stop_rule": "A failed probe forbids confirmatory execution; a passed probe still requires completed-output review. The controller always stops after probe.",
+    "confirmatory_started_by_this_audit": false
+  },
+  "probe_result": null,
+  "limitations": [
+    "No GPU work or torch import was performed by this audit. Checkpoint inspection validates archives, expected float storage and finiteness, without model execution.",
+    "Pretraining areas and exercised-law coverage are diagnostic summaries, not evidence of transfer or accelerated learning.",
+    "The exact final coverage35/44 was independently regenerated from the frozen NumPy law functions. Earlier per-world coverage is recorded from the complete JSON, not reconstructed from missing historical cell sets.",
+    "The controller state is mutable. The recorded22823.7297333seconds is the observed start-of-probe boundary; this receipt does not claim a completed probe result.",
+    "Projected confirmatory costs remain estimates; actual later durations still govern the42hour ceiling."
+  ]
+}

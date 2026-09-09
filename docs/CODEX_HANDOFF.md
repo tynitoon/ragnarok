@@ -118,6 +118,14 @@ les sorties des enfants ne remontent pas dans le log stdout du contrôleur Windo
 Relevé vers04:37 : lignée2 M2 terminé (aire0,630, couverture0,545), M3 en cours ;
 premier objectif M3 terminé à4105s cumulées. Toujours aucun probe ni confirmatoire.
 
+Relevé vers05:29 : les trois lignées sont complètes. Lignée2 vérifiée
+indépendamment : quatre mondes,16courbes, checkpoints intègres,17sources gelées
+inchangées.7147s au log,7155,080152s contrôleur ; couverture finale35/44=79,5455 %.
+Projection totale33,9425h, marge8,0575h ; B6/N9/G'2 conservés. Reçu
+`v62_pretrain_s2_receipt.json`. Le contrôleur29812 a enchaîné le probe, enfant21096,
+état `running/probe`, départ à22823,7297333s cumulées. Vérifier l'état avant toute
+action. Il s'arrêtera après le probe pour revue, aucun confirmatoire lancé.
+
 Après le gate validé, suivre les commandes gelées §12.6 :
 préentraînement des trois lignées, probe, puis confirmatoire seulement si le
 probe autorise la suite, score et figure. Si STOP, consigner honnêtement et ne
