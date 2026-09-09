@@ -201,22 +201,34 @@ Voir `docs/ARC4_COLD_START.md` et ses deux artefacts de certification.
   rappel99,7407%, précision51,7902% seulement, joueur97,4016% ; erreurs conservées.
   Chaîne NumPy878,38/s, native1430,58/s, mêmes16rapports,165808frames facturées.
   Revue Meitner close ; dossier `v70_freeway_pooled/`, docs de calibration.
-- Seaquest (9 septembre, vers04:36) : baselines et corrections V1–V4 conservées.
+- Seaquest (9 septembre, vers04:47) : baselines et corrections V1–V4 conservées.
   Collecte V4 `06caf0a` commitée avant17361 :32768images/33280frames facturées,
   quatre constructions, enfin patrouille de surface visible sur4788images.
   V4 corrige orientation des missiles bleus, occultations jaunes, supports de
   surface et fragments gris. Revues indépendantes Ohm/Meitner consignées en JSON.
   La collection17361 passe les sept catégories/sous-type, mais17341 reste négative
   pour joueur (hauteur6 ignorée) et sous-marins (fragments immergés séparés).
-  V5 minimale en cours : joueur h>1, regroupement gris immergé8x11 ; six témoins
-  audités et29tests CPU passent. Baseline17311 V5 lancée, puis quatre géométries
-  supplémentaires à vérifier séparément. Ne pas modifier les sources pendant
-  ces scans. Contacts jaunes larges et bas restent une limite déclarée.
+  V5 minimale : joueur h>1, regroupement gris immergé8x11 ; six témoins audités.
+  Les cinq développements passent leur géométrie observée séparément ;17361
+  passe toutes catégories/surface. Revue Meitner finale close et reçue en JSON.
+ 32tests CPU ciblés passent par groupes. Contacts jaunes larges et bas restent
+  une limite déclarée, les catégories absentes restent FAIL/null.
   Nouveau `validate_seaquest_reserved_v70.py` : futur couple fixe17312/17362,
   sources puis sceau réellement commitées avant exécution. Guard Git5tests,
-  orchestration5tests dont capture simulée→vrai lecteur ; revue close après
-  correction du nom de format historique. Aucun réservé ouvert ;17332/17342/
-  17352 retirés sans ouverture. Tous les anciens échecs restent négatifs.
+  orchestration8tests dont capture simulée→vrai lecteur ; revue close après
+  correction du nom de format historique. Sources commitées126a2eb, sceau et
+  revue commitées23cf31d AVANT ouverture. Exécution du couple réservé lancée
+  vers04:47 : `python -u -m scripts.validate_seaquest_reserved_v70 run`.
+  Les25sources du sceau sont désormais figées, y compris le guard générique.
+  Ne pas les modifier. Résultats terminés vers04:52 : les deux séquences PASS.
+ 17312 :8192images/8704facturées,4loads,six catégories couvertes et calibrées.
+ 17362 :32768images/33280facturées,4loads,surface3463appariements within1.
+  `reserved_raw_result.json`, `reserved_coverage_result.json`, `reserved_pair_result.json`.
+  Revue indépendante du réservé en cours. Module temporel séparé préparé dans
+  `pooled_seaquest_v70.py`, protocole17321/17322,8192décisions ; trois tests CPU
+  passent, captureur/protocole encore à finaliser et commiter avant ouverture.
+  Ne pas relancer si une capture/sortie existe, même incomplète.17332/17342/17352
+  restent retirés sans ouverture. Tous les anciens échecs restent négatifs.
   Voir `docs/ARC4_SEAQUEST_CALIBRATION.md`. Toujours séparer les appels Git
   dépendants et inspecter les codes de retour avant toute capture.
 

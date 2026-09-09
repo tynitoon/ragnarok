@@ -233,3 +233,30 @@ chaque ancienne collecte ; trois tests ajoutés rejettent un échec masqué dans
 chacune des anciennes captures supplémentaires. Les captures réservées restent
 fermées jusqu'à la fin de la revue indépendante des cinq rapports et au succès
 des deux commits (sources, puis métadonnées du sceau).
+
+## Validation réservée du brut passée
+
+Sources V5 commitées `126a2eb`, sceau et revue préalables commitées `23cf31d`,
+puis exécution du couple prévu le9septembre vers04:47. Le guard vérifie les
+25sources et l'antériorité effective du commit du sceau avant toute émulation.
+Ces25sources sont désormais figées ; ne plus les modifier pour la suite.
+
+17312 :8192images,8704frames facturées, quatre constructions. Les six catégories
+passent cette fois sur la capture uniforme elle-même :1402 sous-marins et685
+missiles ennemis appariés. Présence joueur99,9634 %, boîtes7108/7109 à un pixel
+près ; les boîtes des autres types sont toutes dans la tolérance. Le critère
+de présence brute des missiles joueur est99,9146 % ; leur présence conditionnée
+aux frames positives, également rapportée, est99,6594 %.
+
+17362 :32768images,33280frames facturées, quatre constructions. Les six
+catégories et la surface passent séparément. Surface3463appariements, présence
+et boîtes à un pixel près100 %. Toutes les boîtes appariées des autres catégories
+sont aussi dans la tolérance. Présence positive minimale99,9641 % pour le tir
+du joueur. Le résultat du couple est PASS, sans réglage après ouverture.
+
+Fichiers : `reserved_raw_result.json`, `reserved_coverage_result.json`,
+`reserved_pair_result.json`, les deux captures complètes et le sceau dans
+`craft_v6_out/v70_seaquest_calibration/`. Conserver les erreurs restantes et
+les limites des motifs communs et de l'identité lors des occultations. Cette
+validation concerne le juge d'images brutes, pas la perception apprise, le
+jeu autonome, le transfert, ni les observations temporelles encore à tester.
