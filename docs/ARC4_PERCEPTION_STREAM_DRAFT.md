@@ -26,7 +26,8 @@ observation utilisable pour le suivi et G. I exige exactement huit images d'éca
 jamais simplement deux appels qui auraient été tronqués.
 
 La mémoire conserve les pixels uint8 et les observations propres du tracker sur
-les huit dernières images de cette horloge. Elle n'accumule pas les graphes de
+la fenêtre inclusive [t−8,t] de cette horloge, soit jusqu'à neuf observations
+si une image est traitée à chaque unité. Elle n'accumule pas les graphes de
 gradient. Quand une extrémité à huit images existe, son embedding est recalculé
 avec les poids courants ; les identités proviennent toujours du suivi observé à
 cette date. Cette différence entre poids courants et anciennes décisions de suivi
