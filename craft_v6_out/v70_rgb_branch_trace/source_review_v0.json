@@ -1,0 +1,103 @@
+{
+  "kind": "v70_rgb_branch_trace_independent_source_review",
+  "created_utc": "2026-09-09T15:52:02.339853+00:00",
+  "passed": true,
+  "review_scope": "Preliminary source and synthetic CPU review only; no native wiring, capture, benchmark, learning or gate authorization.",
+  "final_native_preflight": false,
+  "source_commit": "5f682bc7f2143bf565e41a43f9fbfb24c3073aec",
+  "head_at_review": "5f682bc7f2143bf565e41a43f9fbfb24c3073aec",
+  "source_sha256": {
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7"
+  },
+  "runtime": {
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "versions": {
+      "ale-py": "0.12.1",
+      "numpy": "2.4.4",
+      "scipy": "1.18.1",
+      "pillow": "12.3.0"
+    },
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_visible_cpu/preflight_review_v0.json": "f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9"
+  },
+  "checks": {
+    "provenance": "All ten requested prototype, test, draft and base file hashes verified; path-filtered Git object IDs equal the committed blobs at 5f682bc and HEAD. All 115 frozen CPU source hashes still equal the independent CPU preflight receipt.",
+    "loop_and_accounting": "The adapter calls the unchanged cold/base _advance and branch_pair loops. Native action selection, sticky RNG draws, terminal check, strict one-frame invariant, ledger charges and the two native/RGB/sticky restorations remain in those base methods. Each recorder append occurs after the accepted native act is charged.",
+    "images_and_restoration": "A temporary deque records copies of every actual raw image and the causal maximum of the last two images. Branch endpoints are checked against the unchanged base outputs. The ordinary deque is restored in finally; native RNG, sticky RNG, last action and RGB history return to the branch anchor without refunding experiment/restoration costs.",
+    "no_padding": "Terminal branches contain zero or their actual number of frames. Empty traces retain only the anchor endpoint, never a fictitious frame. Differences use min(left_count,right_count), expose unmatched tails and do not impute divergence from missing observations.",
+    "failure": "A pre-admission budget refusal leaves the engine ledger and state unchanged. Every other guarded action error stops the engine, including an invariant failure before ledger insertion, and reports accounting_complete=false while preserving known charges. The pool stops later action batches after its first action exception and still allows report retrieval while the worker transport is available.",
+    "rpc": "Worker whitelist is observe, step, branch_pair, branch_pair_trace, accounting, report and close. RAM, reward, lives, private/native state and persistent snapshot commands are absent or explicitly rejected. Reports contain the ledger and original failure type/text, not evaluator labels.",
+    "difference": "Raw versus pooled images are selected explicitly. First observed differences use one-based native offsets, with zero meaning no observed difference in the common prefix. No ME decision, object identity, teacher target or controlling action is selected by the module."
+  },
+  "validation": {
+    "command": ".venv-arc4/Scripts/python.exe -m pytest -q tests/test_rgb_branch_trace_v70.py tests/test_rgb_trace_difference_v70.py tests/test_rgb_trace_pool_v70.py",
+    "pytest_passed": 18,
+    "pytest_elapsed_seconds": 1.5,
+    "actual_process_transport": "The suite spawned and closed two Windows worker processes with synthetic engine constructors only. No ALEInterface, ROM or game seed was constructed.",
+    "independent_synthetic_witnesses": [
+      {
+        "case": "Raise MemoryError after recorder has appended and copied raw/pooled RGB",
+        "known_charged_delta": 61,
+        "native_anchor_rng_sticky_and_rgb_restored": true,
+        "recording_cleared_and_plain_deque": true,
+        "later_action_refused": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "Native act advances two frames inside a branch before the base invariant check",
+        "known_charged_delta": 60,
+        "restores": 1,
+        "native_anchor_restored": true,
+        "unpaid_native_execution_explicitly_possible": true,
+        "accounting_complete": false
+      },
+      {
+        "case": "Action-dependent terminal produces intervention/control lengths 1 and 4",
+        "raw_and_pooled_lengths": [
+          1,
+          4
+        ],
+        "known_charged_delta": 125,
+        "common_prefix_frames": 1,
+        "unpaired_frames": [
+          0,
+          3
+        ],
+        "native_anchor_restored": true
+      },
+      {
+        "case": "Single pixel first differs on the maximum supported frame",
+        "first_changed_native_offset": 64,
+        "unchanged_pixels_remain_zero": true
+      }
+    ]
+  },
+  "findings": [],
+  "limitations": [
+    "This is a prototype source review with synthetic execution. Native cold starts, real game terminals and real ALE snapshot equivalence have not been validated for this adapter.",
+    "Common-anchor provenance is a caller obligation of difference(); RGB arrays alone cannot certify it. A persistent capture protocol must bind both branches from one branch_pair_trace call.",
+    "No durable attempt/archive runner is included here. Transport loss or partial constructor failure may prevent report recovery; a future runner must preserve known reports and represent unknown cost without replay.",
+    "accounting_complete=false is deliberately conservative for non-budget errors, including failures whose known ledger delta is already preserved; it is not an estimate of missing frames.",
+    "The pool stops on any action exception, including an unpaid BudgetExceeded, whereas the private engine leaves a clean budget refusal recoverable. No follow-up paid action through the stopped pool is permitted.",
+    "The ten hashes describe the requested review scope, not a newly sealed closure of all transitive runtime imports. The 115-source CPU benchmark closure remains unchanged and separate.",
+    "No ME, E1/C reuse rule, delay unit, learning protocol, teacher construction or scientific performance conclusion is established by trace availability."
+  ],
+  "operations": {
+    "emulator_constructed": false,
+    "new_seed_opened": false,
+    "frozen_source_modified": false,
+    "existing_result_modified": false,
+    "commit_created": false
+  }
+}

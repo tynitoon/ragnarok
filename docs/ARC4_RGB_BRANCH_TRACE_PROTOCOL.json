@@ -1,0 +1,27 @@
+{
+  "kind": "prospective_paid_rgb_branch_trace_wiring_v0",
+  "games": ["pong", "breakout", "freeway", "seaquest", "ms_pacman", "asteroids"],
+  "normal_case": {
+    "seed_per_game": 18700,
+    "ordinary_decisions_before_branch": 128,
+    "ordinary_decisions_after_branch": 16,
+    "max_episode_frames": 108000,
+    "engines_per_game": 3
+  },
+  "terminal_cases": [
+    {"game": "pong", "seed": 18711, "ordinary_decisions_before_branch": 127, "max_episode_frames": 509, "expected_trace_frames_per_branch": 1},
+    {"game": "pong", "seed": 18712, "ordinary_decisions_before_branch": 128, "max_episode_frames": 509, "expected_trace_frames_per_branch": 0}
+  ],
+  "spawn_case": {"game": "pong", "seed": 18720, "ordinary_decisions_before_branch": 128, "ordinary_decisions_after_branch": 16, "max_episode_frames": 108000, "workers": 1, "direct_witnesses": 1},
+  "shared": {"frame_skip": 4, "mode": "lab", "sticky_probability": 0.25, "experiment_fraction": 0.2, "max_charged_frames_per_engine": 2000, "branch_action": 5, "control_action": 0, "requested_branch_frames": 8, "restore_charge": 60},
+  "ordinary_actions": "Global ordinary decision index i starts at0 and continues after the branch; action=(i//4)%18. Identical across all witnesses. No oracle, result or RGB difference selects an action.",
+  "source_and_review": "The complete implementation, protocol, tests, frozen base engine and runtime fingerprint must be committed and independently reviewed before any constructor. The preliminary prototype review does not authorize this run. The final review must cover this exact source closure, protocol and runtime. Both source and review fingerprints are rechecked after paid work.",
+  "direct_comparison": "For each normal/terminal case construct a trace subject, the unchanged cold endpoint witness, and an unchanged cold witness advanced one real frame at a time inside two charged branches. Warm up with identical ordinary decisions. Compare subject/endpoint outputs and every raw/maxpooled trace image to the frame witness. Every engine separately admits and pays both full planned branches and restores before starting. The frame witness makes one call per real frame, so its experimental agent-step counter equals the number of actual branch frames, while the subject and endpoint witness each count two branch calls, even when truncated to zero; this declared counter difference is reported, never overwritten. All other ledger fields, ordinary images after restoration, frame numbers and sticky state must agree. Run16further ordinary decisions, including the prescribed next cold in the terminal cases.",
+  "terminal_semantics": "Pong18711 and18712 must reach native frames508/509 before the branch and produce respectively1/0actual frames in each8frame request. Fail and retain the result if an earlier natural terminal prevents that witness. Never pad with repeated images or select another seed. The two restorations are charged even for empty traces.",
+  "spawn_comparison": "One real Pong trace worker versus one direct trace engine on18720. Compare ordinary RGB, raw/pooled/endpoints and both complete reports, then advance16more ordinary decisions. Closed attempts to access RAM, reward, lives, native snapshots or the old clone/restore/release RPC must all fail before any action. Close and verify worker exit. The direct three-engine cases validate semantics independently; this case validates actual spawn/pipe transport.",
+  "difference_target": "Report the raw and pooled difference digests on the shared actual prefix, with unpaired tail lengths. Frame numbers are native1-based offsets from the common anchor. Zero means no change observed in that prefix, not lack of control. No minimum divergence, ME identification or learned target quality is required by this wiring check.",
+  "accounting_and_failure": "At most26constructors, each capped at2000charged frames, so at most52000known charged frames by construction. All warmup, continuation, cold starts, witness branches and restores count; no free witness. A durable exclusive attempt precedes construction. Preserve reports as they arrive, including witnesses and partial work. A constructor without return or native invariant failure may leave unknown cost, explicitly marked; never substitute zero or resume the trajectory. No overwrite, automatic retry or replacement seed. Any later revised instrument requires a new prospective protocol and review, preserving this attempt.",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "heldout_games_opened": []
+}
