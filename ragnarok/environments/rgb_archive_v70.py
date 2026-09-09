@@ -64,13 +64,13 @@ class _RGBArchiveEngine(_RGBTraceColdEngine):
         before = self._budget.charged_frames
         try:
             data = self._encode_saved(self._capture())
+            new_size = self._archive_bytes + len(data)
         except BaseException as error:
             self._record_failure(error, before)
             raise
-        if self._archive_bytes + len(data) > self._archive_limits[1]:
+        if new_size > self._archive_limits[1]:
             raise ValueError('Archive serialized-byte cap reached; no entry was replaced')
         try:
-            new_size = self._archive_bytes + len(data)
             token = secrets.token_hex(16)
             while token in self._archive:
                 token = secrets.token_hex(16)
@@ -84,7 +84,14 @@ class _RGBArchiveEngine(_RGBTraceColdEngine):
     def archive_drop(self, token):
         if type(token) is not str or token not in self._archive:
             raise ValueError('Unknown worker-local archive token')
-        self._archive_bytes -= len(self._archive.pop(token))
+        before = self._budget.charged_frames
+        try:
+            new_size = self._archive_bytes - len(self._archive[token])
+            self._archive.pop(token)
+            self._archive_bytes = new_size
+        except BaseException as error:
+            self._record_failure(error, before)
+            raise
 
     def archive_report(self):
         """Experimenter metadata: payload bound, not a claim about process RSS."""
