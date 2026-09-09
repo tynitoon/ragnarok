@@ -255,3 +255,13 @@ passe les 57 sources. Capture complète : 8 192 décisions, 32 753 frames de jeu
 six démarrages de 132, soit 33 545 frames facturées. Le score V2 unique est en
 cours ; aucun PASS réservé n'est encore revendiqué. Les sources scellées,
 seuils et observations sont désormais immuables.
+
+Le score réservé V2 est ensuite terminé : les cinq catégories passent les
+critères inchangés. Joueur : 8 192 appariements, tous à un pixel ou moins.
+Fantômes : 8 011/8 037 comptages positifs corrects et 26 649/26 709 boîtes à un
+pixel ou moins ; les 26 erreurs de comptage et 60 écarts géométriques restent
+visibles. Fruits : 3 207 comptages corrects, 3 191 boîtes à un pixel ou moins.
+Les 7 642 super-gommes sont exactes. Gommes : une erreur de comptage positif
+sur 8 023 images et cinq écarts géométriques sur 593 630 appariements.
+La revue indépendante finale est en cours. Ce résultat valide l'instrument
+temporel selon le protocole ; il n'établit aucune perception apprise.

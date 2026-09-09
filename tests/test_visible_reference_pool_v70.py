@@ -42,6 +42,7 @@ def test_removing_oracle_labels_cannot_change_rgb_boxes_or_branch_targets(monkey
         assert np.array_equal(a[0],b[0]) and np.array_equal(a[1],b[1])
     a,b=left.report(),right.report()
     assert a['self_generated_label_sha256']==b['self_generated_label_sha256']
+    assert a['ordered_reference_output_sha256']==b['ordered_reference_output_sha256']
     assert a['accounting']==b['accounting']
     assert a['perception']['matched_visible']>0 and b['perception']['matched_visible']==0
     assert a['ordinary_raw_frames']==512 and a['decoded_branch_frames']==8
@@ -102,3 +103,22 @@ def test_pool_does_not_advance_other_workers_after_a_failed_batch(monkeypatch):
     with pytest.raises(ValueError,match='poisoned child'):subject.step([1,0])
     with pytest.raises(ValueError,match='trajectory stopped'):subject.step([1,0])
     assert sent==[[1,0]]
+
+
+def test_output_digest_detects_branch_box_difference_despite_equal_aggregate_scores(monkeypatch):
+    factory(monkeypatch)
+    config=EmulatorConfig(game='asteroids')
+    left,right=pool.VisibleReferenceEngine(config),pool.VisibleReferenceEngine(config)
+    original=right.reference.extract
+    def changed_in_lab(rgb):
+        boxes=original(rgb)
+        if right._phase=='lab':boxes[:,0]+=1
+        return boxes
+    right.reference.extract=changed_in_lab
+    for i in range(128):
+        a,b=left.step(i%2),right.step(i%2)
+        assert np.array_equal(a[0],b[0]) and np.array_equal(a[1],b[1])
+    a,b=left.report(),right.report()
+    assert a['perception']==b['perception'] and a['accounting']==b['accounting']
+    assert a['self_generated_label_sha256']==b['self_generated_label_sha256']
+    assert a['ordered_reference_output_sha256']!=b['ordered_reference_output_sha256']

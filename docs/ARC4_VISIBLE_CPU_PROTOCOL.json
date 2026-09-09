@@ -1,0 +1,25 @@
+{
+  "kind": "prospective_visible_reference_cpu_diagnostics",
+  "games": ["ms_pacman", "asteroids"],
+  "benchmark": {
+    "workers": 16,
+    "ordinary_decisions_per_worker": 2048,
+    "seed_first": 18000,
+    "action_repeat": 4,
+    "branch_every": 128,
+    "episode_limit": 108000,
+    "max_charged_frames_per_worker": 100000,
+    "sticky_probability": 0.25,
+    "experiment_fraction": 0.2,
+    "backends": ["numpy", "native"]
+  },
+  "prerequisites": "Both games' temporal reserved and fresh raw reference results must have final independent reviews and committed evidence. Complete sources, this protocol, native build provenance and preflight review committed before any wiring or benchmark construction. All development/reserved temporal windows must reproduce the sealed geometry using the new source-membership raster before wiring. Wiring must pass and be committed before benchmarking.",
+  "actions": "For worker i in0..15 and decision step in0..2047, action=(step//4+i)%18. Same18000+i seeds in both backends for a paired engineering comparison; game/seed pairs are distinct from all prior captures. No RAM or perception score selects actions. Every128decisions run action versusNOOP for4real frames each, paying both restores and all truncated branches.",
+  "wiring": "Per game,18176: two engines with episode_limit300 for128decisions, one with its oracle removed; RGB/boxes/C and ledgers must agree.18177: reference subject and independent cold witness, episode_limit509,129decisions, ordinary RGB and exact threeRAM history must agree across a terminal branch and next cold.18178: one reference worker, closed RPC attempts and one ordinary decision. All constructor and action costs recorded; a failed constructor's unknown cost explicit. No retry/substitute seed.",
+  "motion": "Source-frame movement history uses ordinary acted images only. Frame0 supplies pooled geometry but the first cold0-to1 transition is outside movement eligibility. Static pills never become moving through occlusion; a pooled component inherits eligibility from any moving source member. Render slots/pieces are not certified physical identities. ROI selection uses box centers, and precision includes all visible categories, including pills.",
+  "failure": "A decoder/scorer error leaves any executed frame charged, poisons the trajectory and forbids all later actions in the pool. Reports and close remain available where transport permits. Durable attempts precede constructors; outputs are never overwritten. No benchmark or calibration criterion is repaired using the reserved result.",
+  "comparison": "Run NumPy then native once for each game. Every worker report must be exactly equal, including an ordered SHA256 digest of every ordinary RGB/box output and both branch RGB/box outputs. The digest includes phase tags, array dtypes, shapes and contiguous bytes. Retain a failed equivalence instead of selecting another run. Recheck the initially verified geometry, wiring, NumPy pair and source/build proofs after the paid work. Include emulator/IPC/reference/scorer/digest/branches/restores in work time, startup separately. Numerator is ordinary agent decisions; report raw emulated frames and charged frames separately. No speedup claim from one sequential comparison under concurrent ARC3 load.",
+  "scope": "Engineering diagnostics, not gate0 or learning. Reference metrics remain conditional on the corrected source-frame RAM judge, which has no new independent raw validation. A reference recall miss stays visible and requires diagnosis; it is not automatically a RAM defect. Proposed gate throughput thresholds are not lowered by this protocol.",
+  "agent_training_allowed": false,
+  "gate_result": null
+}

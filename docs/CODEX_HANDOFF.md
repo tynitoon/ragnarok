@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise court
 
-Mis à jour le 9 septembre 2026 vers 16:26 Paris. Index, pas nouveau protocole.
+Mis à jour le 9 septembre 2026 vers 16:32 Paris. Index, pas nouveau protocole.
 Historique antérieur intégral conservé dans
 [docs/history/CODEX_HANDOFF_20260909_1430.md](history/CODEX_HANDOFF_20260909_1430.md).
 Lire les sources utiles par sections ; ne pas recharger toute la session Claude.
@@ -28,9 +28,11 @@ Contrôle réel vers 16:18 : contrôleur 20936, commande
 `scripts.confirm_v61 --lineage 0 --n-units 3 --b-max 6 --num-envs 64 --store-persists --g-units 2 --resume`.
 État `craft_v6_out/v62_confirm_recovery_state.json` = running/confirm_s0.
 Vérifier commandes et logs réels, jamais PID seuls ni anciens états running.
-`s0_8300` et `s0_8301` terminés ; dernier bras Fb objectif18 à15360s cumulées,
-puis L=[1,1,1]. G' objectif 1 écrit à 16257 s. Processus actif, GPU 60 %,
-5665 MiB au contrôle ; aucun verdict global ni erreur contrôleur.
+`s0_8300` est terminé. `s0_8301` poursuit G' : objectifs 1 à 16257 s et 7 à
+17301 s ; l'objectif 18 reste en cours. Correction du point de reprise
+précédent : les bras M4/Fa/Fb/L terminés ne signifiaient pas que l'unité entière
+était achevée. Processus actif, GPU 60 %, 5665 MiB au contrôle ; aucun verdict
+global ni erreur contrôleur. La troisième unité n'a pas encore commencé.
 Aucun verdict avant les trois lignées, neuf mondes et revue indépendante.
 
 Lanceur démarré le9septembre à11:37:39Paris après reprise d'une interruption
@@ -74,7 +76,7 @@ Toutes les sources scellées restent immuables ; créer de nouveaux adaptateurs.
 | Breakout | réservé validé/revu | validé/revu | terminé,≈99,20%rappel brut |
 | Freeway | réservé validé/revu | validé/revu | terminé,≈99,74%rappel brut |
 | Seaquest | paire réservée validée/revue | validé/revu | terminé,≈93,64%rappel brut |
-| Ms.Pac-Man | paire17412/17432validée/revue | 17422 capturé, score V2 en cours | préparé, fermé |
+| Ms.Pac-Man | paire17412/17432validée/revue | 17422 V2 PASS, revue finale en cours | préparé, fermé |
 | Asteroids |17512validé/revu |17522PASSrevu etcommitté | préparé, fermé |
 
 Les rappels de référence mesurent un instrument RGB classique, pas l'agent.
@@ -117,9 +119,12 @@ préflight41010456… close,16métadonnées,40tests PASS. Sources et preuves com
 construction 17422, vrai check PASS. SHA du scellé :
 06c4baa64bed5e1194a3e77ffded617bcd93c0423957258d78d1ca39146d94c9.
 Capture complète : 8192 décisions, 32753 frames ordinaires, six démarrages,
-33545 facturées ; session 4553 terminée. Score réservé V2 unique en cours,
-session 87645, dernier progrès 2048/8192. Attendre résultat puis revue finale,
-sans changer les 57 sources ni relancer la réserve. Destination
+33545 facturées ; sessions capture 4553 et score 87645 terminées. Score réservé
+V2 PASS sur cinq catégories : ghost 8011/8037 comptes positifs, 26649/26709
+within1 ; fruit 3191/3207 within1 ; pill 8022/8023 comptes positifs,
+593625/593630 within1 ; player et power_pill complets. Conserver tous résidus.
+Revue finale indépendante en cours, puis commit des preuves avant la suite.
+Ne changer aucune des 57 sources ni relancer la réserve. Destination
 `pooled_reserved_v2/`, sortie `pooled_reserved_geometry_v2.json`.
 Le premier nom CLI V0 entrait en conflit avec le marqueur de capture : refus
 avant scoring, données intactes, puis nom geometry distinct.
@@ -169,11 +174,16 @@ préliminaire 865e42ff… et correction d'arrêt définitif après erreur commit
 0f94759. Coût partiel accessible ; aucun saut d'image silencieux à la reprise.
 Frame 0 contribue à la géométrie, mais pas à l'éligibilité au mouvement.
 Runner `bench_visible_reference_v70.py`, checker `check_visible_cpu_v70.py`,
-`ARC4_VISIBLE_CPU_PROTOCOL.json` et 10 tests préparés, revue indépendante en
+`ARC4_VISIBLE_CPU_PROTOCOL.json` et 16 tests préparés, revue indépendante en
 cours. Clôture prévue de 112 sources ; hash final de référence None maintient
 les graines fermées. Équivalence exhaustive sur développement et réserve,
 puis wiring 18176/18177/18178 avant 16×2048 décisions, graines 18000+i.
-NumPy puis natif : tous les rapports doivent être égaux ; comparaison sous
+45 tests sur l'ensemble préparé. Cinq findings de revue corrigés : dossier
+de sortie absent, rapports connus perdus sur rupture transport, preuve des
+deux jeux réellement exigée, provenance DLL committée vérifiée, SHA des preuves
+inchangés après calcul. Nouveau digest de toutes sorties RGB/boîtes, branches
+incluses ; un changement limité aux boîtes de branche est détecté dans un test.
+NumPy puis natif : tous les rapports et digests doivent être égaux ; comparaison sous
 charge ARC3, sans prétendre à un gain de vitesse universel. Pas de lancement
 avant preuves de référence finales, revue et commits prescrits.
 `ARC4_ENTRY_BUDGET_DRAFT.md` : calcul seul,29pairesE1max dans20kà20%, pas288 ;

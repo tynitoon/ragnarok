@@ -1,0 +1,50 @@
+{
+  "kind": "prospective_mspacman_asteroids_raw_reference_diagnostics",
+  "games": {
+    "ms_pacman": {
+      "seed": 17471,
+      "roi_xyxy": [
+        0,
+        0,
+        160,
+        171
+      ],
+      "mobile_categories": [
+        "player",
+        "ghost",
+        "fruit"
+      ]
+    },
+    "asteroids": {
+      "seed": 17571,
+      "roi_xyxy": [
+        0,
+        16,
+        160,
+        194
+      ],
+      "mobile_categories": [
+        "player",
+        "asteroid",
+        "player_missile"
+      ]
+    }
+  },
+  "frames_per_game": 8192,
+  "mode": 0,
+  "episode_limit": 108000,
+  "sticky_probability": 0.25,
+  "max_charged_frames_per_game": 1089668,
+  "capture": "Fresh uniform ordinary captures. Each button0..17 comes from Python Random(seed+100000) and is held16actual raw frames. Exactly8192raw frames per game, including deaths, failures and cold starts, all charged. No prior calibration, coverage or reserved fixture is used to fit the reference. Commit complete capture, scorer, scene adapters, tests, protocol and independent review before either fresh seed. A durable per-game attempt marker precedes construction; failed partial ledger is retained when available, constructor failure cost remains explicit if unknown. No retry/substitute seed.",
+  "prerequisite": "Before each capture and diagnostic, independently reviewed raw AND temporal reserved validations must pass their unchanged source/metadata/runtime seals and committed evidence proofs. Use the final temporal source-frame RAM decoder, which preserves the raw instrument and separately corrects its observed rendering failures. No agent training or held-out games.",
+  "reference": "Existing unchanged ReferenceExtractor: causal modal background and4-connected foreground from RGB only. One fresh extractor per entire game capture; continuous history across deaths. It receives no RAM, palette, labels, game name, action, reward or episode signal. It is an external comparison instrument and never a learned-parser teacher.",
+  "truth": "Use the final reviewed temporal candidate source-frame RAM decoder, with the ACTUAL previous RAM including frame0 at every cold first act. A native per-act tap archives both adjacent RAM and frame numbers; the strict reader verifies continuity and complete cold charges. No current-RAM fallback. Truth is used only by the external scorer, not by the reference. Scene key=category:raw-render-slot, unique within each frame. Render slots/pieces are not certified persistent physical identities. Raw/temporal geometry and count residuals remain limitations. The corrected source-frame RAM judge has not received a new independent raw validation. Reference metrics are conditional on this composed judge; historical raw PASS and final temporal PASS are distinct evidence and do not become a new raw PASS.",
+  "motion": "Unchanged ScenePerceptionScorer, center changed within the last8real frames. Only the listed mobile_categories are motion eligible; MsPacman pills and power pills are static and cannot become moving through occlusion/blink alone. All visible categories participate in one-to-one matching and precision. Animation, clipping, wrapping and render-slot reuse may change centers without physical translation; disclose this limitation. Episode reset affects external scorer history only.",
+  "matching": "Existing maximum-cardinality center matching within4pixels, minimum distance second. Score all8192frames, all ROI predictions and visible truth, no category/frame selection based on results. Empty per-category denominators remain null. No game gate, agent agency, transfer or learning claim.",
+  "report": "Integer overall and per-category counts, motion recall, visible precision, decoder/reference/scorer timings and wall time. Timing excludes emulator, IPC, counterfactual branches and learning. Compare against earlier reference diagnostics only with their category/motion-scope differences visible. Keep negative results and diagnose before deciding any prospective engineering change.",
+  "accounting": "Charged=8192ordinary raw frames+132*cold_loads, maximum1089668=132+8192*(132+1). No experiments/restores. Each failed attempt remains visible; captures are never agent entry states.",
+  "agent_training_allowed": false,
+  "reference_background_update_allowed": true,
+  "agent_entry_states_allowed": false,
+  "gate_result": null
+}

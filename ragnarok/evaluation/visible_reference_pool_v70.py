@@ -33,6 +33,7 @@ class VisibleReferenceEngine:
         self._ordinary_frames=self._episode=self._steps=0
         self._lab_decoded=self._pairs=self._changed_pixels=0
         self._label_digest=hashlib.sha256()
+        self._reference_digest=hashlib.sha256()
         self.engine=_ScorerHistoryColdEngine(config,self._on_frame)
         self._loads=self.engine.accounting()['cold_loads']
 
@@ -66,6 +67,7 @@ class VisibleReferenceEngine:
     def _step(self,action):
         pixels=self.engine.step(action)
         boxes=self.reference.observe(pixels)
+        self._record_reference(b'ordinary',pixels,boxes)
         if len(self._source_labels)!=2:raise ValueError('Both pooled source scenes are required')
         groups=group_visible_sources([*self._source_labels[0],*self._source_labels[1]],game=self.game)
         self.scorer.score(boxes,frame_truths=groups)
@@ -76,17 +78,26 @@ class VisibleReferenceEngine:
                 intervention,control=self.engine.branch_pair(action,control=0,frames=4)
                 changed=np.any(intervention!=control,axis=2)
                 self._label_digest.update(changed.tobytes());self._changed_pixels+=int(changed.sum())
-                self.reference.extract(intervention);self.reference.extract(control)
+                self._record_reference(b'intervention',intervention,self.reference.extract(intervention))
+                self._record_reference(b'control',control,self.reference.extract(control))
                 self._pairs+=1
             finally:self._phase='ordinary'
         return pixels,boxes
+
+    def _record_reference(self,tag,pixels,boxes):
+        self._reference_digest.update(tag)
+        for array in (pixels,boxes):
+            self._reference_digest.update(array.dtype.str.encode('ascii'))
+            self._reference_digest.update(np.asarray(array.shape,dtype='<i8').tobytes())
+            self._reference_digest.update(np.ascontiguousarray(array).tobytes())
 
     def report(self):
         return dict(accounting=self.engine.accounting(),perception=self.scorer.report(),
             reset_convention='fixed_hardware_cold_start_v1',decisions=self._steps,
             ordinary_raw_frames=self._ordinary_frames,branch_pairs=self._pairs,
             decoded_branch_frames=self._lab_decoded,changed_pixels=self._changed_pixels,
-            self_generated_label_sha256=self._label_digest.hexdigest(),failure=self._failure)
+            self_generated_label_sha256=self._label_digest.hexdigest(),
+            ordered_reference_output_sha256=self._reference_digest.hexdigest(),failure=self._failure)
 
 
 def _serve_visible(connection,config,branch_every,reference_backend,native_build):
