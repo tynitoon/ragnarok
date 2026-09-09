@@ -1,5 +1,6 @@
 """Causal ownership/recording with synthetic engines and no learner or ROM."""
 from dataclasses import replace
+from threading import Event,Thread
 
 import numpy as np
 import pytest
@@ -143,3 +144,47 @@ def test_even_error_description_allocation_failure_cannot_reopen_paid_commands(m
     report=own.report()
     assert report['collector_stopped'] and report['collector_failure'] is None
     assert report['worker']['accounting']['charged_frames']==604
+
+
+def test_concurrent_calls_cannot_invert_paid_replies_or_read_partial_state():
+    own,pool=collector()
+    entered,release=Event(),Event()
+    original=pool.step
+    def held(actions):
+        result=original(actions)
+        entered.set()
+        assert release.wait(5)
+        return result
+    pool.step=held
+    results=[];errors=[]
+    def run():
+        try:results.append(own.step([1]))
+        except BaseException as error:errors.append(error)
+    worker=Thread(target=run)
+    worker.start()
+    try:
+        assert entered.wait(5)
+        for call in (lambda:own.step([0]),lambda:own.branch(1,expected_anchor=('synthetic-session',0,0)),
+                     lambda:own.take(('synthetic-session',1)),own.current_anchor,own.report,own.close):
+            with pytest.raises(ValueError,match='in progress'):call()
+        assert pool.calls==[('step',(1,))]
+    finally:
+        release.set();worker.join(5)
+    assert not worker.is_alive() and not errors and len(results)==1
+    record,=own.take(results[0])
+    assert record.chronology.epoch==0 and record.chronology.end_frame==4
+    np.testing.assert_array_equal(own.current_anchor().pair,pool.observe_pair())
+    assert own.step([0])==('synthetic-session',2)
+    assert own.current_anchor().frame==8 and own.current_anchor().epoch==0
+
+
+def test_reentrant_callback_is_rejected_without_deadlock_or_second_charge():
+    own,pool=collector()
+    original=pool.step
+    def callback(actions):
+        with pytest.raises(ValueError,match='in progress'):own.step([0])
+        return original(actions)
+    pool.step=callback
+    operation=own.step([1])
+    assert len(own.take(operation))==1
+    assert pool.calls==[('step',(1,))] and own.report()['worker']['accounting']['charged_frames']==604

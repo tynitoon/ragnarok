@@ -5,6 +5,8 @@ to the supplied pool; Python object privacy is a contract, not a security wall.
 """
 from dataclasses import dataclass
 import copy
+from functools import wraps
+from threading import Lock
 
 import numpy as np
 
@@ -42,6 +44,17 @@ class BranchExperience:
     requested_frames: int
     intervention: RGBBranchTrace
     control: RGBBranchTrace
+
+
+def _serialized(method):
+    """Reject overlap/reentrancy before any command, copy or state mutation."""
+    @wraps(method)
+    def call(self,*args,**kwargs):
+        if not self._operation_lock.acquire(blocking=False):
+            raise ValueError('Another RGB collector operation is in progress')
+        try:return method(self,*args,**kwargs)
+        finally:self._operation_lock.release()
+    return call
 
 
 def _pair(value):
@@ -89,6 +102,7 @@ An operation can be taken once as a NEW experience. A learner may later reuse
 that recorded sample for declared updates, without calling it new emulation.
 """
     def __init__(self,pool,workers,*,session_id,max_pending=64):
+        self._operation_lock=Lock()
         if type(workers) is not int or not 1<=workers<=16:
             raise ValueError('Declare1..16 owned workers')
         if not isinstance(session_id,str) or not session_id:
@@ -112,6 +126,7 @@ that recorded sample for declared updates, without calling it new emulation.
     def _worker(self,index):
         if type(index) is not int or not 0<=index<self._workers:raise ValueError('Unknown owned worker')
 
+    @_serialized
     def current_anchor(self,index=0):
         self._guard();self._worker(index)
         return copy.deepcopy(self._anchors[index])
@@ -130,6 +145,7 @@ that recorded sample for declared updates, without calling it new emulation.
         self._failed_operation=operation
         self._failure=dict(operation_id=operation,error_type=type(error).__name__,error=str(error))
 
+    @_serialized
     def step(self,actions,*,effects=None):
         self._guard()
         actions=list(actions)
@@ -157,6 +173,7 @@ that recorded sample for declared updates, without calling it new emulation.
             self._fail(operation,error)
             raise
 
+    @_serialized
     def branch(self,action,*,expected_anchor,worker=0,frames=4,effect=None):
         self._guard();self._worker(worker)
         if type(action) is not int or not 0<=action<18 or type(frames) is not int or not 1<=frames<=64:
@@ -182,6 +199,7 @@ that recorded sample for declared updates, without calling it new emulation.
             self._fail(operation,error)
             raise
 
+    @_serialized
     def take(self,operation):
         # Already collected successes remain available after a later failure.
         if operation not in self._pending:raise ValueError('Unknown or already consumed RGB operation')
@@ -189,11 +207,13 @@ that recorded sample for declared updates, without calling it new emulation.
         del self._pending[operation]
         return records
 
+    @_serialized
     def report(self,index=0):
         self._worker(index)
         return dict(collector_stopped=self._stopped,failed_operation=self._failed_operation,
                     collector_failure=copy.deepcopy(self._failure),worker=self._pool.report(index))
 
+    @_serialized
     def close(self):
         self._stopped=True
         self._pool.close()

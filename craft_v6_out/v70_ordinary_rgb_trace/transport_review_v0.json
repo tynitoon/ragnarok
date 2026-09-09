@@ -1,0 +1,110 @@
+{
+  "kind": "ordinary_rgb_pool_independent_transport_source_review",
+  "created_at_utc": "2026-09-09T18:18:04.127949+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "source_commit": "dedc57db9eee9110f2cde17ccef1e8c79b4d0e72",
+  "source_sha256": {
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902"
+  },
+  "native_preflight": false,
+  "native_benchmark_authorized": false,
+  "temporal_integration_validated": false,
+  "agent_training_allowed": false,
+  "new_emulated_frames": 0,
+  "gate_result": null,
+  "runtime": {
+    "python_executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "pytest": "9.0.3",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "execution": "Synthetic CPU only, including two real Windows spawn workers backed by synthetic engines. No ALE/ROM/GPU or archive accessed."
+  },
+  "checks": {
+    "closure": "All16 implementation, documentation, test, helper and package-initializer files match committed blobs atdedc57d. The reviewed11-source ordinary trace map and previous20-source branch wiring map remain unchanged.",
+    "closed_rpc": "Worker dispatch admits only observe,observe_pair,step(mapped to step_trace),branch_pair,branch_pair_trace,accounting,report,close. It never resolves arbitrary attributes. Persistent clone/restore/release are refused in the pool and absent in the worker dispatch.",
+    "observation_fields": "Ordinary action returns only OrdinaryRGBTrace(start_pair,raw,pooled,endpoint). Getter outputs are RGB buffers; there is no RAM/reward/lives/terminal/native-clock/snapshot RPC. Accounting and failure reports are explicitly external metadata, not learner observations.",
+    "paid_failure": "Worker ordinary engine errors are transmitted as ValueError with the original type in text, preserving an inspectable report connection. BudgetExceeded keeps its type. Inherited trace poison prevents later paid operations after a paid engine failure.",
+    "parent_poison": "Any failed ordinary batch or failed ordinary trace validation latches _stopped. Subsequent step,branch_pair and branch_pair_trace refuse before sending to any worker; a surviving other worker cannot advance on retry.",
+    "drain_and_validate": "The inherited batch sends each command once, then drains every worker reply. OrdinaryRGBPool validates every returned ordinary trace before returning the batch, including exact max pooling and endpoint consistency. A failed validation is not treated as an unpaid request.",
+    "reports_and_cleanup": "Report/accounting remain usable when the parent is stopped but its transport is still alive. Connection/process loss follows inherited closure/termination and may make costs unknown. Context-manager closure terminates both real synthetic test workers.",
+    "no_scientific_changes": "No observation, objective, source-frame judge, calibration criterion, trace engine or native loop was altered by this review. No collector or request-identity implementation was included."
+  },
+  "verification": {
+    "suite": "tests/test_ordinary_rgb_pool_v70.py",
+    "passed": 4,
+    "elapsed_seconds": 1.08,
+    "real_spawn_witness": {
+      "workers": 2,
+      "synthetic_only": true,
+      "ordinary_rows_each": 4,
+      "branch_rows_each": 8,
+      "reports_after_branch": [
+        740,
+        604
+      ],
+      "start_endpoint_pair_fidelity": true,
+      "workers_closed": true
+    },
+    "independent_two_connection_witnesses": [
+      {
+        "failure": "Second worker RGB retrieval fails after first paid act",
+        "charged_frames": [
+          604,
+          601
+        ],
+        "all_replies_drained": true,
+        "no_retry_command_sent": true,
+        "reports_readable": true,
+        "failed_worker_accounting_complete": false,
+        "cleanup": true
+      },
+      {
+        "failure": "First worker returns an ordinary trace with incorrect pooled images after both workers finish",
+        "charged_frames": [
+          604,
+          604
+        ],
+        "all_replies_drained": true,
+        "no_retry_command_sent": true,
+        "reports_readable": true,
+        "cleanup": true
+      }
+    ],
+    "harness_note": "The first in-memory cleanup fixture omitted the paired process entries; its cleanup assertion failed. The fixture was corrected to preserve the base pool invariant of one process per connection, and both witnesses then completed. No product source was changed."
+  },
+  "limitations": [
+    "This is a synthetic transport source review, not a real-emulator wiring test, native preflight, paid collection, temporal integration, training result or gate.",
+    "Request IDs, action/effect ownership, anchor tokens, stream identity and one-time response consumption remain responsibilities of the future collector. Array serialization and trace format validation cannot establish those guarantees.",
+    "The added parent validator covers ordinary step traces. Initial/getter RGB and inherited branch APIs use the existing closed worker contract; this receipt is not a new exhaustive malformed-payload audit of every inherited method.",
+    "The pool object exposes external accounting/report methods. A learner-facing owner must withhold these methods and their cold/load/failure metadata rather than pass the pool itself to the learner.",
+    "On a failed batch, successfully received traces may be discarded while their paid charges remain. A future runner must preserve durable attempt status and every report already received; no cost may be inferred as zero from an unavailable report.",
+    "A constructor failure, broken pipe or lost process can prevent cost recovery and closes transport. This prototype provides no durable pre-construction ledger or proof that unknown costs vanish.",
+    "Even a pre-admission BudgetExceeded latches the parent batch as stopped. This conservative no-retry policy may leave other workers having completed their already-sent commands; their charges must remain counted.",
+    "Delivered-act clock versus native/charged time, zero-row handling, visible discontinuity and invisible-reset ambiguity remain the previously disclosed ordinary trace limitations; this transport does not resolve them."
+  ]
+}

@@ -43,3 +43,18 @@ Les rapports comptables restent réservés au lanceur et à l'évaluation extern
 hors des entrées du parser ou de la politique. L'arrêt du collecteur est marqué
 avant de construire le texte d'une erreur : même une panne mémoire pendant cette
 journalisation ne doit pas permettre une nouvelle commande payante.
+# Sérialisation des opérations publiques
+
+Revue contradictoire : avant ce correctif, deux threads pouvaient exécuter deux
+steps et rendre les réponses dans l'ordre inverse. L'ancrage final pouvait alors
+revenir aux pixels antérieurs malgré huit images réellement exécutées, sans
+arrêt du collecteur. Ce témoin est conservé comme défaut de la version b63831d.
+
+Chaque méthode publique (`step`, `branch`, `take`, `current_anchor`, `report`,
+`close`) porte désormais un verrou non bloquant et non réentrant. Tout appel
+concurrent est refusé avant commande, copie ou mutation ; il ne modifie pas
+l'opération déjà en cours. Le verrou couvre le paiement, la réponse du pool et
+le commit du collecteur. Il est libéré même après exception. Les rapports et la
+fermeture se font après la fin de l'opération, jamais au milieu de son commit.
+La construction de l'objet doit toujours précéder son partage ; les accès
+directs au pool restent interdits par le contrat de propriété exclusive.
