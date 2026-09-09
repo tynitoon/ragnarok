@@ -1,0 +1,116 @@
+{
+  "kind": "owned_rgb_collector_independent_source_review",
+  "created_at_utc": "2026-09-09T18:34:01.840094+00:00",
+  "passed": true,
+  "preliminary_only": true,
+  "source_commit": "0af4ffc13fb7041f8b6231f684d2277eeec34eb7",
+  "source_sha256": {
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_ordinary_rgb_trace/transport_review_v0.json": "b079d593781aa7ffbb32f9e194e02c1c33523dbe25548673364ce6a5e26172c7"
+  },
+  "native_preflight": false,
+  "native_benchmark_authorized": false,
+  "temporal_integration_validated": false,
+  "agent_training_allowed": false,
+  "new_emulated_frames": 0,
+  "gate_result": null,
+  "runtime": {
+    "python_executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "pytest": "9.0.3",
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "execution": "Synthetic CPU only. Thread/event concurrency witnesses use synthetic engines; no ALE/ROM/GPU or Atari archive is accessed."
+  },
+  "checks": {
+    "closed_review_scope": "Nineteen committed paths include the new collector/test/draft and the reviewed ordinary transport/trace implementation and test dependencies. The collector accepts an owned pool object by contract rather than importing a concrete pool class. Earlier receipts and all their source hashes are unchanged.",
+    "ownership_and_tokens": "Session/op-sequence/worker tokens bind the current anchor. A branch requires the exact current token before reserving an operation or issuing a paid command. After ordinary success all worker anchors are replaced; a restored branch preserves its anchor and delivered clock. Session freshness and exclusive relinquishment of external pool access remain caller obligations.",
+    "precall_command_record": "Actions are copied into an owned list; effect assumptions are validated finite12-vector[0,1] and copied to float32 before the pool call. Requested buttons are own command metadata, not parser effect truth; absent effect is zero/unknown.",
+    "branch_anchor": "A single branch_pair_trace call fixes control toNOOP0 and horizon1..64. Exact anchor buffer pairs are verified before/after the call; both actual RGB prefixes, their pooling from the anchor and their endpoints are independently validated. No native state identity is inferred from pixel equality alone.",
+    "ordinary_and_T0": "Ordinary responses validate complete worker population, RGB format and pooling, then update copied RGB chronologies. T0 anchors can be branched before an ordinary act. A zero-row successful operation has a unique token but adds no delivered frame; no padded image or fabricated time is inserted.",
+    "atomic_paid_commit": "Both worker responses and all cloned chronologies, anchors, records and pending dictionary are built before committing collector state. Late errors preserve paid worker charges and prior collector anchors/history/pending records; they do not rewind the engine.",
+    "consumption_and_capacity": "Pending capacity counts operations, default64/max4096, checked before every new command. take deep-copies a successful operation before deletion, permitting only one successful NEW-experience consumption. It remains available for older successes after later failure or closure. Reuse of an already taken sample is not new emulation.",
+    "concurrency": "All six public APIs are guarded by a non-blocking non-reentrant Lock through copies, pool call and commit. Overlapping or recursive calls fail before entry without consuming an ID, capacity or payment and without stopping the already active operation. Lock release is guaranteed by finally.",
+    "error_latch": "After an operation failure, _stopped and failed_operation are set before allocating the error text. Even a logging MemoryError cannot permit another paid call. Reports and close remain available after the active operation finishes, subject to surviving transport.",
+    "oracle_boundary": "Experience records contain own operation/worker/action/effect metadata, RGB buffers and pixel-derived delivered chronology. No RAM, reward, lives, native clock, terminal flag or external accounting report is included. The report API is external to learner inputs."
+  },
+  "corrected_findings": [
+    {
+      "source_commit": "b63831ddb72bb6d756d2bdccfdf507bcdc845ed4",
+      "finding": "Concurrent collector calls could invert two paid responses without violating exclusive pool access. The delayed first reply overwrote the newer anchor and manufactured visual epochs.",
+      "original_independent_witness": {
+        "requests": 2,
+        "charged_frames": 608,
+        "actual_standin_frame": 8,
+        "final_anchor_frame": 4,
+        "final_anchor_epoch": 2,
+        "anchor_matches_current_rgb": false,
+        "collector_stopped": false
+      },
+      "resolution": "0af4ffc adds a non-reentrant public-API lock; documentation preserves the old counterexample and requires construction before sharing.",
+      "corrected_independent_witness": {
+        "second_call_rejected_before_payment": true,
+        "sequence": 1,
+        "charged_frames": 604,
+        "anchor_epoch": 0,
+        "anchor_frame": 4,
+        "anchor_matches_current_rgb": true,
+        "collector_stopped": false
+      }
+    }
+  ],
+  "verification": {
+    "suite": "tests/test_owned_rgb_collector_v70.py",
+    "passed": 11,
+    "elapsed_seconds": 0.38,
+    "independent_witnesses": [
+      "Caller effect/action mutation from inside pool.step does not change the already copied action log or0.75 effect assumption.",
+      "MemoryError constructing the second worker record after both workers paid: ledger608/608; previous anchor/history/pending objects remain identical; prior success can be taken exactly once.",
+      "Corrupted restored anchor after one valid paid branch pair is rejected with728 total charges, unchanged collector anchor and stopped collector.",
+      "Zero-row cold step pays132 bootstrap charges and creates a new operation token at epoch0/frame0; subsequent zero-row T0 branch pays120 restore charges, preserves that anchor and adds no delivered frame.",
+      "Delayed first reply with a concurrent second call: second is refused before the pool, first commits epoch0/frame4 and matching current RGB.",
+      "Late record and failure-description MemoryErrors both release the lock; prior successes, reports and closure remain accessible while new paid actions stay refused."
+    ],
+    "provided_concurrency_witnesses": [
+      "All six public APIs reject while another operation is in flight without consuming a second ID",
+      "Recursive callback refuses before any second command or deadlock"
+    ]
+  },
+  "limitations": [
+    "This is a preliminary synthetic source review, not native validation, a durable collection run, parser bridge integration, training result or gate.",
+    "Fresh unique session IDs and exclusive ownership of the supplied pool are architecture contracts, not a security mechanism against direct private access or another holder of the pool. The collector must be fully constructed before being shared.",
+    "Operation IDs and one-time take are in-memory only. Restart recovery, durable pre-construction attempt markers, persistence, crash-safe consumption and externally recorded costs remain unresolved.",
+    "The delivered-image clock excludes hidden bootstrap/restore charges and can miss a native reset with identical pixels. Its prospective use for P/I and external metrics is not validated here. A zero-row operation needs explicit handling by the future perception bridge.",
+    "A returned cold start is retrospective for the already issued action. Neither the learner nor the collector may recompute that command from the later start. Button-to-effect correctness remains an own-agent assumption, not an oracle mapping.",
+    "Pixel equality before/after branches cannot prove equality of hidden emulator state; correctness also depends on exclusive commands and the separately reviewed replay engine. No new replay proof is added here.",
+    "The pending cap bounds operation count, not payload bytes or peak RSS. A batch can retain multiple workers and a branch can retain two64-frame raw/pooled sequences; deep copies add transient memory. No empirical memory or throughput claim follows.",
+    "Reports may expose external load/accounting metadata and must remain outside parser/policy inputs. Constructor/transport loss may leave costs unknown; the future runner must retain that uncertainty and successful reports already obtained.",
+    "Concurrent report/close calls are refused while an operation is active. This establishes coherent state access but is not a cancellation mechanism for a blocked transport; inherited transport timeouts and outer lifecycle management remain necessary.",
+    "Already consumed records can be reused by a declared learning procedure, but this collector does not account for optimizer updates or guarantee that a caller labels such reuse correctly."
+  ]
+}
