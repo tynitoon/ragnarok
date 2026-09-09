@@ -1,24 +1,24 @@
 # Ragnarok — point de reprise
 
-Mis à jour le 9 septembre 2026 vers 21:05 Paris. Continuer d'un jalon au suivant,
+Mis à jour le 9 septembre 2026 vers 21:32 Paris. Continuer d'un jalon au suivant,
 sans terminer à chaque commit. Arrêt seulement demandé par Jérémie, travail
 achevé, ou décision exigeant son avis. L'audit partage d'écran/RC est annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
 ne prouve pas une accélération. ARC 2 : transfert 3/6 contre 0/6 ; accélération
 non détectable (delta0,069, bruit0,076). Aucun entraînement Atari ni gate0 ARC4.
 
-Historique : docs/history/CODEX_HANDOFF_20260909_2033.md, puis19:54,19:35,18:11,16:48.
+Historique : docs/history/CODEX_HANDOFF_20260909_2105.md, puis20:33,19:54,19:35,18:11,16:48.
 Lire les sections utiles, pas les logs entiers. Calibrations réservées au juge,
 jamais à l'agent. Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts.
 
 ## ARC 3 v62 — confirmation GPU active
 
-Processus vérifiés20:54 : contrôleur20936 C:/Python314/python.exe -u -m
-scripts.recover_confirm_v62 ; enfant22896 scripts.confirm_v61 --lineage1
---n-units3 --b-max6 --num-envs64 --store-persists --g-units2 --resume
-(la vraie commande met un espace entre option et valeur).
-État running/confirm_s1. s1_8310 terminé à6447s +L ; à21:05, s1_8311 M4 deuxième
-objectif terminé7976s. Aucun score/verdict intermédiaire.
+Processus vérifiés21:32 : contrôleur20936 C:/Python314/python.exe -u -m
+scripts.recover_confirm_v62 ; enfant22896 C:/Python314/python.exe -u -m
+scripts.confirm_v61 --lineage 1 --n-units 3 --b-max 6 --num-envs 64
+--store-persists --g-units 2 --resume.
+État running/confirm_s1. s1_8310 terminé à6447s +L ; à21:32, s1_8311 M4 terminé
+8656s, Fa deuxième objectif terminé10135s. Aucun score/verdict intermédiaire.
 Lignée0 complète3mondes/9,25433s : agrégat+14checkpoints validés, committés9deb244.
 SHA agrégat3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
 Relire seulement la fin de craft_v6_out/v61_confirm_s1.log pour progrès.
@@ -31,7 +31,7 @@ Après confirm_complete_review_required : audit9mondes/budget/sources, revue,
 score gelé puis vraie figure. Figure corrigée/revue423b770/af94a62 sur synthétique.
 Suivi horaire existant suivi-ragnarok-arc-3 : ne pas dupliquer.
 
-## ARC 4 — performance CPU, prochaine exécution préparée
+## ARC 4 — performance CPU, cache natif mesuré sans gain
 
 Six instruments bruts/temporels PASS/revus, sources scellées immuables.
 Références CPU : Pong1356, Breakout1005, Freeway1431, Seaquest1312 décisions/s.
@@ -49,30 +49,42 @@ Image intégrale plus lente31,139→32,634s : garder original. Cachegroupes
 Revue vector_cached_equivalence_review_v1.json f11f3b69… àdedc57d.
 v0 préservée, v1 corrige seulement l'attribution chronologique du document.
 
-Nouvelle chaîne cache SEUL : AUCUN NATIF LANCÉ.
+Nouvelle chaîne cache SEUL : WIRING ET BENCHMARK TERMINÉS.
 - ragnarok/evaluation/cached_visible_pool_v70.py
 - scripts/bench_cached_visible_v70.py
 - docs/ARC4_CACHED_CPU_PROTOCOL.json et deux fichiers tests correspondants.
 Sources finales1556f12 (après68e2190/f07054d),19testsPASS.
-126sources/359preuves ; proofs() readonlyf07054d PASS/runtime exact par reviewer.
-Recalcul/revue finale1556f12 EN COURS par review_recovery_v62, avant reçu
-craft_v6_out/v70_mspacman_cached_cpu/preflight_review_v0.json.
-Préflight committé AVANT wiring ; wiring+revue indépendante committées AVANT
-benchmark. Commandes .venv-arc4 -m scripts.bench_cached_visible_v70 wiring/benchmark,
-OMP/OPENBLAS/MKL1. Sorties v70_mspacman_cached_cpu/, aucune tentative créée.
-Wiring :5instances Ms19176/19177/19178. Benchmark unique natif16×2048,
-seeds18000+i/actions/rapports/digests identiques au v0. Pas Ast ni heldout.
-Ne pas modifier les126sources pendant exécution/revue. Aucun autre CPU benchmark/
-capture/profilage concurrent ; ARC3 reste seul entraînementGPU.
+126sources/359preuves ; préflight7906f69d… committé769f816 AVANT natif.
+Wiring7dc1d12 :3738charges,9coldloads,5instances Ms19176/19177/19178 ; images,
+objets/rapports/historiques égaux ; revuef58805af… committée f93e749 AVANT benchmark.
+Benchmark unique natif16×2048 terminé21:30, session72419 fermée ; c2e6734.
+539,3212893décisions/s en60,7578463s ;171364charges ;16rapports/digests exactement
+égaux au natif original. Sous581original, aucun gain total démontré, sous1000/2000.
+Résultat b6806d0e638ea31ab2aed0a52380c7ce4c7cca6f4e1a2b68014e97be4e43e3ad ;
+attempt f721cd82… ; console b1095974… préservée exacte. Aucun retry.
+Revue finale EN COURS par review_recovery_v62 vers native_chain_review_v0.json.
+Charge ARC3 concurrente différente : pas comparaison contrôlée universelle.
+Ne pas modifier les126sources. Plus aucune collecte/mesure CPU native active.
 
 f07054d protège même une allocation échouée de description d'erreur.
 Finding1556f12 : wiring perdait une dépense déjà lue si le rapport suivant
 échouait ; cache immédiat des rapports/erreurs par nom, témoin2020charges gardées
-sans relecture. Reviewer contre-vérifie. Deux consolesv0 déjà hashées par revue
+sans relecture, contre-vérifié avant natif. Deux consolesv0 déjà hashées par revue
 mais ignorées sont désormais committées26be3d5 avec.gitattributes local-text :
 bytes inchangés (native0ed08026…,numpy16308a81…).115sourcesoriginelles intactes.
 Toutes sessions CPU racine précédentes fermées, y compris proofs58055/81852,
-tests57035. Aucun processus CPU natif de collecte/benchmark actuellement lancé.
+tests57035 et wiring58541. Aucun processus CPU natif de collecte/benchmark actif.
+
+Candidat gather séparé2422e53 : lecture groupée des8pixels/pastille nominale ;
+4tests synthétiques PASS, acteur/yeux/super-pastilles inchangés, AST original.
+Protocole et runner016c84d : scripts/check_gather_visible_v70.py et
+docs/ARC4_GATHER_DECODER_PROTOCOL.json ;8testsPASS avec gardes protocole.
+Audit prospectif40965paires/3613727labels exacts,3collections existantes ; alterne
+premier appel original/candidat, sans natif/groupe ni nouveau seed. AUCUNE archive
+exécutée, aucun temps candidat mesuré. proofs() readonly puis préflight indépendant
+committé gather_decoder_preflight_v0.json requis AVANT run ; résultat+revue ensuite.
+Commande : .\.venv-arc4\Scripts\python.exe -u -m scripts.check_gather_visible_v70,
+OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=1. Pas de mesure CPU concurrente.
 
 ## ARC 4 — raccord apprenant et limite numérique
 
@@ -104,20 +116,28 @@ Chaîne récente :
 - Limite matérielle conservée dans temporal_session_review_v0.json avec recette :
  vrai parser CPU seed764, départ noir, I3,4748144, gradientL2=6,0126643e22 et
  max2,2714049e22 ; carréfloat32 déborde. PASS technique ne valide pas apprentissage.
-- GradientGuard :9testsPASS, source9e1886d, PAS encore relu. Norme/carrés/scaling
+- GradientGuard :9testsPASS, source9e1886d/doc5f0abc3, revue c5119bea… committée
+ 2422e53 (41sources/9preuves ;9tests+15témoins NumPy). Norme/carrés/scaling
  float64, gradientsdensefloat32, borneglobale1 proposée ; refusnonfinis, tous
  candidats+reçu alloués avant affectation. Helper sans backward/step/poids/moments.
  Test mécanique du vrai témoin764+unAdam3e-4 SYNTHÉTIQUE : poids/momentsfinis.
  Ses poids de test changent en mémoire ; toujours aucun checkpoint/entraînement
- Atari. Pas optimiseur transactionnel ; clippingàrevoir/figeravantentraînement.
+ Atari. Borne5e-324 peut tout arrondir àzéro ; zéro ne prouve pas cible utile.
+ Pas optimiseur transactionnel ; clippingàfigeravantentraînement.
+
+Inventaire d'entrée : entry_trial_plan_v70.py et document,5testsPASS,5a84af1,
+PAS encore relu. RNGlocal graine explicite : permutation18 puis11distincts,
+29paires8vsNOOP sur16points courants, coût3944 dans19720total. Budget partagé20%,
+pas d'exécution/table/effet/débit/graine native. Contrôleur une seule exécution
+reste à construire ; points planifiés ne prouvent pas16états distincts.
 
 Traces RGB natives anciennes PASS9cas/22604charges,20sources87c0507 et revue
 64e82d1b… à0e23739. Une seule divergenceSeaquest ; fidélité, pas contrôleappris.
 Archives privées/transport revus synthétiquement afbe5846…/36731edf…, pas nativement,
 20000entrées/2Go payload totalpool, pasRSS ; pairearchive2T+180, pasretourdurableE4.
 
-Suite active : préflightcache→wiring→revue→benchmark→revue ; revuegradientguard
-ensuite. Raccords ordinairesRGB/modèle validés uniquement en synthétique :
+Suite active : revue finale cache ; audit gather après préflight indépendant ;
+revue inventaire entrée. Raccords ordinairesRGB/modèle validés uniquement en synthétique :
 validation native ordinaire à préparer séparément. ME/buttons/reader/drives/S/
 policy/ledger/fusion catégories restent absents ; boutons→12effets non résolus.
 ARC4_VISION.md§§2,5,6,11 ; budgetentrydraft29pairesE1sur16points,
