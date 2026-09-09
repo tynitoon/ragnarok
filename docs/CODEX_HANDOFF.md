@@ -1,24 +1,24 @@
 # Ragnarok — point de reprise
 
-Mis à jour le 9 septembre 2026 vers 22:00 Paris. Continuer d'un jalon au suivant,
+Mis à jour le 9 septembre 2026 vers 22:32 Paris. Continuer d'un jalon au suivant,
 sans terminer à chaque commit. Arrêt seulement demandé par Jérémie, travail
 achevé, ou décision exigeant son avis. L'audit partage d'écran/RC est annulé.
 Objectif : apprendre puis réutiliser pour apprendre plus vite. Une avance initiale
 ne prouve pas une accélération. ARC 2 : transfert 3/6 contre 0/6 ; accélération
 non détectable (delta0,069, bruit0,076). Aucun entraînement Atari ni gate0 ARC4.
 
-Historique : docs/history/CODEX_HANDOFF_20260909_2132.md, puis21:05,20:33,19:54,19:35,18:11,16:48.
+Historique : docs/history/CODEX_HANDOFF_20260909_2200.md, puis21:32, puis21:05,20:33,19:54,19:35,18:11,16:48.
 Lire les sections utiles, pas les logs entiers. Calibrations réservées au juge,
 jamais à l'agent. Boxing/Frostbite/Riverraid/Kangaroo jamais ouverts.
 
 ## ARC 3 v62 — confirmation GPU active
 
-Processus vérifiés21:32 : contrôleur20936 C:/Python314/python.exe -u -m
+Processus vérifiés22:19 : contrôleur20936 C:/Python314/python.exe -u -m
 scripts.recover_confirm_v62 ; enfant22896 C:/Python314/python.exe -u -m
 scripts.confirm_v61 --lineage 1 --n-units 3 --b-max 6 --num-envs 64
 --store-persists --g-units 2 --resume.
 État running/confirm_s1. s1_8310 terminé à6447s +L ; à21:49, s1_8311 M4 terminé
-8656s, Fa terminé10836s. Aucun score/verdict intermédiaire.
+8656s, Fa terminé10836s ; Fb deuxièmebut12582s à22:28. Aucun score/verdict intermédiaire.
 Lignée0 complète3mondes/9,25433s : agrégat+14checkpoints validés, committés9deb244.
 SHA agrégat3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce.
 Relire seulement la fin de craft_v6_out/v61_confirm_s1.log pour progrès.
@@ -86,13 +86,20 @@ audit. Audit terminé21:47:30, session67710 FERMÉE, résultat4425fe7 :40965pair
 gather16,5103002s, appels premiers alternés ; gain composant uniquement.
 Résultat47d3b86248d79cd7e9222136a25452b5166ac83d3a13f0a354358e038434dcf4 ;
 attemptc3b1aec4… ; aucune nouvelle émulation, aucune substitution au natif.
-Revue résultat à faire par review_recovery_v62 APRÈS préflight natifordinaire.
+Revue finale PASS ebc6c74 : gather_decoder_equivalence_review_v0.json
+SHA0a2e6150f4db436ec2062bfc18a57cfa6ce395f902c426c086b6859e8272f4fc.
+108sources/274preuves,160NPZ ;40965paires/3613727labels reconstitués sans chronométrage.
 Aucun audit chronométré, capture ou benchmark CPU encore actif.
 Adaptateur gather SEUL406105a : gather_visible_pool_v70.py,8testsPASS4,10s,
 ARC4_GATHER_CPU_DRAFT.md. Grouping/_step/_on_frame originaux ; garde d'échec même
 si allocationdiagnostic échoue, transportspawn drainé. Pas de cachegroupes,
-pas de protocole/run/revue native encore. Attendre revue résultatoffline avant
-nouvelle validation prospective et mesure complète ; aucun ancienrésultat remplacé.
+Nouveau lanceur/protocole cfbb7e8 : bench_gather_visible_v70.py,
+ARC4_GATHER_CPU_PROTOCOL.json, test_gather_cpu_protocol_v70.py ;21tests adaptateur+
+lanceurPASS6,26s.130sources ; preuves readonly session90209 encore en cours.
+Wiring19376/19377/19378 puis une mesure16×2048 mêmes18000..18015/budgets/actions.
+Groupementoriginal, aucun cachegroupes. Préflight indépendant puis wiring et revue
+AVANT benchmark. Revue en file après préflight diagnostic pixel. Aucun natifgather
+construit. Ne pas chevaucher diagnosticréelCPU et mesure/capture/profile.
 
 ## ARC 4 — raccord apprenant et limite numérique
 
@@ -134,7 +141,8 @@ Chaîne récente :
  Pas optimiseur transactionnel ; clippingàfigeravantentraînement.
 
 Inventaire d'entrée : entry_trial_plan_v70.py et document,5testsPASS,5a84af1,
-PAS encore relu. RNGlocal graine explicite : permutation18 puis11distincts,
+relu : entry_trial_plan_review_v0.json SHA2362d59f475618ce7303b9db11440dbdef788486027c46ccef08ab013380a041,
+committéd6d1580 ;9sources/5tests/1002plans,128/132bootstrap→19720charges/3944exp/58restores. RNGlocal graine explicite : permutation18 puis11distincts,
 29paires8vsNOOP sur16points courants, coût3944 dans19720total. Budget partagé20%,
 pas d'exécution/table/effet/débit/graine native. Contrôleur une seule exécution
 reste à construire ; points planifiés ne prouvent pas16états distincts.
@@ -144,8 +152,8 @@ Traces RGB natives anciennes PASS9cas/22604charges,20sources87c0507 et revue
 Archives privées/transport revus synthétiquement afbe5846…/36731edf…, pas nativement,
 20000entrées/2Go payload totalpool, pasRSS ; pairearchive2T+180, pasretourdurableE4.
 
-Suite active : préflight puis wiring natifordinaire ; revue résultat gather ;
-revue inventaire entrée. Raccords ordinairesRGB/modèle encore synthétiques.
+Suite active : préflight diagnostic modèles SUR CPU sur archives déjà payées ;
+préflight nouveau natifgather ensuite. Raccords RGB/modèle encore synthétiques.
 
 Préparation native ordinaire877be12 (après c45445c/4093c6c) :
 - scripts/check_owned_ordinary_native_v70.py, tests/test_owned_ordinary_native_v70.py,
@@ -172,12 +180,44 @@ Préparation native ordinaire877be12 (après c45445c/4093c6c) :
   Résultat5db50e4ee27fedf0ec77a62fab9c13efd309749f7a127e47d73ec4f56ae886af ;
   attemptd56542ad… ; console5635505f… exacte .gitattributes -text.
   24constructionsfroides=3160,10116imagesordinaires,192branches,1440restores=14908.
-  Revue wiring_review_v0.json attendue de review_recovery_v62 APRÈS revuegather.
+  Revue wiring_review_v0.json PASS e5b969c :
+  SHA8b4105ce479e7d990293a89ce8ea3789506600729f3e1f721dbf59653f04a668.
+  33sources/24preuves dont9NPZ,330tableaux ;72pas/282images +96imagesbranches.
   Aucun modèle appelé surcesarchives, aucun retry natif. Étape suivante utile :
   diagnostic P/C/G/I/gradients SUR CPU, sources/protocole prospectifs à préparer
   avantpremièreinférenceréelle ; pas d'optimiseur/entraînement/gate à cette étape.
   Python système Torch n'a PAS ale_py ; archives permettentdiagnostic sansinstallation
   ni modification environnementGPU ARC3. Lesmodules basniveau n'importentpasALE.
+
+Diagnostic CPU sur archives propres préparé8e2d5da, PAS ENCORE EXÉCUTÉ :
+- helper archived_pixel_diagnostics_v70.py f1f80d2 corrigéd6d1580,12testsPASS.
+  Revue29b77c9 : archived_pixel_diagnostics_review_v0.json
+  SHA968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b,
+  29sources/8preuves. Findingspréservés :2propriétaires mêmespoids effacent les
+  gradients du premier ; MemoryError tardif laissegrad0,7923458. Correction :
+  registreweakparser+lockglobal interdit2diagnostics àvie, mêmeaprèséchec ;
+  refusegradpréexistants ; backward/admission nettoie en finally. Codeextérieur
+  et alias de stockage restent interdits parcontrat, pasisolationcontrecontournement.
+- scripts/check_archived_pixel_diagnostics_v70.py,5testsPASS ; protocoleJSON
+  ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_PROTOCOL.json committé AVANT vraieinférence.
+  Population9cas × indices[0,1,2,3,126,127,128,129]=72pas +6paires déjàpayées.
+  Seed764 fixe, mêmespoidsviergesparcas, cap512tracks/groups, clipnorm1float64,
+  900s coopératifhorshashes,0optimizerupdates/0nouveauframeémulé/GPUfalse.
+  CPUonlyPython système (pasALE). Entrées propresRGB+12effetsUNKNOWN0 ; boutons,
+  nomsjeu etcompteurs restentbookkeeping. P4uniquement ; Iexact8imageslivrées,
+  trouarchive→mémoireneuve/seedsourcepasnouvellecible ; Cpooled4mêmebranche8.
+  SommeunitcoeffpourgraphediagnosticSEULEMENT, pasrecetteentraînement/visionutile.
+- review_recovery_v62 examine lanceur puis doit écrire
+  craft_v6_out/v70_archived_pixel_diagnostics/preflight_v0.json,
+  kind archived_pixel_cpu_independent_preflight +passed+chaquechamp EXACT de
+  proofs() sousCPU CUDA_VISIBLE_DEVICES vide,OMP/OPENBLAS/MKL1,torchthreads1.
+  Helperreview29b77c9 désormaiscommittée, proofspossible. Commitpréflight AVANT
+  unique run (python -u -m scripts.check_archived_pixel_diagnostics_v70).
+  Résultatcpu_v0.json/attemptcpu_v0_attempt.json : refusetouteexistence, aucunretry.
+  Aucune decesdeuxsortiescrééeactuellement ; aucunmodèle n'aluarchivesnatives.
+  Garderéchecs/position/phase/completedcases+partialrows ; revuefinaleaprès.
+- Tests27148terminés17PASS10,42s ; tests64142terminés5PASS9,50s ; aucunCPUrunactif
+  horsreadonlyproofs90209. Agentrevuepeutfairetestsynthétiques. Pas entraînement.
 
 ME/buttons/reader/drives/S/
 policy/ledger/fusion catégories restent absents ; boutons→12effets non résolus.
