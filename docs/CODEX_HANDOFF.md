@@ -11,7 +11,8 @@ ne prouve pas une accélération. Audit partage d'écran/RC annulé (mauvaise se
 Historique détaillé conservé dans `docs/history/CODEX_HANDOFF_20260909_1811.md`
 et celui de16:48. Lire seulement les plans utiles, jamais tous les logs Claude.
 ARC2 clos : transfert3/6 contre0/6 ; accélération non détectable(delta0,069/bruit0,076).
-ARC4 : aucun apprenant, parser ni gate0 lancé. Vision apprise puis mémoire/transfert,
+ARC4 : aucun apprenant entraîné ni gate0 lancé. Premier parser prototype CPU.
+Vision apprise puis mémoire/transfert,
 Atari→NES→16bits→PC. RAM/palettes/référence classique réservées à l'évaluation,
 jamais observations ni enseignement du futur agent.
 
@@ -106,7 +107,14 @@ plafondtotalpool réparti parworker, RPCfermé, erreurslatchées, cleanup/report
 Transport encore àrelire ; aucune modification des11sources déjàrevues.
 Aucune nouvelle émulation autorisée par ce prototype.
 
-Suite selon `ARC4_VISION.md` §§2,5,6,11 : parser/tracker/ME/buttons/reader/drives.
+Nouveau parser+P draft `ragnarok/learning/{parser,pixel_prediction}_v70.py`,
+428677paramètres,7testsCPU synthétiques PASS avecPythonGPUmaisCPUexplicite/1thread.
+Commitinitial3e6d731 conserve le témoinéchoué du flotglobal : targetPpeutmarquer
+lefondnouvellementcouvert et manquerl'intérieur uniforme. Objectifnonmodifié,
+témoincorrigé +limite testée/doc. AucunAtari/GPU/poidsentraîné/C/G/I/S/tracker.
+Têtesvisuellesindépendantesdes12effets ; seule dconditionnée. Correspondance
+babillage→effetsinconnue àrésoudre, zéro explicite enattendant.
+Suite selon `ARC4_VISION.md` §§2,5,6,11 : C/G/I/tracker/ME/buttons/reader/drives.
 Descripteur49floats corrigé(addition), nonimplémenté. `ARC4_ENTRY_BUDGET_DRAFT.md` :
 29pairesE1de8frames sur16points COURANTS,3944exp/19720total dans20k, pas16×18.
 Traces8framespartageables avecCpréfixe4 ; provenance/points/couverture/unitélag

@@ -48,12 +48,22 @@ def test_prediction_gradient_points_toward_correct_forward_motion():
 def test_motion_target_uses_source_position_and_has_no_target_gradient():
     previous,following=sprite()
     flow=torch.zeros((1,2,16,24),requires_grad=True)
-    with torch.no_grad(): flow[:,0]=1
+    with torch.no_grad(): flow[:,0,5:9,7:11]=1
     target=motion_foreground_target(previous,following,flow)
     # The vacated left edge belongs to the source sprite, the new right edge does not.
     assert (target[:,:,5:9,7]>.9).all() and (target[:,:,:,11]==0).all()
     assert not target.requires_grad and target.min()>=0 and target.max()<=1
     assert motion_foreground_target(previous,previous,torch.zeros_like(flow)).sum()==0
+
+
+def test_motion_signal_alone_does_not_certify_an_object_mask():
+    previous,following=sprite()
+    global_motion=torch.zeros((1,2,16,24));global_motion[:,0]=1
+    target=motion_foreground_target(previous,following,global_motion)
+    # A wrongly global field also "explains" the newly covered background.
+    assert (target[:,:,5:9,11]>.9).all()
+    # A flat overlapping interior is ambiguous, not certified foreground here.
+    assert (target[:,:,5:9,8:11]==0).all()
 
 
 def test_one_network_handles_resolutions_and_effects_only_condition_displacement():
