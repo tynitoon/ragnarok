@@ -106,6 +106,14 @@ def certificate_result(logits, targets, cases):
                 claim='finite explicit judge solution, not a learned model')
 
 
+def preserve_and_certify(logits, targets, cases, save_logits, log, deadline):
+    """Preserve the sole returned output before fallible journal or metric work."""
+    save_logits(dict(reference_logits=logits[:, 0].numpy().copy()))
+    log('reference_forward_return')
+    check_time(deadline)
+    return certificate_result(logits, targets, cases)
+
+
 def finish_result(payload, started, payload_path, result_path):
     """Publish a verdict only after all scientific payload I/O is charged."""
     errors = list(payload['errors'])
@@ -212,10 +220,8 @@ def run():
         with torch.inference_mode():
             logits = model(inputs)
         returned += 1
-        log('reference_forward_return')
-        check_time(deadline)
-        certificate = certificate_result(logits, targets, cases)
-        save_binary(names[4], dict(reference_logits=logits[:, 0].numpy().copy()))
+        certificate = preserve_and_certify(
+            logits, targets, cases, lambda value: save_binary(names[4], value), log, deadline)
         if entered != SPEC['reference_forward_batches'] or returned != entered:
             raise ValueError('Exactly one returned reference forward required')
         check_time(deadline)

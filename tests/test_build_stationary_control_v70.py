@@ -44,6 +44,37 @@ def test_nonfinite_reference_cannot_produce_a_positive_result():
         builder.certificate_result(logits, targets, cases)
 
 
+def test_returned_output_survives_a_broken_journal(tmp_path):
+    logits, targets, cases = _certificate_tensors()
+    path = tmp_path / 'returned.npz'
+    def save_logits(value):
+        with path.open('xb') as stream:
+            np.savez_compressed(stream, **value)
+    def broken_log(event):
+        raise OSError('injected return journal failure')
+    with pytest.raises(OSError, match='return journal failure'):
+        builder.preserve_and_certify(logits, targets, cases, save_logits,
+                                     broken_log, builder.time.monotonic() + 60)
+    with np.load(path, allow_pickle=False) as saved:
+        np.testing.assert_array_equal(saved['reference_logits'], logits[:, 0].numpy())
+
+
+def test_nonfinite_returned_output_is_saved_before_metric_rejection(tmp_path):
+    logits, targets, cases = _certificate_tensors()
+    logits[0, 0, 0, 0] = float('nan')
+    path = tmp_path / 'returned.npz'
+    events = []
+    def save_logits(value):
+        with path.open('xb') as stream:
+            np.savez_compressed(stream, **value)
+    with pytest.raises(ValueError, match='Finite float32'):
+        builder.preserve_and_certify(logits, targets, cases, save_logits,
+                                     events.append, builder.time.monotonic() + 60)
+    assert events == ['reference_forward_return']
+    with np.load(path, allow_pickle=False) as saved:
+        np.testing.assert_array_equal(saved['reference_logits'], logits[:, 0].numpy())
+
+
 def test_slow_scientific_payload_is_counted_before_the_final_verdict(monkeypatch, tmp_path):
     clock_value = [0.0]
     monkeypatch.setattr(builder.time, 'monotonic', lambda: clock_value[0])
