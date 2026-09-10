@@ -1,0 +1,6 @@
+{
+  "requested_mask": "-1",
+  "returncode": 0,
+  "stdout": "{\"received_mask\": \"-1\", \"torch_version\": \"2.11.0+cu126\", \"cuda_available\": false, \"torch_cuda_initialized_before\": false, \"torch_cuda_initialized_after\": false, \"model_constructions\": 0, \"tensor_constructions\": 0, \"optimizer_updates\": 0}\n",
+  "stderr": ""
+}

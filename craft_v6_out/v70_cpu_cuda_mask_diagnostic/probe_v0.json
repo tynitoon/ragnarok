@@ -1,0 +1,30 @@
+{
+  "started_utc": "2026-09-10T08:31:00.145704+00:00",
+  "max_wall_seconds": 30,
+  "source_sha256": "3067b11ca6aa4c2ba675e6b9bbe4758809bc13a24f199e934b182e6a4781780c",
+  "child_code": "import json, os, torch\ntorch.set_num_threads(1)\ntorch.set_num_interop_threads(1)\nbefore = torch.cuda.is_initialized()\navailable = torch.cuda.is_available()\nprint(json.dumps(dict(received_mask=os.environ.get('CUDA_VISIBLE_DEVICES'),\n    torch_version=torch.__version__, cuda_available=available,\n    torch_cuda_initialized_before=before, torch_cuda_initialized_after=torch.cuda.is_initialized(),\n    model_constructions=0, tensor_constructions=0, optimizer_updates=0)))\n",
+  "masks": [
+    "",
+    "-1"
+  ],
+  "new_rgb_frames": 0,
+  "model_constructions": 0,
+  "optimizer_updates": 0,
+  "rows": [
+    {
+      "requested_mask": "",
+      "returncode": 0,
+      "stdout": "{\"received_mask\": \"\", \"torch_version\": \"2.11.0+cu126\", \"cuda_available\": true, \"torch_cuda_initialized_before\": false, \"torch_cuda_initialized_after\": false, \"model_constructions\": 0, \"tensor_constructions\": 0, \"optimizer_updates\": 0}\n",
+      "stderr": ""
+    },
+    {
+      "requested_mask": "-1",
+      "returncode": 0,
+      "stdout": "{\"received_mask\": \"-1\", \"torch_version\": \"2.11.0+cu126\", \"cuda_available\": false, \"torch_cuda_initialized_before\": false, \"torch_cuda_initialized_after\": false, \"model_constructions\": 0, \"tensor_constructions\": 0, \"optimizer_updates\": 0}\n",
+      "stderr": ""
+    }
+  ],
+  "failure": null,
+  "passed": true,
+  "elapsed_seconds": 6.617184200003976
+}
