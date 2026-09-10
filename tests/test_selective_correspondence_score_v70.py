@@ -60,7 +60,7 @@ def test_invented_reliable_improving_candidate_passes_all_nine_requirements():
     for row in result['visible'].values():
         assert row['paired_wins'] == 64 and row['paired_losses'] == 0
         assert row['observed_gain'] == 0.25 and row['correct_coverage'] == 0.75
-        assert row['paired_pvalue'] == pytest.approx(2**-64)
+        assert row['paired_pvalue'] == pytest.approx(2**-64, rel=1e-12, abs=0)
         assert row['error_upper'] == pytest.approx(1-scoring.ALPHA**(1/192), abs=1e-12)
         assert all(row['conditions'].values())
     assert result['association_reliable_in_declared_family']
@@ -120,6 +120,7 @@ def test_judge_schema_refuses_implicit_booleans_and_impossible_correctness():
     rows = examples()
     for bad in (replace(rows[0], admitted=1), replace(rows[0], correct=None),
                 replace(rows[0], admitted=False), replace(rows[0], stratum='unknown'),
+                replace(rows[0], stratum=[]),
                 replace(rows[0], scene_id=''), replace(rows[0], initial_admitted=False)):
         with pytest.raises(ValueError):
             scoring.score([bad]+rows[1:], witnesses())
@@ -133,3 +134,9 @@ def test_interval_counts_refuse_invalid_or_ambiguous_values(k, n):
     for function in (scoring.upper_bound, scoring.lower_bound):
         with pytest.raises(ValueError):
             function(k, n)
+
+
+def test_paired_counts_refuse_noninteger_or_negative_discordances():
+    for wins, losses in ((1, True), (True, 1), (0, -1), (-1, 0), ('1', 0), (0, '1')):
+        with pytest.raises(ValueError):
+            scoring.paired_improvement(wins, losses)

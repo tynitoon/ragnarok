@@ -60,9 +60,8 @@ def lower_bound(k, n):
 
 
 def paired_improvement(wins, losses):
-    _counts(wins, wins + losses)
-    if type(losses) is not int or losses < 0:
-        raise ValueError('Nonnegative integer discordance counts required')
+    _counts(wins, wins)
+    _counts(losses, losses)
     discordant = wins + losses
     return 1.0 if discordant == 0 else float(binomtest(
         wins, discordant, p=0.5, alternative='greater').pvalue)
@@ -73,7 +72,8 @@ def _validated_rows(rows):
     seen = set()
     for row in rows:
         if (not isinstance(row, SceneVerdict) or not isinstance(row.scene_id, str)
-                or not row.scene_id or row.scene_id in seen or row.stratum not in groups):
+                or not row.scene_id or row.scene_id in seen
+                or not isinstance(row.stratum, str) or row.stratum not in groups):
             raise ValueError('One unique scene ID and known stratum per SceneVerdict required')
         flags = (row.admitted, row.correct, row.initial_admitted, row.initial_correct)
         if any(type(value) is not bool for value in flags):

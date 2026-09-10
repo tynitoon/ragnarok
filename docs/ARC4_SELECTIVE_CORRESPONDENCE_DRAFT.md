@@ -53,6 +53,11 @@ conservées, y compris lorsque le candidat s’abstient partout.
 Les deux modèles et leurs règles d’admission restent fixes durant l’ensemble de
 l’évaluation. La borne du risque conditionnel reste valide conditionnellement
 au nombre aléatoire d’admissions, sous cette hypothèse i.i.d. par strate.
+Les admissions sont enregistrées avant extraction du verdict du juge. Ni strate,
+ni requête, ni masque vrai ne doivent pouvoir changer une admission en abstention.
+Les conclusions portent sur la population des requêtes choisies et sur les deux
+modèles évalués : ni validité sur tous les pixels, ni variabilité entre entraînements
+ne sont établies par ces comptes. Le futur reçu devra nommer cette population.
 
 ## Neuf exigences simultanées
 
@@ -109,6 +114,10 @@ close. Une conformité ne constituera pas un résultat du candidat.
 Un éventuel PASS du futur candidat autoriserait à proposer un raccord limité,
 pas à activer automatiquement m/C. m exige sa comparaison propre de mouvement
 et immobilité ; C exige la correspondance dans les deux branches d’un horizon
-commun. Un effet peut rester indirect et ne certifie pas ME. Aucun gate, jeu
+commun. La sélection de l’intersection des admissions peut concentrer leurs
+erreurs : les risques mesurés séparément ne garantissent pas le risque conjoint
+de C, ni celui de la comparaison à deux explications de m. Ces admissions
+conjointes devront être évaluées explicitement avant leur raccord.
+Un effet peut rester indirect et ne certifie pas ME. Aucun gate, jeu
 réservé, validation conditionnelle ou résultat d’apprentissage accéléré n’est
 ouvert par ce document.
