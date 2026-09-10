@@ -244,7 +244,9 @@ def check_time(deadline):
 
 def run():
     checked = proofs()
-    preflight = json.loads(PREFLIGHT.read_text(encoding='utf-8'))
+    preflight_bytes = PREFLIGHT.read_bytes()
+    preflight = json.loads(preflight_bytes)
+    preflight_hash = sha_bytes(preflight_bytes)
     if (preflight.get('kind') != 'response_envelope_equivalence_independent_preflight'
             or preflight.get('passed') is not True
             or any(preflight.get(key) != checked[key] for key in ('source_sha256', 'evidence_sha256', 'runtime'))):
@@ -257,12 +259,13 @@ def run():
     target_manifest = json.loads((TARGET_DIR / 'targets_v0.json').read_text(encoding='utf-8'))
     write_json(FOLDER / names[0], dict(kind='response_envelope_equivalence_attempt',
                created_utc=datetime.now(timezone.utc).isoformat(), protocol=SPEC,
-               preflight_sha256=sha(PREFLIGHT), **checked))
+               preflight_sha256=preflight_hash, **checked))
     started = time.monotonic()
     deadline = started + SPEC['max_work_seconds'] - SPEC['cleanup_reserve_seconds']
     errors, artifacts, metrics = [], {}, None
     journal = None
     arrays_decoded = 0
+    final_provenance_verified = False
     def log(event, **fields):
         journal.write(json.dumps(dict(event=event, seconds=time.monotonic() - started, **fields), allow_nan=False) + '\n')
         journal.flush()
@@ -303,6 +306,13 @@ def run():
         artifacts[names[2]] = dict(sha256=sha_bytes(binary), bytes=len(binary),
                                   arrays=dict(group_ids=signature(ids), group_representatives=signature(representatives)))
         check_time(deadline)
+        if proofs() != checked:
+            raise ValueError('Final provenance differs from the attempt')
+        if sha(PREFLIGHT) != preflight_hash:
+            raise ValueError('Preflight changed during the diagnostic')
+        committed(PREFLIGHT)
+        check_time(deadline)
+        final_provenance_verified = True
         log('completed', artifacts=artifacts)
     except BaseException as error:
         errors.append(dict(stage='diagnostic', type=type(error).__name__, message=str(error)))
@@ -310,14 +320,18 @@ def run():
         if journal is not None:
             try:
                 log('finished', errors=errors)
+            except BaseException as error:
+                errors.append(dict(stage='journal_finished', type=type(error).__name__, message=str(error)))
+            try:
                 journal.close()
             except BaseException as error:
                 errors.append(dict(stage='journal_close', type=type(error).__name__, message=str(error)))
     payload = dict(kind='response_envelope_equivalence_scientific_payload', **checked,
-                   protocol=SPEC, preflight_sha256=sha(PREFLIGHT), attempt_sha256=sha(FOLDER / names[0]),
+                   protocol=SPEC, preflight_sha256=preflight_hash, attempt_sha256=sha(FOLDER / names[0]),
                    progress_sha256=sha(FOLDER / names[1]) if (FOLDER / names[1]).exists() else None,
                    errors=errors, metrics=metrics, artifacts=artifacts, arrays_decoded=arrays_decoded,
                    array_count_scope='successful array accessor returns; partial decompression is not counted',
+                   final_provenance_verified=final_provenance_verified,
                    source_branch_archives_decoded=0, new_emulated_frames=0, optimizer_updates=0,
                    model_inferences=0, gpu_used=False,
                    inherited_collection_charged_frames=157530,
@@ -331,7 +345,8 @@ def run():
     elapsed = time.monotonic() - started
     status = 'complete' if not errors and elapsed <= SPEC['max_work_seconds'] else 'incomplete'
     result = dict(payload, kind='response_envelope_equivalence_result', errors=errors,
-                  execution_status=status, work_seconds=elapsed, scientific_payload_sha256=payload_hash)
+                  execution_status=status, work_seconds=elapsed, scientific_payload_sha256=payload_hash,
+                  bounds_usable=status == 'complete' and metrics is not None)
     write_json(FOLDER / names[4], result)
     print(json.dumps(dict(execution_status=status, work_seconds=elapsed, arrays_decoded=arrays_decoded,
                           errors=errors, metrics=metrics), allow_nan=False))

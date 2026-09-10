@@ -76,11 +76,17 @@ ne prouvent pas que la perception ou le contrôle d’un jeu sont impossibles.
 CPU un seul thread, aucun GPU. Maximum 300 s de travail, avec réserve de clôture
 10 s incluse. Le travail commence après fsync de la tentative exclusive et
 inclut décodage du dérivé, groupes, métriques, NPZ, journal fermé, payload fsync
-et hash. Imports et preuves avant tentative, petit reçu final et console après
+et hash, ainsi qu’une nouvelle vérification finale des sources, preuves et du
+préflight contre leurs empreintes initiales. L’empreinte initiale du préflight
+reste celle attestée dans la tentative et le résultat. La fermeture du journal
+est tentée même si l’écriture de son dernier événement échoue.
+Imports et preuves avant tentative, petit reçu final et console après
 mesure sont exclus. Contrôles coopératifs chaque rangée et entre phases ; un
 dépassement final donne `incomplete`, même si les tableaux sont complets.
 Pas de retry ni d’extension après une tentative. Aucun résultat partiel ne
 devient une borne sur l’ensemble des situations.
+`bounds_usable` est vrai seulement pour une exécution finale complète ; le
+statut candidat d’un payload antérieur ne suffit pas.
 
 Au plus 16 MB de sortie binaire, plus reçus JSON et journal borné. Les tableaux
 stockés sont les IDs des groupes et leurs représentants ; les données originales

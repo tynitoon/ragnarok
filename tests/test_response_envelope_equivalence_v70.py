@@ -8,8 +8,10 @@ contract. The proposed diagnostic module is intentionally the only local import.
 from fractions import Fraction
 from functools import lru_cache
 from itertools import product
+import json
 import math
 from numbers import Integral
+from pathlib import Path
 import random
 
 import numpy as np
@@ -303,3 +305,116 @@ def test_summary_is_invariant_to_group_id_renumbering():
     assert second['iou_upper_bound_by_game'] == pytest.approx(first['iou_upper_bound_by_game'])
     assert [row['iou_upper_bound'] for row in second['cases']] == pytest.approx(
         [row['iou_upper_bound'] for row in first['cases']])
+
+
+def _synthetic_run(monkeypatch, tmp_path):
+    """Isolated tiny NPZ fixture; never opens a project dataset or model."""
+    folder, target_dir = tmp_path / 'out', tmp_path / 'target'
+    folder.mkdir()
+    target_dir.mkdir()
+    past = np.zeros((1, 2, 2, 2, 3), dtype=np.uint8)
+    targets = np.array([[[True, False], [False, False]]], dtype=bool)
+    data_path = target_dir / 'targets_v0.npz'
+    np.savez(data_path, past_pairs=past, observed_response_envelopes=targets)
+    manifest = dict(output=dict(arrays=dict(past_pairs=diagnostic.signature(past),
+                     observed_response_envelopes=diagnostic.signature(targets))),
+                    cases=[dict(game='synthetic', anchor_index=0)])
+    (target_dir / 'targets_v0.json').write_text(json.dumps(manifest), encoding='utf-8')
+    checked = dict(source_sha256={'source': 'a' * 64}, evidence_sha256={'evidence': 'b' * 64},
+                   runtime={'fixture': True})
+    preflight_path = folder / 'preflight_v0.json'
+    preflight_path.write_text(json.dumps(dict(kind='response_envelope_equivalence_independent_preflight',
+                                              passed=True, **checked)), encoding='utf-8')
+    for name, value in (('FOLDER', folder), ('TARGET_DIR', target_dir),
+                         ('TARGET_DATA', data_path), ('PREFLIGHT', preflight_path)):
+        monkeypatch.setattr(diagnostic, name, value)
+    monkeypatch.setattr(diagnostic, 'SPEC', dict(diagnostic.SPEC, radius=1,
+                        past_shape=list(past.shape), target_shape=list(targets.shape)))
+    monkeypatch.setattr(diagnostic, 'committed', lambda path: None)
+    monkeypatch.setattr(diagnostic, 'proofs', lambda: checked)
+    return folder, checked, preflight_path
+
+
+@pytest.mark.parametrize('changed_map', ('source_sha256', 'evidence_sha256'))
+def test_runner_rejects_provenance_that_changes_during_work(monkeypatch, tmp_path, changed_map):
+    folder, checked, _ = _synthetic_run(monkeypatch, tmp_path)
+    calls = []
+    def proofs():
+        calls.append(True)
+        value = json.loads(json.dumps(checked))
+        if len(calls) > 1:
+            key = next(iter(value[changed_map]))
+            value[changed_map][key] = 'f' * 64
+        return value
+    monkeypatch.setattr(diagnostic, 'proofs', proofs)
+    assert diagnostic.run() == 2
+    result = json.loads((folder / 'equivalence_v0.json').read_text())
+    assert result['execution_status'] == 'incomplete'
+    assert result['final_provenance_verified'] is False and result['bounds_usable'] is False
+    assert any('provenance' in error['message'] for error in result['errors'])
+    assert result[changed_map] == checked[changed_map]
+
+
+def test_runner_keeps_initial_preflight_hash_and_rejects_a_changed_receipt(monkeypatch, tmp_path):
+    folder, _, preflight_path = _synthetic_run(monkeypatch, tmp_path)
+    original_hash = diagnostic.sha(preflight_path)
+    partition = diagnostic.partition_patches
+    def changed_receipt(*args, **kwargs):
+        preflight_path.write_bytes(preflight_path.read_bytes() + b'\n')
+        return partition(*args, **kwargs)
+    monkeypatch.setattr(diagnostic, 'partition_patches', changed_receipt)
+    assert diagnostic.run() == 2
+    attempt = json.loads((folder / 'equivalence_v0_attempt.json').read_text())
+    result = json.loads((folder / 'equivalence_v0.json').read_text())
+    assert attempt['preflight_sha256'] == result['preflight_sha256'] == original_hash
+    assert result['execution_status'] == 'incomplete' and result['bounds_usable'] is False
+    assert any('Preflight changed' in error['message'] for error in result['errors'])
+
+
+def test_runner_closes_journal_even_when_finished_event_cannot_be_written(monkeypatch, tmp_path):
+    folder, _, _ = _synthetic_run(monkeypatch, tmp_path)
+    original_open, close_calls = Path.open, []
+    class BrokenFinish:
+        def __init__(self, wrapped):
+            self.wrapped = wrapped
+        def write(self, value):
+            if '"event": "finished"' in value:
+                raise OSError('injected finished-event write failure')
+            return self.wrapped.write(value)
+        def flush(self):
+            self.wrapped.flush()
+        def fileno(self):
+            return self.wrapped.fileno()
+        def close(self):
+            close_calls.append(True)
+            self.wrapped.close()
+    def patched_open(path, *args, **kwargs):
+        stream = original_open(path, *args, **kwargs)
+        mode = args[0] if args else kwargs.get('mode', 'r')
+        if path.name == 'equivalence_v0_progress.jsonl' and mode == 'x':
+            return BrokenFinish(stream)
+        return stream
+    monkeypatch.setattr(Path, 'open', patched_open)
+    assert diagnostic.run() == 2
+    result = json.loads((folder / 'equivalence_v0.json').read_text())
+    assert close_calls == [True]
+    assert result['execution_status'] == 'incomplete' and result['bounds_usable'] is False
+    assert any(error['stage'] == 'journal_finished' for error in result['errors'])
+
+
+def test_payload_write_time_cannot_leave_a_complete_final_diagnostic(monkeypatch, tmp_path):
+    folder, _, _ = _synthetic_run(monkeypatch, tmp_path)
+    clock_value = [0.0]
+    monkeypatch.setattr(diagnostic.time, 'monotonic', lambda: clock_value[0])
+    original_write = diagnostic.write_json
+    def slow_payload(path, value):
+        original_write(path, value)
+        if path.name == 'equivalence_v0_payload.json':
+            clock_value[0] = 301.0
+    monkeypatch.setattr(diagnostic, 'write_json', slow_payload)
+    assert diagnostic.run() == 2
+    payload = json.loads((folder / 'equivalence_v0_payload.json').read_text())
+    result = json.loads((folder / 'equivalence_v0.json').read_text())
+    assert payload['candidate_execution_status'] == 'complete'
+    assert result['work_seconds'] == 301.0
+    assert result['execution_status'] == 'incomplete' and result['bounds_usable'] is False
