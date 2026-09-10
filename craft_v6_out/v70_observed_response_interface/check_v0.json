@@ -1,0 +1,29 @@
+{
+  "started_utc": "2026-09-10T07:16:34.595104+00:00",
+  "source_head": "6f05aa0aad6be5cbcad6b409006ff5e13ab18399",
+  "source_sha256": {
+    "docs/ARC4_OBSERVED_RESPONSE_TARGETS_DRAFT.md": "15ff680168864870037944be42c94dd6747484b07974a031d192690ddee51cc9",
+    "ragnarok/learning/observed_response_targets_v70.py": "74ec152f988bbef1008c2877ff0beeecd1bc09dbe6cd8e292fe601b7874ebe3d",
+    "tests/test_observed_response_targets_v70.py": "45d84cc9ed9794de7b4ed34596b92d52dba11c501c64f5695663c360ca3f9a53",
+    "tests/test_counterfactual_occlusion_limits_v70.py": "d0a9321b09fb21af5f917c4f0c43a6551f388d99d780460a5badaf2e78f5ed74",
+    "craft_v6_out/v70_observed_response_interface/check_v0.py": "b7738845386445a9bbb9a034ad88d8715588c35a6f021e8c916ff20258c7bd67"
+  },
+  "command": [
+    "C:\\Python314\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/test_observed_response_targets_v70.py"
+  ],
+  "wall_limit_seconds": 60,
+  "scope": "new synthetic interface fixtures only; no model, emulator or experimental data",
+  "status": "passed",
+  "returncode": 0,
+  "test_wall_seconds": 3.3302088000054937,
+  "cumulative_test_wall_seconds": 3.3302088000054937,
+  "remaining_test_wall_seconds": 56.669791199994506,
+  "output_file": "craft_v6_out/v70_observed_response_interface/check_v0_output.txt",
+  "output_sha256": "9c2b13b55fd9db413922aad0c95d8590c3c1d9dec7191df3d614a1a962776f02"
+}
