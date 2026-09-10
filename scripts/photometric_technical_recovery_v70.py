@@ -112,8 +112,9 @@ def run(*, approved):
     proof = verified_readiness()
     intent = dict(proof, started_utc=common.utc(), started_perf_counter_ns=time.perf_counter_ns(),
                   wall_limit_seconds=280, cleanup_reserve_seconds=15, max_artifact_bytes=64000000,
-                  owner_approved_technical_recovery=True, conservative_prior_debits_seconds=[8, 7],
-                  total_active_time_cap_seconds=295, regenerated_scenes=0, retry=False)
+                  owner_approved_technical_recovery=True, conventional_prior_debits_seconds=[8, 7],
+                  conventionally_accounted_active_time_cap_seconds=295,
+                  historical_debits_are_not_a_new_closure_certificate=True, regenerated_scenes=0, retry=False)
     common.write_json(OUT / 'fit_v0_attempt.json', intent)
     from scripts import photometric_correspondence_v70 as supervisor
     supervisor.OUT, supervisor.environment = OUT, cpu_environment

@@ -32,9 +32,12 @@ Une seule reprise opérationnelle, **280 secondes murales** sur un CPU, imports,
 copies, fit, inférences et clôture compris ; réserve 15 s. C’est une dérogation
 explicite au lancement unique et à la fenêtre murale continue d’origine.
 Les pauses de diagnostic humain ne deviennent pas du temps de calcul disponible.
-En débitant conservativement 8 s pour le lancement arrêté et 7 s pour le
-diagnostic, 8+7+280=295 s restent sous 300 s de calcul actif cumulé. Les fixtures
-et revues en lecture seule gardent leurs périmètres distincts déjà documentés.
+La convention proposée débite 8 s pour le lancement arrêté et 7 s pour le
+diagnostic : 8+7+280=295 s de calcul actif comptabilisé. Le reçu d’arrêt relève
+7,4001315 s avant son écriture ; il ne possède pas d’attestation positive après
+clôture. Ce débit est donc une **convention explicite de l’exception demandée**,
+pas une nouvelle preuve autonome d’un plafond réel cumulé. Les fixtures et
+revues en lecture seule gardent leurs périmètres distincts déjà documentés.
 
 Le plafond de 64 MB s’applique à la somme des dossiers d’origine, de diagnostic
 et de reprise. Les fragments et fichiers pending restent conservés. Une erreur

@@ -35,8 +35,9 @@ avec scripts/photometric_technical_recovery_v70.py. Elle nécessite l’accord
 explicite de Jérémie pour cette exception au STOP, pas une simple automation.
 Le wrapper conserve les 27 sources et les données, corrige seulement le masque
 à -1 et la destination des reçus, 280 s CPU1, 64 MB sur les trois dossiers.
-8+7+280=295 s de calcul actif conservativement débité ; la fenêtre continue
-d’origine est explicitement remplacée seulement si Jérémie l’autorise.
+8+7+280=295 s selon une convention explicite de débit, pas une nouvelle preuve
+de clôture de l’arrêt ; la fenêtre continue d’origine est remplacée seulement
+si Jérémie l’autorise.
 
 review_recovery_v62 relit la proposition ; ensuite seul son preflight en lecture
 peut être préparé. Aucun run/worker/judge de reprise avant accord utilisateur.
