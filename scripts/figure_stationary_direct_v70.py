@@ -33,7 +33,7 @@ def case_bars(ax, series, indices, empty=False):
         ax.set_xticks(np.arange(len(indices)),
                       [f'{i + 1}\n{series[0][1]["cases"][i]["target_pixels"]} px' for i in indices], fontsize=8)
         ax.set(ylim=(0, 1.05), ylabel='IoU au seuil fixé de 0,5', xlabel='Cas et taille de sa cible')
-    ax.legend(frameon=False, fontsize=8, ncols=2, loc='upper left', bbox_to_anchor=(0, -.24))
+    ax.legend(frameon=False, fontsize=8, ncols=2, loc='upper left', bbox_to_anchor=(0, -.36))
     ax.grid(axis='y', alpha=.18)
 
 
@@ -72,7 +72,7 @@ def main():
     if nonempty != [0, 1, 2, 3, 4, 5, 8, 9, 10, 11] or empty != [6, 7]:
         raise ValueError('All twelve declared cases must remain represented')
     fig = plt.figure(figsize=(18, 11.4))
-    grid = fig.add_gridspec(2, 3, left=.055, right=.975, top=.79, bottom=.23,
+    grid = fig.add_gridspec(2, 3, left=.055, right=.975, top=.79, bottom=.26,
                           hspace=1.12, wspace=.29, height_ratios=[1, 1])
     axes = [fig.add_subplot(grid[i, j]) for i in range(2) for j in range(3)]
     fig.text(.055, .954, 'Le CNN avec une voie RGB directe', fontsize=22, weight='bold', color='#142b45')
