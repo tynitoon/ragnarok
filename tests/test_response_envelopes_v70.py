@@ -182,3 +182,22 @@ def test_changed_past_cannot_be_accepted_as_the_same_anchor():
     value['branch_start_pair'][0, 0, 0, 0] = 1
     with pytest.raises(ValueError, match='Past images'):
         build.validate_controls(value, None, anchor, 0)
+
+
+def test_git_capability_uses_empty_stdin_not_an_unsupported_rev_parse_flag(monkeypatch):
+    calls = []
+    def output(command, **kwargs):
+        calls.append((command, kwargs))
+        if command[-1] == '--version':
+            return b'git version 2.24.1.windows.2\n'
+        assert command[-2:] == ['hash-object', '--stdin'] and kwargs == {'input': b''}
+        return b'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391\n'
+    monkeypatch.setattr(build.subprocess, 'check_output', output)
+    assert build.git_blob_runtime()['version'] == 'git version 2.24.1.windows.2'
+    assert len(calls) == 2
+
+
+def test_wrong_git_object_algorithm_is_rejected_before_archive_work(monkeypatch):
+    monkeypatch.setattr(build.subprocess, 'check_output', lambda *args, **kwargs: b'0' * 64)
+    with pytest.raises(ValueError, match='before any attempt'):
+        build.git_blob_runtime()

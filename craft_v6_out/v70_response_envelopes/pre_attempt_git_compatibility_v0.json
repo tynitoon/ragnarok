@@ -1,0 +1,17 @@
+{
+  "kind": "pre_attempt_git_compatibility_observation",
+  "observed_utc": "2026-09-10T02:14:00.857033+00:00",
+  "source_sha256": "3a4e52aaf9c17e5b758b96b6806b2159c61b7dc8a6745fa8822979640695479e",
+  "preflight_sha256": "93ebcc044835550ecb571a54656bed28481a7b719809aa37e81054b7b7404818",
+  "git_version": "git version 2.24.1.windows.2",
+  "unsupported_option_observed_output": "--show-object-format",
+  "output_paths_exist": {
+    "targets_v0_attempt.json": false,
+    "targets_v0_progress.jsonl": false,
+    "targets_v0.npz": false,
+    "targets_v0.json": false
+  },
+  "failure": "ValueError: This checked Git-blob comparison requires the current sha1 repository",
+  "scope": "Known command failed at the Git capability guard before write_json(attempt) and before the archive-reading loop. No claim of system-wide forensic completeness.",
+  "preserved": "The old source commit and preflight remain in Git; the receipt is not overwritten. Scientific target, archive population and budgets are unchanged."
+}

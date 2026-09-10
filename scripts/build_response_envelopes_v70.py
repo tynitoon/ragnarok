@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SURVEY = ROOT / 'craft_v6_out/v70_action_signal_survey/survey_v0.json'
 REVIEW = SURVEY.with_name('survey_review_v0.json')
 FOLDER = ROOT / 'craft_v6_out/v70_response_envelopes'
-PREFLIGHT = FOLDER / 'preflight_v0.json'
+PREFLIGHT = FOLDER / 'preflight_v1.json'
 PROTOCOL = ROOT / 'docs/ARC4_RESPONSE_ENVELOPE_PROTOCOL.json'
 SOURCES = ('scripts/build_response_envelopes_v70.py', 'tests/test_response_envelopes_v70.py',
            'docs/ARC4_RESPONSE_ENVELOPE_PROTOCOL.json', 'docs/ARC4_RESPONSE_ENVELOPE_DRAFT.md')
@@ -55,6 +55,15 @@ def committed(path):
         raise ValueError(f'Uncommitted required input: {rel}')
 
 
+def git_blob_runtime():
+    # Git 2.24 prints unknown rev-parse flags literally with exit 0. Use the
+    # long-established plumbing operation we actually need, on no file data.
+    empty = subprocess.check_output(['git', '-C', str(ROOT), 'hash-object', '--stdin'], input=b'').decode().strip()
+    if empty != 'e69de29bb2d1d6434b8b29ae775ad8c2e48c5391':
+        raise ValueError('Git empty-blob plumbing must match SHA1 before any attempt')
+    return dict(version=git('--version'), empty_blob_sha1=empty)
+
+
 def write_json(path, value):
     with path.open('x', encoding='utf-8', newline='\n') as stream:
         json.dump(value, stream, indent=2, ensure_ascii=False, allow_nan=False)
@@ -65,7 +74,7 @@ def write_json(path, value):
 
 def proofs():
     """No archive bytes or arrays are opened by this preflight."""
-    runtime = dict(python=sys.executable, version=sys.version.split()[0], numpy=np.__version__,
+    runtime = dict(python=sys.executable, version=sys.version.split()[0], numpy=np.__version__, git=git_blob_runtime(),
                    environment={key: os.environ.get(key) for key in
                                 ('CUDA_VISIBLE_DEVICES', 'OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS')})
     if (Path(sys.executable).resolve() != Path('C:/Python314/python.exe').resolve()
@@ -171,8 +180,6 @@ def run():
     if any(path.exists() for path in paths.values()):
         raise FileExistsError('Preserve all earlier attempts, journals and outputs')
     # Git stores these archives byte-exact (-text). Build the index without reading their data.
-    if git('rev-parse', '--show-object-format') != 'sha1':
-        raise ValueError('This checked Git-blob comparison requires the current sha1 repository')
     tree = {}
     for entry in subprocess.check_output(['git', '-C', str(ROOT), 'ls-tree', '-rz', 'HEAD']).split(b'\0'):
         if entry:
