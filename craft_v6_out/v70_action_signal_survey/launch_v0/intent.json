@@ -1,0 +1,15 @@
+{
+  "kind": "action_signal_survey_wmi_launch_intent",
+  "created_utc": "2026-09-10T01:28:42.4221654+00:00",
+  "command_line": "\"C:\\Python314\\python.exe\" -u -c \"import ctypes,json,os,runpy,sys\nfrom ctypes import wintypes\nos.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1')\nsys.dont_write_bytecode=True\nsys.stdout=open('F:/dev/ragnarok/craft_v6_out/v70_action_signal_survey/launch_v0/console.log','x',encoding='utf-8',buffering=1)\nsys.stderr=sys.stdout\nkernel=ctypes.WinDLL('kernel32',use_last_error=True)\nkernel.GetCurrentProcess.restype=wintypes.HANDLE\nkernel.IsProcessInJob.argtypes=(wintypes.HANDLE,wintypes.HANDLE,ctypes.POINTER(wintypes.BOOL))\ninside=wintypes.BOOL()\nassert kernel.IsProcessInJob(kernel.GetCurrentProcess(),None,ctypes.byref(inside))\nassert not inside.value, 'Survey requires a detached process'\nprint(json.dumps(dict(pid=os.getpid(),detached_from_job=True,mode='fixed_action_signal_survey')))\nsys.stdout.flush()\nos.fsync(sys.stdout.fileno())\nrunpy.run_module('scripts.survey_action_signal_v70',run_name='__main__')\"",
+  "cwd": "F:\\dev\\ragnarok",
+  "show_window": 0,
+  "preflight_sha256": "7c97ed6d45d4b2e1a0a6e27a2311db546330a150ee84a17101004b53a4c7140f",
+  "module": "scripts.survey_action_signal_v70",
+  "console": "craft_v6_out/v70_action_signal_survey/launch_v0/console.log",
+  "source_commit": "bd0b314",
+  "independent_preflight_commit": "4034174",
+  "gpu_allowed": false,
+  "maximum_work_seconds": 900,
+  "new_attempt_only": true
+}

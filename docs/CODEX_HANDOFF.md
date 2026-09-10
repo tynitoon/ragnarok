@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 03:23 Paris. Continuer entre jalons sans final aux commits.
+10 septembre 2026, 03:34 Paris. Continuer entre jalons sans final aux commits.
 Dernier utilisateur : « ça en est où ? ». Réponse : accélération NON établie ;
 six mondes ARC3 sur neuf complets, ARC4 sans entraînement Atari ni gate0.
 
@@ -35,26 +35,38 @@ Après neuf mondes complets : revue coûts/sources/résultats, score gelé puis
 figure423b770/revueaf94a62. Aucun score partiel, aucune relance automatique.
 Sources scientifiques : ARC3_PLAN.md§12.6,17fichiers gelés et anciens lanceurs.
 
-## ARC4 : prochaine exécution, survey du signal des actions
+## ARC4 : survey du signal des actions ACTIF, PID20816
+
+Collecte lancée10sept01:28:42Z viaWMIcaché ; garde horsJob passé (console),
+tentative01:28:55Z. À03:34Paris : sixièmejeuAsteroids,198archives présentes,
+pas encorederésultat, aucun STOP constaté. PAS d’autre test/benchmark/capture
+tantqueleparent et son worker n’ontpasterminé. Ne modifieraucunedes81sources.
+Pas de session unifiedexec : suivre PID20816 et fichiers survey_v0*. Le log
+JSONL est volumineux : lire uniquement dernièreligne/tail borné, pas entier.
+Intentionexclusive/fsync AVANTWMI dans launch_v0/intent.json ; dispatch.json
+retour0/PID20816. Code -c stdlib/Runpy exact, CPU1/CUDAvide, moduleinchangé.
+Ne jamaisrelancer : attempt/progress/output/rgb sont exclusifs. Encasd’arrêt,
+préserver toutestraces/comptes ; aucunretry/mêmecommande automatique.
 
 Sources bd0b314 : scripts/survey_action_signal_v70.py, tests/test_action_signal_survey_v70.py,
 docs/ARC4_ACTION_SIGNAL_SURVEY_PROTOCOL.json.26tests synthétiques PASS5,99s,
 dont panne report() après réception :7tableaux archivés AVANT RPC/journal,
 coûts incertains conservés, STOPglobal. Aucun ancien fichier changé.
-review_recovery_v62 fait maintenant la revue finale/tests/proofs() réels, sous
-C:/Python314/python.exe EXACT, CUDAvide/threads1, sansTorch/ALE/importnatif,
-sans constructeur ni NPZ réel. Attendre son reçu exclusif
-v70_action_signal_survey/preflight_v0.json, kind action_signal_survey_independent_preflight,
-TOUS champs proofs() exacts ; vérifier et committer AVANT unique run.
-Auteur audit_motion_bootstrap terminé, tests arrêtés, aucune chargeCPU en cours.
+Revue indépendante :26PASS6,20s +vrai proofs(),81sources/51preuves/16modulesAST,
+runtime parent exactsansTorch/ALE. Reçupréflight committé4034174, SHA
+7c97ed6d45d4b2e1a0a6e27a2311db546330a150ee84a17101004b53a4c7140f.
+Agents audit_motion_bootstrap et review_recovery_v62 terminés et sanschargeCPU.
+Àfin : vérifier clôture/comptes/censures sansnouveauxscriptsderelectureNPZ,
+committer artefacts/archives/console, puis revueindépendantedesrésultats.
 
 Contrat :6jeux,2ancres10000/20000imagesordinaires,18actionscontre0,
 seed19390,Random19391,8frames/branche,contrôlesNOOP+ancres exacts,
 budget30k/game/900scoopératif/1GBarchives. Admission conservatrice coûtmax,
 transport=STOPglobal, censures/inconnus conservés. Unseul worker àlafois,
 parentPythonprincipalCPU,enfant.venv-arc4. Pas de GPU ni apprentissage.
-Prévoir console et reçu de lancement durables exclusifs avant run. Aucun
-autre benchmark/capture pendant la collecte. Pas d’ancienne archive à rouvrir.
+Console dans launch_v0/console.log (-text), encoreactive, nepascommitter avantfin.
+Les copiesactuelles contiennent seulement les nouvellesbranches ; aucune
+anciennearchive n’arouverir pourinterpréter lescomptesJSON.
 
 ## Rectangle natif : benchmark terminé, gain NON établi
 
