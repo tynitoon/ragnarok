@@ -1,32 +1,53 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 09:10 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 09:35 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
 au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
 avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
 reste **non démontré**. Aucun calcul expérimental actif au dernier contrôle.
 
-## Immédiat : séparer observation et attribution
+## Immédiat : candidat de correspondance sélective à déclarer
 
 La dernière calibration locale Atari est close et négative. Ne pas poursuivre
-les réglages de cette série. Prochain jalon d’ingénierie : une interface qui
-conserve la réponse RGB de chaque horizon d’une paire de branches propre, sans
-la confondre avec une correspondance d’objet ou une cible m/C admissible.
+les réglages de cette série. Interface observation/attribution terminée :
+observed_response_targets_v70.py, contrat253a807, correction c4b789f après revue
+de l’immutabilité des métadonnées NumPy ; 27 fixtures PASS en3,3302088s,
+reçus2b7d08a, rapport22cf0e8 docs/ARC4_OBSERVED_RESPONSE_TARGETS_RESULTS.md.
+Stockage bytes/shape/dtype, vue fraîche à chaque accès. RGB par horizon exact,
+futurs manquants None, m/C toujours inconnus, zéro poids. Aucun raccord ancien.
 
-Le contrat prospectif est dans docs/ARC4_OBSERVED_RESPONSE_TARGETS_DRAFT.md.
-Implémenter ensuite les nouvelles sources, sans changer les anciens objectifs
-gelés. Fixtures CPU seulement, 60 s cumulées, zéro apprentissage, zéro nouvelle
-émulation ou lecture de données expérimentales. Les deux témoins d’occultation
-doivent rester inconnus ; une réponse RGB non vide doit néanmoins être conservée.
-Pas de mécanisme de correspondance validé à ce stade : aucune supervision m/C
-utile ne sera revendiquée. Revue contradictoire avant de proposer la suite.
+Mesure suivante déclarée avant données : docs/ARC4_SELECTIVE_CORRESPONDENCE_DRAFT.md.
+Scorer selective_correspondence_score_v70.py relu, 17 fixtures arithmétiques
+PASS en5,2088419s, aucune image ni modèle. Rapport et reçus dans
+docs/ARC4_SELECTIVE_CORRESPONDENCE_SCORE_RESULTS.md et
+craft_v6_out/v70_selective_correspondence_score/. Les deux budgets de fixtures
+sont distincts et clos, pas des résultats scientifiques de candidat.
 
-Sources utiles : ARC4_VISION.md §2.1, 2.2, 2.6 et 6 ;
-docs/ARC4_VISIBILITY_UNKNOWN_DRAFT.md, ARC4_BOOTSTRAP_LIMITS.md ;
-owned_rgb_collector_v70.py, rgb_trace_difference_v70.py,
-counterfactual_targets_v70.py, test_counterfactual_occlusion_limits_v70.py.
-Les deux agents existants, audit_motion_bootstrap et review_recovery_v62,
-ont terminé leurs dernières revues. Une relance ciblée emploie followup_task.
+Contrat :5strates256scènes IID chacune,1requête juge invisible au modèle par scène.
+9exigences à alpha=.05/9 :pour2visibles,CPsup erreur|admis≤.05,CPinf couverture
+correcte≥.5,gain observé vsinitial≥.1 ET binomial apparié p≤alpha ;pour3nonattribuables,
+CPsup admissionindue≤.05.4témoinsoccultationdéterministesenplus. Archiver toutes
+les admissions AVANT juge et les1280verdicts. Cela ne certifie ni validitédense,
+ni variabilitéentreentraînements,nirisquesaprèsintersection des admissions m/C.
+
+Aucun générateur ou nouveau candidat d’apprentissage implémenté à ce stade.
+Piste en revue : encodeur RGB pointwise appris de zéro, associations softmax,
+cycles temporels ; observation après réception uniquement, sans futuro-prédiction.
+audit_motion_bootstrap recommande des points uniques avec exposition globale
+variable positive sans clipping pour distinguer apprentissage de simple égalité
+RGB. Couleurs/dispositions nouvelles au test ; pas d’exposition/identité/position
+du juge au réseau. Doublons/occultation/sortie évaluent l’abstention. Les aplats
+imposent une borne log(k) à la perte cyclique, pas de critère perte nulle.
+Un code local de commande reste distinct des12effets sémantiques ; rien ne change
+la politique. Préparer un protocole candidat complet puis le faire relire AVANT
+données/entraînement. Ne pas adopter un seuil après observation.
+
+Source primaire consultée : https://arxiv.org/html/2006.14613v2 (§2,annexesA/C),
+https://ajabri.github.io/videowalk/ et READMEgithub ; aucun poids/dataset téléchargé.
+Il s’agira d’une adaptation, pas d’une reproduction des résultats du papier.
+Sources locales utiles : ARC4_VISION §2.1/2.2/2.6/6, VISIBILITY_UNKNOWN_DRAFT,
+BOOTSTRAP_LIMITS, LOCAL_COMMAND_BOOTSTRAP_DRAFT. Les deux agents existants
+audit_motion_bootstrap et review_recovery_v62 sont disponibles pour revues ciblées.
 
 ## ARC 3 clos : INCONCLUSIVE
 
