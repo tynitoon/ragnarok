@@ -85,7 +85,8 @@ def review(root, result_commit, review_started):
     def read(relative):
         path = bind(relative)
         return json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=strict_pairs,
-                          parse_constant=lambda v: (_ for _ in ()).throw(ValueError(v)))
+                          parse_constant=lambda v: math.inf if relative == 'craft_v6_out/v61_gate_v62.json' and v == 'Infinity'
+                          else (_ for _ in ()).throw(ValueError(v)))
 
     def text(relative):
         return bind(relative).read_text(encoding='utf-8')
@@ -139,6 +140,16 @@ def review(root, result_commit, review_started):
     bind_map(prior['inputs'], 'craft_v6_out/')
     bind('craft_v6_out/v61_gate_v62.json', prior['gate_sha256'])
     gate = read('craft_v6_out/v61_gate_v62.json')
+    nonfinite = []
+    def visit(value, path=()):
+        if isinstance(value, dict):
+            for k,v in value.items(): visit(v,path+(k,))
+        elif isinstance(value, list):
+            for k,v in enumerate(value): visit(v,path+(k,))
+        elif isinstance(value,float) and not math.isfinite(value):
+            nonfinite.append((path,value))
+    visit(gate)
+    require(nonfinite == [(('summary','b_star_median','2',0),math.inf)], 'Unexpected nonfinite gate value')
     require(gate['worlds'] == [8102, 8103] and gate['b_max'] == 6 and gate['num_envs'] == 64
             and gate['store_persists'] is True and gate['summary']['N'] == 9 and gate['summary']['B_test'] == 6
             and all(gate['summary'][k] is True for k in ('reachable', 'fresh_learns', 'room', 'proceed')), 'Gate prerequisite differs')
@@ -380,6 +391,9 @@ def review(root, result_commit, review_started):
             total_with_ceil_window_and_full_review_seconds=base_cost+math.ceil(window)+math.ceil(review_seconds)),
         review_cost=dict(started_utc=review_started.isoformat(),metadata_program_seconds=time.monotonic()-start,git_calls=git_calls,
                         full_review_wall_seconds=review_seconds,gpu_work=0,inferences=0,weight_decodes=0,world_constructions=0,score_calls=0),
+        verifier_history=[dict(source_commit='4c3d248',status='stopped_before_receipt',elapsed_tool_seconds=1.3045589,
+             reason='Strict JSON constant reader rejected the frozen gate Infinity sentinel at summary.b_star_median.2[0].',
+             resolution='Only that historically hash-bound gate constant is permitted and its exact location verified; every confirmation/pretraining curve remains strictly finite. No source, data, score, threshold or receipt was replaced.')],
         checks=['All 17 frozen scientific source bytes equal a189ea5 and committed HEAD; section 12.6 unchanged.',
                 'Three complete pretraining lineages and 12 distinct checkpoint byte hashes match the earlier independently reviewed probe; no tensor decoded.',
                 'Every complete arm JSON exactly equals its lineage; the nine-unit JSON exactly equals their ordered concatenation.',
