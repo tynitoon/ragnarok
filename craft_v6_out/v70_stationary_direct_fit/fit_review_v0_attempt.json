@@ -1,0 +1,31 @@
+{
+  "kind": "stationary_direct_independent_review_attempt",
+  "created_utc": "2026-09-10T06:29:19.890606+00:00",
+  "result_sha256": "cea34fdcdc5f1de67e6edc595184a6b961770a018700874fc2a3461f5d6b37b5",
+  "closed_commit": "2b2de7e",
+  "protocol": {
+    "version": 0,
+    "max_review_seconds": 120,
+    "cpu_threads": 1,
+    "gpu_used": false,
+    "complete_metric_rows": 120,
+    "complete_bce_comparisons": 9,
+    "complete_evaluation_archives": 12,
+    "complete_decoded_evaluation_members": 18,
+    "complete_target_members": 1,
+    "complete_checkpoint_decodes": 2,
+    "metric_atol": 1e-12,
+    "bce_atol": 1e-06,
+    "bce_rtol": 1e-06,
+    "sigmoid_atol": 1e-07,
+    "total_threshold": 0.5,
+    "component_threshold": 0.5,
+    "component_metrics": "descriptive only",
+    "partial_execution": "audit available registered artifacts and accounting; retain INCOMPLETE; no scientific PASS",
+    "budget_scope": "all verification through final evidence rehash; final receipt and console excluded",
+    "forbidden": "model construction, model forward, backward, optimizer, simulation, new data and future-branch decoding",
+    "retry": false
+  },
+  "reviewer_sha256": "a91a5796636c63f8366dfa9a3423f31ad3fa41999a0a5ba887bcab3e97ad0f9b",
+  "arithmetic_helper_sha256": "6666e25037cc3c7146eb531cb7d8e36551235c422696cd227cc851d305ee54fa"
+}
