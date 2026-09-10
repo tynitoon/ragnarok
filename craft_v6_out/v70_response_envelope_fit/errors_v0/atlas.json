@@ -1,0 +1,45 @@
+{
+  "kind": "reviewed_response_envelope_fit_error_atlas",
+  "evidence_sha256": {
+    "craft_v6_out/v70_response_envelope_fit/fit_v0.json": "9472d1153ea590b50fb3bd0a8f37baf5a989392604ade6bde60501a5155bad4a",
+    "craft_v6_out/v70_response_envelope_fit/fit_review_v0.json": "3df95a49c616d980c940b9ae20260a8e5c912560eecf07c6e0a8ad7f122d0467",
+    "craft_v6_out/v70_response_envelopes/targets_v0.json": "d3c662ac1c269ff723add3e4417689a9dc57e7aa1745e9a700a7940bf78b6659",
+    "craft_v6_out/v70_response_envelopes/targets_v0.npz": "3221b9bae8d2c4f3af771f7af6ee08a66733d2e5c6744c917be601d88c31e03f",
+    "craft_v6_out/v70_response_envelope_fit/final_predictions.npz": "c4e84fbe7b6b1b12c0c65fec6597b5855005936da4069a93fa36b4f6a9c5d82f",
+    "scripts/figure_response_envelope_fit_errors_v70.py": "e216a7e7aaef1446e2b621ea10d881244e0d9150d392f4814fd3bbce21ab539c"
+  },
+  "artifacts": {
+    "pong.png": {
+      "sha256": "8f40d27b904de1bd09a98ff2dff25de41d1a43076972ddb875333e08f57ce19b",
+      "bytes": 77423
+    },
+    "breakout.png": {
+      "sha256": "68df451de47f27beae9da407f6cf083e6a02e60e6d4c5f94ad38fd6bfefaf5ce",
+      "bytes": 81102
+    },
+    "freeway.png": {
+      "sha256": "c01765402f3c2d49320654ada393666161fd38f5e5abc67fa891b29cb1e15c1c",
+      "bytes": 88876
+    },
+    "seaquest.png": {
+      "sha256": "c961c4485f81883b59371d7c4323541923ee3cc2d6b3a00ad672aa4cda461324",
+      "bytes": 83997
+    },
+    "ms_pacman.png": {
+      "sha256": "469d88315739951388f14b3f169795415e05c7655ed48380cf4d8d792a3f659f",
+      "bytes": 85172
+    },
+    "asteroids.png": {
+      "sha256": "076d2f6f94524f13e69c21d6e3980c745d2d4c81891c2ed4ee1b893b83be18ff",
+      "bytes": 83133
+    }
+  },
+  "all_development_anchors": 12,
+  "probability_threshold": 0.5,
+  "arrays_decoded": 3,
+  "source_branch_archives_decoded": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "new_emulated_frames": 0,
+  "purpose": "post-result descriptive visualization only; no selection or revised criterion"
+}
