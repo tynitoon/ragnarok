@@ -17,6 +17,8 @@ supplémentaires, tous initialisés àzéro. Sa sortie est la somme du logit CNN
 et de cette voie directe. Les10184paramètres sont entraînés ensemble. Aucun
 coefficient affine appris, poids du juge ou règle de couleur ne sera transféré.
 Le modèle ne contient ni coordonnées ni paramètre lié à une palette ou un jeu.
+Ses poids RGB encodent l'apparence ; cette restriction n'est pas une garantie
+d'invariance aux changements de palette.
 
 Construire d’abord le CNN avec le seed764 et l’ordre de tirages inchangés,
 puis les sept zéros sans consommer de hasard. Les coefficients CNN initiaux
@@ -27,6 +29,22 @@ Précisionfloat32, mêmes douze cas observés, même BCE équilibrée et même A
 annoncée, avec le témoin CNN antérieur archivé sous la même recette ; aucune
 réexécution de ce témoin n’est prévue.
 
+Un manifeste d'identité initiale sera dérivé, côté vérification, de l'ancien
+checkpoint aléatoire : une lecture de ce checkpoint, sans modèle ni forward,
+et uniquement des signatures de ses tenseurs, du lot, des logits/probabilités
+et des mesures initiales. Aucun poids n'est fourni au candidat par ce manifeste.
+Le candidat comparera son initial généré aux signatures AVANT l'optimisation.
+Cette petite préparation CPU1 est limitée à30s et100KB, sans nouvelle donnée.
+
+Conserver séparément les logits CNN et directs, ainsi que leur somme, pendant
+les trois évaluations déjà comptées. Calculer les métriques de retrait de chaque
+contribution depuis ces tableaux, sans nouveau forward ni seuil supplémentaire.
+Ces retraits décrivent la fonction finale ; ils n'identifient pas une cause de
+l'apprentissage, car les contributions et les deux biais peuvent se compenser.
+Le clipping global inclut dès le départ les gradients des sept paramètres ;
+la somme change ensuite aussi les gradients CNN. Un PASS pourrait être porté
+entièrement par la voie directe, sans progrès des représentations du CNN.
+
 ## Déclaration de résultat
 
 Critère de développement inchangé : IoU≥0,25, avance≥0,10 sur le meilleur
@@ -34,6 +52,8 @@ de la constante apprise, de l’initial et de la sortie zéro, FP≤0,001 sur ch
 des deux cas vides. Toutes les douze lignes et les trajectoires de BCE sont
 publiées. Ni arrêt anticipé sur un score, ni changement de seuil, ni allongement
 des256étapes. Les anciennes validations conditionnelles restent fermées.
+Les temps restent descriptifs : les charges ARC3 diffèrent du témoin historique,
+donc aucune amélioration causale de vitesse d'exécution ne sera revendiquée.
 
 Une tentative CPU1, sans GPU,1200s dont10s de clôture et64MB de sorties.
 512updates et trois évaluations de lot : initial commun et deux bras finaux.
