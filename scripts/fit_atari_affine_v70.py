@@ -16,7 +16,7 @@ from scripts.fit_response_envelope_v70 import (
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'craft_v6_out/v70_atari_affine_fit'
-PREFLIGHT = FOLDER / 'preflight_v0.json'
+PREFLIGHT = FOLDER / 'preflight_v1.json'
 PROTOCOL = ROOT / 'docs/ARC4_ATARI_AFFINE_PROTOCOL.json'
 SOURCES = ('ragnarok/learning/affine_response_envelope_v70.py',
            'tests/test_affine_response_envelope_v70.py',
@@ -61,6 +61,19 @@ SPEC = dict(
     claim='sufficiency of this bounded local-linear recipe on observed envelopes only; not necessity of context, mastery or acceleration')
 
 
+def prior_status_valid(result, review):
+    """Honor the exact historical receipt schemas instead of assuming new fields."""
+    if result.get('execution_status') != 'complete' or result.get('failures') != []:
+        return False
+    if result.get('kind') == 'response_envelope_development_fit':
+        checks = review.get('checks', {})
+        return (result.get('failure') is None
+                and checks.get('preflight_attempt_payload_proof_maps_equal') is True
+                and checks.get('all_hashed_files_match_committed_git_blobs') is True)
+    return (result.get('kind') in ('stationary_affine_development_fit', 'stationary_direct_path_development_fit')
+            and result.get('final_provenance_verified') is True)
+
+
 def proofs():
     """Verify the actual target dependencies and attested prior results, without decoding arrays."""
     checked = target_proofs()
@@ -73,8 +86,7 @@ def proofs():
         if sha(result_path) != result_hash or sha(review_path) != review_hash:
             raise ValueError('Previously reviewed result changed')
         result, review = (json.loads(path.read_text(encoding='utf-8')) for path in (result_path, review_path))
-        if (result['execution_status'] != 'complete' or result['passed'] is not passed
-                or result['final_provenance_verified'] is not True
+        if (not prior_status_valid(result, review) or result['passed'] is not passed
                 or review.get('kind') != review_kind or review.get('passed') is not True
                 or review.get('result_sha256') != result_hash or review.get('source_sha256') != result['source_sha256']
                 or any(result['source_sha256'].get(k) != v for k, v in checked['source_sha256'].items())):

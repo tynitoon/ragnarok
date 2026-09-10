@@ -80,3 +80,18 @@ du contexte : architecture, précision, initialisation et optimiseur diffèrent.
 Cette tentative n’autorise ni les validations conditionnelles fermées, ni un
 jeu réservé, ni le raccord P→m→C/ME, ni le gate0. Ce sera le dernier repère
 linéaire local de cette série, sans enchaîner des réglages pour obtenir un PASS.
+
+## Correction de provenance avant tout fit
+
+Le préflight v0 s’est arrêté avant décodage, en5,4432969s : le premier résultat
+Atari n’a pas le champ récent `final_provenance_verified`. Son schéma est
+désormais vérifié explicitement par l’absence d’erreur et les deux contrôles
+de provenance de sa revue historique épinglée. Les résultats plus récents
+conservent l’obligation de leur indicateur final ; aucune valeur vraie par
+défaut n’est admise. Trois fixtures ciblées couvrent cette distinction.
+
+Le reçu négatif v0 et sa tentative restent scellés2a8d09e, SHA du reçu
+5ab4cfe12c7e1d860227371dedb88bfd554af24e473aa6150fff4c368d0653ad.
+La vérification corrigée utilisera un reçu v1 distinct lié à cet historique,
+avec comptage cumulé du préflight sous60s. Aucun fit, tableau décodé, gradient
+ou mise à jour n’a été consommé ; la recette scientifique reste identique.

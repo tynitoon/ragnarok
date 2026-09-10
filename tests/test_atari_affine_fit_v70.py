@@ -41,6 +41,24 @@ def test_import_never_loads_a_generator_certificate_or_emulator():
                 'ragnarok.environments.stationary_intervention_v70', 'ale_py'} & sys.modules.keys()
 
 
+def test_legacy_schema_requires_its_explicit_review_proofs():
+    prior = dict(kind='response_envelope_development_fit', execution_status='complete', failures=[], failure=None)
+    checks = dict(preflight_attempt_payload_proof_maps_equal=True, all_hashed_files_match_committed_git_blobs=True)
+    assert fit.prior_status_valid(prior, dict(checks=checks))
+    for key in checks:
+        assert not fit.prior_status_valid(prior, dict(checks={k: v for k, v in checks.items() if k != key}))
+    assert not fit.prior_status_valid(dict(prior, failures=[{'stage': 'final_provenance_or_time'}]), dict(checks=checks))
+
+
+@pytest.mark.parametrize('kind', ['stationary_affine_development_fit', 'stationary_direct_path_development_fit'])
+def test_modern_schemas_cannot_inherit_a_missing_provenance_flag(kind):
+    prior = dict(kind=kind, execution_status='complete', failures=[])
+    assert not fit.prior_status_valid(prior, {})
+    assert not fit.prior_status_valid(dict(prior, final_provenance_verified=False), {})
+    assert fit.prior_status_valid(dict(prior, final_provenance_verified=True), {})
+    assert not fit.prior_status_valid(dict(prior, kind='unrecognized', final_provenance_verified=True), {})
+
+
 def test_loader_decodes_only_past_and_observed_labels(monkeypatch):
     past = np.zeros((12, 2, 210, 160, 3), np.uint8)
     targets = np.zeros((12, 210, 160), bool)
