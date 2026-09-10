@@ -1,12 +1,49 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 10:26 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 10:36 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
 au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
 avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
 reste **non démontré**. Aucun calcul expérimental actif au dernier contrôle.
 
-## Immédiat : vérifier puis exécuter le candidat photométrique déclaré
+## Immédiat : STOP technique, proposition prête à soumettre à Jérémie
+
+La tentative photométrique unique a été exécutée à 10:25:55 Paris et s’est
+arrêtée à la garde CPU après la génération. **Zéro initialisation 782, réseau,
+forward, gradient, mise à jour ou score de production.** Le masque CUDA vide
+laisse le GPU visible sur cette installation. Aucun calcul expérimental actif.
+
+Arrêt et archives conservés en b18719f, fit_v0.json SHA
+0dd96f31d2730fdd514d83cb204f6af2d40c79b411ad8a2fc69a3d646729f9f1.
+7,4001315 s avant le reçu final ; dossier 3 467 616 octets à la revue.
+27 sources et 30 artefacts vérifiés par audit_motion_bootstrap, sans décoder de
+tableau : docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_ABORT_REVIEW.md.
+4 224 images et 24 vues de contrôle conservées ; aucun marqueur de succès,
+checkpoint, journal d’update, réponse ou score du candidat.
+
+Diagnostic CPU séparé, scripts/probe_cpu_cuda_mask_v70.py : deux processus
+frais sans tenseur, modèle ou optimiseur ; masque vide → disponibilité CUDA
+vraie, masque -1 → fausse, 6,6171842 s. Résultat
+craft_v6_out/v70_cpu_cuda_mask_diagnostic/probe_v0.json, SHA
+c4a18ac39ec68a098f09cf9eb629e94cb7f0bcc679be11cc0ad707d1d8f56645.
+Ne pas refaire ce diagnostic et ne pas confondre visibilité avec calcul GPU.
+
+**Pas de relance autorisée actuellement.** Le contrat gelé dit « Toute erreur,
+dépassement ou non-finitude arrête sans recommencer ». La proposition préparée
+en b863391 est dans docs/ARC4_PHOTOMETRIC_TECHNICAL_RECOVERY_PROPOSAL.md,
+avec scripts/photometric_technical_recovery_v70.py. Elle nécessite l’accord
+explicite de Jérémie pour cette exception au STOP, pas une simple automation.
+Le wrapper conserve les 27 sources et les données, corrige seulement le masque
+à -1 et la destination des reçus, 280 s CPU1, 64 MB sur les trois dossiers.
+8+7+280=295 s de calcul actif conservativement débité ; la fenêtre continue
+d’origine est explicitement remplacée seulement si Jérémie l’autorise.
+
+review_recovery_v62 relit la proposition ; ensuite seul son preflight en lecture
+peut être préparé. Aucun run/worker/judge de reprise avant accord utilisateur.
+La commande run exige --owner-approved-technical-recovery ; ne pas fournir ce
+flag sans la réponse réelle de Jérémie. Aucun fichier de reprise encore produit.
+
+## Candidat déclaré et instruments disponibles
 
 La dernière calibration locale Atari est close et négative. Ne pas poursuivre
 les réglages de cette série. Interface observation/attribution terminée :
@@ -39,7 +76,7 @@ similarité aux extrémités ≥0,95. Raw seulement ; pooled inconnu sans résea
 garde structurelle qui ne compte pas comme abstention apprise. Les aplats ont
 une perte irréductible, et un faux cycle peut être cohérent.
 
-Implémentation et vérifications prospectives terminées ; fit non lancé :
+Implémentation et vérifications prospectives terminées, tentative arrêtée :
 ragnarok/learning/photometric_correspondence_v70.py (socle e062d6e),
 ragnarok/evaluation/photometric_scenes_v70.py,
 scripts/photometric_common_v70.py, photometric_worker_v70.py,
@@ -53,18 +90,18 @@ Pas de position, strate, identité ou exposition du juge au réseau.
 Deux processus distincts : génération et archives RGB/juge, puis fit qui ne
 décode que les quatre NPZ RGB à membre unique. 512 Adam, mini-lots4 fixes,
 initial exact conservé puis évalué après entraînement ; témoin RGB normalisé
-descriptif. 674 appels appris, 13 848 images encodées, 81 associations témoin,
+descriptif. Attendus si complet : 674 appels appris, 13 848 images encodées, 81 associations témoin,
 4 556 bmm explicites de forward. Les opérations internes de backward/convolution
 ne sont pas comptées comme ces bmm. 4 224 nouvelles images, 24 vues de contrôle.
 
-Lanceur : python -m scripts.photometric_correspondence_v70
-avec successivement fixtures, preflight, run ; judge seulement après revue
-technique indépendante fit_review_v0.json liée au SHA de fit_v0.json.
+Ancien lanceur : scripts.photometric_correspondence_v70, maintenant arrêté.
+Ne pas refaire ses phases. Un éventuel juge de reprise exige d’abord une revue
+technique indépendante fit_review_v0.json liée au SHA d’un fit complet.
 Dossier craft_v6_out/v70_photometric_correspondence/ : 21 fixtures PASS en
 4,5945252 s murales (pytest 3,10 s), un backward, zéro mise à jour ; reçus et
 clôture positive 742a9cb. Préflight conforme de 27 sources et runtime, 011d232.
-Implémentation 1df8e81, frontière de clôture cb7f55e ; aucune génération de
-production ou initialisation782 encore effectuée. Ne pas refaire les fixtures.
+Implémentation 1df8e81, frontière de clôture cb7f55e ; génération terminée,
+initialisation782 jamais effectuée. Ne pas refaire les fixtures.
 Budgets : fixtures 60 s cumulées, un backward maximum, zéro update ; production
 300 s murales incluant imports/génération/fit/inférences, réserve15 s, CPU1,
 64 MB ; un juge séparé60 s, un seul score, aucun nouveau réseau ou RGB.
@@ -72,13 +109,13 @@ Budgets : fixtures 60 s cumulées, un backward maximum, zéro update ; productio
 Revues du lanceur : corrections prospectives pour sauvegarde par lot, événements
 fsync avant/après les updates, bornes du travail interrompu, préflight lié à ses
 octets, admission des écritures sous plafond, clôture indépendante des erreurs.
-audit_motion_bootstrap relit le dernier delta de clôture. Revue du juge conforme :
+audit_motion_bootstrap a validé le dernier delta avant lancement. Juge relu :
 contrôles exacts avec deux branches chacun, empreintes et runtime recontrôlés.
 Un score utilisable exige reçu complet ET marqueur positif de clôture lié à son
 SHA (un reçu complete seul ne suffit pas), sans marqueur d’échec. L’amendement2
 précise que seuls le dernier lien atomique et la console sont hors du temps
 scientifique ; payloads, fsync, relectures et SHA sont dedans. Aucun calcul après
-publication. Ne pas relancer une tentative existante. Production encore absente.
+publication. L’arrêt actuel ne possède aucune clôture positive de production.
 
 Après propositions scellées et revue : conserver les 1 280 verdicts avant score,
 les réponses aux huit clips de contrôle, les rangs initial/final avant abstention
