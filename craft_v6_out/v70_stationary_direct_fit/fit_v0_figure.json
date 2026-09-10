@@ -1,0 +1,20 @@
+{
+  "kind": "reviewed_stationary_direct_fit_figure",
+  "result_sha256": "cea34fdcdc5f1de67e6edc595184a6b961770a018700874fc2a3461f5d6b37b5",
+  "review_sha256": "723596fefb4a094c38053d9cd40b019abd57c5f7f69b202b86f51a21e8bef978",
+  "journal_sha256": "d2df9767d28f92dd5fa2e4e2138bdf0a82720fc7d6d013b55ef987724b264be7",
+  "figure_sha256": "6b176e1dac65d70885408c1be1ffe3f4ac5c10cd42ed4564de830acfc57756fd",
+  "source_sha256": {
+    "scripts/figure_stationary_direct_v70.py": "0eb5ddb6a3df16513a490f04964aba925c6f4146430f189e005ddc672b6d79da",
+    "scripts/figure_response_envelope_fit_v70.py": "d71050d2449d2de1a2d6f09a9e0841a4efa1f2efa84494b7752a1fd4cfd04503"
+  },
+  "arrays_opened": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "limits": [
+    "Le critère porte uniquement sur la somme. Les contributions ont été sauvegardées pendant les mêmes trois évaluations.",
+    "Retirer une contribution décrit la fonction finale ; cela ne mesure pas son rôle causal pendant l’apprentissage. Les biais peuvent se compenser.",
+    "Moyennes par paire, puis entre les cinq paires non vides. Un score moyen favorable peut masquer des cas entièrement manqués.",
+    "Aucun jeu maîtrisé, généralisation indépendante, transfert ou apprentissage accéléré démontré par ce fit."
+  ]
+}
