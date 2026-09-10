@@ -1,0 +1,33 @@
+{
+  "kind": "stationary_affine_family_attempt",
+  "created_utc": "2026-09-10T05:41:33.013737+00:00",
+  "protocol": {
+    "version": 0,
+    "primary": "newton_visual",
+    "coefficient_sets": [
+      "initial",
+      "newton_visual",
+      "newton_constant",
+      "adam_visual",
+      "adam_constant"
+    ],
+    "arithmetic": "exact rational float64 coefficients",
+    "positive_condition": "b + (w0+w3) + min(0,w1+w4) > 0",
+    "negative_condition": "b + max(0,w1+w4) + max(0,w2+w5) < 0",
+    "max_work_seconds": 60,
+    "cleanup_reserve_seconds": 10,
+    "max_output_bytes": 1000000,
+    "cpu_threads": 1,
+    "gpu_used": false,
+    "max_state_archives": 2,
+    "certificates": 5,
+    "model_products": 0,
+    "gradients": 0,
+    "optimizer_updates": 0,
+    "image_decodes": 0,
+    "new_synthetic_steps": 0,
+    "new_emulated_frames": 0,
+    "retry": false,
+    "claim": "Exact learned affine function on the declared synthetic family only; not all floating-point roundings"
+  }
+}
