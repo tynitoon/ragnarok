@@ -121,11 +121,12 @@ Revue indépendante déposée : fit_review_v0.json, SHA
 de métriques conforme à 1,11e-16 près, sans inférence. Validité instrumentale
 PASS, résultat scientifique FAIL. Témoin constant uniforme 0,416665524,
 proche de son optimum analytique 5/12 ; l’initial prédit tout positif.
-À faire : committer cette revue puis générer et voir la
-figure JSON-only préparée 6e5099d (PAS encore exécutée) :
+Revue committée ; figure JSON-only préparée 6e5099d, générée une fois et vue
+sans défaut de présentation : v70_response_envelope_fit/fit_v0.png et
+fit_v0_figure.json. Source :
 scripts/figure_response_envelope_fit_v70.py attend fit_review_v0.json de kind
 response_envelope_fit_independent_result_review. Aucun tableau NPZ ouvert par
-cette figure. Voir le PNG après génération, committer, poursuivre au jalon suivant.
+cette figure. La courbe décroissante ne prouve ni convergence ni limite de capacité.
 
 Hypothèse source : ARC4_RESPONSE_ENVELOPE_DRAFT.md. La cible d’écarts futurs
 est distincte de C/m/ME, sans tracker ni mouvement préalable. Pas de bouton,

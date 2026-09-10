@@ -1,0 +1,18 @@
+{
+  "kind": "reviewed_response_envelope_fit_figure",
+  "result_sha256": "9472d1153ea590b50fb3bd0a8f37baf5a989392604ade6bde60501a5155bad4a",
+  "review_sha256": "3df95a49c616d980c940b9ae20260a8e5c912560eecf07c6e0a8ad7f122d0467",
+  "journal_sha256": "a86e31943a17f7980c63d5860e6e041741e2b89bbc8d99eaf87537f076e979bd",
+  "figure_sha256": "1f262336c042cfa127e162881471cbfb4632b4ae017e320f5188d0ec0b485007",
+  "source_sha256": "d71050d2449d2de1a2d6f09a9e0841a4efa1f2efa84494b7752a1fd4cfd04503",
+  "arrays_opened": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "limits": [
+    "IoU moyen : 0.047 (minimum 0,25) · avance sur le meilleur témoin : 0.042 (minimum 0,10).",
+    "Seaquest, deux cibles vides : 0.565 % et 0.161 % de faux positifs (maximum 0,1 % pour chacune).",
+    "Les mesures regroupent les ancres par jeu ; les cibles vides sont évaluées séparément, sans IoU artificiellement parfait.",
+    "La cible réunit les écarts des commandes face à NOOP sur huit images futures. Elle ne désigne pas un objet physique.",
+    "Un ajustement sur ces images reste compatible avec leur mémorisation. Aucun jeu maîtrisé, transfert ou apprentissage accéléré établi."
+  ]
+}
