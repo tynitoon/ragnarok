@@ -1,0 +1,11 @@
+{
+  "kind": "atari_affine_independent_preflight_attempt",
+  "created_utc": "2026-09-10T06:41:59.737299+00:00",
+  "source_commit": "79ee2e1",
+  "maximum_wall_seconds": 60,
+  "one_proofs_call": true,
+  "cpu_threads": 1,
+  "npz_or_pt_decoding_allowed": false,
+  "model_or_numeric_operation_allowed": false,
+  "tests_allowed": false
+}

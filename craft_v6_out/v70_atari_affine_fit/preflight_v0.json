@@ -1,0 +1,37 @@
+{
+  "kind": "atari_affine_independent_preflight",
+  "passed": false,
+  "created_utc": "2026-09-10T06:42:05.180595+00:00",
+  "source_commit": "79ee2e1",
+  "declaration_commit": "c3300df",
+  "preflight_attempt_sha256": "1beaba508321c5f29b921186d195cad76e7e890d3958a161944677c313398aba",
+  "checks": {},
+  "failures": [
+    {
+      "type": "KeyError",
+      "message": "'final_provenance_verified'"
+    }
+  ],
+  "costs": {
+    "wall_seconds": 5.443296900004498,
+    "main_process_cpu_seconds": 4.65625,
+    "hard_wall_limit_seconds": 60,
+    "cpu_threads": 1,
+    "gpu_used": false,
+    "configure_runtime_calls": 1,
+    "proofs_calls": 1,
+    "no_decoded_archives": true,
+    "no_model_or_optimizer_operation": true,
+    "no_tests": true
+  },
+  "limits": [
+    "This preflight validates source/provenance only; the fit has not run.",
+    "The candidate was selected adaptively after results on these observed development cases.",
+    "A PASS would establish sufficiency of this bounded local RGB recipe on the observed targets only.",
+    "A FAIL after sixteen steps does not prove contextual necessity, global BCE optimality, global IoU optimality or a defective Newton solver.",
+    "Initial, trained constant and zero controls are fixed; all twelve cases and both empty cases remain published with probability threshold 0.5.",
+    "No independent generalization, Atari mastery, object identities, C/ME, transfer, acceleration or authorization of closed conditional validations follows.",
+    "The historical results include other architectures, precisions and recipes; their comparison does not isolate one causal optimizer or contextual effect.",
+    "Imports include Torch for inherited runtime/metrics definitions, with construction, forward, backward, loads and optimizers guarded."
+  ]
+}
