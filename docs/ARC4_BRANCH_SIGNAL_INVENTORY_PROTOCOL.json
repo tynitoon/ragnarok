@@ -1,0 +1,50 @@
+{
+  "kind": "prospective_branch_signal_inventory_v0",
+  "spec": {
+    "case_names": ["pong", "breakout", "freeway", "seaquest", "ms_pacman", "asteroids", "pong_prefix_1", "pong_prefix_2", "pong_prefix_3"],
+    "present_pairs": 6,
+    "absent_pairs": 3,
+    "horizons": [1, 2, 3, 4, 5, 6, 7, 8],
+    "image_kinds": ["raw", "pooled"],
+    "geometry": [210, 160, 3],
+    "pixels_per_frame": 33600,
+    "intervention_frames": 8,
+    "control_frames": 8,
+    "requested_action": 5,
+    "control_action": 0,
+    "anchor_frame": 576,
+    "anchor_epoch": 0,
+    "operation_index": 145,
+    "max_work_seconds": 300,
+    "cpu_threads": 1,
+    "model_inferences": 0,
+    "optimizer_updates": 0,
+    "new_emulated_frames": 0
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "cuda_visible_devices": "",
+    "numerical_threads": {"OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1"}
+  },
+  "population": "All nine fixed owned-native cases: six action5 versus NOOP0 pairs, then three absent Pong-prefix pairs. No new selection, seed, emulator, model or ordinary image read.",
+  "array_access": "Hash all nine NPZ files and inspect member names. Materialize only branch_start_pair plus branch_intervention/control_raw/pooled/endpoint on six pairs, exactly42 arrays. Never materialize ordinary members. Reject extra member names or unexpected geometry/dtype/length; verify adjacent max-pooling from the real anchor and endpoint.",
+  "statistics": "For every raw/pooled horizon1..8 count True pixels in any(RGB_intervention != RGB_control), divide by33600, and retain cumulative union, first-change histogram, common prefix and unpaired lengths. Missing horizons are null/unknown. Histogram0 means no change within the observed common prefix, never a physical no-control label. A zero-length/absent pair has null never-changed/all-zero statistics.",
+  "prerequisites": "Pinned owned-native result5db50e4ee27fedf0ec77a62fab9c13efd309749f7a127e47d73ec4f56ae886af and review8b4105ce479e7d990293a89ce8ea3789506600729f3e1f721dbf59653f04a668; preserved CPU diagnostic610ef8a238449939290efa6ad3cbdb2bfe886cbfc5efddf032113540fd85971d and review574e1881b67bb1e5e07c8f05c9433533eb09abdbd30507a37465cb5082eac9aa. Verify their separate source/evidence maps and result strings, all hashes and committed blobs without importing old modules. Commit new sources/protocol then exact independent preflight before any real NPZ load.",
+  "preflight_kind": "branch_signal_inventory_independent_preflight",
+  "work_ceiling": "300 seconds CPU work, cooperative checks before/after each case and after all cases; initial/final proof hashing excluded. No timing performance claim.",
+  "stop": "One exclusive durable attempt before first NPZ open, exclusive result, no retry or overwrite. Preserve failed phase/current case/completed cases. Verify archive SHA before/after reading and exact preflight again after work. Hard interruption leaves started/partial evidence, not permission to retry.",
+  "success": "All nine cases accounted for, six validated8/8 pairs and three explicit absences, exact counters and unchanged sources/evidence. Descriptive inventory only, not a minimum signal threshold or scientific learning PASS.",
+  "agent_training_allowed": false,
+  "gate_result": null,
+  "limitations": [
+    "No objects, optical flow, displacement, correspondence, visibility, m/C targets, ME, inference, optimizer, GPU or new emulator frames.",
+    "Nonzero paired RGB change is an observed consequence at a future screen coordinate, not necessarily a directly controlled source object.",
+    "Observed equality does not establish physical immobility, absent controllability, or equality outside the common observed horizon.",
+    "The six preselected engineering anchors each use action5 against0; no diversity of actions, learning, generalization, transfer or Atari signal-frequency estimate is established.",
+    "Preserved zero C supervision is linked through its existing result/review only; no model is rerun and no old eligibility reason is inferred.",
+    "Raw and pooled differences are reported separately; max-pooling may mask or prolong a difference. No representation is selected from these results.",
+    "Former negative fits, gate criteria, budgets and STOP rules remain unchanged. This inventory authorizes no later training or collection."
+  ]
+}
