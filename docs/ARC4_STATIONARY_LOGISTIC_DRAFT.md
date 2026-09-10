@@ -64,8 +64,11 @@ le verdict primaire est celui de Newton, Adam reste un témoin annoncé.
 Les deux PASS montreraient qu’une recette de premier ordre suffit dans cette
 paramétrisation simple. Newton PASS et Adam FAIL montreraient qu’un échec de
 cette recette Adam existe même sans profondeur, et ne justifieraient pas à eux
-seuls un raccord résiduel au CNN. Newton FAIL impose l’examen du solveur avant
-un tel raccord. Aucune issue ne désigne une cause unique de l’échec CNN : la
+seuls un raccord résiduel au CNN. Newton FAIL impose l’examen du solveur et de
+la limite de16 pas avant un tel raccord ; il ne prouve pas un défaut numérique.
+Les deux budgets diffèrent : aucune efficacité à calcul égal ni causalité du
+seul optimiseur ne sera déduite de cette comparaison. Aucune issue ne désigne
+une cause unique de l’échec CNN : la
 paramétrisation, l’initialisation et la précision diffèrent de cet ancien fit.
 
 Une tentative CPU1, CUDA vide,300s dont10s de clôture,64MB de sorties binaires.

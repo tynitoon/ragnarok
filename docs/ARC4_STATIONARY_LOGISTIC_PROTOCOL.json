@@ -1,0 +1,64 @@
+{
+  "version": 0,
+  "primary_recipe": "newton",
+  "witness_recipe": "adam",
+  "parameters": 7,
+  "initialization": "all seven coefficients and Adam moments zero; no prior weights",
+  "input": "two ordered RGB triples divided by 255, plus bias; shared across pixels and cases",
+  "dtype": "float64",
+  "constant_input": "all six RGB channels zero, bias one",
+  "newton_updates_per_arm": 16,
+  "adam_updates_per_arm": 256,
+  "schedule": "k=1..256: Newton visual, constant if k<=16; then Adam visual, constant",
+  "newton": {
+    "damping": 1.75,
+    "full_step": true,
+    "objective_penalty": 0.0,
+    "loss_increase_tolerance": "1e-12 * (1 + abs(loss_before))"
+  },
+  "adam": {
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "gradient_clip": "min(1, 1/(norm + 1e-6))"
+  },
+  "loss": "equal anchor mean, equal positive/negative BCE if both exist, full BCE if one class",
+  "batch": "all twelve certified stationary cases in unchanged manifest order",
+  "input_loading": "decode only past_pairs and observed_response_envelopes; no futures or reference",
+  "evaluation": "common initial and four final arms only; full objective also before and after each update",
+  "controls": [
+    "own trained constant",
+    "common initial",
+    "zero probability output"
+  ],
+  "probability_threshold": 0.5,
+  "minimum_visual_iou": 0.25,
+  "minimum_advantage": 0.1,
+  "maximum_each_empty_false_positive_fraction": 0.001,
+  "required_empty_anchors": 2,
+  "expected_operations": {
+    "linear_prediction": 1093,
+    "objective": 1093,
+    "gradient": 544,
+    "hessian": 32,
+    "linear_solve": 32,
+    "adam_proposal": 512,
+    "parameter_update": 544
+  },
+  "max_work_seconds": 300,
+  "cleanup_reserve_seconds": 10,
+  "max_binary_output_bytes": 64000000,
+  "work_scope": "data through scientific payload fsync/hash, final provenance and journal close; final receipt and console excluded",
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "inherited_synthetic_steps": 216,
+  "new_synthetic_steps": 0,
+  "new_initial_screens": 0,
+  "new_emulated_frames": 0,
+  "retry": false,
+  "claim": "development association fitting only; comparison of two bounded recipes, not equal-compute efficiency or optimizer-only causality"
+}
