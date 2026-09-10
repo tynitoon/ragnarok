@@ -2,3 +2,5 @@ survey_v0.json -text
 survey_v0_attempt.json -text
 survey_v0_progress.jsonl -text
 rgb/*.npz -text
+survey_review_v0.json -text
+action_signal_figure_v0.json -text
