@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026. Continuer entre jalons sans terminer aux commits.
+10 septembre 2026, 04:38 Paris. Continuer entre jalons sans terminer aux commits.
 Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
 sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
@@ -8,7 +8,7 @@ sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session
 
 Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
 État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
-Au contrôle de 03:55 : processus présents, Fa entier terminé, Fb en cours.
+Au contrôle de 04:38 : processus présents, Fa entier terminé, Fb en cours.
 Six mondes sur neuf sont complets. M4 du monde s2_8320 avait été conservé.
 Aucun score partiel. Les anciens états « running » sont historiques.
 Vérifier les processus réels et un tail borné du journal v61_confirm_s2.log.
@@ -57,34 +57,76 @@ Figure f527aea : craft_v6_out/v70_action_signal_survey/action_signal_v0.png,
 source 8bbcfbe, métadonnées action_signal_figure_v0.json. Générée une fois
 à partir des JSON, vue et vérifiée. Ouverture dans Codex renvoyée queued.
 
-## Prochain travail : apprendre les contrastes observés
+## ARC 4 : premier fit Atari ACTIF, PID 17684
 
-Hypothèse f527aea : docs/ARC4_RESPONSE_ENVELOPE_DRAFT.md. Depuis deux RGB
-passés, prédire l’union des différences futures de toutes les commandes.
-Cible auxiliaire distincte de C/m/ME, sans tracker ou déplacement préalable.
-Elle peut inclure des effets indirects et ne représente pas un objet physique.
-Aucun bouton/jeu/coordonnée/oracle en entrée du réseau. La table de codes
-apprise suggérée dans l’ancien LOCAL_COMMAND_BOOTSTRAP_DRAFT contredirait
-ARC4_VISION §2.6 ; ne pas l’implémenter sous couvert d’un code local caché.
+Le dérivé des cibles est complet : 216 archives, 12 ancres, 5,0051 s CPU,
+zéro nouvelle émulation. Résultat a7ab5d2, revue 0a99bab ; dossier
+craft_v6_out/v70_response_envelopes/. Counts : 144/296, 344/184, 127/127,
+0/0, 109/184, 78/54. Somme 1 647 pixels dans les douze masques distincts.
+Résultat SHA d3c662ac1c269ff723add3e4417689a9dc57e7aa1745e9a700a7940bf78b6659,
+NPZ SHA3221b9bae8d2c4f3af771f7af6ee08a66733d2e5c6744c917be601d88c31e03f,
+revue SHA d1211d166c2af7a402587c3225f981d273392be9b08277c1da10419d12d825a2.
+85 sources et 226 preuves vérifiées ; le réviseur a décodé seulement le dérivé.
 
-Constructeur 253e2ec : scripts/build_response_envelopes_v70.py,
-tests/test_response_envelopes_v70.py, protocole RESPONSE_ENVELOPE_PROTOCOL.
-11 tests synthétiques PASS en 2,59 s. Aucune archive réelle décodée par ce
-constructeur pour l’instant. Budget coopératif 300 s, sorties 16 Mo,
-216 archives exactes et 12 ancres entières, zéro émulation ou apprentissage.
-Revue prospective EN COURS par review_recovery_v62. Attendre son reçu
-craft_v6_out/v70_response_envelopes/preflight_v0.json, vérifier et committer
-avant --run. Tentative, journal et sorties exclusifs : aucun retry aveugle.
+Le premier lancement de ce constructeur avait été refusé AVANT tentative,
+à cause de Git 2.24.1 qui renvoie littéralement --show-object-format. Observation
+préservée, préflight v0 intact. Correction 7ae4725 : plomberie hash-object sur
+entrée vide vérifiée dans proofs(). Préflight v1, 13 tests PASS, puis une seule
+construction réelle réussie. Aucune archive/ancienne preuve supprimée.
 
-L’agent audit_motion_bootstrap a proposé un fit de développement unique :
-FCN à cinq convolutions 16 canaux, dilatations1/2/4/8/16, padding répliqué,
-images contre entrée constante, mêmes poids initiaux, témoins initial/zéro,
-BCE équilibrée par ancre, mesures IoU/AP et faux positifs sur cibles vides.
-Ce fit n’est PAS encore implémenté, son budget et ses critères ne sont PAS
-figés. Les 12 ancres ne sont aucune validation indépendante. Aucun fit lancé.
-Aucun GPU ARC4 tant qu’ARC3 tourne. Préparer le protocole puis le vérifier
-avant le fit ; ne pas chercher une série de variantes après un résultat négatif.
+Fit : scripts/fit_response_envelope_v70.py, modèle response_envelope_v70.py,
+tests et docs ARC4_RESPONSE_ENVELOPE_FIT_* ; sources 842fd9b puis 4138fb8.
+NE MODIFIER AUCUNE DES 90 SOURCES pendant cette exécution. 19 tests PASS7,16s.
+Préflight cab625d SHA dc49248084aad273fe3a988af15715850b80f05a16aeb2347e98792c61cf37a2.
+Le vrai configure_runtime(); proofs() a passé 90 sources et 3 preuves, sans
+modèle ni tableaux. Les trois défauts du lanceur relevés ont été corrigés avant
+ce départ : step partiel incertain, poids perdus sur interruption/panne du
+journal, mesure trop tôt de la fin du budget.
 
+Lancement WMI caché 10 septembre 02:37:39Z (04:37 Paris), PID17684, hors Job
+Object vérifié par la console. Intention fsync avant WMI et reçu dispatch retour0
+committés dans v70_response_envelope_fit/launch_v0/. À04:38, chacun des deux
+bras a terminé 5 updates et le visuel commence la6e. Processus CPU actif,
+ARC3 11880/21216 toujours actifs. Aucune autre tâche GPU ni benchmark CPU lourd.
+Pas de session unified : suivre PID et tail borné du journal fit_v0_progress.jsonl.
+Les sorties/logs encore actifs ne se committent pas avant fin.
+
+Contrat fixe : deux images RGB passées, FCN 10 177 paramètres (16 canaux,
+dilatations1/2/4/8/16, padding répliqué), graine764, visuel contre entrée zéro,
+poids initiaux identiques, 256 updates par bras alternées, lot complet12.
+Adam3e-4, BCE équilibrée par ancre, témoins initial et sortie zéro. CPU1,
+CUDA vide, 1 200 s de travail dont réserve10s pour clôture. Le payload complet,
+son fsync/hash et la clôture du journal sont dans ce temps ; seul le petit reçu
+final fit_v0.json et la console sont hors mesure. Aucun retry ou prolongement.
+Les paramètres/métriques ne doivent pas changer après lecture des résultats.
+
+Résultat décisif seulement dans fit_v0.json APRES fit_v0_payload.json, jamais
+sur le candidat du payload seul. Lire status/verdict/failure/counts sans dump
+complet. Entrée et retour optimizer.step séparés ; erreur interne = borne
+inférieure/borne supérieure et bras incertain explicites, jamais compte exact
+inventé. Poids partiels sauvegardés dans finally indépendamment du journal.
+Durée mesurée après écriture scientifique ; dépassement => incomplet.
+
+Critère : IoU visuel moyen par jeu >=0,25, avance >=0,10 sur meilleur des
+3témoins, faux positifs <=0,1% pour CHAQUE ancre vide, 256+256updates complets.
+AP groupant les ex aequo publiée sans seuil supplémentaire. Douze situations
+DE DÉVELOPPEMENT, aucune validation indépendante ni objet physique démontré.
+Même un succès ne signifie ni jouer, ni généraliser, ni transférer plus vite.
+Les 1 280 updates antérieures étaient SYNTHÉTIQUES ; ce fit est le premier
+sur les images Atari, et ses updates doivent maintenant être comptées à part.
+
+Après clôture : préserver/committer artefacts, revue indépendante résultats,
+coûts/provenance, bornes de updates, payload/temps et métriques/témoins. Puis
+figure JSON-only préparée 6e5099d (PAS exécutée) :
+scripts/figure_response_envelope_fit_v70.py attend fit_review_v0.json de kind
+response_envelope_fit_independent_result_review. Aucun tableau NPZ ouvert par
+cette figure. Voir le PNG après génération, committer, poursuivre au jalon suivant.
+
+Hypothèse source : ARC4_RESPONSE_ENVELOPE_DRAFT.md. La cible d’écarts futurs
+est distincte de C/m/ME, sans tracker ni mouvement préalable. Pas de bouton,
+jeu, coordonnée ou oracle en entrée. L’ancien candidat de table de codes locaux
+contredirait ARC4_VISION §2.6 ; ne pas l’implémenter. Pas de modèle conditionné
+par bouton, ni contrôle/policy/ME construit par ce fit.
 ## Limites antérieures préservées
 
 Rectangle natif : 518,35 pas/s contre baseline580,79 ; gain non établi.
@@ -95,7 +137,7 @@ Pas de nouveau benchmark. Diagnostic de profilage encore brouillon dans
 ARC4_NATIVE_CPU_PROFILE_DRAFT.md ; ne pas rejouer les anciens profils.
 
 C150 instances : zéro supervision, non résolu. Cinq fits SYNTHÉTIQUES,
-1 280 mises à jour au total, tous négatifs au critère global. Pas Atari.
+1 280 mises à jour au total, tous négatifs au critère global. Fit Atari actif séparé.
 Gate0 non gelé, 12GPUh/0B10 et STOP inchangés. Jeux réservés Boxing,
 Frostbite, Riverraid, Kangaroo jamais ouverts. RAM : évaluation externe
 uniquement. ME/boutons/reader/drives/S/policy/ledger restent à construire.
