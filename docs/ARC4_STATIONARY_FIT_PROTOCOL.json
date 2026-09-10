@@ -1,0 +1,68 @@
+{
+  "version": 0,
+  "seed": 764,
+  "updates_per_arm": 256,
+  "arm_order": [
+    "visual",
+    "constant"
+  ],
+  "input": "two ordered RGB images, six channels, divided by 255",
+  "architecture": {
+    "channels": 16,
+    "dilations": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "kernel": 3,
+    "activation": "SiLU",
+    "padding": "replicate",
+    "output_kernel": 1
+  },
+  "optimizer": {
+    "name": "Adam",
+    "lr": 0.0003,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.0,
+    "amsgrad": false,
+    "foreach": false,
+    "fused": false
+  },
+  "gradient_clip_norm": 1.0,
+  "batch": "all twelve certified synthetic cases, unchanged manifest order",
+  "loss": "equal anchor mean, equal positive/negative BCE if both exist, full BCE if one class",
+  "controls": [
+    "trained constant input",
+    "initial weights on real input",
+    "zero output"
+  ],
+  "evaluation": "initial and final only; per nonempty case, then equal nonempty pair means",
+  "probability_threshold": 0.5,
+  "minimum_visual_iou": 0.25,
+  "minimum_advantage": 0.1,
+  "maximum_each_empty_false_positive_fraction": 0.001,
+  "required_empty_anchors": 2,
+  "average_precision": "non-interpolated precision-recall area with tied scores grouped",
+  "max_work_seconds": 1200,
+  "cleanup_reserve_seconds": 10,
+  "max_binary_output_bytes": 64000000,
+  "work_scope": "through scientific payload fsync/hash and journal close; final verdict receipt and console excluded",
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "new_emulated_frames": 0,
+  "claim": "fixed-budget fitting feasibility of the certified easy family only",
+  "targets_role": "development calibration, not six games or independent validation",
+  "inherited_synthetic_steps": 216,
+  "new_synthetic_steps": 0,
+  "new_initial_screens": 0,
+  "expected_training_forward_batches": 512,
+  "expected_evaluation_forward_batches": 3,
+  "retry": false,
+  "input_loading": "decode past_pairs and observed_response_envelopes only; no futures or reference"
+}
