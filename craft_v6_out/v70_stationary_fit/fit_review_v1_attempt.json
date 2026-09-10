@@ -1,0 +1,24 @@
+{
+  "kind": "stationary_fit_independent_review_attempt",
+  "created_utc": "2026-09-10T04:46:47.614720+00:00",
+  "result_sha256": "8ca241233e8053cedd6149b1d3992dc7cbc944c4442ce298b067dafc03719c35",
+  "closed_commit": "19f5ef4",
+  "reviewer_sha256": "6666e25037cc3c7146eb531cb7d8e36551235c422696cd227cc851d305ee54fa",
+  "max_review_seconds": 300,
+  "review_version": 1,
+  "prior_review": {
+    "receipt": "craft_v6_out/v70_stationary_fit/fit_review_v0.json",
+    "seconds": 5.780293099989649,
+    "main_process_cpu_seconds": 4.796875,
+    "decoded_arrays": 0,
+    "decoded_checkpoints": 0,
+    "failures": [
+      {
+        "type": "ValueError",
+        "message": "Git blob mismatch against ee6f32c"
+      }
+    ],
+    "cost_included_in_current_ceiling": true
+  },
+  "scope": "Saved targets, predictions, logits and archived weights only; no simulation or model execution"
+}
