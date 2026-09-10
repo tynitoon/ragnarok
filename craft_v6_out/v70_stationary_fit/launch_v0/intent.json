@@ -1,0 +1,20 @@
+{
+  "kind": "stationary_fit_wmi_launch_intent",
+  "created_utc": "2026-09-10T04:26:01.8054060Z",
+  "command_line": "\"C:\\Python314\\python.exe\" -u -c \"import ctypes,json,os,runpy,sys\nfrom ctypes import wintypes\nos.environ.update(CUDA_VISIBLE_DEVICES='',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1',PYTHONDONTWRITEBYTECODE='1')\nsys.dont_write_bytecode=True\nsys.stdout=open('F:/dev/ragnarok/craft_v6_out/v70_stationary_fit/launch_v0/console.log','x',encoding='utf-8',buffering=1)\nsys.stderr=sys.stdout\nkernel=ctypes.WinDLL('kernel32',use_last_error=True)\nkernel.GetCurrentProcess.restype=wintypes.HANDLE\nkernel.IsProcessInJob.argtypes=(wintypes.HANDLE,wintypes.HANDLE,ctypes.POINTER(wintypes.BOOL))\ninside=wintypes.BOOL()\nassert kernel.IsProcessInJob(kernel.GetCurrentProcess(),None,ctypes.byref(inside))\nassert not inside.value, 'Fit requires a detached process'\nprint(json.dumps(dict(pid=os.getpid(),detached_from_job=True,mode='fixed_stationary_control_fit')))\nsys.stdout.flush()\nos.fsync(sys.stdout.fileno())\nsys.argv=['scripts.fit_stationary_control_v70','--run']\nrunpy.run_module('scripts.fit_stationary_control_v70',run_name='__main__')\"",
+  "cwd": "F:\\dev\\ragnarok",
+  "show_window": 0,
+  "preflight_sha256": "01024c4d6850a34c34f0b7932555e2e4a6029aa523e471f7fb74e9bcaf1ceaf3",
+  "module": "scripts.fit_stationary_control_v70",
+  "console": "craft_v6_out/v70_stationary_fit/launch_v0/console.log",
+  "source_commit": "0e5ede9",
+  "independent_preflight_commit": "c04a9c5",
+  "gpu_allowed": false,
+  "maximum_scientific_work_seconds": 1200,
+  "updates_per_arm": 256,
+  "new_attempt_only": true,
+  "concurrent_arc3_pids": [
+    11880,
+    21216
+  ]
+}
