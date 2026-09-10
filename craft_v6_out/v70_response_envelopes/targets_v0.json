@@ -1,0 +1,838 @@
+{
+  "kind": "observed_response_envelope_derivation",
+  "passed": true,
+  "execution_status": "complete",
+  "failure": null,
+  "source_sha256": {
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c",
+    "docs/ARC4_ISOLATED_POOL_DRAFT.md": "37903c00e8f23abc866b865b5fc672a87ebec453108ed2023b3d0608cc5b28a8",
+    "docs/ARC4_ISOLATED_RGB_NATIVE_DRAFT.md": "4fc8dd842ca9babd2ac141edffc00b32d9b54685d0d9bd4f2320f25ced5eff46",
+    "docs/ARC4_ISOLATED_RGB_NATIVE_PROTOCOL.json": "2d21c20d15d024a4fb52e2ea319d0bc80792c05c6bdbdfe94c5a1e71aa80fc14",
+    "docs/ARC4_ISOLATED_WORKER_DRAFT.md": "e1a478485bb06af8cbb6fdcb1029e7a95a73433969d14724e6cd37502c74bd7f",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_DRAFT.md": "09491437f125f7050ce67e42bac1ec8a8095d1a5d7d752053fbd9b48720a6cc2",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_PROTOCOL.json": "900b7c0ecd33de9de4aaa530a99e5fe842a53350be227cdb072dbd8347494a85",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "docs/ARC4_SEPARATE_RUNTIME_DRAFT.md": "24edbcc6a90d99b581a7696bb0ef30974a15d7605629e6b9e8fdd6fcd3649c5e",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/isolated_rgb_pool_v70.py": "8d1587b038ce31636646711f75f8f845fc45c2ae5ac9758db017af0d7b1b04dc",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/environments/rgb_wire_v70.py": "3fe8f7089454358a9d5c0b3f395f43c5fe88fbe3cbb472b4f1adff9d9b365f1f",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/check_isolated_rgb_native_v70.py": "b3274226705a1437f4b713e8164fe3bf250e3ddcef242f8eb4a782ce34ce9a9b",
+    "scripts/check_owned_ordinary_native_v70.py": "107d5704357325a2b6eabbf56f11d6c495d9102ee08ff9dfb38df3f569cd0d3a",
+    "scripts/check_rgb_branch_trace_v70.py": "93ce402d37407bdd6c0ead918d70fd498c748801d7e33ae13a30633a28c3c863",
+    "scripts/serve_ordinary_rgb_v70.py": "9fe1b662dbf4a13dcc8b0fd9546055ce04e79507dcc81253bf75837a454d7d5f",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_isolated_rgb_native_protocol_v70.py": "a6090afa6dfe6eb28f3c3a8b8f54d496eb083e878efb86447c1ea389869ecc3a",
+    "tests/test_isolated_rgb_pool_v70.py": "5a68cad75fe4a3328127f9d77612f6a8e8ff7f83e8189616178e7f866bf43fb4",
+    "tests/test_isolated_rgb_worker_v70.py": "dd5c7ec06309355b3da86b02fa0129a08cad66b69da1530bf36ec5a3f677e8ed",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_ordinary_native_v70.py": "f3571b2b9a9364a94cebd087f4764597a40789358b6437ac1edf23eed455cd01",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_branch_trace_wiring_v70.py": "8c90fd72e01d80d995c620b6497d04ff555a9143eba3bd72376ca1a4da428cd6",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "tests/test_rgb_wire_v70.py": "2c33e82eaea1dace6ae8bc7230e183a37c1f8a04d50964c461ccd63785b4c06f",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_PROTOCOL.json": "e9d07809afc876f0721bfce9992f92eb0321c956806fb05da620ec857417b2cc",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "scripts/check_archived_pixel_diagnostics_v70.py": "9489bc3fa586b9a3faf8c8e038665449bcfd82abfee0e8f765763c86f1c98222",
+    "tests/test_archived_pixel_diagnostic_protocol_v70.py": "5d63667f4a3c8961b278cc36d56ec35a53b395e84e49c068613e788d4a6dda13",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "scripts/check_branch_signal_inventory_v70.py": "9288d50d1c6a071b6c520975fb5698bdaf0d9a0a2990d91abf41e330999a2ed5",
+    "tests/test_branch_signal_inventory_v70.py": "3563942f9b80eac42090089ff6defb89f0b607af3f7b024280f86d419323f01d",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_PROTOCOL.json": "f4f3458956c9e3a3fe274ff0ddd1937fc162f83eeb0ab2193ee134262d168674",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_DRAFT.md": "09da17046157b4d0d4c8247f4ae2075bac89e0a33f5fdd01f00603da7fc1841d",
+    "scripts/survey_action_signal_v70.py": "fd6c54e2381604642c2932e47f71d34bf47f5446b0e33f8a4c897481ac017148",
+    "tests/test_action_signal_survey_v70.py": "bb2220902688eeae93cabaf450ea42ac7d468e36d68a743d7786d6638b9e24f4",
+    "docs/ARC4_ACTION_SIGNAL_SURVEY_PROTOCOL.json": "b1662a96e0352f17d32ac48749821a863081e9111428980424362a252188cddc",
+    "docs/ARC4_ACTION_SIGNAL_SURVEY_DRAFT.md": "8becd0ac9df31a3ed5aee4c80656f2dcffb456d8ffd03511283255b91922196b",
+    "scripts/build_response_envelopes_v70.py": "8c3f658b19c4dba2240293b8484a6b467f1394c8089b1ec1fbe0067550706f9a",
+    "tests/test_response_envelopes_v70.py": "64514b9c8d5fdfa5fe3846def6b176eb18615152edbec7eb2f2e70a80fa36f4a",
+    "docs/ARC4_RESPONSE_ENVELOPE_PROTOCOL.json": "471a9b8f088ed4e6f6cfcba76b107119255ef8ea24d4c7c66d2ee58170d20ad9",
+    "docs/ARC4_RESPONSE_ENVELOPE_DRAFT.md": "5545dd123213007b832348e125f1c35c63d13e7664b76af66793e85ac2239c9d"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_action_signal_survey/survey_v0.json": "877dc75eb44141d89395f009f1325cffd87b7ea13f3c3ea247c7d5f6cd45b61d",
+    "craft_v6_out/v70_action_signal_survey/survey_review_v0.json": "3211472c93d6d910b477540fe8384cfdc49bfd112c875a9a3c7b736ee980924f"
+  },
+  "runtime": {
+    "python": "C:\\Python314\\python.exe",
+    "version": "3.14.3",
+    "numpy": "2.4.4",
+    "git": {
+      "version": "git version 2.24.1.windows.2",
+      "empty_blob_sha1": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "protocol": {
+    "version": 0,
+    "games": [
+      "pong",
+      "breakout",
+      "freeway",
+      "seaquest",
+      "ms_pacman",
+      "asteroids"
+    ],
+    "anchors": [
+      10000,
+      20000
+    ],
+    "commands": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "horizons": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "shape": [
+      210,
+      160,
+      3
+    ],
+    "max_work_seconds": 300,
+    "max_output_bytes": 16000000,
+    "max_input_archive_bytes": 3700000,
+    "target": "OR over all commands and horizons of any raw RGB difference from own NOOP",
+    "input": "two past RGB images only",
+    "dataset_role": "development_only",
+    "new_emulated_frames": 0,
+    "optimizer_updates": 0,
+    "gpu_used": false
+  },
+  "preflight_sha256": "3e0c84975cf8865b20315c118fa884453757a34bc71f39d66e3242cd5b125b52",
+  "attempt_sha256": "357210be8d4ab9b748d3163ae46335056b1f6dd50b3801f7b221557723005a2e",
+  "progress_sha256": "6eab6bbd9784713e9ac615f2869c8b688a925e45222d4c1d23f724edde11da73",
+  "cases": [
+    {
+      "game": "pong",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/pong",
+          2501,
+          0
+        ],
+        "epoch": 3,
+        "frame": 136,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "b7cd5ae43ce9a9bbc6eb189ea4eeba04370f5351dfe82133c0042086728da663"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10001,
+      "envelope_pixels": 144,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "3a55345c596f7fdac2e16d711fb72fdae25f3e47579cd850a98dfab801be974b"
+      }
+    },
+    {
+      "game": "pong",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/pong",
+          5020,
+          0
+        ],
+        "epoch": 5,
+        "frame": 2280,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "d85fd200ae8a5adc3df672ddb144d4f759f7788d30b0eddeafcc39854ba66cb3"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 296,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "d11cb7e0c3889c2cb100a15c43bc4ced55b11f54c485398ec016fa56ab63c9c7"
+      }
+    },
+    {
+      "game": "breakout",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/breakout",
+          2506,
+          0
+        ],
+        "epoch": 12,
+        "frame": 516,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "b3d254136348da43740cff43da72823d341f73989460cc1d254e27e2196207b7"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10000,
+      "envelope_pixels": 344,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "7106e965f775c20e7c0d3a6e467362e814a97229f5331b503d234e8c9b3b1c8d"
+      }
+    },
+    {
+      "game": "breakout",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/breakout",
+          5027,
+          0
+        ],
+        "epoch": 23,
+        "frame": 844,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "86af10cf7ca3a936b41299fe4fa8b32c03b4d8fc9849b246b712b8fc948b594b"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20003,
+      "envelope_pixels": 184,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "8949992dcfe7da0bd5f882a8c7e1d7c25442c2b1b0731f6079b1f5c970dcde04"
+      }
+    },
+    {
+      "game": "freeway",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/freeway",
+          2501,
+          0
+        ],
+        "epoch": 1,
+        "frame": 1812,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "377cf84ba4e46079dbc378220d5abc415778ab26aa885deeb5a7d86a491a4423"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10003,
+      "envelope_pixels": 127,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "80ac03de1293a627b27bee09d7effa83928c9ac8a510426d2ef0db34e8fc0549"
+      }
+    },
+    {
+      "game": "freeway",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/freeway",
+          5019,
+          0
+        ],
+        "epoch": 2,
+        "frame": 3620,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "1ad995fd50ff6fd3e08202005ce029e170647e04cfebf43d0e10a61750aaacb5"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 127,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "25f80276b9c8fa43a7e015897c19e15af690e21449f75f87820e2849e63651e3"
+      }
+    },
+    {
+      "game": "seaquest",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/seaquest",
+          2504,
+          0
+        ],
+        "epoch": 5,
+        "frame": 1548,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "80cb87f8073d8b6373289573b030d3960b262c0b3d631dfaf6efaeeb55d98824"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10001,
+      "envelope_pixels": 0,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "c84915d58f2cde58af67d9d2d689c93f08b991e0d041e77444a8d5162e2942a5"
+      }
+    },
+    {
+      "game": "seaquest",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/seaquest",
+          5026,
+          0
+        ],
+        "epoch": 10,
+        "frame": 2212,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "5dd4eb10d390ee3a1855439a4303207d7a7091977d5448ed09cfd2ea7121b823"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 0,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "c84915d58f2cde58af67d9d2d689c93f08b991e0d041e77444a8d5162e2942a5"
+      }
+    },
+    {
+      "game": "ms_pacman",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/ms_pacman",
+          2502,
+          0
+        ],
+        "epoch": 2,
+        "frame": 4424,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "2a8b5b7894977e5679da7745c93ce1c1cea8291affeddcb8d0a2ff19f01f6f90"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10002,
+      "envelope_pixels": 109,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "7b92e01df0b700f7a8f5740e7cccc231349b5cb4e27a7f9dd25415648377b213"
+      }
+    },
+    {
+      "game": "ms_pacman",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/ms_pacman",
+          5024,
+          0
+        ],
+        "epoch": 7,
+        "frame": 1596,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "1fb6c34bfbdb7b200d745ef28dde73012d814a7eaf7bea569eba7abad7a8ebd9"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20003,
+      "envelope_pixels": 184,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "5b5a2d20b1935718b95aa3d855f69d3fe9a08efc45380d50b5fa5c3a0e6cab36"
+      }
+    },
+    {
+      "game": "asteroids",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/asteroids",
+          2502,
+          0
+        ],
+        "epoch": 5,
+        "frame": 1500,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "174fe4656772e47463535fd3440b8a5809fc0be556cde3525611996ff46c91bf"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10000,
+      "envelope_pixels": 78,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "d6f99de4dfcc5ee3ed7afd423cd708dd655cd54cc0884eb098831a204b98b218"
+      }
+    },
+    {
+      "game": "asteroids",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/asteroids",
+          5021,
+          0
+        ],
+        "epoch": 9,
+        "frame": 1112,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "31334da847fe1609b2a8bf6637ad7eabada8bad1ea25c1a251f0ebfa65a2c242"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 54,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "6ef5d108942607b8f7c9c3cce9cbc89dcc31bedbf91151126f72f865cb202a51"
+      }
+    }
+  ],
+  "archives_read": 216,
+  "bytes_read": 784243728,
+  "archive_sha256": {
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action00.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action01.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action02.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action03.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action04.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action05.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action06.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action07.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action08.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action09.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action10.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action11.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action12.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action13.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action14.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action15.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action16.npz": "dbda5e544a6b7a7b322a75360276ddc7ed827f35c6fe6830aca7fd49af386575",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor0_action17.npz": "839197d89dcf9ec68f15c3c8cf56f798d82e2f74d75aa6e7c7b8c2516cd357c2",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action00.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action01.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action02.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action03.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action04.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action05.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action06.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action07.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action08.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action09.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action10.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action11.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action12.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action13.npz": "5cf269a34e879a73c4135c39cf8da9d5e708296bf01ecfa7897a8a59935dbf25",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action14.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action15.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action16.npz": "f27019328ccd5912cb1c088e28740e894cb981bc310a19b560a529e22c7c398d",
+    "craft_v6_out/v70_action_signal_survey/rgb/pong_anchor1_action17.npz": "2a6576980d13ccd343ccdd426237f366fde2f5784fd18ce543c91377124e40e8",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action00.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action01.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action02.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action03.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action04.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action05.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action06.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action07.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action08.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action09.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action10.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action11.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action12.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action13.npz": "a0eab05ff63933859a34ce21bfde6896bea1aaae86ba06f58984e3a05d035c07",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action14.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action15.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action16.npz": "759ef7a7778650f02ca985951a6d3a97bb43b4a13487b360ecc4971ef2db3ee3",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor0_action17.npz": "8ff564269787a5afa58010fa9e5a6493b69b2037b255c655939ed35430af8b19",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action00.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action01.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action02.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action03.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action04.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action05.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action06.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action07.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action08.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action09.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action10.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action11.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action12.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action13.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action14.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action15.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action16.npz": "a6a2ad9e0396c0b97634ef444eb072737cf96d2bd625e1c4daf0d2c0edc86562",
+    "craft_v6_out/v70_action_signal_survey/rgb/breakout_anchor1_action17.npz": "ba51820e84181145a1c7e37047b63de102e2efd634fb032738775fe611d29e36",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action00.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action01.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action02.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action03.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action04.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action05.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action06.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action07.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action08.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action09.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action10.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action11.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action12.npz": "4b6322e6d996567126048b5264e0faa3dcb12ed6060d3a29bdbe0e18c82422c3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action13.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action14.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action15.npz": "a77d3c6dff1d5d5d3d9d92089e0d6afabc46f6d5336a405b68c23156838fbec3",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action16.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor0_action17.npz": "c541fb4ccfee4856f60d19212c45630974ae59c27cfd4cc7d9dc5053b5b17bc5",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action00.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action01.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action02.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action03.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action04.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action05.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action06.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action07.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action08.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action09.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action10.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action11.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action12.npz": "db9135fa7989b428c9a355f854f53e0032914ce33763937ab27f2bc4f925c805",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action13.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action14.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action15.npz": "b501c91d85be22d0fa075dde1612b3dbc03be10f576485e8f63e8d69a148f219",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action16.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/freeway_anchor1_action17.npz": "46c886bc7b3980169e7ab73ee0646adff2f0f397a5aa26c4fbcd5680e416eb8c",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action00.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action01.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action02.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action03.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action04.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action05.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action06.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action07.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action08.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action09.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action10.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action11.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action12.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action13.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action14.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action15.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action16.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor0_action17.npz": "78974791b3445dca0e1aa3e7590affb67a88ec638170c236bc4998febda99e6b",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action00.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action01.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action02.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action03.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action04.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action05.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action06.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action07.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action08.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action09.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action10.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action11.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action12.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action13.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action14.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action15.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action16.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/seaquest_anchor1_action17.npz": "35814b4626cdde2a1ecb87475114c100d29c3e4162eb5ff2cca3e12cf01f90eb",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action00.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action01.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action02.npz": "10260a365bd7b0e3260faa6cb3fd7510cd4573061809463e2e64d00fd694bf2f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action03.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action04.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action05.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action06.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action07.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action08.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action09.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action10.npz": "10260a365bd7b0e3260faa6cb3fd7510cd4573061809463e2e64d00fd694bf2f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action11.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action12.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action13.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action14.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action15.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action16.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor0_action17.npz": "9585ff844cae84b6fc98b1af2db0bdcf960f959a1c87043afa484f5717ba2548",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action00.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action01.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action02.npz": "2210f76021de852b52ea11fcb82cdad68c4d5cd5feb08fa811f5d3b07ac8aa3f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action03.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action04.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action05.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action06.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action07.npz": "2210f76021de852b52ea11fcb82cdad68c4d5cd5feb08fa811f5d3b07ac8aa3f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action08.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action09.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action10.npz": "2210f76021de852b52ea11fcb82cdad68c4d5cd5feb08fa811f5d3b07ac8aa3f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action11.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action12.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action13.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action14.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action15.npz": "2210f76021de852b52ea11fcb82cdad68c4d5cd5feb08fa811f5d3b07ac8aa3f",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action16.npz": "25b2128d7aab638bb9c453bde82370bbe44407a507be8e218cc3f757a89f7785",
+    "craft_v6_out/v70_action_signal_survey/rgb/ms_pacman_anchor1_action17.npz": "0dbdadc7c0d585968149305960a996ebf568ddef188520c75539dc22fe6cdf20",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action00.npz": "a193d9ad49c2eecb0ddd723d830aae10792e1b48256e62a909725770dd796e6c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action01.npz": "a193d9ad49c2eecb0ddd723d830aae10792e1b48256e62a909725770dd796e6c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action02.npz": "a3e821948de8d96276b4caa8b54403b64e478a52d0f6d596d84e5265e1e3c8e6",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action03.npz": "1a6199323fd5d7f717bc2dde18788ab8e4726d5e882633d8e7243c5445862ae1",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action04.npz": "42fa3910d93f531c14ed8e1967f21768c5007ef0cae7c46a610baa8d1f5b890c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action05.npz": "2acb5489df1b66693d506709909cf4feaeec5eadd36b80ffa23c2b871b32845f",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action06.npz": "6304c50484c22a4885c792377d1b5bcdeceb538916b9d466cb5d35d80e8f67b4",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action07.npz": "e8b4895de2ab4541b48702dd4e57c2a43af21da05e107c637ee8be9a62fc57b6",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action08.npz": "1a6199323fd5d7f717bc2dde18788ab8e4726d5e882633d8e7243c5445862ae1",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action09.npz": "42fa3910d93f531c14ed8e1967f21768c5007ef0cae7c46a610baa8d1f5b890c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action10.npz": "a3e821948de8d96276b4caa8b54403b64e478a52d0f6d596d84e5265e1e3c8e6",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action11.npz": "1a6199323fd5d7f717bc2dde18788ab8e4726d5e882633d8e7243c5445862ae1",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action12.npz": "42fa3910d93f531c14ed8e1967f21768c5007ef0cae7c46a610baa8d1f5b890c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action13.npz": "2acb5489df1b66693d506709909cf4feaeec5eadd36b80ffa23c2b871b32845f",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action14.npz": "6304c50484c22a4885c792377d1b5bcdeceb538916b9d466cb5d35d80e8f67b4",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action15.npz": "e8b4895de2ab4541b48702dd4e57c2a43af21da05e107c637ee8be9a62fc57b6",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action16.npz": "1a6199323fd5d7f717bc2dde18788ab8e4726d5e882633d8e7243c5445862ae1",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor0_action17.npz": "42fa3910d93f531c14ed8e1967f21768c5007ef0cae7c46a610baa8d1f5b890c",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action00.npz": "f4c6198fe62fba993624b1f8cbe2b437a733902c4f62f671f8b591ff26b56605",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action01.npz": "f4c6198fe62fba993624b1f8cbe2b437a733902c4f62f671f8b591ff26b56605",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action02.npz": "5516408a88f9b300f20d9c5da28448b6f0b2374853361a4f7b0bb8f999f39e11",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action03.npz": "1bc002e9e8dfb82255210fefa907061168f6d0b6afa06dbdb0f86454a4385d74",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action04.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action05.npz": "c7ac82d2a79310f6aa5308ad6d698ad2684452279b708cc52c33ba597b332c1b",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action06.npz": "ecda2d58581fc4607ceaaa531185bf0c8912eb761223a92f31eee8e827b8f72d",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action07.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action08.npz": "1bc002e9e8dfb82255210fefa907061168f6d0b6afa06dbdb0f86454a4385d74",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action09.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action10.npz": "5516408a88f9b300f20d9c5da28448b6f0b2374853361a4f7b0bb8f999f39e11",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action11.npz": "1bc002e9e8dfb82255210fefa907061168f6d0b6afa06dbdb0f86454a4385d74",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action12.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action13.npz": "c7ac82d2a79310f6aa5308ad6d698ad2684452279b708cc52c33ba597b332c1b",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action14.npz": "ecda2d58581fc4607ceaaa531185bf0c8912eb761223a92f31eee8e827b8f72d",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action15.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action16.npz": "1bc002e9e8dfb82255210fefa907061168f6d0b6afa06dbdb0f86454a4385d74",
+    "craft_v6_out/v70_action_signal_survey/rgb/asteroids_anchor1_action17.npz": "4ddeaa83647c934e2d5bf9b90dc0f29cd1d010ba6f684627399f3ac4660c7dcf"
+  },
+  "output": {
+    "path": "craft_v6_out/v70_response_envelopes/targets_v0.npz",
+    "bytes": 2822960,
+    "sha256": "3221b9bae8d2c4f3af771f7af6ee08a66733d2e5c6744c917be601d88c31e03f",
+    "arrays": {
+      "past_pairs": {
+        "shape": [
+          12,
+          2,
+          210,
+          160,
+          3
+        ],
+        "dtype": "uint8",
+        "sha256": "5840b2947b1672b079671e8a2e72e4878ac89d1973278b4509a2a70837281fd6"
+      },
+      "observed_response_envelopes": {
+        "shape": [
+          12,
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "dce93369271315ea04ca33c0cc1f46b8c695a750c4632b15718a743b8893ffbf"
+      }
+    }
+  },
+  "work_seconds": 5.00509890000103,
+  "inherited_collection_charged_frames": 157530,
+  "new_emulated_frames": 0,
+  "optimizer_updates": 0,
+  "model_inferences": 0,
+  "gpu_used": false,
+  "claim": "Derived observed contrasts on twelve development anchors; no learned result"
+}
