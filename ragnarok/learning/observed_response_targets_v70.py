@@ -15,22 +15,40 @@ from ragnarok.environments.rgb_trace_difference_v70 import difference
 from ragnarok.learning.visual_instances_v70 import VisualInstance
 
 
+@dataclass(frozen=True, slots=True)
+class _ArraySnapshot:
+    contents: bytes
+    dtype: str
+    shape: tuple[int, ...]
+
+    def view(self):
+        # Bytes protect values; a fresh ndarray also isolates mutable shape/dtype
+        # metadata. No ndarray object is stored or shared between public accesses.
+        return np.frombuffer(self.contents, dtype=self.dtype).reshape(self.shape)
+
+
 def _snapshot(array):
-    # A read-only owning ndarray can have its writeable flag re-enabled. Bytes
-    # backing also prevents that route, while breaking all caller-buffer aliases.
-    return np.frombuffer(array.tobytes(order='C'), dtype=array.dtype).reshape(array.shape)
+    return _ArraySnapshot(array.tobytes(order='C'), array.dtype.str, tuple(array.shape))
 
 
-@dataclass(frozen=True, slots=True, eq=False)
+@dataclass(frozen=True, slots=True, eq=False, init=False)
 class PredictionInput:
     """Only data available before the branch; no command IDs or future images."""
 
-    pair: np.ndarray
-    effect: np.ndarray
+    _pair: _ArraySnapshot
+    _effect: _ArraySnapshot
 
-    def __post_init__(self):
-        object.__setattr__(self, 'pair', _snapshot(_pair(self.pair)))
-        object.__setattr__(self, 'effect', _snapshot(_effect(self.effect)))
+    def __init__(self, pair, effect=None):
+        object.__setattr__(self, '_pair', _snapshot(_pair(pair)))
+        object.__setattr__(self, '_effect', _snapshot(_effect(effect)))
+
+    @property
+    def pair(self):
+        return self._pair.view()
+
+    @property
+    def effect(self):
+        return self._effect.view()
 
 
 def prediction_input(pair, effect=None):
@@ -50,8 +68,12 @@ class UnknownTarget:
 @dataclass(frozen=True, slots=True, eq=False)
 class InstanceAttribution:
     frame_index: int
-    source_pixels: np.ndarray
+    _source_pixels: _ArraySnapshot
     target: UnknownTarget
+
+    @property
+    def source_pixels(self):
+        return self._source_pixels.view()
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -59,9 +81,14 @@ class HorizonResponse:
     frame_offset: int  # One-based native offset after the recorded anchor.
     intervention_observed: bool
     control_observed: bool
-    rgb_changed: np.ndarray | None  # Screen coordinates, never instance labels.
+    _rgb_changed: _ArraySnapshot | None
     foreground: UnknownTarget  # Uniform status over the entire source_shape.
     controllability: tuple[InstanceAttribution, ...]
+
+    @property
+    def rgb_changed(self):
+        """Screen coordinates, never instance labels; fresh immutable-buffer view."""
+        return None if self._rgb_changed is None else self._rgb_changed.view()
 
 
 @dataclass(frozen=True, slots=True)

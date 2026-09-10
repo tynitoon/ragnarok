@@ -121,8 +121,8 @@ def test_past_and_outputs_are_immutable_snapshots_with_no_future_or_command_fiel
     effect[:] = 1
     np.testing.assert_array_equal(past.pair, record.anchor.pair)
     np.testing.assert_array_equal(past.effect, record.effect_assumption)
-    assert {item.name for item in fields(past)} == {'pair', 'effect'}
     for keyword in ('future', 'requested_action', 'game', 'mask'):
+        assert not hasattr(past, keyword)
         with pytest.raises(TypeError):
             prediction_input(record.anchor.pair, **{keyword: 1})
     result = observed_response_targets(record, past, own, image_kind='raw')
@@ -145,6 +145,33 @@ def test_past_and_outputs_are_immutable_snapshots_with_no_future_or_command_fiel
     assert {item.name for item in fields(result.origin)} == {
         'operation_id', 'anchor_token', 'worker', 'epoch', 'frame',
     }
+
+
+def test_array_metadata_mutation_does_not_change_inputs_or_other_horizons():
+    anchor, traces, _ = _changed_occluder_world(subject_is_controlled=False)
+    own, _ = _own_hypothesis(anchor)
+    record = record_for(anchor, *traces)
+    past = prediction_input(record.anchor.pair, record.effect_assumption)
+    result = observed_response_targets(record, past, own, image_kind='raw')
+    getters = (
+        lambda: past.pair, lambda: past.effect,
+        lambda: result.horizons[0].rgb_changed,
+        lambda: result.horizons[0].controllability[0].source_pixels,
+    )
+    for get_array in getters:
+        expected = get_array().copy()
+        altered = get_array()
+        altered.shape = (altered.size,)
+        altered.dtype = np.uint8 if altered.dtype.itemsize > 1 else np.uint16
+        assert altered.dtype != expected.dtype
+        fresh = get_array()
+        assert fresh.dtype == expected.dtype and fresh.shape == expected.shape
+        np.testing.assert_array_equal(fresh, expected)
+    for horizon in result.horizons:
+        np.testing.assert_array_equal(horizon.controllability[0].source_pixels, own[0].source_pixels)
+    # The stable past input still matches the recorded observation after all
+    # the attempted metadata mutations; no network forward is involved.
+    observed_response_targets(record, past, own, image_kind='raw')
 
 
 def test_different_future_and_command_keep_identical_predictive_inputs():
