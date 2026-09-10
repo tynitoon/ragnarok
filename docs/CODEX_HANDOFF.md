@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 07:20 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 07:40 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer entre jalons sans finir aux commits. L’apprentissage plus rapide des
 jeux suivants n’est pas établi. Demande écran/RC annulée : mauvaise session.
 Détails historiques : docs/history/CODEX_HANDOFF_20260910_0619.md.
@@ -12,7 +12,7 @@ La validation conditionnelle775 NE DOIT PAS être exécutée (condition échoué
 Son instrument préparédef8908 reste gardé par des SHA None ; sept tests de
 fixtures PASS6,11s, aucune nouvelle génération ou modèle réel.
 
-Prochaine décision : calibration comparative affine, déclarée839e0ee dans
+Calibration comparative affine COMPLÈTE, déclarée839e0ee dans
 docs/ARC4_STATIONARY_LOGISTIC_DRAFT.md. Même modèle7paramètres, zéro initial,
 float64 ; Newton amorti7/4 visuel+constant16 itérations, Adam3e-4/clip1 visuel+
 constant256. Total544 appels de mise à jour,300s CPU1, aucun nouveau tirage.
@@ -29,21 +29,45 @@ Runner/protocole d39e496 : scripts/fit_stationary_affine_v70.py et
 docs/ARC4_STATIONARY_LOGISTIC_PROTOCOL.json ;14tests de fixtures PASS6,20s.
 Préflight indépendant110a599,112sources/5preuves sans tableaux ni modèle,
 16,54s avec imports ; SHA97268ef10d26571f65febf86eb713f527574dc891f5187e8d016126de824992e.
-Fit UNIQUE lancé vers07:19 sous C:/Python314/python.exe, session33722 active
-au contrôle07:20. Folder craft_v6_out/v70_stationary_affine_fit/, aucune relance.
-Attendre clôture avant lecture scientifique et commit ciblé. Compteurs attendus :
+Fit unique3ef0cf9,46,8004951s,0échec,session33722 FERMÉE. Newton primairePASS :
+IoU/AP1,847/847positifs,0FP. AdamPASS :IoU0,56577381,AP1,546/847positifs,0FP,
+casà1pixelentièrementmanqué. Avances0,997479/0,563253, BCE0,217739/0,632429.
+Résultat SHA c60b92fea8846af3cbc8bfe9db95bdfc1585ad9c661b276462e9db67f2aa8014.
+Folder craft_v6_out/v70_stationary_affine_fit/. Compteurs EXACTS :
 1093produits/objectifs,544gradients,32Hessiennes/résolutions,512propositionsAdam,
 544mises à jour. Évaluer initial commun et quatre bras finaux seulement.
-review_recovery_v62 prépare la revue de sortie séparée, interdite avant signal
-root de clôture/commit. Revue120sCPU1,aucun produit/gradient supplémentaire.
-Figure JSON-only scripts/figure_stationary_affine_v70.py préparée, non exécutée ;
-elle exigera la revue valide. audit_motion a terminé le préflight et est disponible.
+Revue PASS0015732,source4366891 :112sources25preuves8245événements,26,62s,
+aucun produit/gradient supplémentaire ; pertescontinuesexactement,aucunehausseNewton.
+SHArevue8be644481304ed9393f62fa93232ed5534dc46f5ee5fa2775226b710f0a646f5.
+Compte rendu docs/ARC4_STATIONARY_AFFINE_RESULTS.md. Figure JSON-only source
+9b29545, artefacts4b79801 :fit_v1.png/fit_v1_figure.json,vuecorrecte,ouvertureCodexqueued.
+Premier rendu v0 préservé9b7847d ;v1corrige uniquement un chevauchementlégende/axe.
+
+Juge de famille algébrique déclaré5ef1b36, code359bde9/7ffba68/9b7847d/9b29545 :
+scripts/certify_stationary_affine_v70.py + ragnarok/evaluation/affine_stationary_family_v70.py.
+Deux extrema rationnels des coefficients individuels convertis AVANTaddition,
+sur passésidentiquesavantintervention :strictpositif>0 etstrictnégatif<0.
+Pas une garantie de tousarrondisBLAS/sigmoid ni une validation empiriqueAtari.
+13tests uniquesde fixtures :12PASS5,48s puis7runnerPASS5,52s aprèsfixhashjournal.
+Budget60sCPU1/1MB,2archivesétatsvalidées(12membreschacune),5certificats,
+zéropixel/produitmodèle/gradient/update/émulation. Tousrésultatspartielsconservés.
+Préflight PASS audit_motion,117sources4preuves,16,816s dont11,637depreuves ;
+SHA1206de32d5f644caa448df44bb290a65cbe196b2a0a7c044b9b895f8043483e0,
+reçu craft_v6_out/v70_stationary_affine_family/preflight_v0.json en coursdecommit.
+Vérifiercommit puis lancer UNIQUE --run. Aucun certificat réel encoreexécuté.
+Root a vucoefficientsdansreçurevueAPRÈSdéclarationetinstrumentgelés,aucuncritèrechangé.
+
+Suitecandidate e570395 docs/ARC4_STATIONARY_DIRECT_PATH_DRAFT.md : CNN10177+
+voieRGB1x1affine7zéros,10184params,initialCNN764exact,float32Adam256×2surmêmelot,
+1200sCPU1,critèresidentiques. Aucun modèle/runner/fit encore. review_recovery_v62
+examine actuellement la pertinence de cette décision, sanscalculni modification.
 Une préférence AGENTS autorise ces revues aux jalons scientifiques.
 
 ## ARC 3 — dernier monde en cours
 
 Contrôleur11880, enfant21216, départ10 septembre 03:02 Paris. Présents au contrôle
-07:16 ; huit mondes sur neuf complets, M4 et Fa de s2_8322 finis, Fb en cours. Le fichier par lignée
+07:39 ; huit mondes sur neuf complets, M4 et Fa de s2_8322 finis, Fbgoal2fini,
+restentFbgoal8/6etL. Le fichier par lignée
 v61_confirm_s2.json contient s2_8320 et s2_8321 ; l’agrégat reste à6 jusqu’à la
 clôture de la lignée. Ne pas faire de score partiel. Vérifier les vrais PID et
 un tail borné de craft_v6_out/v61_confirm_s2.log, pas l’état JSON entier.
