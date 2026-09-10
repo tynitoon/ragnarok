@@ -1,0 +1,34 @@
+{
+  "kind": "rectangle_unique_native_continued_launch",
+  "status": "complete",
+  "started_utc": "2026-09-10T01:08:42.824677+00:00",
+  "launcher_pid": 28620,
+  "argv": [
+    "F:/dev/ragnarok/.venv-arc4/Scripts/python.exe",
+    "-u",
+    "-m",
+    "scripts.bench_rectangle_visible_v70",
+    "benchmark"
+  ],
+  "cwd": "F:\\dev\\ragnarok",
+  "environment_overrides": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "incident_review_sha256": "6d898d327e420a45a167fa8801d5ed8e3eb437e646193c67b84bde308bbc48f8",
+  "prior_console_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "read_only_preflight_completed": true,
+  "read_only_preflight_sources": 131,
+  "read_only_preflight_evidence": 369,
+  "arc3_controller_pid": 11880,
+  "arc3_child_pid": 21216,
+  "concurrent_cpu_tests_or_captures": false,
+  "console": "craft_v6_out/v70_mspacman_rectangle_cpu/continued_launch_v0/console.log",
+  "no_retry_after_attempt": true,
+  "child_pid": 18420,
+  "exit_code": 0,
+  "finished_utc": "2026-09-10T01:12:38.862817+00:00"
+}
