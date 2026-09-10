@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 05:07 Paris. Continuer entre jalons sans terminer aux commits.
+10 septembre 2026, 05:30 Paris. Continuer entre jalons sans terminer aux commits.
 Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
 sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
@@ -8,7 +8,7 @@ sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session
 
 Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
 État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
-Au contrôle de 05:05 : processus présents ; M4 de s2_8321 terminé, Fa en cours.
+Au contrôle de 05:30 : processus présents ; M4 de s2_8321 terminé, Fa en cours.
 Sept mondes sur neuf sont complets depuis 04:43 ; s2_8321 est en cours. Le fichier
 v61_confirm_s2.json contient le septième ; l’agrégat reste à 6 jusqu’à la fin
 de la lignée. M4 du monde s2_8320 avait été conservé.
@@ -127,6 +127,12 @@ fit_v0_figure.json. Source :
 scripts/figure_response_envelope_fit_v70.py attend fit_review_v0.json de kind
 response_envelope_fit_independent_result_review. Aucun tableau NPZ ouvert par
 cette figure. La courbe décroissante ne prouve ni convergence ni limite de capacité.
+Compte rendu lisible : docs/ARC4_RESPONSE_ENVELOPE_FIT_RESULTS.md.
+Atlas descriptif des 12 ancres, source 7fabd1f, sorties 3fc15b8 :
+v70_response_envelope_fit/errors_v0/{pong,breakout,freeway,seaquest,ms_pacman,asteroids}.png.
+Les six planches ont été vues, sans défaut ; seuil inchangé 0,5, trois tableaux
+déjà revus décodés, aucun modèle ni nouvelle émulation. Nombreux faux positifs,
+mais une couverture partielle des zones attendues : pas « aucun apprentissage ».
 
 Hypothèse source : ARC4_RESPONSE_ENVELOPE_DRAFT.md. La cible d’écarts futurs
 est distincte de C/m/ME, sans tracker ni mouvement préalable. Pas de bouton,
@@ -142,12 +148,37 @@ prédéclarés ; 30k charges/jeu,900s collecte +300s dérivation +180s évaluati
 Un doublon de passé du développement => global non concluant, sans remplacement.
 Cette validation ne démontrerait pas le transfert vers un autre jeu.
 
-Prochain diagnostic en discussion : chercher des passés locaux exactement
-identiques associés à des cibles opposées, puis borner l’IoU et la BCE du FCN.
-Attention au padding répliqué à chaque couche : un patch brut répliqué seul
-ne suffit pas aux bords. Raffinement sous revue : joindre à la clé externe
-les quatre distances aux bords écrêtées au rayon 31. Aucun code, protocole
-ou calcul sur données réel de ce diagnostic à ce stade ; aucun nouveau fit.
+## ARC 4 : diagnostic d’équivalences préparé, pas encore exécuté
+
+Sources 2f8156e puis d635987 : scripts/diagnose_response_envelope_equivalence_v70.py,
+tests/test_response_envelope_equivalence_v70.py et les deux documents
+ARC4_RESPONSE_ENVELOPE_EQUIVALENCE_*. Clé du juge : patch63×63 des deux RGB
+ordonnés + distances haut/bas/gauche/droite écrêtées à31. Revue mathématique
+indépendante : propriété valable pour l’opérateur déclaré, y compris aux bords,
+pas une garantie bit à bit entre backends. SHA indexe les candidats mais chaque
+collision est résolue par comparaison de TOUS les octets. Aucun oracle en entrée.
+
+Bornes distinctes : optimum IoU exact relâché séparément par ancre puis moyenné
+par jeu ; infimum BCE aux masses réellement pondérées, groupes globaux. Une
+borne IoU permissive ne prouve pas la capacité, les FP vides ou la convergence.
+Lire seulement targets_v0.npz (développement), pas les 216 archives d’origine.
+Plafond300s CPU1 dont réserve10s,16MB binaire, zéro modèle/update/émulation,
+aucun retry. Temps final après payload/fsync/hash/journal fermé ; seul reçu final
+hors mesure. bounds_usable exige résultat complet, pas le candidat du payload.
+
+17 tests synthétiques PASS0,94s : 12 mathématiques indépendants + 5 échecs du
+runner. Deux défauts corrigés avant toute exécution : provenance revérifiée
+à la fin contre l’initiale (préflight compris), fermeture du journal même si
+son dernier log échoue. Revue définitive et vrai proofs() maintenant demandés
+à audit_motion_bootstrap. Attendre son preflight_v0.json, le committer, puis
+lancer UNE fois avec --run sous C:/Python314/python.exe et CPU1/CUDA vide.
+Dossier craft_v6_out/v70_response_envelope_equivalence/ ; aucune tentative réelle.
+
+Recul scientifique : suspendre les nouveaux fits Atari et le raccord P→m→C/ME.
+Ne pas balayer le seuil après l’échec. review_recovery_v62 prépare seulement
+un certificat mathématique de contrôle positif synthétique réalisable par
+l’architecture exacte, poids de référence uniquement juge. Aucun modèle,
+protocole ou nouvel entraînement de ce contrôle n’a été exécuté/autorisé.
 
 ## Limites antérieures préservées
 
