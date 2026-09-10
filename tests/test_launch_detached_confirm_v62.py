@@ -63,3 +63,23 @@ def test_dispatch_failure_is_recorded_without_retry(tmp_path, monkeypatch):
     assert json.loads((out / launch.LAUNCH).read_text())['status'] == 'failed'
     assert (out / launch.STDOUT).exists() and (out / launch.STDERR).exists()
     with pytest.raises(ValueError): launch.launch(tmp_path)
+
+
+@pytest.mark.parametrize('published', [False, True])
+def test_late_publication_failure_never_kills_the_deadline_supervisor(tmp_path, monkeypatch, published):
+    out, events = setup(tmp_path, monkeypatch)
+    saved = launch.controller.base.save_state
+    def fail(path, row, create=False):
+        if path.name == launch.LAUNCH and row['status'] == 'dispatched':
+            if published: saved(path, row, create=create)
+            raise OSError('failure around handshake publication')
+        return saved(path, row, create=create)
+    monkeypatch.setattr(launch.controller.base, 'save_state', fail)
+    with pytest.raises(OSError): launch.launch(tmp_path)
+    assert len(events) == 1 and isinstance(events[0], tuple)
+    row = json.loads((out / launch.LAUNCH).read_text())
+    assert row['status'] == ('dispatched' if published else 'starting')
+    failure = json.loads((out / launch.LAUNCH_ERROR).read_text())
+    assert failure['controller_pid'] == 4242
+    # Pending release means controller timeout before GPU; published release
+    # preserves the independent supervisor instead of orphaning its child.

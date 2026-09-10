@@ -34,6 +34,11 @@ Un probe sans modèle ni émulateur a confirmé qu'un lancement WMI caché
 durée20,00117 secondes après le retour du lanceur. Le probe et ses reçus entrent
 dans les empreintes de la reprise. Le lanceur Python et le contrôleur vérifient
 chacun cette condition ; le lanceur crée des journaux et un reçu PID exclusifs.
+Le contrôleur attend que le reçu `dispatched` nomme exactement son PID et sa
+revue avant toute création du processus expérimental. Une publication absente
+expire après dix secondes, sans GPU. Une erreur du lanceur après publication
+préserve le contrôleur autonome et son délai ; elle ne tue pas le parent en
+laissant potentiellement son enfant sans surveillance.
 Il n'installe aucun service ni tâche récurrente. Cette précaution répond à la
 durée de vie des processus ; elle ne démontre pas la cause de l'interruption.
 La mécanique est décrite par Microsoft dans

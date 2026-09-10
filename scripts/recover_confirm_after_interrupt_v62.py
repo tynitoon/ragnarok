@@ -21,6 +21,7 @@ base = prior_runner.base
 EVIDENCE = 'v62_confirm_interruption_20260910'
 STATE = 'v62_confirm_second_recovery_state.json'
 REVIEW = 'v62_confirm_second_recovery_review.json'
+LAUNCH = 'v62_confirm_second_recovery_launch.json'
 SOURCE_PATHS = ('scripts/recover_confirm_after_interrupt_v62.py',
                 'tests/test_recover_confirm_after_interrupt_v62.py',
                 'scripts/launch_detached_confirm_v62.py',
@@ -34,6 +35,7 @@ SNAPSHOTS = ('interruption.json', 'v62_confirm_recovery_state.json',
 M4 = 'v61_confirm_ckpt/s2_8320_M4.json'
 CLEANUP_RESERVE_SECONDS = 30.
 POLL_SECONDS = .5
+HANDSHAKE_SECONDS = 10.
 
 
 def utc_now():
@@ -127,6 +129,34 @@ def run_child_until(argv, root, remaining):
         raise
 
 
+def await_dispatch(root, proof):
+    """No GPU or experiment state until the launcher publishes its PID receipt.
+
+    The launcher may fail or exit at any time. A pending receipt times out;
+    a dispatched receipt hands sole deadline ownership to this controller.
+    """
+    started = time.monotonic()
+    path = root / 'craft_v6_out' / LAUNCH
+    deadline = datetime.fromisoformat(proof['absolute_deadline_utc'])
+    while time.monotonic() - started < HANDSHAKE_SECONDS and utc_now() < deadline:
+        if path.exists():
+            row = base.read_json(path)
+            if row.get('status') == 'dispatched':
+                base.require(row.get('kind') == 'v62_detached_second_recovery_launch'
+                             and row.get('controller_pid') == os.getpid()
+                             and row.get('review_sha256') == proof['review_sha256']
+                             and row.get('source_sha256') == proof['source_sha256']
+                             and row.get('absolute_deadline_utc') == proof['absolute_deadline_utc']
+                             and row.get('cwd') == str(root)
+                             and row.get('argv') == [proof['command']['argv'][0], '-u', '-m',
+                                                    'scripts.recover_confirm_after_interrupt_v62'],
+                             'Dispatched receipt must match this exact controller and review')
+                return base.digest(path)
+            base.require(row.get('status') == 'starting', 'Launcher failed before release')
+        time.sleep(.05)
+    raise TimeoutError('No completed launch handshake; no experiment was dispatched')
+
+
 def verify_preserved(root, proof):
     out = root / 'craft_v6_out'
     prior_runner.verify_recovery_inputs(root, proof['prior_provenance'])
@@ -137,6 +167,8 @@ def verify_preserved(root, proof):
         base.require(base.digest(root / path) == expected, 'Second recovery evidence changed')
     if 'review_sha256' in proof:
         base.require(base.digest(out / REVIEW) == proof['review_sha256'], 'Independent recovery review changed')
+    if 'launch_receipt_sha256' in proof:
+        base.require(base.digest(out / LAUNCH) == proof['launch_receipt_sha256'], 'Dispatched launch receipt changed')
     directory = out / EVIDENCE
     for name in ('v62_confirm_recovery_state.json', 'v62_confirm_recovery_stdout.log',
                  'v62_confirm_recovery_stderr.log'):
@@ -196,6 +228,7 @@ def proofs(root):
                  original_recovery_allowance_seconds=design['remaining_seconds'],
                  absolute_deadline_utc=deadline_from(old).isoformat(), design=design,
                  cleanup_reserve_seconds=CLEANUP_RESERVE_SECONDS, poll_seconds=POLL_SECONDS,
+                 handshake_seconds=HANDSHAKE_SECONDS,
                  preserved_m4_sha256=base.digest(out / M4))
     verify_preserved(root, proof)
     for relative in {*source, *evidence}:
@@ -225,6 +258,7 @@ def preflight(root):
 def run_pipeline(root, proof):
     out = root / 'craft_v6_out'
     require_detached()
+    proof = dict(proof, launch_receipt_sha256=await_dispatch(root, proof))
     base.require(not other_controllers(), 'Another experiment controller or child appeared before dispatch')
     absolute = datetime.fromisoformat(proof['absolute_deadline_utc'])
     initial_remaining = (absolute - utc_now()).total_seconds()

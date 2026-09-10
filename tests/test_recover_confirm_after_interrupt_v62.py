@@ -26,6 +26,7 @@ def setup(tmp_path, monkeypatch):
     monkeypatch.setattr(run, 'utc_now', lambda: clock['wall'])
     monkeypatch.setattr(run.time, 'monotonic', lambda: clock['mono'])
     monkeypatch.setattr(run, 'require_detached', lambda: None)
+    monkeypatch.setattr(run, 'await_dispatch', lambda *a: 'launchhash')
     monkeypatch.setattr(run, 'other_controllers', lambda: [])
     monkeypatch.setattr(run, 'verify_preserved', lambda *a: None)
     monkeypatch.setattr(run.base, 'verify_completed', lambda *a: None)
@@ -187,3 +188,32 @@ def test_reserve_is_required_before_any_spawn(tmp_path, monkeypatch):
     monkeypatch.setattr(run.subprocess, 'Popen', forbidden)
     with pytest.raises(TimeoutError, match='cleanup'):
         run.run_child_until(['s2'], tmp_path, lambda: 30.)
+
+
+@pytest.mark.parametrize('fault', ['pending', 'failed', 'wrong_pid', 'wrong_review', None])
+def test_handshake_requires_published_matching_receipt(tmp_path, monkeypatch, fault):
+    begin = datetime(2026, 9, 10, tzinfo=timezone.utc)
+    clock = {'mono': 0.}
+    monkeypatch.setattr(run.time, 'monotonic', lambda: clock['mono'])
+    monkeypatch.setattr(run.time, 'sleep', lambda dt: clock.update(mono=clock['mono'] + dt))
+    monkeypatch.setattr(run, 'utc_now', lambda: begin)
+    proof = dict(absolute_deadline_utc=(begin + timedelta(seconds=100)).isoformat(),
+                 review_sha256='review', source_sha256={'source': 'hash'},
+                 command=dict(argv=['original-python']))
+    row = dict(kind='v62_detached_second_recovery_launch', status='dispatched',
+               controller_pid=run.os.getpid(), review_sha256='review',
+               source_sha256=proof['source_sha256'], absolute_deadline_utc=proof['absolute_deadline_utc'],
+               cwd=str(tmp_path), argv=['original-python', '-u', '-m', 'scripts.recover_confirm_after_interrupt_v62'])
+    if fault == 'pending': row['status'] = 'starting'
+    if fault == 'failed': row['status'] = 'failed'
+    if fault == 'wrong_pid': row['controller_pid'] = -1
+    if fault == 'wrong_review': row['review_sha256'] = 'different'
+    path = tmp_path / 'craft_v6_out' / run.LAUNCH
+    write(path, row)
+    if fault is None:
+        assert run.await_dispatch(tmp_path, proof) == run.base.digest(path)
+    else:
+        with pytest.raises((TimeoutError, ValueError)):
+            run.await_dispatch(tmp_path, proof)
+    assert clock['mono'] < 10.1
+    assert not (path.parent / run.STATE).exists()
