@@ -1,0 +1,297 @@
+{
+  "kind": "stationary_direct_path_initial_identity",
+  "baseline_result_sha256": "8ca241233e8053cedd6149b1d3992dc7cbc944c4442ce298b067dafc03719c35",
+  "baseline_review_sha256": "c2fe9c270afa098f43c403b3f4818460bd9540993794049cd7df04f1151daa98",
+  "baseline_initial_weights_sha256": "0964241c0b88e01532b9876c49f5999f86c4f74a8b5d786825f135bc5197c2e4",
+  "state_arrays": {
+    "body.0.weight": {
+      "shape": [
+        16,
+        6,
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "sha256": "d0468a3f8ecabf1e53c7f7aca75d7ce8b9d108cd85d8b2e2f3cea4627c93e1e3"
+    },
+    "body.0.bias": {
+      "shape": [
+        16
+      ],
+      "dtype": "float32",
+      "sha256": "c106c9fd88905b783bdfbe44ff41c13eae85653afd712be1ac249e44bc51989b"
+    },
+    "body.2.weight": {
+      "shape": [
+        16,
+        16,
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "sha256": "26c53bd00df79fe0ab881a59d1fa0ba385de80a3c5c0a093706682d63b9f9fed"
+    },
+    "body.2.bias": {
+      "shape": [
+        16
+      ],
+      "dtype": "float32",
+      "sha256": "90ffeb6941cd3d5ffd6ffbd66931ac006e1bb847b9d7379b5b7eb6957c5a6254"
+    },
+    "body.4.weight": {
+      "shape": [
+        16,
+        16,
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "sha256": "1468592653244254404b483630ad3e5624a1b4d25ad74478e5c95eec3c1ae508"
+    },
+    "body.4.bias": {
+      "shape": [
+        16
+      ],
+      "dtype": "float32",
+      "sha256": "d117361768fa35584bc377548f1d9d8718754659573bf7a5adcd31143dc0ec28"
+    },
+    "body.6.weight": {
+      "shape": [
+        16,
+        16,
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "sha256": "97525eca65eb7d8773fba7b76697ef8b9b3747f893acb5a3a6bce732edf682e3"
+    },
+    "body.6.bias": {
+      "shape": [
+        16
+      ],
+      "dtype": "float32",
+      "sha256": "c98f9490eeb9c7fbba1167bcc10ed7c13edb255e89232c6c00eba5c4714c2f95"
+    },
+    "body.8.weight": {
+      "shape": [
+        16,
+        16,
+        3,
+        3
+      ],
+      "dtype": "float32",
+      "sha256": "8d0dfcb5d4e08ced8a619689365499c799ce5bcea38e4948fa9b5fbabe7798d1"
+    },
+    "body.8.bias": {
+      "shape": [
+        16
+      ],
+      "dtype": "float32",
+      "sha256": "431826607de74ec60a4174159eb88e6a43587bfa47356900f9a290969399c35b"
+    },
+    "head.weight": {
+      "shape": [
+        1,
+        16,
+        1,
+        1
+      ],
+      "dtype": "float32",
+      "sha256": "0ad25ed17244fd9407d4be1d11dddff969371a97c53414188debc9c4475f2048"
+    },
+    "head.bias": {
+      "shape": [
+        1
+      ],
+      "dtype": "float32",
+      "sha256": "a70fe4901290adcf893820871b8b246a40dd611b6d14b9fc022e997615fbf794"
+    }
+  },
+  "initial_logits": {
+    "shape": [
+      12,
+      210,
+      160
+    ],
+    "dtype": "float32",
+    "sha256": "f2f07cd09199e0960e83738a072b6e1ad44e5610e79ae8a1b7c7e27756f14e75"
+  },
+  "initial_predictions": {
+    "shape": [
+      12,
+      210,
+      160
+    ],
+    "dtype": "float32",
+    "sha256": "88697b5d204ce19d6c24b0ce957df19fd35eca33afdb0838aa5844418ec39edf"
+  },
+  "initial_metrics": {
+    "cases": [
+      {
+        "game": "synthetic_pair_0",
+        "anchor_index": 0,
+        "target_pixels": 1,
+        "true_positive_pixels": 1,
+        "false_positive_pixels": 33599,
+        "iou": 2.9761904761904762e-05,
+        "average_precision": 4.360908813396712e-05,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_0",
+        "anchor_index": 1,
+        "target_pixels": 4,
+        "true_positive_pixels": 4,
+        "false_positive_pixels": 33596,
+        "iou": 0.00011904761904761905,
+        "average_precision": 0.0014239363684358576,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_1",
+        "anchor_index": 0,
+        "target_pixels": 16,
+        "true_positive_pixels": 16,
+        "false_positive_pixels": 33584,
+        "iou": 0.0004761904761904762,
+        "average_precision": 0.0005655251996806262,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_1",
+        "anchor_index": 1,
+        "target_pixels": 64,
+        "true_positive_pixels": 64,
+        "false_positive_pixels": 33536,
+        "iou": 0.0019047619047619048,
+        "average_precision": 0.002206521837690754,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_2",
+        "anchor_index": 0,
+        "target_pixels": 128,
+        "true_positive_pixels": 128,
+        "false_positive_pixels": 33472,
+        "iou": 0.0038095238095238095,
+        "average_precision": 0.0039945172861284226,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_2",
+        "anchor_index": 1,
+        "target_pixels": 256,
+        "true_positive_pixels": 256,
+        "false_positive_pixels": 33344,
+        "iou": 0.007619047619047619,
+        "average_precision": 0.008439964400576632,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_3",
+        "anchor_index": 0,
+        "target_pixels": 0,
+        "true_positive_pixels": 0,
+        "false_positive_pixels": 33600,
+        "iou": null,
+        "average_precision": null,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_3",
+        "anchor_index": 1,
+        "target_pixels": 0,
+        "true_positive_pixels": 0,
+        "false_positive_pixels": 33600,
+        "iou": null,
+        "average_precision": null,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_4",
+        "anchor_index": 0,
+        "target_pixels": 336,
+        "true_positive_pixels": 336,
+        "false_positive_pixels": 33264,
+        "iou": 0.01,
+        "average_precision": 0.009812072206379266,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_4",
+        "anchor_index": 1,
+        "target_pixels": 32,
+        "true_positive_pixels": 32,
+        "false_positive_pixels": 33568,
+        "iou": 0.0009523809523809524,
+        "average_precision": 0.0010222376581903042,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_5",
+        "anchor_index": 0,
+        "target_pixels": 8,
+        "true_positive_pixels": 8,
+        "false_positive_pixels": 33592,
+        "iou": 0.0002380952380952381,
+        "average_precision": 0.00022490557294083197,
+        "false_positive_fraction": 1.0
+      },
+      {
+        "game": "synthetic_pair_5",
+        "anchor_index": 1,
+        "target_pixels": 2,
+        "true_positive_pixels": 2,
+        "false_positive_pixels": 33598,
+        "iou": 5.9523809523809524e-05,
+        "average_precision": 0.00015294039275680915,
+        "false_positive_fraction": 1.0
+      }
+    ],
+    "nonempty_by_game": {
+      "synthetic_pair_0": {
+        "iou": 7.440476190476191e-05,
+        "average_precision": 0.0007337727282849124
+      },
+      "synthetic_pair_1": {
+        "iou": 0.0011904761904761906,
+        "average_precision": 0.00138602351868569
+      },
+      "synthetic_pair_2": {
+        "iou": 0.005714285714285714,
+        "average_precision": 0.006217240843352527
+      },
+      "synthetic_pair_4": {
+        "iou": 0.0054761904761904765,
+        "average_precision": 0.005417154932284785
+      },
+      "synthetic_pair_5": {
+        "iou": 0.00014880952380952382,
+        "average_precision": 0.00018892298284882056
+      }
+    },
+    "mean_nonempty_iou": 0.0025208333333333333,
+    "mean_nonempty_average_precision": 0.002788623001091347,
+    "empty_anchor_false_positive_fractions": [
+      1.0,
+      1.0
+    ],
+    "balanced_bce": 0.7192552089691162
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_stationary_control/control_v0.json": "88a7fcd8124a40ef0d13bd9112713e3a456ba1a78737eaa14e1786bcd69d0202",
+    "craft_v6_out/v70_stationary_control/control_review_v0.json": "dc121b32ed97628e3775ae28f37eb734680c46d8038b725747b58bf7a83cb69b",
+    "craft_v6_out/v70_stationary_control/control_v0_dataset.npz": "93bcbf48af3342b634cb1112e779877ea8cff08db49f93bbad41133142e54444"
+  },
+  "costs": {
+    "checkpoint_decodes": 1,
+    "state_tensor_signatures": 12,
+    "image_decodes": 0,
+    "model_constructions": 0,
+    "model_forwards": 0,
+    "optimizer_updates": 0,
+    "cpu_threads": 1,
+    "gpu_used": false
+  },
+  "claim": "Signatures of the archived random initialization only; no weights provided to the candidate"
+}

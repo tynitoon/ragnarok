@@ -13,6 +13,10 @@ class DirectResponseEnvelope(nn.Module):
         self.contextual = ResponseEnvelope()
         self.direct_weight = nn.Parameter(torch.zeros(1, 6, 1, 1))
         self.direct_bias = nn.Parameter(torch.zeros(1))
+        self.evaluation_components = None
 
     def forward(self, past):
-        return self.contextual(past) + F.conv2d(past, self.direct_weight, self.direct_bias)
+        contextual = self.contextual(past)
+        direct = F.conv2d(past, self.direct_weight, self.direct_bias)
+        self.evaluation_components = (contextual, direct) if not torch.is_grad_enabled() else None
+        return contextual + direct

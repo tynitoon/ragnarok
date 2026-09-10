@@ -19,7 +19,11 @@ def test_same_contextual_weights_rng_and_initial_function_with_only_seven_new_ze
         assert not candidate.direct_weight.any() and not candidate.direct_bias.any()
         inputs = torch.arange(180, dtype=torch.float32).reshape(2, 6, 3, 5) / 255
         with torch.inference_mode():
-            assert torch.equal(original(inputs), candidate(inputs))
+            reference, combined = original(inputs), candidate(inputs)
+            assert torch.equal(reference, combined)
+            contextual, direct = candidate.evaluation_components
+            assert torch.equal(contextual, reference) and not direct.any()
+            assert torch.equal(contextual + direct, combined)
 
 
 def test_direct_rgb_gradient_exists_when_zero_contextual_path_has_none():
@@ -31,6 +35,7 @@ def test_direct_rgb_gradient_exists_when_zero_contextual_path_has_none():
         inputs[0, (0, 3)] = 1
         targets = torch.tensor([1., 0.]).reshape(2, 1, 1, 1)
         loss = anchor_balanced_bce(model(inputs), targets)
+        assert model.evaluation_components is None
         loss.backward()
         expected = torch.zeros(1, 6, 1, 1)
         expected[0, (0, 3)] = -.25
