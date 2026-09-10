@@ -1,0 +1,122 @@
+{
+  "kind": "prospective_action_signal_survey_v0",
+  "spec": {
+    "games": [
+      "pong",
+      "breakout",
+      "freeway",
+      "seaquest",
+      "ms_pacman",
+      "asteroids"
+    ],
+    "emulator_seed": 19390,
+    "command_seed": 19391,
+    "anchors": [
+      10000,
+      20000
+    ],
+    "commands": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "control": 0,
+    "horizon": 8,
+    "frame_skip": 4,
+    "ordinary_command_hold_decisions": 4,
+    "sticky_probability": 0.25,
+    "max_episode_frames": 108000,
+    "max_snapshots": 64,
+    "experiment_fraction": 0.2,
+    "max_charged_frames_per_game": 30000,
+    "max_charged_frames_total": 180000,
+    "max_experiment_charge_per_pair": 136,
+    "max_experiment_charge_total": 29376,
+    "planned_pairs_per_game": 36,
+    "planned_pairs_total": 216,
+    "max_work_seconds": 900,
+    "max_archive_bytes": 1000000000,
+    "peer_timeout_seconds": 30,
+    "cold_costs": {
+      "pong": 132,
+      "breakout": 132,
+      "freeway": 132,
+      "seaquest": 128,
+      "ms_pacman": 132,
+      "asteroids": 132
+    },
+    "cpu_threads": 1,
+    "model_inferences": 0,
+    "optimizer_updates": 0
+  },
+  "parent_runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "child_runtime": {
+    "executable": "F:\\dev\\ragnarok\\.venv-arc4\\Scripts\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "ale_py": "0.12.1",
+    "ale_binary_sha256": "b7e29d7c2662be5a7d49d9e7151637a7842547ecc149b2b2c6771b9e02159d7c",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    },
+    "cuda_visible_devices": ""
+  },
+  "question": "Décrire quelles réponses RGB à court terme sont observées pour les commandes 0..17 contre NOOP0 aux deux ancres déclarées. Aucun apprenant, seuil de signal, cible m/C ou effet sémantique n'est défini.",
+  "population": "Six jeux de développement dans l'ordre fixé, un worker explicite à la fois. Seed émulateur19390 commune ; aucun jeu réservé. Nouvelle population d'ingénierie, aucun statut de validation indépendante pour un modèle choisi ensuite.",
+  "seed_provenance": "Avant création des nouveaux fichiers, recherche des entiers19390/19391 dans les sources, tests, documents et métadonnées de protocoles/revues/résultats ARC4 disponibles : aucun usage de graine trouvé. Ce constat documentaire n'est pas une preuve d'absence de toute exécution non enregistrée.",
+  "ordinary_schedule": "Un nouveau random.Random(19391) par jeu. Tirer randrange(18), tenir cette commande quatre décisions ordinaires, répéter. Le calendrier par indice de décision est commun aux jeux ; il ne dépend ni des pixels, ni des comptes, ni d'un signal positif. Quatre décisions correspondent nominalement à16 images ; les préfixes réellement reçus peuvent être plus courts.",
+  "anchor_definition": "Compteur cumulatif propre : ajouter uniquement len(StepExperience.trace.raw), sans reset de ce compteur lors d'un changement d'époque. Première décision dont le cumul atteint ou dépasse10000, puis20000 ; dépassement0..3 conservé. Le token/epoch/frame du collector sont enregistrés séparément. Toutes les branches d'une ancre réutilisent immédiatement ce token, sans step ordinaire entre elles. Une frontière visuelle ou une trace terminale ne déplace jamais l'ancre pour chercher une meilleure scène.",
+  "branches": "A chaque ancre, commandes0..17 dans l'ordre numérique, horizon8 contre NOOP0 ; toutes les paires, y compris0/0, sont payées. Le collector inchangé vérifie le max-pool adjacent, les préfixes réellement fournis et le retour à la même ancre. Aucune RAM, identité, état natif, récompense, vie ou oracle n'entre dans les données.",
+  "repetition_contract": "La paire0/0 doit être exactement égale en raw, pooled, endpoint et longueur. Chaque NOOP des17 paires suivantes doit égaler le NOOP initial sur ces tableaux complets, avec la même paire RGB de départ et le même token d'ancre. Les longueurs courtes peuvent être identiques ; des longueurs différentes sont un défaut d'instrument. Aucune égalité n'est inventée au-delà des préfixes reçus. Chaque paire reçue est archivée immédiatement, avant le RPC de rapport de comptes, les écritures de journal et la vérification comparative. Une panne ultérieure du rapport conserve donc les RGB reçus et des coûts éventuellement inconnus. Les données d'une paire fautive déjà reçue restent archivées, puis aucun autre jeu/commande n'est exécuté.",
+  "budget_admission": "Ledger réservé à l'admission externe, jamais aux commandes ou aux entrées apprenantes. Coûts froids tirés de ROM_SPECS dans la convention scellée :132, sauf Seaquest128. Avant un step, réserver frame_skip4 + coût froid maximal, puisque le terminal est invisible ; avant une paire, réserver2*8+2*60=136 et vérifier quota exact5*(expérience+réserve)<=total+réserve. Le moteur garde sa propre vérification inchangée. Si la réserve ne tient plus, arrêter ce jeu, conserver solde/réserve/marge/quota et les cases absentes, fermer son worker puis passer au jeu suivant. C'est une censure conservative, pas la preuve que le plafond a été réellement dépensé.",
+  "budget_arithmetic": "36paires*136=4896 maximum expérimental par jeu ; six jeux29376. Pour un quota20%,9792 frames ordinaires suffisent à une série de2448 et19584 à deux séries. Les20000 images livrées couvrent cette allocation sans crédit froid. Toutes constructions froides et restaurations restent dans le plafond30000/jeu ; atteindre toutes les ancres n'est pas garanti.",
+  "exception_contract": "Tout IsolatedWorkerError réellement reçu, y compris un message mentionnant BudgetExceeded, est un défaut global et non une censure déduite du texte. Aucun appel payé suivant ; conserver known_worker_reports en borne inférieure et toute incertitude de démarrage/transport. Aucun changement de l'ancien transport pour restaurer un type d'erreur. Toute régression ou perte de ledger ne peut effacer une charge déjà connue. Rapport final puis fermeture dans finally, même après échec.",
+  "storage": "Un NPZ neuf exclusif par paire acquise, non compressé, contenant uniquement branch_start_pair et les6 membres intervention/control raw/pooled/endpoint. Chaque membre porte forme/dtype/SHA256 exact des octets, et chaque archive porte taille/SHA256. Aucun NPZ ancien n'est chargé. Les RGB ordinaires servent au collector et à un digest ordonné, mais ne sont pas archivés. Plafond global archives1000000000 octets décimaux : réservation avant paire de36*210*160*3+65536 octets, contrôle à chaque write, préservation de tout fichier partiel en cas d'erreur. Les métadonnées JSON et le journal de comptes ne sont pas des archives RGB.",
+  "measurements": "Compteurs descriptifs raw et pooled séparés par paire/horizon1..8 : pixels changés (any sur les canaux), fractions sur33600, union cumulative, histogramme du premier changement, préfixe commun et longueurs non appariées. Horizons absents = null, jamais0 ; préfixe commun vide = statut all_zero inconnu. Signatures des RGB conservées pour ne pas confondre égalité des comptages et égalité des conséquences. Aucune classification en12effets ni correspondance d'objets.",
+  "execution_and_signal": "execution_status=complete si toutes les opérations planifiées sont acquises ; censored si des réserves de budget ou ressources arrêtent prospectivement le sondage avec comptes complets ; failed si défaut d'instrument, preuve modifiée, comptes incertains ou fermeture défaillante. passed valide uniquement une exécution cohérente complete/censored. Le nombre de paires acquises et les216 cases restent explicites, même si toutes sont absentes. Aucun seuil minimal de contraste ni résultat d'apprentissage ne conditionne passed.",
+  "durability": "Préflight exact committé avant tout worker. Un attempt exclusif flush/fsync avant toute construction, puis journal JSONL exclusif append/flush/fsync avant et après chaque commande payée, avec coût connu et progression. Six cas et216 slots prédéclarés. Archives/résultat exclusifs ; tout attempt/progress/output/répertoire d'archives préexistant interdit le retry. Un crash dur peut laisser un intent sans reçu ou un journal partiel ; les coûts correspondants restent inconnus et aucun retry n'est autorisé. La dernière écriture du journal et l'attempt final sont durables ; un échec d'écriture conserve les fichiers existants.",
+  "work_limit": "900secondes de travail total coopératif, incluant jeu, transport, journal, archives et fermeture. Vérifié avant/après commandes et entre jeux ; une opération en cours peut dépasser le seuil avant le prochain contrôle. Les preuves initiales/finales sont hors durée. Timeout transport30s. Temps ou stockage insuffisant arrête globalement et conserve tous les cas non atteints ; aucune collecte concurrente ou mesure de débit n'est autorisée.",
+  "proofs": "Après commit seulement : fermeture locale AST du parent, tests et entrypoint enfant explicite, avec tous les __init__.py. Union séparée des sources/preuves des revues isolée e93d2932..., owned8b4105ce..., inventaire4ca40b16... ; leurs result_sha256 scalaires et résultats81e366e2...,5db50e4e...,a2403c7b... restent exacts. Hashs des preuves anciennes sans np.load, aucun ancien module modèle exécuté. Runtime parent sans Torch/ALE, enfant .venv-arc4 déclaré et vérifié par le HELLO inchangé. Le préflight indépendant lie exactement tous les champs de proofs(), puis est committé. Relecture finale après fermeture de tous les workers.",
+  "preflight_kind": "action_signal_survey_independent_preflight",
+  "agent_training_allowed": false,
+  "gpu_used": false,
+  "gate_result": null,
+  "limitations": [
+    "Résultat descriptif de développement ; aucune validation indépendante, convergence, généralisation, transfert, accélération ou gate établi.",
+    "Deux ancres et des commandes connues ne donnent aucune identité physique ni source directement contrôlée. Des commandes différentes peuvent avoir la même conséquence.",
+    "Une différence aux coordonnées futures peut être indirecte, un projectile, un HUD ou un fond dévoilé. Un zéro observé ne prouve ni immobilité ni absence de contrôle au-delà du préfixe.",
+    "Des RGB identiques aux contrôles établissent une répétabilité observée, pas une preuve d'identité de tous les états cachés.",
+    "La censure par réserve maximale peut laisser une capacité effectivement inutilisée ; aucune tentative plus petite, troisième ancre, graine alternative ou prolongation ne la remplace.",
+    "Les coûts inconnus de startup/transport restent inconnus ; une somme de charges connues ne devient pas un coût total complet.",
+    "Le plafond de temps est coopératif ; les preuves sont exclues. Aucun débit comparatif n'est mesuré.",
+    "m/C, ME, alignement des effets, objets et policy restent distincts. UNKNOWN n'est pas remplacé par une vérité sémantique ; les commandes sont uniquement des logs locaux d'intervention.",
+    "Les anciens fits négatifs, protocoles, gates, quotas et STOP restent inchangés. Cette préparation n'autorise aucune collecte ou entraînement avant revue et décision de lancement."
+  ]
+}
