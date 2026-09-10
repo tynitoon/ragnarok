@@ -178,7 +178,7 @@ Recul scientifique : suspendre les nouveaux fits Atari et le raccord P→m→C/M
 Ne pas balayer le seuil après l’échec. review_recovery_v62 prépare seulement
 un certificat mathématique de contrôle positif synthétique réalisable par
 l’architecture exacte, poids de référence uniquement juge. Aucun modèle,
-protocole ou nouvel entraînement de ce contrôle n’a été exécuté/autorisé.
+protocole ou nouvel entraînement de ce contrôle n’a été déclaré ou exécuté.
 
 ## Limites antérieures préservées
 
