@@ -5,6 +5,25 @@ PARAMETERS = 7
 DAMPING = 7 / 4
 
 
+def _finite_array(value, shape, name):
+    if (not isinstance(value, np.ndarray) or value.shape != shape
+            or value.dtype != np.float64 or not np.isfinite(value).all()):
+        raise ValueError(f'{name} must be a finite float64 array of shape {shape}')
+
+
+def validate_problem(features, labels, weight):
+    if not isinstance(features, np.ndarray) or features.ndim != 2 or not len(features):
+        raise ValueError('Nonempty pixel feature matrix required')
+    count = len(features)
+    _finite_array(features, (count, PARAMETERS), 'features')
+    _finite_array(labels, (count,), 'labels')
+    _finite_array(weight, (count,), 'weights')
+    if (np.any((features[:, :6] < 0) | (features[:, :6] > 1)) or not np.all(features[:, 6] == 1)
+            or not np.all((labels == 0) | (labels == 1)) or not np.all(weight > 0)
+            or abs(float(weight.sum()) - 1.) > 1e-12):
+        raise ValueError('Bounded RGB, unit bias, binary labels and normalized positive weights required')
+
+
 def pixel_features(past):
     if past.dtype != np.uint8 or past.ndim != 5 or past.shape[1] != 2 or past.shape[-1] != 3:
         raise ValueError('Two ordered uint8 RGB images per case required')
@@ -59,6 +78,9 @@ def hessian(features, probability, weight):
 
 
 def newton_candidate(coefficients, first, second):
+    _finite_array(coefficients, (PARAMETERS,), 'coefficients')
+    _finite_array(first, (PARAMETERS,), 'gradient')
+    _finite_array(second, (PARAMETERS, PARAMETERS), 'Hessian')
     delta = np.linalg.solve(second + DAMPING * np.eye(PARAMETERS), -first)
     candidate = coefficients + delta
     if candidate.dtype != np.float64 or not np.isfinite(candidate).all():
@@ -67,6 +89,11 @@ def newton_candidate(coefficients, first, second):
 
 
 def adam_candidate(coefficients, first, first_moment, second_moment, step):
+    for name, value in (('coefficients', coefficients), ('gradient', first),
+                        ('first moment', first_moment), ('second moment', second_moment)):
+        _finite_array(value, (PARAMETERS,), name)
+    if np.any(second_moment < 0):
+        raise ValueError('Adam second moments cannot be negative')
     if step < 1:
         raise ValueError('Adam updates are one-based')
     norm = float(np.linalg.norm(first))

@@ -104,3 +104,23 @@ def test_extreme_finite_logits_keep_a_finite_nonnegative_objective():
     weight = np.full(4, .25)
     assert np.isfinite(affine.probabilities(logits)).all()
     assert affine.objective(logits, labels, weight) == pytest.approx(500.)
+
+
+@pytest.mark.parametrize('bad', [np.zeros((7, 1)), np.zeros(7, np.float32), np.full(7, np.nan)])
+def test_candidates_reject_broadcast_dtype_and_nonfinite_contract_errors(bad):
+    with pytest.raises(ValueError):
+        affine.newton_candidate(bad, np.zeros(7), np.zeros((7, 7)))
+    with pytest.raises(ValueError):
+        affine.adam_candidate(bad, np.zeros(7), np.zeros(7), np.zeros(7), 1)
+
+
+def test_problem_boundary_rejects_nonbinary_labels_and_broken_rgb_bound():
+    features, labels, weights = _problem()
+    affine.validate_problem(features, labels, weights)
+    labels[0] = .5
+    with pytest.raises(ValueError):
+        affine.validate_problem(features, labels, weights)
+    labels[0] = 0
+    features[0, 0] = 1.01
+    with pytest.raises(ValueError):
+        affine.validate_problem(features, labels, weights)
