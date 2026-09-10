@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 05:30 Paris. Continuer entre jalons sans terminer aux commits.
+10 septembre 2026, 05:44 Paris. Continuer entre jalons sans terminer aux commits.
 Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
 sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
@@ -148,7 +148,7 @@ prédéclarés ; 30k charges/jeu,900s collecte +300s dérivation +180s évaluati
 Un doublon de passé du développement => global non concluant, sans remplacement.
 Cette validation ne démontrerait pas le transfert vers un autre jeu.
 
-## ARC 4 : diagnostic d’équivalences préparé, pas encore exécuté
+## ARC 4 : diagnostic d’équivalences terminé et revu
 
 Sources 2f8156e puis d635987 : scripts/diagnose_response_envelope_equivalence_v70.py,
 tests/test_response_envelope_equivalence_v70.py et les deux documents
@@ -169,16 +169,41 @@ hors mesure. bounds_usable exige résultat complet, pas le candidat du payload.
 17 tests synthétiques PASS0,94s : 12 mathématiques indépendants + 5 échecs du
 runner. Deux défauts corrigés avant toute exécution : provenance revérifiée
 à la fin contre l’initiale (préflight compris), fermeture du journal même si
-son dernier log échoue. Revue définitive et vrai proofs() maintenant demandés
-à audit_motion_bootstrap. Attendre son preflight_v0.json, le committer, puis
-lancer UNE fois avec --run sous C:/Python314/python.exe et CPU1/CUDA vide.
-Dossier craft_v6_out/v70_response_envelope_equivalence/ ; aucune tentative réelle.
+son dernier log échoue. Préflight39f0c27, SHA641b753aca5a4162435c63a522776ffae68d8882f52954f393e659e170fd3af0.
+Une seule exécution complète,16,5803s,403200pixels/305014groupes. Session45922
+TERMINÉE. Dossier craft_v6_out/v70_response_envelope_equivalence/ ; artefacts committés.
+Résultat SHA4ceb0eb9609a7ff218250ea6c5c870e0a0335c912593228f3b9c2d22f0586029.
+Revue complète committée, SHA b973a59059530ca5249592d6b75c5f592da2440a3ee295768a316870ecd98f0a :
+94sources/11preuves, toutes les appartenances vérifiées indépendamment,34,27sCPU.
+Borne IoU macro171/172 (permissive), BCE minimale0,0024845643. 48groupes
+globalement contradictoires,980pixels dont64positifs. Seule Breakout0 a des
+contradictions internes :4groupes/20positifs, borne324/344. Aucune conclusion
+de capacité, convergence ou FP commun ; aucun nouveau fit déclenché.
 
 Recul scientifique : suspendre les nouveaux fits Atari et le raccord P→m→C/ME.
-Ne pas balayer le seuil après l’échec. review_recovery_v62 prépare seulement
-un certificat mathématique de contrôle positif synthétique réalisable par
-l’architecture exacte, poids de référence uniquement juge. Aucun modèle,
-protocole ou nouvel entraînement de ce contrôle n’a été déclaré ou exécuté.
+Ne pas balayer le seuil après l’échec.
+
+## ARC 4 : contrôle positif stationnaire en préparation, sans fit
+
+docs/ARC4_STATIONARY_CONTROL_DRAFT.md et deux nouveaux modules/tests non encore
+committés : stationary_intervention_v70 (environnements) et
+response_envelope_certificate_v70 (évaluation). Générateur PCG64graine774 prévu,
+12 écrans natifs, nombres de rouges1/4/16/64/128/256/0/0/336/32/8/2.
+NOOP conserve RGB, commande1 met B=255 sur les R=255. Deux passés+2branches8
+donnent216pas/images synthétiques ; cible UNIQUEMENT par différence des branches.
+Aucun lot natif généré, aucun ancien NPZ lu.6tests environnement PASS0,33s.
+
+Certificat de juge : ResponseEnvelope exact10177paramètres, deux canaux actifs,
+poids centraux±4 puis±1 puis±2. Identité SiLU(t)-SiLU(-t)=t => logits±8,
+IoU1/FP0/BCElog(1+exp(-8)) sur toute la famille stationnaire. Poids gelés CPU,
+RNG préservé ; ils ne vont jamais au learner.6tests PASS3,18s par review_recovery,
+exactement3forwards de juge sur10petites images, zéro update. Ne pas les répéter
+sans changement justifiant une nouvelle vérification.
+
+audit_motion_bootstrap revoit maintenant famille/certificat/coûts en lecture
+seule. Root doit encore écrire le runner de construction/certification et
+protocole JSON, puis tests/revue/commit avant une génération unique (CPU1,300s,
+64MB,1forward de juge sur12cas). Aucun fit de ce contrôle déclaré ou lancé.
 
 ## Limites antérieures préservées
 
