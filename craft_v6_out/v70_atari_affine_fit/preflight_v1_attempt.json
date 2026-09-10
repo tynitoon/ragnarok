@@ -1,0 +1,14 @@
+{
+  "kind": "atari_affine_independent_preflight_attempt",
+  "created_utc": "2026-09-10T06:47:29.474032+00:00",
+  "source_commit": "511ce8d",
+  "maximum_wall_seconds": 54.5567030999955,
+  "cumulative_wall_limit_seconds": 60,
+  "prior_preflight_sha256": "5ab4cfe12c7e1d860227371dedb88bfd554af24e473aa6150fff4c368d0653ad",
+  "prior_seconds": 5.443296900004498,
+  "one_proofs_call": true,
+  "cpu_threads": 1,
+  "npz_or_pt_decoding_allowed": false,
+  "model_or_numeric_operation_allowed": false,
+  "tests_allowed": false
+}
