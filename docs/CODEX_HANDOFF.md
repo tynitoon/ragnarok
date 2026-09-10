@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 05:44 Paris. Continuer entre jalons sans terminer aux commits.
+10 septembre 2026, 06:07 Paris. Continuer entre jalons sans terminer aux commits.
 Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
 sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
@@ -8,7 +8,7 @@ sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session
 
 Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
 État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
-Au contrôle de 05:30 : processus présents ; M4 de s2_8321 terminé, Fa en cours.
+Au contrôle de 06:01 : processus présents ; M4/Fa de s2_8321 terminés, Fb en cours.
 Sept mondes sur neuf sont complets depuis 04:43 ; s2_8321 est en cours. Le fichier
 v61_confirm_s2.json contient le septième ; l’agrégat reste à 6 jusqu’à la fin
 de la lignée. M4 du monde s2_8320 avait été conservé.
@@ -185,13 +185,14 @@ Ne pas balayer le seuil après l’échec.
 
 ## ARC 4 : contrôle positif stationnaire en préparation, sans fit
 
-docs/ARC4_STATIONARY_CONTROL_DRAFT.md et deux nouveaux modules/tests non encore
-committés : stationary_intervention_v70 (environnements) et
-response_envelope_certificate_v70 (évaluation). Générateur PCG64graine774 prévu,
+Sources 997245d puis 5cb0e79 : docs/ARC4_STATIONARY_CONTROL_DRAFT.md,
+protocole JSON, scripts/build_stationary_control_v70.py et son test,
+stationary_intervention_v70 (environnements) et
+response_envelope_certificate_v70 (évaluation), leurs tests. Générateur PCG64graine774 prévu,
 12 écrans natifs, nombres de rouges1/4/16/64/128/256/0/0/336/32/8/2.
 NOOP conserve RGB, commande1 met B=255 sur les R=255. Deux passés+2branches8
 donnent216pas/images synthétiques ; cible UNIQUEMENT par différence des branches.
-Aucun lot natif généré, aucun ancien NPZ lu.6tests environnement PASS0,33s.
+Aucun lot natif généré, aucun ancien NPZ lu.9tests environnement PASS0,33s.
 
 Certificat de juge : ResponseEnvelope exact10177paramètres, deux canaux actifs,
 poids centraux±4 puis±1 puis±2. Identité SiLU(t)-SiLU(-t)=t => logits±8,
@@ -200,10 +201,17 @@ RNG préservé ; ils ne vont jamais au learner.6tests PASS3,18s par review_recov
 exactement3forwards de juge sur10petites images, zéro update. Ne pas les répéter
 sans changement justifiant une nouvelle vérification.
 
-audit_motion_bootstrap revoit maintenant famille/certificat/coûts en lecture
-seule. Root doit encore écrire le runner de construction/certification et
-protocole JSON, puis tests/revue/commit avant une génération unique (CPU1,300s,
-64MB,1forward de juge sur12cas). Aucun fit de ce contrôle déclaré ou lancé.
+Runner : 8tests PASS3,12s sans forward ni génération réelle. Deux défauts corrigés
+avant exécution : ledger caller-owned comptant chaque retour avant le journal,
+et sauvegarde des logits immédiatement après le retour compté, avant journal
+ou métriques (témoins panne de journal et rejet NaN). 102sources et4preuves fixes.
+audit_motion_bootstrap revoit la dernière correction et doit faire le vrai
+configure_runtime(); proofs(), puis déposer/committer le préflight exclusif
+sans génération/forward. Ensuite seulement une génération unique CPU1,300s,
+64MB,1forward de juge sur12cas, puis revue indépendante du résultat.
+Root prépare un essai d’optimisation séparé, conditionné au certificat revu,
+paramètres d’apprentissage identiques au fit Atari. review_recovery_v62 critique
+ce choix en lecture seule. Aucun fit de ce contrôle n’est lancé.
 
 ## Limites antérieures préservées
 
