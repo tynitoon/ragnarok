@@ -1,0 +1,25 @@
+{
+  "kind": "v62_confirmation_scoring_and_figure_receipt",
+  "created_utc": "2026-09-10T06:19:29.468299+00:00",
+  "verdict": "INCONCLUSIVE",
+  "independent_review_passed": true,
+  "sha256": {
+    "craft_v6_out/v61_confirm.json": "037e2fb8fd04eff665d4690f077647046398f77423d000c8e552750ebff62685",
+    "craft_v6_out/v62_confirm_final_review.json": "6067d21344a2dc5a3849b90b25f5f277ffc747d274159cd5de237a60d47ccf7d",
+    "craft_v6_out/v61_confirm_score.json": "9210c96d558432510ab8ad8780f98b1a112aae3c4e5a5d2c682dfd5eb5f0b155",
+    "craft_v6_out/v61_figure.png": "ecc0fa40e287cc0d460f2f417ff53d6f34958a2b1275b5ba1520dd18a5ecf70a",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/figure_v61.py": "d8d45dd6931accd26553d3b29030e35cf8fecbdee8edf2ecb916eb74e23e21cd",
+    "craft_v6_out/v62_figure_layout_check_v2/independent_review.json": "d3addbe0d55980f0a3de5adfcde3a6a9509f15b79ce2763c91179ba6beb288f1",
+    "docs/ARC3_V62_CONFIRMATION_RESULTS.md": "32011f3ca99f58a14cdde5104cef101cadbfe521c1c8c175cb9a53b2f7a2de80"
+  },
+  "scorer_invocations": 1,
+  "figure_invocations": 1,
+  "figure_visual_inspection_passed": true,
+  "new_model_inferences": 0,
+  "new_training_updates": 0,
+  "conservative_budget_through_this_receipt_seconds": 140967.9097163,
+  "ceiling_seconds": 151200,
+  "guard_note": "A preparatory figure hash guard stopped before invoking Python: the handoff contained an incorrect recalled SHA. Source was unchanged and matched the original independent review d8d45dd6931accd26553d3b29030e35cf8fecbdee8edf2ecb916eb74e23e21cd; the sole figure call then ran.",
+  "interpretation": "The primary barely clears 2se, but lineages0 and2 are nonpositive. Frozen generic reason/sentence are preserved and explained, not rewritten. No reliable acceleration or Atari transfer established."
+}
