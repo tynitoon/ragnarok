@@ -1,53 +1,55 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 08:11 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 08:19 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant, sans terminer aux commits. L’apprentissage
 plus rapide des jeux suivants n’est PAS établi. Demande écran/RC annulée.
 Historique détaillé : docs/history/CODEX_HANDOFF_20260910_0811.md et _0619.md.
 
 ## Travail immédiat
 
-ARC3 terminé9/9 ; revue finale indépendante EN COURS par review_recovery_v62.
+ARC3 CLOS9/9, revue conforme3cab686, score INCONCLUSIVE et figure58ea641.
 ARC4 fit CNN à voie directe EN COURS, PID12332 depuis08:10:05 Paris.
-Root ne doit ni scorer ARC3 avant PASS de revue, ni relancer le fit ARC4.
+Aucun nouveau score/calcul ARC3 ; ne pas relancer le fit ARC4.
 audit_motion_bootstrap prépare son instrument de revue, attend le résultat
 SCELLÉ et le signal root avant décodage. Commits ciblés avec git commit --only.
 
-## ARC3 — clôture, avant score
+## ARC3 — clos, INCONCLUSIVE
 
-Les9 mondes sont complets, trois lignées8300–02/8310–12/8320–22. Contrôleur11880
-et enfant21216 absents ; arrêt10 septembre05:50:34.294716Z =07:50 Paris.
-État craft_v6_out/v62_confirm_second_recovery_state.json :
-confirm_complete_review_required, completed3. Agrégat v61_confirm.json SHA
-037e2fb8fd04eff665d4690f077647046398f77423d000c8e552750ebff62685.
-Résultats finaux20 chemins scellés6c7f677. Root a vérifié41 artefacts, union
-exacte des3 lignées et courbes complètes. B6, N9, G sur8300/8301 seulement.
+Neufmondes complets, lignées8300–02/8310–12/8320–22, B6/N9/G2 inchangés.
+Contrôleur11880/child21216 absents, arrêt05:50:34,294716Z=07:50Paris.
+Résultats6c7f677, revue3cab686 PASS17sources/133preuves/41artefacts sansmodèle.
+Sourcefreezea189ea5, autoritéARC3_PLAN§12.6 et§13, aucune relance.
 
-Revue attendue craft_v6_out/v62_confirm_final_review.json ; vérifier son PASS
-et commit avant score. Premier passage du vérificateur arrêté sur Infinity
-historique du gate : reviewer restreint cette exception au champ concerné,
-confirmation strictement finie, trace l’arrêt ; aucune expérience modifiée.
-Procédure docs/ARC3_CONFIRM_FINAL_REVIEW_DRAFT.md, autorité ARC3_PLAN.md§12.6.
-Après PASS : vérifier ABSENCE v61_confirm_score.json puis C:/Python314/python.exe
--m scripts.score_v61 ; ensuite figure_v61 corrigée, vérifier aussi absence de
-la figure cible avant écriture. Scorer SHA
-75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238.
-Figure corrigée423b770/revueaf94a62 SHA
-d3addbe0d55980f0a3de5adfcde3a6a9509f15b79ce2763c91179ba6beb288f1.
-Inspecter PNG ; archiver sorties et compte rendu sans changer critères.
+Score gelé exécutéUNEFOIS, figure corrigée423b770/revueaf94a62 exécutéeUNEFOIS,
+inspectée bonne ; sorties+doc+reçu58ea641. Δprincipal+.0549321>2se.0527736,
+mais lignées0−.0446972/1+.2106509/2−.0011574 :c’est leur condition qui échoue.
+Le motif générique conserve une inégalité fausse dans son OR et la phrase
+«not distinguishable from zero at this N» ;le compte rendu explique le vrai
+motif sansréécrire le code ni le résultat. Tier3+.107648<2se.149103.
+Frais–frais t_init−.803866 est calculé surAIRES,pasuniquementb0.
 
-Échéance ORIGINALE10 septembre09:10:02Z =11:10 Paris ; plafond42h de ligne,
-pannes et investigations comprises. Ne jamais repartir de elapsed_seconds.
-Le résultat est rentré dans la fenêtre ; calcul exact des coûts par reviewer.
-Sources geléesa189ea5. Récupérationf36971b/7acff3e,34testsPASS,revue3d5ace9.
-Deux incidents archivés, le second dans v62_confirm_interruption_20260910/.
-Anciennes states/smokes/notches non suivis à préserver et ne pas inclure.
+Compte rendu docs/ARC3_V62_CONFIRMATION_RESULTS.md ;sorties
+craft_v6_out/v61_confirm_score.json SHA
+9210c96d558432510ab8ad8780f98b1a112aae3c4e5a5d2c682dfd5eb5f0b155,
+v61_figure.png SHAecc0fa40e287cc0d460f2f417ff53d6f34958a2b1275b5ba1520dd18a5ecf70a,
+v62_confirm_publication.json. Review_recovery vérifie maintenant la cohérence
+finale du compte rendu JSON-only ;ne pas changer la doc couverte parSHA sans
+préserver le premier reçu et faire un addendum si besoin.
 
-L’aire b1..6 peut conserver une avance initiale : même verdict gelé positif
-ne suffit pas à isoler une vitesse d’apprentissage supérieure. Pourv62,
-Δ0 tiers3/4 inclut poids ET store. Probe618/768 contre398/768 positif, mais
-pas d’AUC tête de loi mesurée sur les cellules exercées en confirmation.
-Mondes SYMBOLIQUES, aucune preuve de jeu depuis pixels/transfert Atari.
+Budget38,6756123h jusqu’àclôture pannes comprises ;39,1577527h comptées jusqu’au
+reçu de score/figure sur42. ÉchéanceORIGINALE09:10:02Z=11:10Paris nonrepoussée.
+Anciennesstates/smokes/notches non suivis àpréserver et ne pas inclure.
+Deux incidents et correctionsduvérificateur conservésdanspreuves.
+
+Tier2Δ−.104312,tier3+.107648,tier4+.161460 :le gain des objectifs difficiles
+ne remplacepas le verdict global. Δ0tiers3/4 contientpoidsETstoreconservé.
+L’aire aprèsb0 peut garder uneavanceinitiale,n’isole pas la vitesse.
+Probe618/768vs398/768positif,mais aucuneAUC têteloi des cellules exercées en
+confirmation. Symbolique :aucun jeuAtari maîtrisé ni transfertpixelsprouvé.
+ScorerSHA75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238.
+FigureSHAcorrigé d8d45dd6931accd26553d3b29030e35cf8fecbdee8edf2ecb916eb74e23e21cd.
+L’ancienhand-off avaitunSHAfigureerroné ;gardepréparatoireaarrêtéAVANTPython,
+sourcevraimentinchangéconformeàlarevuehistorique. Unseulrenduréel.
 
 ## ARC4 — fit direct en cours
 
