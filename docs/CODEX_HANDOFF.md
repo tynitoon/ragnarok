@@ -1,32 +1,37 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 06:29 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 06:59 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer entre jalons sans finir aux commits. L’apprentissage plus rapide des
 jeux suivants n’est pas établi. Demande écran/RC annulée : mauvaise session.
 Détails historiques : docs/history/CODEX_HANDOFF_20260910_0619.md.
 
 ## Travail immédiat
 
-Le contrôle stationnaire est construit et revu PASS. Son fit aléatoire séparé
-tourne depuis06:26 Paris, PID13380, WMI caché hors Job vérifié. Sources0e5ede9,
-préflightc04a9c5 SHA01024c4d6850a34c34f0b7932555e2e4a6029aa523e471f7fb74e9bcaf1ceaf3,
-106sources/3preuves exactes sans modèle/données décodées au préflight.
-Intention et dispatch committés ee6f32c dans v70_stationary_fit/launch_v0/ ;
-console active non committée. Vers06:28,49updates visuelles/48constantes finies,
-139,7s de travail. UNE tentative CPU1,1200s, aucun retry. Ne pas modifier les
-106sources durant le run. À la fin : préserver et faire revoir le résultat.
-Les deux réviseurs sont disponibles. Figure JSON-only préparée dans
-scripts/figure_stationary_fit_v70.py, exige résultat complet et revue conforme,
-pas encore exécutée. Validation conditionnelle déclaréeaa0d9b1 puisc04a9c5
-AVANT fit : docs/ARC4_STATIONARY_VALIDATION_DRAFT.md, aucun script/donnée ouverts.
-Nouvelle graine775 seulement si fit+critère+revuePASS ; les coins imposés restent
-partagés, nouveaux RGB ne signifient pas nouveaux supports pour tous les cas.
+Le fit CNN stationnaire est complet NÉGATIF, revu, figuré ; PID13380 absent.
+La validation conditionnelle775 NE DOIT PAS être exécutée (condition échouée).
+Son instrument préparédef8908 reste gardé par des SHA None ; sept tests de
+fixtures PASS6,11s, aucune nouvelle génération ou modèle réel.
+
+Prochaine décision : calibration comparative affine, déclarée839e0ee dans
+docs/ARC4_STATIONARY_LOGISTIC_DRAFT.md. Même modèle7paramètres, zéro initial,
+float64 ; Newton amorti7/4 visuel+constant16 itérations, Adam3e-4/clip1 visuel+
+constant256. Total544 appels de mise à jour,300s CPU1, aucun nouveau tirage.
+Newton primaire, Adam témoin, critères IoU/avance/vides inchangés ; cela ne
+réhabiliterait pas le CNN ni ne prouverait transfert/généralisation.
+
+Core63e541c : ragnarok/learning/affine_response_envelope_v70.py et
+tests/test_affine_response_envelope_v70.py,7PASS9,15s. Différences finies,
+Hessien redondant/borne7/4/descente, permutation canaux, poids BCE, deux steps
+Adam float64 contre Torch, logits extrêmes. Aucun lot réel/CNN/ancien poids.
+review_recovery_v62 revoit ces mathématiques pendant que root doit écrire le
+runner/protocole et ses témoins de panne. Aucun fit affine lancé. Il faudra
+préflight indépendant après gel de toutes les sources. audit_motion est disponible.
 Une préférence AGENTS autorise la revue contradictoire aux jalons scientifiques.
 
 ## ARC 3 — dernier monde en cours
 
 Contrôleur11880, enfant21216, départ10 septembre 03:02 Paris. Présents au contrôle
-06:12 ; huit mondes sur neuf complets, s2_8322 a commencé. Le fichier par lignée
+06:56 ; huit mondes sur neuf complets, M4 de s2_8322 fini, Fa en cours. Le fichier par lignée
 v61_confirm_s2.json contient s2_8320 et s2_8321 ; l’agrégat reste à6 jusqu’à la
 clôture de la lignée. Ne pas faire de score partiel. Vérifier les vrais PID et
 un tail borné de craft_v6_out/v61_confirm_s2.log, pas l’état JSON entier.
@@ -96,7 +101,7 @@ Revue SHAdc121b32ed97628e3775ae28f37eb734680c46d8038b725747b58bf7a83cb69b.
 102sources/12preuves,216retours/24coefficients/labels/logits indépendamment
 vérifiés en15,02s, aucune nouvelle génération ou inférence pendant la revue.
 
-Fit stationnaire : docs/ARC4_STATIONARY_FIT_DRAFT.md et PROTOCOL.json,
+Fit CNN stationnaire : docs/ARC4_STATIONARY_FIT_DRAFT.md et PROTOCOL.json,
 scripts/fit_stationary_control_v70.py, tests/test_stationary_fit_v70.py.
 Sources0e5ede9. 12tests de fixtures validés :10PASS5,77s puis2témoins inf/NaN
 PASS5,26s ; témoin payload revérifié1PASS3,08s après détail du timeout.
@@ -108,8 +113,21 @@ critères IoU≥0,25/avance≥0,10/chaque videFP≤0,001. CPU1/1200s dont10s cl�
 64MB, aucun nouveau tirage, retry, modèle pré-entraîné ou changement de seuil.
 Le fit décode seulement passés et labels, jamais futurs/poids/logits du juge ;
 il n’importe pas le builder/certificat. Preflight attendu dans
-v70_stationary_fit/preflight_v0.json, maintenant committé. Un PASS serait partiel et sur développement,
-pas généralisation/transfert ; un FAIL ne prouverait pas l’impossibilité d’apprendre.
+v70_stationary_fit/preflight_v0.json committé c04a9c5,
+SHA01024c4d6850a34c34f0b7932555e2e4a6029aa523e471f7fb74e9bcaf1ceaf3.
+LaunchWMIee6f32c, artefacts+console19f5ef4. Complet744,030s,512updates et515
+forwards exacts,0erreurs, mais trois clauses FAIL : IoU0,00492999, avance0,00240916,
+FP0,23214%/0,47024% (78/158pixels). AP0,203889, BCEfinale0,558961.
+Résultat SHA8ca241233e8053cedd6149b1d3992dc7cbc944c4442ce298b067dafc03719c35.
+Revuev1 conforme4c612de SHAc2fe9c270afa098f43c403b3f4818460bd9540993794049cd7df04f1151daa98 :
+106sources/26preuves/48lignes/3BCE/2055événements, initial identique à la recette
+archivée, aucun nouveau forward. Temps cumulatif12,41s. Revuev0 conservée à son
+chemin : premier arrêt avant tableaux sur chemins Git Windows absolus ; réviseur
+corrigé7bb3c80 vers chemins relatifs, sources03a60bb puis7bb3c80. Ne pas déplacer
+ou écraser v0 ; utiliser fit_review_v1.json comme preuve valide.
+Figure source4ccf26e, artefactsded76ed : fit_v0.png/fit_v0_figure.json, générée une
+fois JSON-only et vue sans défaut. Ouverture Codex renvoyée queued. Compte rendu
+docs/ARC4_STATIONARY_FIT_RESULTS.md. Aucun succès de validation ni transfert.
 
 ## Autres limites et environnement
 
