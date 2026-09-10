@@ -100,6 +100,7 @@ def worker():
         raise ValueError('No owner-approved recovery intention')
     if extra_hashes() != intent['recovery_source_sha256']:
         raise ValueError('Recovery source bytes changed')
+    common.verify_sources(intent['source_sha256'])
     common.check_time(intent)
     from scripts.photometric_worker_v70 import fit
     fit(intent)  # Original source unchanged; no generate() call.
@@ -125,12 +126,16 @@ def run(*, approved):
             if common.sha(OUT / name) != expected:
                 raise ValueError('Copied archive differs; no regeneration allowed')
         common.write_bytes(OUT / 'generation_v0.json', (OLD / 'generation_v0.json').read_bytes())
+        if common.sha(OUT / 'generation_v0.json') != GENERATION_SHA:
+            raise ValueError('Copied generation manifest changed before fitting')
         supervisor.child('scripts.photometric_technical_recovery_v70', ['worker'], 'fit_v0_output.txt', intent)
         result = common.read_json(OUT / 'fit_worker_v0.json')
         if result['execution_status'] != 'complete':
             raise ValueError('Original fitting function did not finish')
         if proofs() != proof:
             raise ValueError('Recovery proof changed during fitting')
+        if common.sha(OUT / 'generation_v0.json') != GENERATION_SHA:
+            raise ValueError('Copied generation manifest changed during fitting')
         for name, expected in generation['file_sha256'].items():
             if common.sha(OUT / name) != expected:
                 raise ValueError('Copied data changed during fitting')
