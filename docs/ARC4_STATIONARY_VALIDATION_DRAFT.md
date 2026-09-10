@@ -21,11 +21,18 @@ restent gelés et aucune mise à jour n’est permise.
 Même générateur stationnaire, dimensions210×160, horizon8, deux passés NOOP,
 branches NOOP/commande1, cibles exclusivement par leurs différences observées.
 PCG64, nouvelle graine775. Douze cas, mêmes nombres de pixels de réponse et
-même ordre1/4/16/64/128/256/0/0/336/32/8/2 ; positions et nuisance RGB redessinées.
+même ordre1/4/16/64/128/256/0/0/336/32/8/2 ; nuisance RGB redessinée et positions
+redessinées hors du coin imposé, qui reste celui de chaque cas du développement.
 Les paires de mesure gardent leur seule fonction de pondération, sans entrée
 dans le réseau. Chaque paire de RGB passée doit différer de toutes celles du
 développement, par comparaison exacte des octets. Un doublon quelconque rend
 la validation non concluante, sans nouveau seed ni remplacement de cas.
+Ce contrôle d’octets ne garantit pas de nouveaux supports des cibles : le cas
+à1pixel conserve son unique coin et les deux masques vides restent identiques.
+Publier descriptivement les masques exactement répétés et le recouvrement des
+supports avec le cas de développement correspondant, sans nouveau critère
+d’exclusion ni changement de lot. La validation ne testera donc pas de nouvelles
+positions pour tous les cas.
 
 Douze écrans initiaux et216 pas synthétiques supplémentaires, comptés
 séparément des216 pas de construction. Zéro image Atari et aucun jeu réservé.
