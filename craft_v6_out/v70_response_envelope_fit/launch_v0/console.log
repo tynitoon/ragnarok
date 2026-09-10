@@ -1,0 +1,2 @@
+{"pid": 17684, "detached_from_job": true, "mode": "fixed_response_envelope_fit"}
+{"execution_status": "complete", "verdict": {"passed": false, "complete": true, "minimum_iou_pass": false, "advantage_over_best_control": 0.04249112951164622, "minimum_advantage_pass": false, "each_empty_anchor_pass": false, "claim": "Development-set fitting feasibility only; not independent generalization"}, "completed_updates": {"visual": 256, "constant": 256}, "optimizer_update_count_exact": true, "work_seconds": 738.1461781000107}
