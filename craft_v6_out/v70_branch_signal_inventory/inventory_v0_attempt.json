@@ -1,0 +1,2705 @@
+{
+  "kind": "branch_signal_inventory_attempt",
+  "status": "complete",
+  "started_utc": "2026-09-10T00:10:11Z",
+  "source_sha256": {
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_DRAFT.md": "09491437f125f7050ce67e42bac1ec8a8095d1a5d7d752053fbd9b48720a6cc2",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_PROTOCOL.json": "900b7c0ecd33de9de4aaa530a99e5fe842a53350be227cdb072dbd8347494a85",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/check_owned_ordinary_native_v70.py": "107d5704357325a2b6eabbf56f11d6c495d9102ee08ff9dfb38df3f569cd0d3a",
+    "scripts/check_rgb_branch_trace_v70.py": "93ce402d37407bdd6c0ead918d70fd498c748801d7e33ae13a30633a28c3c863",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_ordinary_native_v70.py": "f3571b2b9a9364a94cebd087f4764597a40789358b6437ac1edf23eed455cd01",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_branch_trace_wiring_v70.py": "8c90fd72e01d80d995c620b6497d04ff555a9143eba3bd72376ca1a4da428cd6",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_PROTOCOL.json": "e9d07809afc876f0721bfce9992f92eb0321c956806fb05da620ec857417b2cc",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "scripts/check_archived_pixel_diagnostics_v70.py": "9489bc3fa586b9a3faf8c8e038665449bcfd82abfee0e8f765763c86f1c98222",
+    "tests/test_archived_pixel_diagnostic_protocol_v70.py": "5d63667f4a3c8961b278cc36d56ec35a53b395e84e49c068613e788d4a6dda13",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "scripts/check_branch_signal_inventory_v70.py": "9288d50d1c6a071b6c520975fb5698bdaf0d9a0a2990d91abf41e330999a2ed5",
+    "tests/test_branch_signal_inventory_v70.py": "3563942f9b80eac42090089ff6defb89f0b607af3f7b024280f86d419323f01d",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_PROTOCOL.json": "f4f3458956c9e3a3fe274ff0ddd1937fc162f83eeb0ab2193ee134262d168674",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_DRAFT.md": "09da17046157b4d0d4c8247f4ae2075bac89e0a33f5fdd01f00603da7fc1841d"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_owned_ordinary_native/wiring_review_v0.json": "8b4105ce479e7d990293a89ce8ea3789506600729f3e1f721dbf59653f04a668",
+    "craft_v6_out/v70_ordinary_rgb_trace/collector_review_v0.json": "6bf43d46eb874018c5e66096d70c6e85e257d9e81bac57daa08e2f00603e6b61",
+    "craft_v6_out/v70_ordinary_rgb_trace/source_review_v0.json": "122c7e69ee89b53b4d0b6e80d2c1c510c43bddea685fcc5cb26f950f05a166c9",
+    "craft_v6_out/v70_ordinary_rgb_trace/transport_review_v0.json": "b079d593781aa7ffbb32f9e194e02c1c33523dbe25548673364ce6a5e26172c7",
+    "craft_v6_out/v70_rgb_branch_trace/result_review_v0.json": "64e82d1b7f6b543ab8db7530771cca11590a0eaab9f03ca5f87dc88401b69902",
+    "craft_v6_out/v70_rgb_branch_trace/source_review_v0.json": "e7fc7ee0eb5141cb92c9e03f2e05411b3c6c2ae1cd39ee3f20baaa765bbf176c",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_preflight_v0.json": "f0d8a22aca0f21b3ad4555e18eb4bdd78d7dad11fb7ee171e9f38aaa1298cd96",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0.json": "b14fdf0f796f90a02ee32318aa437457fd1f55cc22a5d6f5b3444423fb8472b9",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0_attempt.json": "9e84908b3ad380d7a56edc550f47db7a6d439cb987a882b2f99f858e7cc5bb7b",
+    "craft_v6_out/v70_rgb_branch_trace/wiring_v0_console.log": "e60f4c699e107e78bc8849254ed31542f33b9544bbcaba16cf20e30e84be035e",
+    "craft_v6_out/v70_visible_cpu/preflight_review_v0.json": "f5e04e1848d82864c9bc296b86ad97eb2f800954efa0421184f415d2dd8ffad9",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "craft_v6_out/v70_owned_ordinary_native/asteroids_rgb_v0.npz": "265aab4bf823ff98dafc2ad451562393900013332ca73f441445d6d8e93348a8",
+    "craft_v6_out/v70_owned_ordinary_native/breakout_rgb_v0.npz": "99078a6b0e8a47ac9d4a758722d75cd6261d39307978c27f6207e4303598b9ac",
+    "craft_v6_out/v70_owned_ordinary_native/freeway_rgb_v0.npz": "809fdbdba982c2be6c0e4a8cff9721c3658ceb8b65c010e246ad76c939718008",
+    "craft_v6_out/v70_owned_ordinary_native/ms_pacman_rgb_v0.npz": "de66d0102278137bf8b65d649f844ade096c45fa6aee955f85855a4e5ee344e4",
+    "craft_v6_out/v70_owned_ordinary_native/pong_prefix_1_rgb_v0.npz": "816fade39414a963d84f73e688690109478844be7e203397c15aa2941b50a8d9",
+    "craft_v6_out/v70_owned_ordinary_native/pong_prefix_2_rgb_v0.npz": "6de608d0a8c4063da086d3885964ad690d490fbad17f6fcc6ee9e84eb96606ef",
+    "craft_v6_out/v70_owned_ordinary_native/pong_prefix_3_rgb_v0.npz": "3cbe687a76d1ebbcf8713a3e9ec0158812b6951457fa78e4d3a04ef2541b9d3c",
+    "craft_v6_out/v70_owned_ordinary_native/pong_rgb_v0.npz": "b92795a5c988223e498d3426e28a63fb19196f0a86deb0f6eab6c2fe0169022c",
+    "craft_v6_out/v70_owned_ordinary_native/preflight_v0.json": "2cd186f34ba6da3b78cf171170d5dc4acaa6d98b2a31e3bf0ce614107b4c4ce3",
+    "craft_v6_out/v70_owned_ordinary_native/seaquest_rgb_v0.npz": "2a145e697273fd2f9e279d627a41fd18396bcad573b41d814411bcbaaa96ff47",
+    "craft_v6_out/v70_owned_ordinary_native/wiring_v0.json": "5db50e4ee27fedf0ec77a62fab9c13efd309749f7a127e47d73ec4f56ae886af",
+    "craft_v6_out/v70_owned_ordinary_native/wiring_v0_attempt.json": "d56542aded9ca0e669157b6bea77349c445d2440f20cb2981e915c727b5397d9",
+    "craft_v6_out/v70_owned_ordinary_native/wiring_v0_console.log": "5635505f92e10f31e2f791a6f3f87f4b6e0382b85c40ce8dd499565e28f62456",
+    "craft_v6_out/v70_archived_pixel_diagnostics/cpu_review_v0.json": "574e1881b67bb1e5e07c8f05c9433533eb09abdbd30507a37465cb5082eac9aa",
+    "craft_v6_out/v70_archived_pixel_diagnostics/console_v0.txt": "387d059602a4194ea091ef3d942d0d06717d9c18cf35e6bef93ecaad4e161789",
+    "craft_v6_out/v70_archived_pixel_diagnostics/cpu_v0.json": "610ef8a238449939290efa6ad3cbdb2bfe886cbfc5efddf032113540fd85971d",
+    "craft_v6_out/v70_archived_pixel_diagnostics/cpu_v0_attempt.json": "c201f6b1fc0e76eb16ddbf571258868c12455fe9609b461e852ad3459d19b2b2",
+    "craft_v6_out/v70_archived_pixel_diagnostics/preflight_v0.json": "824af6c3df31a5f4a17c24ac3c57c01c7690f5f342a4db9014815af2cfd8dd7e",
+    "craft_v6_out/v70_ordinary_rgb_trace/pixel_objectives_review_v0.json": "9e57b87f993aeef7721edcc149686ee0e63832cb3797b253f85220a3810bbd34",
+    "craft_v6_out/v70_ordinary_rgb_trace/temporal_session_review_v0.json": "f7d44de26f8115c91c664639c8be88a5984bd13584875fafa124d9f7026a5166",
+    "craft_v6_out/v70_parser_synthetic/archived_pixel_diagnostics_review_v0.json": "968d7f029ba1f971a518168cd630f6108fa861e55ab618c0254e89ed5eaf8a5b",
+    "craft_v6_out/v70_parser_synthetic/counterfactual_capacity_review_v0.json": "1d9dc2151bfa7c3e1630568c00574f803263be3fecdf288f67f3bfbeb390a529",
+    "craft_v6_out/v70_parser_synthetic/embedding_objectives_review_v0.json": "cb41aa1ebb43029cfbc780901681367650375818c17eac8a8f361c2861e56c3a",
+    "craft_v6_out/v70_parser_synthetic/gradient_guard_review_v0.json": "c5119bea17ac84b0db60cb94b2a0f54049e8e2e63b08f21b6d9371e1a4f59bd4",
+    "craft_v6_out/v70_parser_synthetic/perception_stream_review_v0.json": "87288ba62145c52bed8c9e6f32b886e72e0cf175a14ffeb67a09b79e36a831e5",
+    "craft_v6_out/v70_parser_synthetic/source_review_v0.json": "f6d1838179507a1a54cbc95c9fdcfce8c709fac1fa76605119387dcc5fc074b7",
+    "craft_v6_out/v70_parser_synthetic/tracker_review_v0.json": "5d25929ff83d4b0ec4791747a9e7c155c1703dfd7adf73efc679d2eee048b59b"
+  },
+  "runtime": {
+    "executable": "C:\\Python314\\python.exe",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "numpy": "2.4.4",
+    "cuda_visible_devices": "",
+    "numerical_threads": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "preflight_review_sha256": "ebc75eb70b1fb6a2519d4de4a653ce79982db850411346acae49c16d28bf8461",
+  "completed_cases": [
+    {
+      "case": "pong",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/pong",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "b92795a5c988223e498d3426e28a63fb19196f0a86deb0f6eab6c2fe0169022c",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "breakout",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/breakout",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "99078a6b0e8a47ac9d4a758722d75cd6261d39307978c27f6207e4303598b9ac",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "freeway",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/freeway",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "809fdbdba982c2be6c0e4a8cff9721c3658ceb8b65c010e246ad76c939718008",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "seaquest",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/seaquest",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "2a145e697273fd2f9e279d627a41fd18396bcad573b41d814411bcbaaa96ff47",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "ms_pacman",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/ms_pacman",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "de66d0102278137bf8b65d649f844ade096c45fa6aee955f85855a4e5ee344e4",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33600
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": true,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "asteroids",
+      "pair_present": true,
+      "metadata": {
+        "operation_id": [
+          "owned-ordinary-v0/asteroids",
+          145
+        ],
+        "intervention_frames": 8,
+        "control_frames": 8,
+        "anchor_frame": 576,
+        "anchor_epoch": 0,
+        "requested_action": 5,
+        "control_action": 0,
+        "requested_frames": 8,
+        "effect_assumption": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "archive_sha256": "265aab4bf823ff98dafc2ad451562393900013332ca73f441445d6d8e93348a8",
+      "loaded_array_keys": [
+        "branch_start_pair",
+        "branch_intervention_raw",
+        "branch_intervention_pooled",
+        "branch_intervention_endpoint",
+        "branch_control_raw",
+        "branch_control_pooled",
+        "branch_control_endpoint"
+      ],
+      "raw": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33580
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 20
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": false,
+        "complete_eight_frame_pair": true
+      },
+      "pooled": {
+        "common_prefix_frames": 8,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 2,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 3,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 0,
+            "changed_fraction": 0.0,
+            "cumulative_union_pixels": 0,
+            "cumulative_union_fraction": 0.0
+          },
+          {
+            "horizon": 4,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 5,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 6,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 7,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          },
+          {
+            "horizon": 8,
+            "observed": true,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": 33600,
+            "changed_pixels": 20,
+            "changed_fraction": 0.0005952380952380953,
+            "cumulative_union_pixels": 20,
+            "cumulative_union_fraction": 0.0005952380952380953
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": 33580
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": 20
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": 0
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": 0
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": false,
+        "complete_eight_frame_pair": true
+      }
+    },
+    {
+      "case": "pong_prefix_1",
+      "pair_present": false,
+      "reason": "No branch pair in the fixed native case",
+      "archive_sha256": "816fade39414a963d84f73e688690109478844be7e203397c15aa2941b50a8d9",
+      "loaded_array_keys": [],
+      "raw": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      },
+      "pooled": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      }
+    },
+    {
+      "case": "pong_prefix_2",
+      "pair_present": false,
+      "reason": "No branch pair in the fixed native case",
+      "archive_sha256": "6de608d0a8c4063da086d3885964ad690d490fbad17f6fcc6ee9e84eb96606ef",
+      "loaded_array_keys": [],
+      "raw": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      },
+      "pooled": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      }
+    },
+    {
+      "case": "pong_prefix_3",
+      "pair_present": false,
+      "reason": "No branch pair in the fixed native case",
+      "archive_sha256": "3cbe687a76d1ebbcf8713a3e9ec0158812b6951457fa78e4d3a04ef2541b9d3c",
+      "loaded_array_keys": [],
+      "raw": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      },
+      "pooled": {
+        "common_prefix_frames": 0,
+        "unpaired_intervention_frames": 0,
+        "unpaired_control_frames": 0,
+        "horizons": [
+          {
+            "horizon": 1,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 2,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 3,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 4,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 5,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 6,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 7,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          },
+          {
+            "horizon": 8,
+            "observed": false,
+            "pixels_per_frame": 33600,
+            "observed_pixel_denominator": null,
+            "changed_pixels": null,
+            "changed_fraction": null,
+            "cumulative_union_pixels": null,
+            "cumulative_union_fraction": null
+          }
+        ],
+        "first_changed_histogram": [
+          {
+            "first_changed_frame": 0,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 1,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 2,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 3,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 4,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 5,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 6,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 7,
+            "pixels": null
+          },
+          {
+            "first_changed_frame": 8,
+            "pixels": null
+          }
+        ],
+        "first_changed_zero_meaning": "No change observed in the common prefix; not a statement beyond it",
+        "all_zero_over_observed_prefix": null,
+        "complete_eight_frame_pair": false
+      }
+    }
+  ],
+  "current_case": null,
+  "current_phase": "complete",
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "new_emulated_frames": 0,
+  "work_seconds": 0.14933660000679083,
+  "completed_utc": "2026-09-10T00:10:28Z",
+  "result_sha256": "a2403c7b07ef3389a8fb89e1524e2bbaa5b28f31199b38e434402aa8d3ed020e"
+}
