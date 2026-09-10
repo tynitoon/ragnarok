@@ -1,0 +1,52 @@
+{
+  "version": 0,
+  "data_seed": 775,
+  "rng": "NumPy PCG64",
+  "height": 210,
+  "width": 160,
+  "positive_counts": [
+    1,
+    4,
+    16,
+    64,
+    128,
+    256,
+    0,
+    0,
+    336,
+    32,
+    8,
+    2
+  ],
+  "horizon": 8,
+  "initial_screens": 12,
+  "synthetic_step_returns": 216,
+  "evaluation_order": [
+    "initial",
+    "visual",
+    "constant"
+  ],
+  "evaluation_batches": 3,
+  "optimizer_updates": 0,
+  "new_emulated_frames": 0,
+  "probability_threshold": 0.5,
+  "minimum_visual_iou": 0.25,
+  "minimum_advantage": 0.1,
+  "maximum_each_empty_false_positive_fraction": 0.001,
+  "duplicate_rule": "any exact ordered past RGB pair repeated from development makes the assessment inconclusive; no replacement",
+  "support_repeats": "descriptive only, including fixed corners and two empty masks",
+  "controls": [
+    "initial saved weights",
+    "trained constant-input weights",
+    "zero output without a forward"
+  ],
+  "weights": "only the reviewed fit final visual/constant and original saved random initialization",
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "max_work_seconds": 180,
+  "cleanup_reserve_seconds": 10,
+  "max_binary_output_bytes": 64000000,
+  "retry": false,
+  "work_scope": "after attempt fsync through generation, input loading, evaluation, all artifacts and payload fsync/hash, final provenance and journal closure; final receipt excluded",
+  "claim": "performance on twelve new RGB draws of the same family only, not transfer or learning speed"
+}
