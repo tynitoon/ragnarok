@@ -1,110 +1,114 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 03:34 Paris. Continuer entre jalons sans final aux commits.
-Dernier utilisateur : « ça en est où ? ». Réponse : accélération NON établie ;
-six mondes ARC3 sur neuf complets, ARC4 sans entraînement Atari ni gate0.
+10 septembre 2026. Continuer entre jalons sans terminer aux commits.
+Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
+sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
-## ARC3 : reprise maintenant ACTIVE et vérifiée
+## ARC 3 : reprise active
 
-Contrôleur11880, enfant21216. Démarrage10sept01:01:55.997127Z (03:02Paris).
-État actuel : craft_v6_out/v62_confirm_second_recovery_state.json, running/confirm_s2.
-Journal s2 confirme [resume] s2_8320_M4. Six mondes et M4 entier préservés ; Fa
-a terminé son premier objectif en788s, suite en cours. Aucun score partiel.
-Anciens états «running» sont historiques.
-Surveiller PID réels, pas seulement le texte de l’état. Aucun autre calcul GPU.
+Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
+État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
+Au contrôle de 03:55 : processus présents, Fa entier terminé, Fb en cours.
+Six mondes sur neuf sont complets. M4 du monde s2_8320 avait été conservé.
+Aucun score partiel. Les anciens états « running » sont historiques.
+Vérifier les processus réels et un tail borné du journal v61_confirm_s2.log.
+Ne pas afficher le gros état JSON entier : sélectionner status/stage/PID.
 
-Deadline ORIGINALE conservée10sept09:10:02Z =11:10Paris, pas de nouveau budget.
-Réserve30s pour arrêt/écriture ; surveillance toutes0,5s avec UTC+monotone.
-B6/N9/G2 inchangés. 29286,00289s restaient au départ de cette reprise.
-Le nouveau contrôleur et le lanceur sont hors Job Object via WMI caché.
-Handshake durable PID/empreintes avant GPU ; un échec tardif du lanceur conserve
-le superviseur. Ne modifier AUCUNE de leurs quatre sources maintenant actives.
+Échéance ORIGINALE : 10 septembre 09:10:02Z = 11:10 Paris. B6/N9/G2,
+64 environnements et budgets inchangés ; pannes et investigations consomment
+la même fenêtre. Réserve de clôture de 30 s ; surveillance UTC + monotone.
+Ne pas utiliser l’ancien elapsed_seconds pour réattribuer du temps.
 
-Sources f36971b puis7acff3e ; revue3d5ace9. 34 tests PASS racine2,30s/revue1,99s.
-Reçu v62_confirm_second_recovery_review.json SHA9bc32b784de9c8a633a04f394479d6b61e43b010a97427093dc04ea7fdc48ddb.
-Préflight réel passé sous Python principal avant WMI. Reçus de lancement/PID
-originaux stables dans craft_v6_out ; copies byte-exact dans le dossier incident.
-État et logs actifs ne sont PAS à committer avant leur fin.
+Sources de reprise f36971b puis 7acff3e ; revue 3d5ace9, 34 tests PASS.
+Ne modifier aucun des quatre fichiers recover_confirm_after_interrupt_v62,
+launch_detached_confirm_v62 et leurs deux tests pendant cette exécution.
+Revue : craft_v6_out/v62_confirm_second_recovery_review.json (9bc32b78…).
+Lancement WMI caché hors Job Object, reçu durable avant autorisation GPU.
+Originaux des reçus stables dans craft_v6_out ; copies exactes committées
+avec l’incident dans v62_confirm_interruption_20260910/ (ca3b24e).
+État et journaux actifs restent hors commit. Aucun autre calcul GPU.
 
-Incident02:26Paris : anciens20936/28140 disparus, boot inchangé, cause INCONNUE.
-Snapshots committés craft_v6_out/v62_confirm_interruption_20260910/.
-Aucun résultat terminé ni source gelée modifié. Toute panne/investigation
-consomme la fenêtre précédente ; ne pas utiliser elapsed_seconds périmé.
-Voir docs/ARC3_SECOND_INTERRUPTION_RECOVERY.md et historique0303 pour détails.
-Après neuf mondes complets : revue coûts/sources/résultats, score gelé puis
-figure423b770/revueaf94a62. Aucun score partiel, aucune relance automatique.
-Sources scientifiques : ARC3_PLAN.md§12.6,17fichiers gelés et anciens lanceurs.
+Incident du 10 septembre à 02:26 Paris : anciens PID 20936/28140 disparus,
+démarrage Windows inchangé, cause inconnue. Traces préservées f36971b.
+Voir docs/ARC3_SECOND_INTERRUPTION_RECOVERY.md et ARC3_PLAN.md §12.6.
+Après neuf mondes complets : revue indépendante coûts/sources/résultats,
+puis score gelé et figure 423b770 (revue af94a62). Pas de relance aveugle.
 
-## ARC4 : survey du signal des actions ACTIF, PID20816
+## ARC 4 : survey terminé, revu et figuré
 
-Collecte lancée10sept01:28:42Z viaWMIcaché ; garde horsJob passé (console),
-tentative01:28:55Z. À03:34Paris : sixièmejeuAsteroids,198archives présentes,
-pas encorederésultat, aucun STOP constaté. PAS d’autre test/benchmark/capture
-tantqueleparent et son worker n’ontpasterminé. Ne modifieraucunedes81sources.
-Pas de session unifiedexec : suivre PID20816 et fichiers survey_v0*. Le log
-JSONL est volumineux : lire uniquement dernièreligne/tail borné, pas entier.
-Intentionexclusive/fsync AVANTWMI dans launch_v0/intent.json ; dispatch.json
-retour0/PID20816. Code -c stdlib/Runpy exact, CPU1/CUDAvide, moduleinchangé.
-Ne jamaisrelancer : attempt/progress/output/rgb sont exclusifs. Encasd’arrêt,
-préserver toutestraces/comptes ; aucunretry/mêmecommande automatique.
+216/216 comparaisons, six jeux, deux ancres et dix-huit commandes chacune.
+Collecte close le 10 septembre à 03:34:52 Paris, ancien PID 20816 absent.
+157 530 images facturées, comptes complets, 342,82 s de travail,
+784 243 728 octets d’archives. Aucun calcul d’apprentissage ni GPU.
+Résultats et 216 NPZ committés 3eb5b95 ; reçus de lancement 21922f6.
+Sources bd0b314, préflight 4034174, 26 tests synthétiques PASS.
+Ne modifier aucune des 81 sources de cette collecte. Aucun rejeu.
 
-Sources bd0b314 : scripts/survey_action_signal_v70.py, tests/test_action_signal_survey_v70.py,
-docs/ARC4_ACTION_SIGNAL_SURVEY_PROTOCOL.json.26tests synthétiques PASS5,99s,
-dont panne report() après réception :7tableaux archivés AVANT RPC/journal,
-coûts incertains conservés, STOPglobal. Aucun ancien fichier changé.
-Revue indépendante :26PASS6,20s +vrai proofs(),81sources/51preuves/16modulesAST,
-runtime parent exactsansTorch/ALE. Reçupréflight committé4034174, SHA
-7c97ed6d45d4b2e1a0a6e27a2311db546330a150ee84a17101004b53a4c7140f.
-Agents audit_motion_bootstrap et review_recovery_v62 terminés et sanschargeCPU.
-Àfin : vérifier clôture/comptes/censures sansnouveauxscriptsderelectureNPZ,
-committer artefacts/archives/console, puis revueindépendantedesrésultats.
+Revue indépendante 910ff8c : 81 sources et 276 preuves exactes,
+216 archives / 1 512 membres ZIP, 60 724 événements vérifiés sans tableaux
+NPZ décodés. survey_review_v0.json SHA3211472c93d6d910b477540fe8384cfdc49bfd112c875a9a3c7b736ee980924f.
+Résultat survey_v0.json SHA877dc75eb44141d89395f009f1325cffd87b7ea13f3c3ea247c7d5f6cd45b61d.
+104 paires contrastées : Pong18, Breakout18, Freeway24, Seaquest0,
+MsPacman12, Asteroids32. Les douze fenêtres sont des données de développement.
+Les zéros de Seaquest ne décrivent que ses deux fenêtres observées.
+Comptages finaux brut/poolé égaux, PAS une preuve de masques identiques.
 
-Contrat :6jeux,2ancres10000/20000imagesordinaires,18actionscontre0,
-seed19390,Random19391,8frames/branche,contrôlesNOOP+ancres exacts,
-budget30k/game/900scoopératif/1GBarchives. Admission conservatrice coûtmax,
-transport=STOPglobal, censures/inconnus conservés. Unseul worker àlafois,
-parentPythonprincipalCPU,enfant.venv-arc4. Pas de GPU ni apprentissage.
-Console dans launch_v0/console.log (-text), encoreactive, nepascommitter avantfin.
-Les copiesactuelles contiennent seulement les nouvellesbranches ; aucune
-anciennearchive n’arouverir pourinterpréter lescomptesJSON.
+Figure f527aea : craft_v6_out/v70_action_signal_survey/action_signal_v0.png,
+source 8bbcfbe, métadonnées action_signal_figure_v0.json. Générée une fois
+à partir des JSON, vue et vérifiée. Ouverture dans Codex renvoyée queued.
 
-## Rectangle natif : benchmark terminé, gain NON établi
+## Prochain travail : apprendre les contrastes observés
 
-Résultats18bbeb6, session54118 closeexit0 le10sept01:12:38Z, ancienPID18420 absent.
-native_chain_v0.json SHA35742d06e6df89839527b2dbbc187aca7e2970778ecf0a9ede3aaa5a8bc76d4b.
-518,3470987pas/s, travail63,2163276s, startup4,325s,171364charges,16rapports
-exactementégauxbaseline. Baseline580,79 ; seuils1000/2000 nonatteints.
-ARC3concurrentdifférent : pas de régression causale établie. Aucun gain retenu.
-Revue native_chain_review_v0.json SHA0a1dda44f5b05017e6229dfef7dedb97cb43ef5f0d775630c3cf70c80f066995,
-131sources/383preuves, reçue et conservée avec cette note. Aucun rejeu ni moteur relancé.
+Hypothèse f527aea : docs/ARC4_RESPONSE_ENVELOPE_DRAFT.md. Depuis deux RGB
+passés, prédire l’union des différences futures de toutes les commandes.
+Cible auxiliaire distincte de C/m/ME, sans tracker ou déplacement préalable.
+Elle peut inclure des effets indirects et ne représente pas un objet physique.
+Aucun bouton/jeu/coordonnée/oracle en entrée du réseau. La table de codes
+apprise suggérée dans l’ancien LOCAL_COMMAND_BOOTSTRAP_DRAFT contredirait
+ARC4_VISION §2.6 ; ne pas l’implémenter sous couvert d’un code local caché.
 
-Incidentinitial console0B préservé ; observationd2c94a1/revueca3b24e conclut
-avantconstruction soushypothèsesexplicites, pas decertificationforensiqueabsolue.
-Vrai préflight131/369 passé avant reprise. continued_launch_v0/receipt.json
-exclusif/fsyncAVANTPopen, console.log et.gitattributes -text committés18bbeb6.
-Wiring18eeb3c exact3738charges/revue4b0b993, pas rejoué.131sources immuables.
-Brouillon docs/ARC4_NATIVE_CPU_PROFILE_DRAFT.md prépare un diagnostic futur,
-DIFFÉRÉ après survey : ne pas réexécuter les profils historiques. Aucun nouveau
-profil/calcul autorisé par cette note. L’ancien profil horsligne existe déjà.
+Constructeur 253e2ec : scripts/build_response_envelopes_v70.py,
+tests/test_response_envelopes_v70.py, protocole RESPONSE_ENVELOPE_PROTOCOL.
+11 tests synthétiques PASS en 2,59 s. Aucune archive réelle décodée par ce
+constructeur pour l’instant. Budget coopératif 300 s, sorties 16 Mo,
+216 archives exactes et 12 ancres entières, zéro émulation ou apprentissage.
+Revue prospective EN COURS par review_recovery_v62. Attendre son reçu
+craft_v6_out/v70_response_envelopes/preflight_v0.json, vérifier et committer
+avant --run. Tentative, journal et sorties exclusifs : aucun retry aveugle.
 
-Inventaire signal f04d837/revue0b4a503/figurecaf59f6 complète (vueOK).
-5jeux sans contraste action5/0 sur8futurs ; Asteroids20pixelsbruts h4/6/8,
-poolés h4..8 /33600. TroispréfixesPong absents≠zéro. Aucun apprentissage.
-Ancien C150instances zéro supervision conservé ; causepasrésolue.
-1280 updates SYNTHÉTIQUES au total, tous critèresglobaux négatifs. Pas Atari.
+L’agent audit_motion_bootstrap a proposé un fit de développement unique :
+FCN à cinq convolutions 16 canaux, dilatations1/2/4/8/16, padding répliqué,
+images contre entrée constante, mêmes poids initiaux, témoins initial/zéro,
+BCE équilibrée par ancre, mesures IoU/AP et faux positifs sur cibles vides.
+Ce fit n’est PAS encore implémenté, son budget et ses critères ne sont PAS
+figés. Les 12 ancres ne sont aucune validation indépendante. Aucun fit lancé.
+Aucun GPU ARC4 tant qu’ARC3 tourne. Préparer le protocole puis le vérifier
+avant le fit ; ne pas chercher une série de variantes après un résultat négatif.
 
-## Contraintes et environnement
+## Limites antérieures préservées
 
-Automatisation unique suivi-ragnarok-arc-3 : contrôleurleplusrécent et PIDréels,
-quiet sanschangement, pas de doublon. Task01a082c5-c85d-7031-95e4-8d432972cb6e.
-Gate0 NONgelé ;12GPUh/0B10,STOP inchangés. Aucun GPU ARC4 pendant ARC3.
-JeuxréservésBoxing/Frostbite/Riverraid/Kangaroo jamaisouverts. Oracle RAM juge
-seulement, jamais entréesagent. Pas ME/tableboutons/reader/drives/S/policy/ledger.
+Rectangle natif : 518,35 pas/s contre baseline580,79 ; gain non établi.
+Résultats18bbeb6, revue13be4ae, 16 rapports identiques, 171 364 charges.
+Source native_chain_v0.json SHA35742d06e6df89839527b2dbbc187aca7e2970778ecf0a9ede3aaa5a8bc76d4b.
+Charges CPU concurrentes différentes : pas de régression causale établie.
+Pas de nouveau benchmark. Diagnostic de profilage encore brouillon dans
+ARC4_NATIVE_CPU_PROFILE_DRAFT.md ; ne pas rejouer les anciens profils.
 
-AGENTS : autonomie, preuves préservées, commits ciblés, paspush/suppression.
-Exclure .codex/,configsprivées,smokes/notches,états/logsARC3actifs et fichiersagent
-nonrevus. Ne pas réveiller audit_gate_v62 annulé. Maximum déjà acquitté ; écran/RC
-annulé mauvaise session. Français simple et misesàjour utiles toutes~60s.
-Main C:/Python314/python.exe3.14.3 Torch2.11+cu126 ; .venv-arc4 Python3.14.3
-ALE.12.1 sansTorch. CPU CUDAvide/OMP/OPENBLAS/MKL1 ; SETUP.md lu. Pasinstall.
-Dangerfullaccessapprovalnever : omettre sandbox_permissions. Pas newgoal/task.
+C150 instances : zéro supervision, non résolu. Cinq fits SYNTHÉTIQUES,
+1 280 mises à jour au total, tous négatifs au critère global. Pas Atari.
+Gate0 non gelé, 12GPUh/0B10 et STOP inchangés. Jeux réservés Boxing,
+Frostbite, Riverraid, Kangaroo jamais ouverts. RAM : évaluation externe
+uniquement. ME/boutons/reader/drives/S/policy/ledger restent à construire.
+
+## Environnement et discipline
+
+SETUP.md lu. Main C:/Python314/python.exe3.14.3, NumPy2.4.4, Torch2.11+cu126.
+.venv-arc4 : Python3.14.3, ALE0.12.1, sans Torch. CPU : CUDA_VISIBLE_DEVICES
+vide, OMP/OPENBLAS/MKL=1. Pas d’installation ni de rebuild automatique.
+Exclure .codex/, configurations privées, smokes/notches et sorties ARC3
+actives. Pas de suppression ni de push ; commits ciblés, git commit -q.
+Ne pas relire l’intégralité de Claude ou de la tâche. Français simple.
+
+Automatisation unique suivi-ragnarok-arc-3, mise à jour pour cette reprise :
+PID réels, silence sans changement utile, pas de doublon/retry automatique.
+Tâche 01a082c5-c85d-7031-95e4-8d432972cb6e. Ne pas réveiller audit_gate_v62.
