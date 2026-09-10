@@ -1,0 +1,667 @@
+{
+  "kind": "v62_confirm_final_independent_review",
+  "passed": true,
+  "reviewer": "/root/review_recovery_v62",
+  "reviewed_utc": "2026-09-10T06:14:00.994026+00:00",
+  "freeze_commit": "a189ea5bb0f9c8b7e9016a50aefc1cbca603426f",
+  "result_commit": "6c7f677",
+  "merged_sha256": "037e2fb8fd04eff665d4690f077647046398f77423d000c8e552750ebff62685",
+  "controller_state_sha256": "02dece33921ccc9f5d5a7e981df94bf58c5006949995d053b790312f9c7ffdbe",
+  "source_sha256": {
+    "scripts/gate_v61.py": "2b9962e8726b8696a57765a564683a80cea4885b6132187208468c8be81bf3c3",
+    "scripts/pretrain_v61.py": "16bb7424184a30f03e7950bb40353f03e07e471c1075d2c07361dfa8b59d9126",
+    "scripts/probe_v61.py": "88801326490ee58a43df4a472a44047f4dbd59520157800ebc5d153fd472380f",
+    "scripts/confirm_v61.py": "d6f41254ace316fb57c9f21b0813f735eb693cef4d9b984148dd0494de1afbc2",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/pair_net_v61.py": "323b2d0cc78a7c766afb149e624cea04dee7eb20de575d471e319a2619892f4d",
+    "scripts/pair_store_v61.py": "997de1d0c7c8fd6033cc8d47f2bdaaa6a4df4df995436ee656f8539badcd345f",
+    "scripts/hand_v61.py": "f7f28f003c77a7e38a58367bb39f884f3962441cf3c59e8969b6c5bf1bccc5a5",
+    "scripts/sweeper_v61.py": "d582cc03272f4ce6b12952f5bed3976f6ee599ffb3919431025139457ea2af78",
+    "scripts/hidden_recipe_v55.py": "b9f48d97fdf9eb23eecc06ea92d9caf9efed819f9930effdd74b5842305bae19",
+    "scripts/depth_scaling_v49.py": "154db961adf35db76c8848629921e65b62d82d38374ab6376e5424fe865a3c91",
+    "scripts/childhood_v50.py": "46b8ceefa2ec510c996e4c4e4f99466a8783d9116913a5bd193a6d15b1a5192b",
+    "scripts/meta_manager_v51.py": "0698e82f66cbfcc2bc3001b968f05b8ef6cea68cc961f97a5217bbf16f3a0510",
+    "ragnarok/environments/law_world.py": "0396e369dcf00b6843ae0441194b43922a6b8e0fcd2abe9f139d7d5c2471bac7",
+    "ragnarok/environments/tech_tree.py": "9a86817cf3c27b4e8d7ccc636cfcdcea82941e676f592c27fae833e26afa0ad9",
+    "ragnarok/learning/ppo_discrete.py": "492654ebf712de4da9226aa9a0e10bf143782779c43da0885d8af9c8df5b1b01",
+    "ragnarok/infrastructure/device.py": "1cc5ce304446d734670edb8c35acaae46d4e203f788722bdd5f45992357377c9"
+  },
+  "orchestration_source_sha256": {
+    "scripts/resume_v62.py": "f004f864fc7384c2f0909a87452790b7c30060abe645917718f920d8ea3f1015",
+    "scripts/confirm_resume_v62.py": "bc87378aea612691ff42e582909054187b40d1a0292998173dd7483bbf23471a",
+    "scripts/recover_confirm_v62.py": "a0602eb5db3f1116b185573dae57559767f2c7de3ff594f20907c0a3b6c74134",
+    "scripts/recover_confirm_after_interrupt_v62.py": "af77ee1eca66b4b0cb19c4ac302c6a80fe4b198693caca4e256dc1dc16b5842e",
+    "tests/test_recover_confirm_after_interrupt_v62.py": "7c8eef9e4b8f0b2b6d0d05ef306a45de9376e3b8294e5ddeddf2685ade51f5f5",
+    "scripts/launch_detached_confirm_v62.py": "2688813b6612ae3513ad3b158ca0ed69c89c6f362e57e130e93f9cc5e842339f",
+    "tests/test_launch_detached_confirm_v62.py": "198e5d2f8959997a1db44942f74427c2b7dc2db1d4ab50a38ecba583ecbd4089"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v62_confirm_second_recovery_state.json": "02dece33921ccc9f5d5a7e981df94bf58c5006949995d053b790312f9c7ffdbe",
+    "craft_v6_out/v62_resume_state.json": "b8f7c1237658a5c8b6b373f72d4b2d11d3d1d40664f4b72e6257a5e5d66485c2",
+    "craft_v6_out/v62_confirm_state.json": "6a069898b90b51b4cdad85730b92295c99ea98ba8e8e1367e9eb8927e3496515",
+    "craft_v6_out/v62_confirm_recovery_state.json": "7b23fc569747a96734a3ba5c2e550863e3aa5329eb6225b3daa1e477a012aa75",
+    "scripts/gate_v61.py": "2b9962e8726b8696a57765a564683a80cea4885b6132187208468c8be81bf3c3",
+    "scripts/pretrain_v61.py": "16bb7424184a30f03e7950bb40353f03e07e471c1075d2c07361dfa8b59d9126",
+    "scripts/probe_v61.py": "88801326490ee58a43df4a472a44047f4dbd59520157800ebc5d153fd472380f",
+    "scripts/confirm_v61.py": "d6f41254ace316fb57c9f21b0813f735eb693cef4d9b984148dd0494de1afbc2",
+    "scripts/score_v61.py": "75376878619a74655927c652921b668d50eb4daa0bea11fa95dbd4c5fa837238",
+    "scripts/pair_net_v61.py": "323b2d0cc78a7c766afb149e624cea04dee7eb20de575d471e319a2619892f4d",
+    "scripts/pair_store_v61.py": "997de1d0c7c8fd6033cc8d47f2bdaaa6a4df4df995436ee656f8539badcd345f",
+    "scripts/hand_v61.py": "f7f28f003c77a7e38a58367bb39f884f3962441cf3c59e8969b6c5bf1bccc5a5",
+    "scripts/sweeper_v61.py": "d582cc03272f4ce6b12952f5bed3976f6ee599ffb3919431025139457ea2af78",
+    "scripts/hidden_recipe_v55.py": "b9f48d97fdf9eb23eecc06ea92d9caf9efed819f9930effdd74b5842305bae19",
+    "scripts/depth_scaling_v49.py": "154db961adf35db76c8848629921e65b62d82d38374ab6376e5424fe865a3c91",
+    "scripts/childhood_v50.py": "46b8ceefa2ec510c996e4c4e4f99466a8783d9116913a5bd193a6d15b1a5192b",
+    "scripts/meta_manager_v51.py": "0698e82f66cbfcc2bc3001b968f05b8ef6cea68cc961f97a5217bbf16f3a0510",
+    "ragnarok/environments/law_world.py": "0396e369dcf00b6843ae0441194b43922a6b8e0fcd2abe9f139d7d5c2471bac7",
+    "ragnarok/environments/tech_tree.py": "9a86817cf3c27b4e8d7ccc636cfcdcea82941e676f592c27fae833e26afa0ad9",
+    "ragnarok/learning/ppo_discrete.py": "492654ebf712de4da9226aa9a0e10bf143782779c43da0885d8af9c8df5b1b01",
+    "ragnarok/infrastructure/device.py": "1cc5ce304446d734670edb8c35acaae46d4e203f788722bdd5f45992357377c9",
+    "ARC3_PLAN.md": "c6e0027a5a1761cdf643b1376f13406f8eb6510e33f1a65406d818781dfb380d",
+    "docs/ARC3_CONFIRM_FINAL_REVIEW_DRAFT.md": "e349aff812306f6ce2b655508b371f4df6b744703eb0c4ab8b85f57c0b394a8f",
+    "craft_v6_out/v55_skill_s0.pt": "668247e5915cd30367f4b0fedab95beddb9d5c5a32520cbf42ba3935f9a3d569",
+    "craft_v6_out/v61_roster.json": "9c4597371a6045352b91f71e921afda71201abc58cbfe2f9657c105e2d2bd6f1",
+    "craft_v6_out/v61_gate_v62.json": "db5d0a7ab62a266ec485c61582ed2ef543263b5747bf6dfb7e023621c6c9af8a",
+    "scripts/resume_v62.py": "f004f864fc7384c2f0909a87452790b7c30060abe645917718f920d8ea3f1015",
+    "scripts/confirm_resume_v62.py": "bc87378aea612691ff42e582909054187b40d1a0292998173dd7483bbf23471a",
+    "craft_v6_out/v61_pre_s0.json": "616207d94e16c5f630f78fb3d5241f1bb1bdae8568b865209469286802837ef0",
+    "craft_v6_out/v61_pre_s0_M1.pt": "eec3463be46422b731f78918aa3420f088e780ca491a619f9dd620c2933564ad",
+    "craft_v6_out/v61_pre_s0_M2.pt": "1cea25f62093ee5530bab0ac05f68cab603e7ac3e4aa134085bfdf68e3ebfb73",
+    "craft_v6_out/v61_pre_s0_M3.pt": "119184372b43a27d215837d8562e346e1d00716f225a8d38b43fdd2cf1ae0cce",
+    "craft_v6_out/v61_pre_s0_M4.pt": "5568177f99e69e7193212cb9b2b88c3de394d7249d62aa081bcb03184f4d9c21",
+    "craft_v6_out/v61_pre_s0.log": "41790bc5c358807a58416c79bd45d5ce0d72dfa5ca0cf90d31ba4103911cbf5d",
+    "craft_v6_out/v62_pretrain_s0_receipt.json": "d425a4159dcdc4896de9c2b493b634f011f58f4827956a88ad2612a00739582f",
+    "craft_v6_out/v61_pre_s1.json": "b272f5ca09b37a2374d4bca990d6e7017d0c331cbecc4bbd5770022a48e8d441",
+    "craft_v6_out/v61_pre_s1_M1.pt": "e3406e9aae7e567710c01a0926864219b947fc038a7f162d84e6e7df9c3ec73c",
+    "craft_v6_out/v61_pre_s1_M2.pt": "618aff515d7a90b5f6879876b1220b5a44097210b65499901c5e356f5aeccbff",
+    "craft_v6_out/v61_pre_s1_M3.pt": "129fbf15051b385469c81cec651d980eafffe017d64331082d4ee159f50b7d88",
+    "craft_v6_out/v61_pre_s1_M4.pt": "e7fac6481386357e8aedab7f442ed275c5794285cd7acf84695040dbc22807ea",
+    "craft_v6_out/v61_pre_s1.log": "f95a25f1b8aaa7990ab93c94f8fa7c45adb82b51c503e0cb3d2a5a4212295d15",
+    "craft_v6_out/v62_pretrain_s1_receipt.json": "0e9b0062da91406952855cd6567152c5a20c52c7c46513e48c944232a05fe0f8",
+    "craft_v6_out/v61_pre_s2.json": "a3d5e94a74571069daa000d739e16de7ac6037459b7456b9a523ad03f2b28a47",
+    "craft_v6_out/v61_pre_s2_M1.pt": "67fb3e09c3f8ad60bdd622e9525e8bde51987f3707242f381fb8c6b52e1e95b4",
+    "craft_v6_out/v61_pre_s2_M2.pt": "65e7444441dd81f9990b40378b36e5317893d1cf0753e2879943db6241475bad",
+    "craft_v6_out/v61_pre_s2_M3.pt": "4dbae7372869184fb1c9ea1f94371a7e06122849fd360887b7349844a328ed15",
+    "craft_v6_out/v61_pre_s2_M4.pt": "b8f0bdba5fc5f3c361197f1b51bdfd25aec0ad639aec93ce5f6818faa35c8d58",
+    "craft_v6_out/v61_pre_s2.log": "c56c4ad68256a01d3a45d587c0c12c24967e3596a5a87bb2629dc36216a28076",
+    "craft_v6_out/v62_pretrain_s2_receipt.json": "9d376edb5d1dfd1c3b94ba581c587682553abf20f91461529b76ab3c8483ab01",
+    "craft_v6_out/v61_probe.json": "244f9ee07bac2525df246afb51b240a545d2eca781c4b9c0b04fb1a73b4bc692",
+    "craft_v6_out/v62_probe_review.json": "0d3ca93bb881a2595cc9e33776f08caa088231384bef764b66a6bd5903c0d052",
+    "craft_v6_out/v62_confirm_interruption_20260909/budget_correction.json": "6491a9096ab42474bdf21156c60afb88b2de987523363624ed498ebe8771689a",
+    "craft_v6_out/v62_confirm_interruption_20260909/interruption.json": "0d12cfdfd7813eb0530e3e20c96fcba8e4b562febc6930e8ec8579be6d02a72f",
+    "craft_v6_out/v62_confirm_interruption_20260909/v61_confirm_s0.log": "e15614f167b2652de864059294f2de7aa4477cabd5a7768b1734293a14c0e157",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_state.json": "6a069898b90b51b4cdad85730b92295c99ea98ba8e8e1367e9eb8927e3496515",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_stdout.log": "475419f4aa6fb2420a67c3bb02a98923a12284f18d5c8d54ff3b82ff60a0ee22",
+    "craft_v6_out/v62_confirm_recovery_review.json": "da35970fba981b7f6ab4cc10d5307b10dad4e8984133b0471e56239a93d43943",
+    "scripts/recover_confirm_v62.py": "a0602eb5db3f1116b185573dae57559767f2c7de3ff594f20907c0a3b6c74134",
+    "craft_v6_out/v61_confirm_s0.log": "6eadb5aa016a25470aa26c81e629f3f936085215ed5283c30cd8286709728c59",
+    "craft_v6_out/v62_confirm_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v62_confirm_stdout.log": "475419f4aa6fb2420a67c3bb02a98923a12284f18d5c8d54ff3b82ff60a0ee22",
+    "craft_v6_out/v62_confirm_interruption_20260910/interruption.json": "bfc0969aa79dee81ff43a657b7b2f294ae855da3a251b1b91d38fc43cc510a9b",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_state.json": "7b23fc569747a96734a3ba5c2e550863e3aa5329eb6225b3daa1e477a012aa75",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_stdout.log": "9884a2aaea16eca6bb573ccb735e4147b84cd9f7aa0db07a600d6a0761d7b8aa",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v62_confirm_interruption_20260910/v61_confirm_s2.log": "3b40915889abfcab161aecc8dc69f588cb9ab5976c8dda4f824de6e729260c5d",
+    "craft_v6_out/v62_confirm_interruption_20260910/s2_8320_M4.json": "c18a1c8ce891327baaa71e179cc0b86975033179db042a6a3bcc050b3f7e623e",
+    "craft_v6_out/v62_confirm_interruption_20260910/v61_confirm.json": "4b68655e8ea434b8489ffaf3a549e31f048a738c915d2eba23cc877a38630234",
+    "craft_v6_out/v62_confirm_interruption_20260910/benchmark_console_v0.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v62_confirm_interruption_20260910/.gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe.py": "7cf89ae24c6e16637fc366280601e65cc94abd448333b26212f545597045a99e",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe.json": "98155f7b601967ebf427ae7854110719e631543c13952b57107994ee1e35c67c",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe_completed.json": "09aa126e7ab923b52058c6d7a44bd82bd4aaca227bdf0945c608e25c7341302a",
+    "craft_v6_out/v62_confirm_recovery_stdout.log": "9884a2aaea16eca6bb573ccb735e4147b84cd9f7aa0db07a600d6a0761d7b8aa",
+    "craft_v6_out/v62_confirm_recovery_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v61_confirm_s2.log": "c2be5cf3dba57070f53ab175ba8933e490908c9b92fa909ec6106e6da874a476",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_M4.json": "c18a1c8ce891327baaa71e179cc0b86975033179db042a6a3bcc050b3f7e623e",
+    "craft_v6_out/v70_mspacman_rectangle_cpu/benchmark_console_v0.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v61_confirm_s0.json": "3d30c06fe7b6d5be84f042ae26e70c42f0ba70f09610df7eab43cbd7fe66b4ce",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_M4.json": "b65d89be93460f2d878771698df893e981c14356086b2ee2f1192e5941df7766",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_Fa.json": "317a15f14bbb3e74a801c8f7a2f914e3efb22a84907329fe79e25c33de1b99b1",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_Fb.json": "a1afd60b62f85a6ab12dd53a74d2535a5d56abe3d51c8ac42c515681728278d7",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_L.json": "113666d67eb1cf63d11e9910d9da19fbf37dea33ec8ed1ef521bad37d8ce2419",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_G.json": "45812e3aa8d44fd58717748224f40e093f1857ecf5592f254e2ccef72d7c743a",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_M4.json": "9c93d4b9ffc70a68cd2dc614bc619c0ca19497d46dbc248b9bdfbe6a73098450",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_Fa.json": "165770452dc00a39d1d6df2e86f0e8bbe21a2558ccba90bba6e7d39f354a7495",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_Fb.json": "ba6c8ec6cbf43f10d230f89db8992ba043a475595b53557149aa416d9a2022cf",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_L.json": "91221c1c4a36c11557859ea9f486a052c56ee25b34efa10f7d23416ccde89f54",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_G.json": "4ebd98d13350281b35a9e85499bce4e2f2b39a28233bd3cad6c837e3a7ce74ad",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_M4.json": "952346d00b522d63055c8de7c872faf58b339fe2df29fed68454a608432ea1fe",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_Fa.json": "9d7d9fe88c47bee0868ddbab239ab50f6352c943c61d095303bd3be1e95535e1",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_Fb.json": "6b584e1c45af921c3ccce3e783e45eb67d2b253a1b71c546af49d17940320f57",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_L.json": "8530b36516264b2a0895ef86c7615557ce035879c5ceea189705bba644df29d7",
+    "craft_v6_out/v61_confirm_s1.json": "c7a84fdc8970549e59678f28457e19c3587e12be525f5f958651bf1b33879772",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_M4.json": "06ba89a9ca4dc9fbe6833da00866b1a23801d98d7f7a123e24e608a84ff5842d",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_Fa.json": "be48825ba72f1242e355685fa6d0300d5159a422defe8d47a9c2e73811223cfd",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_Fb.json": "07c25690ecc5a6701f2e9ca18e302779d46aabed2f9273a53982f711b564b8d7",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_L.json": "9b782b559a5cdd014d78b1c6eb17fe46e5c032872a7ed1279b9d8b18c073a145",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_M4.json": "62fba109b434cf3731ce3d6fb90c39069c00d44f323756dd6f03cc67284e2e88",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_Fa.json": "28afdf83fd131c65e227fd89a7956e61f17ffb76ce9c7dedb8f6f47d69e5060e",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_Fb.json": "d0ba9a423733031321b28052da47c1acc71bb527be673f51370e29f835ab0188",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_L.json": "c0b167da474eb1bb603fe43fa0bd3191ac2995c190d99843f822c5668abe24fa",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_M4.json": "44ec805f6bca18610df0aea6121677b4cf05c0e6f5d099a62c66cff8c9a83109",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_Fa.json": "6c5341c4a5930b88c433b7814390ebbca7ab4c5332ba53cd793bea3422ad12c2",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_Fb.json": "3d5efcef7b5be3e5fc9a19737fb14eaed87e236e8b3046d15cb2d6bdc40c9a7a",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_L.json": "06165e20cb6f8fed8875971d9ff5a6a12bb933f66e308e7bf66bf6f998f9abb8",
+    "craft_v6_out/v62_confirm_second_recovery_review.json": "9bc32b784de9c8a633a04f394479d6b61e43b010a97427093dc04ea7fdc48ddb",
+    "scripts/recover_confirm_after_interrupt_v62.py": "af77ee1eca66b4b0cb19c4ac302c6a80fe4b198693caca4e256dc1dc16b5842e",
+    "tests/test_recover_confirm_after_interrupt_v62.py": "7c8eef9e4b8f0b2b6d0d05ef306a45de9376e3b8294e5ddeddf2685ade51f5f5",
+    "scripts/launch_detached_confirm_v62.py": "2688813b6612ae3513ad3b158ca0ed69c89c6f362e57e130e93f9cc5e842339f",
+    "tests/test_launch_detached_confirm_v62.py": "198e5d2f8959997a1db44942f74427c2b7dc2db1d4ab50a38ecba583ecbd4089",
+    "craft_v6_out/v62_confirm_second_recovery_launch.json": "2f96f545cd7f2a5b02b7a23453142a115f85ddd7f33dac9a54662476bbd1f9f7",
+    "craft_v6_out/v62_confirm_second_recovery_wmi_dispatch.json": "434424cd2b18455bb835280e282cec5ed7a2f40d981a0a0e5b58a597bd4f9cdd",
+    "craft_v6_out/v62_confirm_second_recovery_stdout.log": "c342963b033b3a69efe0b95fe1883d62ff7363e5e8b5d3ff39a646904eb245d2",
+    "craft_v6_out/v62_confirm_second_recovery_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v62_resume_stdout.log": "ee409725c2644a2d008c7dfe4754cee1c4dd79d0ee6829e2e4dd9832ebc1b8c8",
+    "craft_v6_out/v62_resume_stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "craft_v6_out/v61_confirm_s1.log": "8905d7d3992446429a756ca9a2e11582701341fde9e309a7079953a349c6df60",
+    "craft_v6_out/v61_confirm_s2.json": "097824827bae761d88fa304700eb8e07db30d379ebd9fa340d64182bac5c281a",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_Fa.json": "467de3a77785f9b75698be89a731ef39c8f31670b0e3b55f2f02806d4e4a0d1f",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_Fb.json": "9eaf5acb1d47acc18c4f16d6853f0d843e130ec662c0efaec19fec7fe58bea28",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_L.json": "b9fbcfe8c12bec97c76177c542a7156b0c6ff08b235ecc3e7891384ed8c44351",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_M4.json": "3a54374230952b0e7c21ee369b4543e21ed964f628c3dd16292680a002428cc1",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_Fa.json": "405b1a5a0dac9b5b5ed3f80d84518c462466c4bc1666116eaebad2ac75c153b0",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_Fb.json": "623933568f2e4c82f8dd10b5c5da037a0fe85540ce5811b04e5eade2180de17e",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_L.json": "06165e20cb6f8fed8875971d9ff5a6a12bb933f66e308e7bf66bf6f998f9abb8",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_M4.json": "9a7a89fe8841bcfa8fdc2a5615c4fec490e39c9d3a55776652c63c7d677ac33d",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_Fa.json": "a329af5d05377fcd59254d3b1b5add4b0b774fcd70385faffbab744213ae9541",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_Fb.json": "5586fb75ec50e36e8c67dd37a50fec59f6a39cc05cd4c6f5308c291318ee514b",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_L.json": "8887081f71f867b4274950f8605847be61d7cbba783391d5cf4350dd49e59a8e",
+    "craft_v6_out/v61_confirm.json": "037e2fb8fd04eff665d4690f077647046398f77423d000c8e552750ebff62685",
+    "scripts/review_confirm_final_v62.py": "a58cbc7db530451cb900f52a6c9eca32a8653dafec32b5419e15952513d0f3c9"
+  },
+  "committed_blob_ids": {
+    "ARC3_PLAN.md": "738d0065b4b2f9b6e71d8655fa373bd631d5f181",
+    "craft_v6_out/v61_confirm.json": "e3a806f9c94522f6555b6b31a190e9b99c6e48af",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_Fa.json": "616a30eebaffc47059e5bff2770305d29dceaee6",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_Fb.json": "a102841baec97d7e7813216bfcc0e5d5a20405bb",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_G.json": "36d3a13cc3b3295a107417ea0d89222402495dbd",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_L.json": "413fa20c2631912efd595c4b5e9d0d582bb3ebb9",
+    "craft_v6_out/v61_confirm_ckpt/s0_8300_M4.json": "69b0a11d5fe53721e8a243a5fefdc765a4f830e8",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_Fa.json": "a6f38c3ea841fe98ba589ec32652766d7b8063e4",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_Fb.json": "6e05af3d93e8676471080fb372e83207ffcd2fdf",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_G.json": "8fc2864f67a9cd85d0dc43f70bc68d811db47a48",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_L.json": "148d282a55d4a42af62434969cc92300efd667b1",
+    "craft_v6_out/v61_confirm_ckpt/s0_8301_M4.json": "2cfbbc681f1415351fe6595ef0ff18d66f100cd5",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_Fa.json": "a54b72b2110d0b91c14c9b410ce01116ab3d8d06",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_Fb.json": "fcc1a3bf2d55a977a94b863fb587a5c83c2f2225",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_L.json": "6f47bf583c0983b3b89275da6c827f2e871aec95",
+    "craft_v6_out/v61_confirm_ckpt/s0_8302_M4.json": "ec4814c6c5d23ad828cd3e02201ebb116dac20cb",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_Fa.json": "848b2c3b738b0fd7b2ac012562783c967e292b07",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_Fb.json": "66cd307c3bc3e960967cbdd2a0785e6c7d0a3a3c",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_L.json": "014466be9a455eaf0fe16e78de933d209b4f304a",
+    "craft_v6_out/v61_confirm_ckpt/s1_8310_M4.json": "a3c4059aebeca6f3aea4bfca34673b98d495b0dd",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_Fa.json": "3fc070b9fb53edbaaf6510172f55ca941396df95",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_Fb.json": "7b2893587c5d72206e8972ab2e653d2b6180afc4",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_L.json": "cc4c01b54a99f7a1499b362f02a27ab8e7fc2afe",
+    "craft_v6_out/v61_confirm_ckpt/s1_8311_M4.json": "0d44a03fb1e11d72337d70028af4487f9a38bf78",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_Fa.json": "379379f3c084e1d54ee483df88076dec50f01561",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_Fb.json": "6e125a6be0ca57418eb3248a4fcb135995503d80",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_L.json": "d2ed96e3ffa3a1fa17650e58f50b393a1a2652cc",
+    "craft_v6_out/v61_confirm_ckpt/s1_8312_M4.json": "68540474b1e789aea115ab03a696df0f6ef52294",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_Fa.json": "720b34562b53fb843b02ca3280fa53015723fc92",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_Fb.json": "52795be2b49ea7dafbe7b0378bfb0faa05092dbf",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_L.json": "4a6e1d3c8e9b7f557886a34a207df5d04c4d952b",
+    "craft_v6_out/v61_confirm_ckpt/s2_8320_M4.json": "9d2b0158b1099483584734f436eaf23aad69e478",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_Fa.json": "d8e5782d3fc0420e514052d5292e47b7c56ee93e",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_Fb.json": "1bccea165286a735526bcb573d3c56b7fbe11474",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_L.json": "d2ed96e3ffa3a1fa17650e58f50b393a1a2652cc",
+    "craft_v6_out/v61_confirm_ckpt/s2_8321_M4.json": "a4fc361151624915cd87677a1b287ecf3c033a39",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_Fa.json": "4ffbf03d4fc6108370d51f962c27668e79d6cac1",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_Fb.json": "565a5250f17f51d4925aa525f58a28db11032809",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_L.json": "e08965f9e6b18b1adc1cf1ee5058a3051ea99e00",
+    "craft_v6_out/v61_confirm_ckpt/s2_8322_M4.json": "8dd1cc842e32553f91453359fb320232934ccc14",
+    "craft_v6_out/v61_confirm_s0.json": "2ec65cc4ef071b7ab8ff153a5b7bfeac67768d3e",
+    "craft_v6_out/v61_confirm_s1.json": "e9f4ebf398c4b11fe1093ec457dd32e3b8f212c1",
+    "craft_v6_out/v61_confirm_s2.json": "1a241b78ff781ad8fb8d776243cc9b7162904602",
+    "craft_v6_out/v61_confirm_s2.log": "e5bfdc94477521a0dcec4310a9a89223d4d88031",
+    "craft_v6_out/v61_gate_v62.json": "d7a0e01c4b2d0c3fd0703f277d6ac763334e2f42",
+    "craft_v6_out/v61_pre_s0.json": "8a7b0128f0cc656ce5e7059404458bdb03f506c7",
+    "craft_v6_out/v61_pre_s1.json": "99456051ae4ad0c0af1405a533358c1b852df958",
+    "craft_v6_out/v61_pre_s2.json": "115332b3dbf813bd1112199a34ba8f754b135f81",
+    "craft_v6_out/v61_probe.json": "a6e7057a89c26501336feee301e1ab11cca9de67",
+    "craft_v6_out/v61_roster.json": "688c08a4a0ab5a8c677b041dca2ceb1dc61c3cde",
+    "craft_v6_out/v62_confirm_interruption_20260909/budget_correction.json": "9ec7cb56c5a07a7df31e7bd8b62680b6852e1b23",
+    "craft_v6_out/v62_confirm_interruption_20260909/interruption.json": "a0bdbb761d0310cd67a3cd9c9f34d8215dbb43ae",
+    "craft_v6_out/v62_confirm_interruption_20260909/v61_confirm_s0.log": "92172ef7ab28339aa3e93e1eda37afc8b67ecd31",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_state.json": "cc9e7b6733e63408eac9af7a71513f7ea854c545",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_stderr.log": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "craft_v6_out/v62_confirm_interruption_20260909/v62_confirm_stdout.log": "ba41d3e33c8c5c040b987caca129149af1dee0bc",
+    "craft_v6_out/v62_confirm_interruption_20260910/.gitattributes": "625449502ba4b4d7c229c6ccee42e3ec41cc780c",
+    "craft_v6_out/v62_confirm_interruption_20260910/benchmark_console_v0.txt": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "craft_v6_out/v62_confirm_interruption_20260910/interruption.json": "34cda4275d189df6fc8fc33cbfe97118e895aba9",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe.json": "690e6fea0cb36c7222e07cfe8a5b7f5b9cf8246a",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe.py": "f738041ca9f1c22479f2fdc02d501742f6eeeb43",
+    "craft_v6_out/v62_confirm_interruption_20260910/process_lifetime_wmi_probe_completed.json": "4c19d7115a92206b56810c38baa8a044ecc2fcdd",
+    "craft_v6_out/v62_confirm_interruption_20260910/s2_8320_M4.json": "f9fb35dfeec434a424d94bfe71a00494acbe2c6c",
+    "craft_v6_out/v62_confirm_interruption_20260910/v61_confirm.json": "670e9239b81f71794165650bb432174a0bd9c792",
+    "craft_v6_out/v62_confirm_interruption_20260910/v61_confirm_s2.log": "42d5ebb7a404c244cd47175728d6d37abbaa1bbb",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_state.json": "1056750dd16ab6d7d50aae3937d8949dbee75f48",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_stderr.log": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "craft_v6_out/v62_confirm_interruption_20260910/v62_confirm_recovery_stdout.log": "62de3da67d812bc5650cd36fac85beee9f87d9e4",
+    "craft_v6_out/v62_confirm_recovery_review.json": "be3e667f499d94a41dd94ac9df09a993d04f7335",
+    "craft_v6_out/v62_confirm_second_recovery_launch.json": "7b23c05062e847835f96c1bd8b581445c76e7988",
+    "craft_v6_out/v62_confirm_second_recovery_review.json": "d2b3ad379930ba9338c9c6cbde577fa6a72d1073",
+    "craft_v6_out/v62_confirm_second_recovery_state.json": "df205e07e8aef3cdb22c577a7abe13a421219c15",
+    "craft_v6_out/v62_confirm_second_recovery_stderr.log": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "craft_v6_out/v62_confirm_second_recovery_stdout.log": "80c6e3aad88d1df9d3c06bc1e628009a3cad04f0",
+    "craft_v6_out/v62_confirm_second_recovery_wmi_dispatch.json": "fa8bf3961e75a4474a9d51bf47df7fa7f0009d89",
+    "craft_v6_out/v62_pretrain_s0_receipt.json": "5cb2ce259ece23d7f3764d219be44a94e639c9be",
+    "craft_v6_out/v62_pretrain_s1_receipt.json": "8d4458340194af27b0a9bd8d8ed501d79b983985",
+    "craft_v6_out/v62_pretrain_s2_receipt.json": "70e111cc84c9ee3f98c9c342604b55078f6fae57",
+    "craft_v6_out/v62_probe_review.json": "a961ecc35a8984c76b6f98f2573ebdc38fa22140",
+    "craft_v6_out/v70_mspacman_rectangle_cpu/benchmark_console_v0.txt": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "docs/ARC3_CONFIRM_FINAL_REVIEW_DRAFT.md": "275e74036777ff0f06e8770a643d76ed1663e24c",
+    "ragnarok/environments/law_world.py": "e19dbbe1630c234dc3a336436fb3ce56ac65db35",
+    "ragnarok/environments/tech_tree.py": "d864f78f32168d05783e84c5f64d73bac2b61a32",
+    "ragnarok/infrastructure/device.py": "051f7f2b31cf33502a3d1560478496623864d6c0",
+    "ragnarok/learning/ppo_discrete.py": "e47c32d6276df7749da35ec016b4cd35d6b331dc",
+    "scripts/childhood_v50.py": "b603393c3e979f25d340e4a3d9e7e713f9a94fe8",
+    "scripts/confirm_resume_v62.py": "2a49333ad753fa7d6733558809a213f5724b60f0",
+    "scripts/confirm_v61.py": "f91b35af724479752bb4bc7e7a1af211907c6362",
+    "scripts/depth_scaling_v49.py": "6ea5ca91c3e974973963d3dbbb4cd634d85ca954",
+    "scripts/gate_v61.py": "fa11e993ec609e5606ddc7608285bec9373c3f49",
+    "scripts/hand_v61.py": "6d9d2cee96fd7482d492b154d61bfdecc7ce823a",
+    "scripts/hidden_recipe_v55.py": "250b84ec40ecc471ed8dd0152266aa7cb817bb6c",
+    "scripts/launch_detached_confirm_v62.py": "6242bfe7e174ae42620b907b2463f40369ec435f",
+    "scripts/meta_manager_v51.py": "91145a9bf7bb0a0c0188a36e7bc80e47d6e11e79",
+    "scripts/pair_net_v61.py": "8770139b980c72604c0995f7aa1cbd11baa5cf19",
+    "scripts/pair_store_v61.py": "27c84bc8836c808976b8e21108859010e1a9eaa3",
+    "scripts/pretrain_v61.py": "0370dff30a9819ea962ae868d8d8c7a1555eb7ff",
+    "scripts/probe_v61.py": "0a2092efe9fcf1867465da0ecc456bfa3276965a",
+    "scripts/recover_confirm_after_interrupt_v62.py": "2b9ac86c4a418d45c559b3ffa5f61ab394a42055",
+    "scripts/recover_confirm_v62.py": "2d77e667c737fcdc0bc5bad857ee88336b04afa6",
+    "scripts/resume_v62.py": "d2b4ca60ad020db0170535ac6a1a6e7061364130",
+    "scripts/review_confirm_final_v62.py": "e608cad313f3a64f1537d190c4614e39bd373848",
+    "scripts/score_v61.py": "2e1460eff7e423852065683b730dcb52acfeecc8",
+    "scripts/sweeper_v61.py": "a20b12d274c9d2d3f48d8eaf62855ea46dede377",
+    "tests/test_launch_detached_confirm_v62.py": "193f783f8d051e3ee58084e0a701e279a6a465a0",
+    "tests/test_recover_confirm_after_interrupt_v62.py": "112e5b0835992f0af3c2cfc6f34d67cc4fba84d0"
+  },
+  "chronology": {
+    "probe_review": {
+      "commit": "998c43b54d4341749f08e9ed9219a9b6ca95c181",
+      "committed_utc": "2026-09-09T06:02:42+02:00",
+      "before_utc": "2026-09-09T04:03:09+00:00"
+    },
+    "first_recovery_review": {
+      "commit": "b815be2b938c89f1d5e84dcfde586e631a842c9b",
+      "committed_utc": "2026-09-09T11:37:15+02:00",
+      "before_utc": "2026-09-09T09:37:40+00:00"
+    },
+    "second_recovery_review": {
+      "commit": "3d5ace9e4ee4580028c15dea6fce250ec0d5674c",
+      "committed_utc": "2026-09-10T03:00:02+02:00",
+      "before_utc": "2026-09-10T01:01:50.101249+00:00"
+    },
+    "scripts/recover_confirm_after_interrupt_v62.py": {
+      "commit": "7acff3e1ad0449a8f238e13e5be82f57c83f4ff2",
+      "committed_utc": "2026-09-10T02:55:05+02:00",
+      "before_utc": "2026-09-10T01:01:50.101249+00:00"
+    },
+    "tests/test_recover_confirm_after_interrupt_v62.py": {
+      "commit": "7acff3e1ad0449a8f238e13e5be82f57c83f4ff2",
+      "committed_utc": "2026-09-10T02:55:05+02:00",
+      "before_utc": "2026-09-10T01:01:50.101249+00:00"
+    },
+    "scripts/launch_detached_confirm_v62.py": {
+      "commit": "7acff3e1ad0449a8f238e13e5be82f57c83f4ff2",
+      "committed_utc": "2026-09-10T02:55:05+02:00",
+      "before_utc": "2026-09-10T01:01:50.101249+00:00"
+    },
+    "tests/test_launch_detached_confirm_v62.py": {
+      "commit": "7acff3e1ad0449a8f238e13e5be82f57c83f4ff2",
+      "committed_utc": "2026-09-10T02:55:05+02:00",
+      "before_utc": "2026-09-10T01:01:50.101249+00:00"
+    }
+  },
+  "historical_untracked_hash_bound": [
+    "craft_v6_out/v55_skill_s0.pt",
+    "craft_v6_out/v61_pre_s0_M1.pt",
+    "craft_v6_out/v61_pre_s0_M2.pt",
+    "craft_v6_out/v61_pre_s0_M3.pt",
+    "craft_v6_out/v61_pre_s0_M4.pt",
+    "craft_v6_out/v61_pre_s1_M1.pt",
+    "craft_v6_out/v61_pre_s1_M2.pt",
+    "craft_v6_out/v61_pre_s1_M3.pt",
+    "craft_v6_out/v61_pre_s1_M4.pt",
+    "craft_v6_out/v61_pre_s2_M1.pt",
+    "craft_v6_out/v61_pre_s2_M2.pt",
+    "craft_v6_out/v61_pre_s2_M3.pt",
+    "craft_v6_out/v61_pre_s2_M4.pt",
+    "craft_v6_out/v62_confirm_recovery_state.json",
+    "craft_v6_out/v62_confirm_recovery_stderr.log",
+    "craft_v6_out/v62_confirm_recovery_stdout.log",
+    "craft_v6_out/v62_confirm_state.json",
+    "craft_v6_out/v62_confirm_stderr.log",
+    "craft_v6_out/v62_confirm_stdout.log",
+    "craft_v6_out/v62_resume_state.json"
+  ],
+  "auxiliary_logs_newly_bound_by_this_review": [
+    "craft_v6_out/v61_confirm_s0.log",
+    "craft_v6_out/v61_confirm_s1.log",
+    "craft_v6_out/v61_pre_s0.log",
+    "craft_v6_out/v61_pre_s1.log",
+    "craft_v6_out/v61_pre_s2.log",
+    "craft_v6_out/v62_resume_stderr.log",
+    "craft_v6_out/v62_resume_stdout.log"
+  ],
+  "design": {
+    "b_max": 6,
+    "n_units": 9,
+    "n_lineages": 3,
+    "n_units_per_lineage": 3,
+    "num_envs": 64,
+    "store_persists": true,
+    "g_prime_units": [
+      "s0_8300",
+      "s0_8301"
+    ]
+  },
+  "complete_units": [
+    {
+      "id": "s0_8300",
+      "lineage": 0,
+      "world": 8300,
+      "goals": [
+        2,
+        0,
+        9
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": true,
+      "fresh_init_seeds": [
+        103001,
+        103002
+      ]
+    },
+    {
+      "id": "s0_8301",
+      "lineage": 0,
+      "world": 8301,
+      "goals": [
+        1,
+        7,
+        18
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": true,
+      "fresh_init_seeds": [
+        103011,
+        103012
+      ]
+    },
+    {
+      "id": "s0_8302",
+      "lineage": 0,
+      "world": 8302,
+      "goals": [
+        3,
+        1,
+        0
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        103021,
+        103022
+      ]
+    },
+    {
+      "id": "s1_8310",
+      "lineage": 1,
+      "world": 8310,
+      "goals": [
+        1,
+        0,
+        2
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        104101,
+        104102
+      ]
+    },
+    {
+      "id": "s1_8311",
+      "lineage": 1,
+      "world": 8311,
+      "goals": [
+        3,
+        8,
+        6
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        104111,
+        104112
+      ]
+    },
+    {
+      "id": "s1_8312",
+      "lineage": 1,
+      "world": 8312,
+      "goals": [
+        3,
+        0,
+        1
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        104121,
+        104122
+      ]
+    },
+    {
+      "id": "s2_8320",
+      "lineage": 2,
+      "world": 8320,
+      "goals": [
+        5,
+        11,
+        1
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        105201,
+        105202
+      ]
+    },
+    {
+      "id": "s2_8321",
+      "lineage": 2,
+      "world": 8321,
+      "goals": [
+        3,
+        0,
+        1
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        105211,
+        105212
+      ]
+    },
+    {
+      "id": "s2_8322",
+      "lineage": 2,
+      "world": 8322,
+      "goals": [
+        2,
+        8,
+        6
+      ],
+      "tiers": [
+        2,
+        3,
+        4
+      ],
+      "g_prime": false,
+      "fresh_init_seeds": [
+        105221,
+        105222
+      ]
+    }
+  ],
+  "artifact_counts": {
+    "lineage_json": 3,
+    "arm_checkpoints": 38,
+    "total": 41,
+    "preserved_first_two_lineages": 28,
+    "preserved_s2_m4": 1,
+    "pretraining_worlds": 12,
+    "pretraining_goal_runs": 48,
+    "pretraining_rounds": 144,
+    "confirm_trained_goal_runs": 81,
+    "confirm_trained_rounds": 486,
+    "g_prime_goal_runs": 6,
+    "g_prime_rounds": 36,
+    "all_confirm_curves": 114,
+    "curve_points": 798
+  },
+  "pretraining_worlds": [
+    [
+      8200,
+      8201,
+      8202,
+      8203
+    ],
+    [
+      8210,
+      8211,
+      8212,
+      8213
+    ],
+    [
+      8220,
+      8221,
+      8222,
+      8223
+    ]
+  ],
+  "probe": {
+    "prior_review_pass_preserved": true,
+    "M4_lawful": 618,
+    "R_lawful": 398,
+    "n_each": 768,
+    "prior_auc_reproduction_not_repeated": true
+  },
+  "budget": {
+    "ceiling_hours": 42,
+    "previous_v61_seconds": 24120,
+    "v62_gate_seconds": 16124,
+    "precheck_seconds": 137.15,
+    "pretrain_and_probe_controller_seconds": 23910.7597163,
+    "first_interruption_charged_seconds": 2166,
+    "rejected_first_interruption_field_seconds": 9366,
+    "original_recovery_started_utc": "2026-09-09T09:37:40+00:00",
+    "original_recovery_allowance_seconds": 84742.0902837,
+    "absolute_deadline_utc": "2026-09-10T09:10:02+00:00",
+    "confirmation_stopped_utc": "2026-09-10T05:50:34.294716+00:00",
+    "recovery_window_wall_seconds_including_second_interruption_and_wait": 72774.294716,
+    "second_recovery_monotonic_seconds": 17317.193719699993,
+    "second_recovery_wall_seconds": 17318.297589,
+    "wall_minus_monotonic_seconds": 1.1038693000082276,
+    "total_through_completion_seconds": 139232.2044323,
+    "total_through_completion_hours": 38.675612342305556,
+    "completion_margin_to_deadline_seconds": 11967.705284,
+    "conservative_ceil_window_seconds": 72775,
+    "review_full_wall_seconds": 1024.778026,
+    "total_with_ceil_window_and_full_review_seconds": 140257.9097163
+  },
+  "review_cost": {
+    "started_utc": "2026-09-10T05:56:56.216000+00:00",
+    "metadata_program_seconds": 9.199774400010938,
+    "git_calls": 136,
+    "full_review_wall_seconds": 1024.778026,
+    "gpu_work": 0,
+    "inferences": 0,
+    "weight_decodes": 0,
+    "world_constructions": 0,
+    "score_calls": 0
+  },
+  "verifier_history": [
+    {
+      "source_commit": "4c3d248",
+      "status": "stopped_before_receipt",
+      "elapsed_tool_seconds": 1.3045589,
+      "reason": "Strict JSON constant reader rejected the frozen gate Infinity sentinel at summary.b_star_median.2[0].",
+      "resolution": "Only that historically hash-bound gate constant is permitted and its exact location verified; every confirmation/pretraining curve remains strictly finite. No source, data, score, threshold or receipt was replaced."
+    },
+    {
+      "source_commit": "efa0000",
+      "status": "stopped_before_receipt",
+      "reason": "Generic Git guard required historical ignored weights/states/logs to exist as Git blobs despite their earlier SHA receipts or archived copies.",
+      "resolution": "Distinguish exact earlier hash anchors from directly committed blobs and seven auxiliary logs. All 41 final artifacts, complete state, launch and reviews still require committed blobs."
+    },
+    {
+      "source_commit": "efa0000",
+      "status": "read_only_missing_path_diagnostic",
+      "elapsed_tool_seconds": 2.5761494,
+      "reason": "Repeated metadata checks with an ls-tree output observer identified the exact 27 historically untracked paths; no receipt, data, score or threshold modified."
+    }
+  ],
+  "checks": [
+    "All 17 frozen scientific source bytes equal a189ea5 and committed HEAD; section 12.6 unchanged.",
+    "Three complete pretraining lineages and 12 distinct checkpoint byte hashes match the earlier independently reviewed probe; no tensor decoded.",
+    "Every complete arm JSON exactly equals its lineage; the nine-unit JSON exactly equals their ordered concatenation.",
+    "All 28 completed s0/s1 artifacts and s2_8320_M4 are unchanged; both historical log prefixes and original controller records are intact.",
+    "First interrupted M4 fragment and second interrupted Fa fragment are preserved, not additional independent replicates; only reviewed full-arm replay occurred.",
+    "Fixed commands, first three admitted worlds, all nav log minima, persisted-store flags, tiers, round counters, G prime scope, and 64-env configuration checked.",
+    "Original absolute deadline includes second disappearance and all investigation/idle time until successful closure; no allowance restart.",
+    "Second launch has matching PID/hash/deadline handshake, clean close, empty stderr; process query empty and production score absent immediately before receipt.",
+    "All source/evidence bytes rehashed after validation; this receipt expresses instrument validity only."
+  ],
+  "limitations": [
+    "No scientific confirmation verdict, delta, significance, or figure is calculated here; the frozen scorer must run separately after this receipt is committed.",
+    "Training trajectories and deterministic CUDA replay are not independently rerun; confirmation retains arm-level JSON, not every action, optimizer state, or trained final network.",
+    "Pretraining tensor finiteness and probe AUC rely on the unchanged earlier independent receipt; this review hashes bytes and does not decode weights.",
+    "Navigation admission and random-seed provenance are checked from frozen source and available logs/commands, not by constructing fresh worlds or executing a nav gate.",
+    "Current process absence and Git chronology are available-record checks, not signed runtime attestation or forensic proof against arbitrary outside modification.",
+    "Historical weights/states/stdout may be ignored by Git: their exact SHA is anchored by the previous committed probe/recovery receipts or equal archived copies. Seven auxiliary logs are first bound by this review, not asserted to have been sealed before execution.",
+    "The first corrected interruption charge excludes idle time after the final boot under its reviewed rule; the entire second interruption is within the unchanged absolute window.",
+    "Reported wall time is conservative charged workstation time, not a measurement of GPU utilization; the small wall/monotonic discrepancy is reported without attributing a clock cause.",
+    "Area after b=0 may retain initial advantage; tiers3/4 b=0 includes weights plus within-world store. No test-world law-head AUC or pixel/Atari transfer follows."
+  ],
+  "confirmation_validity_confirmed": true,
+  "scientific_verdict": null,
+  "score_absent_at_review": true,
+  "permitted_next_step": "Commit this neutral review, recheck absent production score, then run only the frozen scorer and separately reviewed figure; no retraining or criterion change."
+}
