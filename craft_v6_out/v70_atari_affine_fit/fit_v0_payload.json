@@ -1,0 +1,1454 @@
+{
+  "kind": "atari_affine_scientific_payload",
+  "source_sha256": {
+    "docs/ARC4_BRANCH_TRACE_DRAFT.md": "22672fea90ac25720b3bf2834d6229b40ca7e29dbc3ed2c279afd28d7519ea8c",
+    "docs/ARC4_ISOLATED_POOL_DRAFT.md": "37903c00e8f23abc866b865b5fc672a87ebec453108ed2023b3d0608cc5b28a8",
+    "docs/ARC4_ISOLATED_RGB_NATIVE_DRAFT.md": "4fc8dd842ca9babd2ac141edffc00b32d9b54685d0d9bd4f2320f25ced5eff46",
+    "docs/ARC4_ISOLATED_RGB_NATIVE_PROTOCOL.json": "2d21c20d15d024a4fb52e2ea319d0bc80792c05c6bdbdfe94c5a1e71aa80fc14",
+    "docs/ARC4_ISOLATED_WORKER_DRAFT.md": "e1a478485bb06af8cbb6fdcb1029e7a95a73433969d14724e6cd37502c74bd7f",
+    "docs/ARC4_ORDINARY_RGB_POOL_DRAFT.md": "b3098bebc20b8797b8a40a16ba542e5cbe8a802c0b15f69cb38d88c1428da5ca",
+    "docs/ARC4_ORDINARY_RGB_TRACE_DRAFT.md": "66761b9ee4cd549c301a06565e8a901bb2d229d66b60bb01446a4722949d1100",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_DRAFT.md": "09491437f125f7050ce67e42bac1ec8a8095d1a5d7d752053fbd9b48720a6cc2",
+    "docs/ARC4_OWNED_ORDINARY_NATIVE_PROTOCOL.json": "900b7c0ecd33de9de4aaa530a99e5fe842a53350be227cdb072dbd8347494a85",
+    "docs/ARC4_OWNED_RGB_COLLECTOR_DRAFT.md": "15640d4f37363648e81e1e871fab54efd137e0a8c6d9ec5b4dbc3393960229b5",
+    "docs/ARC4_RGB_BRANCH_TRACE_PROTOCOL.json": "ceb649f24329380faf4ce0d70bac735a0e05cd86b59b7b09d5d31e20fb2c5c13",
+    "docs/ARC4_SEPARATE_RUNTIME_DRAFT.md": "24edbcc6a90d99b581a7696bb0ef30974a15d7605629e6b9e8fdd6fcd3649c5e",
+    "ragnarok/__init__.py": "d4d4e9c8c8ae499119fa9f367fb397883e3fe741238a8ead3a779098dccacdb7",
+    "ragnarok/environments/__init__.py": "2aae2f1a1aebbdefba35be57b0c0d480ee5a9099d67c2a912b8a734e06c0b58a",
+    "ragnarok/environments/cold_emu_pool_v70.py": "276f2b93ef26d670690d803266382633e7bc6096e62c19c8a043db547af472f2",
+    "ragnarok/environments/emu_pool.py": "f6d53db8d26af51294aec5ae2cabb9f5775e4feec1416b6afad1f648122bf629",
+    "ragnarok/environments/frame_budget_v70.py": "1d4ff341f267a47b299ce7db16fa45781446f41e50aeb1485267d70cd79405b7",
+    "ragnarok/environments/isolated_rgb_pool_v70.py": "8d1587b038ce31636646711f75f8f845fc45c2ae5ac9758db017af0d7b1b04dc",
+    "ragnarok/environments/ordinary_rgb_pool_v70.py": "9985b3df4f740babe3f27f2de36bade30b180301111ccf23d54b4679dac4782d",
+    "ragnarok/environments/ordinary_rgb_trace_v70.py": "d87962950cc26c86140655c103043e8a9b5b41e2459a502c378179f5e500ed5e",
+    "ragnarok/environments/owned_rgb_collector_v70.py": "435ab4c40dc7383aff29c200b553dc243d3ad8a53ee6cfbdb52ed4b0b71206f2",
+    "ragnarok/environments/rgb_branch_trace_v70.py": "0519622b291d115a76b879cf9fc5b8a66bd7e491a1f81c726d5b130b417656c3",
+    "ragnarok/environments/rgb_trace_difference_v70.py": "c9971e40d7c14782968f5ac37e3ae0801788b931376a56ff511ec4a94281af7d",
+    "ragnarok/environments/rgb_trace_pool_v70.py": "79d3c1c70ebd014f15131a8e08c0ef8d949e56beb9a59ef7e76242beada48fda",
+    "ragnarok/environments/rgb_wire_v70.py": "3fe8f7089454358a9d5c0b3f395f43c5fe88fbe3cbb472b4f1adff9d9b365f1f",
+    "ragnarok/evaluation/__init__.py": "6e9ca09508d3751a3497c89cdb58e48e5cd5d26fa237de2c20fc68732696871c",
+    "ragnarok/evaluation/triple_pooled_fixtures_v70.py": "696cbd68248d84e81ecc5b2a5aa6f897b6ab2958c8178497f3019433f0463ebd",
+    "scripts/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/check_isolated_rgb_native_v70.py": "b3274226705a1437f4b713e8164fe3bf250e3ddcef242f8eb4a782ce34ce9a9b",
+    "scripts/check_owned_ordinary_native_v70.py": "107d5704357325a2b6eabbf56f11d6c495d9102ee08ff9dfb38df3f569cd0d3a",
+    "scripts/check_rgb_branch_trace_v70.py": "93ce402d37407bdd6c0ead918d70fd498c748801d7e33ae13a30633a28c3c863",
+    "scripts/serve_ordinary_rgb_v70.py": "9fe1b662dbf4a13dcc8b0fd9546055ce04e79507dcc81253bf75837a454d7d5f",
+    "scripts/temporal_validation_seal_v70.py": "1ef810256c5515fac43d20c41a60444f6b97e1d7d35987c49ab5d653ac0c512b",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/test_isolated_rgb_native_protocol_v70.py": "a6090afa6dfe6eb28f3c3a8b8f54d496eb083e878efb86447c1ea389869ecc3a",
+    "tests/test_isolated_rgb_pool_v70.py": "5a68cad75fe4a3328127f9d77612f6a8e8ff7f83e8189616178e7f866bf43fb4",
+    "tests/test_isolated_rgb_worker_v70.py": "dd5c7ec06309355b3da86b02fa0129a08cad66b69da1530bf36ec5a3f677e8ed",
+    "tests/test_ordinary_rgb_pool_v70.py": "facd8865097080f4da3c33595df605b891b7dcf6e5c8dfac63ab9ba29d02d9b6",
+    "tests/test_ordinary_rgb_trace_v70.py": "9ee37af70f882016addbf2eaa8534b317cd72c96241eaff9247bbd8d4723d1d8",
+    "tests/test_owned_ordinary_native_v70.py": "f3571b2b9a9364a94cebd087f4764597a40789358b6437ac1edf23eed455cd01",
+    "tests/test_owned_rgb_collector_v70.py": "e6e559f6d5de98cfc695e5e82dfa5d3ae4d6753550f98848568189032a1f46c8",
+    "tests/test_rgb_branch_trace_v70.py": "563a3e75fb083edadfc0e32d2551d2a069f1049e7dbf5b177905034f0c483236",
+    "tests/test_rgb_branch_trace_wiring_v70.py": "8c90fd72e01d80d995c620b6497d04ff555a9143eba3bd72376ca1a4da428cd6",
+    "tests/test_rgb_trace_difference_v70.py": "6a4ddae3ddf38c29efddd0f7fa0ffa5e33e3227d2b6c59bde0c70624fdc1109b",
+    "tests/test_rgb_trace_pool_v70.py": "b952c5c89bf3db6450dbe3c378e1abd725ac6baff1980d16c5c417eef5696df5",
+    "tests/test_rgb_wire_v70.py": "2c33e82eaea1dace6ae8bc7230e183a37c1f8a04d50964c461ccd63785b4c06f",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_DRAFT.md": "9cfd23125c494488d77747f7be33541ba522c1e1e12e9df6fe59f426d45bb21d",
+    "docs/ARC4_ARCHIVED_PIXEL_DIAGNOSTICS_PROTOCOL.json": "e9d07809afc876f0721bfce9992f92eb0321c956806fb05da620ec857417b2cc",
+    "docs/ARC4_GRADIENT_GUARD_DRAFT.md": "edc417132e8f6de2645f71a7d518da77b70a388123deb227671c95c91e98369f",
+    "docs/ARC4_OWNED_PERCEPTION_SESSION_DRAFT.md": "d0538f4503b3da82c122d60812591785ef4e458f3ab295006f2ca72261728c65",
+    "docs/ARC4_OWNED_PIXEL_OBJECTIVES_DRAFT.md": "08b4076940407a5b878b5beb544101677c4d3afedf2c1496821379a122483dea",
+    "docs/ARC4_PERCEPTION_STREAM_DRAFT.md": "b6024679b7cf04f5a8fb4e53a85aed0d5cffa715e83edc4f8d5bde46bb3eba5e",
+    "ragnarok/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ragnarok/learning/archived_pixel_diagnostics_v70.py": "b225bdf387e740138ff48838e664df1f08625dcd36f51f811fdd5974f0fba4ff",
+    "ragnarok/learning/bounded_tracker_v70.py": "7dac2fde0b31e0396e8764a2008f67a40b13f9f1bbf1f7e23d3997ff9606a9d0",
+    "ragnarok/learning/counterfactual_targets_v70.py": "59dd4178a93a06c38334e708c7910a6bc702b796bb38e781dc65a41d2d000e85",
+    "ragnarok/learning/gradient_guard_v70.py": "b8afdaf38c2444139cd5d25f4b8ba1a7769d8fb37bdb8cd97b697072183782ac",
+    "ragnarok/learning/grouping_v70.py": "5fa8eff590e32d83eda0013f469cb5e99af4147632f7c93b8d49df6c4bd2ea8e",
+    "ragnarok/learning/identity_v70.py": "4767fdeff1a1fe71212b80c9fa3f6d95b0e4eb7ade28b11e61fe6fc49f6d65f4",
+    "ragnarok/learning/instance_tracker_v70.py": "183efd1851c988cb351667d847302e12cc52e679a89f2a67bc5b178fc9ea33e8",
+    "ragnarok/learning/owned_perception_session_v70.py": "cb98942797ce56b733138353372bb6f2f7821dd563e9585abc8d62346cde1294",
+    "ragnarok/learning/owned_pixel_objectives_v70.py": "cf06ad437fb00fb3ec64942c7e402d2fa63930cd0ba387557a122057f7d0de70",
+    "ragnarok/learning/parser_v70.py": "d18874f74ab1a153b83327e36c48adce8dd699ba0482307893b81dde9eb1a8e9",
+    "ragnarok/learning/perception_stream_v70.py": "66cdf4615a58feccac05ed92ec66222db11986fa671f46d0d8d39a178ebc9e21",
+    "ragnarok/learning/pixel_prediction_v70.py": "35fe92dd9970925d2a1a69128d6349adf9ce12d6d57c403f7ec371d320fe6c77",
+    "ragnarok/learning/visual_instances_v70.py": "6ce6738562f23ad50abe44250c04379aaa325742f7122e251bf29afa6ff60e2d",
+    "scripts/check_archived_pixel_diagnostics_v70.py": "9489bc3fa586b9a3faf8c8e038665449bcfd82abfee0e8f765763c86f1c98222",
+    "tests/test_archived_pixel_diagnostic_protocol_v70.py": "5d63667f4a3c8961b278cc36d56ec35a53b395e84e49c068613e788d4a6dda13",
+    "tests/test_archived_pixel_diagnostics_v70.py": "f0d530cc8f12cce4fbfc42261aafa709a24278af6a2ab0ee262a98f38cbc5463",
+    "tests/test_gradient_guard_v70.py": "84166cbdd8ddbf81f56851735621e84e6551089a02fbc8692e2a7f39be91949f",
+    "tests/test_owned_perception_session_v70.py": "dbd329e1f67999b22de69d0e127f089763435a73587ade9ed58d342f46500aa6",
+    "tests/test_owned_pixel_objectives_v70.py": "e52a5f3afb8d7a8c86fd69d15a0f901c2633e2c38fe6363b22ac2b60783db4df",
+    "tests/test_perception_stream_v70.py": "9ab26e19703a9fb31ad35cf545c5db690cbb51e0e28f60c2d292d6c82d20d9c0",
+    "scripts/check_branch_signal_inventory_v70.py": "9288d50d1c6a071b6c520975fb5698bdaf0d9a0a2990d91abf41e330999a2ed5",
+    "tests/test_branch_signal_inventory_v70.py": "3563942f9b80eac42090089ff6defb89f0b607af3f7b024280f86d419323f01d",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_PROTOCOL.json": "f4f3458956c9e3a3fe274ff0ddd1937fc162f83eeb0ab2193ee134262d168674",
+    "docs/ARC4_BRANCH_SIGNAL_INVENTORY_DRAFT.md": "09da17046157b4d0d4c8247f4ae2075bac89e0a33f5fdd01f00603da7fc1841d",
+    "scripts/survey_action_signal_v70.py": "fd6c54e2381604642c2932e47f71d34bf47f5446b0e33f8a4c897481ac017148",
+    "tests/test_action_signal_survey_v70.py": "bb2220902688eeae93cabaf450ea42ac7d468e36d68a743d7786d6638b9e24f4",
+    "docs/ARC4_ACTION_SIGNAL_SURVEY_PROTOCOL.json": "b1662a96e0352f17d32ac48749821a863081e9111428980424362a252188cddc",
+    "docs/ARC4_ACTION_SIGNAL_SURVEY_DRAFT.md": "8becd0ac9df31a3ed5aee4c80656f2dcffb456d8ffd03511283255b91922196b",
+    "scripts/build_response_envelopes_v70.py": "8c3f658b19c4dba2240293b8484a6b467f1394c8089b1ec1fbe0067550706f9a",
+    "tests/test_response_envelopes_v70.py": "64514b9c8d5fdfa5fe3846def6b176eb18615152edbec7eb2f2e70a80fa36f4a",
+    "docs/ARC4_RESPONSE_ENVELOPE_PROTOCOL.json": "471a9b8f088ed4e6f6cfcba76b107119255ef8ea24d4c7c66d2ee58170d20ad9",
+    "docs/ARC4_RESPONSE_ENVELOPE_DRAFT.md": "5545dd123213007b832348e125f1c35c63d13e7664b76af66793e85ac2239c9d",
+    "ragnarok/learning/response_envelope_v70.py": "f2d9cc53b0f712179b9612068301d8f86bcca32bbd7f615bf3161e15b357f5c5",
+    "scripts/fit_response_envelope_v70.py": "e147b8fba3ba0a5f18474b116ecbd71170d18aee351e3903b8aeab85f925b97f",
+    "tests/test_response_envelope_fit_v70.py": "263afdd2e66cc09c84744e024546ca462314c21058a477e5b0afaa3d19d27c8e",
+    "docs/ARC4_RESPONSE_ENVELOPE_FIT_DRAFT.md": "eda8f272267bb7474deadd7108d93b4a980aaf47d1274784bf3637c962ce978b",
+    "docs/ARC4_RESPONSE_ENVELOPE_FIT_PROTOCOL.json": "35a3c52ad169bbe7c907f287adb6198d7d2a462dcd4f9fe187f7e64180de9de3",
+    "ragnarok/learning/affine_response_envelope_v70.py": "bb2872cc6bc624c5af6e2da6c0b5876895f2ed58c9fecb946cf787749d8e9dad",
+    "tests/test_affine_response_envelope_v70.py": "3699c555d3c429b23eed192e1c30af270912839271c6de3901f021394d22af2e",
+    "scripts/fit_atari_affine_v70.py": "df8eed7be8497f21c5348a2d8197bb505d1551a4ece02957a5bf001398e6f36f",
+    "tests/test_atari_affine_fit_v70.py": "4fa2d6d5c765a84995b493627c6d95f659cbb9c30d9732136ae0ccb0ab0f8db1",
+    "docs/ARC4_ATARI_AFFINE_DRAFT.md": "e5bb92dd03cc2b826c0468ad0b0413673dc58ec4b4a437f0139601d52f866e42",
+    "docs/ARC4_ATARI_AFFINE_PROTOCOL.json": "57143b2dd156da46ca8d770583033ca3f538c3b53bb0c69882a51dfc4b8651f9"
+  },
+  "evidence_sha256": {
+    "craft_v6_out/v70_response_envelopes/targets_v0.json": "d3c662ac1c269ff723add3e4417689a9dc57e7aa1745e9a700a7940bf78b6659",
+    "craft_v6_out/v70_response_envelopes/targets_review_v0.json": "d1211d166c2af7a402587c3225f981d273392be9b08277c1da10419d12d825a2",
+    "craft_v6_out/v70_response_envelopes/targets_v0.npz": "3221b9bae8d2c4f3af771f7af6ee08a66733d2e5c6744c917be601d88c31e03f",
+    "craft_v6_out/v70_response_envelope_fit/fit_v0.json": "9472d1153ea590b50fb3bd0a8f37baf5a989392604ade6bde60501a5155bad4a",
+    "craft_v6_out/v70_response_envelope_fit/fit_review_v0.json": "3df95a49c616d980c940b9ae20260a8e5c912560eecf07c6e0a8ad7f122d0467",
+    "craft_v6_out/v70_stationary_affine_fit/fit_v0.json": "c60b92fea8846af3cbc8bfe9db95bdfc1585ad9c661b276462e9db67f2aa8014",
+    "craft_v6_out/v70_stationary_affine_fit/fit_review_v0.json": "8be644481304ed9393f62fa93232ed5534dc46f5ee5fa2775226b710f0a646f5",
+    "craft_v6_out/v70_stationary_direct_fit/fit_v0.json": "cea34fdcdc5f1de67e6edc595184a6b961770a018700874fc2a3461f5d6b37b5",
+    "craft_v6_out/v70_stationary_direct_fit/fit_review_v0.json": "723596fefb4a094c38053d9cd40b019abd57c5f7f69b202b86f51a21e8bef978"
+  },
+  "runtime": {
+    "python": "C:\\Python314\\python.exe",
+    "version": "3.14.3",
+    "numpy": "2.4.4",
+    "torch": "2.11.0+cu126",
+    "threads": 1,
+    "interop_threads": 1,
+    "deterministic": true,
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1"
+    }
+  },
+  "protocol": {
+    "version": 0,
+    "recipe": "newton",
+    "parameters": 7,
+    "initialization": "all seven coefficients zero; no prior weights",
+    "input": "two ordered local RGB triples divided by 255, plus bias; shared across pixels and cases",
+    "dtype": "float64",
+    "constant_input": "all six RGB channels zero, bias one",
+    "newton_updates_per_arm": 16,
+    "schedule": "k=1..16: Newton visual, then constant",
+    "newton": {
+      "damping": 1.75,
+      "full_step": true,
+      "objective_penalty": 0.0,
+      "loss_increase_tolerance": "1e-12 * (1 + abs(loss_before))"
+    },
+    "loss": "equal anchor mean, equal positive/negative BCE if both exist, full BCE if one class",
+    "batch": "all twelve existing Atari development anchors in unchanged manifest order, including two empty Seaquest anchors",
+    "input_loading": "decode only past_pairs and observed_response_envelopes; no futures, RAM or prior weights",
+    "evaluation": "common initial and two final arms only; full objective also before and after each update",
+    "controls": [
+      "own trained constant",
+      "common initial",
+      "zero probability output"
+    ],
+    "probability_threshold": 0.5,
+    "minimum_visual_iou": 0.25,
+    "minimum_advantage": 0.1,
+    "maximum_each_empty_false_positive_fraction": 0.001,
+    "required_empty_anchors": 2,
+    "expected_operations": {
+      "linear_prediction": 67,
+      "objective": 67,
+      "gradient": 32,
+      "hessian": 32,
+      "linear_solve": 32,
+      "parameter_update": 32
+    },
+    "max_work_seconds": 120,
+    "cleanup_reserve_seconds": 10,
+    "max_binary_output_bytes": 64000000,
+    "work_scope": "data through scientific payload fsync/hash, final provenance and journal close; final receipt and console excluded",
+    "cpu_threads": 1,
+    "gpu_used": false,
+    "new_synthetic_steps": 0,
+    "new_initial_screens": 0,
+    "new_emulated_frames": 0,
+    "retry": false,
+    "selection": "new candidate chosen after earlier results on this development set, not confirmatory evidence",
+    "claim": "sufficiency of this bounded local-linear recipe on observed envelopes only; not necessity of context, mastery or acceleration"
+  },
+  "preflight_sha256": "31d7a04dae6cdef365a3cc4aeee51db0adb4cfc4660375fab612d2066cecf23b",
+  "failures": [],
+  "artifacts": {
+    "initial_state.npz": {
+      "bytes": 910,
+      "sha256": "d73045a4b1d0669553ab04a31c33fc2e351f40c60de5fcc980ba8061631f4613",
+      "arrays": {
+        "newton_visual_coefficients": {
+          "shape": [
+            7
+          ],
+          "dtype": "float64",
+          "sha256": "d4817aa5497628e7c77e6b606107042bbba3130888c5f47a375e6179be789fbb"
+        },
+        "newton_visual_step": {
+          "shape": [],
+          "dtype": "int64",
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        },
+        "newton_constant_coefficients": {
+          "shape": [
+            7
+          ],
+          "dtype": "float64",
+          "sha256": "d4817aa5497628e7c77e6b606107042bbba3130888c5f47a375e6179be789fbb"
+        },
+        "newton_constant_step": {
+          "shape": [],
+          "dtype": "int64",
+          "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+        }
+      }
+    },
+    "initial_logits.npz": {
+      "bytes": 3369,
+      "sha256": "9417f6808c2a4b7fe00eedab8588dbd0d9804c6170e699b983783b0880a8b787",
+      "arrays": {
+        "logits": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "8e4c457e1892e27a6c530bfd6b826bf047a7115578731ea8db598e9a06c065fc"
+        }
+      }
+    },
+    "initial_predictions.npz": {
+      "bytes": 4953,
+      "sha256": "e2d84dc49880cb375907fc1b187f5fa46cf44c10b4eb011cd86f2403ad54f265",
+      "arrays": {
+        "probability": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "6bb47280ed4ee888bace89615a53429097a1330059e57c5f71d0f97dd2e30905"
+        }
+      }
+    },
+    "newton_visual_logits.npz": {
+      "bytes": 17086,
+      "sha256": "b44c7fa59cdcf913543ec44101a2a6cc94b8a5536401d6bcdda0345190042c9f",
+      "arrays": {
+        "logits": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "e5f4ee5469e7114ec495f329683810ed70073528fb462f617ed8f9053eb81617"
+        }
+      }
+    },
+    "newton_visual_predictions.npz": {
+      "bytes": 17044,
+      "sha256": "94401ee5c32184df6e96d3d706dec2fc8289a3d235e1923450c5a2ff3aa46f36",
+      "arrays": {
+        "probability": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "e7ea335ed694587f7c709a88d896793fd78a1a1770774b4aac5a2651a484af3b"
+        }
+      }
+    },
+    "newton_constant_logits.npz": {
+      "bytes": 4951,
+      "sha256": "a1c1ff5bf22cf7b44a7a2403abf9333b74d5c1eb8c853fdc6cd8e966a9cbb783",
+      "arrays": {
+        "logits": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "630d45b2980d37175bbe679119276bc75502eb509ed7a3f3a627546846143c2d"
+        }
+      }
+    },
+    "newton_constant_predictions.npz": {
+      "bytes": 4958,
+      "sha256": "7ef7e31dbbb4eda5ddc73637ae5f01b106f87dd3a24016294bffc5bf4a6ce543",
+      "arrays": {
+        "probability": {
+          "shape": [
+            12,
+            210,
+            160
+          ],
+          "dtype": "float64",
+          "sha256": "b93b85c7b2f90e5dad04325db936f253a42ba5f5289617f2afdd310012a534b7"
+        }
+      }
+    },
+    "final_state.npz": {
+      "bytes": 978,
+      "sha256": "a48e6d29fee8ff4d06ea73ea274dc71d4884243b67fbd1ceba8b5fd73b4ee79d",
+      "arrays": {
+        "newton_visual_coefficients": {
+          "shape": [
+            7
+          ],
+          "dtype": "float64",
+          "sha256": "32671ed4fb69b009bc030029bc43034834bf93e770639f84a2fa7b7eca093b28"
+        },
+        "newton_visual_step": {
+          "shape": [],
+          "dtype": "int64",
+          "sha256": "5eb6da0e0e522104c6d50b0748e6893762f7f2c00a7163a46ccbb535bfd61a0d"
+        },
+        "newton_constant_coefficients": {
+          "shape": [
+            7
+          ],
+          "dtype": "float64",
+          "sha256": "ccdeb21c181c1eaec5471eff747894d81225a5c35f80cab9553020e039af1782"
+        },
+        "newton_constant_step": {
+          "shape": [],
+          "dtype": "int64",
+          "sha256": "5eb6da0e0e522104c6d50b0748e6893762f7f2c00a7163a46ccbb535bfd61a0d"
+        }
+      }
+    }
+  },
+  "metrics": {
+    "initial": {
+      "cases": [
+        {
+          "game": "pong",
+          "anchor_index": 0,
+          "target_pixels": 144,
+          "true_positive_pixels": 144,
+          "false_positive_pixels": 33456,
+          "iou": 0.004285714285714286,
+          "average_precision": 0.004285714285714286,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "pong",
+          "anchor_index": 1,
+          "target_pixels": 296,
+          "true_positive_pixels": 296,
+          "false_positive_pixels": 33304,
+          "iou": 0.008809523809523809,
+          "average_precision": 0.008809523809523809,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 0,
+          "target_pixels": 344,
+          "true_positive_pixels": 344,
+          "false_positive_pixels": 33256,
+          "iou": 0.010238095238095239,
+          "average_precision": 0.010238095238095239,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 184,
+          "false_positive_pixels": 33416,
+          "iou": 0.0054761904761904765,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 0,
+          "target_pixels": 127,
+          "true_positive_pixels": 127,
+          "false_positive_pixels": 33473,
+          "iou": 0.0037797619047619047,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 1,
+          "target_pixels": 127,
+          "true_positive_pixels": 127,
+          "false_positive_pixels": 33473,
+          "iou": 0.0037797619047619047,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 0,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 33600,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 1,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 33600,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 0,
+          "target_pixels": 109,
+          "true_positive_pixels": 109,
+          "false_positive_pixels": 33491,
+          "iou": 0.003244047619047619,
+          "average_precision": 0.003244047619047619,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 184,
+          "false_positive_pixels": 33416,
+          "iou": 0.0054761904761904765,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 0,
+          "target_pixels": 78,
+          "true_positive_pixels": 78,
+          "false_positive_pixels": 33522,
+          "iou": 0.0023214285714285715,
+          "average_precision": 0.0023214285714285715,
+          "false_positive_fraction": 1.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 1,
+          "target_pixels": 54,
+          "true_positive_pixels": 54,
+          "false_positive_pixels": 33546,
+          "iou": 0.0016071428571428571,
+          "average_precision": 0.0016071428571428571,
+          "false_positive_fraction": 1.0
+        }
+      ],
+      "nonempty_by_game": {
+        "pong": {
+          "iou": 0.006547619047619047,
+          "average_precision": 0.006547619047619047
+        },
+        "breakout": {
+          "iou": 0.007857142857142858,
+          "average_precision": 0.007857142857142858
+        },
+        "freeway": {
+          "iou": 0.0037797619047619047,
+          "average_precision": 0.0037797619047619047
+        },
+        "ms_pacman": {
+          "iou": 0.004360119047619048,
+          "average_precision": 0.004360119047619048
+        },
+        "asteroids": {
+          "iou": 0.0019642857142857144,
+          "average_precision": 0.0019642857142857144
+        }
+      },
+      "mean_nonempty_iou": 0.004901785714285714,
+      "mean_nonempty_average_precision": 0.004901785714285714,
+      "empty_anchor_false_positive_fractions": [
+        1.0,
+        1.0
+      ],
+      "balanced_bce": 0.6931471805600427
+    },
+    "zero": {
+      "cases": [
+        {
+          "game": "pong",
+          "anchor_index": 0,
+          "target_pixels": 144,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.004285714285714286,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "pong",
+          "anchor_index": 1,
+          "target_pixels": 296,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.008809523809523809,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 0,
+          "target_pixels": 344,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.010238095238095239,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 0,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 1,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 0,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 1,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 0,
+          "target_pixels": 109,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.003244047619047619,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 0,
+          "target_pixels": 78,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0023214285714285715,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 1,
+          "target_pixels": 54,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0016071428571428571,
+          "false_positive_fraction": 0.0
+        }
+      ],
+      "nonempty_by_game": {
+        "pong": {
+          "iou": 0.0,
+          "average_precision": 0.006547619047619047
+        },
+        "breakout": {
+          "iou": 0.0,
+          "average_precision": 0.007857142857142858
+        },
+        "freeway": {
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047
+        },
+        "ms_pacman": {
+          "iou": 0.0,
+          "average_precision": 0.004360119047619048
+        },
+        "asteroids": {
+          "iou": 0.0,
+          "average_precision": 0.0019642857142857144
+        }
+      },
+      "mean_nonempty_iou": 0.0,
+      "mean_nonempty_average_precision": 0.004901785714285714,
+      "empty_anchor_false_positive_fractions": [
+        0.0,
+        0.0
+      ]
+    },
+    "newton_visual": {
+      "cases": [
+        {
+          "game": "pong",
+          "anchor_index": 0,
+          "target_pixels": 144,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.004240318219401551,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "pong",
+          "anchor_index": 1,
+          "target_pixels": 296,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.007424026637703661,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 0,
+          "target_pixels": 344,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.013544568722338113,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.010585540498051271,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 0,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.019974027266923884,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 1,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0195790628513286,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 0,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 1,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 0,
+          "target_pixels": 109,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.16713007414136122,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.1023862116620867,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 0,
+          "target_pixels": 78,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.23319391926774474,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 1,
+          "target_pixels": 54,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.4083877995642701,
+          "false_positive_fraction": 0.0
+        }
+      ],
+      "nonempty_by_game": {
+        "pong": {
+          "iou": 0.0,
+          "average_precision": 0.005832172428552606
+        },
+        "breakout": {
+          "iou": 0.0,
+          "average_precision": 0.012065054610194692
+        },
+        "freeway": {
+          "iou": 0.0,
+          "average_precision": 0.01977654505912624
+        },
+        "ms_pacman": {
+          "iou": 0.0,
+          "average_precision": 0.13475814290172394
+        },
+        "asteroids": {
+          "iou": 0.0,
+          "average_precision": 0.32079085941600743
+        }
+      },
+      "mean_nonempty_iou": 0.0,
+      "mean_nonempty_average_precision": 0.09864455488312099,
+      "empty_anchor_false_positive_fractions": [
+        0.0,
+        0.0
+      ],
+      "balanced_bce": 0.6697184629103347
+    },
+    "newton_constant": {
+      "cases": [
+        {
+          "game": "pong",
+          "anchor_index": 0,
+          "target_pixels": 144,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.004285714285714286,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "pong",
+          "anchor_index": 1,
+          "target_pixels": 296,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.008809523809523809,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 0,
+          "target_pixels": 344,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.010238095238095239,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "breakout",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 0,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "freeway",
+          "anchor_index": 1,
+          "target_pixels": 127,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 0,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "seaquest",
+          "anchor_index": 1,
+          "target_pixels": 0,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": null,
+          "average_precision": null,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 0,
+          "target_pixels": 109,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.003244047619047619,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "ms_pacman",
+          "anchor_index": 1,
+          "target_pixels": 184,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0054761904761904765,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 0,
+          "target_pixels": 78,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0023214285714285715,
+          "false_positive_fraction": 0.0
+        },
+        {
+          "game": "asteroids",
+          "anchor_index": 1,
+          "target_pixels": 54,
+          "true_positive_pixels": 0,
+          "false_positive_pixels": 0,
+          "iou": 0.0,
+          "average_precision": 0.0016071428571428571,
+          "false_positive_fraction": 0.0
+        }
+      ],
+      "nonempty_by_game": {
+        "pong": {
+          "iou": 0.0,
+          "average_precision": 0.006547619047619047
+        },
+        "breakout": {
+          "iou": 0.0,
+          "average_precision": 0.007857142857142858
+        },
+        "freeway": {
+          "iou": 0.0,
+          "average_precision": 0.0037797619047619047
+        },
+        "ms_pacman": {
+          "iou": 0.0,
+          "average_precision": 0.004360119047619048
+        },
+        "asteroids": {
+          "iou": 0.0,
+          "average_precision": 0.0019642857142857144
+        }
+      },
+      "mean_nonempty_iou": 0.0,
+      "mean_nonempty_average_precision": 0.004901785714285714,
+      "empty_anchor_false_positive_fractions": [
+        0.0,
+        0.0
+      ],
+      "balanced_bce": 0.6794006862370594
+    }
+  },
+  "cases": [
+    {
+      "game": "pong",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/pong",
+          2501,
+          0
+        ],
+        "epoch": 3,
+        "frame": 136,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "b7cd5ae43ce9a9bbc6eb189ea4eeba04370f5351dfe82133c0042086728da663"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10001,
+      "envelope_pixels": 144,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "3a55345c596f7fdac2e16d711fb72fdae25f3e47579cd850a98dfab801be974b"
+      }
+    },
+    {
+      "game": "pong",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/pong",
+          5020,
+          0
+        ],
+        "epoch": 5,
+        "frame": 2280,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "d85fd200ae8a5adc3df672ddb144d4f759f7788d30b0eddeafcc39854ba66cb3"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 296,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "d11cb7e0c3889c2cb100a15c43bc4ced55b11f54c485398ec016fa56ab63c9c7"
+      }
+    },
+    {
+      "game": "breakout",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/breakout",
+          2506,
+          0
+        ],
+        "epoch": 12,
+        "frame": 516,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "b3d254136348da43740cff43da72823d341f73989460cc1d254e27e2196207b7"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10000,
+      "envelope_pixels": 344,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "7106e965f775c20e7c0d3a6e467362e814a97229f5331b503d234e8c9b3b1c8d"
+      }
+    },
+    {
+      "game": "breakout",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/breakout",
+          5027,
+          0
+        ],
+        "epoch": 23,
+        "frame": 844,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "86af10cf7ca3a936b41299fe4fa8b32c03b4d8fc9849b246b712b8fc948b594b"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20003,
+      "envelope_pixels": 184,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "8949992dcfe7da0bd5f882a8c7e1d7c25442c2b1b0731f6079b1f5c970dcde04"
+      }
+    },
+    {
+      "game": "freeway",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/freeway",
+          2501,
+          0
+        ],
+        "epoch": 1,
+        "frame": 1812,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "377cf84ba4e46079dbc378220d5abc415778ab26aa885deeb5a7d86a491a4423"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10003,
+      "envelope_pixels": 127,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "80ac03de1293a627b27bee09d7effa83928c9ac8a510426d2ef0db34e8fc0549"
+      }
+    },
+    {
+      "game": "freeway",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/freeway",
+          5019,
+          0
+        ],
+        "epoch": 2,
+        "frame": 3620,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "1ad995fd50ff6fd3e08202005ce029e170647e04cfebf43d0e10a61750aaacb5"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 127,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "25f80276b9c8fa43a7e015897c19e15af690e21449f75f87820e2849e63651e3"
+      }
+    },
+    {
+      "game": "seaquest",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/seaquest",
+          2504,
+          0
+        ],
+        "epoch": 5,
+        "frame": 1548,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "80cb87f8073d8b6373289573b030d3960b262c0b3d631dfaf6efaeeb55d98824"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10001,
+      "envelope_pixels": 0,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "c84915d58f2cde58af67d9d2d689c93f08b991e0d041e77444a8d5162e2942a5"
+      }
+    },
+    {
+      "game": "seaquest",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/seaquest",
+          5026,
+          0
+        ],
+        "epoch": 10,
+        "frame": 2212,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "5dd4eb10d390ee3a1855439a4303207d7a7091977d5448ed09cfd2ea7121b823"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 0,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "c84915d58f2cde58af67d9d2d689c93f08b991e0d041e77444a8d5162e2942a5"
+      }
+    },
+    {
+      "game": "ms_pacman",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/ms_pacman",
+          2502,
+          0
+        ],
+        "epoch": 2,
+        "frame": 4424,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "2a8b5b7894977e5679da7745c93ce1c1cea8291affeddcb8d0a2ff19f01f6f90"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10002,
+      "envelope_pixels": 109,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "7b92e01df0b700f7a8f5740e7cccc231349b5cb4e27a7f9dd25415648377b213"
+      }
+    },
+    {
+      "game": "ms_pacman",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/ms_pacman",
+          5024,
+          0
+        ],
+        "epoch": 7,
+        "frame": 1596,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "1fb6c34bfbdb7b200d745ef28dde73012d814a7eaf7bea569eba7abad7a8ebd9"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20003,
+      "envelope_pixels": 184,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "5b5a2d20b1935718b95aa3d855f69d3fe9a08efc45380d50b5fa5c3a0e6cab36"
+      }
+    },
+    {
+      "game": "asteroids",
+      "anchor_index": 0,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/asteroids",
+          2502,
+          0
+        ],
+        "epoch": 5,
+        "frame": 1500,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "174fe4656772e47463535fd3440b8a5809fc0be556cde3525611996ff46c91bf"
+        }
+      },
+      "target_delivered_frames": 10000,
+      "actual_delivered_frames": 10000,
+      "envelope_pixels": 78,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "d6f99de4dfcc5ee3ed7afd423cd708dd655cd54cc0884eb098831a204b98b218"
+      }
+    },
+    {
+      "game": "asteroids",
+      "anchor_index": 1,
+      "own_anchor": {
+        "token": [
+          "action-signal-survey-v0/asteroids",
+          5021,
+          0
+        ],
+        "epoch": 9,
+        "frame": 1112,
+        "pair": {
+          "shape": [
+            2,
+            210,
+            160,
+            3
+          ],
+          "dtype": "uint8",
+          "sha256": "31334da847fe1609b2a8bf6637ad7eabada8bad1ea25c1a251f0ebfa65a2c242"
+        }
+      },
+      "target_delivered_frames": 20000,
+      "actual_delivered_frames": 20002,
+      "envelope_pixels": 54,
+      "envelope_signature": {
+        "shape": [
+          210,
+          160
+        ],
+        "dtype": "bool",
+        "sha256": "6ef5d108942607b8f7c9c3cce9cbc89dcc31bedbf91151126f72f865cb202a51"
+      }
+    }
+  ],
+  "candidate_execution_complete": true,
+  "candidate_verdict": {
+    "passed": false,
+    "complete": true,
+    "minimum_iou_pass": false,
+    "advantage_over_best_control": -0.004901785714285714,
+    "minimum_advantage_pass": false,
+    "each_empty_anchor_pass": true,
+    "claim": "Development-set fitting feasibility only; not independent generalization"
+  },
+  "operation_entries": {
+    "linear_prediction": {
+      "initial": 1,
+      "newton_visual": 33,
+      "newton_constant": 33
+    },
+    "objective": {
+      "initial": 1,
+      "newton_visual": 33,
+      "newton_constant": 33
+    },
+    "gradient": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "hessian": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "linear_solve": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "parameter_update": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    }
+  },
+  "operation_returns": {
+    "linear_prediction": {
+      "initial": 1,
+      "newton_visual": 33,
+      "newton_constant": 33
+    },
+    "objective": {
+      "initial": 1,
+      "newton_visual": 33,
+      "newton_constant": 33
+    },
+    "gradient": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "hessian": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "linear_solve": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    },
+    "parameter_update": {
+      "initial": 0,
+      "newton_visual": 16,
+      "newton_constant": 16
+    }
+  },
+  "operation_totals": {
+    "linear_prediction": 67,
+    "objective": 67,
+    "gradient": 32,
+    "hessian": 32,
+    "linear_solve": 32,
+    "parameter_update": 32
+  },
+  "operation_count_exact": true,
+  "completed_updates": {
+    "newton_visual": 16,
+    "newton_constant": 16
+  },
+  "pending_update_arm": null,
+  "optimizer_update_count_exact": true,
+  "optimizer_updates": 32,
+  "optimizer_updates_upper_bound": 32,
+  "final_provenance_verified": true,
+  "attempt_sha256": "b92f175c222430db161c4549ad65373a360f516b61890adc0c743b506ca23f2c",
+  "progress_sha256": "a8ac795a760bb28d885b93f9c5304595ad3b254c7ad38de6339049ea0d02576a",
+  "new_synthetic_steps": 0,
+  "new_initial_screens": 0,
+  "new_emulated_frames": 0,
+  "gpu_used": false,
+  "claim": "Scientific payload only; require final receipt after charged closure"
+}

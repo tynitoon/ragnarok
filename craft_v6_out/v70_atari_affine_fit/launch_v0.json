@@ -1,0 +1,16 @@
+{
+  "kind": "atari_affine_fit_foreground_launch",
+  "created_utc": "2026-09-10T06:49:16.810045+00:00",
+  "pid": 24500,
+  "module": "scripts.fit_atari_affine_v70",
+  "arguments": [
+    "--run"
+  ],
+  "source_commit": "511ce8d",
+  "preflight_commit": "deecfd3",
+  "preflight_sha256": "31d7a04dae6cdef365a3cc4aeee51db0adb4cfc4660375fab612d2066cecf23b",
+  "max_work_seconds": 120,
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "new_attempt_only": true
+}
