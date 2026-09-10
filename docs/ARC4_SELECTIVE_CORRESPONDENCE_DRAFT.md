@@ -31,7 +31,7 @@ une couleur inchangée ne suffirait pas à démontrer une correspondance apprise
 
 ## Unité de mesure et séparation du juge
 
-Cinq strates de **256 scènes indépendantes** chacune : mouvement visible,
+Cinq strates de **256 scènes tirées i.i.d. dans une loi fixée par strate** : mouvement visible,
 immobilité visible, occultation finale, sortie d’écran finale et ambiguïté
 d’apparences identiques. Les deux premières ont une correspondance vraie unique
 dans la famille. Les trois autres exigent l’abstention sur la requête évaluée.
@@ -50,6 +50,9 @@ Une prédiction gelée du modèle initial et une prédiction finale du modèle a
 sont appariées sur chaque même scène. Aucun ajustement ou seuil n’utilise les
 labels d’évaluation. Toutes les scènes, admissions, erreurs et omissions sont
 conservées, y compris lorsque le candidat s’abstient partout.
+Les deux modèles et leurs règles d’admission restent fixes durant l’ensemble de
+l’évaluation. La borne du risque conditionnel reste valide conditionnellement
+au nombre aléatoire d’admissions, sous cette hypothèse i.i.d. par strate.
 
 ## Neuf exigences simultanées
 
@@ -80,7 +83,7 @@ Les bornes sont celles de Clopper–Pearson, unilatérales au niveau 1−alpha.
 Le test apparié compte les gains parmi gains + pertes sous probabilité nulle
 1/2. [Test binomial SciPy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.binomtest.html),
 [bornes exactes](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats._result_classes.BinomTestResult.proportion_ci.html).
-L’indépendance requise porte sur les scènes au sein de chaque strate ; elle
+L’hypothèse i.i.d. requise porte sur les scènes au sein de chaque strate ; elle
 reste une condition du générateur et du gel des prédictions, pas un résultat
 produit par cette formule. Bonferroni ne requiert pas l’indépendance des critères.
 
