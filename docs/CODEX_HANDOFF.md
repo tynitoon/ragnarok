@@ -1,12 +1,16 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, après l’arrêt technique de 10:26 Paris. Dernier utilisateur : « ça en est où ? ».
-Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
-au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
-avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
-reste **non démontré**. Aucun calcul expérimental actif au dernier contrôle.
+10 septembre 2026. Jérémie demande une explication simple et une pause cette
+semaine pour préserver ses tokens ChatGPT. **PAUSE UTILISATEUR PRIORITAIRE.**
+Ne lancer aucune expérience, revue supplémentaire ou reprise technique. Attendre
+qu’il demande explicitement de reprendre ; aucun redémarrage automatique prévu.
+Le suivi « Suivi Ragnarok ARC 4 » (suivi-ragnarok-arc-3) est maintenant PAUSED.
+Aucun processus d’expérience Ragnarok trouvé et aucun sous-agent actif au
+contrôle de cette demande. Code, résultats et préparation de reprise conservés.
+La demande écran/RC reste annulée. Apprendre plus vite les jeux suivants reste
+**non démontré**. L’ancienne instruction de poursuite autonome ne lève pas cette pause.
 
-## Immédiat : STOP technique, proposition prête à soumettre à Jérémie
+## État conservé pour une reprise ultérieure
 
 La tentative photométrique unique a été exécutée à 10:25:55 Paris et s’est
 arrêtée à la garde CPU après la génération. **Zéro initialisation 782, réseau,
@@ -46,8 +50,8 @@ craft_v6_out/v70_photometric_technical_recovery/recovery_preflight_v0.json.
 Aucun run/worker/judge de reprise avant accord utilisateur.
 La commande run exige --owner-approved-technical-recovery ; ne pas fournir ce
 flag sans la réponse réelle de Jérémie. Le dossier n’a que .gitattributes et le
-préflight ; aucun octet RGB recopié, aucune intention de run. La réponse finale
-doit donner le bilan honnête et demander cette exception technique précise.
+préflight ; aucun octet RGB recopié, aucune intention de run. La question de
+cette exception est différée pendant la pause demandée par Jérémie.
 
 ## Candidat déclaré et instruments disponibles
 
