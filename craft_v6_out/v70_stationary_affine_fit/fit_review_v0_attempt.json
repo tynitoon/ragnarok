@@ -1,0 +1,12 @@
+{
+  "kind": "stationary_affine_independent_review_attempt",
+  "status": "started",
+  "created_utc": "2026-09-10T05:31:22.666548+00:00",
+  "expected_result_sha256": "c60b92fea8846af3cbc8bfe9db95bdfc1585ad9c661b276462e9db67f2aa8014",
+  "result_commit": "3ef0cf9bf3d3080f24cb5e3754edd96975de06f5",
+  "verifier_commit": "43668914a3e8e30328ae3441629b38ec2fc46654",
+  "verifier_sha256": "9d485d6398be2bc6f36f6e85d7963b856763979131e1cb12347aa121d01ec8aa",
+  "maximum_verification_seconds": 120,
+  "no_retry": true,
+  "optimization_or_model_products_authorized": false
+}
