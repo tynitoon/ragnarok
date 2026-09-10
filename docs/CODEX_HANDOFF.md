@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 06:19 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 06:29 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer entre jalons sans finir aux commits. L’apprentissage plus rapide des
 jeux suivants n’est pas établi. Demande écran/RC annulée : mauvaise session.
 Détails historiques : docs/history/CODEX_HANDOFF_20260910_0619.md.
@@ -8,11 +8,19 @@ Détails historiques : docs/history/CODEX_HANDOFF_20260910_0619.md.
 ## Travail immédiat
 
 Le contrôle stationnaire est construit et revu PASS. Son fit aléatoire séparé
-est déclaré, testé et committé 0e5ede9 ; aucun fit réel encore lancé.
-review_recovery_v62 prépare son vrai préflight (106 sources, 3 preuves), sans
-modèle ni données décodées. Après préflight committé : UNE exécution détachée
-CPU1, puis préservation/revue du résultat et suite technique. Aucun retry.
-audit_motion_bootstrap a terminé la revue de construction et est disponible.
+tourne depuis06:26 Paris, PID13380, WMI caché hors Job vérifié. Sources0e5ede9,
+préflightc04a9c5 SHA01024c4d6850a34c34f0b7932555e2e4a6029aa523e471f7fb74e9bcaf1ceaf3,
+106sources/3preuves exactes sans modèle/données décodées au préflight.
+Intention et dispatch committés ee6f32c dans v70_stationary_fit/launch_v0/ ;
+console active non committée. Vers06:28,49updates visuelles/48constantes finies,
+139,7s de travail. UNE tentative CPU1,1200s, aucun retry. Ne pas modifier les
+106sources durant le run. À la fin : préserver et faire revoir le résultat.
+Les deux réviseurs sont disponibles. Figure JSON-only préparée dans
+scripts/figure_stationary_fit_v70.py, exige résultat complet et revue conforme,
+pas encore exécutée. Validation conditionnelle déclaréeaa0d9b1 puisc04a9c5
+AVANT fit : docs/ARC4_STATIONARY_VALIDATION_DRAFT.md, aucun script/donnée ouverts.
+Nouvelle graine775 seulement si fit+critère+revuePASS ; les coins imposés restent
+partagés, nouveaux RGB ne signifient pas nouveaux supports pour tous les cas.
 Une préférence AGENTS autorise la revue contradictoire aux jalons scientifiques.
 
 ## ARC 3 — dernier monde en cours
@@ -100,7 +108,7 @@ critères IoU≥0,25/avance≥0,10/chaque videFP≤0,001. CPU1/1200s dont10s cl�
 64MB, aucun nouveau tirage, retry, modèle pré-entraîné ou changement de seuil.
 Le fit décode seulement passés et labels, jamais futurs/poids/logits du juge ;
 il n’importe pas le builder/certificat. Preflight attendu dans
-v70_stationary_fit/preflight_v0.json. Un PASS serait partiel et sur développement,
+v70_stationary_fit/preflight_v0.json, maintenant committé. Un PASS serait partiel et sur développement,
 pas généralisation/transfert ; un FAIL ne prouverait pas l’impossibilité d’apprendre.
 
 ## Autres limites et environnement
@@ -122,6 +130,12 @@ OMP/OPENBLAS/MKL=1. Pas d’installation/rebuild. Préserver toutes les sources
 fermées et sorties ; ne pas inclure .codex/, configurations privées, smokes,
 notches ou ARC3 actif dans les commits ciblés. Pas de suppression ni de push.
 Git2.24 : --show-object-format est trompeur ; utiliser hash-object validé.
+Commits concurrents : utiliser git commit --only avec les chemins exacts après
+git add ciblé, pour ne pas embarquer le staging d’un autre agent. c04a9c5 avait
+inclus le préflight que le réviseur venait de stager ; empreinte/blobs vérifiés.
+Le préflight avait laissé un fichier vide sur erreur de sérialisation du reçu,
+puis a été écrit après vérification qu’il était vide ; incident consigné, pas
+de génération ou apprentissage à cette étape.
 
 Automatisation unique suivi-ragnarok-arc-3 déjà réglée pour cette reprise,
 silencieuse sans changement utile ; ne pas dupliquer ni relancer à l’aveugle.
