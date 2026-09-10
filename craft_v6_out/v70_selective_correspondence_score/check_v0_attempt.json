@@ -1,0 +1,21 @@
+{
+  "started_utc": "2026-09-10T07:32:15.078249+00:00",
+  "source_head": "21c9d758fc92695ecc6a2878296062cbb9c11219",
+  "source_sha256": {
+    "docs/ARC4_SELECTIVE_CORRESPONDENCE_DRAFT.md": "c08d324f22a527b39b85a81b2ec8b15a3bcc1d3a28fb63d888601a6fb2bcb4a7",
+    "ragnarok/evaluation/selective_correspondence_score_v70.py": "31747392e9b5cd0be4dedbde1045dffb8ce87f1f50c45aa4ae26db89ec1344c2",
+    "tests/test_selective_correspondence_score_v70.py": "92d354c6b87874aebdcb21455b43033e90046ed242c379ac8afafbecad2d58f0",
+    "craft_v6_out/v70_selective_correspondence_score/check_v0.py": "5303be3448a1a374c0a4bf30733ef85390a170fde6ee02cc281c72aecc5cb92e"
+  },
+  "command": [
+    "C:\\Python314\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/test_selective_correspondence_score_v70.py"
+  ],
+  "wall_limit_seconds": 60,
+  "scope": "new arithmetic score fixtures only; no model, emulator or experimental data"
+}
