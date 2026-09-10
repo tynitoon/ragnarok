@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 10:36 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, après l’arrêt technique de 10:26 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
 au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
 avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
@@ -39,10 +39,15 @@ Le wrapper conserve les 27 sources et les données, corrige seulement le masque
 de clôture de l’arrêt ; la fenêtre continue d’origine est remplacée seulement
 si Jérémie l’autorise.
 
-review_recovery_v62 relit la proposition ; ensuite seul son preflight en lecture
-peut être préparé. Aucun run/worker/judge de reprise avant accord utilisateur.
+review_recovery_v62 a relu la proposition. Les deux gardes signalées sont
+ajoutées : vérification des 27 sources avant le fit et empreinte du manifeste
+copié avant/après. Son preflight en lecture a passé, sans tableau décodé ni modèle :
+craft_v6_out/v70_photometric_technical_recovery/recovery_preflight_v0.json.
+Aucun run/worker/judge de reprise avant accord utilisateur.
 La commande run exige --owner-approved-technical-recovery ; ne pas fournir ce
-flag sans la réponse réelle de Jérémie. Aucun fichier de reprise encore produit.
+flag sans la réponse réelle de Jérémie. Le dossier n’a que .gitattributes et le
+préflight ; aucun octet RGB recopié, aucune intention de run. La réponse finale
+doit donner le bilan honnête et demander cette exception technique précise.
 
 ## Candidat déclaré et instruments disponibles
 
