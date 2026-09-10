@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 06:59 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 07:20 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer entre jalons sans finir aux commits. L’apprentissage plus rapide des
 jeux suivants n’est pas établi. Demande écran/RC annulée : mauvaise session.
 Détails historiques : docs/history/CODEX_HANDOFF_20260910_0619.md.
@@ -19,19 +19,31 @@ constant256. Total544 appels de mise à jour,300s CPU1, aucun nouveau tirage.
 Newton primaire, Adam témoin, critères IoU/avance/vides inchangés ; cela ne
 réhabiliterait pas le CNN ni ne prouverait transfert/généralisation.
 
-Core63e541c : ragnarok/learning/affine_response_envelope_v70.py et
-tests/test_affine_response_envelope_v70.py,7PASS9,15s. Différences finies,
-Hessien redondant/borne7/4/descente, permutation canaux, poids BCE, deux steps
-Adam float64 contre Torch, logits extrêmes. Aucun lot réel/CNN/ancien poids.
-review_recovery_v62 revoit ces mathématiques pendant que root doit écrire le
-runner/protocole et ses témoins de panne. Aucun fit affine lancé. Il faudra
-préflight indépendant après gel de toutes les sources. audit_motion est disponible.
-Une préférence AGENTS autorise la revue contradictoire aux jalons scientifiques.
+Core63e541c et guards70e874c : sept tests PASS9,15s puis quatre PASS0,29s.
+Mathématiques revues : pondération, différences finies, borne7/4 et descente,
+Adam float64 contre deux steps Torch ; contrats exacts7params float64 finis.
+Newton FAIL en16pas ne prouverait pas un défaut du solveur ; les recettes ont
+des budgets distincts, pas une comparaison causale du seul optimiseur.
+
+Runner/protocole d39e496 : scripts/fit_stationary_affine_v70.py et
+docs/ARC4_STATIONARY_LOGISTIC_PROTOCOL.json ;14tests de fixtures PASS6,20s.
+Préflight indépendant110a599,112sources/5preuves sans tableaux ni modèle,
+16,54s avec imports ; SHA97268ef10d26571f65febf86eb713f527574dc891f5187e8d016126de824992e.
+Fit UNIQUE lancé vers07:19 sous C:/Python314/python.exe, session33722 active
+au contrôle07:20. Folder craft_v6_out/v70_stationary_affine_fit/, aucune relance.
+Attendre clôture avant lecture scientifique et commit ciblé. Compteurs attendus :
+1093produits/objectifs,544gradients,32Hessiennes/résolutions,512propositionsAdam,
+544mises à jour. Évaluer initial commun et quatre bras finaux seulement.
+review_recovery_v62 prépare la revue de sortie séparée, interdite avant signal
+root de clôture/commit. Revue120sCPU1,aucun produit/gradient supplémentaire.
+Figure JSON-only scripts/figure_stationary_affine_v70.py préparée, non exécutée ;
+elle exigera la revue valide. audit_motion a terminé le préflight et est disponible.
+Une préférence AGENTS autorise ces revues aux jalons scientifiques.
 
 ## ARC 3 — dernier monde en cours
 
 Contrôleur11880, enfant21216, départ10 septembre 03:02 Paris. Présents au contrôle
-06:56 ; huit mondes sur neuf complets, M4 de s2_8322 fini, Fa en cours. Le fichier par lignée
+07:16 ; huit mondes sur neuf complets, M4 et Fa de s2_8322 finis, Fb en cours. Le fichier par lignée
 v61_confirm_s2.json contient s2_8320 et s2_8321 ; l’agrégat reste à6 jusqu’à la
 clôture de la lignée. Ne pas faire de score partiel. Vérifier les vrais PID et
 un tail borné de craft_v6_out/v61_confirm_s2.log, pas l’état JSON entier.
