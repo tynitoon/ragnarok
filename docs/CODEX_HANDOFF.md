@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 04:38 Paris. Continuer entre jalons sans terminer aux commits.
+10 septembre 2026, 05:07 Paris. Continuer entre jalons sans terminer aux commits.
 Dernier utilisateur : « ça en est où ? ». L’accélération de l’apprentissage
 sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session.
 
@@ -8,9 +8,9 @@ sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session
 
 Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
 État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
-Au contrôle de 04:38 : processus présents, Fa entier terminé, Fb en cours.
-Sept mondes sur neuf sont complets à04:43 ; s2_8321 est en cours. Le fichier
-v61_confirm_s2.json contient le septième ; l’agrégat reste à6 jusqu’à la fin
+Au contrôle de 05:05 : processus présents ; M4 de s2_8321 terminé, Fa en cours.
+Sept mondes sur neuf sont complets depuis 04:43 ; s2_8321 est en cours. Le fichier
+v61_confirm_s2.json contient le septième ; l’agrégat reste à 6 jusqu’à la fin
 de la lignée. M4 du monde s2_8320 avait été conservé.
 Aucun score partiel. Les anciens états « running » sont historiques.
 Vérifier les processus réels et un tail borné du journal v61_confirm_s2.log.
@@ -59,7 +59,7 @@ Figure f527aea : craft_v6_out/v70_action_signal_survey/action_signal_v0.png,
 source 8bbcfbe, métadonnées action_signal_figure_v0.json. Générée une fois
 à partir des JSON, vue et vérifiée. Ouverture dans Codex renvoyée queued.
 
-## ARC 4 : premier fit Atari ACTIF, PID 17684
+## ARC 4 : premier fit Atari terminé, résultat négatif revu
 
 Le dérivé des cibles est complet : 216 archives, 12 ancres, 5,0051 s CPU,
 zéro nouvelle émulation. Résultat a7ab5d2, revue 0a99bab ; dossier
@@ -78,7 +78,7 @@ construction réelle réussie. Aucune archive/ancienne preuve supprimée.
 
 Fit : scripts/fit_response_envelope_v70.py, modèle response_envelope_v70.py,
 tests et docs ARC4_RESPONSE_ENVELOPE_FIT_* ; sources 842fd9b puis 4138fb8.
-NE MODIFIER AUCUNE DES 90 SOURCES pendant cette exécution. 19 tests PASS7,16s.
+Préserver les 90 sources ayant produit ces résultats. 19 tests PASS en 7,16 s.
 Préflight cab625d SHA dc49248084aad273fe3a988af15715850b80f05a16aeb2347e98792c61cf37a2.
 Le vrai configure_runtime(); proofs() a passé 90 sources et 3 preuves, sans
 modèle ni tableaux. Les trois défauts du lanceur relevés ont été corrigés avant
@@ -87,11 +87,10 @@ journal, mesure trop tôt de la fin du budget.
 
 Lancement WMI caché 10 septembre 02:37:39Z (04:37 Paris), PID17684, hors Job
 Object vérifié par la console. Intention fsync avant WMI et reçu dispatch retour0
-committés dans v70_response_envelope_fit/launch_v0/. À04:38, chacun des deux
-bras a terminé 5 updates et le visuel commence la6e. Processus CPU actif,
-ARC3 11880/21216 toujours actifs. Aucune autre tâche GPU ni benchmark CPU lourd.
-Pas de session unified : suivre PID et tail borné du journal fit_v0_progress.jsonl.
-Les sorties/logs encore actifs ne se committent pas avant fin.
+committés dans v70_response_envelope_fit/launch_v0/. Processus 17684 maintenant
+absent : exécution complète en 738,146 s, 256 updates par bras, 512 au total,
+compte exact sans update incertaine ni erreur. Artefacts, poids et console
+committés 3473f13 puis 963945e. Aucun autre fit lancé.
 
 Contrat fixe : deux images RGB passées, FCN 10 177 paramètres (16 canaux,
 dilatations1/2/4/8/16, padding répliqué), graine764, visuel contre entrée zéro,
@@ -102,24 +101,28 @@ son fsync/hash et la clôture du journal sont dans ce temps ; seul le petit reç
 final fit_v0.json et la console sont hors mesure. Aucun retry ou prolongement.
 Les paramètres/métriques ne doivent pas changer après lecture des résultats.
 
-Résultat décisif seulement dans fit_v0.json APRES fit_v0_payload.json, jamais
-sur le candidat du payload seul. Lire status/verdict/failure/counts sans dump
-complet. Entrée et retour optimizer.step séparés ; erreur interne = borne
-inférieure/borne supérieure et bras incertain explicites, jamais compte exact
-inventé. Poids partiels sauvegardés dans finally indépendamment du journal.
-Durée mesurée après écriture scientifique ; dépassement => incomplet.
+Résultat final fit_v0.json SHA9472d1153ea590b50fb3bd0a8f37baf5a989392604ade6bde60501a5155bad4a.
+Critère NON atteint : IoU moyen 0,04739 contre minimum 0,25 ; avance 0,04249
+contre minimum 0,10 ; faux positifs Seaquest 0,5655 % et 0,1607 %, chacun
+au-dessus du maximum 0,1 %. Les trois clauses échouent. AP moyenne 0,15666.
+Il s’agit d’un résultat scientifique négatif, pas d’une erreur du lanceur.
 
 Critère : IoU visuel moyen par jeu >=0,25, avance >=0,10 sur meilleur des
 3témoins, faux positifs <=0,1% pour CHAQUE ancre vide, 256+256updates complets.
 AP groupant les ex aequo publiée sans seuil supplémentaire. Douze situations
 DE DÉVELOPPEMENT, aucune validation indépendante ni objet physique démontré.
 Même un succès ne signifie ni jouer, ni généraliser, ni transférer plus vite.
-Les 1 280 updates antérieures étaient SYNTHÉTIQUES ; ce fit est le premier
-sur les images Atari, et ses updates doivent maintenant être comptées à part.
+Les 1 280 updates antérieures étaient SYNTHÉTIQUES ; les 512 de ce premier
+fit sur les images Atari se comptent séparément. Aucune policy de jeu entraînée.
 
-Après clôture : préserver/committer artefacts, revue indépendante résultats,
-coûts/provenance, bornes de updates, payload/temps et métriques/témoins. Puis
-figure JSON-only préparée 6e5099d (PAS exécutée) :
+Revue indépendante déposée : fit_review_v0.json, SHA
+3df95a49c616d980c940b9ae20260a8e5c912560eecf07c6e0a8ad7f122d0467.
+90 sources, 15 preuves et 2 049 événements vérifiés ; recalcul des 48 lignes
+de métriques conforme à 1,11e-16 près, sans inférence. Validité instrumentale
+PASS, résultat scientifique FAIL. Témoin constant uniforme 0,416665524,
+proche de son optimum analytique 5/12 ; l’initial prédit tout positif.
+À faire : committer cette revue puis générer et voir la
+figure JSON-only préparée 6e5099d (PAS encore exécutée) :
 scripts/figure_response_envelope_fit_v70.py attend fit_review_v0.json de kind
 response_envelope_fit_independent_result_review. Aucun tableau NPZ ouvert par
 cette figure. Voir le PNG après génération, committer, poursuivre au jalon suivant.
@@ -131,11 +134,19 @@ contredirait ARC4_VISION §2.6 ; ne pas l’implémenter. Pas de modèle conditi
 par bouton, ni contrôle/policy/ME construit par ce fit.
 Validation conditionnelle préparée AVANT résultat du fit :
 docs/ARC4_RESPONSE_ENVELOPE_VALIDATION_DRAFT.md. Nouvelles graines19490/19491,
-seulement si fit complet + critère atteint + revue PASS. Aucun nouveau tableau
-collecté ; aucun script de validation écrit. Douze ancres, critères et censures
+seulement si fit complet + critère atteint + revue PASS. Cette condition a
+ÉCHOUÉ : ne pas collecter cette validation. Aucun nouveau tableau collecté ;
+aucun script de validation écrit. Douze ancres, critères et censures
 prédéclarés ; 30k charges/jeu,900s collecte +300s dérivation +180s évaluationCPU.
 Un doublon de passé du développement => global non concluant, sans remplacement.
 Cette validation ne démontrerait pas le transfert vers un autre jeu.
+
+Prochain diagnostic en discussion : chercher des passés locaux exactement
+identiques associés à des cibles opposées, puis borner l’IoU et la BCE du FCN.
+Attention au padding répliqué à chaque couche : un patch brut répliqué seul
+ne suffit pas aux bords. Raffinement sous revue : joindre à la clé externe
+les quatre distances aux bords écrêtées au rayon 31. Aucun code, protocole
+ou calcul sur données réel de ce diagnostic à ce stade ; aucun nouveau fit.
 
 ## Limites antérieures préservées
 
@@ -147,7 +158,7 @@ Pas de nouveau benchmark. Diagnostic de profilage encore brouillon dans
 ARC4_NATIVE_CPU_PROFILE_DRAFT.md ; ne pas rejouer les anciens profils.
 
 C150 instances : zéro supervision, non résolu. Cinq fits SYNTHÉTIQUES,
-1 280 mises à jour au total, tous négatifs au critère global. Fit Atari actif séparé.
+1 280 mises à jour au total, tous négatifs au critère global. Fit Atari négatif séparé.
 Gate0 non gelé, 12GPUh/0B10 et STOP inchangés. Jeux réservés Boxing,
 Frostbite, Riverraid, Kangaroo jamais ouverts. RAM : évaluation externe
 uniquement. ME/boutons/reader/drives/S/policy/ledger restent à construire.
