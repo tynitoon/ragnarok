@@ -245,11 +245,27 @@ def validate_journal(events, result):
 
 
 class Review:
-    def __init__(self, result_sha, closed_commit):
+    def __init__(self, result_sha, closed_commit, prior=None):
         self.started, self.cpu_started = time.monotonic(), time.process_time()
         self.result_sha, self.closed_commit = result_sha, closed_commit
         self.evidence, self.sources, self.checks = {}, {}, {}
         self.decoded_arrays, self.checkpoints = [], []
+        if prior is not None:
+            prior_rel = prior.resolve().relative_to(ROOT).as_posix()
+            record = self.json_file(prior_rel)
+            require(record['kind'] == 'stationary_fit_independent_result_review' and record['passed'] is False
+                    and record['result_sha256'] == result_sha and record['decoded_arrays'] == []
+                    and record['decoded_checkpoints'] == [], 'Only an explicitly authorized pre-array review failure can be continued')
+            seconds, cpu = record['review_seconds'], record['review_main_process_cpu_seconds']
+            require(math.isfinite(seconds) and 0 <= seconds < MAX_REVIEW_SECONDS
+                    and math.isfinite(cpu) and 0 <= cpu <= seconds, 'Invalid prior review costs')
+            self.started -= seconds
+            self.cpu_started -= cpu
+            prior_attempt = prior.with_name('fit_review_v0_attempt.json').resolve().relative_to(ROOT).as_posix()
+            self.evidence_file(prior_attempt, record['review_attempt_sha256'])
+            self.checks['prior_review'] = dict(receipt=prior_rel, seconds=seconds, main_process_cpu_seconds=cpu,
+                                             decoded_arrays=0, decoded_checkpoints=0,
+                                             failures=record['failures'], cost_included_in_current_ceiling=True)
 
     def time_check(self):
         require(time.monotonic() - self.started < MAX_REVIEW_SECONDS, 'Review conservative wall/CPU ceiling reached')
@@ -282,7 +298,9 @@ class Review:
 
     def committed(self, mapping, ref='HEAD'):
         paths = list(mapping)
-        actual = self.git('hash-object', '--stdin-paths', input_text='\n'.join(str(self.safe_path(rel)) for rel in paths) + '\n').splitlines()
+        # Repository-relative paths preserve Git's per-path CRLF/attributes
+        # conversion. Absolute Windows paths bypass it in --stdin-paths.
+        actual = self.git('hash-object', '--stdin-paths', input_text='\n'.join(paths) + '\n').splitlines()
         expected = self.git('rev-parse', *[ref + ':' + rel for rel in paths]).splitlines()
         require(actual == expected and len(actual) == len(paths), 'Git blob mismatch against ' + ref)
 
@@ -524,18 +542,27 @@ def main():
     parser.add_argument('--review-closed-result', action='store_true', required=True)
     parser.add_argument('--result-sha256', required=True)
     parser.add_argument('--closed-commit', required=True, help='Commit containing the immutable result AND final console')
+    parser.add_argument('--prior-review-receipt', type=Path,
+                        help='Explicitly authorized continuation after a preserved pre-array review failure; its costs remain charged')
+    parser.add_argument('--review-version', type=int, choices=(0, 1), default=0)
     args = parser.parse_args()
     require(len(args.result_sha256) == 64 and all(c in '0123456789abcdef' for c in args.result_sha256), 'An exact lowercase result SHA256 is required')
-    output = FOLDER / 'fit_review_v0.json'
-    attempt_path = FOLDER / 'fit_review_v0_attempt.json'
+    require((args.review_version == 0) == (args.prior_review_receipt is None),
+            'Version one requires the preserved version-zero receipt; version zero cannot hide a prior review')
+    if args.review_version == 1:
+        require(args.prior_review_receipt.resolve() == (FOLDER / 'fit_review_v0.json').resolve(),
+                'The authorized continuation must retain the exact version-zero receipt path')
+    output = FOLDER / ('fit_review_v' + str(args.review_version) + '.json')
+    attempt_path = FOLDER / ('fit_review_v' + str(args.review_version) + '_attempt.json')
     require(not output.exists() and not attempt_path.exists(), 'Preserve prior review traces; no automatic retry')
     require(sha_file(FOLDER / 'fit_v0.json') == args.result_sha256, 'Closed result hash does not match authorization')
-    review = Review(args.result_sha256, args.closed_commit)
+    review = Review(args.result_sha256, args.closed_commit, args.prior_review_receipt)
     script_sha = sha_file(Path(__file__))
     write_exclusive(attempt_path, dict(kind='stationary_fit_independent_review_attempt',
                                       created_utc=datetime.now(timezone.utc).isoformat(),
                                       result_sha256=args.result_sha256, closed_commit=args.closed_commit,
                                       reviewer_sha256=script_sha, max_review_seconds=MAX_REVIEW_SECONDS,
+                                      review_version=args.review_version, prior_review=review.checks.get('prior_review'),
                                       scope='Saved targets, predictions, logits and archived weights only; no simulation or model execution'))
     failures = []
     try:
@@ -547,6 +574,7 @@ def main():
         failures.append(dict(type='TimeoutError', message='Review conservative wall/CPU ceiling exceeded'))
     receipt = dict(kind='stationary_fit_independent_result_review', passed=not failures,
                    created_utc=datetime.now(timezone.utc).isoformat(), result_sha256=args.result_sha256,
+                   review_version=args.review_version,
                    source_sha256=review.sources, evidence_sha256=review.evidence,
                    review_attempt_sha256=sha_file(attempt_path), checks=review.checks, failures=failures,
                    decoded_arrays=review.decoded_arrays, decoded_checkpoints=review.checkpoints,

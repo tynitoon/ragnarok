@@ -1,0 +1,9 @@
+{
+  "kind": "stationary_fit_independent_review_attempt",
+  "created_utc": "2026-09-10T04:44:04.134687+00:00",
+  "result_sha256": "8ca241233e8053cedd6149b1d3992dc7cbc944c4442ce298b067dafc03719c35",
+  "closed_commit": "19f5ef4",
+  "reviewer_sha256": "76a01ef52dc1f6d8a0ce4b4950cf43b80715a9fe01a36bc24dc17773f93e0d5a",
+  "max_review_seconds": 300,
+  "scope": "Saved targets, predictions, logits and archived weights only; no simulation or model execution"
+}
