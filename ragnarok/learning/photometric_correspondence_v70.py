@@ -142,7 +142,7 @@ def propose(encoder, clips, *, image_kind):
     declared external RGB reference, with the same temporal guard and rule.
     """
     batch, height, width = _shape(clips)
-    if image_kind not in ('raw', 'pooled') or not isinstance(image_kind, str):
+    if not isinstance(image_kind, str) or image_kind not in ('raw', 'pooled'):
         raise ValueError('An explicit homogeneous raw or pooled recording kind is required')
     if image_kind == 'pooled':
         shape = (batch, height, width)

@@ -1,12 +1,12 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 09:35 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 10:15 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
 au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
 avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
 reste **non démontré**. Aucun calcul expérimental actif au dernier contrôle.
 
-## Immédiat : candidat de correspondance sélective à déclarer
+## Immédiat : vérifier puis exécuter le candidat photométrique déclaré
 
 La dernière calibration locale Atari est close et négative. Ne pas poursuivre
 les réglages de cette série. Interface observation/attribution terminée :
@@ -30,17 +30,55 @@ CPsup admissionindue≤.05.4témoinsoccultationdéterministesenplus. Archiver to
 les admissions AVANT juge et les1280verdicts. Cela ne certifie ni validitédense,
 ni variabilitéentreentraînements,nirisquesaprèsintersection des admissions m/C.
 
-Aucun générateur ou nouveau candidat d’apprentissage implémenté à ce stade.
-Piste en revue : encodeur RGB pointwise appris de zéro, associations softmax,
-cycles temporels ; observation après réception uniquement, sans futuro-prédiction.
-audit_motion_bootstrap recommande des points uniques avec exposition globale
-variable positive sans clipping pour distinguer apprentissage de simple égalité
-RGB. Couleurs/dispositions nouvelles au test ; pas d’exposition/identité/position
-du juge au réseau. Doublons/occultation/sortie évaluent l’abstention. Les aplats
-imposent une borne log(k) à la perte cyclique, pas de critère perte nulle.
-Un code local de commande reste distinct des12effets sémantiques ; rien ne change
-la politique. Préparer un protocole candidat complet puis le faire relire AVANT
-données/entraînement. Ne pas adopter un seuil après observation.
+Candidat déclaré avant toute donnée dans
+docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_DRAFT.md (f220669), puis amendement
+ARC4_PHOTOMETRIC_CORRESPONDENCE_AMENDMENT_1.md (c3eece7). Les deux agents ont
+relu la méthode : encodeur partagé 1×1, 3→32→32→16, SiLU et L2, 1 712 paramètres,
+cycles de marches softmax à température 0,07. Admission aller-retour ≥0,90 ET
+similarité aux extrémités ≥0,95. Raw seulement ; pooled inconnu sans réseau,
+garde structurelle qui ne compte pas comme abstention apprise. Les aplats ont
+une perte irréductible, et un faux cycle peut être cohérent.
+
+Implémentation présente, **pas encore exécutée** :
+ragnarok/learning/photometric_correspondence_v70.py (socle e062d6e),
+ragnarok/evaluation/photometric_scenes_v70.py,
+scripts/photometric_common_v70.py, photometric_worker_v70.py,
+photometric_correspondence_v70.py et judge_photometric_v70.py.
+Tests tests/test_photometric_correspondence_v70.py ; protocole JSON dans docs/.
+Générateur relu conforme : 8×8, quatre points, couleurs nouvelles et exposition
+globale float64 puis rint ; 128 clips visibles pour apprendre, 1 280 clips juge.
+Graines 19492, SeedSequence19493, initial782 ; fixtures55103..55105 distinctes.
+Pas de position, strate, identité ou exposition du juge au réseau.
+
+Deux processus distincts : génération et archives RGB/juge, puis fit qui ne
+décode que les quatre NPZ RGB à membre unique. 512 Adam, mini-lots4 fixes,
+initial exact conservé puis évalué après entraînement ; témoin RGB normalisé
+descriptif. 674 appels appris, 13 848 images encodées, 81 associations témoin,
+4 556 bmm explicites de forward. Les opérations internes de backward/convolution
+ne sont pas comptées comme ces bmm. 4 224 nouvelles images, 24 vues de contrôle.
+
+Lanceur : python -m scripts.photometric_correspondence_v70
+avec successivement fixtures, preflight, run ; judge seulement après revue
+technique indépendante fit_review_v0.json liée au SHA de fit_v0.json.
+Dossier neuf craft_v6_out/v70_photometric_correspondence/ : seul .gitattributes
+à ce point. Tous les fichiers sources doivent être commis avant fixtures.
+Budgets : fixtures 60 s cumulées, un backward maximum, zéro update ; production
+300 s murales incluant imports/génération/fit/inférences, réserve15 s, CPU1,
+64 MB ; un juge séparé60 s, un seul score, aucun nouveau réseau ou RGB.
+
+Revues du lanceur : corrections prospectives pour sauvegarde par lot, événements
+fsync avant/après les updates, bornes du travail interrompu, préflight lié à ses
+octets, admission des écritures sous plafond, clôture indépendante des erreurs.
+audit_motion_bootstrap relit ces correctifs en dernier. Revue du juge conforme :
+contrôles exacts avec deux branches chacun, empreintes et runtime recontrôlés.
+Un score utilisable exige reçu complet ET absence de *_closure_failure.json.
+Ne pas relancer une tentative existante. Aucune donnée, fixture, initialisation
+ou mise à jour de ce candidat effectuée à l’heure ci-dessus.
+
+Après propositions scellées et revue : conserver les 1 280 verdicts avant score,
+les réponses aux huit clips de contrôle, les rangs initial/final avant abstention
+et les coïncidences quantifiées. Garder tous les résultats. Aucun raccord m/C,
+ME ou changement des douze effets sémantiques autorisé automatiquement.
 
 Source primaire consultée : https://arxiv.org/html/2006.14613v2 (§2,annexesA/C),
 https://ajabri.github.io/videowalk/ et READMEgithub ; aucun poids/dataset téléchargé.
