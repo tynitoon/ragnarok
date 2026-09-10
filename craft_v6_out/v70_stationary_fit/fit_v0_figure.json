@@ -1,0 +1,19 @@
+{
+  "kind": "reviewed_stationary_fit_figure",
+  "result_sha256": "8ca241233e8053cedd6149b1d3992dc7cbc944c4442ce298b067dafc03719c35",
+  "review_sha256": "c2fe9c270afa098f43c403b3f4818460bd9540993794049cd7df04f1151daa98",
+  "journal_sha256": "611a59836a1bdc62dd82c6c9745748534be3bc07bfb791543e356853cf084824",
+  "figure_sha256": "1c9e696abe67b02b0f9edd6f30fedc4fd48e72162cca2f3261cbb5027afe40ac",
+  "source_sha256": {
+    "scripts/figure_stationary_fit_v70.py": "3bff646fabdbdd6b9719aaffe4498a5f0288a5cfe161083f8b290cd86819cd5b",
+    "scripts/figure_response_envelope_fit_v70.py": "d71050d2449d2de1a2d6f09a9e0841a4efa1f2efa84494b7752a1fd4cfd04503"
+  },
+  "arrays_opened": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "limits": [
+    "Le certificat prouve une solution possible ; ces poids appris proviennent d’un autre processus, initialisé aléatoirement.",
+    "Un critère moyen peut être atteint en ne réussissant que certains cas. Les douze résultats sont tous représentés.",
+    "Aucun jeu maîtrisé, généralisation indépendante, transfert ou apprentissage accéléré démontré par ce fit."
+  ]
+}
