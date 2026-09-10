@@ -28,6 +28,7 @@
   "maximum_stdout_stderr_bytes_per_child": 16384,
   "archive_cleanup_reserve_bytes": 65536,
   "completion_authority": "matching positive completion marker published from durable verified bytes; complete receipt alone is insufficient",
+  "time_scope": "imports, generation, all model work, durable payloads, receipts, fsync, rereads and hashes included; only final atomic publication link and console are excluded",
   "fixture_wall_seconds": 60,
   "judge_wall_seconds": 60,
   "cpu_threads": 1,

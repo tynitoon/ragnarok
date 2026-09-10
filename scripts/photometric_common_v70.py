@@ -15,6 +15,7 @@ PROTOCOL = 'docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_PROTOCOL.json'
 SOURCES = (
     PROTOCOL, 'docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_DRAFT.md',
     'docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_AMENDMENT_1.md',
+    'docs/ARC4_PHOTOMETRIC_CORRESPONDENCE_AMENDMENT_2.md',
     'docs/ARC4_SELECTIVE_CORRESPONDENCE_DRAFT.md',
     'ragnarok/__init__.py', 'ragnarok/learning/__init__.py',
     'ragnarok/evaluation/__init__.py', 'ragnarok/environments/__init__.py',
@@ -87,12 +88,13 @@ def publish_completion(prefix, intent, receipt_name):
     write_json(pending, payload, emergency=True)
     if read_json(pending) != payload or sha(OUT / receipt_name) != receipt_hash:
         raise ValueError('Completion payload or durable receipt changed')
+    pending_sha = sha(pending)
     # Count both retained directory entries conservatively for artifact accounting.
     ensure_space(pending.stat().st_size, emergency=True)
     if elapsed(intent) >= intent['wall_limit_seconds']-1:
         raise TimeoutError('No room remains to publish the positive completion marker')
     os.link(pending, complete)  # Fails if the destination already exists.
-    return sha(complete)
+    return pending_sha  # No reads or scientific work after atomic publication.
 
 
 def source_hashes():
