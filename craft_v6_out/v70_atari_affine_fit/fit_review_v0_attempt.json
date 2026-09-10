@@ -1,0 +1,15 @@
+{
+  "kind": "atari_affine_independent_review_attempt",
+  "status": "started",
+  "created_utc": "2026-09-10T06:54:57.716186+00:00",
+  "expected_result_sha256": "b168939f7fb3c4fcc81684785de64b49d79a24a07f4500b56e76d6437ac1f121",
+  "result_commit": "b08e0d228ad250d2126d16d49c86c66505cb5698",
+  "verifier_commit": "cfb094a426d9545f0ee1d1139dd3d1c774d7b9fb",
+  "verifier_sha256": "7b887b3e3912f967f6b9f78ad6c9079d4cb4eac95f8079f68ba0f2e137a0e468",
+  "maximum_verification_seconds": 120,
+  "no_retry": true,
+  "optimization_or_model_products_authorized": false,
+  "preflight_sha256": "31d7a04dae6cdef365a3cc4aeee51db0adb4cfc4660375fab612d2066cecf23b",
+  "preflight_commit": "deecfd3c3df2b7d0ddd478adda161545d9554ff9",
+  "maximum_review_output_bytes": 64000000
+}
