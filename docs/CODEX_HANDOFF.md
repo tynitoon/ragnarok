@@ -1,6 +1,6 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, 10:15 Paris. Dernier utilisateur : « ça en est où ? ».
+10 septembre 2026, 10:26 Paris. Dernier utilisateur : « ça en est où ? ».
 Continuer d’un jalon au suivant sans terminer aux commits. S’arrêter seulement
 au terme du travail, sur demande de Jérémie ou pour une décision qui exige son
 avis. La demande écran/RC est annulée. Apprendre plus vite les jeux suivants
@@ -39,7 +39,7 @@ similarité aux extrémités ≥0,95. Raw seulement ; pooled inconnu sans résea
 garde structurelle qui ne compte pas comme abstention apprise. Les aplats ont
 une perte irréductible, et un faux cycle peut être cohérent.
 
-Implémentation présente, **pas encore exécutée** :
+Implémentation et vérifications prospectives terminées ; fit non lancé :
 ragnarok/learning/photometric_correspondence_v70.py (socle e062d6e),
 ragnarok/evaluation/photometric_scenes_v70.py,
 scripts/photometric_common_v70.py, photometric_worker_v70.py,
@@ -60,8 +60,11 @@ ne sont pas comptées comme ces bmm. 4 224 nouvelles images, 24 vues de contrôl
 Lanceur : python -m scripts.photometric_correspondence_v70
 avec successivement fixtures, preflight, run ; judge seulement après revue
 technique indépendante fit_review_v0.json liée au SHA de fit_v0.json.
-Dossier neuf craft_v6_out/v70_photometric_correspondence/ : seul .gitattributes
-à ce point. Tous les fichiers sources doivent être commis avant fixtures.
+Dossier craft_v6_out/v70_photometric_correspondence/ : 21 fixtures PASS en
+4,5945252 s murales (pytest 3,10 s), un backward, zéro mise à jour ; reçus et
+clôture positive 742a9cb. Préflight conforme de 27 sources et runtime, 011d232.
+Implémentation 1df8e81, frontière de clôture cb7f55e ; aucune génération de
+production ou initialisation782 encore effectuée. Ne pas refaire les fixtures.
 Budgets : fixtures 60 s cumulées, un backward maximum, zéro update ; production
 300 s murales incluant imports/génération/fit/inférences, réserve15 s, CPU1,
 64 MB ; un juge séparé60 s, un seul score, aucun nouveau réseau ou RGB.
@@ -69,11 +72,13 @@ Budgets : fixtures 60 s cumulées, un backward maximum, zéro update ; productio
 Revues du lanceur : corrections prospectives pour sauvegarde par lot, événements
 fsync avant/après les updates, bornes du travail interrompu, préflight lié à ses
 octets, admission des écritures sous plafond, clôture indépendante des erreurs.
-audit_motion_bootstrap relit ces correctifs en dernier. Revue du juge conforme :
+audit_motion_bootstrap relit le dernier delta de clôture. Revue du juge conforme :
 contrôles exacts avec deux branches chacun, empreintes et runtime recontrôlés.
-Un score utilisable exige reçu complet ET absence de *_closure_failure.json.
-Ne pas relancer une tentative existante. Aucune donnée, fixture, initialisation
-ou mise à jour de ce candidat effectuée à l’heure ci-dessus.
+Un score utilisable exige reçu complet ET marqueur positif de clôture lié à son
+SHA (un reçu complete seul ne suffit pas), sans marqueur d’échec. L’amendement2
+précise que seuls le dernier lien atomique et la console sont hors du temps
+scientifique ; payloads, fsync, relectures et SHA sont dedans. Aucun calcul après
+publication. Ne pas relancer une tentative existante. Production encore absente.
 
 Après propositions scellées et revue : conserver les 1 280 verdicts avant score,
 les réponses aux huit clips de contrôle, les rangs initial/final avant abstention
