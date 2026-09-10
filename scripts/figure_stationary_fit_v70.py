@@ -9,7 +9,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'craft_v6_out/v70_stationary_fit'
-RESULT, REVIEW = FOLDER / 'fit_v0.json', FOLDER / 'fit_review_v0.json'
+RESULT, REVIEW = FOLDER / 'fit_v0.json', FOLDER / 'fit_review_v1.json'
 JOURNAL = FOLDER / 'fit_v0_progress.jsonl'
 OUTPUT, METADATA = FOLDER / 'fit_v0.png', FOLDER / 'fit_v0_figure.json'
 HELPER = ROOT / 'scripts/figure_response_envelope_fit_v70.py'
