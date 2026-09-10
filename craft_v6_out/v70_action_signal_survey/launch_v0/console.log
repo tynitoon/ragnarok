@@ -1,0 +1,2 @@
+{"pid": 20816, "detached_from_job": true, "mode": "fixed_action_signal_survey"}
+{"passed": true, "execution_status": "complete", "acquired_pairs": 216, "known_charged_frames": 157530}
