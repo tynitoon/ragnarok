@@ -1,0 +1,7 @@
+{
+  "kind": "response_envelope_fit_wmi_dispatch",
+  "observed_utc": "2026-09-10T02:37:39.5758092Z",
+  "ReturnValue": 0,
+  "ProcessId": 17684,
+  "intent_sha256": "0f8cd248967650f502ed2981cd60ca21b2805bba29519f9e269294ac4940e22a"
+}
