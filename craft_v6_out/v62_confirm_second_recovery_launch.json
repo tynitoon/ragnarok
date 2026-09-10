@@ -1,0 +1,23 @@
+{
+  "kind": "v62_detached_second_recovery_launch",
+  "status": "dispatched",
+  "launcher_pid": 24920,
+  "started_utc": "2026-09-10T01:01:50.101249+00:00",
+  "argv": [
+    "C:\\Python314\\python.exe",
+    "-u",
+    "-m",
+    "scripts.recover_confirm_after_interrupt_v62"
+  ],
+  "cwd": "F:\\dev\\ragnarok",
+  "detached_from_job": true,
+  "source_sha256": {
+    "scripts/recover_confirm_after_interrupt_v62.py": "af77ee1eca66b4b0cb19c4ac302c6a80fe4b198693caca4e256dc1dc16b5842e",
+    "tests/test_recover_confirm_after_interrupt_v62.py": "7c8eef9e4b8f0b2b6d0d05ef306a45de9376e3b8294e5ddeddf2685ade51f5f5",
+    "scripts/launch_detached_confirm_v62.py": "2688813b6612ae3513ad3b158ca0ed69c89c6f362e57e130e93f9cc5e842339f",
+    "tests/test_launch_detached_confirm_v62.py": "198e5d2f8959997a1db44942f74427c2b7dc2db1d4ab50a38ecba583ecbd4089"
+  },
+  "review_sha256": "9bc32b784de9c8a633a04f394479d6b61e43b010a97427093dc04ea7fdc48ddb",
+  "absolute_deadline_utc": "2026-09-10T09:10:02+00:00",
+  "controller_pid": 11880
+}
