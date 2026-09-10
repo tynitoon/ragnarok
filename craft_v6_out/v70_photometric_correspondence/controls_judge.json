@@ -1,0 +1,26 @@
+[
+  {
+    "family": "changed_occluder",
+    "branch_index": 0,
+    "source_pixel": 38,
+    "target_pixel": null
+  },
+  {
+    "family": "changed_occluder",
+    "branch_index": 1,
+    "source_pixel": 38,
+    "target_pixel": null
+  },
+  {
+    "family": "hidden_subject",
+    "branch_index": 0,
+    "source_pixel": 38,
+    "target_pixel": null
+  },
+  {
+    "family": "hidden_subject",
+    "branch_index": 1,
+    "source_pixel": 38,
+    "target_pixel": null
+  }
+]

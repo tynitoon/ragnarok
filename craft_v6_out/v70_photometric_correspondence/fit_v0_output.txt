@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "F:\dev\ragnarok\scripts\photometric_worker_v70.py", line 316, in <module>
+    main()
+    ~~~~^^
+  File "F:\dev\ragnarok\scripts\photometric_worker_v70.py", line 312, in main
+    fit(intent)
+    ~~~^^^^^^^^
+  File "F:\dev\ragnarok\scripts\photometric_worker_v70.py", line 93, in fit
+    raise ValueError('CUDA must be unavailable to this CPU experiment')
+ValueError: CUDA must be unavailable to this CPU experiment

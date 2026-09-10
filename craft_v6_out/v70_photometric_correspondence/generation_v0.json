@@ -1,0 +1,21 @@
+{
+  "completed_utc": "2026-09-10T08:25:57.191838+00:00",
+  "file_sha256": {
+    "train_rgb.npz": "6879781ed84b7ba00434ef762528b824868d64b7e643cca2766f9a78b8fd656a",
+    "eval_rgb.npz": "61334ce105e0ea773bf5d32b10048ff6213d67b1505469d5b75a76ebcbf93701",
+    "controls_raw_rgb.npz": "5c4faec999b9a728f9acf4b8af7c0ca73f15d4fe007f894daadf7a19b7bf5860",
+    "controls_pooled_rgb.npz": "5041dcb57ff7185acbd22837940948916e4007b215c544bdef209210066399e6",
+    "train_judge.json": "619b6219a534855e837371a884d408cbcf412084e00a8a63200ee414f8f52355",
+    "eval_judge.json": "367a4aea14a8f58f3c3ad068634395b198f0afca2630c16a6cef1b08685d93da",
+    "controls_judge.json": "0bcc19b3dea039f54a9d44862bceb716460b25aceac34b3e2aaf2b4bb7545527"
+  },
+  "train_clips": 128,
+  "eval_clips": 1280,
+  "new_family_rgb_frames": 4224,
+  "historical_clips": 8,
+  "historical_selected_views": 24,
+  "new_emulated_frames": 0,
+  "model_calls": 0,
+  "optimizer_updates": 0,
+  "elapsed_seconds": 1.8338138
+}

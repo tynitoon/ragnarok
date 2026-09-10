@@ -1,0 +1,7 @@
+{
+  "started_utc": "2026-09-10T08:25:56.500576+00:00",
+  "completed_clips_lower": 128,
+  "in_flight_clips_upper": 1280,
+  "images_per_clip": 3,
+  "interruption": "generation inside this unreturned table has unknown progress"
+}

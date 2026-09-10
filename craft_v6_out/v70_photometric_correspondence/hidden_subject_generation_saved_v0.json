@@ -1,0 +1,18 @@
+{
+  "completed_utc": "2026-09-10T08:25:57.163461+00:00",
+  "completed_selected_views": 24,
+  "controls": [
+    {
+      "family": "hidden_subject",
+      "branch_index": 0,
+      "source_pixel": 38,
+      "target_pixel": null
+    },
+    {
+      "family": "hidden_subject",
+      "branch_index": 1,
+      "source_pixel": 38,
+      "target_pixel": null
+    }
+  ]
+}
