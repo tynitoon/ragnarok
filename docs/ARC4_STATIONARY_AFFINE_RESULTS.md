@@ -59,10 +59,28 @@ paramétrisation simple. Cela ne réhabilite pas le CNN : son paramétrage,
 initialisation et précision sont différents, et son échec reste archivé.
 Le résultat affine n’identifie pas une cause unique de cet échec.
 
-Une vérification algébrique séparée est déclarée dans
-`ARC4_STATIONARY_AFFINE_FAMILY_DRAFT.md`. Elle examinera les coefficients gelés
-sur toute la famille stationnaire admissible, sans nouveaux pixels ni fit.
-Sa conclusion n’est pas contenue dans les scores de ce document.
+La vérification algébrique séparée, déclarée dans
+`ARC4_STATIONARY_AFFINE_FAMILY_DRAFT.md`, est maintenant complète et revue.
+Elle certifie la fonction affine Newton sur toute la famille stationnaire
+admissible : logit positif minimal1,315005504 et logit négatif maximal−0,514252547.
+Les extrema sont calculés en rationnels exacts à partir des coefficients appris.
+Cela couvre tous les arrangements de pixels et bruits de couleurs autorisés
+dans ce domaine, sans nouveaux pixels ni fit, mais pas tous les arrondis de
+noyaux numériques ni les images hors de cette famille.
+
+Adam n'obtient pas ce certificat : son minimum positif vaut−0,049458532.
+L'initial et les deux constantes ne le satisfont pas non plus. Les cinq résultats
+sont conservés, sans remplacer le candidat primaire ni changer le seuil.
+Seules les sommes des coefficients temporels sont identifiables ici : les deux
+passés avant intervention sont identiques, donc aucune compréhension du mouvement
+ne découle de cette preuve.
+
+Jugement3133ac0 :21,9843s, deux archives/24tableaux validés, cinq calculs,
+43053octets, aucun produit de modèle, gradient ou entraînement. Revue indépendante
+18613c4 :1,7314s, cinq recalculs rationnels supplémentaires et distincts,117sources,
+10preuves et24signatures vérifiées depuis les JSON, sans rouvrir les NPZ.
+Résultat SHA129fd18914406329ee872444b8ffe573416e3922fd85f1e21f1f47ed351d5711 ;
+revue SHA25e591a48725d2b744049ec1c469fae0b9da403f4d48677655bd86cafe836dc1.
 L’ancienne validation conditionnelle775 du CNN demeure fermée.
 
 ## Pièces et état de la revue
@@ -80,3 +98,7 @@ modèle, gradient, optimisation ou émulation. Durée26,62s, continuité des per
 exacte et aucune hausse de BCE Newton.
 `fit_review_v0.json` SHA256
 `8be644481304ed9393f62fa93232ed5534dc46f5ee5fa2775226b710f0a646f5`.
+
+Figure lisible `craft_v6_out/v70_stationary_affine_fit/fit_v1.png`, commit4b79801,
+générée depuis les JSON revus uniquement et inspectée. Le premier renduv0 est
+conservé ;v1sépare la légende d'un libellé d'axe, sans changer les données.
