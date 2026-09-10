@@ -12,7 +12,8 @@ poolés. Asteroids fournit une union de 20 pixels différents à partir du quatr
 futur. Les trois autres cas ne contenaient aucune paire. Il serait donc trompeur
 de traiter ces archives comme une supervision positive diversifiée. Cela ne
 mesure ni la fréquence du signal dans les jeux, ni son origine physique, ni la
-capacité d'un réseau à l'apprendre. La revue indépendante du résultat est en cours.
+capacité d'un réseau à l'apprendre. La revue indépendante `0b4a503` confirme la
+cohérence des preuves et des compteurs, sans rouvrir les tableaux réels.
 
 La question suivante est descriptive : avec toutes les commandes de l'interface,
 à deux moments déclarés de jeu ordinaire, quelles conséquences RGB sont
@@ -57,6 +58,20 @@ réelles. Aucun seuil de signal positif, score global d'apprentissage ou cible
 d'objet n'est sélectionné depuis ces mesures. Zéro au témoin 0/0 vérifie la
 répétabilité observée ; un écart bloque l'interprétation des autres différences
 et déclenche une investigation de l'instrument, sans effacer le résultat.
+
+La revue contradictoire ajoute une vérification sur **toutes** les paires de
+l'ancre : conserver exactement ses deux images de départ, puis comparer chaque
+contrôle NOOP au premier, en brut, poolé, endpoint et longueur réellement livrée.
+Un terminal peut rendre toutes ces traces courtes ; il ne justifie pas des
+longueurs différentes pour le même contrôle, même horizon et même ancre restaurée.
+Ce contrôle vérifie les restaurations suivantes, que le seul premier témoin 0/0
+ne suffit pas à couvrir. Aucune égalité au-delà du préfixe reçu n'est inventée.
+
+Conserver les RGB de branches et leurs signatures exactes, avec forme, dtype,
+commande, ancre et horizon. Les nombres de pixels changés ne suffisent pas à
+comparer deux commandes : des conséquences spatialement différentes peuvent
+avoir le même nombre de pixels. Les classes de conséquences identiques seront
+descriptives, pas les douze effets sémantiques ni une table transférable.
 
 Toutes les commandes sont déclarées et tentées dans l'ordre prévu tant que
 l'instrument et son budget le permettent. Une absence de signal n'autorise ni
