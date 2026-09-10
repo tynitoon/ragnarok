@@ -1,0 +1,19 @@
+{
+  "kind": "reviewed_atari_affine_fit_figure",
+  "result_sha256": "b168939f7fb3c4fcc81684785de64b49d79a24a07f4500b56e76d6437ac1f121",
+  "review_sha256": "b6c2a748f962e42a77717b846f4d23b92f9973d43599bb5a2f1b6a0a7e8bc732",
+  "journal_sha256": "a8ac795a760bb28d885b93f9c5304595ad3b254c7ad38de6339049ea0d02576a",
+  "figure_sha256": "349d0f4d72650a4f3eec0118b36625a8a86b2bf35e4b917bc59b8fcfa5513bef",
+  "source_sha256": {
+    "scripts/figure_atari_affine_v70.py": "10cb0b713feb6e2690a2e8b6ba8dcf15d89657646363e4758013a9fa377b339d",
+    "scripts/figure_response_envelope_fit_v70.py": "d71050d2449d2de1a2d6f09a9e0841a4efa1f2efa84494b7752a1fd4cfd04503"
+  },
+  "arrays_opened": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "limits": [
+    "Ancres 1–2 : Pong ; 3–4 : Breakout ; 5–6 : Freeway ; 7–8 : Seaquest ; 9–10 : Ms Pac-Man ; 11–12 : Asteroids.",
+    "Candidat choisi après les anciens résultats sur ce lot. Une baisse de BCE en 16 pas ne certifie pas l’optimum.",
+    "Aucun contexte déclaré nécessaire ou inutile, objet identifié, jeu maîtrisé, transfert ou apprentissage accéléré établi."
+  ]
+}
