@@ -1,0 +1,5 @@
+{"event": "started", "seconds": 0.0002623999898787588}
+{"event": "derived_arrays_verified", "seconds": 0.012645899987546727, "arrays_decoded": 2}
+{"event": "partition_complete", "seconds": 7.252705599996261, "pixels": 403200, "groups": 305014, "hash_collision_groups": 0}
+{"event": "completed", "seconds": 16.54455649999727, "artifacts": {"equivalence_v0_groups.npz": {"sha256": "dcec034e6c736fb8969e15571cef2d81bd59581b9e1331a261a91f959b6e04e2", "bytes": 1462356, "arrays": {"group_ids": {"shape": [12, 210, 160], "dtype": "int32", "sha256": "04cbe52faebd82cade506eaaa4ccd1292e110d1e66ffbf00d402e6a35fd30e7a"}, "group_representatives": {"shape": [305014, 3], "dtype": "int32", "sha256": "17fcf6dcf6b1531a3d797c176cf77aad6ecc3e146b52bad00c33b9015d60f8b8"}}}}}
+{"event": "finished", "seconds": 16.54601219999313, "errors": []}
