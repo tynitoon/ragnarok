@@ -1,86 +1,89 @@
 # Ragnarok — point de reprise
 
-10 septembre 2026, vers 02:10 Paris. Poursuivre entre jalons sans final aux commits.
-Dernier message : « ça en est où ? » ; état expliqué en commentaire, poursuite.
-Six mondes ARC3 sur neuf terminés ; accélération de l’apprentissage NON établie.
-ARC4 : aucun entraînement Atari ni gate 0. 1280 updates synthétiques terminées,
-tous critères globaux négatifs. Aucun GPU ARC4 pendant ARC3.
+10 septembre 2026, 02:45 Paris. CONTINUER entre jalons, pas de final aux commits.
+Dernier utilisateur : « ça en est où ? ». Réponse en commentaire : accélération
+NON établie ; six mondes ARC3 sur neuf complets, dernière série interrompue.
+ARC4 : aucun entraînement Atari ni gate0, 1280 updates synthétiques négatives.
 
-## Actions immédiates
+## Urgent : deuxième interruption ARC3, AUCUNE reprise encore lancée
 
-1. Deux préflights sont annoncés PASS, leurs reçus sont en cours de dépôt :
-   - review_recovery_v62 : natif rectangle 18fc678, attendu
-     craft_v6_out/v70_mspacman_rectangle_cpu/preflight_review_v0.json.
-     131 sources / 369 preuves, 76 modules AST tous inclus, 13 tests PASS 1,97 s.
-     Vrai proofs() terminé, aucune construction. Kind exact du runner requis.
-   - audit_motion_bootstrap : inventaire a73db3c, attendu
-     craft_v6_out/v70_branch_signal_inventory/preflight_v0.json.
-     64 sources / 39 preuves, 17 tests PASS 1,68 s + 324 témoins indépendants.
-     Répertoires des 9 NPZ conformes ; aucun tableau réel lu.
-   Vérifier les reçus, les committer AVANT chaque exécution, pas de retry.
-2. Exécuter inventaire CPU d’abord, C:/Python314/python.exe -u -m
-   scripts.check_branch_signal_inventory_v70, CUDA vide, threads OMP/OPENBLAS/MKL 1.
-   Sorties/attempt exclusifs dans v70_branch_signal_inventory, console unique.
-   Aucun modèle/natif ni tableau ordinaire. Six paires 8/8 action5 contre0,
-   trois absences conservées, 42 tableaux de branches, plafond travail300s.
-   Commit puis revue indépendante résultat inventory_review_v0.json attendue :
-   passed + result_sha256 exact + mêmes source_sha256 et cartes de preuves.
-3. Natifs .venv-arc4/Scripts/python.exe -u -m scripts.bench_rectangle_visible_v70 wiring,
-   après préflight committé. Paire original/rectangle19376/19377 + spawn19378.
-   Commit puis revue wiring_review_v0.json avant commande benchmark unique.
-   Pas d’autre mesure CPU/capture/diagnostic réel pendant mesure native.
-   ARC3 GPU peut continuer (limite explicite de comparaison historique).
-4. Figure inventaire préparée et committée 03d763d :
-   scripts/figure_branch_signal_inventory_v70.py. Syntaxe OK, aucun résultat lu.
-   Attendre revue résultat, puis générer avec Python principal/matplotlib CPU,
-   view_image pour QA et committer. Tableau 9x8 brut/poolé ; absences grises,
-   compte + fraction ; couleur log fixe. Aucun apprentissage déduit du signal.
-5. ARC3 : après confirm_complete_review_required, revue neuf mondes/budget,
-   score gelé puis figure finale. Aucun score partiel.
+Vers 02:26 Paris, contrôleur20936/enfant28140 disparus, tous Python absents.
+Boot inchangé09sept06:39Paris, cause INCONNUE. Ancien état recovery «running»
+périmé : ne pas s'y fier. Six mondes complets + M4 entier s2_8320 préservés.
+Fa incomplet, doit être rejoué ENTIER par --resume, mêmes seeds/commandes.
+Ne jamais relancer s0/s1 ni modifier17sourcesgelées/ancienscontrôleurs.
+Deadline inchangée10sept09:10:02Z =11:10Paris (arrondie verslebas de0,0902837s).
+Toute panne/investigation consomme le délai original ; ne pas utiliser le
+compteur elapsed_seconds périmé ni recalculer B6/N9/G2.
 
-## État vérifié
+Nouveau contrôleur scripts/recover_confirm_after_interrupt_v62.py + tests
+NON COMMITTÉS. 17tests synthétiques PASS0,40s. Vérifie28artefacts0/1, M4,
+préfixe log, anciennes preuves, sources/reçu committés, horlogeUTC+monotone.
+État exclusif futur v62_confirm_second_recovery_state.json, puis revue avantscore.
+review_recovery_v62 revoit maintenant ces sources ; aucun GPU autorisé avant
+reçu indépendant exact et committé v62_confirm_second_recovery_review.json.
 
-ARC3 contrôleur20936/enfant28140 actifs, s2_8320 dernière lignée démarrée01:12.
-Dernier log lu vers02:02 : M4 goal5 fini1078s, goal11 fini2200s ; goal1 suivant.
-L0 3mondes25433s, L1 3mondes23401s (777eb77). Ne pas committer agrégatglobal,
-s2/états/checkpoints actifs. ARC3_PLAN.md§12.6 seul arbitre ;17sources+3runners
-immuables. Reprise09sept11:37Paris,2166s interruption facturée ;84742,0902837s
-maximum depuis09sept09:37:40Z, sans extension. Suivi horaire existant, pas doublon.
+Snapshots intacts craft_v6_out/v62_confirm_interruption_20260910/ NON COMMITTÉS :
+interruption.json, ancien état/stdout/stderr, s2log, M4, agrégat6mondes,
+consolebenchmarkvide, .gitattributes * -text, probes purestdlib.
+M4 SHA c18a1c8ce891327baaa71e179cc0b86975033179db042a6a3bcc050b3f7e623e.
+Aucun déplacement/suppression des originaux. Fa goal5 déjà payé puis interrompu.
 
-Rectangle horsligne57624f8 : 16374 paires exactes, Ms temps composant22,304→14,952s,
-Ast9,072→0,881s. Aucun débit chaîne déduit. Revue offline5fba09e17802c0b7617a75fac34309ce515b1f5b15bc1acdbe27eec46e471de8.
-Adaptateur02fe415 stateless/originaldecode, 8tests ; revue source CPU
- d10b7d3a010a454c7746d688cee690e5376aadd9dd3419f00d0c4aaad4b778f0.
-Les deux reçus et protocole natif/runner/13tests committés18fc678.
-Bench16x2048 mêmes seeds18000..18015, seuils1000/2000 inchangés.
-Anciennes chaînes Ms580,79 /cache539,32 /gather523,90 : pas de gain établi.
+Probe Popen BREAKAWAY PID22644 restait dansJobObject. Probe WMI via
+Win32_Process.Create, startup ShowWindow0 SEUL, PID17288 : in_job FALSE,
+reçu complétion20s plus tard présent. ReturnValue0. Rien natif/modèle importé.
+CreateFlags134217728 était paramètreinvalide21, pas rejetapprobation.
+Prochaine action racine : lanceur caché fini horsJob, sortiesexclusives+reçuPID,
+à intégrer au hashSOURCE_PATHS et reviewer AVANT lancement réel. Le contrôleur
+refuse in_job true. Documentation Microsoft JobObjects soutient la mécanique,
+PAS une attribution de cause à la panne. Aucun processus Python actif02:45.
 
-Inventaire quatre sources a73db3c, 17tests racine PASS1,49s : protocole et contrat
-complets dans docs/ARC4_BRANCH_SIGNAL_INVENTORY_DRAFT.md et PROTOCOL.json.
-Observe seulement conséquences RGB futures d’actions, sans cible m/C ni objets.
-Six ancres/une commande ne prouvent ni généralisation ni contrôle direct.
-Piste ensuite : prédiction directe réponse visuelle depuis passé+commandelocale+
-horizon, distincte de m/C/ME ; pas encore de protocole fit ni collecte autorisés.
-L’ancien diagnostic C (150 instances, zéro supervision) est conservé.
+## ARC4, travail CPU indépendant
 
-Priorité P négative : fitaf1abff… L1.023444738>.01171875 ; six pixels blancs
-contractés puis dilués par noirs, aucune projection blanche horscadre mais55
-noires/scène horscadre. Revue49dcc8c/4ef095b… ; figure37458c5 vueOK.
-Ancien bug numérique corrigé AVANTfit, pas cause de cet échec. Ni capacité
-impossible ni minimum local strict démontré. Détails : histoire0208 puis0148.
+Inventaire signal COMPLET/REVU : a73db3c source,72bcd39 préflight,f04d837résultat,
+0b4a503revue,caf59f6figure (vueOK). v70_branch_signal_inventory/inventory_v0.json
+SHA a2403c7b07ef3389a8fb89e1524e2bbaa5b28f31199b38e434402aa8d3ed020e.
+5jeux sans contrasteRGB entre action5/0, Asteroids20pixels bruts h4/6/8,
+poolés h4..8 sur33600. TroispréfixesPongabsents ≠ zéros. Aucun apprentissage.
+Ancien C150instances zéro supervision préservé, causepasrésolue.
 
-## Contraintes permanentes
+Rectangle natif : sources18fc678/131sources369preuves, préflight72bcd39.
+Wiring18eeb3c PASS exact : cinq moteurs/logiques, neufchargements,3738charges.
+Revue4b0b993 SHA0f8567aa013b22a3c27e48442e2c609c92c6314ed84b2409c2db676721330b6c.
+Benchmark lancé00:23:42Z session39825 puis perdu. ConsoleVIDE, aucun attempt
+ni résultat. PAS de débit mesuré et PAS encore de certificat zérocoût.
+NE PAS relancer avant revue qui établit interruption AVANT construction :
+source écrit/ferme attempt avant pool. Préserver toutes traces/absences.
+Baseline580,79steps/s ; seuils1000/2000 inchangés. Aucun autretest/capture pendant
+benchmarkCPU. Aucun GPU ARC4 pendantARC3. Pas de changementenvironnement.
 
-AGENTS : autonomie, sources/résultats préservés, commits ciblés, pas push/suppression.
-Exclure .codex/, configs privées, smokes/notches et ARC3 actif. Maximum déjà acquitté.
-Écran/RC annulé, ne pas reprendre. Pas nouveau goal/task/automation.
-Aucun oracle dans les entrées de l’agent ; RAM juge seulement. Gate0 non gelé,
-12GPUh/0B10 et règles STOP inchangés ; jeux réservés jamais ouverts.
-ME/tableboutons/reader/drives/S/policy/ledger/fusioncatégories restent à construire.
-Console nouvelle : .gitattributes fichier -text puis git add -f exact.
-Dangerfullaccessapprovalnever : ne jamais passer sandbox_permissions.
-SETUP.md lu. MainC:/Python314/python.exe :3.14.3 Torch2.11+cu126 NumPy2.4.4,
-SciPy1.17.1/matplotlib3.10.8. .venv-arc4 :3.14.3 ALE.12.1 NumPy2.4.4 SciPy1.18.1,
-Pillow12.3.0 pytest9.0.3 sansTorch. CPU CUDAvide/threads1. Pasinstall/rebuild.
-Aucun job CPU racine en cours à cette note. Deux agents finissent leurs reçus.
-audit_gate_v62 ancien annulé : ne pas réveiller. Français simple, updates utiles.
+Agent audit_motion_bootstrap prépare sansrun les3fichiers action signal survey :
+scripts/survey_action_signal_v70.py, tests/test_action_signal_survey_v70.py,
+docs/ARC4_ACTION_SIGNAL_SURVEY_PROTOCOL.json ; brouillon55458e8.
+Tests SYNTHÉTIQUES maintenant permis (message02:46), pas collecter/proofs/commit.
+6jeuxdéveloppement,18commandesvs0,2ancresà10000/20000imagesordinaires, seed19390,
+scriptRandom19391, maintien4décisions, paires8frames, 0/0nullpayé, contrôlesNOOP
+identiques RGB/prefixes, budget30k/game/900s/1GB,workerisoléparjeu,séquentiel.
+Admissionconservatrice coûtsmax avant action ; budgetinsuffisant=censuré,
+transportexception=STOPglobal, jamais parsermessagecomme BudgetExceeded.
+Ledger coût externe uniquement ; aucun oracle/actionchoisieparRAM.
+
+## Suite et contraintes
+
+ARC3 après9mondes : revueindépendante complète coûts/sources/résultats, scoregelé,
+figure423b770/revueaf94a62. Aucunscorepartiel. L0 25433s/L1 23401s.
+Sourcesautorité ARC3_PLAN.md§12.6. Anciennesnotes histoire0245 puis0208.
+ARC4 gate0 NONgelé ;12GPUh/0B10 inchangés. Jeuxréservés jamaisouverts.
+Pas de ME/tableboutons/reader/drives/S/policy/ledger/fusioncatégories existants.
+Pas de trainingAtari annoncé à tort. Résultatsnégatifs conservés.
+
+Automatisation unique suivi-ragnarok-arc-3 miseàjour pour interruption/reprise,
+contrôleurleplusrécent et PIDréels, aucune relanceaveugle, quietsanschangement.
+Task01a082c5-c85d-7031-95e4-8d432972cb6e, cadencehoraire, pas doublon.
+DernierHEAD4b0b993. Exclure .codex/,configprivées,smokes/notches, sortiesARC3
+originalesactives et écrituresagent nonrevues. Commits ciblés, paspush/delete.
+Main C:/Python314/python.exe 3.14.3 Torch2.11+cu126 ; .venv-arc4 Python3.14.3
+ALE.12.1 sansTorch. CPU CUDAvide OMP/OPENBLAS/MKL1. SETUP.md lu. Pasinstall.
+AGENTS autorise revuesmultiagents auxjalons ; pas réveiller audit_gate_v62 annulé.
+Dangerfullaccessapprovalnever : OMIT sandbox_permissions. Français simple.
+Écran/RC annulé (mauvaise session) ; Maximum déjà acquitté. Continuerautonome.

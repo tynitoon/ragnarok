@@ -1,0 +1,65 @@
+{
+  "kind": "v62_confirm_processes_unavailable_interruption",
+  "observed_utc": "2026-09-10T00:29:44.256324+00:00",
+  "snapshots": [
+    {
+      "source": "craft_v6_out/v62_confirm_recovery_state.json",
+      "snapshot": "v62_confirm_recovery_state.json",
+      "present": true,
+      "bytes": 15146,
+      "sha256": "7b23fc569747a96734a3ba5c2e550863e3aa5329eb6225b3daa1e477a012aa75",
+      "source_mtime_utc": "2026-09-09T23:11:56.993603+00:00"
+    },
+    {
+      "source": "craft_v6_out/v62_confirm_recovery_stdout.log",
+      "snapshot": "v62_confirm_recovery_stdout.log",
+      "present": true,
+      "bytes": 764,
+      "sha256": "9884a2aaea16eca6bb573ccb735e4147b84cd9f7aa0db07a600d6a0761d7b8aa",
+      "source_mtime_utc": "2026-09-09T23:11:57.054408+00:00"
+    },
+    {
+      "source": "craft_v6_out/v62_confirm_recovery_stderr.log",
+      "snapshot": "v62_confirm_recovery_stderr.log",
+      "present": true,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_mtime_utc": "2026-09-09T09:37:39.888928+00:00"
+    },
+    {
+      "source": "craft_v6_out/v61_confirm_s2.log",
+      "snapshot": "v61_confirm_s2.log",
+      "present": true,
+      "bytes": 710,
+      "sha256": "3b40915889abfcab161aecc8dc69f588cb9ab5976c8dda4f824de6e729260c5d",
+      "source_mtime_utc": "2026-09-10T00:23:35.445873+00:00"
+    },
+    {
+      "source": "craft_v6_out/v61_confirm_ckpt/s2_8320_M4.json",
+      "snapshot": "s2_8320_M4.json",
+      "present": true,
+      "bytes": 791,
+      "sha256": "c18a1c8ce891327baaa71e179cc0b86975033179db042a6a3bcc050b3f7e623e",
+      "source_mtime_utc": "2026-09-10T00:06:19.449462+00:00"
+    },
+    {
+      "source": "craft_v6_out/v70_mspacman_rectangle_cpu/benchmark_console_v0.txt",
+      "snapshot": "benchmark_console_v0.txt",
+      "present": true,
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_mtime_utc": "2026-09-10T00:23:42.368368+00:00"
+    }
+  ],
+  "process_checks": {
+    "get_process_ids_20936_28140": "no results twice",
+    "get_cim_instance_ids_20936_28140": "no results",
+    "get_process_python_all": "no results",
+    "unified_exec_39825": "Unknown process id"
+  },
+  "last_boot_local": "2026-09-09T06:39:14.502002+02:00",
+  "cause": "Unknown; no new boot observed. Do not attribute to the heartbeat or a GPU error without evidence.",
+  "native_benchmark_attempt_exists": false,
+  "native_benchmark_result_exists": false,
+  "no_relaunch_performed": true
+}

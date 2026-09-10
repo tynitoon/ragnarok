@@ -1,0 +1,6 @@
+Starting recovery confirm_s0 (23.54 h remaining)
+Child PID 17340: ['C:\\Python314\\python.exe', '-u', '-m', 'scripts.confirm_v61', '--lineage', '0', '--n-units', '3', '--b-max', '6', '--num-envs', '64', '--store-persists', '--g-units', '2', '--resume']
+Starting recovery confirm_s1 (16.47 h remaining)
+Child PID 22896: ['C:\\Python314\\python.exe', '-u', '-m', 'scripts.confirm_v61', '--lineage', '1', '--n-units', '3', '--b-max', '6', '--num-envs', '64', '--store-persists', '--g-units', '2', '--resume']
+Starting recovery confirm_s2 (9.97 h remaining)
+Child PID 28140: ['C:\\Python314\\python.exe', '-u', '-m', 'scripts.confirm_v61', '--lineage', '2', '--n-units', '3', '--b-max', '6', '--num-envs', '64', '--store-persists', '--g-units', '2', '--resume']
