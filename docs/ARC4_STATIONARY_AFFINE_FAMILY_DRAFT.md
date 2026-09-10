@@ -14,7 +14,8 @@ vert particulier du lot ? Le modèle affine partagé n’a ni coordonnées ni
 identifiants. On peut examiner exactement ses décisions sur toute la famille
 stationnaire déclarée, sans tirer de nouvelles images.
 
-Dans cette famille, les deux passés sont égaux. Les valeurs RGB normalisées
+Dans cette famille, les deux passés avant intervention sont égaux ; les états
+après intervention sont hors de ce domaine. Les valeurs RGB normalisées
 sont comprises entre0 et1. Sur les pixels dont l’intervention change le bleu,
 R=1, B=0, G est quelconque. Sur les autres, R=0, G et B sont quelconques.
 Ces propriétés viennent du générateur certifié et du calcul des différences
@@ -28,8 +29,9 @@ aR=w0+w3, aG=w1+w4 et aB=w2+w5. Le logit exact vaut
 - minimum sur les pixels positifs : `b + aR + min(0,aG)` ;
 - maximum sur les pixels négatifs : `b + max(0,aG) + max(0,aB)`.
 
-Les extrémités G/B=0 ou1 appartiennent au domaine. Les calculer avec des
-rationnels exacts issus des sept float64 sauvegardés, sans multiplication
+Les extrémités G/B=0 ou1 appartiennent au domaine. Les calculer en convertissant
+chacun des sept float64 sauvegardés en rationnel exact AVANT toute addition,
+sans multiplication
 matricielle sur des observations. Le certificat strict est positif si le
 premier minimum est>0 ET le second maximum est<0. Le seuil logit0 correspond
 mathématiquement à la probabilité0,5 déjà fixée ; aucune recherche de seuil.
@@ -39,6 +41,8 @@ Une égalité donne « non certifié » par ce test strict, même si la conventi
 portent sur la fonction affine exacte définie par les coefficients stockés :
 elles ne prétendent pas vérifier tous les arrondis d’un noyau BLAS ou sigmoid.
 La revue du fit vérifie séparément les sorties effectivement calculées sur le lot.
+Seules les sommes des coefficients temporels sont identifiables dans ces passés
+identiques ; ce certificat n'établit aucune dépendance temporelle apprise.
 
 ## Exécution et interprétation
 
