@@ -1,0 +1,9 @@
+{
+  "kind": "v62_second_recovery_wmi_dispatch",
+  "observed_utc": "2026-09-10T01:01:39.5240463+00:00",
+  "return_value": 0,
+  "launcher_pid": 24920,
+  "command": "\"C:\\Python314\\python.exe\" -u -m scripts.launch_detached_confirm_v62",
+  "cwd": "F:\\dev\\ragnarok",
+  "show_window": 0
+}
