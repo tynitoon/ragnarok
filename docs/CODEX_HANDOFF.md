@@ -9,7 +9,9 @@ sur les jeux suivants n’est pas établie. Écran/RC annulé : mauvaise session
 Contrôleur 11880, enfant 21216, démarrés le 10 septembre vers 03:02 Paris.
 État actuel : craft_v6_out/v62_confirm_second_recovery_state.json.
 Au contrôle de 04:38 : processus présents, Fa entier terminé, Fb en cours.
-Six mondes sur neuf sont complets. M4 du monde s2_8320 avait été conservé.
+Sept mondes sur neuf sont complets à04:43 ; s2_8321 est en cours. Le fichier
+v61_confirm_s2.json contient le septième ; l’agrégat reste à6 jusqu’à la fin
+de la lignée. M4 du monde s2_8320 avait été conservé.
 Aucun score partiel. Les anciens états « running » sont historiques.
 Vérifier les processus réels et un tail borné du journal v61_confirm_s2.log.
 Ne pas afficher le gros état JSON entier : sélectionner status/stage/PID.
@@ -127,6 +129,14 @@ est distincte de C/m/ME, sans tracker ni mouvement préalable. Pas de bouton,
 jeu, coordonnée ou oracle en entrée. L’ancien candidat de table de codes locaux
 contredirait ARC4_VISION §2.6 ; ne pas l’implémenter. Pas de modèle conditionné
 par bouton, ni contrôle/policy/ME construit par ce fit.
+Validation conditionnelle préparée AVANT résultat du fit :
+docs/ARC4_RESPONSE_ENVELOPE_VALIDATION_DRAFT.md. Nouvelles graines19490/19491,
+seulement si fit complet + critère atteint + revue PASS. Aucun nouveau tableau
+collecté ; aucun script de validation écrit. Douze ancres, critères et censures
+prédéclarés ; 30k charges/jeu,900s collecte +300s dérivation +180s évaluationCPU.
+Un doublon de passé du développement => global non concluant, sans remplacement.
+Cette validation ne démontrerait pas le transfert vers un autre jeu.
+
 ## Limites antérieures préservées
 
 Rectangle natif : 518,35 pas/s contre baseline580,79 ; gain non établi.
