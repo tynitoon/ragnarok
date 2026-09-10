@@ -119,3 +119,19 @@ def test_late_payload_cannot_publish_success(monkeypatch, tmp_path):
     assert len(saved['certificates']) == 5 and saved['work_seconds'] == 61
     assert saved['execution_status'] == 'incomplete' and not saved['passed']
     assert saved['scientific_payload_sha256'] is not None
+
+
+def test_journal_hash_failure_preserves_returned_certificates_and_final_receipt(monkeypatch, tmp_path):
+    fixture(monkeypatch, tmp_path)
+    original = judge.sha
+    def broken(path):
+        if path.name == 'family_v0_progress.jsonl': raise OSError('Injected closed journal read failure')
+        return original(path)
+    monkeypatch.setattr(judge, 'sha', broken)
+    assert judge.run() == 1
+    saved = result()
+    assert len(saved['certificates']) == 5 and saved['certificates']['newton_visual']['certified']
+    assert saved['operation_counts_exact'] and saved['operation_returns']['certificate'] == 5
+    assert saved['execution_status'] == 'incomplete' and not saved['passed']
+    assert saved['progress_sha256'] is None and saved['scientific_payload_sha256'] is not None
+    assert any(row['stage'] == 'journal_hash' for row in saved['failures'])

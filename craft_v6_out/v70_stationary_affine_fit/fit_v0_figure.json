@@ -1,0 +1,18 @@
+{
+  "kind": "reviewed_stationary_affine_figure",
+  "result_sha256": "c60b92fea8846af3cbc8bfe9db95bdfc1585ad9c661b276462e9db67f2aa8014",
+  "review_sha256": "8be644481304ed9393f62fa93232ed5534dc46f5ee5fa2775226b710f0a646f5",
+  "journal_sha256": "13eea7a012dc11f2cd1275231ea12099db3371c2f1eb77220bbd307e7083b97d",
+  "figure_sha256": "8f92b1ded9e114e4a1295f7bd12c70e24aa17638531e698bcb835527c13cb735",
+  "source_sha256": {
+    "scripts/figure_stationary_affine_v70.py": "098b5d27ef4d1abe1a9e1bd46081f4b38424a2f84a1ecf9f0cd8a6e51a4e8fe7",
+    "scripts/figure_response_envelope_fit_v70.py": "d71050d2449d2de1a2d6f09a9e0841a4efa1f2efa84494b7752a1fd4cfd04503"
+  },
+  "arrays_opened": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "limits": [
+    "Calibration sur un lot artificiel de développement : elle ne réhabilite pas le CNN ni son ancienne validation conditionnelle.",
+    "Aucun jeu maîtrisé, généralisation indépendante, transfert ou apprentissage accéléré démontré par cet essai."
+  ]
+}

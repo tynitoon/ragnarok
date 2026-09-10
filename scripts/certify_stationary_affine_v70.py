@@ -115,8 +115,9 @@ def run():
         write_json(names[0], dict(kind='stationary_affine_family_attempt', created_utc=datetime.now(timezone.utc).isoformat(), protocol=SPEC))
         journal = (FOLDER / names[1]).open('xb')
         checked = proofs()
-        preflight_hash = sha(PREFLIGHT)
-        preflight = json.loads(PREFLIGHT.read_text(encoding='utf-8'))
+        preflight_bytes = PREFLIGHT.read_bytes()
+        preflight_hash = sha_bytes(preflight_bytes)
+        preflight = json.loads(preflight_bytes)
         if (preflight.get('kind') != 'stationary_affine_family_independent_preflight'
                 or preflight.get('passed') is not True or any(preflight.get(key) != value for key, value in checked.items())):
             raise ValueError('Exact independent prospective family preflight required')
@@ -161,13 +162,18 @@ def run():
         if journal is not None:
             try: journal.close()
             except BaseException as error: fail('journal_close', error)
+    progress_hash = None
+    try:
+        if (FOLDER / names[1]).exists(): progress_hash = sha(FOLDER / names[1])
+    except BaseException as error:
+        fail('journal_hash', error)
     complete = (not failures and provenance and entries == returns == dict(state_archive=2, certificate=5)
                 and list(certificates) == list(ARMS))
     payload = dict(kind='stationary_affine_family_payload', protocol=SPEC, provenance=checked, certificates=certificates,
                    failures=failures.copy(), candidate_complete=complete, operation_entries=entries, operation_returns=returns,
                    operation_counts_exact=entries == returns, final_provenance_verified=provenance,
                    preflight_sha256=preflight_hash, result_sha256=RESULT_SHA, review_sha256=REVIEW_SHA,
-                   progress_sha256=sha(FOLDER / names[1]) if (FOLDER / names[1]).exists() else None)
+                   progress_sha256=progress_hash)
     payload_hash = None
     try:
         write_json(names[2], payload)
