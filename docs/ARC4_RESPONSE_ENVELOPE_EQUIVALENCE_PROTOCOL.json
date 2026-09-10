@@ -1,0 +1,32 @@
+{
+  "version": 0,
+  "role": "post-result external diagnostic; no new training or validation",
+  "radius": 31,
+  "past_shape": [
+    12,
+    2,
+    210,
+    160,
+    3
+  ],
+  "target_shape": [
+    12,
+    210,
+    160
+  ],
+  "grouping": "ordered raw RGB patch plus top/bottom/left/right distances clipped to radius",
+  "collision_resolution": "full patch byte equality within each topology/SHA256 bucket",
+  "iou_bound": "exact per-anchor subset optimum relaxed independently; equal nonempty game means",
+  "bce_bound": "global equivalence groups; actual equal-anchor balanced class masses; natural log",
+  "max_work_seconds": 300,
+  "cleanup_reserve_seconds": 10,
+  "max_binary_output_bytes": 16000000,
+  "work_scope": "after attempt fsync through scientific payload fsync/hash and journal close; final receipt excluded",
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "new_emulated_frames": 0,
+  "model_inferences": 0,
+  "optimizer_updates": 0,
+  "retry": false,
+  "claim": "bounds for the declared mathematical local operator; no capacity or convergence conclusion"
+}
