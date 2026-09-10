@@ -1,0 +1,51 @@
+{
+  "version": 0,
+  "recipe": "newton",
+  "parameters": 7,
+  "initialization": "all seven coefficients zero; no prior weights",
+  "input": "two ordered local RGB triples divided by 255, plus bias; shared across pixels and cases",
+  "dtype": "float64",
+  "constant_input": "all six RGB channels zero, bias one",
+  "newton_updates_per_arm": 16,
+  "schedule": "k=1..16: Newton visual, then constant",
+  "newton": {
+    "damping": 1.75,
+    "full_step": true,
+    "objective_penalty": 0.0,
+    "loss_increase_tolerance": "1e-12 * (1 + abs(loss_before))"
+  },
+  "loss": "equal anchor mean, equal positive/negative BCE if both exist, full BCE if one class",
+  "batch": "all twelve existing Atari development anchors in unchanged manifest order, including two empty Seaquest anchors",
+  "input_loading": "decode only past_pairs and observed_response_envelopes; no futures, RAM or prior weights",
+  "evaluation": "common initial and two final arms only; full objective also before and after each update",
+  "controls": [
+    "own trained constant",
+    "common initial",
+    "zero probability output"
+  ],
+  "probability_threshold": 0.5,
+  "minimum_visual_iou": 0.25,
+  "minimum_advantage": 0.1,
+  "maximum_each_empty_false_positive_fraction": 0.001,
+  "required_empty_anchors": 2,
+  "expected_operations": {
+    "linear_prediction": 67,
+    "objective": 67,
+    "gradient": 32,
+    "hessian": 32,
+    "linear_solve": 32,
+    "parameter_update": 32
+  },
+  "max_work_seconds": 120,
+  "cleanup_reserve_seconds": 10,
+  "max_binary_output_bytes": 64000000,
+  "work_scope": "data through scientific payload fsync/hash, final provenance and journal close; final receipt and console excluded",
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "new_synthetic_steps": 0,
+  "new_initial_screens": 0,
+  "new_emulated_frames": 0,
+  "retry": false,
+  "selection": "new candidate chosen after earlier results on this development set, not confirmatory evidence",
+  "claim": "sufficiency of this bounded local-linear recipe on observed envelopes only; not necessity of context, mastery or acceleration"
+}
