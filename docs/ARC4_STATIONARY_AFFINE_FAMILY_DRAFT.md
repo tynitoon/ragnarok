@@ -56,7 +56,8 @@ Une exécution de juge CPU1,60s dont10s de réserve,1MB de sorties ; aucune imag
 générée ou décodée, zéro émulation, produit de modèle, gradient ou mise à jour.
 Vérifier les empreintes du fit et de sa revue, les deux NPZ de coefficients et
 leurs signatures ; les fichiers sources nouveaux sont gelés et revus avant
-exécution. Les tableaux initial/final peuvent être décodés une seule fois chacun.
+exécution. Les deux archives initial/final peuvent être validées une seule fois
+chacune ; chacune contient plusieurs tableaux, dont le nombre validé est publié.
 Conserver les erreurs et résultats partiels ; aucune réécriture ou retry.
 Temps des vérifications, décodage, arithmétique, provenance finale et payload
 fsync/hash compris ; seul le reçu final et la console sont hors mesure.

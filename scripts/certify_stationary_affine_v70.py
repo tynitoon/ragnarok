@@ -83,7 +83,7 @@ def run():
         raise FileExistsError('Preserve every prior algebraic attempt; no retry')
     started = time.monotonic()
     deadline = started + SPEC['max_work_seconds'] - SPEC['cleanup_reserve_seconds']
-    failures, checked, certificates, byte_counts = [], None, {}, {}
+    failures, checked, certificates, byte_counts, validated_members = [], None, {}, {}, {}
     entries, returns = dict(state_archive=0, certificate=0), dict(state_archive=0, certificate=0)
     journal, provenance, preflight_hash = None, False, None
 
@@ -130,6 +130,7 @@ def run():
             entries['state_archive'] += 1
             states[name] = decode_state(FIT / name, result['artifacts'][name])
             returns['state_archive'] += 1
+            validated_members[name] = len(states[name])
             event('archive_return', name=name)
         initial, final = states['initial_state.npz'], states['final_state.npz']
         if any(value.any() for value in initial.values()): raise ValueError('Initial states must be exactly zero')
@@ -172,6 +173,7 @@ def run():
     payload = dict(kind='stationary_affine_family_payload', protocol=SPEC, provenance=checked, certificates=certificates,
                    failures=failures.copy(), candidate_complete=complete, operation_entries=entries, operation_returns=returns,
                    operation_counts_exact=entries == returns, final_provenance_verified=provenance,
+                   validated_state_array_members=validated_members,
                    preflight_sha256=preflight_hash, result_sha256=RESULT_SHA, review_sha256=REVIEW_SHA,
                    progress_sha256=progress_hash)
     payload_hash = None

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FOLDER = ROOT / 'craft_v6_out/v70_stationary_affine_fit'
 RESULT, REVIEW = FOLDER / 'fit_v0.json', FOLDER / 'fit_review_v0.json'
 JOURNAL = FOLDER / 'fit_v0_progress.jsonl'
-OUTPUT, METADATA = FOLDER / 'fit_v0.png', FOLDER / 'fit_v0_figure.json'
+OUTPUT, METADATA = FOLDER / 'fit_v1.png', FOLDER / 'fit_v1_figure.json'
 HELPER = ROOT / 'scripts/figure_response_envelope_fit_v70.py'
 ARMS = ('newton_visual', 'newton_constant', 'adam_visual', 'adam_constant')
 
@@ -48,7 +48,7 @@ def main():
     if nonempty != [0, 1, 2, 3, 4, 5, 8, 9, 10, 11] or empty != [6, 7]:
         raise ValueError('Every one of the twelve cases must be represented')
     fig, axes = plt.subplots(2, 2, figsize=(15, 10.4))
-    fig.subplots_adjust(left=.065, right=.98, bottom=.23, top=.79, hspace=.53, wspace=.25)
+    fig.subplots_adjust(left=.065, right=.98, bottom=.285, top=.79, hspace=.53, wspace=.25)
     fig.text(.065, .96, 'Apprendre une association visuelle avec sept paramètres', fontsize=20, weight='bold', color='#142b45')
     status = lambda recipe: 'critère atteint' if result['verdicts'][recipe]['passed'] else 'critère non atteint'
     fig.text(.065, .913, f'Newton (primaire) : {status("newton")}  ·  Adam (témoin) : {status("adam")}', fontsize=14, color='#40536a')
@@ -81,7 +81,7 @@ def main():
     specificity.legend(frameon=False, fontsize=9)
     specificity.grid(axis='y', alpha=.18)
     handles, legend_labels = overlap.get_legend_handles_labels()
-    fig.legend(handles, legend_labels, loc='lower center', bbox_to_anchor=(.5, .173), ncols=6, frameon=False, fontsize=9)
+    fig.legend(handles, legend_labels, loc='lower center', bbox_to_anchor=(.5, .188), ncols=6, frameon=False, fontsize=9)
     for y, recipe in ((.152, 'newton'), (.122, 'adam')):
         measured, verdict = metrics[recipe + '_visual'], result['verdicts'][recipe]
         counts = '/'.join(str(measured['cases'][i]['false_positive_pixels']) for i in empty)
