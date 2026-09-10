@@ -1,0 +1,59 @@
+{
+  "version": 0,
+  "games": [
+    "pong",
+    "breakout",
+    "freeway",
+    "seaquest",
+    "ms_pacman",
+    "asteroids"
+  ],
+  "anchors": [
+    10000,
+    20000
+  ],
+  "commands": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17
+  ],
+  "horizons": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "shape": [
+    210,
+    160,
+    3
+  ],
+  "max_work_seconds": 300,
+  "max_output_bytes": 16000000,
+  "max_input_archive_bytes": 3700000,
+  "target": "OR over all commands and horizons of any raw RGB difference from own NOOP",
+  "input": "two past RGB images only",
+  "dataset_role": "development_only",
+  "new_emulated_frames": 0,
+  "optimizer_updates": 0,
+  "gpu_used": false
+}
