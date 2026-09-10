@@ -1,0 +1,9 @@
+{
+  "kind": "stationary_direct_fit_wmi_dispatch",
+  "created_utc": "2026-09-10T06:10:05.0627504Z",
+  "return_value": 0,
+  "pid": 12332,
+  "intent_sha256": "f2134578193e5078c10f62545affa277d526d6c8ab48bfe37e9c22f430336861",
+  "preflight_sha256": "891f582ead06ef741bfbc72541cefdb0d151e8817055415853ad02cbc2eb4e83",
+  "show_window": 0
+}

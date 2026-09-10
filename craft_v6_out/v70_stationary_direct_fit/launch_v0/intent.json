@@ -1,0 +1,16 @@
+{
+  "kind": "stationary_direct_fit_wmi_launch_intent",
+  "created_utc": "2026-09-10T06:10:04.9296462Z",
+  "command_line": "\"C:\\Python314\\python.exe\" -u \"F:\\dev\\ragnarok\\craft_v6_out\\v70_stationary_direct_fit\\launch_v0\\launch.py\"",
+  "cwd": "F:\\dev\\ragnarok",
+  "show_window": 0,
+  "preflight_sha256": "891f582ead06ef741bfbc72541cefdb0d151e8817055415853ad02cbc2eb4e83",
+  "launcher_sha256": "21af8207040c251e12de163d96cdd0172bead3f851f6279e42f789cb25cc7fca",
+  "source_commit": "75278b2",
+  "independent_preflight_commit": "948148a",
+  "launcher_commit": "520bd6f",
+  "gpu_allowed": false,
+  "maximum_scientific_work_seconds": 1200,
+  "updates_per_arm": 256,
+  "new_attempt_only": true
+}
