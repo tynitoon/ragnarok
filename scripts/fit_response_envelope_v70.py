@@ -44,6 +44,7 @@ SPEC = dict(version=0, seed=764, updates_per_arm=256, arm_order=['visual', 'cons
             maximum_each_empty_false_positive_fraction=0.001, required_empty_anchors=2,
             average_precision='non-interpolated precision-recall area with tied scores grouped',
             max_work_seconds=1200, cleanup_reserve_seconds=10, max_binary_output_bytes=64000000,
+            work_scope='through scientific payload fsync/hash and journal close; final verdict receipt and console excluded',
             cpu_threads=1, gpu_used=False, new_emulated_frames=0,
             claim='development fitting feasibility only; no independent validation or transfer')
 
@@ -149,7 +150,7 @@ def check_time(deadline):
         raise TimeoutError('Fixed work ceiling reached; no extension or retry')
 
 
-def update(model, optimizer, inputs, labels):
+def update(model, optimizer, inputs, labels, before_step=None, after_step=None):
     optimizer.zero_grad(set_to_none=True)
     loss = anchor_balanced_bce(model(inputs), labels)
     if not torch.isfinite(loss):
@@ -157,7 +158,11 @@ def update(model, optimizer, inputs, labels):
     loss.backward()
     norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0, error_if_nonfinite=True)
     values = float(loss.detach()), float(norm)
+    if before_step is not None:
+        before_step()
     optimizer.step()
+    if after_step is not None:
+        after_step()
     return values
 
 
@@ -177,7 +182,7 @@ def run():
         raise ValueError('Exact independent prospective fit review required')
     committed(PREFLIGHT)
     names = ('fit_v0_attempt.json', 'fit_v0_progress.jsonl', 'fit_v0.json', 'initial_weights.pt',
-             'final_weights.pt', 'initial_predictions.npz', 'final_predictions.npz')
+             'final_weights.pt', 'initial_predictions.npz', 'final_predictions.npz', 'fit_v0_payload.json')
     if any((FOLDER / name).exists() for name in names):
         raise FileExistsError('Preserve every previous fit trace and checkpoint')
     target_result = json.loads(TARGET_RESULT.read_text(encoding='utf-8'))
@@ -187,9 +192,14 @@ def run():
     started = time.monotonic()
     deadline = started + SPEC['max_work_seconds'] - SPEC['cleanup_reserve_seconds']
     models, artifacts, metrics = {}, {}, {}
-    counts = dict(visual=0, constant=0)
+    counts, entries = dict(visual=0, constant=0), dict(visual=0, constant=0)
+    pending = {'arm': None}
     inference_batches = 0
-    failure = None
+    failures = []
+    journal = None
+
+    def fail(stage, error):
+        failures.append(dict(stage=stage, type=type(error).__name__, message=str(error)))
 
     def save_binary(name, value, torch_format=False):
         buffer = io.BytesIO()
@@ -206,83 +216,132 @@ def run():
             os.fsync(stream.fileno())
         artifacts[name] = dict(bytes=len(data), sha256=sha_bytes(data))
 
-    with (FOLDER / names[1]).open('x', encoding='utf-8', newline='\n') as journal:
-        def event(kind, **values):
-            journal.write(json.dumps(dict(event=kind, elapsed_seconds=time.monotonic() - started, **values),
-                                     allow_nan=False) + '\n')
-            journal.flush()
-            os.fsync(journal.fileno())
+    def event(kind, **values):
+        if journal is None:
+            raise OSError('The durable journal was not opened')
+        journal.write(json.dumps(dict(event=kind, elapsed_seconds=time.monotonic() - started, **values),
+                                 allow_nan=False) + '\n')
+        journal.flush()
+        os.fsync(journal.fileno())
+
+    def safe_event(kind, **values):
         try:
-            inputs, labels, targets = load_dataset(target_result)
-            check_time(deadline)
-            torch.manual_seed(SPEC['seed'])
-            visual = ResponseEnvelope().cpu()
-            if sum(value.numel() for value in visual.parameters()) != 10177:
-                raise ValueError('Fixed architecture parameter population changed')
-            models = dict(visual=visual, constant=copy.deepcopy(visual))
-            if any(not torch.equal(left, right) for left, right in
-                   zip(models['visual'].parameters(), models['constant'].parameters(), strict=True)):
-                raise ValueError('The two arms must start at the same weights')
-            save_binary('initial_weights.pt', visual.state_dict(), torch_format=True)
-            initial = predict(visual, inputs)
-            inference_batches += 1
-            metrics['initial'] = measure(initial, targets, target_result['cases'])
-            metrics['zero'] = measure(np.zeros_like(initial), targets, target_result['cases'])
-            save_binary('initial_predictions.npz', dict(initial=initial))
-            check_time(deadline)
-            optimizers = {key: torch.optim.Adam(model.parameters(), lr=0.0003, betas=(.9, .999), eps=1e-8,
-                          weight_decay=0.0, amsgrad=False, foreach=False, fused=False) for key, model in models.items()}
-            arm_inputs = dict(visual=inputs, constant=torch.zeros_like(inputs))
-            for step in range(SPEC['updates_per_arm']):
-                for arm in SPEC['arm_order']:
-                    check_time(deadline)
-                    event('update_started', arm=arm, update=step + 1)
-                    loss, norm = update(models[arm], optimizers[arm], arm_inputs[arm], labels)
-                    counts[arm] += 1
-                    event('update_complete', arm=arm, update=counts[arm], loss=loss, gradient_norm_before_clip=norm)
-                    if any(not torch.isfinite(value).all() for value in models[arm].parameters()):
-                        raise FloatingPointError('Nonfinite parameter after the counted optimizer step')
-                    check_time(deadline)
-            predictions = {}
+            event(kind, **values)
+        except BaseException as error:
+            fail('journal_' + kind, error)
+
+    try:
+        journal = (FOLDER / names[1]).open('x', encoding='utf-8', newline='\n')
+        inputs, labels, targets = load_dataset(target_result)
+        check_time(deadline)
+        torch.manual_seed(SPEC['seed'])
+        visual = ResponseEnvelope().cpu()
+        models = dict(visual=visual)
+        if sum(value.numel() for value in visual.parameters()) != 10177:
+            raise ValueError('Fixed architecture parameter population changed')
+        models['constant'] = copy.deepcopy(visual)
+        if any(not torch.equal(left, right) for left, right in
+               zip(models['visual'].parameters(), models['constant'].parameters(), strict=True)):
+            raise ValueError('The two arms must start at the same weights')
+        save_binary('initial_weights.pt', visual.state_dict(), torch_format=True)
+        initial = predict(visual, inputs)
+        inference_batches += 1
+        metrics['initial'] = measure(initial, targets, target_result['cases'])
+        metrics['zero'] = measure(np.zeros_like(initial), targets, target_result['cases'])
+        save_binary('initial_predictions.npz', dict(initial=initial))
+        check_time(deadline)
+        optimizers = {key: torch.optim.Adam(model.parameters(), lr=0.0003, betas=(.9, .999), eps=1e-8,
+                      weight_decay=0.0, amsgrad=False, foreach=False, fused=False) for key, model in models.items()}
+        arm_inputs = dict(visual=inputs, constant=torch.zeros_like(inputs))
+        for step in range(SPEC['updates_per_arm']):
             for arm in SPEC['arm_order']:
-                predictions[arm] = predict(models[arm], arm_inputs[arm])
-                inference_batches += 1
-                metrics[arm] = measure(predictions[arm], targets, target_result['cases'])
                 check_time(deadline)
-            save_binary('final_predictions.npz', predictions)
+                event('update_started', arm=arm, update=step + 1)
+                def before_step():
+                    # This durable entry must succeed before a mutation can be attempted.
+                    event('optimizer_step_enter', arm=arm, update=step + 1)
+                    entries[arm] += 1
+                    pending['arm'] = arm
+                def after_step():
+                    # Preserve the certain return even if its journal write fails next.
+                    counts[arm] += 1
+                    pending['arm'] = None
+                    event('optimizer_step_return', arm=arm, update=counts[arm])
+                loss, norm = update(models[arm], optimizers[arm], arm_inputs[arm], labels, before_step, after_step)
+                event('update_complete', arm=arm, update=counts[arm], loss=loss, gradient_norm_before_clip=norm)
+                if any(not torch.isfinite(value).all() for value in models[arm].parameters()):
+                    raise FloatingPointError('Nonfinite parameter after the counted optimizer step')
+                check_time(deadline)
+        predictions = {}
+        for arm in SPEC['arm_order']:
+            predictions[arm] = predict(models[arm], arm_inputs[arm])
+            inference_batches += 1
+            metrics[arm] = measure(predictions[arm], targets, target_result['cases'])
             check_time(deadline)
-        except Exception as error:
-            failure = dict(type=type(error).__name__, message=str(error))
-            event('failed', failure=failure, completed_updates=counts)
+        save_binary('final_predictions.npz', predictions)
+        check_time(deadline)
+    except BaseException as error:
+        fail('scientific_work', error)
+        safe_event('failed', failure=failures[0], completed_updates=counts, pending_optimizer_arm=pending['arm'])
+    finally:
+        # Independent of journal health, including catchable interruptions.
         try:
-            # Bounded cleanup reserve: preserve the actual partial/final weights, never resume them here.
             if models:
                 save_binary('final_weights.pt', {key: model.state_dict() for key, model in models.items()}, torch_format=True)
+        except BaseException as error:
+            fail('preserve_weights', error)
+        try:
             for rel, expected in {**checked['source_sha256'], **checked['evidence_sha256'],
                                   PREFLIGHT.relative_to(ROOT).as_posix(): attempt['preflight_sha256']}.items():
                 if sha(ROOT / rel) != expected:
                     raise ValueError(f'Final provenance changed: {rel}')
             check_time(started + SPEC['max_work_seconds'])
-        except Exception as error:
-            cleanup = dict(type=type(error).__name__, message=str(error))
-            failure = dict(primary=failure, cleanup=cleanup)
-            event('cleanup_failed', failure=cleanup)
-        event('finished', completed_updates=counts, failure=failure)
-    complete = failure is None and set(metrics) == {'initial', 'zero', 'visual', 'constant'}
-    verdict = feasibility_verdict(metrics, counts, SPEC['updates_per_arm']) if complete else dict(passed=False, complete=False, reason='Incomplete or failed execution')
-    result = dict(kind='response_envelope_development_fit', execution_status='complete' if complete else 'incomplete',
-                  passed=verdict['passed'], verdict=verdict, failure=failure, protocol=SPEC, **checked,
-                  preflight_sha256=attempt['preflight_sha256'], completed_updates=counts, model_inference_batches=inference_batches,
-                  optimizer_updates=sum(counts.values()), work_seconds=time.monotonic() - started,
-                  metrics=metrics, artifacts=artifacts, attempt_sha256=sha(FOLDER / names[0]),
-                  progress_sha256=sha(FOLDER / names[1]), inherited_collection_charged_frames=target_result['inherited_collection_charged_frames'],
-                  new_emulated_frames=0, gpu_used=False, targets_role='twelve development anchors, no validation split',
+        except BaseException as error:
+            fail('final_provenance_or_time', error)
+        safe_event('finished', completed_updates=counts, step_entries=entries, pending_optimizer_arm=pending['arm'], failures=failures.copy())
+        if journal is not None:
+            try:
+                journal.flush()
+                os.fsync(journal.fileno())
+            except BaseException as error:
+                fail('journal_flush', error)
+            finally:
+                try:
+                    journal.close()
+                except BaseException as error:
+                    fail('journal_close', error)
+
+    complete_candidate = not failures and pending['arm'] is None and set(metrics) == {'initial', 'zero', 'visual', 'constant'}
+    candidate_verdict = (feasibility_verdict(metrics, counts, SPEC['updates_per_arm']) if complete_candidate
+                         else dict(passed=False, complete=False, reason='Incomplete or failed execution'))
+    progress_hash = sha(FOLDER / names[1]) if (FOLDER / names[1]).exists() else None
+    payload = dict(kind='response_envelope_fit_scientific_payload', candidate_verdict=candidate_verdict,
+                   failures=failures.copy(), protocol=SPEC, **checked, preflight_sha256=attempt['preflight_sha256'],
+                   completed_updates=counts, optimizer_step_entries=entries, pending_optimizer_arm=pending['arm'],
+                   optimizer_update_count_exact=pending['arm'] is None, optimizer_updates=sum(counts.values()),
+                   optimizer_updates_upper_bound=sum(counts.values()) + int(pending['arm'] is not None),
+                   model_inference_batches=inference_batches, metrics=metrics, artifacts=artifacts,
+                   attempt_sha256=sha(FOLDER / names[0]), progress_sha256=progress_hash,
+                   inherited_collection_charged_frames=target_result['inherited_collection_charged_frames'],
+                   new_emulated_frames=0, gpu_used=False, targets_role='twelve development anchors, no validation split',
+                   claim='This payload is not a completed verdict; require the subsequent duration-checked receipt')
+    write_json(FOLDER / 'fit_v0_payload.json', payload)
+    payload_hash = sha(FOLDER / 'fit_v0_payload.json')
+    work_seconds = time.monotonic() - started
+    if work_seconds >= SPEC['max_work_seconds']:
+        fail('complete_scientific_payload_time', TimeoutError('Scientific payload closure exceeded the fixed budget'))
+    complete = complete_candidate and not failures
+    verdict = candidate_verdict if complete else dict(passed=False, complete=False, reason='Incomplete or failed execution')
+    # This small attestation and console are prospectively outside the measured scientific work.
+    result = dict(payload, kind='response_envelope_development_fit', execution_status='complete' if complete else 'incomplete',
+                  passed=verdict['passed'], verdict=verdict, failure=dict(errors=failures) if failures else None,
+                  failures=failures.copy(),
+                  work_seconds=work_seconds, scientific_payload_sha256=payload_hash,
                   claim='No independent generalization, object identity, game mastery, transfer or acceleration established')
     write_json(FOLDER / names[2], result)
     print(json.dumps(dict(execution_status=result['execution_status'], verdict=verdict, completed_updates=counts,
-                         work_seconds=result['work_seconds'])))
+                         optimizer_update_count_exact=result['optimizer_update_count_exact'], work_seconds=work_seconds)))
     return 0 if complete else 1
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)

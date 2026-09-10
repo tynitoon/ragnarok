@@ -55,6 +55,10 @@ d’apprendre la perception ni une permission de changer les critères.
 CPU un thread, CUDA masqué, aucun émulateur. Au maximum 512 mises à jour,
 1 200 secondes de travail coopératif, évaluations et sérialisation des sorties
 comprises, hors import du runtime et contrôles de provenance préalables.
+Cette durée est mesurée après la clôture du journal, l’écriture/fsync et le
+hachage du payload scientifique contenant toutes les mesures. Seule la petite
+attestation de clôture qui publie ensuite le verdict, et sa sortie console,
+est hors de cette mesure. Le payload seul ne constitue jamais un résultat PASS.
 Le dimensionnement synthétique effectué avant le fit mesure un unique
 forward/backward du lot natif en 1,82 s, sans optimizer.step : 512 tels calculs
 représentent environ 932 s avant les évaluations et les écritures. C’est la
@@ -65,7 +69,12 @@ Tentative et journal exclusifs, poids initiaux/finals et prédictions conservés
 Arrêt sur plafond, erreur ou valeur non finie ; aucun second départ, recherche
 d’hyperparamètres, nouvelle graine ou prolongation après le résultat. Si le
 temps manque avant les deux bras et leur mesure finale, le résultat est
-incomplet. Les mises à jour réellement effectuées restent comptées.
+incomplet. L’entrée et le retour de chaque optimizer.step sont tracés séparément.
+Une erreur interne laisse une borne inférieure des retours réussis, une borne
+supérieure et un état d’incertitude explicites ; aucun compte exact de mutations
+n’est inventé. Une interruption rattrapable ou une panne du journal passe par
+une sauvegarde indépendante des poids. Un arrêt dur du processus ou une panne
+du stockage peut toujours empêcher cette clôture ; la tentative reste conservée.
 
 La construction des cibles, son résultat et sa revue indépendante doivent être
 committés avant le préflight de ce fit. Celui-ci doit aussi être revu et committé

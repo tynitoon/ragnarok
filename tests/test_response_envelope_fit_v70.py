@@ -3,6 +3,7 @@ import numpy as np
 import pytest
 import torch
 import json
+from pathlib import Path
 from torch.nn import functional as F
 
 from ragnarok.learning.response_envelope_v70 import (ResponseEnvelope, anchor_balanced_bce,
@@ -170,3 +171,95 @@ def test_nonfinite_loss_cannot_call_optimizer_step():
             pytest.fail('Nonfinite loss must stop before optimizer.step')
     with pytest.raises(FloatingPointError):
         fit.update(model, NoStep(), torch.full((1, 1, 2, 2), float('nan')), torch.zeros(1, 1, 2, 2))
+
+
+def test_optimizer_mutation_then_exception_is_an_uncertain_attempt(monkeypatch, tmp_path):
+    fit = runner_fixture(monkeypatch, tmp_path)
+    class PartialOptimizer:
+        def __init__(self, parameters, **kwargs):
+            self.parameters = list(parameters)
+        def zero_grad(self, **kwargs):
+            for value in self.parameters:
+                value.grad = None
+        def step(self):
+            with torch.no_grad():
+                self.parameters[0][0] += 7
+            raise RuntimeError('synthetic failure after a parameter mutation')
+    monkeypatch.setattr(fit.torch.optim, 'Adam', PartialOptimizer)
+    assert fit.run() == 1
+    result = json.loads((fit.FOLDER / 'fit_v0.json').read_text())
+    assert result['optimizer_updates'] == 0 and result['optimizer_updates_upper_bound'] == 1
+    assert result['optimizer_step_entries'] == {'visual': 1, 'constant': 0}
+    assert result['optimizer_update_count_exact'] is False and result['pending_optimizer_arm'] == 'visual'
+    weights = torch.load(fit.FOLDER / 'final_weights.pt', weights_only=True)
+    assert weights['visual']['values'][0] == 7
+
+
+def test_catchable_interrupt_still_preserves_weights(monkeypatch, tmp_path):
+    fit = runner_fixture(monkeypatch, tmp_path)
+    def interrupt(*args):
+        raise KeyboardInterrupt('synthetic interrupt with both models alive')
+    monkeypatch.setattr(fit, 'update', interrupt)
+    assert fit.run() == 1
+    result = json.loads((fit.FOLDER / 'fit_v0.json').read_text())
+    assert any(error['type'] == 'KeyboardInterrupt' for error in result['failures'])
+    assert (fit.FOLDER / 'final_weights.pt').exists()
+    assert result['optimizer_updates'] == 0 and result['optimizer_update_count_exact'] is True
+
+
+def test_broken_journal_after_step_return_cannot_erase_count_or_checkpoint(monkeypatch, tmp_path):
+    fit = runner_fixture(monkeypatch, tmp_path)
+    original_open = Path.open
+    class BrokenJournal:
+        def __init__(self, stream):
+            self.stream, self.broken = stream, False
+        def write(self, text):
+            if self.broken or json.loads(text)['event'] == 'optimizer_step_return':
+                self.broken = True
+                raise OSError('synthetic broken journal after the step returned')
+            return self.stream.write(text)
+        def flush(self): return self.stream.flush()
+        def fileno(self): return self.stream.fileno()
+        def close(self): return self.stream.close()
+    def open_path(path, *args, **kwargs):
+        stream = original_open(path, *args, **kwargs)
+        mode = args[0] if args else kwargs.get('mode', 'r')
+        return BrokenJournal(stream) if path.name == 'fit_v0_progress.jsonl' and mode == 'x' else stream
+    monkeypatch.setattr(Path, 'open', open_path)
+    assert fit.run() == 1
+    result = json.loads((fit.FOLDER / 'fit_v0.json').read_text())
+    assert result['optimizer_updates'] == result['optimizer_updates_upper_bound'] == 1
+    assert result['optimizer_update_count_exact'] is True and result['pending_optimizer_arm'] is None
+    assert (fit.FOLDER / 'final_weights.pt').exists()
+    assert result['passed'] is False
+
+
+def test_slow_scientific_payload_write_cannot_publish_a_pass(monkeypatch, tmp_path):
+    fit = runner_fixture(monkeypatch, tmp_path)
+    original_write, original_clock = fit.write_json, fit.time.monotonic
+    offset = {'seconds': 0}
+    def write(path, value):
+        original_write(path, value)
+        if path.name == 'fit_v0_payload.json':
+            offset['seconds'] = fit.SPEC['max_work_seconds'] + 1
+    monkeypatch.setattr(fit, 'write_json', write)
+    monkeypatch.setattr(fit.time, 'monotonic', lambda: original_clock() + offset['seconds'])
+    monkeypatch.setattr(fit, 'feasibility_verdict', lambda *args: dict(passed=True, complete=True))
+    assert fit.run() == 1
+    payload = json.loads((fit.FOLDER / 'fit_v0_payload.json').read_text())
+    result = json.loads((fit.FOLDER / 'fit_v0.json').read_text())
+    assert payload['candidate_verdict']['passed'] is True
+    assert result['passed'] is False and result['execution_status'] == 'incomplete'
+    assert result['work_seconds'] >= fit.SPEC['max_work_seconds']
+    assert result['scientific_payload_sha256'] == fit.sha(fit.FOLDER / 'fit_v0_payload.json')
+
+
+def test_failed_before_step_callback_prevents_any_optimizer_mutation():
+    from scripts import fit_response_envelope_v70 as fit
+    model = torch.nn.Conv2d(1, 1, 1)
+    class NoStep:
+        def zero_grad(self, **kwargs): model.zero_grad(**kwargs)
+        def step(self): pytest.fail('A failed durable entry must prevent optimizer.step')
+    def reject(): raise OSError('synthetic durable entry failure')
+    with pytest.raises(OSError):
+        fit.update(model, NoStep(), torch.ones(1, 1, 2, 2), torch.ones(1, 1, 2, 2), reject)

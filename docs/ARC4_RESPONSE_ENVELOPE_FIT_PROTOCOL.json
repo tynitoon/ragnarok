@@ -52,6 +52,7 @@
   "max_work_seconds": 1200,
   "cleanup_reserve_seconds": 10,
   "max_binary_output_bytes": 64000000,
+  "work_scope": "through scientific payload fsync/hash and journal close; final verdict receipt and console excluded",
   "cpu_threads": 1,
   "gpu_used": false,
   "new_emulated_frames": 0,
