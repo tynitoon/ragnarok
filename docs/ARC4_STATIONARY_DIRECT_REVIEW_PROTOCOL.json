@@ -1,0 +1,23 @@
+{
+  "version": 0,
+  "max_review_seconds": 120,
+  "cpu_threads": 1,
+  "gpu_used": false,
+  "complete_metric_rows": 120,
+  "complete_bce_comparisons": 9,
+  "complete_evaluation_archives": 12,
+  "complete_decoded_evaluation_members": 18,
+  "complete_target_members": 1,
+  "complete_checkpoint_decodes": 2,
+  "metric_atol": 1e-12,
+  "bce_atol": 1e-6,
+  "bce_rtol": 1e-6,
+  "sigmoid_atol": 1e-7,
+  "total_threshold": 0.5,
+  "component_threshold": 0.5,
+  "component_metrics": "descriptive only",
+  "partial_execution": "audit available registered artifacts and accounting; retain INCOMPLETE; no scientific PASS",
+  "budget_scope": "all verification through final evidence rehash; final receipt and console excluded",
+  "forbidden": "model construction, model forward, backward, optimizer, simulation, new data and future-branch decoding",
+  "retry": false
+}
