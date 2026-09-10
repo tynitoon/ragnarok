@@ -1,0 +1,10 @@
+{
+  "kind": "stationary_affine_family_review_attempt",
+  "created_utc": "2026-09-10T05:51:17.012788+00:00",
+  "expected_result_sha256": "129fd18914406329ee872444b8ffe573416e3922fd85f1e21f1f47ed351d5711",
+  "reviewer_sha256": "0e193d7d8eea7769db594a080cb10d809ffc1be6fd3f7464abc86dd7be072ccf",
+  "max_review_seconds": 60,
+  "expected_algebraic_recalculations": 5,
+  "npz_reads": 0,
+  "no_retry": true
+}
