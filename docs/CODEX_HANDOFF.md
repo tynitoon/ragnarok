@@ -78,3 +78,15 @@ Boxing, Frostbite, Riverraid, Kangaroo. Python principal
 `C:/Python314/python.exe` (Torch) ; `.venv-arc4` pour ALE sans Torch (SETUP.md).
 Ne rien supprimer sans accord. Commits ciblés. L'automation « Suivi Ragnarok
 ARC 4 » reste en pause.
+
+## État au 19 octobre, pause demandée par Jérémie
+
+- Analyse v62 faite : au palier 3, écart-type par unité 0,46 pour un effet de
+  0,11 ; une v63 confirmatoire demanderait ~70 mondes (~140 GPU-h). Pas de v63
+  pour l'instant ; piste utile = diagnostiquer pourquoi la moitié des
+  apprentissages calent (aucune réussite, donc aucune ligne d'auto-imitation).
+- Jalon A : `.venv-arc4` + ale-py 0.12.1 OK ; Breakout 7 100, Freeway 4 700,
+  Pong 9 500 images/s par cœur ; restauration de sauvegarde ~0,5 ms. Jeux de la
+  tranche : Breakout, Freeway, Space Invaders (Pong optionnel : score à deux camps).
+- Prochaine étape : inventaire du code `_v70` réutilisable (agent arrêté avant
+  rapport), puis construction de la tranche verticale.
