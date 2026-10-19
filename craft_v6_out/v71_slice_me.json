@@ -1,0 +1,40 @@
+[
+ {
+  "game": "freeway",
+  "seed": 0,
+  "actions": [
+   "NOOP",
+   "UP",
+   "DOWN"
+  ],
+  "effect_table": [
+   {
+    "effect": "none",
+    "dx": 0.0,
+    "dy": 0.0,
+    "spawn_rate": 0.0,
+    "n_moved": 0
+   },
+   {
+    "effect": "-y",
+    "dx": -0.014106583072099,
+    "dy": -7.473354231974923,
+    "spawn_rate": 0.0,
+    "n_moved": 170
+   },
+   {
+    "effect": "+y",
+    "dx": -0.014106583072099,
+    "dy": 7.481818181818198,
+    "spawn_rate": 0.0,
+    "n_moved": 145
+   }
+  ],
+  "me_found_frac": 0.85,
+  "me_ram_corr": 0.9998949495958455,
+  "effect_sign_agreement": 1.0,
+  "sign_trials": 311,
+  "frames": 131340,
+  "secs": 11.6
+ }
+]
