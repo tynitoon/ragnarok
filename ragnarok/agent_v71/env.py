@@ -30,6 +30,7 @@ class AtariEnv:
 
     def reset(self):
         self.ale.reset_game()
+        self._true_score = 0.0
         self._last = self.ale.getScreenRGB()
         self._prev = self._last
         return self.obs()
@@ -41,7 +42,7 @@ class AtariEnv:
         """a: index into the minimal action set. Returns (obs, game_over). No reward is returned."""
         act = self.actions[a]
         for k in range(self.frameskip):
-            self.ale.act(act)
+            self._true_score += self.ale.act(act)     # experimenter-side only
             self.frames += 1
             if k == self.frameskip - 2:
                 self._prev = self.ale.getScreenRGB()
@@ -50,11 +51,11 @@ class AtariEnv:
         return self.obs(), over
 
     def clone(self):
-        return (self.ale.cloneState(), self._prev.copy(), self._last.copy())
+        return (self.ale.cloneState(), self._prev.copy(), self._last.copy(), self._true_score)
 
     def restore(self, s):
         self.ale.restoreState(s[0])
-        self._prev, self._last = s[1].copy(), s[2].copy()
+        self._prev, self._last, self._true_score = s[1].copy(), s[2].copy(), s[3]
         self.loads += 1
         self.frames += 60          # ARC4_VISION 2.5: fixed charge per savestate load
 
@@ -64,3 +65,6 @@ class AtariEnv:
 
     def lives(self):
         return self.ale.lives()
+
+    def true_score(self):
+        return self._true_score
