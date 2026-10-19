@@ -90,3 +90,24 @@ ARC 4 » reste en pause.
   tranche : Breakout, Freeway, Space Invaders (Pong optionnel : score à deux camps).
 - Prochaine étape : inventaire du code `_v70` réutilisable (agent arrêté avant
   rapport), puis construction de la tranche verticale.
+
+## Jalon A — avancement au 20 octobre (exploratoire, aucune revendication)
+
+Code neuf et compact : `ragnarok/agent_v71/` (env, me_buttons, hud, tracker, perceiver,
+explore, scorer côté évaluateur) et `scripts/slice_*_v71.py`.
+- **Étape 1 OK** (895e64b) : « moi » et effets des boutons par branches de sauvegarde.
+  Corrélation avec la RAM 0,98-1,00 sur Breakout, Freeway, Space Invaders, Pong ;
+  sens des effets 100 %. Défaut : FIRE mal classé (devrait être « apparition »).
+- **Étape 2 partielle** (0bbd1b5) : compteurs sans OCR. Breakout score 104/104
+  (précision et rappel 1,00), vies précision 1,00 rappel 0,80. Échecs : Space
+  Invaders (chiffres fragmentés ou soudés aux aliens), Pong (score adverse choisi).
+- **Étape 3 en échec** : exploration par nouveauté avec sauvegardes. Cellules
+  Go-Explore (11×8) : 1 seule cellule sur Freeway, pire que le hasard. Cellules
+  (position de moi 16×16, états des compteurs) : Freeway score 4 contre 12 pour le
+  hasard avec répétition d'actions, au même nombre d'images ; 7 611 cellules (des
+  régions non-compteurs entrent encore dans la clé) ; ~300 images/s, 20× trop lent.
+- **Suite** : (1) profiler la boucle d'exploration ; (2) clé de cellule = position
+  de moi seule + compteurs validés hors ligne sur l'étape 2, pas réajustés en ligne ;
+  (3) si l'exploration ne bat pas le hasard répété sur Freeway et Breakout à budget
+  égal, l'abandonner au profit d'une boucle « jouer, rejouer les réussites »
+  (auto-imitation rétrospective) partant du hasard répété.
