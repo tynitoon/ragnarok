@@ -104,3 +104,14 @@ The compiled reference implementation uses the existing explicit build at
 hashes are checked before use; no automatic rebuild is performed. Environment
 or binary changes require a separate prospective revision of the affected
 instrument, preserving its earlier sources and results.
+
+## ARC 4 v71 slice (2026-10-20)
+
+The v71 vertical slice (`ragnarok/agent_v71/`) needs the emulator and PyTorch in one process.
+`ale-py==0.12.1` (cp314 wheel, ROMs bundled) was installed into the main Python 3.14 env:
+
+```powershell
+C:/Python314/python.exe -m pip install ale-py==0.12.1
+```
+
+Perception scripts (`scripts/slice_*_v71.py`) also run in `.venv-arc4`.
