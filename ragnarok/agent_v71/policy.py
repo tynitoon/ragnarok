@@ -17,7 +17,8 @@ WIN = 64
 def ego_view(obs, bg, me, prev_fg=None):
     fg = (obs != bg).any(-1).astype(np.float32)
     H, W = fg.shape
-    x, y = (W / 2, H / 2) if me is None else (int(me[0]), int(me[1]))
+    x, y = (W // 2, H // 2) if me is None else (int(me[0]), int(me[1]))
+    x, y = min(max(x, 0), W - 1), min(max(y, 0), H - 1)
     pad = WIN // 2
     big = np.zeros((H + 2 * pad, W + 2 * pad), np.float32)
     big[pad:pad + H, pad:pad + W] = fg
@@ -65,4 +66,4 @@ class Policy:
             idx = torch.randint(0, n, (min(bs, n),), device=self.device)
             loss = F.cross_entropy(self.net(I[idx], P[idx]), A[idx])
             self.opt.zero_grad(); loss.backward(); self.opt.step()
-        return float(loss)
+        return float(loss.detach())

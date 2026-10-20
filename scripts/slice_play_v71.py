@@ -55,7 +55,7 @@ def random_repeat_episode(env, rng, max_steps=7000, repeat=0.95):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--game", default="freeway")
-    ap.add_argument("--rounds", type=int, default=30)
+    ap.add_argument("--rounds", type=int, default=50)
     ap.add_argument("--rollouts", type=int, default=16)
     ap.add_argument("--eval-games", type=int, default=5)
     a = ap.parse_args()
@@ -99,6 +99,7 @@ def main():
     for rnd in range(a.rounds):
         i0, st, mpos, prev0 = states[k]
         succ = 0
+        wins = []
         for _ in range(a.rollouts):
             env.restore(st)
             perc.tracker.pos, perc.tracker.miss = mpos, 0
@@ -121,8 +122,14 @@ def main():
                     break
             if got:
                 succ += 1
-                for img, pos, act in buf:
-                    S_img.append(img); S_pos.append(pos); S_act.append(act)
+                wins.append(buf)
+        # self-imitation of the BETTER half: only successes at least as fast as the median one
+        if wins:
+            med = np.median([len(b) for b in wins])
+            for buf in wins:
+                if len(buf) <= med:
+                    for img, pos, act in buf:
+                        S_img.append(img); S_pos.append(pos); S_act.append(act)
         loss = pol.fit(S_img[-60000:], S_pos[-60000:], S_act[-60000:], steps=300)
         if succ >= a.rollouts // 2 and k > 0:
             k = max(0, k - 2)

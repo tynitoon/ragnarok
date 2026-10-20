@@ -41,6 +41,9 @@ def probe(env, background, horizon=2):
     env.restore(s)
     noop = frames[NOOP]
     out, me_pts = [], []
+    colours = set()
+    reveal_mask = np.zeros(noop.shape[:2], bool)
+    reveal_val = np.zeros_like(noop)
     for a, fa in enumerate(frames):
         if a == NOOP:
             out.append(dict(dx=0.0, dy=0.0, spawn=False, moved=False))
@@ -52,6 +55,12 @@ def probe(env, background, horizon=2):
         if ca is not None and cn is not None:
             out.append(dict(dx=ca[0] - cn[0], dy=ca[1] - cn[1], spawn=False, moved=True))
             me_pts.append(cn)
+            px = noop[fg_n]
+            colours.update(((px[:, 0].astype(int) << 16) | (px[:, 1].astype(int) << 8) | px[:, 2]).tolist())
+            # where I stand under NOOP, the action branch (I moved away) shows the scenery behind me
+            behind = (fa != noop).any(-1) & _main_component(diff & (noop != fa).any(-1)) & ~fg_a
+            reveal_mask |= behind
+            reveal_val[behind] = fa[behind]
         elif ca is not None:             # something appears only when the button is pressed
             out.append(dict(dx=0.0, dy=0.0, spawn=True, moved=False))
         else:
@@ -59,6 +68,8 @@ def probe(env, background, horizon=2):
     me = None
     if me_pts:
         me = (float(np.median([p[0] for p in me_pts])), float(np.median([p[1] for p in me_pts])))
+    probe.last_reveal = (reveal_mask, reveal_val)
+    probe.last_colours = colours          # my colours under NOOP (per-game appearance, never carried)
     return out, me
 
 

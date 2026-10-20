@@ -53,6 +53,11 @@ class Perceiver:
         if self.tracker.lost:
             out, me = probe(env, self.bg)
             self.probes.append(out)
+            rm, rv = probe.last_reveal
+            if rm.any():                        # repair the background under where I stood
+                self.bg[rm] = rv[rm]
+            if me is not None and self.tracker.colours is None and probe.last_colours:
+                self.tracker.set_colours(probe.last_colours)
             if me is not None:
                 self.tracker.seed(me, obs)
             return me
