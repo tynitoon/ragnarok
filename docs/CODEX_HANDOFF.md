@@ -111,3 +111,22 @@ explore, scorer côté évaluateur) et `scripts/slice_*_v71.py`.
   (3) si l'exploration ne bat pas le hasard répété sur Freeway et Breakout à budget
   égal, l'abandonner au profit d'une boucle « jouer, rejouer les réussites »
   (auto-imitation rétrospective) partant du hasard répété.
+
+## Jalon A — 21 octobre : premier agent qui joue (Freeway)
+
+Chaîne complète, écran et boutons seulement, aucune récompense, RAM côté évaluateur :
+moi par branches de sauvegarde → compteurs (score/vies) par forme → exploration
+(nouveauté × pulsion de score, veto de mort) → démonstration → clonage puis
+auto-imitation « backward » des réussites plus rapides que la médiane → jeu EN DIRECT.
+
+| Jeu | Explorateur (meilleur score) | Hasard répété, mêmes images | Politique en direct* | Hasard répété en direct* |
+|---|---|---|---|---|
+| Freeway | 25 | 12 | **21,6** (20-23) | 5,6 |
+| Breakout | 16 | 14 | 2,4 | 2,0 |
+
+*graine 7, actions collantes 0,25, sans sauvegarde, 5 parties. Référence humaine
+Freeway (Atari-100k) 29,6 → ~0,73 humain. Breakout : échec, la vue 64×64 centrée sur
+la raquette ne voit sans doute pas la balle assez tôt ; démonstration faible (10 pts).
+Correctifs décisifs du jour : le suivi de « moi » (couleurs propres + fond réparé sous
+l'agent, corrélation RAM 1,000 en direct) ; avant, la même politique faisait 5,6.
+Space Invaders et Pong restent exclus (lecteur de score).
