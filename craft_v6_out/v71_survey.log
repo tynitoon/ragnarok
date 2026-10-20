@@ -1,0 +1,40 @@
+alien            me 1.00 | score P/R 0.07/0.01 (103/1149) | lives P/R   -  /0.00 (0/105) | 120s
+amidar           me 0.62 | score P/R 0.92/1.00 (386/331) | lives P/R   -  /0.00 (0/117) | 99s
+assault          me 1.00 | score P/R 1.00/0.99 (102/103) | lives P/R   -  /0.00 (0/58) | 226s
+asterix          me 0.63 | score P/R 0.77/0.96 (249/202) | lives P/R   -  /0.00 (0/171) | 82s
+atlantis         me 0.00 | score P/R 0.13/0.20 (167/104) | lives P/R 0.98/0.17 (82/237) | 99s
+bank_heist       me 0.80 | score P/R 1.00/1.00 (19/19) | lives P/R   -  /0.00 (0/68) | 133s
+beam_rider       me 0.88 | score P/R 0.62/0.99 (130/82) | lives P/R   -  /0.00 (0/42) | 91s
+berzerk          me 0.40 | score P/R 0.54/0.98 (434/205) | lives P/R   -  /0.00 (0/220) | 140s
+bowling          me 0.20 | score P/R 0.56/0.85 (75/47) | lives P/R   -  /  -   (0/0) | 81s
+breakout         me 0.67 | score P/R 1.00/1.00 (111/111) | lives P/R 1.00/0.80 (180/225) | 148s
+carnival         me 0.78 | score P/R 1.00/1.00 (107/101) | lives P/R   -  /  -   (0/0) | 105s
+centipede        me 0.93 | score P/R 1.00/0.21 (203/1378) | lives P/R   -  /0.00 (0/77) | 177s
+chopper_command  me 0.72 | score P/R 1.00/1.00 (181/168) | lives P/R   -  /0.00 (0/163) | 110s
+crazy_climber    me 0.75 | score P/R 1.00/1.00 (132/132) | lives P/R   -  /0.00 (0/26) | 71s
+demon_attack     me 0.95 | score P/R 0.92/1.00 (240/184) | lives P/R   -  /0.00 (0/79) | 110s
+fishing_derby    me 1.00 | score P/R   -  /0.00 (0/99) | lives P/R   -  /  -   (0/0) | 135s
+freeway          me 0.88 | score P/R 1.00/1.00 (41/38) | lives P/R   -  /  -   (0/0) | 152s
+gopher           me 0.88 | score P/R 0.76/1.00 (84/44) | lives P/R   -  /0.00 (0/58) | 77s
+hero             me 0.75 | score P/R 0.60/0.27 (126/296) | lives P/R   -  /0.00 (0/72) | 108s
+ice_hockey       me 0.80 | score P/R 0.00/0.00 (18/7) | lives P/R   -  /  -   (0/0) | 98s
+jamesbond        me 0.83 | score P/R 0.01/0.33 (143/6) | lives P/R   -  /0.00 (0/186) | 131s
+krull            me 0.65 | score P/R 1.00/0.35 (33/127) | lives P/R   -  /0.00 (0/6) | 114s
+kung_fu_master   me 0.70 | score P/R 0.05/0.33 (19/3) | lives P/R 1.00/0.76 (87/115) | 98s
+ms_pacman        me 0.50 | score P/R 0.61/0.06 (85/1567) | lives P/R   -  /0.00 (0/106) | 84s
+name_this_game   me 0.77 | score P/R 0.87/0.93 (352/262) | lives P/R   -  /0.00 (0/39) | 105s
+phoenix          me 0.70 | score P/R 0.03/0.04 (99/67) | lives P/R   -  /0.00 (0/135) | 134s
+pong             me 0.33 | score P/R 0.00/  -   (29/0) | lives P/R 0.00/  -   (51/0) | 131s
+pooyan           me 0.37 | score P/R 0.04/0.03 (84/110) | lives P/R   -  /0.00 (0/116) | 122s
+qbert            me 0.18 | score P/R 0.11/0.02 (65/339) | lives P/R   -  /0.00 (0/205) | 88s
+road_runner      me 0.65 | score P/R 0.00/0.00 (136/17) | lives P/R 1.00/0.67 (272/408) | 116s
+seaquest         me 0.65 | score P/R 1.00/0.99 (143/120) | lives P/R   -  /0.00 (0/115) | 112s
+space_invaders   me 0.87 | score P/R 0.10/0.13 (438/337) | lives P/R   -  /0.00 (0/96) | 110s
+star_gunner      me 0.80 | score P/R 0.03/0.12 (277/50) | lives P/R   -  /0.00 (0/103) | 115s
+tennis           me 0.88 | score P/R 0.00/0.00 (25/3) | lives P/R   -  /  -   (0/0) | 103s
+time_pilot       me 0.62 | score P/R   -  /0.00 (0/89) | lives P/R   -  /0.00 (0/77) | 94s
+up_n_down        me 0.35 | score P/R 1.00/0.03 (9/508) | lives P/R   -  /0.00 (0/230) | 113s
+video_pinball    me 0.88 | score P/R 0.00/0.00 (43/110) | lives P/R   -  /0.00 (0/47) | 108s
+wizard_of_wor    me 0.83 | score P/R 1.00/1.00 (44/44) | lives P/R   -  /0.00 (0/86) | 85s
+yars_revenge     me 0.88 | score P/R 0.12/0.05 (93/232) | lives P/R   -  /0.00 (0/87) | 76s
+zaxxon           me 0.88 | score P/R 0.00/  -   (28/0) | lives P/R   -  /0.00 (0/107) | 66s

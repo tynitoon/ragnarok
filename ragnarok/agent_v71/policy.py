@@ -53,11 +53,13 @@ class Policy:
         self.n_actions = n_actions
 
     @torch.no_grad()
-    def act(self, img, pos, rng, temp=1.0, eps=0.02):
+    def act(self, img, pos, rng, temp=1.0, eps=0.02, mask=None):
+        ok = np.ones(self.n_actions, bool) if mask is None else np.asarray(mask, bool)
         if rng.random() < eps:
-            return int(rng.integers(self.n_actions))
+            return int(rng.choice(np.nonzero(ok)[0]))
         lo = self.net(torch.from_numpy(img)[None].to(self.device), torch.from_numpy(pos)[None].to(self.device))
-        p = F.softmax(lo[0] / temp, -1).cpu().numpy()
+        lo = lo[0].masked_fill(torch.from_numpy(~ok).to(self.device), -1e9)
+        p = F.softmax(lo / temp, -1).cpu().numpy()
         return int(rng.choice(self.n_actions, p=p / p.sum()))
 
     def fit(self, imgs, poss, acts, steps=300, bs=256):
@@ -71,3 +73,23 @@ class Policy:
             loss = F.cross_entropy(self.net(I[idx], P[idx]), A[idx])
             self.opt.zero_grad(); loss.backward(); self.opt.step()
         return float(loss.detach())
+
+
+class EffectAdapter:
+    """Per-game table effect -> buttons, rebuilt by the probes at game entry (grant G5). The policy
+    acts over the canonical EFFECTS, never over buttons, so its weights can cross games."""
+
+    def __init__(self, table, effects):
+        self.effects = list(effects)
+        self.buttons = {e: [a for a, row in enumerate(table) if row["effect"] == e] for e in self.effects}
+        if not self.buttons.get("none"):
+            self.buttons["none"] = [0]                     # NOOP is action 0 in ALE minimal sets
+        self.available = np.array([bool(self.buttons.get(e)) for e in self.effects])
+        self.effect_of = {a: self.effects.index(row["effect"]) for a, row in enumerate(table)}
+
+    def to_button(self, e, rng):
+        opts = self.buttons.get(self.effects[e]) or self.buttons["none"]
+        return int(opts[int(rng.integers(len(opts)))])
+
+    def to_effect(self, a):
+        return self.effect_of.get(int(a), 0)

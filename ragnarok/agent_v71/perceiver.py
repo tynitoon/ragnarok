@@ -16,7 +16,7 @@ from scripts.ref_extract_v70 import ReferenceExtractor
 
 class Perceiver:
     def __init__(self, shape):
-        self.ref = ReferenceExtractor()
+        self.ref = ReferenceExtractor(max_colours=4096)
         self.cf = CounterFinder(shape)
         self.hud = HudReader([])
         self.tracker = None
