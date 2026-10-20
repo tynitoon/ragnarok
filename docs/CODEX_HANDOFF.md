@@ -130,3 +130,15 @@ la raquette ne voit sans doute pas la balle assez tôt ; démonstration faible (
 Correctifs décisifs du jour : le suivi de « moi » (couleurs propres + fond réparé sous
 l'agent, corrélation RAM 1,000 en direct) ; avant, la même politique faisait 5,6.
 Space Invaders et Pong restent exclus (lecteur de score).
+
+### Recette unique v1 (21 octobre)
+
+Même code pour tous les jeux : départs tirés au hasard le long de la démonstration ;
+chaque événement de score atteint est une leçon (le segment qui y mène) ; on imite les
+segments plus rapides que la médiane du tour ; chaque mort déclenche « une mort, une
+leçon » (rembobinage 8/16/32 pas, la branche qui survit est une démonstration
+d'évitement) ; vue = fenêtre ego + vue globale, chacune avec l'image précédente.
+En direct (graine 7, collant 0,25, sans sauvegarde, 5 parties) :
+Freeway **22,4** (20-25) vs hasard répété 5,6 ; Breakout **5,0** vs 2,4.
+Essais intermédiaires consignés dans `craft_v6_out/v71_play_*_v*.log` (Freeway 21,6 /
+18,8 / 16,8 / 16,6 / 14,6 selon les variantes ; Breakout 2,4 / 3,8 / 3,0 / 1,8 / 5,0).

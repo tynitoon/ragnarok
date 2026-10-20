@@ -15,6 +15,7 @@ WIN = 64
 
 
 def ego_view(obs, bg, me, prev_fg=None):
+    """prev_fg: (prev ego crop, prev global view) or None. Returns (img[4,32,32], pos, (crop, g))."""
     fg = (obs != bg).any(-1).astype(np.float32)
     H, W = fg.shape
     x, y = (W // 2, H // 2) if me is None else (int(me[0]), int(me[1]))
@@ -24,15 +25,18 @@ def ego_view(obs, bg, me, prev_fg=None):
     big[pad:pad + H, pad:pad + W] = fg
     crop = big[y:y + WIN, x:x + WIN]
     crop = crop.reshape(WIN // 2, 2, WIN // 2, 2).max((1, 3))
-    prev = prev_fg if prev_fg is not None else crop
     pos = np.array([x / W, y / H], np.float32)
-    return np.stack([crop, prev]), pos, crop
+    # global coarse view: the whole screen's foreground pooled to the same 32x32 grid
+    gh, gw = WIN // 2, WIN // 2
+    g = fg[: H - H % gh, : W - W % gw].reshape(gh, H // gh, gw, W // gw).max((1, 3))
+    pc, pg = prev_fg if prev_fg is not None else (crop, g)
+    return np.stack([crop, pc, g, pg]), pos, (crop, g)
 
 
 class PolicyNet(nn.Module):
     def __init__(self, n_actions):
         super().__init__()
-        self.conv = nn.Sequential(nn.Conv2d(2, 16, 5, 2, 2), nn.ReLU(), nn.Conv2d(16, 32, 3, 2, 1), nn.ReLU(),
+        self.conv = nn.Sequential(nn.Conv2d(4, 16, 5, 2, 2), nn.ReLU(), nn.Conv2d(16, 32, 3, 2, 1), nn.ReLU(),
                                   nn.Conv2d(32, 32, 3, 2, 1), nn.ReLU())
         self.head = nn.Sequential(nn.Linear(32 * 4 * 4 + 2, 128), nn.ReLU(), nn.Linear(128, n_actions))
 

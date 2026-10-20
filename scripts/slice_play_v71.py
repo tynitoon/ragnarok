@@ -40,6 +40,33 @@ def live_episode(env, perc, pol, rng, max_steps=7000, me_size=None, start_pos=No
     return env.true_score()
 
 
+def rewind_lesson(env, perc, pol, hist, l_idx, rng, tries=8, horizon=15):
+    """On death: for k in 8/16/32 steps back, sample up to `tries` alternative continuations (policy
+    at high temperature) and keep the first that survives `horizon` steps after the death point."""
+    for k in (8, 16, 32):
+        if k > len(hist):
+            break
+        st, mpos, prev0, obs0 = hist[-k]
+        for _ in range(tries):
+            env.restore(st)
+            perc.tracker.pos, perc.tracker.miss = mpos, 0
+            hud = HudReader(perc.counters)
+            obs, prev, seg, dead = obs0, prev0, [], False
+            hud.step(obs)
+            for _ in range(k + horizon):
+                me = perc.tracker.update(obs) or perc.tracker.reacquire(obs)
+                img, pos, prev = ego_view(obs, perc.bg, me, prev)
+                act = pol.act(img, pos, rng, temp=2.0, eps=0.2)
+                seg.append((img, pos, act))
+                obs, over = env.step(act)
+                if l_idx in hud.step(obs) or over:
+                    dead = True
+                    break
+            if not dead:
+                return seg[:k]                 # the actions that avoided the death
+    return None
+
+
 def random_repeat_episode(env, rng, max_steps=7000, repeat=0.95):
     env.reset()
     a = 0
@@ -95,45 +122,60 @@ def main():
 
     # 3. backward self-imitation from demo savestates
     S_img, S_pos, S_act = list(D_img), list(D_pos), list(D_act)
+    A_img, A_pos, A_act = [], [], []          # avoid demonstrations from death rewinds
     k = len(states) - 1
     for rnd in range(a.rounds):
-        i0, st, mpos, prev0 = states[k]
         succ = 0
         wins = []
+        lessons = 0
         for _ in range(a.rollouts):
+            i0, st, mpos, prev0 = states[int(rng.integers(len(states)))]   # any point of the demo
             env.restore(st)
             perc.tracker.pos, perc.tracker.miss = mpos, 0
             hud = HudReader(perc.counters)
             obs = env.obs()
             hud.step(obs)
             prev = prev0
-            buf, got = [], False
+            buf, value, hist, segs = [], 0, [], []
+            last_score = 0
             for t in range(400):
                 me = perc.tracker.update(obs) or perc.tracker.reacquire(obs)
                 img, pos, prev = ego_view(obs, perc.bg, me, prev)
+                hist.append((env.clone(), perc.tracker.pos, prev, obs))
                 act = pol.act(img, pos, rng)
                 buf.append((img, pos, act))
                 obs, over = env.step(act)
                 ev = hud.step(obs)
-                if l_idx is not None and l_idx in ev or over:
-                    break
                 if s_idx is not None and s_idx in ev:
-                    got = True
+                    value += 1
+                    segs.append(buf[last_score:])      # the segment that achieved this event
+                    last_score = len(buf)
+                if over:                               # the game's clock ran out: not a death
                     break
-            if got:
+                if l_idx is not None and l_idx in ev:
+                    # ONE DEATH, ONE LESSON (ARC4_VISION 2.5 E3): rewind k steps, try other actions
+                    # until surviving 15 steps; the surviving branch is an avoid demonstration
+                    lesson = rewind_lesson(env, perc, pol, hist, l_idx, rng)
+                    if lesson:
+                        A_img.extend(x[0] for x in lesson); A_pos.extend(x[1] for x in lesson)
+                        A_act.extend(x[2] for x in lesson)
+                        lessons += 1
+                    value = -1
+                    break
+            if value >= 1:
                 succ += 1
-                wins.append(buf)
-        # self-imitation of the BETTER half: only successes at least as fast as the median one
+            wins.extend(segs)                          # segments before a death still achieved their event
+        # ONE RULE FOR EVERY GAME: each achieved score event is a lesson; imitate the segments that
+        # achieved it faster than the median segment of this round (self-imitation of the better half)
         if wins:
-            med = np.median([len(b) for b in wins])
-            for buf in wins:
-                if len(buf) <= med:
-                    for img, pos, act in buf:
+            med = np.median([len(s) for s in wins])
+            for seg in wins:
+                if len(seg) <= med:
+                    for img, pos, act in seg:
                         S_img.append(img); S_pos.append(pos); S_act.append(act)
-        loss = pol.fit(S_img[-60000:], S_pos[-60000:], S_act[-60000:], steps=300)
-        if succ >= a.rollouts // 2 and k > 0:
-            k = max(0, k - 2)
-        print(f"   round {rnd}: start step {i0} success {succ}/{a.rollouts} data {len(S_act)} loss {loss:.3f} | "
+        TI = S_img[-60000:] + A_img[-20000:]; TP = S_pos[-60000:] + A_pos[-20000:]; TA = S_act[-60000:] + A_act[-20000:]
+        loss = pol.fit(TI, TP, TA, steps=300)
+        print(f"   round {rnd}: success {succ}/{a.rollouts} lessons {lessons} data {len(S_act)}+{len(A_act)} loss {loss:.3f} | "
               f"{time.perf_counter()-t0:.0f}s", flush=True)
 
     # 4. live evaluation, other seed, sticky actions, no savestates
