@@ -142,3 +142,18 @@ En direct (graine 7, collant 0,25, sans sauvegarde, 5 parties) :
 Freeway **22,4** (20-25) vs hasard répété 5,6 ; Breakout **5,0** vs 2,4.
 Essais intermédiaires consignés dans `craft_v6_out/v71_play_*_v*.log` (Freeway 21,6 /
 18,8 / 16,8 / 16,6 / 14,6 selon les variantes ; Breakout 2,4 / 3,8 / 3,0 / 1,8 / 5,0).
+
+### Jalon A tenu sur 6 jeux ; pilote du jalon C lancé (22 octobre)
+
+Apprenant unifié `ragnarok/agent_v71/learner.py` (politique en EFFETS canoniques, adaptateur
+effet→bouton par jeu). En direct contre hasard répété (5 parties, graine 7, collant 0,25) :
+freeway 20,2/4,6, carnival 620/224, demon_attack 469/74, name_this_game 1894/744,
+breakout 4,6/1,8, assault 340/231 ; seaquest 112/92 et chopper_command 360/420 ne battent
+pas le hasard. Recensement 40 jeux : lecteur de score fiable sur 11 (`v71_survey.json`).
+
+Pilote C (exploratoire, aucune revendication) : `scripts/slice_transfer_v71.py`, sorties par
+essai dans `craft_v6_out/v71_transfer/` (reprise automatique). Famille des tirs verticaux
+(assault, carnival, demon_attack, name_this_game), un jeu laissé de côté à tour de rôle ;
+agent E entraîné en séquence sur les 3 autres (poids gardés, exploration guidée 50 %) contre
+deux agents neufs Fa/Fb ; budgets 0/100/300/1000 itérations d'exploration. Si le pilote montre
+un écart au-delà de |Fa−Fb|, pré-enregistrer une confirmation sur des jeux neufs.
