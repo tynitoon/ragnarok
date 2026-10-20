@@ -1,0 +1,336 @@
+[
+ {
+  "game": "freeway",
+  "roles": {
+   "score": [
+    5,
+    13,
+    49,
+    55
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   true,
+   true,
+   false
+  ],
+  "demo_len": 2026,
+  "demo_events": 20,
+  "frames_enter": 169456,
+  "frames_explore": 642292,
+  "frames_learn": 735912,
+  "live": [
+   19.0,
+   22.0,
+   20.0,
+   18.0,
+   22.0
+  ],
+  "live_mean": 20.2,
+  "random_live": [
+   8.0,
+   6.0,
+   1.0,
+   5.0,
+   3.0
+  ],
+  "random_mean": 4.6,
+  "secs": 910
+ },
+ {
+  "game": "breakout",
+  "roles": {
+   "lives": [
+    5,
+    15,
+    100,
+    112
+   ],
+   "score": [
+    5,
+    15,
+    68,
+    80
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   true
+  ],
+  "demo_len": 778,
+  "demo_events": 14,
+  "frames_enter": 170272,
+  "frames_explore": 1465920,
+  "frames_learn": 173940,
+  "live": [
+   5.0,
+   6.0,
+   2.0,
+   3.0,
+   7.0
+  ],
+  "live_mean": 4.6,
+  "random_live": [
+   1.0,
+   0.0,
+   3.0,
+   2.0,
+   3.0
+  ],
+  "random_mean": 1.8,
+  "secs": 322
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 924,
+  "demo_events": 22,
+  "frames_enter": 172720,
+  "frames_explore": 973428,
+  "frames_learn": 725460,
+  "live": [
+   378.0,
+   399.0,
+   231.0,
+   420.0,
+   273.0
+  ],
+  "live_mean": 340.2,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 834
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1034,
+  "demo_events": 19,
+  "frames_enter": 171904,
+  "frames_explore": 660876,
+  "frames_learn": 442380,
+  "live": [
+   480.0,
+   240.0,
+   680.0,
+   1000.0,
+   700.0
+  ],
+  "live_mean": 620.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 518
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1482,
+  "demo_events": 59,
+  "frames_enter": 171904,
+  "frames_explore": 4765148,
+  "frames_learn": 643980,
+  "live": [
+   70.0,
+   1700.0,
+   385.0,
+   100.0,
+   90.0
+  ],
+  "live_mean": 469.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 905
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1298,
+  "demo_events": 53,
+  "frames_enter": 171904,
+  "frames_explore": 3905628,
+  "frames_learn": 847388,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 1053
+ },
+ {
+  "game": "seaquest",
+  "roles": {
+   "score": [
+    9,
+    17,
+    91,
+    97
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   false
+  ],
+  "demo_len": 1013,
+  "demo_events": 25,
+  "frames_enter": 181696,
+  "frames_explore": 36901092,
+  "frames_learn": 808824,
+  "live": [
+   100.0,
+   0.0,
+   180.0,
+   120.0,
+   160.0
+  ],
+  "live_mean": 112.0,
+  "random_live": [
+   120.0,
+   100.0,
+   80.0,
+   120.0,
+   40.0
+  ],
+  "random_mean": 92.0,
+  "secs": 2382
+ },
+ {
+  "game": "chopper_command",
+  "roles": {
+   "score": [
+    16,
+    23,
+    59,
+    73
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   false
+  ],
+  "demo_len": 1372,
+  "demo_events": 30,
+  "frames_enter": 181696,
+  "frames_explore": 17616504,
+  "frames_learn": 571956,
+  "live": [
+   600.0,
+   100.0,
+   300.0,
+   300.0,
+   500.0
+  ],
+  "live_mean": 360.0,
+  "random_live": [
+   100.0,
+   300.0,
+   700.0,
+   700.0,
+   300.0
+  ],
+  "random_mean": 420.0,
+  "secs": 1455
+ }
+]

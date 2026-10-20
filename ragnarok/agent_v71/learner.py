@@ -60,7 +60,7 @@ class Agent:
         me = perc.locate(env, obs)
         arch.add(me_cell(me, perc.hud_key(obs), obs.shape), env.clone(), 0, 0)
         first = arch.cells[next(iter(arch.cells))]
-        first["frame"], first["traj"] = (obs, me), b""
+        first["frame"], first["traj"] = (None, me), b""
         for _ in range(iters):
             k = arch.choose(rng)
             c = arch.cells[k]
@@ -71,7 +71,7 @@ class Agent:
             depth, events = c["depth"], c["events"]
             traj = bytearray(c["traj"])
             use_pol = rng.random() < guided
-            obs, prev = c["frame"][0], None
+            obs, prev = env.obs(), None
             a = int(rng.integers(env.n_actions))
             for _ in range(steps):
                 me = perc.tracker.pos
@@ -96,7 +96,7 @@ class Agent:
                     if cc is not None:
                         del arch.cells[key]
                     arch.add(key, env.clone(), depth, events)
-                    arch.cells[key]["frame"], arch.cells[key]["traj"] = (obs, me), bytes(traj)
+                    arch.cells[key]["frame"], arch.cells[key]["traj"] = (None, me), bytes(traj)
         top = max(arch.cells.values(), key=lambda c: (c["events"], -c["depth"]))
         return list(top["traj"]), top["events"]
 
@@ -109,13 +109,15 @@ class Agent:
         for i, a in enumerate(demo):
             me = perc.locate(env, obs)
             img, pos, prev = ego_view(obs, perc.bg, me, prev)
-            D.append((img, pos, self.adapter.to_effect(a)))
+            D.append((img.astype(np.uint8), pos, self.adapter.to_effect(a)))
             if i % 25 == 0:
                 states.append((env.clone(), perc.tracker.pos, prev, obs))
             obs, over = env.step(a)
             if over:
                 break
         S = list(D)
+        if not states:                                  # no demonstration (zero budget)
+            return
         if D:
             self.policy.fit(*zip(*S), steps=bc_steps)
         for _ in range(rounds):
@@ -130,7 +132,7 @@ class Agent:
                 for _ in range(horizon):
                     me = perc.tracker.update(obs) or perc.tracker.reacquire(obs)
                     a, e, img, pos, prev = self.act(obs, me, prev, rng)
-                    buf.append((img, pos, e))
+                    buf.append((img.astype(np.uint8), pos, e))
                     obs, over = env.step(a)
                     ev = hud.step(obs)
                     if self.s_idx is not None and self.s_idx in ev:
@@ -170,6 +172,23 @@ class Agent:
         return out
 
 
+def random_repeat_live(game, seed, games=5, max_steps=7000, repeat=0.95):
+    env = AtariEnv(game, seed=seed, sticky=0.25)
+    rng = np.random.default_rng(seed + 1000)
+    out = []
+    for _ in range(games):
+        env.reset()
+        a = 0
+        for _ in range(max_steps):
+            if rng.random() > repeat:
+                a = int(rng.integers(env.n_actions))
+            _, over = env.step(a)
+            if over:
+                break
+        out.append(env.true_score())
+    return out
+
+
 def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=30, eval_games=5, log=print):
     """Fresh (policy=None) or experienced (policy carried) agent on one game. Returns a result dict
     with the frames spent per phase and the live scores."""
@@ -179,15 +198,17 @@ def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=3
     ag = Agent(policy)
     ag.enter(env, rng)
     f_enter = env.frames
-    demo, ev = ag.explore(env, rng, explore_iters, guided=guided)
+    demo, ev = ag.explore(env, rng, explore_iters, guided=guided) if explore_iters > 0 else ([], 0)
     f_explore = env.frames
     ag.learn(env, rng, demo, rounds=rounds)
     f_learn = env.frames
     live = ag.play_live(game, seed=7, games=eval_games)
+    base = random_repeat_live(game, seed=7, games=eval_games)
     res = dict(game=game, roles={k: list(v) for k, v in ag.roles.items()},
                effects=list(map(bool, ag.adapter.available)), demo_len=len(demo), demo_events=ev,
                frames_enter=f_enter, frames_explore=f_explore - f_enter, frames_learn=f_learn - f_explore,
-               live=live, live_mean=float(np.mean(live)), secs=round(time.perf_counter() - t0))
-    log(f"{game}: live {live} mean {res['live_mean']:.1f} | demo {len(demo)} steps {ev} events | "
+               live=live, live_mean=float(np.mean(live)), random_live=base, random_mean=float(np.mean(base)),
+               secs=round(time.perf_counter() - t0))
+    log(f"{game}: live {live} mean {res['live_mean']:.1f} vs random {res['random_mean']:.1f} | demo {len(demo)} steps {ev} events | "
         f"frames enter {f_enter} explore {res['frames_explore']} learn {res['frames_learn']} | {res['secs']}s")
     return res, ag

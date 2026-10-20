@@ -1,0 +1,16 @@
+breakout: live [5.0, 6.0, 2.0, 3.0, 7.0] mean 4.6 vs random 1.8 | demo 778 steps 14 events | frames enter 170272 explore 1465920 learn 173940 | 322s
+carnival: live [480.0, 240.0, 680.0, 1000.0, 700.0] mean 620.0 vs random 224.0 | demo 1034 steps 19 events | frames enter 171904 explore 660876 learn 442380 | 518s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 1298 steps 53 events | frames enter 171904 explore 3905628 learn 847388 | 1053s
+assault: live [378.0, 399.0, 231.0, 420.0, 273.0] mean 340.2 vs random 231.0 | demo 924 steps 22 events | frames enter 172720 explore 973428 learn 725460 | 834s
+demon_attack: live [70.0, 1700.0, 385.0, 100.0, 90.0] mean 469.0 vs random 74.0 | demo 1482 steps 59 events | frames enter 171904 explore 4765148 learn 643980 | 905s
+chopper_command: live [600.0, 100.0, 300.0, 300.0, 500.0] mean 360.0 vs random 420.0 | demo 1372 steps 30 events | frames enter 181696 explore 17616504 learn 571956 | 1455s
+freeway: live [19.0, 22.0, 20.0, 18.0, 22.0] mean 20.2 vs random 4.6 | demo 2026 steps 20 events | frames enter 169456 explore 642292 learn 735912 | 910s
+seaquest: live [100.0, 0.0, 180.0, 120.0, 160.0] mean 112.0 vs random 92.0 | demo 1013 steps 25 events | frames enter 181696 explore 36901092 learn 808824 | 2382s
+freeway          live [19.0, 22.0, 20.0, 18.0, 22.0] mean 20.2 random 4.6 demo_events 20 frames explore 642292 learn 735912
+breakout         live [5.0, 6.0, 2.0, 3.0, 7.0] mean 4.6 random 1.8 demo_events 14 frames explore 1465920 learn 173940
+assault          live [378.0, 399.0, 231.0, 420.0, 273.0] mean 340.2 random 231.0 demo_events 22 frames explore 973428 learn 725460
+carnival         live [480.0, 240.0, 680.0, 1000.0, 700.0] mean 620.0 random 224.0 demo_events 19 frames explore 660876 learn 442380
+demon_attack     live [70.0, 1700.0, 385.0, 100.0, 90.0] mean 469.0 random 74.0 demo_events 59 frames explore 4765148 learn 643980
+name_this_game   live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 random 744.0 demo_events 53 frames explore 3905628 learn 847388
+seaquest         live [100.0, 0.0, 180.0, 120.0, 160.0] mean 112.0 random 92.0 demo_events 25 frames explore 36901092 learn 808824
+chopper_command  live [600.0, 100.0, 300.0, 300.0, 500.0] mean 360.0 random 420.0 demo_events 30 frames explore 17616504 learn 571956

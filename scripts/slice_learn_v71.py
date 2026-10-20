@@ -29,7 +29,7 @@ def main():
         res = p.map(one, [(g, a.iters) for g in a.games])
     json.dump(res, open(a.out, "w"), indent=1)
     for r in res:
-        print(r.get("error") or f"{r['game']:16s} live {r['live']} mean {r['live_mean']:.1f} demo_events {r['demo_events']} "
+        print(r.get("error") or f"{r['game']:16s} live {r['live']} mean {r['live_mean']:.1f} random {r['random_mean']:.1f} demo_events {r['demo_events']} "
               f"frames explore {r['frames_explore']} learn {r['frames_learn']}")
 
 

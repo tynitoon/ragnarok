@@ -63,7 +63,7 @@ class Policy:
         return int(rng.choice(self.n_actions, p=p / p.sum()))
 
     def fit(self, imgs, poss, acts, steps=300, bs=256):
-        I = torch.from_numpy(np.asarray(imgs)).to(self.device)
+        I = torch.from_numpy(np.asarray(imgs, np.uint8)).to(self.device).float()
         P = torch.from_numpy(np.asarray(poss)).to(self.device)
         A = torch.from_numpy(np.asarray(acts, np.int64)).to(self.device)
         n = len(A)
