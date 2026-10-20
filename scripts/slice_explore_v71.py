@@ -55,7 +55,9 @@ def main():
         obs = env.reset()
         perc = Perceiver(obs.shape[:2])
         perc.warm(env, rng)
-        arch = explore_me(env, perc, a.iters, rng,
+        roles = perc.fit_counters(env, rng)
+        print(f"   counters: {roles}", flush=True)
+        arch = explore_me(env, perc, a.iters, rng, refit_every=0,
                           log=lambda it, n, r: print(f"   it {it}: {n} cells, {r} counter regions, best {best_score(env, None) if False else ''}", flush=True))
         bs = best_score(env, arch)
         frames = env.frames

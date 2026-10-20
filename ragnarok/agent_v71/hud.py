@@ -51,7 +51,8 @@ class CounterFinder:
         """Counter pixels: changes are rare and mostly persistent. Regions larger than
         `max_area` of the screen are playfields (bricks, invaders), not displays."""
         T = max(1, self.t)
-        hud = (self.n_persist >= 2) & (self.n_change <= 2 * self.n_persist + 1) & (self.n_change < max_rate * T)
+        # only persistent changes count: a blinking digit flips often but changes value rarely
+        hud = (self.n_persist >= 2) & (self.n_persist < max_rate * T)
         H, W = hud.shape
         # Group candidate pixels that are near each other AND change at the same moments: one
         # counter's pixels change together at its events; a moving formation changes at its own
@@ -132,6 +133,11 @@ class HudReader:
         self._game_events = [0] * len(regions)
         self._game_seen = [set() for _ in regions]
         self.novel_in_game = [0] * len(regions)
+        self.raw_changes = [0] * len(regions)
+        self._prev_crop = [None] * len(regions)
+        self.before = [None] * len(regions)
+        self._raw_last = [None] * len(regions)
+        self.steps = 0
         self.per_game = []
         self.role = {}
 
@@ -139,11 +145,33 @@ class HudReader:
         y0, y1, x0, x1 = r
         return hash(rgb[y0:y1, x0:x1].tobytes())
 
+    def _blink_hash(self, rgb, i):
+        """Hash of the pixelwise max of this and the previous crop: a blinking glyph reads as itself."""
+        y0, y1, x0, x1 = self.regions[i]
+        crop = rgb[y0:y1, x0:x1]
+        # SHAPE, not colour: pixels differing from the crop's dominant colour (colour cycling and
+        # palette animations of a display do not change what it shows)
+        flat = crop.reshape(-1, 3)
+        packed = (flat[:, 0].astype(np.uint32) << 16) | (flat[:, 1].astype(np.uint32) << 8) | flat[:, 2]
+        vals, counts = np.unique(packed, return_counts=True)
+        mask = (packed != vals[np.argmax(counts)]).reshape(crop.shape[:2])
+        prev = self._prev_crop[i]
+        self._prev_crop[i] = mask
+        if prev is not None and prev.shape == mask.shape:
+            mask = mask | prev
+        return hash(np.packbits(mask).tobytes())
+
     def step(self, rgb):
         """Returns the list of region indices whose content changed stably at this step."""
         out = []
+        self.steps += 1
         for i, r in enumerate(self.regions):
-            h = self._hash(rgb, r)
+            h = self._blink_hash(rgb, i)
+            last = self._raw_last[i]
+            # a 2-cycle (blink) is not a change: count only hashes differing from the last two
+            if last is not None and h != last[0] and h != last[1]:
+                self.raw_changes[i] += 1
+            self._raw_last[i] = (h, last[0] if last else None)
             if self.stable[i] is None:
                 self.stable[i] = h
                 self.states[i].add(h)
@@ -157,6 +185,11 @@ class HudReader:
             else:
                 self.pending[i], self.count[i] = h, 1
             if self.count[i] >= self.hold:
+                if h == self.before[i]:           # A -> B -> A: a blink, not a count
+                    self.before[i], self.stable[i] = self.stable[i], h
+                    self.pending[i], self.count[i] = None, 0
+                    continue
+                self.before[i] = self.stable[i]
                 self.stable[i] = h
                 self.states[i].add(h)
                 self.events[i] += 1
@@ -174,11 +207,13 @@ class HudReader:
             self.per_game.append(list(self._game_events))
         self._game_events = [0] * len(self.regions)
         self._game_seen = [set() for _ in self.regions]
+        self.before = [None] * len(self.regions)
+        self._prev_crop = [None] * len(self.regions)
         self.stable = [None] * len(self.regions)
         self.pending = [None] * len(self.regions)
         self.count = [0] * len(self.regions)
 
-    def assign_roles(self, min_games=3):
+    def assign_roles(self, min_games=3, max_rate=0.05):
         """lives = a counter that changes, per game, a nearly constant number of times (2-9)
         and has few states; score = among the others, the counter with the most states.
         Needs >= `min_games` completed games; else only a score is guessed."""
@@ -188,7 +223,10 @@ class HudReader:
         # the same images
         mono = [self.novel_in_game[i] / self.events[i] if self.events[i] else 0.0
                 for i in range(len(self.regions))]
-        is_counter = [self.events[i] >= 3 and mono[i] >= 0.9 for i in range(len(self.regions))]
+        # a display changes rarely as a whole; a lane of cars or a ball's playfield changes all the time
+        rate = [self.raw_changes[i] / max(1, self.steps) for i in range(len(self.regions))]
+        is_counter = [self.events[i] >= 3 and mono[i] >= 0.9 and rate[i] < max_rate for i in range(len(self.regions))]
+        self.rate = rate
         self.monotone = mono
         games = np.array(self.per_game, float) if len(self.per_game) >= min_games else None
         lives = None
@@ -205,6 +243,6 @@ class HudReader:
             role[lives] = "lives"
         rest = [i for i in range(len(self.regions)) if i != lives and is_counter[i]]
         if rest:
-            role[max(rest, key=lambda i: len(self.states[i]))] = "score"
+            role[max(rest, key=lambda i: self.events[i])] = "score"
         self.role = role
         return role

@@ -30,8 +30,10 @@ class Perceiver:
         return m.view(np.uint8).reshape(*m.shape, 4)[..., :3]
 
     def observe(self, obs):
-        """Ordinary play only (never call on branch frames)."""
-        self.ref.update(obs)
+        """Ordinary play only (never call on branch frames). Background every 8th frame."""
+        self._n = getattr(self, "_n", 0) + 1
+        if self._n % 8 == 0 or self.bg is None:
+            self.ref.update(obs)
         self.cf.update(obs)
 
     def warm(self, env, rng, steps=1500):
@@ -54,6 +56,35 @@ class Perceiver:
                 self.tracker.seed(me, obs)
             return me
         return self.tracker.update(obs)
+
+    def fit_counters(self, env, rng, steps=20000, repeat=0.95):
+        """Ordinary play with action repeats (no reward), CounterFinder, then a reader pass with
+        per-game tallies -> roles. The counters (score, lives) are fixed afterwards."""
+        obs = env.reset()
+        a = 0
+        cf = CounterFinder(obs.shape[:2])
+        for _ in range(steps):
+            cf.update(obs); self.observe(obs)
+            if rng.random() > repeat:
+                a = int(rng.integers(env.n_actions))
+            obs, over = env.step(a)
+            if over:
+                obs = env.reset(); cf.ring = []
+        reader = HudReader(cf.fit())
+        for _ in range(steps):
+            reader.step(obs)
+            if rng.random() > repeat:
+                a = int(rng.integers(env.n_actions))
+            obs, over = env.step(a)
+            if over:
+                obs = env.reset(); reader.reset_tracking()
+        roles = reader.assign_roles()
+        self.roles = {v: reader.regions[k] for k, v in roles.items()}
+        self.counters = [self.roles[r] for r in ("score", "lives") if r in self.roles]
+        self.hud = HudReader(self.counters)
+        self.bg = self.background()
+        self.tracker = MeTracker(self.bg)
+        return self.roles
 
     def refit_hud(self):
         regions = self.cf.fit()

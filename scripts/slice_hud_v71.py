@@ -25,15 +25,21 @@ def match(pred, true, tol=3):
     return prec, rec
 
 
-def run(game, seed, fit_steps=20000, test_steps=20000):
+def run(game, seed, fit_steps=20000, test_steps=20000, repeat=0.0):
     env = AtariEnv(game, seed=seed)
     rng = np.random.default_rng(seed)
+    act = [0]
+
+    def pick():
+        if rng.random() >= repeat:
+            act[0] = int(rng.integers(env.n_actions))
+        return act[0]
     t0 = time.perf_counter()
     obs = env.reset()
     cf = CounterFinder(obs.shape[:2])
     for _ in range(fit_steps):
         cf.update(obs)
-        obs, over = env.step(int(rng.integers(env.n_actions)))
+        obs, over = env.step(pick())
         if over:
             obs = env.reset()
             cf.ring = []
@@ -41,7 +47,7 @@ def run(game, seed, fit_steps=20000, test_steps=20000):
     hud = HudReader(regions)
     for _ in range(fit_steps // 2):                # role statistics on more ordinary play
         hud.step(obs)
-        obs, over = env.step(int(rng.integers(env.n_actions)))
+        obs, over = env.step(pick())
         if over:
             obs = env.reset(); hud.reset_tracking()
     roles = hud.assign_roles()
@@ -52,7 +58,7 @@ def run(game, seed, fit_steps=20000, test_steps=20000):
         for i in hud.step(obs):
             if i in roles:
                 ev[roles[i]].append(t)
-        obs, over = env.step(int(rng.integers(env.n_actions)))
+        obs, over = env.step(pick())
         s, l = env.true_score(), env.lives()
         if s > last_s:
             true_score.append(t + 1)
@@ -74,11 +80,12 @@ def run(game, seed, fit_steps=20000, test_steps=20000):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--games", nargs="+", default=["breakout", "space_invaders", "freeway", "pong"])
+    ap.add_argument("--repeat", type=float, default=0.0)
     ap.add_argument("--out", default="craft_v6_out/v71_slice_hud.json")
     a = ap.parse_args()
     res = []
     for g in a.games:
-        r = run(g, 0)
+        r = run(g, 0, repeat=a.repeat)
         res.append(r)
         print(f"\n{g}: {len(r['regions'])} regions {r['regions']} states {r['states']} roles {r['roles']}")
         print(f"   score: {r['score_events']} events vs {r['true_score_events']} true | precision {r['score_prec']} recall {r['score_rec']}")

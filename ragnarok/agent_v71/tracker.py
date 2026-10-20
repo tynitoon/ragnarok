@@ -27,19 +27,25 @@ class MeTracker:
                 self.size = float((lab == l).sum())
         self.miss = 0
 
-    def update(self, frame):
+    def update(self, frame, win=28):
+        """Search only a window around the last position (me moves a few px per step)."""
         if self.pos is None:
             return None
-        fg = (frame != self.bg).any(-1)
+        H, W = frame.shape[:2]
+        x0, x1 = max(0, int(self.pos[0]) - win), min(W, int(self.pos[0]) + win + 1)
+        y0, y1 = max(0, int(self.pos[1]) - win), min(H, int(self.pos[1]) + win + 1)
+        fg = (frame[y0:y1, x0:x1] != self.bg[y0:y1, x0:x1]).any(-1)
         lab, n = ndimage.label(fg)
         if n == 0:
             self.miss += 1
             return None
-        idx = np.arange(1, n + 1)
-        com = ndimage.center_of_mass(fg, lab, idx)
-        sizes = ndimage.sum(fg, lab, idx)
+        objs = ndimage.find_objects(lab)
         best, bd = None, 1e9
-        for (cy, cx), s in zip(com, sizes):
+        for i, sl in enumerate(objs):
+            m = lab[sl] == (i + 1)
+            s = float(m.sum())
+            ys, xs = np.nonzero(m)
+            cy, cx = ys.mean() + sl[0].start + y0, xs.mean() + sl[1].start + x0
             d = abs(cx - self.pos[0]) + abs(cy - self.pos[1])
             if self.size:
                 d += 4.0 * abs(np.log((s + 1) / (self.size + 1)))

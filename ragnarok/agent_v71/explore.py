@@ -58,7 +58,7 @@ def explore_me(env, perc, iters, rng, steps=100, repeat=0.95, refit_every=200, l
     arch.add(me_cell(me, perc.hud_key(obs), obs.shape), env.clone(), 0, 0)
     arch.cells[next(iter(arch.cells))]["frame"] = (obs, me)
     for it in range(iters):
-        if it and it % refit_every == 0:
+        if refit_every and it and it % refit_every == 0:
             perc.refit_counters(arch)
             old = arch.cells
             arch = Archive()
