@@ -24,6 +24,7 @@ class Perceiver:
         self.probes = []
         self.counters = None
         self._reader = None
+        self.roles = {}
 
     def background(self):
         m = self.ref._mode

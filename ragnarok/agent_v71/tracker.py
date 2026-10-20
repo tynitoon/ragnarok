@@ -58,6 +58,28 @@ class MeTracker:
         self.miss = 0
         return self.pos
 
+    def reacquire(self, frame):
+        """Live mode (no savestates): search the whole frame for the component whose size best
+        matches the learned size of me, nearest to the last known position."""
+        if self.size is None:
+            return None
+        fg = (frame != self.bg).any(-1)
+        lab, n = ndimage.label(fg)
+        best, bd = None, 1e9
+        for i, sl in enumerate(ndimage.find_objects(lab)):
+            m = lab[sl] == (i + 1)
+            s = float(m.sum())
+            ys, xs = np.nonzero(m)
+            cy, cx = ys.mean() + sl[0].start, xs.mean() + sl[1].start
+            d = 40.0 * abs(np.log((s + 1) / (self.size + 1)))
+            if self.pos is not None:
+                d += 0.1 * (abs(cx - self.pos[0]) + abs(cy - self.pos[1]))
+            if d < bd:
+                best, bd = (cx, cy), d
+        if best is not None and bd < 30:
+            self.pos, self.miss = best, 0
+        return self.pos
+
     @property
     def lost(self):
         return self.pos is None or self.miss >= self.lost_after

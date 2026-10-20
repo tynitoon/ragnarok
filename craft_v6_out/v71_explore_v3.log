@@ -1,0 +1,4 @@
+   counters: {'score': (5, 13, 49, 55)}
+freeway: 1351816 frames | explorer best score 13.0 cells 2677 | random best 12.0 cells 2 | 904.0s
+   counters: {'lives': (5, 15, 100, 112), 'score': (5, 15, 68, 80)}
+breakout: 1350324 frames | explorer best score 14.0 cells 913 | random best 8.0 cells 50 | 718.0s

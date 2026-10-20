@@ -60,6 +60,10 @@ def main():
         arch = explore_me(env, perc, a.iters, rng, refit_every=0,
                           log=lambda it, n, r: print(f"   it {it}: {n} cells, {r} counter regions, best {best_score(env, None) if False else ''}", flush=True))
         bs = best_score(env, arch)
+        top = max(arch.cells.values(), key=lambda c: (c["events"], -c["depth"]))
+        json.dump(dict(game=g, seed=a.seed, events=top["events"], depth=top["depth"], true_score=top["state"][3],
+                       traj=list(top.get("traj", b"")), counters=perc.roles),
+                  open(f"craft_v6_out/v71_demo_{g}.json", "w"))
         frames = env.frames
         rb, rc = random_play(g, a.seed, frames)
         r = dict(game=g, frames=frames, explorer_best=bs, explorer_cells=len(arch.cells),

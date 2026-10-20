@@ -31,9 +31,13 @@ class Archive:
             c.update(state=state, depth=depth, events=events)
         return False
 
-    def choose(self, rng):
+    def choose(self, rng, score_bias=4.0):
+        """Novelty (1/sqrt(times chosen)) times a score drive: cells at the best score so far are
+        preferred by `score_bias` (G2, active once the reader found a score counter)."""
         keys = list(self.cells)
-        w = np.array([1.0 / np.sqrt(self.cells[k]["chosen"] + 1) for k in keys])
+        best = max(c["events"] for c in self.cells.values())
+        w = np.array([(score_bias if self.cells[k]["events"] == best and best > 0 else 1.0) /
+                      np.sqrt(self.cells[k]["chosen"] + 1) for k in keys])
         k = keys[int(rng.choice(len(keys), p=w / w.sum()))]
         self.cells[k]["chosen"] += 1
         return k
@@ -56,7 +60,9 @@ def explore_me(env, perc, iters, rng, steps=100, repeat=0.95, refit_every=200, l
     perc.tracker.pos = None
     me = perc.locate(env, obs)
     arch.add(me_cell(me, perc.hud_key(obs), obs.shape), env.clone(), 0, 0)
-    arch.cells[next(iter(arch.cells))]["frame"] = (obs, me)
+    first = arch.cells[next(iter(arch.cells))]
+    first["frame"] = (obs, me)
+    first["traj"] = b""                         # actions from reset: the demonstration to this cell
     for it in range(iters):
         if refit_every and it and it % refit_every == 0:
             perc.refit_counters(arch)
@@ -76,24 +82,35 @@ def explore_me(env, perc, iters, rng, steps=100, repeat=0.95, refit_every=200, l
         perc.hud.reset_tracking()               # monotonicity is judged within one rollout
         perc.tracker.pos = c["frame"][1]
         perc.tracker.miss = 0
-        depth = c["depth"]
+        depth, events = c["depth"], c["events"]
+        traj = bytearray(c.get("traj", b""))
+        s_idx = perc.counters.index(perc.roles["score"]) if perc.roles.get("score") in (perc.counters or []) else None
+        l_idx = perc.counters.index(perc.roles["lives"]) if perc.roles.get("lives") in (perc.counters or []) else None
         a = int(rng.integers(env.n_actions))
         for _ in range(steps):
             if rng.random() > repeat:
                 a = int(rng.integers(env.n_actions))
             obs, over = env.step(a)
+            traj.append(a)
             perc.observe(obs)
             depth += 1
             if over:
                 break
             me = perc.locate(env, obs)
             hk = perc.hud_key(obs)
-            perc.hud.step(obs)
+            ev = perc.hud.step(obs)
+            if s_idx is not None and s_idx in ev:
+                events += 1
+            if l_idx is not None and l_idx in ev:          # a death ends the rollout (G1 veto)
+                break
             key = me_cell(me, hk, obs.shape)
             cc = arch.cells.get(key)
-            if cc is None or depth < cc["depth"]:          # clone only when the cell needs it
-                arch.add(key, env.clone(), depth, 0)
+            if cc is None or events > cc["events"] or (events == cc["events"] and depth < cc["depth"]):
+                if cc is not None:
+                    del arch.cells[key]
+                arch.add(key, env.clone(), depth, events)
                 arch.cells[key]["frame"] = (obs, me)
+                arch.cells[key]["traj"] = bytes(traj)
             else:
                 cc["visits"] += 1
     return arch

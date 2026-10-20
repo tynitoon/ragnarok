@@ -1,0 +1,68 @@
+"""The live policy: what to press, from an egocentric view of what is not background.
+
+Input (agent-side only): a W x W window centred on me of the foreground mask (pixels that differ
+from the agent's own background estimate) for the current and the previous step, downsampled by 2,
+plus my normalised position. No colours, no sprite identities, no RAM, no score value.
+Trained only by self-imitation: (i) the explorer's own demonstration, (ii) the policy's own
+rollouts that produced a score event (hindsight on achieved events, commanded goal = score-up).
+"""
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+WIN = 64
+
+
+def ego_view(obs, bg, me, prev_fg=None):
+    fg = (obs != bg).any(-1).astype(np.float32)
+    H, W = fg.shape
+    x, y = (W / 2, H / 2) if me is None else (int(me[0]), int(me[1]))
+    pad = WIN // 2
+    big = np.zeros((H + 2 * pad, W + 2 * pad), np.float32)
+    big[pad:pad + H, pad:pad + W] = fg
+    crop = big[y:y + WIN, x:x + WIN]
+    crop = crop.reshape(WIN // 2, 2, WIN // 2, 2).max((1, 3))
+    prev = prev_fg if prev_fg is not None else crop
+    pos = np.array([x / W, y / H], np.float32)
+    return np.stack([crop, prev]), pos, crop
+
+
+class PolicyNet(nn.Module):
+    def __init__(self, n_actions):
+        super().__init__()
+        self.conv = nn.Sequential(nn.Conv2d(2, 16, 5, 2, 2), nn.ReLU(), nn.Conv2d(16, 32, 3, 2, 1), nn.ReLU(),
+                                  nn.Conv2d(32, 32, 3, 2, 1), nn.ReLU())
+        self.head = nn.Sequential(nn.Linear(32 * 4 * 4 + 2, 128), nn.ReLU(), nn.Linear(128, n_actions))
+
+    def forward(self, img, pos):
+        z = self.conv(img).flatten(1)
+        return self.head(torch.cat([z, pos], 1))
+
+
+class Policy:
+    def __init__(self, n_actions, device="cuda" if torch.cuda.is_available() else "cpu", lr=3e-4):
+        self.net = PolicyNet(n_actions).to(device)
+        self.opt = torch.optim.Adam(self.net.parameters(), lr=lr)
+        self.device = device
+        self.n_actions = n_actions
+
+    @torch.no_grad()
+    def act(self, img, pos, rng, temp=1.0, eps=0.02):
+        if rng.random() < eps:
+            return int(rng.integers(self.n_actions))
+        lo = self.net(torch.from_numpy(img)[None].to(self.device), torch.from_numpy(pos)[None].to(self.device))
+        p = F.softmax(lo[0] / temp, -1).cpu().numpy()
+        return int(rng.choice(self.n_actions, p=p / p.sum()))
+
+    def fit(self, imgs, poss, acts, steps=300, bs=256):
+        I = torch.from_numpy(np.asarray(imgs)).to(self.device)
+        P = torch.from_numpy(np.asarray(poss)).to(self.device)
+        A = torch.from_numpy(np.asarray(acts, np.int64)).to(self.device)
+        n = len(A)
+        loss = None
+        for _ in range(steps):
+            idx = torch.randint(0, n, (min(bs, n),), device=self.device)
+            loss = F.cross_entropy(self.net(I[idx], P[idx]), A[idx])
+            self.opt.zero_grad(); loss.backward(); self.opt.step()
+        return float(loss)
