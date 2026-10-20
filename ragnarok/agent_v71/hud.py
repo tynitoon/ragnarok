@@ -47,17 +47,18 @@ class CounterFinder:
                     self.bins[b] += pers
         self.t += 1
 
-    def fit(self, max_rate=0.03, min_px=4, max_area=0.05, corr_min=0.3, pix_corr_min=0.3):
+    def fit(self, max_rate=0.03, min_px=4, max_area=0.05, corr_min=0.3, pix_corr_min=0.3, min_persist=5, min_shared=3):
         """Counter pixels: changes are rare and mostly persistent. Regions larger than
         `max_area` of the screen are playfields (bricks, invaders), not displays."""
         T = max(1, self.t)
         # only persistent changes count: a blinking digit flips often but changes value rarely
-        hud = (self.n_persist >= 2) & (self.n_persist < max_rate * T)
+        hud = (self.n_persist >= min_persist) & (self.n_persist < max_rate * T)
         H, W = hud.shape
         # Group candidate pixels that are near each other AND change at the same moments: one
         # counter's pixels change together at its events; a moving formation changes at its own
         # steps. Union-find over neighbour offsets, edge iff binned change series correlate.
         nb = min(self.bins.shape[0], T // self.bin_len + 1)
+        A = self.bins[:nb] > 0                    # bins where the pixel changed persistently
         X = self.bins[:nb].astype(np.float32)
         X -= X.mean(0, keepdims=True)
         norm = np.sqrt((X * X).sum(0)) + 1e-6
@@ -77,43 +78,74 @@ class CounterFinder:
                 if (y2, x2) not in cand:
                     continue
                 c = float((X[:, y, x] * X[:, y2, x2]).sum() / (norm[y, x] * norm[y2, x2]))
-                if c > pix_corr_min:
+                shared = int(((A[:, y, x]) & (A[:, y2, x2])).sum())
+                if c > pix_corr_min and shared >= min_shared:
                     a, b = find(y * W + x), find(y2 * W + x2)
                     if a != b:
                         parent[a] = b
         groups = {}
         for y, x in zip(ys.tolist(), xs.tolist()):
             groups.setdefault(find(y * W + x), []).append((y, x))
-        # second pass: merge groups whose boxes are within `gap` px and whose mean change series
-        # correlate (one counter's strokes split by blank columns)
-        gl = list(groups.values())
-        box = [[min(p[0] for p in g), max(p[0] for p in g) + 1, min(p[1] for p in g), max(p[1] for p in g) + 1] for g in gl]
-        ser = [X[:, [p[0] for p in g], [p[1] for p in g]].sum(1) for g in gl]
-        merged = True
-        gap = 5
-        while merged:
-            merged = False
-            for i in range(len(gl)):
-                for j in range(i + 1, len(gl)):
-                    if gl[i] is None or gl[j] is None:
-                        continue
-                    bi, bj = box[i], box[j]
-                    # same text line: rows overlap by >= half the shorter box; horizontally close
-                    ov = min(bi[1], bj[1]) - max(bi[0], bj[0])
-                    near = (ov >= 0.5 * min(bi[1] - bi[0], bj[1] - bj[0]) and
-                            bi[2] - gap < bj[3] and bj[2] - gap < bi[3])
-                    if not near:
-                        continue
-                    si, sj = ser[i], ser[j]
-                    c = float((si * sj).sum() / (np.sqrt((si * si).sum() * (sj * sj).sum()) + 1e-6))
-                    if c > corr_min:
-                        gl[i] = gl[i] + gl[j]; gl[j] = None
-                        box[i] = [min(bi[0], bj[0]), max(bi[1], bj[1]), min(bi[2], bj[2]), max(bi[3], bj[3])]
-                        ser[i] = si + sj
-                        merged = True
-        groups = {k: g for k, g in enumerate(gl) if g is not None}
-        regions = []
+        def merge_lines(gl):
+            box = [[min(p[0] for p in g), max(p[0] for p in g) + 1, min(p[1] for p in g), max(p[1] for p in g) + 1] for g in gl]
+            ser = [X[:, [p[0] for p in g], [p[1] for p in g]].sum(1) for g in gl]
+            merged = True
+            gap = 5
+            while merged:
+                merged = False
+                for i in range(len(gl)):
+                    for j in range(i + 1, len(gl)):
+                        if gl[i] is None or gl[j] is None:
+                            continue
+                        bi, bj = box[i], box[j]
+                        ov = min(bi[1], bj[1]) - max(bi[0], bj[0])
+                        near = (ov >= 0.5 * min(bi[1] - bi[0], bj[1] - bj[0]) and
+                                bi[2] - gap < bj[3] and bj[2] - gap < bi[3])
+                        if not near:
+                            continue
+                        si, sj = ser[i], ser[j]
+                        c = float((si * sj).sum() / (np.sqrt((si * si).sum() * (sj * sj).sum()) + 1e-6))
+                        if c > corr_min:
+                            gl[i] = gl[i] + gl[j]; gl[j] = None
+                            box[i] = [min(bi[0], bj[0]), max(bi[1], bj[1]), min(bi[2], bj[2]), max(bi[3], bj[3])]
+                            ser[i] = si + sj
+                            merged = True
+            return [g for g in gl if g is not None]
+
+        # second pass: merge groups on one text line whose change series correlate
+        gl = merge_lines(list(groups.values()))
+        groups = {k: g for k, g in enumerate(gl)}
+        # third pass: a group too large to be a display is split by clustering its pixels' change
+        # series (k-means), then by space within each cluster (text lines vs moving formations)
+        out_groups = []
         for pts in groups.values():
+            py = np.array([p[0] for p in pts]); px = np.array([p[1] for p in pts])
+            area = (py.max() - py.min() + 1) * (px.max() - px.min() + 1)
+            if area <= max_area * H * W:
+                out_groups.append(pts)
+                continue
+            S = X[:, py, px].T
+            S = S / (np.linalg.norm(S, axis=1, keepdims=True) + 1e-6)
+            rng = np.random.default_rng(0)
+            k = min(6, len(pts))
+            C = S[rng.choice(len(pts), k, replace=False)]
+            for _ in range(15):
+                lab = np.argmax(S @ C.T, axis=1)
+                for j in range(k):
+                    if (lab == j).any():
+                        c = S[lab == j].mean(0)
+                        C[j] = c / (np.linalg.norm(c) + 1e-6)
+            for j in range(k):
+                m = np.zeros((H, W), bool)
+                m[py[lab == j], px[lab == j]] = True
+                sl, nsl = ndimage.label(ndimage.binary_dilation(m, structure=np.ones((3, 7), bool)))
+                for kk in range(1, nsl + 1):
+                    sel = (sl == kk) & m
+                    yy, xx = np.nonzero(sel)
+                    out_groups.append(list(zip(yy.tolist(), xx.tolist())))
+        out_groups = merge_lines(out_groups)       # re-join line fragments produced by the split
+        regions = []
+        for pts in out_groups:
             py = [p[0] for p in pts]; px = [p[1] for p in pts]
             y0, y1, x0, x1 = min(py), max(py) + 1, min(px), max(px) + 1
             if len(pts) >= min_px and (y1 - y0) * (x1 - x0) <= max_area * H * W:
