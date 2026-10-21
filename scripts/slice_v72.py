@@ -15,7 +15,6 @@ import sys
 import time
 
 import numpy as np
-import torch
 
 OUT = "craft_v6_out/v72"
 EVAL_SEEDS, EVAL_GAMES = (7, 8), 10
@@ -35,10 +34,10 @@ def free_gb():
                     ("x", ctypes.c_ulonglong * 5)]
     m = M(); m.l = ctypes.sizeof(M)
     ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
-    return m.a / 2 ** 30
+    return min(m.a, m.x[1]) / 2 ** 30      # physical RAM and commit (x[1] = available page file)
 
 
-def gate(min_gb=14.0, wait_s=900):
+def gate(min_gb=14.0, wait_s=6 * 3600):
     """Do not start while less than `min_gb` is free (Tavern keeps 12 GB)."""
     t0 = time.time()
     while free_gb() < min_gb and time.time() - t0 < wait_s:
@@ -79,6 +78,7 @@ def prep(game, seed, iters=1500):
 
 
 def learn(game, seed, method):
+    import torch
     from ragnarok.agent_v71.env import AtariEnv
     from ragnarok.agent_v71.policy import Policy
     from ragnarok.agent_v71.adapter import SLOTS
@@ -122,6 +122,7 @@ def _play(game, policy_fn, seeds=EVAL_SEEDS, games=EVAL_GAMES, max_steps=7000):
 
 
 def baselines(game):
+    import torch
     from ragnarok.agent_v71.env import AtariEnv
     from ragnarok.agent_v71.policy import Policy
     from ragnarok.agent_v71.adapter import SLOTS
@@ -160,10 +161,79 @@ def baselines(game):
           + " ".join(f"{k} {v['mean']:.1f}" for k, v in res["summary"].items() if k != "constant") + f" | {res['secs']}s")
 
 
+GAMES = ["assault", "freeway", "demon_attack", "name_this_game", "carnival", "breakout"]
+CONT_GAMES = {"assault", "carnival"}
+
+
+def queue():
+    """The protocol's runs in order; each one a separate process (RAM returned between runs),
+    skipped when its output exists, so the queue can be restarted after an interruption."""
+    jobs = []
+    for g in GAMES:
+        for s in (0, 1):
+            jobs.append((f"{OUT}/prep_{g}_s{s}.json", ["prep", g, str(s)]))
+        jobs.append((f"{OUT}/baselines_{g}.json", ["baselines", g]))
+        for s in (0, 1):
+            for m in ["bri", "segments"] + (["bri_cont"] if g in CONT_GAMES else []):
+                jobs.append((f"{OUT}/learn_{g}_s{s}_{m}.json", ["learn", g, str(s), m]))
+    return jobs
+
+
+def run_all():
+    import subprocess
+    for out, args in queue():
+        if os.path.exists(out):
+            continue
+        name = "_".join(args[0:1] + args[1:])
+        print(time.strftime("%H:%M:%S"), "start", name, flush=True)
+        with open(f"{OUT}/{name}.log", "w") as f:
+            r = subprocess.run([sys.executable, "-m", "scripts.slice_v72"] + args, stdout=f, stderr=subprocess.STDOUT)
+        print(time.strftime("%H:%M:%S"), "end", name, "exit", r.returncode, flush=True)
+
+
+def summary():
+    """The protocol's criterion: pooled method mean (2 training seeds x 20 games) vs best constant
+    button (20 games), beaten when delta > 2 * sqrt(se_m^2 + se_c^2)."""
+    rows, wins = [], {}
+    for g in GAMES:
+        p = f"{OUT}/baselines_{g}.json"
+        if not os.path.exists(p):
+            continue
+        B = json.load(open(p))
+        bc = B["best_constant"]
+        line = dict(game=g, best_constant=bc["button"], const=round(bc["mean"], 1), const_se=round(bc["se"], 1),
+                    **{k: round(v["mean"], 1) for k, v in B["summary"].items() if k != "constant"})
+        for m in METHODS:
+            vals = []
+            for s in (0, 1):
+                q = f"{OUT}/learn_{g}_s{s}_{m}.json"
+                if os.path.exists(q):
+                    R = json.load(open(q))
+                    vals += [x for v in R["live"].values() for x in v]
+            if not vals:
+                continue
+            mu, se = float(np.mean(vals)), float(np.std(vals, ddof=1) / np.sqrt(len(vals)))
+            d = mu - bc["mean"]
+            beat = d > 2 * np.sqrt(se ** 2 + bc["se"] ** 2)
+            line[m] = f"{mu:.1f}±{se:.1f} (n={len(vals)}){' BEATS' if beat else ''}"
+            wins.setdefault(m, []).append(g) if beat else None
+        rows.append(line)
+    for r in rows:
+        print(r)
+    print("games where the method beats the best constant button:", wins)
+    json.dump(dict(rows=rows, wins=wins), open(f"{OUT}/summary.json", "w"), indent=1)
+
+
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    gate()
     cmd = sys.argv[1]
+    if cmd == "all":
+        run_all()
+        sys.exit(0)
+    if cmd == "summary":
+        summary()
+        sys.exit(0)
+    gate()
     if cmd == "prep":
         prep(sys.argv[2], int(sys.argv[3]))
     elif cmd == "learn":

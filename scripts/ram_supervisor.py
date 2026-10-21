@@ -1,10 +1,14 @@
 """RAM supervisor: keep >= 12 GB free for the other project (Tavern) sharing this machine.
 
-Every few seconds: if available RAM < LOW (12 GB), SUSPEND the largest Ragnarok process and trim
-its working set (its pages go to the pagefile, physical RAM is returned to the system); repeat
-until available RAM >= LOW or nothing is left to suspend. When available RAM > HIGH (14 GB),
-RESUME suspended processes one at a time, oldest first, waiting between resumes. Work is paused,
-never lost. Nothing is installed: Windows APIs through ctypes, process listing through PowerShell.
+Two limits are watched (21 Oct 2026: on this machine the binding one is the COMMIT limit, 35.2 GB
+for 32 GB of RAM with a small pagefile; suspending a process returns its physical pages but NOT its
+commit charge):
+  * physical RAM: if available RAM < LOW (12 GB), SUSPEND the largest Ragnarok process and trim its
+    working set; when available RAM > HIGH (14 GB) and commit is fine, RESUME one, oldest first;
+  * commit: if available commit < CLOW (12 GB), TERMINATE the largest Ragnarok worker (a job of a
+    resumable queue: its outputs are written only at its end, the queue reruns it later); the queue
+    runners themselves are small and wait in their launch gates.
+Nothing is installed: Windows APIs through ctypes, process listing through PowerShell.
 
 A process is "Ragnarok" iff it is python.exe, never mentions "tavern", and EITHER descends from
 this project's Claude Code session process (the claude.exe ancestor of the supervisor, or --root)
@@ -43,11 +47,16 @@ class MEMORYSTATUSEX(ctypes.Structure):
                 ("ullAvailVirtual", ctypes.c_ulonglong), ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
 
 
-def available_gb():
+def memory_gb():
+    """(available physical RAM, available commit) in GB."""
     m = MEMORYSTATUSEX()
     m.dwLength = ctypes.sizeof(MEMORYSTATUSEX)
     k32.GlobalMemoryStatusEx(ctypes.byref(m))
-    return m.ullAvailPhys / GB
+    return m.ullAvailPhys / GB, m.ullAvailPageFile / GB
+
+
+def available_gb():
+    return memory_gb()[0]
 
 
 def processes():
@@ -174,10 +183,19 @@ def resume(pid):
     return _call(pid, lambda h: ntdll.NtResumeProcess(h) == 0, PROCESS_SUSPEND_RESUME)
 
 
+def terminate(pid):
+    return _call(pid, lambda h: bool(k32.TerminateProcess(h, 3)), 0x0001)
+
+
+WORKER = (" learn ", " prep ", " baselines ", "collect_q", "offline_")   # jobs, not queue runners
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--low", type=float, default=12.0)
     ap.add_argument("--high", type=float, default=14.0)
+    ap.add_argument("--clow", type=float, default=12.0, help="available commit floor (GB)")
+    ap.add_argument("--chigh", type=float, default=14.0)
     ap.add_argument("--period", type=float, default=5.0)
     ap.add_argument("--resume-gap", type=float, default=45.0)
     ap.add_argument("--root", type=int, default=0, help="Claude Code session PID (default: auto, own ancestor)")
@@ -195,9 +213,20 @@ def main():
     log = open("craft_v6_out/ram_supervisor.log", "a", buffering=1, encoding="utf-8")
     suspended = []                       # [(pid, t_suspended, rss_gb, cmd)] oldest first
     last_resume = 0.0
-    log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} start low={a.low} high={a.high} root={root}\n")
+    log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} start low={a.low} high={a.high} clow={a.clow} chigh={a.chigh} root={root}\n")
     while True:
-        avail = available_gb()
+        avail, commit = memory_gb()
+        if commit < a.clow:
+            procs = ragnarok_set(processes(), root)
+            work = sorted([p for p in procs if any(w in p["cmd"] + " " for w in WORKER)], key=lambda p: -p["rss_gb"])
+            if work:
+                p = work[0]
+                if terminate(p["pid"]):
+                    suspended = [x for x in suspended if x[0] != p["pid"]]
+                    log.write(f"{time.strftime('%H:%M:%S')} commit {commit:.1f} GB < {a.clow}: TERMINATE {p['pid']} "
+                              f"{p['cmd'][:100]}\n")
+                    time.sleep(3)
+                    continue
         if avail < a.low:
             procs = ragnarok_set(processes(), root)
             alive = {p["pid"] for p in procs}
@@ -212,13 +241,14 @@ def main():
                               f"({p['rss_gb']:.2f} GB) {p['cmd'][:100]}\n")
                     time.sleep(2)
                     continue
-        elif suspended and avail > a.high and time.time() - last_resume > a.resume_gap:
+        elif suspended and avail > a.high and commit > a.chigh and time.time() - last_resume > a.resume_gap:
             pid = suspended[0][0]
             resume(pid)
             suspended.pop(0)
             last_resume = time.time()
             log.write(f"{time.strftime('%H:%M:%S')} avail {avail:.1f} GB > {a.high}: RESUME {pid}\n")
         json.dump(dict(time=time.strftime("%Y-%m-%d %H:%M:%S"), available_gb=round(avail, 2),
+                       commit_available_gb=round(commit, 2),
                        suspended=[dict(pid=s[0], since=round(time.time() - s[1]), rss_gb=round(s[2], 2), cmd=s[3])
                                   for s in suspended]),
                   open("craft_v6_out/ram_supervisor_status.json", "w"), indent=1)

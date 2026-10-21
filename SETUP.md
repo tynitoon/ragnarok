@@ -121,12 +121,21 @@ Perception scripts (`scripts/slice_*_v71.py`) also run in `.venv-arc4`.
 Another project (Tavern) shares this 32 GB machine and needs >= 12 GB of free RAM at all times.
 `scripts/ram_supervisor.py` runs detached while Ragnarok experiments run: below 12 GB available it
 SUSPENDS the largest Ragnarok python process and trims its working set; above 14 GB it resumes
-suspended processes one at a time. Work is paused, never killed. A process is Ragnarok iff it
-descends from this project's Claude Code session, or its command line or current directory names
-the repository / the session scratch area; anything mentioning "tavern" is never touched.
+suspended processes one at a time. A process is Ragnarok iff it descends from this project's Claude
+Code session, or its command line or current directory names the repository / the session scratch
+area; anything mentioning "tavern" is never touched.
+
+**Commit, not physical RAM, is the binding limit on this machine** (Tavern session, 21 Oct): the
+pagefile is small (commit limit 35.2 GB for 32 GB of RAM) and a suspended process keeps its commit
+charge. The supervisor therefore also watches available commit: below 12 GB it TERMINATES the
+largest Ragnarok worker job (`learn`/`prep`/`baselines`/collectors; queues rerun unfinished jobs,
+whose outputs are written only at their end). Launch gates (`slice_v72`, `slice_v74`) wait for
+>= 14 GB of BOTH physical RAM and commit, and queue runners no longer import torch (it held ~1.1 GB
+of commit per idle runner). A larger pagefile (a Windows setting, Jérémie's call) would remove most
+of the clash.
 
 ```powershell
 C:/Python314/python.exe scripts/ram_supervisor.py --dry      # show the classification once
-C:/Python314/python.exe scripts/ram_supervisor.py --low 12 --high 14
+C:/Python314/python.exe scripts/ram_supervisor.py --low 12 --high 14 --clow 12 --chigh 14
 ```
 Log: `craft_v6_out/ram_supervisor.log`; status: `craft_v6_out/ram_supervisor_status.json`.
