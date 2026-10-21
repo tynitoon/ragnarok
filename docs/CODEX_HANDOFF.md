@@ -206,3 +206,13 @@ bouton constant sur les mêmes parties ; critère : le dépasser de plus de 2 er
   permet (un processus à la fois).
 - Ressources : superviseur RAM actif ; entre 13 h 47 et au moins 14 h 45, tous les calculs Ragnarok
   sont restés suspendus (Tavern) ; les gardes de lancement attendent désormais au lieu de sauter.
+
+### Reprise après le redémarrage du PC (21 octobre, ~17 h)
+Tous les calculs étaient arrêtés (demande de Tavern) ; rien n'est perdu, les files reprennent sur
+leurs sorties. Jérémie a agrandi le fichier d'échange (la limite était la mémoire réservée). Ordre
+de relance (depuis chaque copie, en arrière-plan ; skill `ragnarok-run`) :
+1. superviseur : `C:/Python314/python.exe scripts/ram_supervisor.py --low 12 --high 14 --clow 12 --chigh 14` (dans `F:/dev/ragnarok`) ;
+2. v80, nouvelle voie (agent qui se fait une théorie du jeu) : `python -m scripts.run_v80_dev freeway assault` dans `F:/dev/ragnarok_v80` (conception `docs/ARC4_V80_DESIGN.md`, revue appliquée) ;
+3. v74 figée : `python -m scripts.slice_v74 all 0/2` et `all 1/2` dans `F:/dev/ragnarok_v74` ;
+4. v72 : `python -m scripts.slice_v72 all` dans `F:/dev/ragnarok` (trous : Carnival, Breakout).
+Toutes les gardes attendent 14 Go de RAM ET de mémoire réservée ; au plus 2-3 processus à la fois.
