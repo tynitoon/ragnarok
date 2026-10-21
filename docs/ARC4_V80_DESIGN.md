@@ -113,3 +113,27 @@ Milestone 2 : le scientifique choisit ses expériences (racines où sa théorie 
 tests de contact ciblés) au lieu de racines uniformes — mesuré contre le tirage uniforme à images
 égales. Milestone 3 : bibliothèque de fragments de règles (longueur de description minimale) et
 expérience de transfert.
+
+## 8. Revue du code avant le premier lancement (21 octobre) et écarts du milestone 1
+Revue contradictoire (`wf_a6de8661-f12`, 4 angles, sceptiques) : 3 défauts invalidants corrigés
+avant tout calcul (l'image de départ passait deux fois dans le suivi : vitesses nulles ; image
+précédente fausse pour le réflexe de comparaison ; vérité évaluateur arrêtée à la mort), et des
+défauts majeurs corrigés (naissances sans vitesse ; issue d'un contact retirée à chaque pas ;
+futurs non appariés entre boutons ; feuille de valeur sans les morts ; intervalles non regroupés
+par trajectoire ; référence climatologique prise sur l'entraînement ; branches censurées comptées
+comme survivantes ; tirs « à moi » définis par type au lieu de par objet ; délai de recharge
+calculé à travers les racines ; règle de mouvement choisie sur les mêmes données).
+Fenêtres du contrôle des étiquettes déclarées maintenant : mort juste si la RAM montre une vie
+perdue ou une fin de partie dans [t−8, t+60] ; point juste si le vrai score monte dans [t−4, t+4] ;
+au moins 20 étiquettes, sur le test ET sur un échantillon de 60 racines d'entraînement.
+« D'accord » dans la règle de décision : particule appariée au moins aussi bonne que la base (≥).
+Écarts au §3 assumés pour le milestone 1 (à noter dans tout résultat) : issues de contact
+{mort, point, disparaît, je suis déplacé, rien} (pas de « rebond ») ; mouvements {immobile, vitesse
+constante, rebouclage, rebond aux bords, vers moi} (pas d'accélération ni de marche) ; pas de
+parents de naissance, pas de répartition du blâme pour les morts inexpliquées, pas de signature
+à 16 nombres (milestone 3) ; choix de règle par erreur médiane à 8 pas sur la seconde moitié des
+traces (au lieu de la vraisemblance de Laplace). G0 Assault n'a pas de juge RAM : il est jugé
+contre le suivi de l'agent lui-même (dit dans le résultat). Le réflexe de comparaison (conv_q)
+garde l'entrée v74, dont la vue globale ne voit pas la jauge d'Assault (dit dans le résultat).
+Graines : les caches de développement sont refaits en graine 98 ; le collecteur refuse toute
+autre graine hors protocole figé.

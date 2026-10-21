@@ -126,3 +126,70 @@ def test_imagination_dodges_the_bomb():
                      [2, 80, 140, 0, 2, 16, 222, 78, 138, 82, 142, 0]], float)
     c, V = decide(th, Scene(th, rows, np.array([80.0, 180.0])), np.random.default_rng(0), K=16, hold=8, horizon=24)
     assert c in (1, 2), f"a bomb straight above: move away, got {c} {[(s, V[s].mean()) for s in V]}"
+
+
+class _Env:
+    """A deterministic stub emulator: one red square moving right 3 px per step."""
+
+    def __init__(self):
+        self.t, self.frames = 0, 0
+
+    def _img(self):
+        return _frame([(10 + 3 * self.t, 60, 4, 4, (200, 50, 50))])
+
+    def clone(self):
+        return self.t
+
+    def restore(self, s):
+        self.t = s
+        self.frames += 60
+
+    def obs(self):
+        return self._img()
+
+    def step(self, a):
+        self.t += 1
+        self.frames += 4
+        return self._img(), False
+
+
+class _Agent:
+    class _P:
+        class _T:
+            pos, miss = None, 0
+        tracker = _T()
+        bg = np.zeros((210, 160, 3), np.uint8)
+        counters = []
+
+    def __init__(self):
+        self.perc = self._P()
+        self.gone, self.s_idx = 0, None
+        self.mask = np.array([True, True])
+
+        class _A:
+            @staticmethod
+            def to_button(s):
+                return int(s)
+        self.adapter = _A()
+
+    def _track(self, obs):
+        return (100.0, 180.0)
+
+    def _dead(self, ev):
+        return False
+
+
+def test_branch_first_step_keeps_real_velocity():
+    """Review v80 item 1: the root frame must enter the object tracker exactly once."""
+    from ragnarok.agent_v80 import lab
+    from ragnarok.agent_v71.hud import HudReader
+    ag, env = _Agent(), _Env()
+    parser = lab.make_parser(ag)
+    obs = env.obs()
+    states = [(env.clone(), None, None, obs, HudReader([]), 0)]
+    roots = lab.roots_from(ag, env, states, 0, np.random.default_rng(0), parser, n_roll=1, length=20, mix=0.0)
+    assert roots
+    tr = lab.trace(ag, env, roots[0], 1, 0, parser, hold=2, horizon=2)
+    row = tr["objs"][0][tr["objs"][0][:, 0] >= 0][0]
+    vx = row[lab.COLS.index("vx")]
+    assert abs(vx - 3.0) < 1e-6, f"velocity at the root frame should be 3, got {vx}"

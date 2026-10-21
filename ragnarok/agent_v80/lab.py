@@ -12,7 +12,6 @@ import copy
 
 import numpy as np
 
-from ragnarok.agent_v71.hud import HudReader
 from ragnarok.agent_v80.objects import Parser, Tracker
 
 # one row per visible or coasting track: id cx cy vx vy area colour x0 y0 x1 y1 missed
@@ -30,26 +29,33 @@ def make_parser(ag, gauges=()):
     return Parser(ag.perc.bg, boxes=list(ag.perc.counters or []) + list(gauges))
 
 
-def roots_from(ag, env, states, base, rng, parser, n_roll=4, length=300, every=6, mix=0.15):
+def roots_from(ag, env, states, base, rng, parser, n_roll=4, length=300, every=6, mix=0.15, seen=None, rid0=0):
     """States my base policy visits, with 15 % random slots for diversity, deduplicated by screen
-    (the emulator is deterministic). Each root carries the object tracker state at that moment."""
-    perc, out, seen = ag.perc, [], set()
+    (the emulator is deterministic; pass one `seen` set across calls). Each root is
+    (savestate, my tracker position, previous screen, screen, HUD reader, vanish count, object
+    tracker, rollout id); the object tracker is snapshotted BEFORE it sees the root screen, so the
+    branch's first step gives every object its real velocity (review v80, item 1)."""
+    perc, out = ag.perc, []
+    seen = set() if seen is None else seen
     choices = np.nonzero(ag.mask)[0]
-    for _ in range(n_roll):
-        st, mpos, prev, obs, hud0, gone0 = states[int(rng.integers(len(states)))][:6]
+    for i in range(n_roll):
+        rid = rid0 + i
+        st, mpos, _, obs, hud0, gone0 = states[int(rng.integers(len(states)))][:6]
         env.restore(st)
         perc.tracker.pos, perc.tracker.miss = mpos, 0
         hud, ag.gone = copy.deepcopy(hud0), gone0
-        trk = Tracker()
+        trk, prev_obs = Tracker(), None
         for k in range(length):
-            trk.step(parser.parse(obs))
             if k % every == 0 and k >= 4:               # a few steps of tracking first: velocities
                 key = hash(obs.tobytes())
                 if key not in seen:
                     seen.add(key)
-                    out.append((env.clone(), perc.tracker.pos, prev, obs, copy.deepcopy(hud), ag.gone, copy.deepcopy(trk)))
+                    out.append((env.clone(), perc.tracker.pos, prev_obs, obs, copy.deepcopy(hud), ag.gone,
+                                copy.deepcopy(trk), rid))
+            trk.step(parser.parse(obs))
             ag._track(obs)
             slot = base if rng.random() > mix else int(rng.choice(choices))
+            prev_obs = obs
             obs, over = env.step(ag.adapter.to_button(slot))
             ev = hud.step(obs)
             if over or ag._dead(ev):
@@ -57,10 +63,17 @@ def roots_from(ag, env, states, base, rng, parser, n_roll=4, length=300, every=6
     return out
 
 
+def _me(ag, me):
+    """My position on this screen, or NaN when my tracker found me nowhere (no stale position)."""
+    if me is None or ag.perc.tracker.miss > 0:
+        return (np.nan, np.nan)
+    return (float(me[0]), float(me[1]))
+
+
 def trace(ag, env, root, slot, base, parser, hold=8, horizon=56):
     """One branch. Returns dict: objs[t] (rows at step t, before acting), me[t], slot[t], score[t],
     death[t] (outcomes of step t), over (bool), end (steps run). Frames are charged by env."""
-    st, mpos, prev, obs, hud0, gone0, trk0 = root
+    st, mpos, _, obs, hud0, gone0, trk0 = root[:7]
     env.restore(st)
     ag.perc.tracker.pos, ag.perc.tracker.miss = mpos, 0
     hud, ag.gone = copy.deepcopy(hud0), gone0
@@ -71,7 +84,7 @@ def trace(ag, env, root, slot, base, parser, hold=8, horizon=56):
         me = ag._track(obs)
         trk.step(parser.parse(obs))
         objs.append(rows(trk))
-        me_l.append((np.nan, np.nan) if me is None else (float(me[0]), float(me[1])))
+        me_l.append(_me(ag, me))
         s = slot if k < hold else base
         sl.append(s)
         obs, over = env.step(ag.adapter.to_button(s))
@@ -84,7 +97,7 @@ def trace(ag, env, root, slot, base, parser, hold=8, horizon=56):
     trk.step(parser.parse(obs))
     objs.append(rows(trk))                           # the frame after the last action
     me = ag._track(obs)
-    me_l.append((np.nan, np.nan) if me is None else (float(me[0]), float(me[1])))
+    me_l.append(_me(ag, me))
     return dict(objs=objs, me=np.array(me_l, np.float32), slot=np.array(sl, np.int16),
                 score=np.array(sc, bool), death=np.array(de, bool), over=bool(over and not any(de)),
                 end=len(sl))
@@ -108,7 +121,7 @@ def best_constant(ag, env, states, rng, parser, hold=8, horizon=56, n=16, dp=2.0
         v = []
         for s in sel:
             st, mpos, prev, obs, hud0, gone0 = s[:6]
-            v.append(branch_value(trace(ag, env, (st, mpos, prev, obs, hud0, gone0, Tracker()), int(c), int(c),
+            v.append(branch_value(trace(ag, env, (st, mpos, None, obs, hud0, gone0, Tracker()), int(c), int(c),
                                         parser, hold, horizon), dp))
         vals[int(c)] = float(np.mean(v))
     best = max(vals.values())

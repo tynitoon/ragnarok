@@ -24,7 +24,7 @@ from ragnarok.agent_v80.lab import COLS
 I = {c: i for i, c in enumerate(COLS)}
 MIN_SIGHT = 30
 MOTIONS = ("static", "cv", "cv_wrap", "cv_bounce", "toward_me")
-OUTCOMES = ("death", "score", "vanish", "nothing")
+OUTCOMES = ("death", "score", "vanish", "displaced", "nothing")
 W, H = 160, 210
 CELL = 16
 
@@ -43,6 +43,12 @@ def me_row(rows, me, radius=6.0):
     d[~vis] = 1e9
     i = int(np.argmin(d))
     return i if d[i] <= radius else None
+
+
+def type_key_of_id(tr, t, oid):
+    rows = tr["objs"][t]
+    hit = rows[rows[:, I["id"]] == oid]
+    return type_key(hit[0]) if hit.shape[0] else None
 
 
 def overlap(a, b, pad=1.0):
@@ -87,6 +93,7 @@ class Theory:
         self.births = {}         # key -> dict(rate, samples[(x, y, vx, vy)])
         self.leaf = {}           # (cx, cy, gq) -> (sum, n)
         self.leaf_mean = 0.0
+        self.displace = {}       # key -> list of my displacement after a 'displaced' contact
         self.log = []
 
     # ------------------------------------------------------------------ fitting
@@ -181,7 +188,9 @@ class Theory:
             lo, hi = float(np.min(fills)), float(np.max(fills))
             edges = np.linspace(lo, hi + 1e-6, 5)
             fb = np.clip(np.digitize(fills, edges) - 1, 0, 3)
-            risk = [float((np.sum(np.array(deaths)[fb == q]) + 0.5) / (np.sum(fb == q) + 1.0)) for q in range(4)]
+            dd = np.array(deaths)
+            p0 = float(dd.mean())                           # shrink sparse quartiles toward the overall rate
+            risk = [float((np.sum(dd[fb == q]) + 5 * p0) / (np.sum(fb == q) + 5.0)) for q in range(4)]
             self.gauges.append(dict(anchor=anchor, axis=axis, lo=lo, hi=hi, edges=edges.tolist(), risk=risk,
                                     beta={s: (float(np.mean(v)) if v else 0.0) for s, v in drift.items()}))
 
@@ -198,6 +207,18 @@ class Theory:
             out.append(best)
         return out
 
+    def is_mine_row(self, r):
+        """My shot: an object of a shot type moving like the shots my buttons spawn (same direction).
+        Enemy objects that merely look the same (e.g. falling bombs) do not qualify."""
+        k = self.key_of(r)
+        if k is None or not self.types[k].get("mine_type"):
+            return False
+        v = np.array([r[I["vx"]], r[I["vy"]]])
+        for m in self.mine.values():
+            if tuple(m["key"]) == k and float(np.dot(v, np.array(m["v"]))) > 0:
+                return True
+        return False
+
     def _is_gauge_row(self, r):
         return any(abs(r[I["x0"]] - g["anchor"][1]) <= 1 and abs(r[I["y0"]] - g["anchor"][2]) <= 1 for g in self.gauges)
 
@@ -206,8 +227,10 @@ class Theory:
         the lowest slot's by > 0.05 per step (sibling comparison: same root, different action)."""
         births = {s: [] for s in self.slots}
         steps = {s: 0 for s in self.slots}
+        branch = 0
         for sib in sibsets:
             for s, tr in sib.items():
+                branch += 1
                 seen = set(int(r[I["id"]]) for r in tr["objs"][0])
                 for t in range(1, min(hold + 1, len(tr["objs"]))):
                     steps[s] += 1
@@ -224,7 +247,7 @@ class Theory:
                                 hit = nxt[(nxt[:, I["id"]] == i) & (nxt[:, I["missed"]] == 0)]
                                 if hit.shape[0]:
                                     v = (float(hit[0, I["vx"]]), float(hit[0, I["vy"]]))
-                            births[s].append((t, r, me, v))
+                            births[s].append((t, r, me, v, branch))
                 for t in range(min(hold + 1, len(tr["objs"])), len(tr["objs"])):
                     seen |= set(int(r[I["id"]]) for r in tr["objs"][t])
         rate = {s: len(b) / max(1, steps[s]) for s, b in births.items()}
@@ -233,44 +256,62 @@ class Theory:
         for s, b in births.items():
             if rate[s] - floor <= 0.05 or not b:
                 continue
-            keys = [type_key(r) for _, r, _, _ in b]
+            keys = [type_key(r) for _, r, _, _, _ in b]
             key = max(set(keys), key=keys.count)
-            ts = sorted(t for t, _, _, _ in b)
-            vs = [v for _, _, _, v in b if v is not None]
-            gaps = np.diff(ts) if len(ts) > 1 else np.array([hold])
+            vs = [v for _, _, _, v, _ in b if v is not None]
+            gaps = self._gaps(b, hold)
             self.mine[s] = dict(rate=float(rate[s] - floor), key=list(key),
-                                off=[float(np.median([r[I["cx"]] - m[0] for _, r, m, _ in b])),
-                                     float(np.median([r[I["cy"]] - m[1] for _, r, m, _ in b]))],
+                                off=[float(np.median([r[I["cx"]] - m[0] for _, r, m, _, _ in b])),
+                                     float(np.median([r[I["cy"]] - m[1] for _, r, m, _, _ in b]))],
                                 v=[float(np.median([v[0] for v in vs])), float(np.median([v[1] for v in vs]))] if vs else [0.0, 0.0],
-                                cooldown=int(max(1, np.min(gaps[gaps > 0]) if np.any(gaps > 0) else hold)))
+                                cooldown=int(max(1, np.median(gaps[gaps > 0]) if np.any(gaps > 0) else hold)))
             if key in self.types:
-                self.types[key]["mine"] = True
+                self.types[key]["mine_type"] = True             # a shot type; enemy objects of the same look are not mine
+
+    @staticmethod
+    def _gaps(b, hold):
+        """Spawn cooldown: gaps between births WITHIN one branch (pooling across roots made it 1)."""
+        per, g = {}, []
+        for t, r, m, v, br in b:
+            per.setdefault(br, []).append(t)
+        for ts in per.values():
+            ts = sorted(ts)
+            g += np.diff(ts).tolist()
+        return np.array(g if g else [hold])
 
     def _fit_motion(self, traces, k=8):
-        """Per type, the rule with the lowest median k-step error on track segments (prequential:
-        the velocity used is the one observed at the segment start)."""
-        seg = {}
-        for tr in traces:
-            byid = {}
-            for t, rows in enumerate(tr["objs"]):
-                for r in rows:
-                    if r[I["missed"]] == 0:
-                        byid.setdefault(int(r[I["id"]]), {})[t] = r
-            for i, d in byid.items():
-                for t0, r0 in d.items():
-                    if t0 + k in d and (t0 - 1) in d:
-                        key = self.key_of(r0)
-                        if key is not None:
-                            me = tr["me"][t0 + k] if np.isfinite(tr["me"][t0 + k, 0]) else None
-                            seg.setdefault(key, []).append((r0, d[t0 + k], me))
+        """Per type, the rule with the lowest median k-step error on HELD-OUT track segments: speed
+        and bounds come from the first half of the traces, the error from the second half (the
+        velocity used is the one observed at the segment start)."""
+        def segments(trs):
+            seg = {}
+            for tr in trs:
+                byid = {}
+                for t, rows in enumerate(tr["objs"]):
+                    for r in rows:
+                        if r[I["missed"]] == 0:
+                            byid.setdefault(int(r[I["id"]]), {})[t] = r
+                for i, d in byid.items():
+                    for t0, r0 in d.items():
+                        if t0 + k in d and (t0 - 1) in d:
+                            key = self.key_of(r0)
+                            if key is not None:
+                                me = tr["me"][t0 + k] if np.isfinite(tr["me"][t0 + k, 0]) else None
+                                seg.setdefault(key, []).append((r0, d[t0 + k], me))
+            return seg
+        half = len(traces) // 2
+        fit_s, test_s = segments(traces[:half]), segments(traces[half:])
         for key, ty in self.types.items():
-            S = seg.get(key, [])
-            if len(S) < 5:
+            A, S = fit_s.get(key, []), test_s.get(key, [])
+            if len(A) < 5 or len(S) < 5:
                 ty["rule"], ty["err"] = "cv", None
+                A = A + S
+                if A:
+                    ty["speed"] = float(np.median([np.hypot(a[I["vx"]], a[I["vy"]]) for a, _, _ in A]))
                 continue
-            xs = np.array([[a[I["cx"]], a[I["cy"]]] for a, _, _ in S])
+            xs = np.array([[a[I["cx"]], a[I["cy"]]] for a, _, _ in A])
             ty["bounds"] = (float(xs[:, 0].min()), float(xs[:, 0].max()), float(xs[:, 1].min()), float(xs[:, 1].max()))
-            ty["speed"] = float(np.median([np.hypot(a[I["vx"]], a[I["vy"]]) for a, _, _ in S]))
+            ty["speed"] = float(np.median([np.hypot(a[I["vx"]], a[I["vy"]]) for a, _, _ in A]))
             errs = {}
             for rule in MOTIONS:
                 e = []
@@ -281,15 +322,17 @@ class Theory:
                 errs[rule] = float(np.median(e))
             ty["rule"] = min(MOTIONS, key=lambda m: (errs[m], MOTIONS.index(m)))
             ty["err"] = errs
-            ty["w"] = float(np.median([a[I["x1"]] - a[I["x0"]] for a, _, _ in S]))
-            ty["h"] = float(np.median([a[I["y1"]] - a[I["y0"]] for a, _, _ in S]))
+            ty["w"] = float(np.median([a[I["x1"]] - a[I["x0"]] for a, _, _ in A + S]))
+            ty["h"] = float(np.median([a[I["y1"]] - a[I["y0"]] for a, _, _ in A + S]))
 
     def _fit_contacts(self, sibsets, hold, window=3):
         """Outcome after a contact, per type. A contact within the causal cone (the first
         hold+window steps of a branch, near me) whose occurrence differs between sibling branches
         is an intervention; any other contact is an observation."""
-        self.contacts = {k: {"me": {"int": np.zeros(4), "obs": np.zeros(4)},
-                             "mine": {"int": np.zeros(4), "obs": np.zeros(4)}} for k in self.types}
+        no = len(OUTCOMES)
+        self.displace = {}
+        self.contacts = {k: {"me": {"int": np.zeros(no), "obs": np.zeros(no)},
+                             "mine": {"int": np.zeros(no), "obs": np.zeros(no)}} for k in self.types}
         for sib in sibsets:
             touched = {}
             for s, tr in sib.items():
@@ -309,9 +352,8 @@ class Theory:
         for t in range(n - 1):
             rows = tr["objs"][t]
             km = me_row(rows, tr["me"][t])
-            for r in rows:                                  # my shots: objects of a spawned type near me at birth
-                k = self.key_of(r)
-                if k is not None and self.types[k].get("mine"):
+            for r in rows:                                  # my shots, by their motion (is_mine_row)
+                if r[I["missed"]] == 0 and self.is_mine_row(r):
                     mine_ids.add(int(r[I["id"]]))
             if km is not None:
                 mb = rows[km, I["x0"]:I["y1"] + 1]
@@ -344,34 +386,59 @@ class Theory:
             return "death"
         if tr["score"][t:end].any():
             return "score"
+        if not mine:                                     # moved against my own card for this slot
+            me = tr["me"]
+            if t + window < len(me) and np.isfinite(me[t, 0]) and np.isfinite(me[t + window, 0]):
+                s = int(tr["slot"][t]) if t < len(tr["slot"]) else self.base
+                dx, dy = self.me_card.get(s, (0.0, 0.0, 0.0, 0.0))[:2]
+                exp = me[t] + window * np.array([dx, dy])
+                if np.abs(me[t + window] - exp).max() > 8.0:
+                    self.displace.setdefault(type_key_of_id(tr, t, oid), []).append(me[t + window] - exp)
+                    return "displaced"
         later = [rows for rows in tr["objs"][t + 1:t + window + 2]]
         if later and all(oid not in set(int(x) for x in rows[rows[:, I["missed"]] == 0, I["id"]]) for rows in later):
             return "vanish"
         return "nothing"
 
+    def displacement(self, key):
+        v = self.displace.get(key)
+        return np.median(np.array(v), 0) if v else np.zeros(2)
+
     def contact_probs(self, key, kind):
         c = self.contacts.get(key, {}).get(kind)
         if c is None:
-            return np.array([0.0, 0.0, 0.0, 1.0])
+            p = np.zeros(len(OUTCOMES)); p[OUTCOMES.index("nothing")] = 1.0
+            return p
         n = c["int"] + c["obs"] + 0.25                  # Dirichlet(0.25) per outcome
         return n / n.sum()
 
-    def _fit_births(self, traces):
-        steps = 0
-        b = {}
+    def _fit_births(self, traces, n_keep=200):
+        """Objects appearing after the root, per type: rate per step, and (x, y, vx, vy) samples whose
+        velocity is read 2 steps after birth (a track is born with zero velocity); births never seen
+        again (debris, tracking breaks) are dropped; samples drawn across all roots."""
+        steps, b = 0, {}
         for tr in traces:
-            seen = set(int(r[I["id"]]) for r in tr["objs"][0])
-            for t in range(1, len(tr["objs"])):
+            O = tr["objs"]
+            seen = set(int(r[I["id"]]) for r in O[0])
+            for t in range(1, len(O) - 2):
                 steps += 1
-                for r in tr["objs"][t]:
+                for r in O[t]:
                     i = int(r[I["id"]])
                     if i in seen:
                         continue
                     seen.add(i)
                     k = self.key_of(r)
-                    if k is not None and not self.types[k].get("mine"):
-                        b.setdefault(k, []).append((float(r[I["cx"]]), float(r[I["cy"]]), float(r[I["vx"]]), float(r[I["vy"]])))
-        self.births = {k: dict(rate=len(v) / max(1, steps), samples=v[:200]) for k, v in b.items()}
+                    if k is None:
+                        continue
+                    nxt = O[t + 2]
+                    hit = nxt[(nxt[:, I["id"]] == i) & (nxt[:, I["missed"]] == 0)]
+                    if hit.shape[0] and not self.is_mine_row(hit[0]):   # my own shots are spawned by me
+                        b.setdefault(k, []).append((float(r[I["cx"]]), float(r[I["cy"]]),
+                                                    float(hit[0, I["vx"]]), float(hit[0, I["vy"]])))
+        rng = np.random.default_rng(0)
+        self.births = {k: dict(rate=len(v) / max(1, steps),
+                               samples=[v[j] for j in sorted(rng.choice(len(v), min(n_keep, len(v)), replace=False))])
+                       for k, v in b.items()}
 
     def cell(self, me, gq):
         return (int(me[0]) // CELL, int(me[1]) // CELL, gq)
@@ -383,10 +450,12 @@ class Theory:
         return int(np.clip(np.digitize(fills[0], np.array(g["edges"])) - 1, 0, 3))
 
     def _fit_leaf(self, traces, hold, n=32, dp=2.0):
+        self.leaf = {}
         tot = []
         for tr in traces:
             L = len(tr["score"])
-            for t in range(hold, L - n + 1):
+            last = L if tr["death"].any() else L - n + 1   # a window cut by MY death is known; `over` alone censors
+            for t in range(hold, last):
                 me = tr["me"][t]
                 if not np.isfinite(me[0]):
                     continue
@@ -409,7 +478,7 @@ class Theory:
         per-game keys only)."""
         return json.dumps(dict(
             base=self.base, me_card=self.me_card, me_bounds=self.me_bounds, mine=self.mine,
-            types={str(k): dict(n=v["n"], rule=v["rule"], speed=round(v["speed"], 2), mine=v.get("mine", False),
+            types={str(k): dict(n=v["n"], rule=v["rule"], speed=round(v["speed"], 2), shot_type=v.get("mine_type", False),
                                 contacts_me=self.contact_probs(k, "me").round(3).tolist(),
                                 contacts_mine=self.contact_probs(k, "mine").round(3).tolist())
                    for k, v in self.types.items()},

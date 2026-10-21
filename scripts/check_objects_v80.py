@@ -33,7 +33,7 @@ def run(game, steps=2000):
     obs = env.reset()
     tr = ag.perc.tracker
     tr.pos, tr.miss, ag.gone = None, 0, 0
-    a, seen, total, bad, mesteps, nobj = 0, 0, 0, 0, 0, []
+    a, seen, total, bad, mesteps, nobj, areas = 0, 0, 0, 0, 0, [], []
     for t in range(steps):
         me = ag._track(obs)
         objs = parser.parse(obs)
@@ -49,11 +49,13 @@ def run(game, steps=2000):
                 cx, cy = x + w / 2, y + h / 2
                 total += 1
                 seen += int(any(abs(v["cx"] - cx) <= 4 and abs(v["cy"] - cy) <= 4 for v in vis))
-        if game == "assault" and me is not None:
+        if game == "assault":                    # every step counts; a lost me is a bad step
             mesteps += 1
-            k = mark_me(vis, me)
-            size = tr.size or 1.0
-            if k is None or tracker.tracks[k]["area"] > 2 * size:
+            k = None if (me is None or tr.miss > 0) else mark_me(vis, me)
+            if k is not None and len(areas) < 200:
+                areas.append(tracker.tracks[k]["area"])
+            ref = float(np.median(areas)) if len(areas) >= 20 else None   # my size as the parser sees it
+            if k is None or (ref is not None and tracker.tracks[k]["area"] > 2 * ref):
                 bad += 1
         if rng.random() > 0.95:
             a = int(rng.integers(env.n_actions))
@@ -64,10 +66,12 @@ def run(game, steps=2000):
     res = dict(game=game, seed=SEED, steps=steps, objects_mean=round(float(np.mean(nobj)), 1),
                objects_max=int(np.max(nobj)), secs=round(time.perf_counter() - t0))
     if game == "freeway":
-        res.update(cars=total, seen=seen, frac=round(seen / max(1, total), 3), passed=seen / max(1, total) >= 0.9)
+        res.update(cars=total, seen=seen, frac=round(seen / max(1, total), 3), passed=seen / max(1, total) >= 0.9,
+                   note="single-frame RAM decoder vs 2-frame max-pooled screens; matches may be many-to-one")
     if game == "assault":
         res.update(me_steps=mesteps, bad=bad, bad_frac=round(bad / max(1, mesteps), 3),
-                   passed=bad / max(1, mesteps) <= 0.3)
+                   passed=bad / max(1, mesteps) <= 0.3,
+                   judge="self-referential (the v71 tracker's me); there is no Assault RAM judge")
     print(json.dumps(res), flush=True)
     json.dump(res, open(f"craft_v6_out/v80/g0_{game}.json", "w"), indent=1)
     return res

@@ -1,17 +1,21 @@
 """v80 gates G1 and G2 offline, plus the label check (docs/ARC4_V80_DESIGN.md §4; thresholds there).
 
 The theory is fitted on the agent's TRAIN traces only, then judged on the evaluator's HELD-OUT
-roots (distinct screens), with the agent's own labels; the evaluator's truth file is read only for
-the label check (precision of the agent's death and score labels against RAM).
-  label check : precision >= 0.9 for death labels (a RAM life loss or game over within +-8 steps)
-                and score labels (a true-score increase within +-4 steps); else STOP.
-  G1          : within-root death ranking (pairs of sibling slots, one dying within 32 steps, the
-                other not) >= 0.70 with lower bound > 0.5 and >= 30 pairs; Brier skill of P(death
-                within 32) against per-slot climatology >= 0.10 (lower bound > 0); same for the
-                score count within 32 (1 - MSE / MSE_climatology).
-  G2          : the real 64-step value of the theory's choice minus that of the best constant
-                deviation (chosen on train) >= +0.10 events, lower bound > 0, AND theory minus the
-                conv_q reflex trained on the same train roots >= +0.05, paired lower bound > 0.
+roots (fresh starts, distinct screens), with the agent's own labels. Every interval is a 95 %
+bootstrap over ROLLOUTS (roots of one rollout are near duplicates). Branches censored by ALE's
+game over (without the agent's own death signal) before the window ends are excluded and counted.
+  label check : declared before running: a death label at step t is right if the RAM shows a life
+                lost or game over in [t-8, t+60] (RAM may lag the screen); a score label is right if
+                the true score rises in [t-4, t+4]. Precision >= 0.9 with >= 20 labels, on held-out
+                AND on the sampled train branches; below 0.9: STOP; fewer than 20: no verdict.
+  G1 (Assault): within-root death ranking >= 0.70, lower bound > 0.5, >= 30 pairs; Brier skill of
+                P(death within 32) >= 0.10 against the HELD-OUT per-slot climatology (lower bound
+                > 0); same for the score count within 32 (1 - MSE / MSE_climatology).
+  G1 (Freeway): imagined position of the objects at k = 16 within 4 px (L-infinity, one-to-one by
+                type) for >= 80 %, and median error <= 0.8 x constant-velocity extrapolation.
+  G2          : real 64-step value of the theory's choice minus that of the best constant
+                deviation (chosen on train) >= +0.10, lower bound > 0, AND theory minus the conv_q
+                reflex trained on the same train roots >= +0.05, paired lower bound > 0.
 Usage: C:/Python314/python.exe -m scripts.theory_offline_v80 TRAIN.pkl HELDOUT.pkl [H]
 """
 import json
@@ -21,54 +25,70 @@ import time
 
 import numpy as np
 
-from ragnarok.agent_v80.imagine import Scene, decide, imagine
+from ragnarok.agent_v80.imagine import Model, Scene, decide, imagine
 from ragnarok.agent_v80.lab import branch_value
-from ragnarok.agent_v80.theory import Theory
+from ragnarok.agent_v80.theory import I, Theory, me_row, predict_motion
 
 K_EVAL = 32
+D_BEFORE, D_AFTER, S_WIN, MIN_LABELS = 8, 60, 4, 20
 
 
-def boot(v, n=2000, seed=0):
-    v = np.asarray(v, float)
-    if len(v) == 0:
-        return [float("nan"), float("nan")]
+def cboot(stat, G, n=2000, seed=1):
     rng = np.random.default_rng(seed)
-    m = [np.mean(v[rng.integers(0, len(v), len(v))]) for _ in range(n)]
+    m = []
+    for _ in range(n):
+        idx = np.concatenate([G[j] for j in rng.integers(0, len(G), len(G))])
+        x = stat(idx)
+        if np.isfinite(x):
+            m.append(x)
+    if not m:
+        return [float("nan"), float("nan")]
     return [round(float(np.percentile(m, 2.5)), 3), round(float(np.percentile(m, 97.5)), 3)]
 
 
-def label_check(H, truth):
-    dp, dn, sp, sn = 0, 0, 0, 0
-    for sib, tr_t in zip(H["sibsets"], truth["truth"]):
-        for s, tr in sib.items():
+def label_check(D, truth):
+    dp = dn = sp = sn = 0
+    for i, tr_t in zip(truth["idx"], truth["truth"]):
+        for s, tr in D["sibsets"][i].items():
             T = tr_t[s]
-            L = len(tr["death"])
             for t in np.nonzero(tr["death"])[0]:
                 dn += 1
-                lo, hi = max(0, t - 8), min(L, t + 9)
-                dp += int(T["lives_lost"][lo:hi].any() or (tr["over"] and t >= L - 9))
+                lo, hi = max(0, t - D_BEFORE), t + D_AFTER + 1
+                dp += int(T["lives_lost"][lo:hi].any() or T["game_over"][lo:hi].any())
             for t in np.nonzero(tr["score"])[0]:
                 sn += 1
-                lo, hi = max(0, t - 4), min(L, t + 5)
-                sp += int((T["score_gain"][lo:hi] > 0).any())
-    return dict(death_labels=dn, death_precision=round(dp / max(1, dn), 3),
-                score_labels=sn, score_precision=round(sp / max(1, sn), 3))
+                sp += int((T["score_gain"][max(0, t - S_WIN):t + S_WIN + 1] > 0).any())
+    f = lambda a, b: round(a / b, 3) if b else None
+    verdict = lambda p, n: None if n < MIN_LABELS else bool(p >= 0.9)
+    return dict(death_labels=dn, death_precision=f(dp, dn), death_ok=verdict(dp / max(1, dn), dn),
+                score_labels=sn, score_precision=f(sp, sn), score_ok=verdict(sp / max(1, sn), sn))
 
 
-def conv_q_gain(T, Hd, slots, const_dev, seeds=(0, 1, 2)):
-    """The reflex baseline of v74/v75 on the SAME train roots: PolicyNet regressed on the measured
-    64-step values of every slot, choosing by argmax; scored by the real held-out values."""
+def first(tr, n):
+    """(died within n, score events within n), or None when censored by `over` before n steps."""
+    if tr["over"] and tr["end"] < n:
+        return None
+    return bool(tr["death"][:n].any()), float(tr["score"][:n].sum())
+
+
+def conv_q_gain(T, Hd, const_dev, seeds=(0, 1, 2)):
+    """The reflex baseline on the SAME train roots: PolicyNet regressed on the measured 64-step
+    values of every slot, choosing by argmax. Input rebuilt exactly as offline_v75 (previous view
+    from the previous screen, centred on my previous position)."""
     from ragnarok.agent_v71.policy import ego_view
     from ragnarok.agent_v71.adapter import SLOTS
     from scripts.offline_v75 import train, choose
 
     def inputs(D):
-        I, P = [], []
-        for r in D["roots"]:
-            me = None if r["me"] is None else (float(r["me"][0]), float(r["me"][1]))
-            img, pos, _ = ego_view(r["obs"], D["bg"], me, r["prev"])
-            I.append(img.astype(np.uint8)); P.append(pos)
-        return np.stack(I), np.stack(P)
+        Im, Ps = [], []
+        for r, sib in zip(D["roots"], D["sibsets"]):
+            m = next(iter(sib.values()))["me"][0]
+            me = (float(m[0]), float(m[1])) if np.isfinite(m[0]) else None
+            pm = None if r["pme"] is None else (float(r["pme"][0]), float(r["pme"][1]))
+            pf = None if r["prev_obs"] is None else ego_view(r["prev_obs"], D["bg"], pm, None)[2]
+            img, pos, _ = ego_view(r["obs"], D["bg"], me, pf)
+            Im.append(img.astype(np.uint8)); Ps.append(pos)
+        return np.stack(Im), np.stack(Ps)
 
     def qmat(D):
         Q = np.full((len(D["sibsets"]), len(SLOTS)), np.nan, np.float32)
@@ -88,73 +108,106 @@ def conv_q_gain(T, Hd, slots, const_dev, seeds=(0, 1, 2)):
     return np.mean(vals, 0)
 
 
+def freeway_g1(th, Hd, k=16, tol=4.0):
+    from scipy.optimize import linear_sum_assignment
+    eth, ecv = [], []
+    for sib in Hd["sibsets"]:
+        tr = sib[Hd["base"]]
+        if len(tr["objs"]) <= k:
+            continue
+        A, B = tr["objs"][0], tr["objs"][k]
+        km = me_row(A, tr["me"][0])
+        for key, ty in th.types.items():
+            a = [r for j, r in enumerate(A) if j != km and r[I["missed"]] == 0 and th.key_of(r) == key and not th._is_gauge_row(r)]
+            Y = np.array([(r[I["cx"]], r[I["cy"]]) for r in B if r[I["missed"]] == 0 and th.key_of(r) == key])
+            if not a or not len(Y):
+                continue
+            Pth = np.array([predict_motion(ty["rule"], r[I["cx"]], r[I["cy"]], r[I["vx"]], r[I["vy"]], k, ty["bounds"], speed=ty["speed"]) for r in a])
+            Pcv = np.array([(r[I["cx"]] + k * r[I["vx"]], r[I["cy"]] + k * r[I["vy"]]) for r in a])
+            for P, out in ((Pth, eth), (Pcv, ecv)):
+                C = np.abs(P[:, None, :] - Y[None]).max(-1)
+                ri, ci = linear_sum_assignment(C)
+                out += C[ri, ci].tolist()
+    if not eth:
+        return dict(n=0)
+    return dict(n=len(eth), within=round(float(np.mean(np.array(eth) <= tol)), 3),
+                ratio=round(float(np.median(eth) / max(1e-9, np.median(ecv))), 3),
+                passed=bool(np.mean(np.array(eth) <= tol) >= 0.8 and np.median(eth) <= 0.8 * max(1e-9, np.median(ecv))))
+
+
 def main(train_p, held_p, H32=32):
     t0 = time.perf_counter()
     if "_truth" in train_p or "_truth" in held_p:
-        raise ValueError("pass the agent files; the truth file is found by name")
+        raise ValueError("pass the agent files; the truth files are found by name")
     T = pickle.load(open(train_p, "rb"))
     Hd = pickle.load(open(held_p, "rb"))
-    truth = pickle.load(open(held_p.replace(".pkl", "_truth.pkl"), "rb"))
     hold = T["hold"]
     slots = sorted(T["sibsets"][0])
     th = Theory(slots, T["base"]).fit(T["sibsets"], hold=hold)
-    res = dict(game=T["game"], train_roots=len(T["sibsets"]), heldout_roots=len(Hd["sibsets"]),
-               train_frames=T.get("frames"), base=T["base"], H=H32)
-    res["labels"] = label_check(Hd, truth)
     open(train_p.replace(".pkl", "_theory.json"), "w").write(th.export())
-
-    # climatology per slot on TRAIN: death within H32, score count within H32
-    def first(tr, n):
-        return bool(tr["death"][:n].any()), float(tr["score"][:n].sum())
-    clim = {s: np.mean([[*first(sib[s], H32)] for sib in T["sibsets"]], 0) for s in slots}
+    res = dict(game=T["game"], train_roots=len(T["sibsets"]), heldout_roots=len(Hd["sibsets"]),
+               train_frames=T.get("frames"), base=T["base"], H=H32,
+               labels_heldout=label_check(Hd, pickle.load(open(held_p.replace(".pkl", "_truth.pkl"), "rb"))),
+               labels_train=label_check(T, pickle.load(open(train_p.replace(".pkl", "_truth.pkl"), "rb"))))
+    rid = np.array([r["rid"] for r in Hd["roots"]])
+    G = [np.nonzero(rid == g)[0] for g in np.unique(rid)]
+    nr, k = len(Hd["sibsets"]), len(slots)
+    # held-out climatology per slot (uncensored branches)
+    clim = {}
+    for s in slots:
+        F = [first(sib[s], H32) for sib in Hd["sibsets"]]
+        F = [f for f in F if f is not None]
+        clim[s] = (np.mean([f[0] for f in F]) if F else 0.0, np.mean([f[1] for f in F]) if F else 0.0)
     rng = np.random.default_rng(0)
-    pairs, bs, bs_c, ms, ms_c = [], [], [], [], []
-    choice_gain, choice = [], []
-    q64 = lambda tr: branch_value(tr)
-    const_dev = max(slots, key=lambda c: np.mean([q64(sib[c]) - q64(sib[T["base"]]) for sib in T["sibsets"]]))
-    for sib in Hd["sibsets"]:
+    B = np.full((nr, k), np.nan); Bc = np.full((nr, k), np.nan); Mx = np.full((nr, k), np.nan); Mc = np.full((nr, k), np.nan)
+    ps, pc = np.zeros(nr), np.zeros(nr)
+    censored, no_me = 0, 0
+    const_dev = max(slots, key=lambda c: np.mean([branch_value(sib[c]) - branch_value(sib[T["base"]]) for sib in T["sibsets"]]))
+    cg = np.zeros(nr)
+    choice = []
+    for ri, sib in enumerate(Hd["sibsets"]):
         tr0 = sib[slots[0]]
         sc = Scene(th, tr0["objs"][0], tr0["me"][0])
+        no_me += int(sc.no_me)
         seeds = rng.integers(2 ** 31, size=K_EVAL)
-        pred = {}
-        for s in slots:
-            P = imagine(th, sc, s, seeds, hold=hold, horizon=H32 - hold, leaf=False)
+        md = Model(th, sc.keys)
+        pred, ys = {}, {}
+        for j, s in enumerate(slots):
+            P = imagine(th, sc, s, seeds, hold=hold, horizon=H32 - hold, leaf=False, md=md)
             pred[s] = (float(P[:, 2].mean()), float(P[:, 1].mean()))
-            y_d, y_s = first(sib[s], H32)
-            bs.append((pred[s][0] - y_d) ** 2); bs_c.append((clim[s][0] - y_d) ** 2)
-            ms.append((pred[s][1] - y_s) ** 2); ms_c.append((clim[s][1] - y_s) ** 2)
+            f = first(sib[s], H32)
+            ys[s] = f
+            if f is None:
+                censored += 1
+                continue
+            B[ri, j] = (pred[s][0] - f[0]) ** 2; Bc[ri, j] = (clim[s][0] - f[0]) ** 2
+            Mx[ri, j] = (pred[s][1] - f[1]) ** 2; Mc[ri, j] = (clim[s][1] - f[1]) ** 2
         for a in slots:
             for b in slots:
-                if a < b:
-                    da, db = first(sib[a], H32)[0], first(sib[b], H32)[0]
-                    if da != db:
-                        pa, pb = pred[a][0], pred[b][0]
-                        right = (pa > pb) if da else (pb > pa)
-                        pairs.append(1.0 if right else (0.5 if pa == pb else 0.0))
+                if a < b and ys[a] is not None and ys[b] is not None and ys[a][0] != ys[b][0]:
+                    pa, pb = pred[a][0], pred[b][0]
+                    right = (pa > pb) if ys[a][0] else (pb > pa)
+                    ps[ri] += 1.0 if right else (0.5 if pa == pb else 0.0)
+                    pc[ri] += 1
         c, _ = decide(th, sc, rng, K=16, hold=hold, horizon=H32 - hold)
         choice.append(c)
-        choice_gain.append(q64(sib[c]) - q64(sib[const_dev]))
-    bsk = 1 - np.sum(bs) / max(1e-9, np.sum(bs_c))
-    msk = 1 - np.sum(ms) / max(1e-9, np.sum(ms_c))
-    # paired bootstrap per root for the skills
-    nr = len(Hd["sibsets"])
-    k = len(slots)
-    B = np.array(bs).reshape(nr, k); Bc = np.array(bs_c).reshape(nr, k)
-    Mx = np.array(ms).reshape(nr, k); Mc = np.array(ms_c).reshape(nr, k)
-    rb = np.random.default_rng(1)
-    sk_b, sk_m = [], []
-    for _ in range(2000):
-        i = rb.integers(0, nr, nr)
-        sk_b.append(1 - B[i].sum() / max(1e-9, Bc[i].sum())); sk_m.append(1 - Mx[i].sum() / max(1e-9, Mc[i].sum()))
-    res["G1"] = dict(wrd=round(float(np.mean(pairs)), 3) if pairs else None, wrd_pairs=len(pairs), wrd_ci=boot(pairs),
-                     death_brier_skill=round(float(bsk), 3), death_ci=[round(float(np.percentile(sk_b, 2.5)), 3), round(float(np.percentile(sk_b, 97.5)), 3)],
-                     score_skill=round(float(msk), 3), score_ci=[round(float(np.percentile(sk_m, 2.5)), 3), round(float(np.percentile(sk_m, 97.5)), 3)])
-    res["G2"] = dict(const_dev=int(const_dev), gain_over_const_dev=round(float(np.mean(choice_gain)), 3),
-                     ci=boot(choice_gain), deviate=round(float(np.mean([c != T["base"] for c in choice])), 3))
-    cq = conv_q_gain(T, Hd, slots, const_dev)
-    d = np.array(choice_gain) - cq
-    res["G2"].update(conv_q_gain_over_const_dev=round(float(np.mean(cq)), 3), conv_q_ci=boot(cq),
-                     theory_minus_conv_q=round(float(np.mean(d)), 3), paired_ci=boot(d))
+        cg[ri] = branch_value(sib[c]) - branch_value(sib[const_dev])
+    skill = lambda X, Xc: (lambda s: 1 - np.nansum(X[s]) / max(1e-9, np.nansum(Xc[s])))
+    wrd = lambda s: ps[s].sum() / pc[s].sum() if pc[s].sum() else np.nan
+    allr = np.arange(nr)
+    res["G1"] = dict(wrd=round(float(wrd(allr)), 3) if pc.sum() else None, wrd_pairs=int(pc.sum()), wrd_ci=cboot(wrd, G),
+                     death_brier_skill=round(float(skill(B, Bc)(allr)), 3), death_ci=cboot(skill(B, Bc), G),
+                     score_skill=round(float(skill(Mx, Mc)(allr)), 3), score_ci=cboot(skill(Mx, Mc), G),
+                     censored_branches=censored, roots_without_me=no_me, rollouts=len(G))
+    if T["game"] == "freeway":
+        res["G1_freeway"] = freeway_g1(th, Hd)
+    cq = conv_q_gain(T, Hd, const_dev)
+    d = cg - cq
+    res["G2"] = dict(const_dev=int(const_dev), gain_over_const_dev=round(float(cg.mean()), 3), ci=cboot(lambda s: cg[s].mean(), G),
+                     deviate=round(float(np.mean([c != T["base"] for c in choice])), 3),
+                     conv_q_gain_over_const_dev=round(float(np.mean(cq)), 3), conv_q_ci=cboot(lambda s: cq[s].mean(), G),
+                     theory_minus_conv_q=round(float(np.mean(d)), 3), paired_ci=cboot(lambda s: d[s].mean(), G),
+                     note="conv_q uses the v74 input whose whole-screen view misses Assault's heat gauge (ARC4_V75_OFFLINE.md)")
     res["secs"] = round(time.perf_counter() - t0)
     print(json.dumps(res, indent=1), flush=True)
     json.dump(res, open(held_p.replace(".pkl", f"_offline_H{H32}.json"), "w"), indent=1)
