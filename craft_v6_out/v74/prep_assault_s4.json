@@ -1,0 +1,132 @@
+{
+ "game": "assault",
+ "seed": 4,
+ "demo_len": 787,
+ "demo_events": 15,
+ "demo_true_score": 315.0,
+ "frames_enter": 222976,
+ "frames_explore": 270008,
+ "slots": {
+  "0,0,0": [
+   "NOOP",
+   "FIRE"
+  ],
+  "0,0,1": [
+   "UP"
+  ],
+  "1,0,0": [
+   "RIGHT"
+  ],
+  "-1,0,0": [
+   "LEFT"
+  ],
+  "priv0": [
+   "RIGHTFIRE"
+  ],
+  "priv1": [
+   "LEFTFIRE"
+  ]
+ },
+ "adapter_info": [
+  {
+   "button": "NOOP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "FIRE",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "UP",
+   "moved_frac": 0.09,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.82,
+   "slot": "0,0,1"
+  },
+  {
+   "button": "RIGHT",
+   "moved_frac": 0.59,
+   "dx": 13.0,
+   "dy": -0.14,
+   "diff_noop": 0.59,
+   "slot": "1,0,0"
+  },
+  {
+   "button": "LEFT",
+   "moved_frac": 0.86,
+   "dx": -13.0,
+   "dy": -0.14,
+   "diff_noop": 0.86,
+   "slot": "-1,0,0"
+  },
+  {
+   "button": "RIGHTFIRE",
+   "moved_frac": 0.09,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 1.0,
+   "slot": "priv0"
+  },
+  {
+   "button": "LEFTFIRE",
+   "moved_frac": 0.09,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 1.0,
+   "slot": "priv1"
+  }
+ ],
+ "roles": {
+  "score": [
+   2,
+   10,
+   80,
+   102
+  ]
+ },
+ "death_signal": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.014,
+  "my_sizes": [
+   34.0,
+   34.0,
+   34.0,
+   34.0,
+   34.0
+  ]
+ },
+ "branch_noise": {
+  "game": "assault",
+  "seed": 4,
+  "base": "0,0,1",
+  "const_values": {
+   "0,0,0": -0.62,
+   "0,0,1": 0.81,
+   "1,0,0": -0.12,
+   "-1,0,0": -0.25,
+   "priv0": -1.75,
+   "priv1": -1.12
+  },
+  "roots": 20,
+  "K": 4,
+  "det_gain": 1.4,
+  "det_choice_true_gain": 1.175,
+  "det_choice_true_gain_when_moved": 1.958,
+  "det_moved_frac": 0.6,
+  "sto_gain_K": 1.275,
+  "agree": 0.7,
+  "sd_within": 0.375,
+  "secs": 108
+ },
+ "secs": 383
+}

@@ -1,0 +1,132 @@
+{
+ "game": "assault",
+ "seed": 5,
+ "demo_len": 828,
+ "demo_events": 19,
+ "demo_true_score": 399.0,
+ "frames_enter": 224048,
+ "frames_explore": 321712,
+ "slots": {
+  "0,0,0": [
+   "NOOP",
+   "FIRE"
+  ],
+  "0,0,1": [
+   "UP"
+  ],
+  "1,0,0": [
+   "RIGHT"
+  ],
+  "-1,0,0": [
+   "LEFT"
+  ],
+  "priv0": [
+   "RIGHTFIRE"
+  ],
+  "priv1": [
+   "LEFTFIRE"
+  ]
+ },
+ "adapter_info": [
+  {
+   "button": "NOOP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "FIRE",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "UP",
+   "moved_frac": 0.08,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.92,
+   "slot": "0,0,1"
+  },
+  {
+   "button": "RIGHT",
+   "moved_frac": 0.67,
+   "dx": 13.0,
+   "dy": -0.14,
+   "diff_noop": 0.67,
+   "slot": "1,0,0"
+  },
+  {
+   "button": "LEFT",
+   "moved_frac": 0.75,
+   "dx": -13.0,
+   "dy": -0.14,
+   "diff_noop": 0.75,
+   "slot": "-1,0,0"
+  },
+  {
+   "button": "RIGHTFIRE",
+   "moved_frac": 0.08,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.88,
+   "slot": "priv0"
+  },
+  {
+   "button": "LEFTFIRE",
+   "moved_frac": 0.08,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.88,
+   "slot": "priv1"
+  }
+ ],
+ "roles": {
+  "score": [
+   2,
+   10,
+   80,
+   102
+  ]
+ },
+ "death_signal": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.009,
+  "my_sizes": [
+   34.0,
+   34.0,
+   34.0,
+   34.0,
+   34.0
+  ]
+ },
+ "branch_noise": {
+  "game": "assault",
+  "seed": 5,
+  "base": "0,0,1",
+  "const_values": {
+   "0,0,0": -0.12,
+   "0,0,1": 2.12,
+   "1,0,0": -0.38,
+   "-1,0,0": -0.12,
+   "priv0": -0.88,
+   "priv1": -0.5
+  },
+  "roots": 20,
+  "K": 4,
+  "det_gain": 1.1,
+  "det_choice_true_gain": 1.05,
+  "det_choice_true_gain_when_moved": 2.333,
+  "det_moved_frac": 0.45,
+  "sto_gain_K": 1.062,
+  "agree": 0.8,
+  "sd_within": 0.294,
+  "secs": 117
+ },
+ "secs": 394
+}

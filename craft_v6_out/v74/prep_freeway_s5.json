@@ -1,0 +1,87 @@
+{
+ "game": "freeway",
+ "seed": 5,
+ "demo_len": 2029,
+ "demo_events": 21,
+ "demo_true_score": 21.0,
+ "frames_enter": 201792,
+ "frames_explore": 437076,
+ "slots": {
+  "0,0,0": [
+   "NOOP"
+  ],
+  "0,-1,0": [
+   "UP"
+  ],
+  "0,1,0": [
+   "DOWN"
+  ]
+ },
+ "adapter_info": [
+  {
+   "button": "NOOP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "UP",
+   "moved_frac": 1.0,
+   "dx": -0.01,
+   "dy": -7.47,
+   "diff_noop": 1.0,
+   "slot": "0,-1,0"
+  },
+  {
+   "button": "DOWN",
+   "moved_frac": 0.62,
+   "dx": 0.02,
+   "dy": 7.53,
+   "diff_noop": 0.62,
+   "slot": "0,1,0"
+  }
+ ],
+ "roles": {
+  "score": [
+   5,
+   13,
+   49,
+   55
+  ]
+ },
+ "death_signal": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.001,
+  "my_sizes": [
+   22.0,
+   22.0,
+   22.0,
+   22.0,
+   22.0
+  ]
+ },
+ "branch_noise": {
+  "game": "freeway",
+  "seed": 5,
+  "base": "0,-1,0",
+  "const_values": {
+   "0,0,0": 0.0,
+   "0,1,0": 0.0,
+   "0,-1,0": 1.38
+  },
+  "roots": 20,
+  "K": 4,
+  "det_gain": 0.35,
+  "det_choice_true_gain": 0.325,
+  "det_choice_true_gain_when_moved": 0.929,
+  "det_moved_frac": 0.35,
+  "sto_gain_K": 0.362,
+  "agree": 0.45,
+  "sd_within": 0.061,
+  "secs": 90
+ },
+ "secs": 331
+}
