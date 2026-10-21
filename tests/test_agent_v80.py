@@ -76,7 +76,7 @@ def test_counter_boxes_are_masked():
     assert len(objs) == 1 and objs[0]["cy"] > 90
 
 
-def _synthetic_traces(n_roots=40, hold=8, horizon=24):
+def _synthetic_traces(n_roots=40, hold=8, horizon=56):          # as long as real lab branches
     """A toy world: me at the bottom moving with my slot; a 'bomb' type falling at 2 px/step that
     kills me on contact; slot 1 moves me left, slot 2 right, slot 0 stays. Labels follow the rule."""
     from ragnarok.agent_v80.lab import COLS
