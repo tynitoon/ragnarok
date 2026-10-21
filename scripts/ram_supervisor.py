@@ -195,7 +195,7 @@ def main():
     log = open("craft_v6_out/ram_supervisor.log", "a", buffering=1, encoding="utf-8")
     suspended = []                       # [(pid, t_suspended, rss_gb, cmd)] oldest first
     last_resume = 0.0
-    log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} start low={a.low} high={a.high}\n")
+    log.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} start low={a.low} high={a.high} root={root}\n")
     while True:
         avail = available_gb()
         if avail < a.low:
