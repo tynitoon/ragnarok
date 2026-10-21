@@ -93,6 +93,10 @@ class Theory:
         self.births = {}         # key -> dict(rate, samples[(x, y, vx, vy)])
         self.leaf = {}           # (cx, cy, gq) -> (sum, n)
         self.leaf_mean = 0.0
+        self.me_parts = []       # looks glued to me: parts of me in colours my probes did not keep
+        self.wrap = {}           # key -> (wraps, exits): objects leaving one side reappear on the other
+        self.zones = {}          # my cell -> dict(score=p, death=p, n): events tied to a place, not a contact
+        self.relocate = {}       # "score"/"death" -> where I am put after it (x, y)
         self.displace = {}       # key -> list of my displacement after a 'displaced' contact
         self.log = []
 
@@ -104,8 +108,10 @@ class Theory:
         self._fit_gauges(traces, hold)
         self._fit_mine(sibsets, hold)
         self._fit_motion(traces)
+        self._fit_wrap(traces)
         self._fit_contacts(sibsets, hold)
         self._fit_births(traces)
+        self._fit_zones(traces)
         self._fit_leaf(traces, hold)
         return self
 
@@ -117,16 +123,27 @@ class Theory:
             keep[k] = False
         return rows[keep]
 
-    def _fit_types(self, traces):
-        cnt = {}
+    def _fit_types(self, traces, attached=0.5):
+        """Types of objects that are not me. A look that stays glued to me (its box touches mine in
+        more than `attached` of its sightings) is a part of ME in a colour my probes did not keep
+        (v80 Freeway attempt 3: a second chicken colour 'followed' me and filled the contact ledger
+        with self-contacts); such looks get no type."""
+        cnt, glued = {}, {}
         for tr in traces:
             for t in range(len(tr["objs"])):
-                for r in self._rows_not_me(tr, t):
-                    if r[I["missed"]] == 0:
-                        k = type_key(r)
-                        cnt[k] = cnt.get(k, 0) + 1
+                rows = tr["objs"][t]
+                km = me_row(rows, tr["me"][t])
+                mb = rows[km, I["x0"]:I["y1"] + 1] if km is not None else None
+                for j, r in enumerate(rows):
+                    if j == km or r[I["missed"]] != 0:
+                        continue
+                    k = type_key(r)
+                    cnt[k] = cnt.get(k, 0) + 1
+                    if mb is not None and overlap(mb, r[I["x0"]:I["y1"] + 1], pad=2.0):
+                        glued[k] = glued.get(k, 0) + 1
+        self.me_parts = sorted(k for k, n in cnt.items() if n >= MIN_SIGHT and glued.get(k, 0) > attached * n)
         self.types = {k: dict(n=n, rule="cv", speed=0.0, bounds=(0, W, 0, H), mine=False)
-                      for k, n in cnt.items() if n >= MIN_SIGHT}
+                      for k, n in cnt.items() if n >= MIN_SIGHT and k not in self.me_parts}
 
     def key_of(self, r):
         k = type_key(r)
@@ -325,6 +342,85 @@ class Theory:
             ty["w"] = float(np.median([a[I["x1"]] - a[I["x0"]] for a, _, _ in A + S]))
             ty["h"] = float(np.median([a[I["y1"]] - a[I["y0"]] for a, _, _ in A + S]))
 
+    def _fit_wrap(self, traces, edge=12.0, gap=3, min_exits=10):
+        """A track that ends at a side edge moving outward, followed within `gap` steps by a new track
+        of the same look starting at the OPPOSITE edge, is one object wrapping around. A look whose
+        exits mostly wrap gets the rule cv_wrap (the tracker cannot follow a 160 px jump)."""
+        stats = {}
+        for tr in traces:
+            first, last = {}, {}
+            for t, rows in enumerate(tr["objs"]):
+                for r in rows:
+                    if r[I["missed"]] == 0:
+                        i = int(r[I["id"]])
+                        first.setdefault(i, (t, r))
+                        last[i] = (t, r)
+            starts = [(t, r) for i, (t, r) in first.items() if t > 0]
+            for i, (t, r) in last.items():
+                if t >= len(tr["objs"]) - 1:
+                    continue
+                col = int(r[I["colour"]])               # by colour: at the edge an object is clipped,
+                vx, x = r[I["vx"]], r[I["cx"]]           # so its size/shape key changes, its colour does not
+                out_right, out_left = x > W - edge and vx > 0, x < edge and vx < 0
+                if not (out_right or out_left):
+                    continue
+                w = stats.setdefault(col, [0, 0])
+                w[1] += 1
+                if any(0 < t2 - t <= gap and int(r2[I["colour"]]) == col and
+                       ((out_right and r2[I["cx"]] < edge) or (out_left and r2[I["cx"]] > W - edge))
+                       for t2, r2 in starts):
+                    w[0] += 1
+        self.wrap = {c: tuple(v) for c, v in stats.items()}
+        wrapping = {c for c, (wr, ex) in self.wrap.items() if ex >= min_exits and wr >= 0.5 * ex}
+        for k, ty in self.types.items():
+            if k[0] in wrapping and ty["rule"] in ("cv", "cv_bounce", "cv_wrap"):
+                ty["rule"] = "cv_wrap"
+
+    def _fit_zones(self, traces, min_n=20, lift=3.0, jump=30.0, lag=3):
+        """Events tied to WHERE I am rather than to a contact: per my 16x16 cell, the rate of my score
+        events and of my deaths per step; a cell is a zone only if seen >= min_n times and its rate is
+        >= `lift` x the overall rate (shooters, whose points come from shots everywhere, get none).
+        Relocation: when my position jumps by > `jump` px within 3 steps after an event, the place I
+        land is recorded; its median is where the theory puts me after that event."""
+        cells, tot = {}, np.zeros(3)
+        land = {"score": [], "death": []}
+        for tr in traces:
+            me = tr["me"]
+            for t in range(len(tr["score"])):
+                # the HUD reader confirms a change `hold` steps after it shows: the event belongs to
+                # where I was `lag` steps before its label (Freeway: the chicken is back at the bottom
+                # by the time the point is read)
+                t0 = t - lag
+                if t0 < 0 or not np.isfinite(me[t0, 0]):
+                    continue
+                c = (int(me[t0, 0]) // CELL, int(me[t0, 1]) // CELL)
+                v = cells.setdefault(c, np.zeros(3))
+                v += (1, float(tr["score"][t]), float(tr["death"][t]))
+                tot += (1, float(tr["score"][t]), float(tr["death"][t]))
+                for ev in ("score", "death"):
+                    if tr[ev][t]:
+                        for u in range(t0 + 1, min(len(me), t + 2)):
+                            if np.isfinite(me[u, 0]) and np.abs(me[u] - me[t0]).max() > jump:
+                                land[ev].append(me[u].copy()); break
+        base_s, base_d = tot[1] / max(1, tot[0]), tot[2] / max(1, tot[0])
+        self.zones = {}
+        for c, (n, sc, de) in cells.items():
+            if n < min_n:
+                continue
+            ps, pd = (sc + 0.5 * base_s) / (n + 0.5), (de + 0.5 * base_d) / (n + 0.5)
+            z = {}
+            if base_s > 0 and ps >= lift * base_s:
+                z["score"] = float(ps)
+            if base_d > 0 and pd >= lift * base_d:
+                z["death"] = float(pd)
+            if z:
+                self.zones[c] = dict(n=int(n), **z)
+        self.relocate = {ev: [float(x) for x in np.median(np.array(v), 0)] for ev, v in land.items() if len(v) >= 3}
+
+    def zone_event(self, me):
+        z = self.zones.get((int(me[0]) // CELL, int(me[1]) // CELL))
+        return (z.get("score", 0.0), z.get("death", 0.0)) if z else (0.0, 0.0)
+
     def _fit_contacts(self, sibsets, hold, window=3):
         """Outcome after a contact, per type. A contact within the causal cone (the first
         hold+window steps of a branch, near me) whose occurrence differs between sibling branches
@@ -478,6 +574,7 @@ class Theory:
         per-game keys only)."""
         return json.dumps(dict(
             base=self.base, me_card=self.me_card, me_bounds=self.me_bounds, mine=self.mine,
+            me_parts=[str(k) for k in self.me_parts],
             types={str(k): dict(n=v["n"], rule=v["rule"], speed=round(v["speed"], 2), shot_type=v.get("mine_type", False),
                                 contacts_me=self.contact_probs(k, "me").round(3).tolist(),
                                 contacts_mine=self.contact_probs(k, "mine").round(3).tolist())
@@ -485,4 +582,6 @@ class Theory:
             gauges=[dict(anchor=g["anchor"], lo=g["lo"], hi=g["hi"], risk=[round(x, 3) for x in g["risk"]],
                          beta={str(s): round(b, 2) for s, b in g["beta"].items()}) for g in self.gauges],
             births={str(k): round(v["rate"], 4) for k, v in self.births.items()},
+            wrap={hex(c): v for c, v in self.wrap.items()},
+            zones={str(c): z for c, z in self.zones.items()}, relocate=self.relocate,
             leaf_mean=round(self.leaf_mean, 3)), indent=1)

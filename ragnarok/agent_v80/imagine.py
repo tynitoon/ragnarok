@@ -75,7 +75,7 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
     """One imagined future. Returns (events, died, death_step, me_end, gauge_q_end)."""
     if sc.me is None:
         return 0.0, False, -1, None, -1
-    r_me, r_shot, r_birth, r_con, r_gauge = (np.random.default_rng(s) for s in np.random.SeedSequence(int(sd)).spawn(5))
+    r_me, r_shot, r_birth, r_con, r_gauge, r_zone = (np.random.default_rng(s) for s in np.random.SeedSequence(int(sd)).spawn(6))
     O = np.zeros((sc.objs.shape[0], NC))
     O[:, :9] = sc.objs
     O[:, 9:11] = r_con.random((O.shape[0], 2))
@@ -146,6 +146,14 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
                     O[mj, 8] = 0
                     break
         O = O[(O[:, 8] > 0) & (O[:, 0] > -20) & (O[:, 0] < 180) & (O[:, 1] > -20) & (O[:, 1] < 230)]
+        uz = r_zone.random(2)                             # places that give points or kill
+        pz_s, pz_d = th.zone_event(me)
+        if uz[0] < pz_d:
+            return events, True, t, me, -1
+        if uz[1] < pz_s:
+            events += 1
+            if "score" in th.relocate:
+                me[0], me[1] = th.relocate["score"]
         ug = r_gauge.random()
         if g is not None:                                 # the gauge: drift by slot, excess risk by fill
             fills[0] = float(np.clip(fills[0] + g["beta"].get(s, 0.0), g["lo"], g["hi"]))

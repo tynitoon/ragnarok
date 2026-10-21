@@ -1,0 +1,13 @@
+{
+ "game": "assault",
+ "seed": 98,
+ "steps": 2000,
+ "objects_mean": 9.3,
+ "objects_max": 20,
+ "secs": 231,
+ "me_steps": 2000,
+ "bad": 33,
+ "bad_frac": 0.017,
+ "passed": true,
+ "judge": "self-referential (the v71 tracker's me); there is no Assault RAM judge"
+}
