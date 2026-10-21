@@ -26,7 +26,8 @@ def rows(tracker):
 
 
 def make_parser(ag, gauges=()):
-    return Parser(ag.perc.bg, boxes=list(ag.perc.counters or []) + list(gauges))
+    return Parser(ag.perc.bg, boxes=list(ag.perc.counters or []) + list(gauges),
+                  me_colours=getattr(ag.perc.tracker, "colours", None))
 
 
 def roots_from(ag, env, states, base, rng, parser, n_roll=4, length=300, every=6, mix=0.15, seen=None, rid0=0):

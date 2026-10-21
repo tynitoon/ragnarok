@@ -150,3 +150,8 @@ qui avance d'un pixel tous les deux pas lisait 0 ou 1 au lieu de 0,5. (3) Le sco
 mort est déclaré « sans objet » quand le test ne contient aucune mort (il valait −2,85 × 10⁹).
 Corrections : découpage couleur par couleur ; vitesse sur les 8 dernières positions observées ;
 tests ajoutés. Seuils inchangés ; nouvel essai sur la même graine de développement 98.
+Essai 2 (22 h 36), arrêté avant la collecte : le découpage couleur par couleur casse chaque voiture
+en 3 à 5 morceaux (carrosserie, roues, vitres) : 47,5 objets par image, la limite de 48 atteinte en
+permanence (G0 restait à 99,9 %, `attempt2/`). Correction retenue : blocs entiers (une voiture
+reste un objet) et, quand un bloc mêle MES couleurs (connues par mes sondes) à d'autres, ma partie
+est séparée du reste — le contact avec moi reste visible. Freeway : 12,8 objets par image (max 16).

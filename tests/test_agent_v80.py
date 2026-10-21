@@ -199,8 +199,11 @@ def test_touching_objects_of_different_colours_stay_apart():
     """v80 Freeway: a car over the chicken must remain two objects, or no contact is ever seen."""
     from ragnarok.agent_v80.objects import Parser
     bg = np.zeros((210, 160, 3), np.uint8)
-    objs = Parser(bg).parse(_frame([(40, 100, 8, 8, (252, 252, 84)), (46, 102, 10, 6, (167, 26, 26))]))
-    assert len(objs) == 2
+    me_col = (252 << 16) + (252 << 8) + 84
+    car = _frame([(40, 100, 8, 8, (252, 252, 84)), (46, 102, 10, 6, (167, 26, 26)), (60, 50, 6, 4, (167, 26, 26)),
+                  (66, 50, 2, 4, (0, 0, 1))])
+    objs = Parser(bg, me_colours={me_col}).parse(car)
+    assert len(objs) == 3, "me split from the car touching me; the two-colour car elsewhere stays whole"
 
 
 def test_slow_sprite_gets_a_fractional_velocity():

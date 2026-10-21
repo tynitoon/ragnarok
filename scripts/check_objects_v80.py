@@ -28,7 +28,7 @@ def run(game, steps=2000):
     rng = np.random.default_rng(SEED)
     ag = Agent(vanish_k=2)
     ag.enter(env, rng, seed=SEED)
-    parser = Parser(ag.perc.bg, boxes=ag.perc.counters or [])
+    parser = Parser(ag.perc.bg, boxes=ag.perc.counters or [], me_colours=ag.perc.tracker.colours)
     tracker = Tracker()
     obs = env.reset()
     tr = ag.perc.tracker

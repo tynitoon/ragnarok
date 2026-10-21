@@ -1,0 +1,13 @@
+{
+ "game": "freeway",
+ "seed": 98,
+ "steps": 2000,
+ "objects_mean": 47.5,
+ "objects_max": 48,
+ "secs": 178,
+ "cars": 19878,
+ "seen": 19862,
+ "frac": 0.999,
+ "passed": true,
+ "note": "single-frame RAM decoder vs 2-frame max-pooled screens; matches may be many-to-one"
+}

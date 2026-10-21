@@ -19,9 +19,14 @@ def pack(rgb):
 
 
 class Parser:
-    """Screen -> objects. `boxes`: (y0, y1, x0, x1) regions the agent treats as displays."""
+    """Screen -> objects. `boxes`: (y0, y1, x0, x1) regions the agent treats as displays.
+    `me_colours`: my own colours, known from my probes (agent side): a blob that mixes my colours
+    with others is a contact, and is split into my part and the rest, so that a contact never
+    hides me (v80 Freeway attempt 1: a car over the chicken made one blob, no contact was seen;
+    attempt 2: splitting every blob by colour broke each car into 3-5 parts and flooded the
+    tracker). Multi-colour sprites that are not me stay whole."""
 
-    def __init__(self, bg, boxes=(), max_area=0.05, max_obj=48, min_px=2):
+    def __init__(self, bg, boxes=(), max_area=0.05, max_obj=48, min_px=2, me_colours=None):
         self.bg = bg
         H, W = bg.shape[:2]
         self.keep = np.ones((H, W), bool)
@@ -30,27 +35,37 @@ class Parser:
         self.max_px = max_area * H * W
         self.max_obj = max_obj
         self.min_px = min_px
+        self.me_cols = np.array(sorted(me_colours), np.int64) if me_colours else None
+
+    def _emit(self, out, m, sl, packed):
+        a = int(m.sum())
+        if a < self.min_px or a > self.max_px:
+            return
+        ys, xs = np.nonzero(m)
+        cols, cnt = np.unique(packed[sl][m], return_counts=True)
+        y0, x0 = sl[0].start + ys.min(), sl[1].start + xs.min()
+        out.append(dict(cx=float(xs.mean() + sl[1].start), cy=float(ys.mean() + sl[0].start),
+                        x0=int(x0), x1=int(sl[1].start + xs.max() + 1), y0=int(y0), y1=int(sl[0].start + ys.max() + 1),
+                        area=a, colour=int(cols[np.argmax(cnt)]), colours=frozenset(int(c) for c in cols)))
 
     def parse(self, obs):
-        """Components are found COLOUR BY COLOUR (design §3): two touching sprites of different
-        colours stay two objects, so contacts between them are visible (v80 Freeway: a car over
-        the chicken merged into one blob and no contact was ever recorded)."""
         fg = (obs != self.bg).any(-1) & self.keep
-        if not fg.any():
+        lab, n = ndimage.label(fg, structure=EIGHT)
+        if n == 0:
             return []
         packed = pack(obs)
         out = []
-        for c in np.unique(packed[fg]):
-            lab, n = ndimage.label(fg & (packed == c), structure=EIGHT)
-            for i, sl in enumerate(ndimage.find_objects(lab)):
-                m = lab[sl] == i + 1
-                a = int(m.sum())
-                if a < self.min_px or a > self.max_px:
+        for i, sl in enumerate(ndimage.find_objects(lab)):
+            m = lab[sl] == i + 1
+            if self.me_cols is not None:
+                mine = m & np.isin(packed[sl], self.me_cols)
+                if mine.any() and (m & ~mine).any():          # me touching something: split
+                    self._emit(out, mine, sl, packed)
+                    rest, k = ndimage.label(m & ~mine, structure=EIGHT)
+                    for j in range(1, k + 1):
+                        self._emit(out, rest == j, sl, packed)
                     continue
-                ys, xs = np.nonzero(m)
-                out.append(dict(cx=float(xs.mean() + sl[1].start), cy=float(ys.mean() + sl[0].start),
-                                x0=sl[1].start, x1=sl[1].stop, y0=sl[0].start, y1=sl[0].stop, area=a,
-                                colour=int(c), colours=frozenset((int(c),))))
+            self._emit(out, m, sl, packed)
         if len(out) > self.max_obj:                  # keep the largest: the rest is debris
             out.sort(key=lambda o: -o["area"])
             out = out[:self.max_obj]
