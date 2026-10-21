@@ -172,3 +172,14 @@ RÉUSSI : 85 % des positions à ≤ 4 px ; score +0,17 [0,04 ; 0,28] au-dessus d
 (traces et test neufs) ; (2) le critère « P(je suis repoussé sous 16) » n'est pas encore codé et
 le rapport à l'extrapolation est vide (médianes nulles) ; (3) la théorie ne dévie jamais de
 « monter » (G2 0,0 ; Freeway G2 est seulement rapporté).
+
+## 10. Assault, graine 98 (22 octobre, 1 h 08) — essai 1 échoué ; règle d'arrêt précisée avant la suite
+Théorie du jour (présages, jauges triées, tirs reconnus par couleur ; jauge de chaleur trouvée,
+risque de mort 2 % → 79 % selon le remplissage). Étiquettes : morts 1,00 (840), points 0,94.
+G1 échoué : classement des morts entre branches sœurs 0,52 [0,49 ; 0,55] (343 paires) ; Brier mort
+−1,02 ; score −1,37 (pires que la climatologie). G2 −0,02 [−0,12 ; 0,08] ; réflexe −0,06.
+Fichiers : `craft_v6_out/v80/assault_attempt1/`.
+Règle fixée MAINTENANT, avant tout autre résultat Assault : (1) la variante pré-déclarée H = 16 est
+calculée sur cet essai 1 ; (2) UNE seule tentative supplémentaire est permise, limitée à des défauts
+nommés avant de la lancer ; (3) KC1 (classement < 0,60 et Brier mort < 0,05) s'applique ensuite à
+cette tentative, H = 32 et H = 16, et arrête la ligne « imagination » sur Assault s'il est atteint.
