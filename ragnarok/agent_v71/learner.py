@@ -1,10 +1,19 @@
 """One game, end to end: perceive -> explore -> self-imitate -> play live. Every emulated frame is
-counted (branches, rewinds and loads included) so learning speed can be compared between a fresh
-agent and an agent carrying a policy from earlier games.
+counted (branches, rewinds, loads and the adapter's probes included) so learning speed can be
+compared between a fresh agent and an agent carrying a policy from earlier games.
 
 The carried object is the policy's WEIGHTS only: an identity-free net over foreground views that
-acts over canonical EFFECTS. Everything per game (background, counters, effect->button table,
-archive, demonstration, buffers) is rebuilt at entry for every arm.
+acts over canonical SLOTS (ragnarok.agent_v71.adapter). Everything per game (background, counters,
+slot->button table, archive, demonstration, buffers) is rebuilt at entry for every arm.
+
+Revision after docs/ARC4_V71_DIAGNOSIS.md (2026-10-21):
+  D1 masked fit;  D2/D7 SignatureAdapter (no button lost or merged, deterministic button);
+  D3 the demonstration is replayed from the explorer's ROOT savestate, not a fresh reset;
+  D4 the demonstration is perceived exactly as in live play (tracker, no probes, frozen background);
+  D5 self-imitation by BRANCH RANKING ("bri"): from states the policy itself visits, every available
+     slot is held for `hold` steps (optionally followed by `cont` policy steps), valued by the agent's
+     own HUD score events minus a life-loss penalty, and the best branch is imitated. The previous
+     segment rule is kept as method="segments" for comparison.
 """
 import time
 
@@ -12,50 +21,55 @@ import numpy as np
 
 from ragnarok.agent_v71.env import AtariEnv
 from ragnarok.agent_v71.perceiver import Perceiver
-from ragnarok.agent_v71.me_buttons import effect_table, EFFECTS
-from ragnarok.agent_v71.policy import Policy, ego_view, EffectAdapter
+from ragnarok.agent_v71.adapter import SignatureAdapter, SLOTS
+from ragnarok.agent_v71.policy import Policy, ego_view
 from ragnarok.agent_v71.explore import Archive, me_cell
 from ragnarok.agent_v71.hud import HudReader
 
 
 class Agent:
     def __init__(self, policy=None):
-        self.policy = policy or Policy(len(EFFECTS))
+        self.policy = policy or Policy(len(SLOTS))
+        self.frames_adapter = 0
 
     # ------------------------------------------------------------------ entry
-    def enter(self, env, rng):
+    def enter(self, env, rng, seed=0):
         obs = env.reset()
         self.perc = perc = Perceiver(obs.shape[:2])
         perc.warm(env, rng)
         self.roles = perc.fit_counters(env, rng)
-        obs = env.reset()
-        perc.tracker.pos = None
-        for _ in range(12):                                   # a few probes for the effect table
-            perc.tracker.pos = None
-            perc.locate(env, obs)
-            for _ in range(6):
-                obs, over = env.step(int(rng.integers(env.n_actions)))
-                if over:
-                    obs = env.reset()
-        self.adapter = EffectAdapter(effect_table(perc.probes), EFFECTS)
+        self.adapter = SignatureAdapter(env.game, perc.bg, seed)
+        self.frames_adapter = self.adapter.frames_used
         c = perc.counters or []
         self.s_idx = c.index(self.roles["score"]) if "score" in self.roles else None
         self.l_idx = c.index(self.roles["lives"]) if "lives" in self.roles else None
+        perc.ref = None                     # entry statistics are not needed any more (RAM: ~0.5 GB)
+        perc.cf = None
+        obs = env.reset()
+        perc.tracker.pos = None
+        perc.locate(env, obs)               # seed my colours/size once
+
+    @property
+    def mask(self):
+        return self.adapter.available
 
     # ------------------------------------------------------------------ acting
     def act(self, obs, me, prev, rng, temp=1.0, eps=0.02):
         img, pos, prev = ego_view(obs, self.perc.bg, me, prev)
-        logits_mask = self.adapter.available
-        e = self.policy.act(img, pos, rng, temp=temp, eps=eps, mask=logits_mask)
-        return self.adapter.to_button(e, rng), e, img, pos, prev
+        e = self.policy.act(img, pos, rng, temp=temp, eps=eps, mask=self.mask)
+        return self.adapter.to_button(e), e, img, pos, prev
+
+    def _track(self, obs):
+        tr = self.perc.tracker
+        return (tr.update(obs) if tr.pos is not None else None) or tr.reacquire(obs)
 
     # ------------------------------------------------------------------ explore
     def explore(self, env, rng, iters, steps=100, repeat=0.95, guided=0.0):
-        """Novelty x score drive with savestates. With probability `guided` a rollout's actions come
-        from the current policy (what the agent already knows) instead of random repeats."""
+        """Novelty x score drive with savestates. Returns (demo actions, events, root savestate)."""
         perc = self.perc
         arch = Archive()
         obs = env.reset()
+        root = env.clone()
         perc.tracker.pos = None
         me = perc.locate(env, obs)
         arch.add(me_cell(me, perc.hud_key(obs), obs.shape), env.clone(), 0, 0)
@@ -65,7 +79,6 @@ class Agent:
             k = arch.choose(rng)
             c = arch.cells[k]
             env.restore(c["state"])
-            perc.cf.ring = []
             perc.hud.reset_tracking()
             perc.tracker.pos, perc.tracker.miss = c["frame"][1], 0
             depth, events = c["depth"], c["events"]
@@ -74,9 +87,8 @@ class Agent:
             obs, prev = env.obs(), None
             a = int(rng.integers(env.n_actions))
             for _ in range(steps):
-                me = perc.tracker.pos
                 if use_pol:
-                    a, _, _, _, prev = self.act(obs, me, prev, rng)
+                    a, _, _, _, prev = self.act(obs, perc.tracker.pos, prev, rng)
                 elif rng.random() > repeat:
                     a = int(rng.integers(env.n_actions))
                 obs, over = env.step(a)
@@ -98,39 +110,123 @@ class Agent:
                     arch.add(key, env.clone(), depth, events)
                     arch.cells[key]["frame"], arch.cells[key]["traj"] = (None, me), bytes(traj)
         top = max(arch.cells.values(), key=lambda c: (c["events"], -c["depth"]))
-        return list(top["traj"]), top["events"]
+        return list(top["traj"]), top["events"], root
 
-    # ------------------------------------------------------------------ self-imitation
-    def learn(self, env, rng, demo, rounds=30, rollouts=16, horizon=400, bc_steps=1500):
+    # ------------------------------------------------------------------ demonstration
+    def replay_demo(self, env, demo, root, every=25):
+        """D3 + D4: replay from the root savestate, perceived as in live play (tracker only)."""
         perc = self.perc
-        obs = env.reset()
-        perc.tracker.pos = None
+        env.restore(root)
+        obs = env.obs()
+        perc.tracker.pos, perc.tracker.miss = None, 0
         D, states, prev = [], [], None
         for i, a in enumerate(demo):
-            me = perc.locate(env, obs)
+            me = self._track(obs)
             img, pos, prev = ego_view(obs, perc.bg, me, prev)
             D.append((img.astype(np.uint8), pos, self.adapter.to_effect(a)))
-            if i % 25 == 0:
+            if i % every == 0:
                 states.append((env.clone(), perc.tracker.pos, prev, obs))
             obs, over = env.step(a)
             if over:
                 break
-        S = list(D)
-        if not states:                                  # no demonstration (zero budget)
-            return
-        if D:
-            self.policy.fit(*zip(*S), steps=bc_steps)
+        return D, states
+
+    # ------------------------------------------------------------------ self-imitation
+    def learn(self, env, rng, demo, root, method="bri", rounds=12, bc_steps=1500, **kw):
+        D, states = self.replay_demo(env, demo, root)
+        if not states or not D:
+            return dict(rounds=[])
+        self.policy.fit(*zip(*D), steps=bc_steps, mask=self.mask)
+        if method == "segments":
+            return self._learn_segments(env, rng, D, states, rounds, **kw)
+        return self._learn_bri(env, rng, D, states, rounds, **kw)
+
+    def _rollout_roots(self, env, rng, states, n_roll=3, length=300, every=12):
+        perc, roots = self.perc, []
+        for _ in range(n_roll):
+            st, mpos, prev, obs = states[int(rng.integers(len(states)))]
+            env.restore(st)
+            perc.tracker.pos, perc.tracker.miss = mpos, 0
+            hud = HudReader(perc.counters or []); hud.step(obs)
+            for k in range(length):
+                me = self._track(obs)
+                if k % every == 0:
+                    roots.append((env.clone(), perc.tracker.pos, prev, obs))
+                a, _, _, _, prev = self.act(obs, me, prev, rng)
+                obs, over = env.step(a)
+                ev = hud.step(obs)
+                if over or (self.l_idx is not None and self.l_idx in ev):
+                    break
+        return roots
+
+    def _branch_value(self, env, root, slot, hold, cont, rng, death_penalty=2.0):
+        perc = self.perc
+        st, mpos, prev, obs = root
+        env.restore(st)
+        perc.tracker.pos, perc.tracker.miss = mpos, 0
+        hud = HudReader(perc.counters or []); hud.step(obs)
+        v, seg = 0.0, []
+        for k in range(hold + cont):
+            me = self._track(obs)
+            if k < hold:
+                img, pos, prev = ego_view(obs, perc.bg, me, prev)
+                seg.append((img.astype(np.uint8), pos))
+                a = self.adapter.to_button(slot)
+            else:
+                a, _, _, _, prev = self.act(obs, me, prev, rng)
+            obs, over = env.step(a)
+            ev = hud.step(obs)
+            if self.s_idx is not None and self.s_idx in ev:
+                v += 1.0
+            if over or (self.l_idx is not None and self.l_idx in ev):
+                v -= death_penalty
+                break
+        return v, seg
+
+    def _learn_bri(self, env, rng, D, states, rounds, hold=32, cont=0, n_roots=24, n_label=4,
+                   demo_weight=0.2, buffer=20000, log=None):
+        choices = [i for i in range(len(SLOTS)) if self.mask[i]]
+        L, hist = [], []
+        for r in range(rounds):
+            roots = self._rollout_roots(env, rng, states)
+            sel = [roots[int(i)] for i in rng.choice(len(roots), size=min(n_roots, len(roots)), replace=False)]
+            labelled, ties, lab = 0, 0, np.zeros(len(SLOTS), int)
+            for root in sel:
+                vals, segs = {}, {}
+                for c in choices:
+                    vals[c], segs[c] = self._branch_value(env, root, c, hold, cont, rng)
+                vv = np.array([vals[c] for c in choices])
+                if vv.max() == vv.min():
+                    ties += 1
+                    continue
+                best = [c for c in choices if vals[c] == vv.max()]
+                b = best[int(rng.integers(len(best)))]
+                for img, pos in segs[b][:n_label]:
+                    L.append((img, pos, b))
+                labelled += 1; lab[b] += 1
+            L = L[-buffer:]
+            T = D + L
+            w = np.r_[np.full(len(D), demo_weight), np.ones(len(L))]
+            self.policy.fit(*zip(*T), steps=300, mask=self.mask, weights=w)
+            rec = dict(round=r, roots=len(sel), labelled=labelled, ties=ties,
+                       labels={SLOTS[i]: int(lab[i]) for i in np.nonzero(lab)[0]}, frames=env.frames)
+            hist.append(rec)
+            if log:
+                log(f"   bri r{r:02d} labelled {labelled}/{len(sel)} ties {ties} labels {rec['labels']} frames {env.frames}")
+        return dict(rounds=hist)
+
+    def _learn_segments(self, env, rng, D, states, rounds, rollouts=16, horizon=400, log=None):
+        perc, S = self.perc, list(D)
         for _ in range(rounds):
             segs = []
             for _ in range(rollouts):
                 st, mpos, prev, obs = states[int(rng.integers(len(states)))]
                 env.restore(st)
                 perc.tracker.pos, perc.tracker.miss = mpos, 0
-                hud = HudReader(perc.counters or [])
-                hud.step(obs)
+                hud = HudReader(perc.counters or []); hud.step(obs)
                 buf, last = [], 0
                 for _ in range(horizon):
-                    me = perc.tracker.update(obs) or perc.tracker.reacquire(obs)
+                    me = self._track(obs)
                     a, e, img, pos, prev = self.act(obs, me, prev, rng)
                     buf.append((img.astype(np.uint8), pos, e))
                     obs, over = env.step(a)
@@ -141,17 +237,15 @@ class Agent:
                         break
             if segs:
                 med = np.median([len(s) for s in segs])
-                for s in segs:
-                    if len(s) <= med:
-                        S.extend(s)
-            if S:
-                self.policy.fit(*zip(*S[-60000:]), steps=300)
+                S.extend(x for s in segs if len(s) <= med for x in s)
+            self.policy.fit(*zip(*S[-60000:]), steps=300, mask=self.mask)
+        return dict(rounds=[])
 
     # ------------------------------------------------------------------ live
-    def play_live(self, game, seed, games=5, max_steps=7000):
+    def play_live(self, game, seed, games=10, max_steps=7000, temp=1.0, eps=0.02):
         env = AtariEnv(game, seed=seed, sticky=0.25)
         rng = np.random.default_rng(seed)
-        out = []
+        out, counts = [], np.zeros(env.n_actions, int)
         start = None
         for _ in range(games):
             obs = env.reset()
@@ -159,56 +253,45 @@ class Agent:
             tr.pos, tr.miss = start, 0
             prev = None
             for _ in range(max_steps):
-                me = tr.update(obs) if tr.pos is not None else None
-                if me is None:
-                    me = tr.reacquire(obs)
+                me = self._track(obs)
                 if start is None and me is not None:
                     start = me
-                a, _, _, _, prev = self.act(obs, me, prev, rng)
+                a, _, _, _, prev = self.act(obs, me, prev, rng, temp=temp, eps=eps)
+                counts[a] += 1
                 obs, over = env.step(a)
                 if over:
                     break
             out.append(env.true_score())
-        return out
+        return out, (counts / max(1, counts.sum())).round(3).tolist()
 
 
-def random_repeat_live(game, seed, games=5, max_steps=7000, repeat=0.95):
-    env = AtariEnv(game, seed=seed, sticky=0.25)
-    rng = np.random.default_rng(seed + 1000)
-    out = []
-    for _ in range(games):
-        env.reset()
-        a = 0
-        for _ in range(max_steps):
-            if rng.random() > repeat:
-                a = int(rng.integers(env.n_actions))
-            _, over = env.step(a)
-            if over:
-                break
-        out.append(env.true_score())
-    return out
-
-
-def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=30, eval_games=5, log=print):
-    """Fresh (policy=None) or experienced (policy carried) agent on one game. Returns a result dict
-    with the frames spent per phase and the live scores."""
+def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=12, method="bri",
+             eval_seeds=(7, 8), eval_games=10, log=print, **learn_kw):
+    """Fresh (policy=None) or experienced (policy carried) agent on one game."""
     t0 = time.perf_counter()
     env = AtariEnv(game, seed=seed)
     rng = np.random.default_rng(seed)
     ag = Agent(policy)
-    ag.enter(env, rng)
-    f_enter = env.frames
-    demo, ev = ag.explore(env, rng, explore_iters, guided=guided) if explore_iters > 0 else ([], 0)
-    f_explore = env.frames
-    ag.learn(env, rng, demo, rounds=rounds)
-    f_learn = env.frames
-    live = ag.play_live(game, seed=7, games=eval_games)
-    base = random_repeat_live(game, seed=7, games=eval_games)
-    res = dict(game=game, roles={k: list(v) for k, v in ag.roles.items()},
-               effects=list(map(bool, ag.adapter.available)), demo_len=len(demo), demo_events=ev,
+    ag.enter(env, rng, seed=seed)
+    f_enter = env.frames + ag.frames_adapter
+    if explore_iters > 0:
+        demo, ev, root = ag.explore(env, rng, explore_iters, guided=guided)
+    else:
+        demo, ev, root = [], 0, None
+    f_explore = env.frames + ag.frames_adapter
+    hist = ag.learn(env, rng, demo, root, method=method, rounds=rounds, log=log, **learn_kw) if demo else {}
+    f_learn = env.frames + ag.frames_adapter
+    live, mix = {}, {}
+    for s in eval_seeds:
+        live[s], mix[s] = ag.play_live(game, seed=s, games=eval_games)
+    allv = [x for s in eval_seeds for x in live[s]]
+    res = dict(game=game, seed=seed, method=method, slots=ag.adapter.mapping(), adapter_info=ag.adapter.info,
+               roles={k: list(v) for k, v in ag.roles.items()}, demo_len=len(demo), demo_events=ev,
                frames_enter=f_enter, frames_explore=f_explore - f_enter, frames_learn=f_learn - f_explore,
-               live=live, live_mean=float(np.mean(live)), random_live=base, random_mean=float(np.mean(base)),
-               secs=round(time.perf_counter() - t0))
-    log(f"{game}: live {live} mean {res['live_mean']:.1f} vs random {res['random_mean']:.1f} | demo {len(demo)} steps {ev} events | "
+               live=live, button_mix=mix, live_mean=float(np.mean(allv)),
+               live_se=float(np.std(allv, ddof=1) / np.sqrt(len(allv))) if len(allv) > 1 else float("nan"),
+               learn=hist, secs=round(time.perf_counter() - t0))
+    log(f"{game} seed {seed} {method}: live mean {res['live_mean']:.1f} ± {res['live_se']:.1f} "
+        f"({len(allv)} games) | slots {res['slots']} | demo {len(demo)} steps {ev} events | "
         f"frames enter {f_enter} explore {res['frames_explore']} learn {res['frames_learn']} | {res['secs']}s")
     return res, ag

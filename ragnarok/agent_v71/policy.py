@@ -62,15 +62,27 @@ class Policy:
         p = F.softmax(lo / temp, -1).cpu().numpy()
         return int(rng.choice(self.n_actions, p=p / p.sum()))
 
-    def fit(self, imgs, poss, acts, steps=300, bs=256):
-        I = torch.from_numpy(np.asarray(imgs, np.uint8)).to(self.device).float()
+    def fit(self, imgs, poss, acts, steps=300, bs=256, mask=None, weights=None):
+        """Cross-entropy imitation. `mask` (available outputs) is applied to the logits exactly as when
+        acting (diagnosis D1: an unmasked fit on a game where one output exists saturates the head and
+        collapses any later use of it); with fewer than 2 available outputs nothing is learned.
+        `weights` gives per-row importance (e.g. demonstration rows down-weighted)."""
+        if mask is not None and int(np.sum(mask)) < 2:
+            return float("nan")
+        I = torch.from_numpy(np.asarray(imgs, np.uint8)).to(self.device)
         P = torch.from_numpy(np.asarray(poss)).to(self.device)
         A = torch.from_numpy(np.asarray(acts, np.int64)).to(self.device)
+        W = None if weights is None else torch.from_numpy(np.asarray(weights, np.float32)).to(self.device)
+        M = None if mask is None else torch.from_numpy(~np.asarray(mask, bool)).to(self.device)
         n = len(A)
         loss = None
         for _ in range(steps):
             idx = torch.randint(0, n, (min(bs, n),), device=self.device)
-            loss = F.cross_entropy(self.net(I[idx], P[idx]), A[idx])
+            lo = self.net(I[idx].float(), P[idx])
+            if M is not None:
+                lo = lo.masked_fill(M, -1e9)
+            ce = F.cross_entropy(lo, A[idx], reduction="none")
+            loss = ce.mean() if W is None else (ce * W[idx]).sum() / W[idx].sum().clamp(min=1e-6)
             self.opt.zero_grad(); loss.backward(); self.opt.step()
         return float(loss.detach())
 
