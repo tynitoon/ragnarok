@@ -21,7 +21,6 @@ import sys
 import time
 
 import numpy as np
-import torch
 
 OUT = "craft_v6_out/v74"
 TRAIN_SEEDS = (4, 5)
@@ -45,11 +44,12 @@ def free_gb():
                     ("x", ctypes.c_ulonglong * 5)]
     m = M(); m.l = ctypes.sizeof(M)
     ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m))
-    return m.a / 2 ** 30
+    return min(m.a, m.x[1]) / 2 ** 30      # physical RAM and commit (x[1] = available page file)
 
 
-def gate(min_gb=14.0, wait_s=900):
-    """Do not start while less than `min_gb` is free (Tavern keeps 12 GB)."""
+def gate(min_gb=14.0, wait_s=6 * 3600):
+    """Do not start while less than `min_gb` is free (Tavern keeps 12 GB). Waits (up to 6 h) rather
+    than skipping a job: a skipped job would leave a silent hole in the protocol."""
     t0 = time.time()
     while free_gb() < min_gb and time.time() - t0 < wait_s:
         time.sleep(60)
@@ -98,6 +98,7 @@ def prep(game, seed, iters=1500):
 
 
 def learn(game, seed, method):
+    import torch
     from ragnarok.agent_v71.env import AtariEnv
     from ragnarok.agent_v71.policy import Policy
     from ragnarok.agent_v71.adapter import SLOTS
@@ -141,6 +142,7 @@ def _play(game, policy_fn, seeds=EVAL_SEEDS, games=EVAL_GAMES, max_steps=7000):
 
 
 def baselines(game):
+    import torch
     from ragnarok.agent_v71.env import AtariEnv
     from ragnarok.agent_v71.policy import Policy
     from ragnarok.agent_v71.adapter import SLOTS
