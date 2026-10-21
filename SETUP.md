@@ -115,3 +115,18 @@ C:/Python314/python.exe -m pip install ale-py==0.12.1
 ```
 
 Perception scripts (`scripts/slice_*_v71.py`) also run in `.venv-arc4`.
+
+## RAM supervisor (2026-10-21) — keep >= 12 GB free for the Tavern session
+
+Another project (Tavern) shares this 32 GB machine and needs >= 12 GB of free RAM at all times.
+`scripts/ram_supervisor.py` runs detached while Ragnarok experiments run: below 12 GB available it
+SUSPENDS the largest Ragnarok python process and trims its working set; above 14 GB it resumes
+suspended processes one at a time. Work is paused, never killed. A process is Ragnarok iff it
+descends from this project's Claude Code session, or its command line or current directory names
+the repository / the session scratch area; anything mentioning "tavern" is never touched.
+
+```powershell
+C:/Python314/python.exe scripts/ram_supervisor.py --dry      # show the classification once
+C:/Python314/python.exe scripts/ram_supervisor.py --low 12 --high 14
+```
+Log: `craft_v6_out/ram_supervisor.log`; status: `craft_v6_out/ram_supervisor_status.json`.
