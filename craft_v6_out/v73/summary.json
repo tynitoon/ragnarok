@@ -1,0 +1,42 @@
+{
+ "rows": [
+  {
+   "game": "assault",
+   "best_constant": "UP",
+   "const": 407.4,
+   "const_se": 23.1,
+   "uniform": 259.4,
+   "random_repeat": 143.8,
+   "untrained": 270.9,
+   "bri": "403.2\u00b115.6 (n=40)",
+   "bri_seed_means": {
+    "2": 397.9,
+    "3": 408.4
+   },
+   "bri_big": "408.4\u00b114.7 (n=40)",
+   "bri_big_seed_means": {
+    "2": 417.9,
+    "3": 399.0
+   }
+  },
+  {
+   "game": "freeway",
+   "best_constant": "UP",
+   "const": 21.2,
+   "const_se": 0.1,
+   "uniform": 0.0,
+   "random_repeat": 4.5,
+   "untrained": 0.0,
+   "bri": "0.0\u00b10.0 (n=20) INCOMPLETE",
+   "bri_seed_means": {
+    "2": 0.0
+   },
+   "bri_big": "0.0\u00b10.0 (n=20) INCOMPLETE",
+   "bri_big_seed_means": {
+    "2": 0.0
+   }
+  }
+ ],
+ "wins": {},
+ "robust": {}
+}

@@ -1,0 +1,331 @@
+{
+ "game": "assault",
+ "seed": 3,
+ "method": "bri_big",
+ "cfg": {
+  "method": "bri",
+  "hold": 32,
+  "cont": 0,
+  "n_roots": 64
+ },
+ "live": {
+  "11": [
+   609.0,
+   504.0,
+   441.0,
+   462.0,
+   210.0,
+   315.0,
+   399.0,
+   357.0,
+   399.0,
+   483.0
+  ],
+  "12": [
+   399.0,
+   441.0,
+   273.0,
+   441.0,
+   504.0,
+   336.0,
+   315.0,
+   315.0,
+   357.0,
+   420.0
+  ]
+ },
+ "button_mix": {
+  "11": [
+   0.136,
+   0.0,
+   0.676,
+   0.098,
+   0.052,
+   0.023,
+   0.013
+  ],
+  "12": [
+   0.126,
+   0.0,
+   0.672,
+   0.115,
+   0.057,
+   0.019,
+   0.011
+  ]
+ },
+ "mean": 399.0,
+ "se": 20.721842023384532,
+ "frames_learn": 550612,
+ "prep": {
+  "game": "assault",
+  "seed": 3,
+  "demo_len": 811,
+  "demo_events": 20,
+  "demo_true_score": 420.0,
+  "frames_enter": 222936,
+  "frames_explore": 388188,
+  "slots": {
+   "0,0,0": [
+    "NOOP",
+    "FIRE"
+   ],
+   "0,0,1": [
+    "UP"
+   ],
+   "1,0,0": [
+    "RIGHT"
+   ],
+   "-1,0,0": [
+    "LEFT"
+   ],
+   "priv0": [
+    "RIGHTFIRE"
+   ],
+   "priv1": [
+    "LEFTFIRE"
+   ]
+  },
+  "adapter_info": [
+   {
+    "button": "NOOP",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.0,
+    "slot": "0,0,0"
+   },
+   {
+    "button": "FIRE",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.0,
+    "slot": "0,0,0"
+   },
+   {
+    "button": "UP",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.91,
+    "slot": "0,0,1"
+   },
+   {
+    "button": "RIGHT",
+    "moved_frac": 0.74,
+    "dx": 13.0,
+    "dy": -0.14,
+    "diff_noop": 0.74,
+    "slot": "1,0,0"
+   },
+   {
+    "button": "LEFT",
+    "moved_frac": 0.57,
+    "dx": -13.0,
+    "dy": -0.14,
+    "diff_noop": 0.65,
+    "slot": "-1,0,0"
+   },
+   {
+    "button": "RIGHTFIRE",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.91,
+    "slot": "priv0"
+   },
+   {
+    "button": "LEFTFIRE",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.91,
+    "slot": "priv1"
+   }
+  ],
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "death_signal": {
+   "lives_counter": false,
+   "vanish_k": 2,
+   "lost_frac": 0.02,
+   "my_sizes": [
+    34.0,
+    34.0,
+    34.0,
+    34.0,
+    34.0
+   ]
+  }
+ },
+ "learn": {
+  "rounds": [
+   {
+    "round": 0,
+    "roots": 64,
+    "labelled": 38,
+    "ties": 26,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 29,
+     "1,0,0": 3,
+     "-1,0,0": 3,
+     "priv0": 1,
+     "priv1": 1
+    },
+    "frames": 76388
+   },
+   {
+    "round": 1,
+    "roots": 47,
+    "labelled": 36,
+    "ties": 11,
+    "labels": {
+     "0,0,0": 4,
+     "0,0,1": 25,
+     "1,0,0": 4,
+     "-1,0,0": 2,
+     "priv0": 1
+    },
+    "frames": 128800
+   },
+   {
+    "round": 2,
+    "roots": 45,
+    "labelled": 26,
+    "ties": 19,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 20,
+     "1,0,0": 2,
+     "-1,0,0": 2
+    },
+    "frames": 179136
+   },
+   {
+    "round": 3,
+    "roots": 36,
+    "labelled": 26,
+    "ties": 10,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 23,
+     "-1,0,0": 1,
+     "priv0": 1
+    },
+    "frames": 219928
+   },
+   {
+    "round": 4,
+    "roots": 28,
+    "labelled": 19,
+    "ties": 9,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 16,
+     "1,0,0": 1,
+     "priv1": 1
+    },
+    "frames": 250612
+   },
+   {
+    "round": 5,
+    "roots": 46,
+    "labelled": 29,
+    "ties": 17,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 25,
+     "1,0,0": 2,
+     "priv1": 1
+    },
+    "frames": 302408
+   },
+   {
+    "round": 6,
+    "roots": 42,
+    "labelled": 28,
+    "ties": 14,
+    "labels": {
+     "0,0,0": 3,
+     "0,0,1": 21,
+     "1,0,0": 1,
+     "-1,0,0": 3
+    },
+    "frames": 348796
+   },
+   {
+    "round": 7,
+    "roots": 30,
+    "labelled": 19,
+    "ties": 11,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 13,
+     "-1,0,0": 4
+    },
+    "frames": 381396
+   },
+   {
+    "round": 8,
+    "roots": 44,
+    "labelled": 35,
+    "ties": 9,
+    "labels": {
+     "0,0,0": 4,
+     "0,0,1": 25,
+     "1,0,0": 4,
+     "-1,0,0": 2
+    },
+    "frames": 430208
+   },
+   {
+    "round": 9,
+    "roots": 42,
+    "labelled": 29,
+    "ties": 13,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 16,
+     "1,0,0": 6,
+     "-1,0,0": 3,
+     "priv0": 2
+    },
+    "frames": 477500
+   },
+   {
+    "round": 10,
+    "roots": 34,
+    "labelled": 25,
+    "ties": 9,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 19,
+     "1,0,0": 3,
+     "-1,0,0": 1
+    },
+    "frames": 515088
+   },
+   {
+    "round": 11,
+    "roots": 32,
+    "labelled": 27,
+    "ties": 5,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 23,
+     "1,0,0": 2
+    },
+    "frames": 550612
+   }
+  ]
+ },
+ "secs": 246
+}

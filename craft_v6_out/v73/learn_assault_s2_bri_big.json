@@ -1,0 +1,333 @@
+{
+ "game": "assault",
+ "seed": 2,
+ "method": "bri_big",
+ "cfg": {
+  "method": "bri",
+  "hold": 32,
+  "cont": 0,
+  "n_roots": 64
+ },
+ "live": {
+  "11": [
+   609.0,
+   441.0,
+   378.0,
+   525.0,
+   357.0,
+   462.0,
+   399.0,
+   504.0,
+   378.0,
+   357.0
+  ],
+  "12": [
+   357.0,
+   462.0,
+   336.0,
+   483.0,
+   399.0,
+   588.0,
+   420.0,
+   231.0,
+   399.0,
+   273.0
+  ]
+ },
+ "button_mix": {
+  "11": [
+   0.129,
+   0.0,
+   0.566,
+   0.13,
+   0.138,
+   0.012,
+   0.024
+  ],
+  "12": [
+   0.122,
+   0.0,
+   0.565,
+   0.117,
+   0.153,
+   0.023,
+   0.021
+  ]
+ },
+ "mean": 417.9,
+ "se": 21.21443153287775,
+ "frames_learn": 452964,
+ "prep": {
+  "game": "assault",
+  "seed": 2,
+  "demo_len": 333,
+  "demo_events": 12,
+  "demo_true_score": 252.0,
+  "frames_enter": 223512,
+  "frames_explore": 334540,
+  "slots": {
+   "0,0,0": [
+    "NOOP",
+    "FIRE"
+   ],
+   "0,0,1": [
+    "UP"
+   ],
+   "priv0": [
+    "RIGHT"
+   ],
+   "-1,0,0": [
+    "LEFT"
+   ],
+   "priv1": [
+    "RIGHTFIRE"
+   ],
+   "priv2": [
+    "LEFTFIRE"
+   ]
+  },
+  "adapter_info": [
+   {
+    "button": "NOOP",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.0,
+    "slot": "0,0,0"
+   },
+   {
+    "button": "FIRE",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.0,
+    "slot": "0,0,0"
+   },
+   {
+    "button": "UP",
+    "moved_frac": 0.09,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.96,
+    "slot": "0,0,1"
+   },
+   {
+    "button": "RIGHT",
+    "moved_frac": 0.43,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.43,
+    "slot": "priv0"
+   },
+   {
+    "button": "LEFT",
+    "moved_frac": 0.78,
+    "dx": -13.0,
+    "dy": -0.14,
+    "diff_noop": 0.78,
+    "slot": "-1,0,0"
+   },
+   {
+    "button": "RIGHTFIRE",
+    "moved_frac": 0.04,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.91,
+    "slot": "priv1"
+   },
+   {
+    "button": "LEFTFIRE",
+    "moved_frac": 0.04,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.91,
+    "slot": "priv2"
+   }
+  ],
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "death_signal": {
+   "lives_counter": false,
+   "vanish_k": 2,
+   "lost_frac": 0.018,
+   "my_sizes": [
+    34.0,
+    34.0,
+    56.0,
+    34.0,
+    34.0
+   ]
+  }
+ },
+ "learn": {
+  "rounds": [
+   {
+    "round": 0,
+    "roots": 20,
+    "labelled": 15,
+    "ties": 5,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 9,
+     "-1,0,0": 1,
+     "priv0": 3
+    },
+    "frames": 22284
+   },
+   {
+    "round": 1,
+    "roots": 57,
+    "labelled": 34,
+    "ties": 23,
+    "labels": {
+     "0,0,0": 3,
+     "0,0,1": 23,
+     "-1,0,0": 2,
+     "priv0": 5,
+     "priv1": 1
+    },
+    "frames": 87776
+   },
+   {
+    "round": 2,
+    "roots": 28,
+    "labelled": 20,
+    "ties": 8,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 11,
+     "-1,0,0": 5,
+     "priv0": 1,
+     "priv2": 1
+    },
+    "frames": 116696
+   },
+   {
+    "round": 3,
+    "roots": 26,
+    "labelled": 17,
+    "ties": 9,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 12,
+     "-1,0,0": 1,
+     "priv0": 1,
+     "priv1": 1
+    },
+    "frames": 145828
+   },
+   {
+    "round": 4,
+    "roots": 29,
+    "labelled": 23,
+    "ties": 6,
+    "labels": {
+     "0,0,0": 4,
+     "0,0,1": 15,
+     "-1,0,0": 2,
+     "priv0": 2
+    },
+    "frames": 177444
+   },
+   {
+    "round": 5,
+    "roots": 31,
+    "labelled": 20,
+    "ties": 11,
+    "labels": {
+     "0,0,0": 3,
+     "0,0,1": 11,
+     "priv0": 4,
+     "priv1": 2
+    },
+    "frames": 211200
+   },
+   {
+    "round": 6,
+    "roots": 22,
+    "labelled": 17,
+    "ties": 5,
+    "labels": {
+     "0,0,1": 12,
+     "-1,0,0": 4,
+     "priv0": 1
+    },
+    "frames": 234408
+   },
+   {
+    "round": 7,
+    "roots": 48,
+    "labelled": 34,
+    "ties": 14,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 24,
+     "-1,0,0": 5,
+     "priv0": 3,
+     "priv2": 1
+    },
+    "frames": 288024
+   },
+   {
+    "round": 8,
+    "roots": 38,
+    "labelled": 28,
+    "ties": 10,
+    "labels": {
+     "0,0,0": 1,
+     "0,0,1": 20,
+     "-1,0,0": 4,
+     "priv0": 2,
+     "priv2": 1
+    },
+    "frames": 330900
+   },
+   {
+    "round": 9,
+    "roots": 43,
+    "labelled": 27,
+    "ties": 16,
+    "labels": {
+     "0,0,0": 3,
+     "0,0,1": 21,
+     "priv0": 3
+    },
+    "frames": 377620
+   },
+   {
+    "round": 10,
+    "roots": 37,
+    "labelled": 20,
+    "ties": 17,
+    "labels": {
+     "0,0,0": 2,
+     "0,0,1": 11,
+     "-1,0,0": 4,
+     "priv0": 2,
+     "priv2": 1
+    },
+    "frames": 417888
+   },
+   {
+    "round": 11,
+    "roots": 32,
+    "labelled": 23,
+    "ties": 9,
+    "labels": {
+     "0,0,1": 18,
+     "-1,0,0": 2,
+     "priv0": 2,
+     "priv2": 1
+    },
+    "frames": 452964
+   }
+  ]
+ },
+ "secs": 217
+}

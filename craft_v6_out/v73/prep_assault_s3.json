@@ -1,0 +1,109 @@
+{
+ "game": "assault",
+ "seed": 3,
+ "demo_len": 811,
+ "demo_events": 20,
+ "demo_true_score": 420.0,
+ "frames_enter": 222936,
+ "frames_explore": 388188,
+ "slots": {
+  "0,0,0": [
+   "NOOP",
+   "FIRE"
+  ],
+  "0,0,1": [
+   "UP"
+  ],
+  "1,0,0": [
+   "RIGHT"
+  ],
+  "-1,0,0": [
+   "LEFT"
+  ],
+  "priv0": [
+   "RIGHTFIRE"
+  ],
+  "priv1": [
+   "LEFTFIRE"
+  ]
+ },
+ "adapter_info": [
+  {
+   "button": "NOOP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "FIRE",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "UP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.91,
+   "slot": "0,0,1"
+  },
+  {
+   "button": "RIGHT",
+   "moved_frac": 0.74,
+   "dx": 13.0,
+   "dy": -0.14,
+   "diff_noop": 0.74,
+   "slot": "1,0,0"
+  },
+  {
+   "button": "LEFT",
+   "moved_frac": 0.57,
+   "dx": -13.0,
+   "dy": -0.14,
+   "diff_noop": 0.65,
+   "slot": "-1,0,0"
+  },
+  {
+   "button": "RIGHTFIRE",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.91,
+   "slot": "priv0"
+  },
+  {
+   "button": "LEFTFIRE",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.91,
+   "slot": "priv1"
+  }
+ ],
+ "roles": {
+  "score": [
+   2,
+   10,
+   80,
+   102
+  ]
+ },
+ "death_signal": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.02,
+  "my_sizes": [
+   34.0,
+   34.0,
+   34.0,
+   34.0,
+   34.0
+  ]
+ },
+ "secs": 219
+}

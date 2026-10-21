@@ -1,0 +1,122 @@
+{
+ "game": "freeway",
+ "seed": 2,
+ "method": "bri_big",
+ "cfg": {
+  "method": "bri",
+  "hold": 32,
+  "cont": 0,
+  "n_roots": 64
+ },
+ "live": {
+  "11": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "12": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "button_mix": {
+  "11": [
+   0.349,
+   0.328,
+   0.323
+  ],
+  "12": [
+   0.347,
+   0.331,
+   0.322
+  ]
+ },
+ "mean": 0.0,
+ "se": 0.0,
+ "frames_learn": 60,
+ "prep": {
+  "game": "freeway",
+  "seed": 2,
+  "demo_len": 0,
+  "demo_events": 0,
+  "demo_true_score": 0.0,
+  "frames_enter": 201000,
+  "frames_explore": 606184,
+  "slots": {
+   "0,0,0": [
+    "NOOP"
+   ],
+   "0,-1,0": [
+    "UP"
+   ],
+   "0,1,0": [
+    "DOWN"
+   ]
+  },
+  "adapter_info": [
+   {
+    "button": "NOOP",
+    "moved_frac": 0.0,
+    "dx": 0.0,
+    "dy": 0.0,
+    "diff_noop": 0.0,
+    "slot": "0,0,0"
+   },
+   {
+    "button": "UP",
+    "moved_frac": 0.95,
+    "dx": -0.01,
+    "dy": -7.47,
+    "diff_noop": 1.0,
+    "slot": "0,-1,0"
+   },
+   {
+    "button": "DOWN",
+    "moved_frac": 0.52,
+    "dx": 0.05,
+    "dy": 7.48,
+    "diff_noop": 0.57,
+    "slot": "0,1,0"
+   }
+  ],
+  "roles": {
+   "score": [
+    5,
+    13,
+    49,
+    55
+   ]
+  },
+  "death_signal": {
+   "lives_counter": false,
+   "vanish_k": 2,
+   "lost_frac": 0.015,
+   "my_sizes": [
+    22.0,
+    14.0,
+    14.0,
+    14.0,
+    14.0
+   ]
+  }
+ },
+ "learn": {
+  "rounds": []
+ },
+ "secs": 175
+}

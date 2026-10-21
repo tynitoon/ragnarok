@@ -53,3 +53,18 @@ autres graines). Aucun réglage par jeu après observation ; résultats négatif
 ## Ressources
 Un seul processus à la fois, garde de lancement à 14 Go libres, superviseur RAM actif ; Tavern
 garde toujours 12 Go.
+
+## Interruption (21 octobre 2026, 11 h 48) — défaut découvert pendant la file
+La file a été arrêtée après Assault (complet) et Freeway graine 2. Défaut : dans l'explorateur, le
+compteur « je suis perdu » suivait la voie des sondes (`perc.locate` : mise à jour seule, sans
+recherche sur tout l'écran), pas le suivi validé au pré-contrôle (`_track` : mise à jour puis
+recherche). Une voiture passant 2 pas sur la poule comptait comme une mort : toutes les trajectoires
+de Freeway étaient coupées, la démo est vide (0 pas, 0 événement) et la politique n'a rien appris
+(0 point). Les démos d'Assault en sont aussi raccourcies (333 et 811 pas contre 1183 et 999 en v72).
+Le défaut touche l'exploration de tous les jeux ; continuer aurait mesuré une version défectueuse.
+
+Résultats partiels conservés tels quels (`craft_v6_out/v73/summary.json`) :
+- Assault : `bri` 403,2 ± 15,6 et `bri_big` 408,4 ± 14,7 contre le meilleur constant UP 407,4 ± 23,1
+  (40 parties chacun) : au niveau du constant, pas au-dessus.
+- Freeway graine 2 : 0 point (démo vide, défaut ci-dessus).
+Aucun verdict v73 sur le critère (données incomplètes). Le correctif est fait en v74.
