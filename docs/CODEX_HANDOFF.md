@@ -157,3 +157,19 @@ essai dans `craft_v6_out/v71_transfer/` (reprise automatique). Famille des tirs 
 agent E entraîné en séquence sur les 3 autres (poids gardés, exploration guidée 50 %) contre
 deux agents neufs Fa/Fb ; budgets 0/100/300/1000 itérations d'exploration. Si le pilote montre
 un écart au-delà de |Fa−Fb|, pré-enregistrer une confirmation sur des jeux neufs.
+
+### CORRECTION (21 octobre) — la référence « meilleur bouton constant »
+
+Presser un seul bouton toute la partie (graine 7, collant 0,25) donne : freeway UP 21,0 ;
+assault UP 476 ; demon_attack FIRE 480 ; name_this_game FIRE 2770 ; seaquest 180 ;
+chopper_command 1167 ; breakout 0 ; carnival 0 (`v71_constant_baseline.json`).
+**L'agent ne bat le meilleur bouton constant que sur Breakout (4,6) et Carnival (620).**
+Sur Freeway il a découvert seul « monter » (≈ le bouton constant), pas davantage ; sur les
+autres jeux il fait moins bien que le meilleur bouton. Les formulations antérieures
+(« bat le hasard sur 6 jeux sur 8 ») étaient exactes mais trompeuses sans cette référence ;
+cette référence s'ajoute désormais à toute évaluation. Name This Game : tous les bras du
+pilote font exactement 1894 → la politique n'influençait pas le jeu (résultat retiré).
+
+Pilote de transfert (`craft_v6_out/v71_transfer/`) : au départ (budget 0), l'agent
+expérimenté est bien pire que l'agent neuf (assault 17 vs ~190, carnival 116 vs ~600,
+demon_attack 22 vs ~190) : transfert NÉGATIF ; ensuite aucun écart au-delà de |Fa−Fb|.

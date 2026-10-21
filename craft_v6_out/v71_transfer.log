@@ -1,0 +1,76 @@
+assault: live [273.0, 189.0, 231.0] mean 231.0 vs random 259.0 | demo 764 steps 19 events | frames enter 172720 explore 938780 learn 522220 | 827s
+carnival: live [1220.0, 500.0, 540.0] mean 753.3 vs random 273.3 | demo 610 steps 24 events | frames enter 171904 explore 601452 learn 376100 | 598s
+name_this_game: live [1780.0, 3570.0, 1170.0] mean 2173.3 vs random 663.3 | demo 1548 steps 67 events | frames enter 171904 explore 2679468 learn 848388 | 1241s
+assault: live [189.0, 168.0, 315.0] mean 224.0 vs random 259.0 | demo 607 steps 19 events | frames enter 172720 explore 934868 learn 571508 | 849s
+carnival: live [540.0, 1000.0, 980.0] mean 840.0 vs random 273.3 | demo 598 steps 24 events | frames enter 171904 explore 607632 learn 418292 | 819s
+demon_attack: live [140.0, 265.0, 265.0] mean 223.3 vs random 83.3 | demo 1680 steps 62 events | frames enter 171904 explore 4576780 learn 542352 | 975s
+assault: live [105.0, 168.0, 231.0, 63.0, 252.0] mean 163.8 vs random 231.0 | demo 0 steps 0 events | frames enter 172720 explore 0 learn 0 | 233s
+assault: live [357.0, 462.0, 399.0, 357.0, 336.0] mean 382.2 vs random 231.0 | demo 449 steps 9 events | frames enter 172720 explore 79952 learn 79920 | 330s
+assault: live [399.0, 378.0, 357.0, 357.0, 378.0] mean 373.8 vs random 231.0 | demo 789 steps 14 events | frames enter 172720 explore 292356 learn 239024 | 505s
+assault: live [441.0, 420.0, 462.0, 84.0, 336.0] mean 348.6 vs random 231.0 | demo 1363 steps 22 events | frames enter 172720 explore 800248 learn 788360 | 1101s
+carnival: live [540.0, 720.0, 640.0, 400.0, 420.0] mean 544.0 vs random 224.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 92s
+carnival: live [520.0, 940.0, 560.0, 1080.0, 1360.0] mean 892.0 vs random 224.0 | demo 355 steps 8 events | frames enter 171904 explore 46468 learn 70980 | 174s
+carnival: live [480.0, 540.0, 540.0, 320.0, 720.0] mean 520.0 vs random 224.0 | demo 511 steps 10 events | frames enter 171904 explore 135444 learn 171488 | 292s
+carnival: live [340.0, 380.0, 540.0, 400.0, 380.0] mean 408.0 vs random 224.0 | demo 1036 steps 18 events | frames enter 171904 explore 443900 learn 442836 | 606s
+demon_attack: live [10.0, 40.0, 30.0, 10.0, 20.0] mean 22.0 vs random 74.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 102s
+demon_attack: live [20.0, 70.0, 140.0, 10.0, 120.0] mean 72.0 vs random 74.0 | demo 684 steps 19 events | frames enter 171904 explore 264088 learn 88124 | 243s
+demon_attack: live [160.0, 190.0, 250.0, 265.0, 140.0] mean 201.0 vs random 74.0 | demo 1118 steps 26 events | frames enter 171904 explore 870872 learn 227116 | 492s
+demon_attack: live [385.0, 150.0, 30.0, 370.0, 265.0] mean 240.0 vs random 74.0 | demo 1211 steps 39 events | frames enter 171904 explore 3218192 learn 683544 | 1212s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 120s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 701 steps 28 events | frames enter 171904 explore 207928 learn 127880 | 253s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 935 steps 37 events | frames enter 171904 explore 570432 learn 288176 | 447s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 1191 steps 49 events | frames enter 171904 explore 2428876 learn 846960 | 1201s
+carnival: live [340.0, 920.0, 860.0] mean 706.7 vs random 273.3 | demo 585 steps 21 events | frames enter 171904 explore 585308 learn 454844 | 646s
+demon_attack: live [295.0, 190.0, 80.0] mean 188.3 vs random 83.3 | demo 1409 steps 48 events | frames enter 171904 explore 4546888 learn 672084 | 1041s
+name_this_game: live [1780.0, 3570.0, 1170.0] mean 2173.3 vs random 663.3 | demo 1548 steps 67 events | frames enter 171904 explore 2679468 learn 848388 | 1290s
+assault: live [21.0, 63.0, 0.0, 0.0, 0.0] mean 16.8 vs random 231.0 | demo 0 steps 0 events | frames enter 172720 explore 0 learn 0 | 244s
+assault: live [399.0, 378.0, 210.0, 231.0, 294.0] mean 302.4 vs random 231.0 | demo 310 steps 8 events | frames enter 172720 explore 77504 learn 81456 | 329s
+assault: live [273.0, 378.0, 189.0, 189.0, 273.0] mean 260.4 vs random 231.0 | demo 489 steps 14 events | frames enter 172720 explore 246188 learn 237488 | 536s
+assault: live [336.0, 336.0, 210.0, 189.0, 168.0] mean 247.8 vs random 231.0 | demo 824 steps 21 events | frames enter 172720 explore 792304 learn 770688 | 1228s
+carnival: live [540.0, 1480.0, 480.0, 480.0, 360.0] mean 668.0 vs random 224.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 91s
+carnival: live [1180.0, 620.0, 520.0, 900.0, 1080.0] mean 860.0 vs random 224.0 | demo 504 steps 11 events | frames enter 171904 explore 46340 learn 56528 | 156s
+carnival: live [680.0, 240.0, 440.0, 1240.0, 620.0] mean 644.0 vs random 224.0 | demo 695 steps 13 events | frames enter 171904 explore 135792 learn 140880 | 263s
+carnival: live [620.0, 880.0, 1020.0, 1400.0, 1680.0] mean 1120.0 vs random 224.0 | demo 814 steps 16 events | frames enter 171904 explore 431268 learn 381448 | 544s
+demon_attack: live [70.0, 235.0, 150.0, 160.0, 295.0] mean 182.0 vs random 74.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 107s
+demon_attack: live [120.0, 80.0, 60.0, 120.0, 150.0] mean 106.0 vs random 74.0 | demo 622 steps 22 events | frames enter 171904 explore 233668 learn 87564 | 226s
+demon_attack: live [150.0, 385.0, 80.0, 80.0, 480.0] mean 235.0 vs random 74.0 | demo 926 steps 32 events | frames enter 171904 explore 841408 learn 224112 | 398s
+demon_attack: live [265.0, 250.0, 70.0, 70.0, 150.0] mean 161.0 vs random 74.0 | demo 1119 steps 44 events | frames enter 171904 explore 3174068 learn 720860 | 1103s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 119s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 817 steps 37 events | frames enter 171904 explore 206992 learn 128344 | 264s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 873 steps 44 events | frames enter 171904 explore 535800 learn 287928 | 497s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 1265 steps 59 events | frames enter 171904 explore 1767124 learn 847256 | 1361s
+assault: live [315.0, 357.0, 231.0] mean 301.0 vs random 259.0 | demo 700 steps 18 events | frames enter 172720 explore 923464 learn 580076 | 833s
+demon_attack: live [70.0, 70.0, 70.0] mean 70.0 vs random 83.3 | demo 1642 steps 60 events | frames enter 171904 explore 4200560 learn 604148 | 1014s
+name_this_game: live [1780.0, 3570.0, 1170.0] mean 2173.3 vs random 663.3 | demo 1548 steps 67 events | frames enter 171904 explore 2679468 learn 848388 | 1314s
+assault: live [252.0, 168.0, 273.0, 189.0, 210.0] mean 218.4 vs random 231.0 | demo 0 steps 0 events | frames enter 172720 explore 0 learn 0 | 218s
+assault: live [231.0, 378.0, 567.0, 168.0, 672.0] mean 403.2 vs random 231.0 | demo 514 steps 11 events | frames enter 172720 explore 44644 learn 78328 | 313s
+assault: live [231.0, 231.0, 525.0, 336.0, 189.0] mean 302.4 vs random 231.0 | demo 750 steps 16 events | frames enter 172720 explore 179040 learn 225120 | 470s
+assault: live [231.0, 210.0, 147.0, 294.0, 168.0] mean 210.0 vs random 231.0 | demo 920 steps 19 events | frames enter 172720 explore 679620 learn 729104 | 1023s
+carnival: live [100.0, 100.0, 40.0, 180.0, 160.0] mean 116.0 vs random 224.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 105s
+carnival: live [960.0, 320.0, 840.0, 400.0, 620.0] mean 628.0 vs random 224.0 | demo 363 steps 7 events | frames enter 171904 explore 46468 learn 75832 | 204s
+carnival: live [860.0, 620.0, 620.0, 620.0, 740.0] mean 692.0 vs random 224.0 | demo 513 steps 10 events | frames enter 171904 explore 137400 learn 189888 | 359s
+carnival: live [360.0, 620.0, 680.0, 980.0, 1680.0] mean 864.0 vs random 224.0 | demo 433 steps 13 events | frames enter 171904 explore 441208 learn 702736 | 1028s
+demon_attack: live [295.0, 90.0, 355.0, 120.0, 120.0] mean 196.0 vs random 74.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 109s
+demon_attack: live [30.0, 220.0, 140.0, 220.0, 190.0] mean 160.0 vs random 74.0 | demo 909 steps 19 events | frames enter 171904 explore 234604 learn 88464 | 213s
+demon_attack: live [235.0, 80.0, 110.0, 140.0, 70.0] mean 127.0 vs random 74.0 | demo 1134 steps 31 events | frames enter 171904 explore 866800 learn 235372 | 428s
+demon_attack: live [130.0, 400.0, 100.0, 220.0, 80.0] mean 186.0 vs random 74.0 | demo 1423 steps 51 events | frames enter 171904 explore 3171920 learn 741212 | 1076s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 0 steps 0 events | frames enter 171904 explore 0 learn 0 | 130s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 762 steps 27 events | frames enter 171904 explore 526168 learn 128124 | 265s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 939 steps 35 events | frames enter 171904 explore 1259328 learn 288192 | 511s
+name_this_game: live [1780.0, 3570.0, 1170.0, 1880.0, 1070.0] mean 1894.0 vs random 744.0 | demo 1347 steps 46 events | frames enter 171904 explore 4538152 learn 853200 | 1254s
+assault
+   E   B0: 17 (0.00M)  B100: 302 (0.16M)  B300: 260 (0.48M)  B1000: 248 (1.56M)
+   Fa  B0: 218 (0.00M)  B100: 403 (0.12M)  B300: 302 (0.40M)  B1000: 210 (1.41M)
+   Fb  B0: 164 (0.00M)  B100: 382 (0.16M)  B300: 374 (0.53M)  B1000: 349 (1.59M)
+carnival
+   E   B0: 116 (0.00M)  B100: 628 (0.12M)  B300: 692 (0.33M)  B1000: 864 (1.14M)
+   Fa  B0: 544 (0.00M)  B100: 892 (0.12M)  B300: 520 (0.31M)  B1000: 408 (0.89M)
+   Fb  B0: 668 (0.00M)  B100: 860 (0.10M)  B300: 644 (0.28M)  B1000: 1120 (0.81M)
+demon_attack
+   E   B0: 22 (0.00M)  B100: 72 (0.35M)  B300: 201 (1.10M)  B1000: 240 (3.90M)
+   Fa  B0: 182 (0.00M)  B100: 106 (0.32M)  B300: 235 (1.07M)  B1000: 161 (3.89M)
+   Fb  B0: 196 (0.00M)  B100: 160 (0.32M)  B300: 127 (1.10M)  B1000: 186 (3.91M)
+name_this_game
+   E   B0: 1894 (0.00M)  B100: 1894 (0.34M)  B300: 1894 (0.82M)  B1000: 1894 (2.61M)
+   Fa  B0: 1894 (0.00M)  B100: 1894 (0.34M)  B300: 1894 (0.86M)  B1000: 1894 (3.28M)
+   Fb  B0: 1894 (0.00M)  B100: 1894 (0.65M)  B300: 1894 (1.55M)  B1000: 1894 (5.39M)

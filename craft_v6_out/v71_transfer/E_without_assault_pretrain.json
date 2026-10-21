@@ -1,0 +1,113 @@
+[
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 585,
+  "demo_events": 21,
+  "frames_enter": 171904,
+  "frames_explore": 585308,
+  "frames_learn": 454844,
+  "live": [
+   340.0,
+   920.0,
+   860.0
+  ],
+  "live_mean": 706.6666666666666,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0
+  ],
+  "random_mean": 273.3333333333333,
+  "secs": 646
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1409,
+  "demo_events": 48,
+  "frames_enter": 171904,
+  "frames_explore": 4546888,
+  "frames_learn": 672084,
+  "live": [
+   295.0,
+   190.0,
+   80.0
+  ],
+  "live_mean": 188.33333333333334,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0
+  ],
+  "random_mean": 83.33333333333333,
+  "secs": 1041
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1548,
+  "demo_events": 67,
+  "frames_enter": 171904,
+  "frames_explore": 2679468,
+  "frames_learn": 848388,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0
+  ],
+  "live_mean": 2173.3333333333335,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0
+  ],
+  "random_mean": 663.3333333333334,
+  "secs": 1290
+ }
+]

@@ -1,0 +1,2114 @@
+[
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 172720,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   21.0,
+   63.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "live_mean": 16.8,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 244,
+  "held": "assault",
+  "arm": "E",
+  "budget": 0
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 310,
+  "demo_events": 8,
+  "frames_enter": 172720,
+  "frames_explore": 77504,
+  "frames_learn": 81456,
+  "live": [
+   399.0,
+   378.0,
+   210.0,
+   231.0,
+   294.0
+  ],
+  "live_mean": 302.4,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 329,
+  "held": "assault",
+  "arm": "E",
+  "budget": 100
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 489,
+  "demo_events": 14,
+  "frames_enter": 172720,
+  "frames_explore": 246188,
+  "frames_learn": 237488,
+  "live": [
+   273.0,
+   378.0,
+   189.0,
+   189.0,
+   273.0
+  ],
+  "live_mean": 260.4,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 536,
+  "held": "assault",
+  "arm": "E",
+  "budget": 300
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 824,
+  "demo_events": 21,
+  "frames_enter": 172720,
+  "frames_explore": 792304,
+  "frames_learn": 770688,
+  "live": [
+   336.0,
+   336.0,
+   210.0,
+   189.0,
+   168.0
+  ],
+  "live_mean": 247.8,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 1228,
+  "held": "assault",
+  "arm": "E",
+  "budget": 1000
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 172720,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   252.0,
+   168.0,
+   273.0,
+   189.0,
+   210.0
+  ],
+  "live_mean": 218.4,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 218,
+  "held": "assault",
+  "arm": "Fa",
+  "budget": 0
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 514,
+  "demo_events": 11,
+  "frames_enter": 172720,
+  "frames_explore": 44644,
+  "frames_learn": 78328,
+  "live": [
+   231.0,
+   378.0,
+   567.0,
+   168.0,
+   672.0
+  ],
+  "live_mean": 403.2,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 313,
+  "held": "assault",
+  "arm": "Fa",
+  "budget": 100
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 750,
+  "demo_events": 16,
+  "frames_enter": 172720,
+  "frames_explore": 179040,
+  "frames_learn": 225120,
+  "live": [
+   231.0,
+   231.0,
+   525.0,
+   336.0,
+   189.0
+  ],
+  "live_mean": 302.4,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 470,
+  "held": "assault",
+  "arm": "Fa",
+  "budget": 300
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 920,
+  "demo_events": 19,
+  "frames_enter": 172720,
+  "frames_explore": 679620,
+  "frames_learn": 729104,
+  "live": [
+   231.0,
+   210.0,
+   147.0,
+   294.0,
+   168.0
+  ],
+  "live_mean": 210.0,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 1023,
+  "held": "assault",
+  "arm": "Fa",
+  "budget": 1000
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   true
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 172720,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   105.0,
+   168.0,
+   231.0,
+   63.0,
+   252.0
+  ],
+  "live_mean": 163.8,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 233,
+  "held": "assault",
+  "arm": "Fb",
+  "budget": 0
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   true
+  ],
+  "demo_len": 449,
+  "demo_events": 9,
+  "frames_enter": 172720,
+  "frames_explore": 79952,
+  "frames_learn": 79920,
+  "live": [
+   357.0,
+   462.0,
+   399.0,
+   357.0,
+   336.0
+  ],
+  "live_mean": 382.2,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 330,
+  "held": "assault",
+  "arm": "Fb",
+  "budget": 100
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   true
+  ],
+  "demo_len": 789,
+  "demo_events": 14,
+  "frames_enter": 172720,
+  "frames_explore": 292356,
+  "frames_learn": 239024,
+  "live": [
+   399.0,
+   378.0,
+   357.0,
+   357.0,
+   378.0
+  ],
+  "live_mean": 373.8,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 505,
+  "held": "assault",
+  "arm": "Fb",
+  "budget": 300
+ },
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   true
+  ],
+  "demo_len": 1363,
+  "demo_events": 22,
+  "frames_enter": 172720,
+  "frames_explore": 800248,
+  "frames_learn": 788360,
+  "live": [
+   441.0,
+   420.0,
+   462.0,
+   84.0,
+   336.0
+  ],
+  "live_mean": 348.6,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0,
+   189.0,
+   189.0
+  ],
+  "random_mean": 231.0,
+  "secs": 1101,
+  "held": "assault",
+  "arm": "Fb",
+  "budget": 1000
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   100.0,
+   100.0,
+   40.0,
+   180.0,
+   160.0
+  ],
+  "live_mean": 116.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 105,
+  "held": "carnival",
+  "arm": "E",
+  "budget": 0
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 363,
+  "demo_events": 7,
+  "frames_enter": 171904,
+  "frames_explore": 46468,
+  "frames_learn": 75832,
+  "live": [
+   960.0,
+   320.0,
+   840.0,
+   400.0,
+   620.0
+  ],
+  "live_mean": 628.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 204,
+  "held": "carnival",
+  "arm": "E",
+  "budget": 100
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 513,
+  "demo_events": 10,
+  "frames_enter": 171904,
+  "frames_explore": 137400,
+  "frames_learn": 189888,
+  "live": [
+   860.0,
+   620.0,
+   620.0,
+   620.0,
+   740.0
+  ],
+  "live_mean": 692.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 359,
+  "held": "carnival",
+  "arm": "E",
+  "budget": 300
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 433,
+  "demo_events": 13,
+  "frames_enter": 171904,
+  "frames_explore": 441208,
+  "frames_learn": 702736,
+  "live": [
+   360.0,
+   620.0,
+   680.0,
+   980.0,
+   1680.0
+  ],
+  "live_mean": 864.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 1028,
+  "held": "carnival",
+  "arm": "E",
+  "budget": 1000
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   540.0,
+   720.0,
+   640.0,
+   400.0,
+   420.0
+  ],
+  "live_mean": 544.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 92,
+  "held": "carnival",
+  "arm": "Fa",
+  "budget": 0
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 355,
+  "demo_events": 8,
+  "frames_enter": 171904,
+  "frames_explore": 46468,
+  "frames_learn": 70980,
+  "live": [
+   520.0,
+   940.0,
+   560.0,
+   1080.0,
+   1360.0
+  ],
+  "live_mean": 892.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 174,
+  "held": "carnival",
+  "arm": "Fa",
+  "budget": 100
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 511,
+  "demo_events": 10,
+  "frames_enter": 171904,
+  "frames_explore": 135444,
+  "frames_learn": 171488,
+  "live": [
+   480.0,
+   540.0,
+   540.0,
+   320.0,
+   720.0
+  ],
+  "live_mean": 520.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 292,
+  "held": "carnival",
+  "arm": "Fa",
+  "budget": 300
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1036,
+  "demo_events": 18,
+  "frames_enter": 171904,
+  "frames_explore": 443900,
+  "frames_learn": 442836,
+  "live": [
+   340.0,
+   380.0,
+   540.0,
+   400.0,
+   380.0
+  ],
+  "live_mean": 408.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 606,
+  "held": "carnival",
+  "arm": "Fa",
+  "budget": 1000
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   540.0,
+   1480.0,
+   480.0,
+   480.0,
+   360.0
+  ],
+  "live_mean": 668.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 91,
+  "held": "carnival",
+  "arm": "Fb",
+  "budget": 0
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 504,
+  "demo_events": 11,
+  "frames_enter": 171904,
+  "frames_explore": 46340,
+  "frames_learn": 56528,
+  "live": [
+   1180.0,
+   620.0,
+   520.0,
+   900.0,
+   1080.0
+  ],
+  "live_mean": 860.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 156,
+  "held": "carnival",
+  "arm": "Fb",
+  "budget": 100
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 695,
+  "demo_events": 13,
+  "frames_enter": 171904,
+  "frames_explore": 135792,
+  "frames_learn": 140880,
+  "live": [
+   680.0,
+   240.0,
+   440.0,
+   1240.0,
+   620.0
+  ],
+  "live_mean": 644.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 263,
+  "held": "carnival",
+  "arm": "Fb",
+  "budget": 300
+ },
+ {
+  "game": "carnival",
+  "roles": {
+   "score": [
+    2,
+    9,
+    81,
+    95
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 814,
+  "demo_events": 16,
+  "frames_enter": 171904,
+  "frames_explore": 431268,
+  "frames_learn": 381448,
+  "live": [
+   620.0,
+   880.0,
+   1020.0,
+   1400.0,
+   1680.0
+  ],
+  "live_mean": 1120.0,
+  "random_live": [
+   180.0,
+   380.0,
+   260.0,
+   140.0,
+   160.0
+  ],
+  "random_mean": 224.0,
+  "secs": 544,
+  "held": "carnival",
+  "arm": "Fb",
+  "budget": 1000
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   10.0,
+   40.0,
+   30.0,
+   10.0,
+   20.0
+  ],
+  "live_mean": 22.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 102,
+  "held": "demon_attack",
+  "arm": "E",
+  "budget": 0
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 684,
+  "demo_events": 19,
+  "frames_enter": 171904,
+  "frames_explore": 264088,
+  "frames_learn": 88124,
+  "live": [
+   20.0,
+   70.0,
+   140.0,
+   10.0,
+   120.0
+  ],
+  "live_mean": 72.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 243,
+  "held": "demon_attack",
+  "arm": "E",
+  "budget": 100
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1118,
+  "demo_events": 26,
+  "frames_enter": 171904,
+  "frames_explore": 870872,
+  "frames_learn": 227116,
+  "live": [
+   160.0,
+   190.0,
+   250.0,
+   265.0,
+   140.0
+  ],
+  "live_mean": 201.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 492,
+  "held": "demon_attack",
+  "arm": "E",
+  "budget": 300
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1211,
+  "demo_events": 39,
+  "frames_enter": 171904,
+  "frames_explore": 3218192,
+  "frames_learn": 683544,
+  "live": [
+   385.0,
+   150.0,
+   30.0,
+   370.0,
+   265.0
+  ],
+  "live_mean": 240.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 1212,
+  "held": "demon_attack",
+  "arm": "E",
+  "budget": 1000
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   70.0,
+   235.0,
+   150.0,
+   160.0,
+   295.0
+  ],
+  "live_mean": 182.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 107,
+  "held": "demon_attack",
+  "arm": "Fa",
+  "budget": 0
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 622,
+  "demo_events": 22,
+  "frames_enter": 171904,
+  "frames_explore": 233668,
+  "frames_learn": 87564,
+  "live": [
+   120.0,
+   80.0,
+   60.0,
+   120.0,
+   150.0
+  ],
+  "live_mean": 106.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 226,
+  "held": "demon_attack",
+  "arm": "Fa",
+  "budget": 100
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 926,
+  "demo_events": 32,
+  "frames_enter": 171904,
+  "frames_explore": 841408,
+  "frames_learn": 224112,
+  "live": [
+   150.0,
+   385.0,
+   80.0,
+   80.0,
+   480.0
+  ],
+  "live_mean": 235.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 398,
+  "held": "demon_attack",
+  "arm": "Fa",
+  "budget": 300
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1119,
+  "demo_events": 44,
+  "frames_enter": 171904,
+  "frames_explore": 3174068,
+  "frames_learn": 720860,
+  "live": [
+   265.0,
+   250.0,
+   70.0,
+   70.0,
+   150.0
+  ],
+  "live_mean": 161.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 1103,
+  "held": "demon_attack",
+  "arm": "Fa",
+  "budget": 1000
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   295.0,
+   90.0,
+   355.0,
+   120.0,
+   120.0
+  ],
+  "live_mean": 196.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 109,
+  "held": "demon_attack",
+  "arm": "Fb",
+  "budget": 0
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 909,
+  "demo_events": 19,
+  "frames_enter": 171904,
+  "frames_explore": 234604,
+  "frames_learn": 88464,
+  "live": [
+   30.0,
+   220.0,
+   140.0,
+   220.0,
+   190.0
+  ],
+  "live_mean": 160.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 213,
+  "held": "demon_attack",
+  "arm": "Fb",
+  "budget": 100
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1134,
+  "demo_events": 31,
+  "frames_enter": 171904,
+  "frames_explore": 866800,
+  "frames_learn": 235372,
+  "live": [
+   235.0,
+   80.0,
+   110.0,
+   140.0,
+   70.0
+  ],
+  "live_mean": 127.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 428,
+  "held": "demon_attack",
+  "arm": "Fb",
+  "budget": 300
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1423,
+  "demo_events": 51,
+  "frames_enter": 171904,
+  "frames_explore": 3171920,
+  "frames_learn": 741212,
+  "live": [
+   130.0,
+   400.0,
+   100.0,
+   220.0,
+   80.0
+  ],
+  "live_mean": 186.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0,
+   90.0,
+   30.0
+  ],
+  "random_mean": 74.0,
+  "secs": 1076,
+  "held": "demon_attack",
+  "arm": "Fb",
+  "budget": 1000
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 119,
+  "held": "name_this_game",
+  "arm": "E",
+  "budget": 0
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 817,
+  "demo_events": 37,
+  "frames_enter": 171904,
+  "frames_explore": 206992,
+  "frames_learn": 128344,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 264,
+  "held": "name_this_game",
+  "arm": "E",
+  "budget": 100
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 873,
+  "demo_events": 44,
+  "frames_enter": 171904,
+  "frames_explore": 535800,
+  "frames_learn": 287928,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 497,
+  "held": "name_this_game",
+  "arm": "E",
+  "budget": 300
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1265,
+  "demo_events": 59,
+  "frames_enter": 171904,
+  "frames_explore": 1767124,
+  "frames_learn": 847256,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 1361,
+  "held": "name_this_game",
+  "arm": "E",
+  "budget": 1000
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 120,
+  "held": "name_this_game",
+  "arm": "Fa",
+  "budget": 0
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 701,
+  "demo_events": 28,
+  "frames_enter": 171904,
+  "frames_explore": 207928,
+  "frames_learn": 127880,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 253,
+  "held": "name_this_game",
+  "arm": "Fa",
+  "budget": 100
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 935,
+  "demo_events": 37,
+  "frames_enter": 171904,
+  "frames_explore": 570432,
+  "frames_learn": 288176,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 447,
+  "held": "name_this_game",
+  "arm": "Fa",
+  "budget": 300
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1191,
+  "demo_events": 49,
+  "frames_enter": 171904,
+  "frames_explore": 2428876,
+  "frames_learn": 846960,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 1201,
+  "held": "name_this_game",
+  "arm": "Fa",
+  "budget": 1000
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    175,
+    189,
+    32,
+    128
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 0,
+  "demo_events": 0,
+  "frames_enter": 171904,
+  "frames_explore": 0,
+  "frames_learn": 0,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 130,
+  "held": "name_this_game",
+  "arm": "Fb",
+  "budget": 0
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    175,
+    189,
+    32,
+    128
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 762,
+  "demo_events": 27,
+  "frames_enter": 171904,
+  "frames_explore": 526168,
+  "frames_learn": 128124,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 265,
+  "held": "name_this_game",
+  "arm": "Fb",
+  "budget": 100
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    175,
+    189,
+    32,
+    128
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 939,
+  "demo_events": 35,
+  "frames_enter": 171904,
+  "frames_explore": 1259328,
+  "frames_learn": 288192,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 511,
+  "held": "name_this_game",
+  "arm": "Fb",
+  "budget": 300
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    175,
+    189,
+    32,
+    128
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1347,
+  "demo_events": 46,
+  "frames_enter": 171904,
+  "frames_explore": 4538152,
+  "frames_learn": 853200,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0,
+   1880.0,
+   1070.0
+  ],
+  "live_mean": 1894.0,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0,
+   1480.0,
+   250.0
+  ],
+  "random_mean": 744.0,
+  "secs": 1254,
+  "held": "name_this_game",
+  "arm": "Fb",
+  "budget": 1000
+ }
+]

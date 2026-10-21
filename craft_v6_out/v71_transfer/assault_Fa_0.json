@@ -1,0 +1,44 @@
+{
+ "game": "assault",
+ "roles": {
+  "score": [
+   2,
+   10,
+   80,
+   102
+  ]
+ },
+ "effects": [
+  true,
+  true,
+  true,
+  false,
+  true,
+  false
+ ],
+ "demo_len": 0,
+ "demo_events": 0,
+ "frames_enter": 172720,
+ "frames_explore": 0,
+ "frames_learn": 0,
+ "live": [
+  252.0,
+  168.0,
+  273.0,
+  189.0,
+  210.0
+ ],
+ "live_mean": 218.4,
+ "random_live": [
+  252.0,
+  378.0,
+  147.0,
+  189.0,
+  189.0
+ ],
+ "random_mean": 231.0,
+ "secs": 218,
+ "held": "assault",
+ "arm": "Fa",
+ "budget": 0
+}

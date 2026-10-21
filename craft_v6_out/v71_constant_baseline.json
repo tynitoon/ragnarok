@@ -1,0 +1,141 @@
+{
+ "freeway": {
+  "NOOP": 0.0,
+  "UP": 21.0,
+  "DOWN": 0.0
+ },
+ "breakout": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0
+ },
+ "assault": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "UP": 476.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "RIGHTFIRE": 0.0,
+  "LEFTFIRE": 0.0
+ },
+ "carnival": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "RIGHTFIRE": 0.0,
+  "LEFTFIRE": 0.0
+ },
+ "demon_attack": {
+  "NOOP": 0.0,
+  "FIRE": 480.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "RIGHTFIRE": 66.66666666666667,
+  "LEFTFIRE": 116.66666666666667
+ },
+ "name_this_game": {
+  "NOOP": 0.0,
+  "FIRE": 2770.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "RIGHTFIRE": 1190.0,
+  "LEFTFIRE": 2570.0
+ },
+ "seaquest": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "UP": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "DOWN": 80.0,
+  "UPRIGHT": 0.0,
+  "UPLEFT": 0.0,
+  "DOWNRIGHT": 80.0,
+  "DOWNLEFT": 80.0,
+  "UPFIRE": 0.0,
+  "RIGHTFIRE": 0.0,
+  "LEFTFIRE": 0.0,
+  "DOWNFIRE": 140.0,
+  "UPRIGHTFIRE": 0.0,
+  "UPLEFTFIRE": 0.0,
+  "DOWNRIGHTFIRE": 180.0,
+  "DOWNLEFTFIRE": 100.0
+ },
+ "chopper_command": {
+  "NOOP": 0.0,
+  "FIRE": 900.0,
+  "UP": 500.0,
+  "RIGHT": 400.0,
+  "LEFT": 500.0,
+  "DOWN": 0.0,
+  "UPRIGHT": 366.6666666666667,
+  "UPLEFT": 500.0,
+  "DOWNRIGHT": 0.0,
+  "DOWNLEFT": 0.0,
+  "UPFIRE": 500.0,
+  "RIGHTFIRE": 1133.3333333333333,
+  "LEFTFIRE": 1166.6666666666667,
+  "DOWNFIRE": 100.0,
+  "UPRIGHTFIRE": 1100.0,
+  "UPLEFTFIRE": 600.0,
+  "DOWNRIGHTFIRE": 200.0,
+  "DOWNLEFTFIRE": 300.0
+ },
+ "amidar": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "UP": 2.0,
+  "RIGHT": 0.0,
+  "LEFT": 12.0,
+  "DOWN": 2.0,
+  "UPFIRE": 2.0,
+  "RIGHTFIRE": 0.0,
+  "LEFTFIRE": 31.0,
+  "DOWNFIRE": 2.0
+ },
+ "bank_heist": {
+  "NOOP": 0.0,
+  "FIRE": 0.0,
+  "UP": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "DOWN": 0.0,
+  "UPRIGHT": 0.0,
+  "UPLEFT": 0.0,
+  "DOWNRIGHT": 0.0,
+  "DOWNLEFT": 0.0,
+  "UPFIRE": 0.0,
+  "RIGHTFIRE": 0.0,
+  "LEFTFIRE": 0.0,
+  "DOWNFIRE": 0.0,
+  "UPRIGHTFIRE": 0.0,
+  "UPLEFTFIRE": 0.0,
+  "DOWNRIGHTFIRE": 0.0,
+  "DOWNLEFTFIRE": 0.0
+ },
+ "crazy_climber": {
+  "NOOP": 0.0,
+  "UP": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "DOWN": 0.0,
+  "UPRIGHT": 0.0,
+  "UPLEFT": 0.0,
+  "DOWNRIGHT": 0.0,
+  "DOWNLEFT": 0.0
+ },
+ "wizard_of_wor": {
+  "NOOP": 0.0,
+  "FIRE": 500.0,
+  "UP": 0.0,
+  "RIGHT": 0.0,
+  "LEFT": 0.0,
+  "DOWN": 0.0,
+  "UPFIRE": 0.0,
+  "RIGHTFIRE": 300.0,
+  "LEFTFIRE": 100.0,
+  "DOWNFIRE": 300.0
+ }
+}

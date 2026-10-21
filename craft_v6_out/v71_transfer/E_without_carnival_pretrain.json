@@ -1,0 +1,113 @@
+[
+ {
+  "game": "assault",
+  "roles": {
+   "score": [
+    2,
+    10,
+    80,
+    102
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 700,
+  "demo_events": 18,
+  "frames_enter": 172720,
+  "frames_explore": 923464,
+  "frames_learn": 580076,
+  "live": [
+   315.0,
+   357.0,
+   231.0
+  ],
+  "live_mean": 301.0,
+  "random_live": [
+   252.0,
+   378.0,
+   147.0
+  ],
+  "random_mean": 259.0,
+  "secs": 833
+ },
+ {
+  "game": "demon_attack",
+  "roles": {
+   "score": [
+    6,
+    16,
+    63,
+    101
+   ]
+  },
+  "effects": [
+   true,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "demo_len": 1642,
+  "demo_events": 60,
+  "frames_enter": 171904,
+  "frames_explore": 4200560,
+  "frames_learn": 604148,
+  "live": [
+   70.0,
+   70.0,
+   70.0
+  ],
+  "live_mean": 70.0,
+  "random_live": [
+   100.0,
+   110.0,
+   40.0
+  ],
+  "random_mean": 83.33333333333333,
+  "secs": 1014
+ },
+ {
+  "game": "name_this_game",
+  "roles": {
+   "score": [
+    181,
+    189,
+    55,
+    103
+   ]
+  },
+  "effects": [
+   true,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "demo_len": 1548,
+  "demo_events": 67,
+  "frames_enter": 171904,
+  "frames_explore": 2679468,
+  "frames_learn": 848388,
+  "live": [
+   1780.0,
+   3570.0,
+   1170.0
+  ],
+  "live_mean": 2173.3333333333335,
+  "random_live": [
+   490.0,
+   1290.0,
+   210.0
+  ],
+  "random_mean": 663.3333333333334,
+  "secs": 1314
+ }
+]

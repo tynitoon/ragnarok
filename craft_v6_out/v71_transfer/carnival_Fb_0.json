@@ -1,0 +1,44 @@
+{
+ "game": "carnival",
+ "roles": {
+  "score": [
+   2,
+   9,
+   81,
+   95
+  ]
+ },
+ "effects": [
+  true,
+  true,
+  true,
+  false,
+  false,
+  false
+ ],
+ "demo_len": 0,
+ "demo_events": 0,
+ "frames_enter": 171904,
+ "frames_explore": 0,
+ "frames_learn": 0,
+ "live": [
+  540.0,
+  1480.0,
+  480.0,
+  480.0,
+  360.0
+ ],
+ "live_mean": 668.0,
+ "random_live": [
+  180.0,
+  380.0,
+  260.0,
+  140.0,
+  160.0
+ ],
+ "random_mean": 224.0,
+ "secs": 91,
+ "held": "carnival",
+ "arm": "Fb",
+ "budget": 0
+}

@@ -1,0 +1,44 @@
+{
+ "game": "demon_attack",
+ "roles": {
+  "score": [
+   6,
+   16,
+   63,
+   101
+  ]
+ },
+ "effects": [
+  true,
+  true,
+  true,
+  false,
+  true,
+  false
+ ],
+ "demo_len": 1118,
+ "demo_events": 26,
+ "frames_enter": 171904,
+ "frames_explore": 870872,
+ "frames_learn": 227116,
+ "live": [
+  160.0,
+  190.0,
+  250.0,
+  265.0,
+  140.0
+ ],
+ "live_mean": 201.0,
+ "random_live": [
+  100.0,
+  110.0,
+  40.0,
+  90.0,
+  30.0
+ ],
+ "random_mean": 74.0,
+ "secs": 492,
+ "held": "demon_attack",
+ "arm": "E",
+ "budget": 300
+}
