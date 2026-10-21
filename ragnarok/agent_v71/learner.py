@@ -15,6 +15,7 @@ Revision after docs/ARC4_V71_DIAGNOSIS.md (2026-10-21):
      own HUD score events minus a life-loss penalty, and the best branch is imitated. The previous
      segment rule is kept as method="segments" for comparison.
 """
+import copy
 import time
 
 import numpy as np
@@ -28,12 +29,14 @@ from ragnarok.agent_v71.hud import HudReader
 
 
 class Agent:
-    def __init__(self, policy=None):
+    def __init__(self, policy=None, vanish_k=None):
         self.policy = policy or Policy(len(SLOTS))
         self.frames_adapter = 0
+        self.vanish_k = vanish_k            # v73: "I vanished for k steps" counts as a life lost
+        self.gone = 0                       # consecutive steps my tracker found me nowhere
 
     # ------------------------------------------------------------------ entry
-    def enter(self, env, rng, seed=0):
+    def enter(self, env, rng, seed=0, seed_steps=3000, n_sightings=5, check_steps=1500, max_lost=0.2):
         obs = env.reset()
         self.perc = perc = Perceiver(obs.shape[:2])
         perc.warm(env, rng)
@@ -48,6 +51,49 @@ class Agent:
         obs = env.reset()
         perc.tracker.pos = None
         perc.locate(env, obs)               # seed my colours/size once
+        # v73: where the first frames ignore every button (intros), the probe at reset finds nobody
+        # and the tracker was never seeded (Name This Game: lost 100% of the time in v72). Keep
+        # playing ordinarily and probing until several probes have found me; my size is the median
+        # of those sightings (one sighting can merge me with a neighbour: 704 px for a ~100 px diver).
+        a, tr = 0, perc.tracker
+        sizes = [] if tr.size is None else [tr.size]
+        for t in range(seed_steps):
+            if len(sizes) >= n_sightings:
+                break
+            if rng.random() > 0.95:
+                a = int(rng.integers(env.n_actions))
+            obs, over = env.step(a)
+            if over:
+                obs = env.reset()
+            if t % 10 == 9:
+                tr.pos, tr.size = None, None
+                perc.locate(env, obs)
+                if tr.pos is not None and tr.size is None:
+                    tr.update(obs)          # nearest component when the probe's centre was a hole
+                if tr.size is not None:
+                    sizes.append(tr.size)
+        tr.size = float(np.median(sizes)) if sizes else None
+        self.my_sizes = sizes
+        # v73: can I trust "I vanished" as a death signal here? Only if, in ordinary play, my own
+        # tracker (as used live: no probes) keeps me most of the time.
+        obs = env.reset()
+        tr.pos, tr.miss, self.gone = None, 0, 0
+        lost = []
+        for t in range(check_steps):
+            me = self._track(obs)
+            lost.append(me is None or tr.miss > 0)
+            if rng.random() > 0.95:
+                a = int(rng.integers(env.n_actions))
+            obs, over = env.step(a)
+            if over:
+                obs = env.reset()
+                tr.pos, tr.miss = None, 0
+        self.lost_frac = float(np.mean(lost)) if lost else 1.0
+        if self.vanish_k is not None and self.lost_frac > max_lost:
+            self.vanish_k = None
+        obs = env.reset()
+        tr.pos, tr.miss, self.gone = None, 0, 0
+        perc.locate(env, obs)
 
     @property
     def mask(self):
@@ -61,7 +107,16 @@ class Agent:
 
     def _track(self, obs):
         tr = self.perc.tracker
-        return (tr.update(obs) if tr.pos is not None else None) or tr.reacquire(obs)
+        me = (tr.update(obs) if tr.pos is not None else None) or tr.reacquire(obs)
+        self.gone = self.gone + 1 if (me is None or tr.miss > 0) else 0
+        return me
+
+    def _dead(self, ev):
+        """A life lost, from the screen only: an event on my lives counter, or (v73) I vanished
+        for `vanish_k` consecutive steps (most games show no lives counter the finder can read)."""
+        if self.l_idx is not None and self.l_idx in ev:
+            return True
+        return self.vanish_k is not None and self.gone >= self.vanish_k
 
     # ------------------------------------------------------------------ explore
     def explore(self, env, rng, iters, steps=100, repeat=0.95, guided=0.0):
@@ -81,6 +136,7 @@ class Agent:
             env.restore(c["state"])
             perc.hud.reset_tracking()
             perc.tracker.pos, perc.tracker.miss = c["frame"][1], 0
+            self.gone = 0
             depth, events = c["depth"], c["events"]
             traj = bytearray(c["traj"])
             use_pol = rng.random() < guided
@@ -97,10 +153,12 @@ class Agent:
                 if over:
                     break
                 me = perc.locate(env, obs)
+                tr = perc.tracker
+                self.gone = self.gone + 1 if (me is None or tr.miss > 0) else 0
                 ev = perc.hud.step(obs)
                 if self.s_idx is not None and self.s_idx in ev:
                     events += 1
-                if self.l_idx is not None and self.l_idx in ev:
+                if self._dead(ev):
                     break
                 key = me_cell(me, perc.hud_key(obs), obs.shape)
                 cc = arch.cells.get(key)
@@ -119,13 +177,16 @@ class Agent:
         env.restore(root)
         obs = env.obs()
         perc.tracker.pos, perc.tracker.miss = None, 0
+        self.gone = 0
         D, states, prev = [], [], None
         for i, a in enumerate(demo):
             me = self._track(obs)
+            p0 = prev                       # the state stores the views BEFORE this step's update
             img, pos, prev = ego_view(obs, perc.bg, me, prev)
             D.append((img.astype(np.uint8), pos, self.adapter.to_effect(a)))
             if i % every == 0:
-                states.append((env.clone(), perc.tracker.pos, prev, obs))
+                hud = HudReader(perc.counters or []); hud.step(obs)
+                states.append((env.clone(), perc.tracker.pos, p0, obs, hud, 0))
             obs, over = env.step(a)
             if over:
                 break
@@ -144,27 +205,27 @@ class Agent:
     def _rollout_roots(self, env, rng, states, n_roll=3, length=300, every=12):
         perc, roots = self.perc, []
         for _ in range(n_roll):
-            st, mpos, prev, obs = states[int(rng.integers(len(states)))]
+            st, mpos, prev, obs, hud0, gone0 = states[int(rng.integers(len(states)))]
             env.restore(st)
             perc.tracker.pos, perc.tracker.miss = mpos, 0
-            hud = HudReader(perc.counters or []); hud.step(obs)
+            hud, self.gone = copy.deepcopy(hud0), gone0
             for k in range(length):
+                if k % every == 0:          # the root carries the rollout's reader and vanish count
+                    roots.append((env.clone(), perc.tracker.pos, prev, obs, copy.deepcopy(hud), self.gone))
                 me = self._track(obs)
-                if k % every == 0:
-                    roots.append((env.clone(), perc.tracker.pos, prev, obs))
                 a, _, _, _, prev = self.act(obs, me, prev, rng)
                 obs, over = env.step(a)
                 ev = hud.step(obs)
-                if over or (self.l_idx is not None and self.l_idx in ev):
+                if over or self._dead(ev):
                     break
         return roots
 
     def _branch_value(self, env, root, slot, hold, cont, rng, death_penalty=2.0):
         perc = self.perc
-        st, mpos, prev, obs = root
+        st, mpos, prev, obs, hud0, gone0 = root
         env.restore(st)
         perc.tracker.pos, perc.tracker.miss = mpos, 0
-        hud = HudReader(perc.counters or []); hud.step(obs)
+        hud, self.gone = copy.deepcopy(hud0), gone0
         v, seg = 0.0, []
         for k in range(hold + cont):
             me = self._track(obs)
@@ -178,7 +239,7 @@ class Agent:
             ev = hud.step(obs)
             if self.s_idx is not None and self.s_idx in ev:
                 v += 1.0
-            if over or (self.l_idx is not None and self.l_idx in ev):
+            if over or self._dead(ev):
                 v -= death_penalty
                 break
         return v, seg
@@ -193,8 +254,9 @@ class Agent:
             labelled, ties, lab = 0, 0, np.zeros(len(SLOTS), int)
             for root in sel:
                 vals, segs = {}, {}
+                crn = int(rng.integers(2 ** 31))   # common random numbers for the continuations
                 for c in choices:
-                    vals[c], segs[c] = self._branch_value(env, root, c, hold, cont, rng)
+                    vals[c], segs[c] = self._branch_value(env, root, c, hold, cont, np.random.default_rng(crn))
                 vv = np.array([vals[c] for c in choices])
                 if vv.max() == vv.min():
                     ties += 1
@@ -220,10 +282,10 @@ class Agent:
         for _ in range(rounds):
             segs = []
             for _ in range(rollouts):
-                st, mpos, prev, obs = states[int(rng.integers(len(states)))]
+                st, mpos, prev, obs, hud0, gone0 = states[int(rng.integers(len(states)))]
                 env.restore(st)
                 perc.tracker.pos, perc.tracker.miss = mpos, 0
-                hud = HudReader(perc.counters or []); hud.step(obs)
+                hud, self.gone = copy.deepcopy(hud0), gone0
                 buf, last = [], 0
                 for _ in range(horizon):
                     me = self._track(obs)
@@ -233,7 +295,7 @@ class Agent:
                     ev = hud.step(obs)
                     if self.s_idx is not None and self.s_idx in ev:
                         segs.append(buf[last:]); last = len(buf)
-                    if over or (self.l_idx is not None and self.l_idx in ev):
+                    if over or self._dead(ev):
                         break
             if segs:
                 med = np.median([len(s) for s in segs])
