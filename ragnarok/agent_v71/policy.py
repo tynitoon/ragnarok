@@ -86,6 +86,27 @@ class Policy:
             self.opt.zero_grad(); loss.backward(); self.opt.step()
         return float(loss.detach())
 
+    def fit_q(self, imgs, poss, qs, steps=300, bs=256, mask=None):
+        """v74: regress the outputs on measured branch values, centred per row over the available
+        slots (the policy then acts on the argmax). One row carries the value of EVERY slot, not
+        only the winner's label, so far fewer rows are needed than for cross-entropy."""
+        if mask is not None and int(np.sum(mask)) < 2:
+            return float("nan")
+        I = torch.from_numpy(np.asarray(imgs, np.uint8)).to(self.device)
+        P = torch.from_numpy(np.asarray(poss)).to(self.device)
+        Q = torch.from_numpy(np.asarray(qs, np.float32)).to(self.device)
+        M = torch.from_numpy(np.asarray(mask, bool)).to(self.device)
+        Qc = Q - (Q * M).sum(1, keepdim=True) / M.sum()
+        n = len(Q)
+        loss = None
+        for _ in range(steps):
+            idx = torch.randint(0, n, (min(bs, n),), device=self.device)
+            lo = self.net(I[idx].float(), P[idx])
+            lo = lo - (lo * M).sum(1, keepdim=True) / M.sum()
+            loss = (((lo - Qc[idx]) ** 2) * M).sum(1).mean()
+            self.opt.zero_grad(); loss.backward(); self.opt.step()
+        return float(loss.detach())
+
 
 class EffectAdapter:
     """Per-game table effect -> buttons, rebuilt by the probes at game entry (grant G5). The policy

@@ -34,6 +34,8 @@ class Agent:
         self.frames_adapter = 0
         self.vanish_k = vanish_k            # v73: "I vanished for k steps" counts as a life lost
         self.gone = 0                       # consecutive steps my tracker found me nowhere
+        self.base_slot = None               # v74: base policy of the rollout improvement
+        self.live_temp = 1.0
 
     # ------------------------------------------------------------------ entry
     def enter(self, env, rng, seed=0, seed_steps=3000, n_sightings=5, check_steps=1500, max_lost=0.2):
@@ -101,8 +103,16 @@ class Agent:
 
     # ------------------------------------------------------------------ acting
     def act(self, obs, me, prev, rng, temp=1.0, eps=0.02):
+        """v74: with `commit` > 1 a decision is held for `commit` steps (the hold over which the
+        rollout improvement measured it); `_held` is reset at the start of every trajectory."""
         img, pos, prev = ego_view(obs, self.perc.bg, me, prev)
-        e = self.policy.act(img, pos, rng, temp=temp, eps=eps, mask=self.mask)
+        k, h = getattr(self, "commit", 1), getattr(self, "_held", None)
+        if k > 1 and h is not None and h[1] > 0:
+            e = h[0]
+            self._held = (e, h[1] - 1)
+        else:
+            e = self.policy.act(img, pos, rng, temp=temp, eps=eps, mask=self.mask)
+            self._held = (e, k - 1) if k > 1 else None
         return self.adapter.to_button(e), e, img, pos, prev
 
     def _track(self, obs):
@@ -152,9 +162,15 @@ class Agent:
                 depth += 1
                 if over:
                     break
-                me = perc.locate(env, obs)
-                tr = perc.tracker
-                self.gone = self.gone + 1 if (me is None or tr.miss > 0) else 0
+                # v74 fix: the same perception as live play (tracker update, else whole-screen
+                # reacquire), so "I vanished" is the signal validated by the pre-check. v73 used the
+                # probe path here (update only, no reacquire): a car over the chicken for 2 steps read
+                # as a death, every Freeway trajectory was cut and the demo came out empty.
+                me = self._track(obs)
+                if perc.tracker.lost:
+                    found = perc.locate(env, obs)
+                    if found is not None:          # the probe sees me: I did not vanish
+                        me, self.gone = found, 0
                 ev = perc.hud.step(obs)
                 if self.s_idx is not None and self.s_idx in ev:
                     events += 1
@@ -190,16 +206,28 @@ class Agent:
             obs, over = env.step(a)
             if over:
                 break
+        if not states:                      # v74: no demonstration (no event found): start from the root
+            env.restore(root)
+            obs = env.obs()
+            perc.tracker.pos, perc.tracker.miss = None, 0
+            self._track(obs)
+            hud = HudReader(perc.counters or []); hud.step(obs)
+            states.append((env.clone(), perc.tracker.pos, None, obs, hud, 0))
         return D, states
 
     # ------------------------------------------------------------------ self-imitation
     def learn(self, env, rng, demo, root, method="bri", rounds=12, bc_steps=1500, **kw):
         D, states = self.replay_demo(env, demo, root)
-        if not states or not D:
+        if not states:
             return dict(rounds=[])
-        self.policy.fit(*zip(*D), steps=bc_steps, mask=self.mask)
+        if D:
+            self.policy.fit(*zip(*D), steps=bc_steps, mask=self.mask)
+        elif method != "rpi":               # branch ranking/segments need a demonstration to start
+            return dict(rounds=[])
         if method == "segments":
             return self._learn_segments(env, rng, D, states, rounds, **kw)
+        if method == "rpi":
+            return self._learn_rpi(env, rng, D, states, rounds, **kw)
         return self._learn_bri(env, rng, D, states, rounds, **kw)
 
     def _rollout_roots(self, env, rng, states, n_roll=3, length=300, every=12):
@@ -277,6 +305,173 @@ class Agent:
                 log(f"   bri r{r:02d} labelled {labelled}/{len(sel)} ties {ties} labels {rec['labels']} frames {env.frames}")
         return dict(rounds=hist)
 
+    # ------------------------------------------------------------------ v74: rollout improvement
+    def _base_act(self, obs, me, prev, rng):
+        """The base policy: the agent's best constant slot, or (iterated) its own greedy policy."""
+        if self.base_slot is not None:
+            _, _, prev = ego_view(obs, self.perc.bg, me, prev)
+            return self.adapter.to_button(self.base_slot), self.base_slot, prev
+        a, e, _, _, prev = self.act(obs, me, prev, rng, temp=0.05, eps=0.0)
+        return a, e, prev
+
+    def _q(self, env, root, slot, hold, horizon, rng, death_penalty):
+        """Hold `slot` for `hold` steps, then follow the base policy for `horizon` steps.
+        Value = my score events - death_penalty if I die (the branch ends there). Screen only."""
+        perc = self.perc
+        st, mpos, prev, obs, hud0, gone0 = root
+        env.restore(st)
+        perc.tracker.pos, perc.tracker.miss = mpos, 0
+        hud, self.gone = copy.deepcopy(hud0), gone0
+        self._held = None
+        v, seg = 0.0, []
+        for k in range(hold + horizon):
+            me = self._track(obs)
+            if k < hold:
+                img, pos, prev = ego_view(obs, perc.bg, me, prev)
+                seg.append((img.astype(np.uint8), pos))
+                a = self.adapter.to_button(slot)
+            else:
+                a, _, prev = self._base_act(obs, me, prev, rng)
+            obs, over = env.step(a)
+            ev = hud.step(obs)
+            if self.s_idx is not None and self.s_idx in ev:
+                v += 1.0
+            if over or self._dead(ev):
+                v -= death_penalty
+                break
+        return v, seg
+
+    def _base_roots(self, env, rng, states, n_roll, length=300, every=6, own=False, mix=0.15):
+        """Roots for the improvement step: states the base policy visits (round 0) or, `own`, the
+        states my current greedy policy visits (DAgger: the improved policy is the fixed expert,
+        the data follow the learner's own distribution)."""
+        perc, roots, seen = self.perc, [], set()
+        for _ in range(n_roll):
+            st, mpos, prev, obs, hud0, gone0 = states[int(rng.integers(len(states)))]
+            env.restore(st)
+            perc.tracker.pos, perc.tracker.miss = mpos, 0
+            hud, self.gone = copy.deepcopy(hud0), gone0
+            self._held = None
+            for k in range(length):
+                if k % every == 0:
+                    key = hash(obs.tobytes())       # the emulator is deterministic: skip seen screens
+                    if key not in seen:
+                        seen.add(key)
+                        roots.append((env.clone(), perc.tracker.pos, prev, obs, copy.deepcopy(hud), self.gone))
+                me = self._track(obs)
+                if own:
+                    a, _, _, _, prev = self.act(obs, me, prev, rng, temp=0.05, eps=0.0)
+                else:
+                    a, _, prev = self._base_act(obs, me, prev, rng)
+                if rng.random() < mix:             # diversity: the emulator is deterministic
+                    a = self.adapter.to_button(int(rng.choice(np.nonzero(self.mask)[0])))
+                obs, over = env.step(a)
+                ev = hud.step(obs)
+                if over or self._dead(ev):
+                    break
+        return roots
+
+    def _learn_rpi(self, env, rng, D, states, rounds, hold=8, horizon=64, n_roots=96, n_label=4,
+                   death_penalty=2.0, base_roots=16, iterate=False, buffer=40000, live_temp=0.05,
+                   fit_mode="label", fit_steps=300, check_roots=0, commit=True, log=None):
+        """Rollout policy improvement (v74). The agent first finds its own best constant slot
+        (each slot held hold+horizon steps from demo states, valued by its HUD). Every round, from
+        states the base policy visits, each slot is tried for `hold` steps followed by the base
+        policy; the best slot is the label, the base's own slot on ties (so the distilled policy
+        equals the base wherever no deviation helps). Improving on a base policy cannot, with exact
+        values, do worse than it. With `iterate`, the base becomes the greedy distilled policy."""
+        choices = [i for i in range(len(SLOTS)) if self.mask[i]]
+        self.base_slot = None
+        self.commit = hold if commit else 1   # act as measured: a decision lasts `hold` steps
+        # 1. the agent's own best constant slot
+        sel = [states[int(i)] for i in rng.choice(len(states), size=min(base_roots, len(states)), replace=False)]
+        cv = {}
+        for c in choices:
+            self.base_slot = c
+            cv[c] = float(np.mean([self._q(env, r, c, hold, horizon, rng, death_penalty)[0] for r in sel]))
+        best_v = max(cv.values())
+        self.base_slot = min(c for c in choices if cv[c] == best_v)
+        const_slot = self.base_slot
+        if log:
+            log(f"   rpi base: constant slot {SLOTS[const_slot]} | values { {SLOTS[c]: round(v, 2) for c, v in cv.items()} }")
+        L, LQ, hist = [], [], []
+        for r in range(rounds):
+            roots = self._base_roots(env, rng, states, n_roll=max(3, n_roots // 24), own=r > 0)
+            sel = [roots[int(i)] for i in rng.choice(len(roots), size=min(n_roots, len(roots)), replace=False)]
+            moved, lab, gain = 0, np.zeros(len(SLOTS), int), []
+            for root in sel:
+                # the base's own choice at this root (before the branches; nothing held)
+                if self.base_slot is not None:
+                    b0 = self.base_slot
+                else:
+                    self._held = None
+                    self.perc.tracker.pos, self.perc.tracker.miss = root[1], 0
+                    me = self._track(root[3])
+                    _, b0, _ = self._base_act(root[3], me, root[2], rng)
+                q, segs = {}, {}
+                for c in choices:
+                    q[c], segs[c] = self._q(env, root, c, hold, horizon, rng, death_penalty)
+                top = max(q.values())
+                b = b0 if q.get(b0, -1e9) == top else min(c for c in choices if q[c] == top)
+                moved += int(b != b0); lab[b] += 1
+                gain.append(top - q.get(b0, top))
+                for img, pos in segs[b][:n_label]:
+                    L.append((img, pos, b))
+                qv = np.zeros(len(SLOTS), np.float32)
+                for c in choices:
+                    qv[c] = q[c]
+                img0, pos0 = segs[choices[0]][0]          # the root's own view (same in every branch)
+                LQ.append((img0, pos0, qv))
+            L, LQ = L[-buffer:], LQ[-buffer:]
+            if fit_mode == "q":
+                self.policy.fit_q(*zip(*LQ), steps=fit_steps, mask=self.mask)
+            else:
+                self.policy.fit(*zip(*L), steps=fit_steps, mask=self.mask)
+            if iterate:
+                self.base_slot = None
+            rec = dict(round=r, roots=len(sel), deviations=moved, mean_gain=round(float(np.mean(gain)), 3),
+                       labels={SLOTS[i]: int(lab[i]) for i in np.nonzero(lab)[0]}, frames=env.frames)
+            if check_roots:                                # agent-side: is my policy better than my base?
+                rec["check"] = self._policy_check(env, rng, states, check_roots, hold + horizon, death_penalty, const_slot)
+            hist.append(rec)
+            if log:
+                log(f"   rpi r{r:02d} roots {len(sel)} deviations {moved} gain {rec['mean_gain']} labels {rec['labels']} "
+                    f"{rec.get('check', '')} frames {env.frames}")
+        self.base_slot = None
+        self.live_temp = live_temp
+        return dict(rounds=hist, const_slot=SLOTS[const_slot], const_values={SLOTS[c]: v for c, v in cv.items()})
+
+    def _policy_check(self, env, rng, states, n, length, dp, const_slot):
+        """My own measure (HUD events - dp x my deaths) of my greedy policy vs my constant base, over
+        `length` steps from the same `n` demo states. Charged frames; screen only."""
+        sel = [states[int(i)] for i in rng.choice(len(states), size=min(n, len(states)), replace=False)]
+        keep = self.base_slot
+        out = {}
+        for name in ("policy", "const"):
+            vals = []
+            for root in sel:
+                self.base_slot = None if name == "policy" else const_slot
+                st, mpos, prev, obs, hud0, gone0 = root
+                env.restore(st)
+                self.perc.tracker.pos, self.perc.tracker.miss = mpos, 0
+                hud, self.gone = copy.deepcopy(hud0), gone0
+                self._held = None
+                v = 0.0
+                for _ in range(length):
+                    me = self._track(obs)
+                    a, _, prev = self._base_act(obs, me, prev, rng)
+                    obs, over = env.step(a)
+                    ev = hud.step(obs)
+                    if self.s_idx is not None and self.s_idx in ev:
+                        v += 1.0
+                    if over or self._dead(ev):
+                        v -= dp
+                        break
+                vals.append(v)
+            out[name] = round(float(np.mean(vals)), 2)
+        self.base_slot = keep
+        return out
+
     def _learn_segments(self, env, rng, D, states, rounds, rollouts=16, horizon=400, log=None):
         perc, S = self.perc, list(D)
         for _ in range(rounds):
@@ -304,7 +499,11 @@ class Agent:
         return dict(rounds=[])
 
     # ------------------------------------------------------------------ live
-    def play_live(self, game, seed, games=10, max_steps=7000, temp=1.0, eps=0.02):
+    def play_live(self, game, seed, games=10, max_steps=7000, temp=None, eps=0.02):
+        """temp None: the agent's own setting (1.0 unless its learning method chose otherwise:
+        rollout improvement distils argmax labels, so it plays its policy greedily)."""
+        if temp is None:
+            temp = getattr(self, "live_temp", 1.0)
         env = AtariEnv(game, seed=seed, sticky=0.25)
         rng = np.random.default_rng(seed)
         out, counts = [], np.zeros(env.n_actions, int)
@@ -313,7 +512,7 @@ class Agent:
             obs = env.reset()
             tr = self.perc.tracker
             tr.pos, tr.miss = start, 0
-            prev = None
+            prev, self._held = None, None
             for _ in range(max_steps):
                 me = self._track(obs)
                 if start is None and me is not None:
@@ -333,7 +532,7 @@ def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=1
     t0 = time.perf_counter()
     env = AtariEnv(game, seed=seed)
     rng = np.random.default_rng(seed)
-    ag = Agent(policy)
+    ag = Agent(policy, vanish_k=2)
     ag.enter(env, rng, seed=seed)
     f_enter = env.frames + ag.frames_adapter
     if explore_iters > 0:
@@ -341,7 +540,7 @@ def run_game(game, policy=None, seed=0, explore_iters=1500, guided=0.0, rounds=1
     else:
         demo, ev, root = [], 0, None
     f_explore = env.frames + ag.frames_adapter
-    hist = ag.learn(env, rng, demo, root, method=method, rounds=rounds, log=log, **learn_kw) if demo else {}
+    hist = ag.learn(env, rng, demo, root, method=method, rounds=rounds, log=log, **learn_kw) if (demo or method == "rpi") else {}
     f_learn = env.frames + ag.frames_adapter
     live, mix = {}, {}
     for s in eval_seeds:
