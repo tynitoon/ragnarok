@@ -1,0 +1,70 @@
+{
+ "game": "freeway",
+ "train_roots": 400,
+ "heldout_roots": 300,
+ "train_frames": 496576,
+ "base": 4,
+ "H": 32,
+ "labels_heldout": {
+  "death_labels": 0,
+  "death_precision": null,
+  "death_ok": null,
+  "score_labels": 600,
+  "score_precision": 0.95,
+  "score_ok": true
+ },
+ "labels_train": {
+  "death_labels": 0,
+  "death_precision": null,
+  "death_ok": null,
+  "score_labels": 105,
+  "score_precision": 0.914,
+  "score_ok": true
+ },
+ "G1": {
+  "wrd": null,
+  "wrd_pairs": 0,
+  "wrd_ci": [
+   NaN,
+   NaN
+  ],
+  "death_brier_skill": null,
+  "death_ci": null,
+  "death_note": "no death in the held-out branches: not applicable",
+  "score_skill": 0.172,
+  "score_ci": [
+   0.037,
+   0.277
+  ],
+  "censored_branches": 0,
+  "roots_without_me": 0,
+  "rollouts": 4
+ },
+ "G1_freeway": {
+  "n": 2252,
+  "within": 0.85,
+  "ratio": 0.0,
+  "passed": true
+ },
+ "G2": {
+  "const_dev": 4,
+  "gain_over_const_dev": 0.0,
+  "ci": [
+   0.0,
+   0.0
+  ],
+  "deviate": 0.0,
+  "conv_q_gain_over_const_dev": -0.013,
+  "conv_q_ci": [
+   -0.08,
+   0.059
+  ],
+  "theory_minus_conv_q": 0.013,
+  "paired_ci": [
+   -0.059,
+   0.08
+  ],
+  "note": "conv_q uses the v74 input whose whole-screen view misses Assault's heat gauge (ARC4_V75_OFFLINE.md)"
+ },
+ "secs": 421
+}

@@ -155,3 +155,20 @@ en 3 à 5 morceaux (carrosserie, roues, vitres) : 47,5 objets par image, la limi
 permanence (G0 restait à 99,9 %, `attempt2/`). Correction retenue : blocs entiers (une voiture
 reste un objet) et, quand un bloc mêle MES couleurs (connues par mes sondes) à d'autres, ma partie
 est séparée du reste — le contact avec moi reste visible. Freeway : 12,8 objets par image (max 16).
+Essai 3 (22 h 41, traces neuves, blocs + séparation de mes couleurs) : G0 99,9 %, 12,3 objets par
+image. Contacts voiture-poule enfin enregistrés (« je suis repoussé » de 11 à 19 px vers le bas ;
+aucune mort) ; vitesses fractionnaires justes. G1 échoué : positions à 16 pas justes à 73 %, score
+pire que la climatologie (−0,45) ; G2 −0,02 (`attempt3/`). Causes : le suivi perd les voitures qui
+reviennent par l'autre bord ; la théorie ne relie les points qu'aux contacts, alors que Freeway
+donne le point en ATTEIGNANT le haut ; une couleur de la poule non retenue par mes sondes était
+prise pour un objet qui me suit.
+Essai 4 (22 octobre 0 h 30, mêmes traces, théorie seule) : notions générales ajoutées — ce qui
+reste collé à moi est moi ; rebouclage par couleur ; zones qui donnent un point ou tuent (événement
+rattaché à ma position quelques pas avant sa confirmation par le lecteur de compteurs) ;
+replacement après un événement. Théorie apprise : 7 couleurs de voitures rebouclent ; zone de
+points tout en haut (27 % par pas) ; replacement en bas après un point (47, 191). G1 Freeway
+RÉUSSI : 85 % des positions à ≤ 4 px ; score +0,17 [0,04 ; 0,28] au-dessus de la climatologie
+(`attempt4/`). Réserves : (1) le test avait été vu à l'essai 3 — à CONFIRMER sur la graine 99
+(traces et test neufs) ; (2) le critère « P(je suis repoussé sous 16) » n'est pas encore codé et
+le rapport à l'extrapolation est vide (médianes nulles) ; (3) la théorie ne dévie jamais de
+« monter » (G2 0,0 ; Freeway G2 est seulement rapporté).
