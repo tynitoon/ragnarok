@@ -108,6 +108,17 @@ def conv_q_gain(T, Hd, const_dev, seeds=(0, 1, 2)):
     return np.mean(vals, 0)
 
 
+def displaced_in(tr, th, n=16, tol=8.0):
+    """Was I moved against my own card for my slot within the first n steps (agent side)?"""
+    me = tr["me"]
+    for t in range(min(n, len(tr["slot"]), len(me) - 1)):
+        if np.isfinite(me[t, 0]) and np.isfinite(me[t + 1, 0]):
+            dx, dy = th.me_card.get(int(tr["slot"][t]), (0.0, 0.0, 0.0, 0.0))[:2]
+            if np.abs(me[t + 1] - me[t] - np.array([dx, dy])).max() > tol:
+                return True
+    return False
+
+
 def freeway_g1(th, Hd, k=16, tol=4.0):
     from scipy.optimize import linear_sum_assignment
     eth, ecv = [], []
@@ -160,6 +171,8 @@ def main(train_p, held_p, H32=32):
         clim[s] = (np.mean([f[0] for f in F]) if F else 0.0, np.mean([f[1] for f in F]) if F else 0.0)
     rng = np.random.default_rng(0)
     B = np.full((nr, k), np.nan); Bc = np.full((nr, k), np.nan); Mx = np.full((nr, k), np.nan); Mc = np.full((nr, k), np.nan)
+    Dp = np.full((nr, k), np.nan); Dc = np.full((nr, k), np.nan)
+    clim_disp = {s: np.mean([displaced_in(sib[s], th) for sib in Hd["sibsets"]]) for s in slots}
     ps, pc = np.zeros(nr), np.zeros(nr)
     censored, no_me = 0, 0
     const_dev = max(slots, key=lambda c: np.mean([branch_value(sib[c]) - branch_value(sib[T["base"]]) for sib in T["sibsets"]]))
@@ -175,6 +188,8 @@ def main(train_p, held_p, H32=32):
         for j, s in enumerate(slots):
             P = imagine(th, sc, s, seeds, hold=hold, horizon=H32 - hold, leaf=False, md=md)
             pred[s] = (float(P[:, 2].mean()), float(P[:, 1].mean()))
+            yd = float(displaced_in(sib[s], th))
+            Dp[ri, j] = (float(P[:, 3].mean()) - yd) ** 2; Dc[ri, j] = (clim_disp[s] - yd) ** 2
             f = first(sib[s], H32)
             ys[s] = f
             if f is None:
@@ -204,6 +219,11 @@ def main(train_p, held_p, H32=32):
                      censored_branches=censored, roots_without_me=no_me, rollouts=len(G))
     if T["game"] == "freeway":
         res["G1_freeway"] = freeway_g1(th, Hd)
+        res["G1_freeway"].update(displaced_brier_skill=round(float(skill(Dp, Dc)(allr)), 3),
+                                 displaced_ci=cboot(skill(Dp, Dc), G))
+        res["G1_freeway"]["passed_all"] = bool(res["G1_freeway"].get("passed") and
+                                               res["G1_freeway"]["displaced_brier_skill"] >= 0.10 and
+                                               res["G1_freeway"]["displaced_ci"][0] > 0)
     cq = conv_q_gain(T, Hd, const_dev)
     d = cg - cq
     res["G2"] = dict(const_dev=int(const_dev), gain_over_const_dev=round(float(cg.mean()), 3), ci=cboot(lambda s: cg[s].mean(), G),

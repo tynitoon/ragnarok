@@ -12,8 +12,8 @@ import subprocess
 import sys
 import time
 
-OUT = "craft_v6_out/v80"
-SEED = 98
+SEED = int(os.environ.get("V80_SEED", "98"))             # 98: development; 99: confirmation
+OUT = "craft_v6_out/v80" + ("" if SEED == 98 else f"/s{SEED}")
 
 
 def free_gb():
@@ -53,9 +53,10 @@ def prep(game):
 def jobs(game):
     c = f"{OUT}/cache_{game}_s{SEED}.pkl"
     tr, ho = f"{OUT}/trace_{game}_train.pkl", f"{OUT}/trace_{game}_heldout.pkl"
+    g0 = [(f"{OUT}/g0_{game}.json", ["-m", "scripts.check_objects_v80", game])] if SEED == 98 else []
     return [
         (c, ["-m", "scripts.run_v80_dev", "prep", game]),
-        (f"{OUT}/g0_{game}.json", ["-m", "scripts.check_objects_v80", game]),
+        *g0,
         (tr, ["-m", "scripts.collect_trace_v80", "train", c, tr, "400"]),
         (ho, ["-m", "scripts.collect_trace_v80", "heldout", c, ho, tr, "300"]),
         (ho.replace(".pkl", "_offline_H32.json"), ["-m", "scripts.theory_offline_v80", tr, ho, "32"]),

@@ -74,7 +74,7 @@ class Model:
 def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
     """One imagined future. Returns (events, died, death_step, me_end, gauge_q_end)."""
     if sc.me is None:
-        return 0.0, False, -1, None, -1
+        return 0.0, False, -1, None, -1, -1
     r_me, r_shot, r_birth, r_con, r_gauge, r_zone = (np.random.default_rng(s) for s in np.random.SeedSequence(int(sd)).spawn(6))
     O = np.zeros((sc.objs.shape[0], NC))
     O[:, :9] = sc.objs
@@ -85,7 +85,7 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
     x0, x1, y0, y1 = th.me_bounds
     g = th.gauges[0] if th.gauges and fills and fills[0] is not None else None
     base_risk = min(g["risk"]) if g else 0.0
-    events, cool = 0.0, 0
+    events, cool, disp = 0.0, 0, -1
     for t in range(hold + horizon):
         s = first if t < hold else th.base
         dx, dy, sdx, sdy = th.me_card.get(s, (0.0, 0.0, 0.0, 0.0))
@@ -125,12 +125,13 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
             O[j, 11] = 1.0
             o = _pick(md.p_me[int(O[j, 6])], O[j, 9])
             if o == D_DEATH:
-                return events, True, t, me, -1
+                return events, True, t, me, -1, disp
             if o == D_SCORE:
                 events += 1
             if o in (D_SCORE, D_VANISH):
                 O[j, 8] = 0
             if o == D_DISP:
+                disp = t if disp < 0 else disp
                 me[0] = np.clip(me[0] + md.disp[int(O[j, 6])][0], x0, x1)
                 me[1] = np.clip(me[1] + md.disp[int(O[j, 6])][1], y0, y1)
         for mj in np.nonzero(alive & mine & (O[:, 8] > 0))[0]:   # my shots touch things: resolved once
@@ -149,7 +150,7 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
         uz = r_zone.random(2)                             # places that give points or kill
         pz_s, pz_d = th.zone_event(me)
         if uz[0] < pz_d:
-            return events, True, t, me, -1
+            return events, True, t, me, -1, disp
         if uz[1] < pz_s:
             events += 1
             if "score" in th.relocate:
@@ -160,21 +161,21 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
             q = int(np.clip(np.digitize(fills[0], np.array(g["edges"])) - 1, 0, 3))
             extra = max(0.0, g["risk"][q] - base_risk)
             if ug < 1 - (1 - extra) ** (1 / 8):
-                return events, True, t, me, q
+                return events, True, t, me, q, disp
     gq = th.gauge_q(fills) if g is not None else -1
-    return events, False, -1, me, gq
+    return events, False, -1, me, gq, disp
 
 
-def imagine(th, sc, slot, rng_seeds, hold=8, horizon=24, dp=2.0, leaf=True, md=None):
-    """Particles for one slot: array rows (value, events, died)."""
+def imagine(th, sc, slot, rng_seeds, hold=8, horizon=24, dp=2.0, leaf=True, md=None, disp_within=16):
+    """Particles for one slot: array rows (value, events, died, displaced within `disp_within`)."""
     md = md or Model(th, sc.keys)
     out = []
     for sd in rng_seeds:
-        ev, died, _, me, gq = rollout(th, md, sc, slot, hold, horizon, int(sd), dp)
+        ev, died, _, me, gq, disp = rollout(th, md, sc, slot, hold, horizon, int(sd), dp)
         v = ev - dp * died
         if leaf and not died and me is not None:
             v += th.leaf_value(me, gq)
-        out.append((v, ev, float(died)))
+        out.append((v, ev, float(died), float(0 <= disp < disp_within)))
     return np.array(out)
 
 
