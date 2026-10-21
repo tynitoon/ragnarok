@@ -173,3 +173,36 @@ pilote font exactement 1894 → la politique n'influençait pas le jeu (résulta
 Pilote de transfert (`craft_v6_out/v71_transfer/`) : au départ (budget 0), l'agent
 expérimenté est bien pire que l'agent neuf (assault 17 vs ~190, carnival 116 vs ~600,
 demon_attack 22 vs ~190) : transfert NÉGATIF ; ensuite aucun écart au-delà de |Fa−Fb|.
+
+### 21 octobre (après-midi) — diagnostic appliqué, v72 → v75 (exploratoire)
+
+Code : `ragnarok/agent_v71/` sur les branches `arc4-v73` (`../ragnarok_v73`), `arc4-v74`
+(`../ragnarok_v74`), `arc4-v75-offline` (`../ragnarok_v75`), non encore fusionnées dans master.
+Protocoles figés avant lancement : `docs/ARC4_V72_PROTOCOL.md` (master), `ARC4_V73_PROTOCOL.md`,
+`ARC4_V74_PROTOCOL.md`, `ARC4_V75_OFFLINE.md` (sur leurs branches). Référence partout : le meilleur
+bouton constant sur les mêmes parties ; critère : le dépasser de plus de 2 erreurs types.
+
+- **v72** (corrections D1-D5, imitation de branches tenues 32 pas) : au niveau du constant au mieux.
+  Assault 382/365 contre UP 400 ± 25 ; Freeway 19,9/21,1 contre 21,2 ; Demon Attack 245/356 contre
+  FIRE 526 ; Name This Game 2345/2502 contre FIRE 2770 (identique à chaque partie). Carnival et
+  Breakout à compléter (deux jobs sautés par la garde RAM : relancer `python -m scripts.slice_v72 all`).
+- **Signal de mort lu à l'écran** (compteur de vies OU « disparu 2 pas », coupé si l'agent se perd
+  > 20 %) : précision 0,97-1,00, rappel 0,73-1,00 sur 4 jeux, aucune fausse alerte sur Freeway et
+  Carnival (`craft_v6_out/v73/death_check.json`). Le suivi de soi de Name This Game était perdu
+  100 % du temps (amorçage) : corrigé.
+- **v73 interrompue** : l'explorateur comptait « disparu » par une autre voie que le signal validé
+  (démo Freeway vide). Assault seul complet : 403/408 contre 407 (au niveau du constant).
+- **Constats de développement** : le gain mesuré par branches est réel (pas du bruit de sélection) ;
+  le goulot est la distillation en politique réactive. Hors ligne honnête (panel du 21 octobre), la
+  part qui dépend de l'écran est faible sur Assault (~10 % de l'oracle ; deux tiers du gain v74 étaient
+  un biais « une pause ») et nulle sur Demon Attack, dont l'oracle ressemble à du hasard. Défaut
+  d'entrée trouvé : la jauge de chaleur d'Assault est hors de la vue globale. Transfert hors ligne
+  Assault → Demon Attack : nul (frais = transporté = placebo).
+- **v74 en cours** (amélioration par simulation sur la base constante de l'agent, DAgger, décisions
+  tenues 8 pas ; graines neuves 4/5, évaluation 13/14 ; critère par graine). Premiers chiffres
+  Assault graine 4 : 387 ± 34 et 421 ± 33 (192 racines) contre 383 ± 22. Files : `slice_v74 all 0/2`
+  et `1/2` dans `../ragnarok_v74`, reprise automatique.
+- **v75 hors ligne prêt** (T1-T3, seuils écrits) dans `../ragnarok_v75` ; à lancer quand la RAM le
+  permet (un processus à la fois).
+- Ressources : superviseur RAM actif ; entre 13 h 47 et au moins 14 h 45, tous les calculs Ragnarok
+  sont restés suspendus (Tavern) ; les gardes de lancement attendent désormais au lieu de sauter.
