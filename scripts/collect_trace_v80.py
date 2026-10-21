@@ -112,7 +112,8 @@ def heldout(cache, out, train_file, n_roots=300):
     T = load_agent_file(train_file)
     base = T["base"]
     banned = set(T["screens"])
-    rng = np.random.default_rng(50)
+    rng = np.random.default_rng(50 + seed)          # the test depends on the seed (v80 §11: with a fixed
+                                                    # stream, seeds 98 and 99 got identical test roots)
     parser = lab.make_parser(ag)
     env.restore(root)                                # fresh starts: the reset state only
     obs = env.obs()

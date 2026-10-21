@@ -183,3 +183,13 @@ Règle fixée MAINTENANT, avant tout autre résultat Assault : (1) la variante p
 calculée sur cet essai 1 ; (2) UNE seule tentative supplémentaire est permise, limitée à des défauts
 nommés avant de la lancer ; (3) KC1 (classement < 0,60 et Brier mort < 0,05) s'applique ensuite à
 cette tentative, H = 32 et H = 16, et arrête la ligne « imagination » sur Assault s'il est atteint.
+
+## 11. Confirmation Freeway, graine 99 (22 octobre, 1 h 12) — NON confirmée ; défaut du test trouvé
+Code figé de l'essai 4 (étiquette `v80-attempt4-frozen`, copie `../ragnarok_v80c`), préparation et
+traces d'entraînement neuves (graine 99). Résultats (`craft_v6_out/v80/freeway_s99_confirmation/`) :
+positions à 16 pas justes à 85 % (réussi) ; score +0,11 [−0,03 ; +0,22] (borne basse < 0 : échoué) ;
+P(je suis repoussé sous 16) Brier −0,97 (échoué) ; G2 0,0. Verdict : G1 Freeway NON confirmé.
+Défaut trouvé : le jeu de test « neuf » part de l'état de début de partie (identique quelle que soit
+la graine dans l'émulateur déterministe) avec le même tirage (flux 50) : il est IDENTIQUE à celui de
+la graine 98. La confirmation a donc testé une théorie neuve sur les mêmes racines de test. Correction
+pour toute mesure future : le flux du test dépend de la graine (50 + graine).
