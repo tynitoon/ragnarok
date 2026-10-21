@@ -137,3 +137,16 @@ contre le suivi de l'agent lui-même (dit dans le résultat). Le réflexe de com
 garde l'entrée v74, dont la vue globale ne voit pas la jauge d'Assault (dit dans le résultat).
 Graines : les caches de développement sont refaits en graine 98 ; le collecteur refuse toute
 autre graine hors protocole figé.
+
+## 9. Premier essai Freeway (graine 98, 21 octobre 22 h 31) — échec G1, corrections, nouvel essai
+Résultats conservés dans `craft_v6_out/v80/attempt1/`. G0 réussi (99,9 % des voitures vues à
+≤ 4 px). Étiquettes de points justes (0,95 test, 0,91 entraînement ; aucune mort dans Freeway).
+G1 Freeway échoué : positions imaginées à 16 pas justes à ≤ 4 px pour 66 % (seuil 80 %) ; aucun
+contact voiture-poule enregistré (registre vide, a priori uniforme). G2 nul (0,7 % d'écarts).
+Causes (défauts d'implémentation, pas des réglages) : (1) les objets étaient découpés sur
+l'avant-plan entier au lieu de couleur par couleur comme prévu au §3 : une voiture sur la poule ne
+faisait qu'un bloc, donc aucun contact ; (2) la vitesse était estimée sur un seul pas : une voiture
+qui avance d'un pixel tous les deux pas lisait 0 ou 1 au lieu de 0,5. (3) Le score de Brier sur la
+mort est déclaré « sans objet » quand le test ne contient aucune mort (il valait −2,85 × 10⁹).
+Corrections : découpage couleur par couleur ; vitesse sur les 8 dernières positions observées ;
+tests ajoutés. Seuils inchangés ; nouvel essai sur la même graine de développement 98.

@@ -193,3 +193,22 @@ def test_branch_first_step_keeps_real_velocity():
     row = tr["objs"][0][tr["objs"][0][:, 0] >= 0][0]
     vx = row[lab.COLS.index("vx")]
     assert abs(vx - 3.0) < 1e-6, f"velocity at the root frame should be 3, got {vx}"
+
+
+def test_touching_objects_of_different_colours_stay_apart():
+    """v80 Freeway: a car over the chicken must remain two objects, or no contact is ever seen."""
+    from ragnarok.agent_v80.objects import Parser
+    bg = np.zeros((210, 160, 3), np.uint8)
+    objs = Parser(bg).parse(_frame([(40, 100, 8, 8, (252, 252, 84)), (46, 102, 10, 6, (167, 26, 26))]))
+    assert len(objs) == 2
+
+
+def test_slow_sprite_gets_a_fractional_velocity():
+    """A sprite moving 1 px every other step: velocity over several steps, not 0/1 alternation."""
+    from ragnarok.agent_v80.objects import Parser, Tracker
+    bg = np.zeros((210, 160, 3), np.uint8)
+    p, t = Parser(bg), Tracker()
+    for k in range(12):
+        t.step(p.parse(_frame([(20 + k // 2, 80, 4, 4, (200, 50, 50))])))
+    v = list(t.tracks.values())[0]["vx"]
+    assert 0.4 <= v <= 0.6, v

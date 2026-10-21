@@ -195,8 +195,11 @@ def main(train_p, held_p, H32=32):
     skill = lambda X, Xc: (lambda s: 1 - np.nansum(X[s]) / max(1e-9, np.nansum(Xc[s])))
     wrd = lambda s: ps[s].sum() / pc[s].sum() if pc[s].sum() else np.nan
     allr = np.arange(nr)
+    deaths_seen = any(clim[s][0] > 0 for s in slots)        # no death in the held-out: death metrics do not apply
     res["G1"] = dict(wrd=round(float(wrd(allr)), 3) if pc.sum() else None, wrd_pairs=int(pc.sum()), wrd_ci=cboot(wrd, G),
-                     death_brier_skill=round(float(skill(B, Bc)(allr)), 3), death_ci=cboot(skill(B, Bc), G),
+                     death_brier_skill=round(float(skill(B, Bc)(allr)), 3) if deaths_seen else None,
+                     death_ci=cboot(skill(B, Bc), G) if deaths_seen else None,
+                     death_note=None if deaths_seen else "no death in the held-out branches: not applicable",
                      score_skill=round(float(skill(Mx, Mc)(allr)), 3), score_ci=cboot(skill(Mx, Mc), G),
                      censored_branches=censored, roots_without_me=no_me, rollouts=len(G))
     if T["game"] == "freeway":

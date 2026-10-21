@@ -32,22 +32,25 @@ class Parser:
         self.min_px = min_px
 
     def parse(self, obs):
+        """Components are found COLOUR BY COLOUR (design §3): two touching sprites of different
+        colours stay two objects, so contacts between them are visible (v80 Freeway: a car over
+        the chicken merged into one blob and no contact was ever recorded)."""
         fg = (obs != self.bg).any(-1) & self.keep
-        lab, n = ndimage.label(fg, structure=EIGHT)
-        if n == 0:
+        if not fg.any():
             return []
         packed = pack(obs)
         out = []
-        for i, sl in enumerate(ndimage.find_objects(lab)):
-            m = lab[sl] == i + 1
-            a = int(m.sum())
-            if a < self.min_px or a > self.max_px:
-                continue
-            ys, xs = np.nonzero(m)
-            cols, cnt = np.unique(packed[sl][m], return_counts=True)
-            out.append(dict(cx=float(xs.mean() + sl[1].start), cy=float(ys.mean() + sl[0].start),
-                            x0=sl[1].start, x1=sl[1].stop, y0=sl[0].start, y1=sl[0].stop, area=a,
-                            colour=int(cols[np.argmax(cnt)]), colours=frozenset(int(c) for c in cols)))
+        for c in np.unique(packed[fg]):
+            lab, n = ndimage.label(fg & (packed == c), structure=EIGHT)
+            for i, sl in enumerate(ndimage.find_objects(lab)):
+                m = lab[sl] == i + 1
+                a = int(m.sum())
+                if a < self.min_px or a > self.max_px:
+                    continue
+                ys, xs = np.nonzero(m)
+                out.append(dict(cx=float(xs.mean() + sl[1].start), cy=float(ys.mean() + sl[0].start),
+                                x0=sl[1].start, x1=sl[1].stop, y0=sl[0].start, y1=sl[0].stop, area=a,
+                                colour=int(c), colours=frozenset((int(c),))))
         if len(out) > self.max_obj:                  # keep the largest: the rest is debris
             out.sort(key=lambda o: -o["area"])
             out = out[:self.max_obj]
@@ -59,11 +62,13 @@ class Tracker:
     steps. Prediction for matching is constant velocity unless a `predict(track) -> (x, y)` is
     given (the theory's own motion rule, once it has one)."""
 
-    def __init__(self, gate=16.0, coast=4):
+    def __init__(self, gate=16.0, coast=4, history=8):
         self.gate = gate
         self.coast = coast
+        self.history = history
         self.tracks = {}
         self.next_id = 0
+        self.t = 0
 
     def reset(self):
         self.tracks = {}
@@ -82,6 +87,7 @@ class Tracker:
             t = self.tracks[k]
             preds.append(predict(t) if predict else (t["cx"] + t["vx"], t["cy"] + t["vy"]))
         out, used_o, used_t = [], set(), set()
+        self.t += 1
         if ids and objs:
             C = np.array([[self._cost(self.tracks[k], o, *preds[i]) for o in objs] for i, k in enumerate(ids)])
             ri, ci = linear_sum_assignment(C)
@@ -90,9 +96,13 @@ class Tracker:
                     continue
                 k, o = ids[r], objs[c]
                 t = self.tracks[k]
-                vx, vy = o["cx"] - t["cx"], o["cy"] - t["cy"]
-                if t["missed"]:                      # spread the jump over the steps it was unseen
-                    vx, vy = vx / (t["missed"] + 1), vy / (t["missed"] + 1)
+                # velocity over the last observed positions (up to `history` steps): sprites that move
+                # one pixel every other step get 0.5 px/step, not an alternating 0 / 1
+                h = t.setdefault("hist", [])
+                h.append((self.t, o["cx"], o["cy"]))
+                del h[:-(self.history + 1)]
+                dt = h[-1][0] - h[0][0]
+                vx, vy = ((h[-1][1] - h[0][1]) / dt, (h[-1][2] - h[0][2]) / dt) if dt > 0 else (0.0, 0.0)
                 t.update(cx=o["cx"], cy=o["cy"], vx=vx, vy=vy, area=o["area"], colour=o["colour"],
                          box=(o["x0"], o["y0"], o["x1"], o["y1"]), age=t["age"] + 1, missed=0, born=False)
                 out.append((k, o)); used_o.add(c); used_t.add(k)
@@ -108,7 +118,7 @@ class Tracker:
                 k = self.next_id; self.next_id += 1
                 self.tracks[k] = dict(id=k, cx=o["cx"], cy=o["cy"], vx=0.0, vy=0.0, area=o["area"],
                                       colour=o["colour"], box=(o["x0"], o["y0"], o["x1"], o["y1"]),
-                                      age=0, missed=0, born=True)
+                                      age=0, missed=0, born=True, hist=[(self.t, o["cx"], o["cy"])])
                 out.append((k, o))
         return out
 
