@@ -168,7 +168,7 @@ class Theory:
         if xs:
             self.me_bounds = (float(np.min(xs)), float(np.max(xs)), float(np.min(ys)), float(np.max(ys)))
 
-    def _fit_gauges(self, traces, hold, risk_win=24, min_share=0.1, min_spread=0.1, keep=2):
+    def _fit_gauges(self, traces, hold, risk_win=24, min_share=0.02, min_spread=0.1, keep=2):
         """A gauge: a track whose anchor (left or top edge) stays put while its extent varies, seen at
         that anchor in >= `min_share` of the traces, and whose fill drift depends on MY slot (spread
         of the per-slot drift >= `min_spread` px/step). Gauges are ranked by that dependence; the
@@ -225,19 +225,30 @@ class Theory:
                                     beta={s: (b if b is not None else 0.0) for s, b in beta.items()}))
         self.gauges.sort(key=lambda g: -g["spread"])
         self.gauges = self.gauges[:keep]
+        # D-A2: a gauge that is not visible is at its minimum (its low part is absorbed by the
+        # background estimate); the risk table is re-estimated on ALL steps with that convention
+        for g in self.gauges:
+            fills, deaths = [], []
+            for tr in traces:
+                for t, rows in enumerate(tr["objs"][:len(tr["death"])]):
+                    fills.append(self._fill_of(g, rows))
+                    deaths.append(bool(tr["death"][t:t + risk_win].any()))
+            fb = np.clip(np.digitize(fills, np.array(g["edges"])) - 1, 0, 3)
+            dd = np.array(deaths)
+            p0 = float(dd.mean()) if len(dd) else 0.0
+            g["risk"] = [float((np.sum(dd[fb == q]) + 5 * p0) / (np.sum(fb == q) + 5.0)) for q in range(4)]
+
+    def _fill_of(self, g, rows):
+        axis, ax, ay = g["anchor"]
+        a0, a1 = (I["x0"], I["x1"]) if axis == "x" else (I["y0"], I["y1"])
+        for r in rows:
+            if r[I["missed"]] == 0 and abs(r[I["x0"]] - ax) <= 1 and abs(r[I["y0"]] - ay) <= 1:
+                return float(r[a1] - r[a0])
+        return float(g["lo"])                     # D-A2: not visible = at its minimum
 
     def gauge_fill(self, rows):
-        """Current fill of each gauge (or None) from one frame's rows."""
-        out = []
-        for g in self.gauges:
-            axis, ax, ay = g["anchor"]
-            a0, a1 = (I["x0"], I["x1"]) if axis == "x" else (I["y0"], I["y1"])
-            best = None
-            for r in rows:
-                if r[I["missed"]] == 0 and abs(r[I["x0"]] - ax) <= 1 and abs(r[I["y0"]] - ay) <= 1:
-                    best = float(r[a1] - r[a0])
-            out.append(best)
-        return out
+        """Current fill of each gauge from one frame's rows (its minimum when it is not visible)."""
+        return [self._fill_of(g, rows) for g in self.gauges]
 
     def is_mine_row(self, r):
         """My shot: an object of the COLOUR of the shots my buttons spawn (its size and shape vary as it
@@ -431,7 +442,7 @@ class Theory:
                 self.zones[c] = dict(n=int(n), **z)
         self.relocate = {ev: [float(x) for x in np.median(np.array(v), 0)] for ev, v in land.items() if len(v) >= 3}
 
-    def _fit_omens(self, traces, win=24, lift=3.0, min_n=30, min_p=0.3, min_delay=4):
+    def _fit_omens(self, traces, win=24, lift=3.0, min_n=50, min_p=0.5, min_delay=4):
         """A look whose presence announces MY death: P(my death within `win` steps | an object of this
         look is visible) >= `min_p` and >= `lift` x my overall rate, seen >= `min_n` times, and on
         median >= `min_delay` steps ahead (objects of my own explosion, seen 1-2 steps before the
@@ -456,13 +467,14 @@ class Theory:
                 self.omens[k] = dict(p=float(p), delay=float(np.median(delays[k])), n=int(n))
 
     def omen_hazard(self, keys_present):
-        """Per-step probability of my death given the omens on screen."""
-        q = 1.0
+        """Per-step probability of my death given the omens on screen: the STRONGEST omen present
+        (design §12, D-A1: a product over a dozen debris of one explosion tripled the death rate)."""
+        h = 0.0
         for k in keys_present:
             o = self.omens.get(k)
             if o:
-                q *= (1 - o["p"]) ** (1.0 / max(1.0, o["delay"]))
-        return 1 - q
+                h = max(h, 1 - (1 - o["p"]) ** (1.0 / max(1.0, o["delay"])))
+        return h
 
     def zone_event(self, me):
         z = self.zones.get((int(me[0]) // CELL, int(me[1]) // CELL))
