@@ -193,3 +193,16 @@ Défaut trouvé : le jeu de test « neuf » part de l'état de début de partie 
 la graine dans l'émulateur déterministe) avec le même tirage (flux 50) : il est IDENTIQUE à celui de
 la graine 98. La confirmation a donc testé une théorie neuve sur les mêmes racines de test. Correction
 pour toute mesure future : le flux du test dépend de la graine (50 + graine).
+
+## 12. Assault : variante H = 16, ablation, et défauts NOMMÉS pour l'unique tentative 2 (1 h 30)
+H = 16 sur l'essai 1 : classement 0,48 [0,44 ; 0,50], Brier mort −0,86, score −0,47 ; G2 −0,07.
+Ablation (essai 1, H = 32) : théorie complète, mort imaginée 0,64 contre 0,21 réelle (Brier −1,05) ;
+SANS présages : 0,23 contre 0,21 (Brier −0,08), mais classement toujours 0,53. Lecture : les
+présages, multipliés entre eux quand une dizaine de débris de l'explosion sont visibles, font
+exploser le risque ; et l'imagination n'a pas de jauge à suivre : la vraie jauge de chaleur
+(barre verte au-delà de x = 112, invisible quand elle est basse car le fond absorbe sa partie
+fixe) a été écartée par le filtre « présente dans ≥ 10 % des traces ».
+Défauts nommés, seuls corrigés dans la tentative 2 : (D-A1) risque des présages = celui du présage
+le plus fort à l'écran (et non leur produit), présages retenus seulement si p ≥ 0,5 et n ≥ 50 ;
+(D-A2) une jauge invisible vaut son minimum (elle disparaît dans le fond quand elle est basse), et
+le filtre de persistance passe à ≥ 2 % des traces. Puis KC1 sur la tentative 2 (H = 32 et H = 16).
