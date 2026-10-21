@@ -97,6 +97,7 @@ class Theory:
         self.wrap = {}           # key -> (wraps, exits): objects leaving one side reappear on the other
         self.zones = {}          # my cell -> dict(score=p, death=p, n): events tied to a place, not a contact
         self.relocate = {}       # "score"/"death" -> where I am put after it (x, y)
+        self.omens = {}          # key -> dict(p=P(my death within win | it is visible), delay=median steps)
         self.displace = {}       # key -> list of my displacement after a 'displaced' contact
         self.log = []
 
@@ -112,6 +113,7 @@ class Theory:
         self._fit_contacts(sibsets, hold)
         self._fit_births(traces)
         self._fit_zones(traces)
+        self._fit_omens(traces)
         self._fit_leaf(traces, hold)
         return self
 
@@ -166,8 +168,12 @@ class Theory:
         if xs:
             self.me_bounds = (float(np.min(xs)), float(np.max(xs)), float(np.min(ys)), float(np.max(ys)))
 
-    def _fit_gauges(self, traces, hold):
-        """A gauge: a track whose anchor (left or top edge) stays put while its extent varies."""
+    def _fit_gauges(self, traces, hold, risk_win=24, min_share=0.1, min_spread=0.1, keep=2):
+        """A gauge: a track whose anchor (left or top edge) stays put while its extent varies, seen at
+        that anchor in >= `min_share` of the traces, and whose fill drift depends on MY slot (spread
+        of the per-slot drift >= `min_spread` px/step). Gauges are ranked by that dependence; the
+        risk is my death within `risk_win` steps by fill quartile (Assault: the gauge turns into a
+        red bar and the cannon explodes ~14 steps later, beyond an 8-step window)."""
         seq = {}
         for ti, tr in enumerate(traces):
             for t, rows in enumerate(tr["objs"]):
@@ -185,8 +191,9 @@ class Theory:
                     anchor = (axis, int(round(np.median(R[:, I["x0"]]))), int(round(np.median(R[:, I["y0"]]))))
                     cand.setdefault(anchor, []).append((ti, k))
         self.gauges = []
+        n_tr = max(1, len(traces))
         for anchor, members in cand.items():
-            if len(members) < 5:
+            if len(members) < 5 or len({ti for ti, _ in members}) < min_share * n_tr:
                 continue
             axis = anchor[0]
             a0, a1 = (I["x0"], I["x1"]) if axis == "x" else (I["y0"], I["y1"])
@@ -199,7 +206,7 @@ class Theory:
                     if t in f and t + 1 in f:
                         drift[int(tr["slot"][t])].append(f[t + 1] - f[t])
                     if t in f:
-                        fills.append(f[t]); deaths.append(bool(tr["death"][t:t + 8].any()))
+                        fills.append(f[t]); deaths.append(bool(tr["death"][t:t + risk_win].any()))
             if not fills:
                 continue
             lo, hi = float(np.min(fills)), float(np.max(fills))
@@ -208,8 +215,16 @@ class Theory:
             dd = np.array(deaths)
             p0 = float(dd.mean())                           # shrink sparse quartiles toward the overall rate
             risk = [float((np.sum(dd[fb == q]) + 5 * p0) / (np.sum(fb == q) + 5.0)) for q in range(4)]
+            beta = {s: (float(np.mean(v)) if len(v) >= 30 else None) for s, v in drift.items()}
+            known = [b for b in beta.values() if b is not None]
+            spread = (max(known) - min(known)) if len(known) >= 2 else 0.0
+            if spread < min_spread:
+                continue
             self.gauges.append(dict(anchor=anchor, axis=axis, lo=lo, hi=hi, edges=edges.tolist(), risk=risk,
-                                    beta={s: (float(np.mean(v)) if v else 0.0) for s, v in drift.items()}))
+                                    risk_win=risk_win, spread=round(spread, 3),
+                                    beta={s: (b if b is not None else 0.0) for s, b in beta.items()}))
+        self.gauges.sort(key=lambda g: -g["spread"])
+        self.gauges = self.gauges[:keep]
 
     def gauge_fill(self, rows):
         """Current fill of each gauge (or None) from one frame's rows."""
@@ -225,14 +240,13 @@ class Theory:
         return out
 
     def is_mine_row(self, r):
-        """My shot: an object of a shot type moving like the shots my buttons spawn (same direction).
-        Enemy objects that merely look the same (e.g. falling bombs) do not qualify."""
-        k = self.key_of(r)
-        if k is None or not self.types[k].get("mine_type"):
-            return False
+        """My shot: an object of the COLOUR of the shots my buttons spawn (its size and shape vary as it
+        leaves me), unless it moves clearly against their direction (an enemy bomb of the same
+        colour falling on me). A newborn shot has no velocity yet and counts as mine."""
+        col = int(r[I["colour"]])
         v = np.array([r[I["vx"]], r[I["vy"]]])
         for m in self.mine.values():
-            if tuple(m["key"]) == k and float(np.dot(v, np.array(m["v"]))) > 0:
+            if int(m["key"][0]) == col and float(np.dot(v, np.array(m["v"]))) > -1.0:
                 return True
         return False
 
@@ -417,6 +431,39 @@ class Theory:
                 self.zones[c] = dict(n=int(n), **z)
         self.relocate = {ev: [float(x) for x in np.median(np.array(v), 0)] for ev, v in land.items() if len(v) >= 3}
 
+    def _fit_omens(self, traces, win=24, lift=3.0, min_n=30, min_p=0.3, min_delay=4):
+        """A look whose presence announces MY death: P(my death within `win` steps | an object of this
+        look is visible) >= `min_p` and >= `lift` x my overall rate, seen >= `min_n` times, and on
+        median >= `min_delay` steps ahead (objects of my own explosion, seen 1-2 steps before the
+        death signal, are the death itself, not an omen)."""
+        seen, die, delays, base = {}, {}, {}, [0, 0]
+        for tr in traces:
+            L = len(tr["death"])
+            dstep = int(np.nonzero(tr["death"])[0][0]) if tr["death"].any() else None
+            for t in range(min(L, len(tr["objs"]))):
+                d = dstep is not None and 0 <= dstep - t < win
+                base[0] += 1; base[1] += int(d)
+                for k in {self.key_of(r) for r in tr["objs"][t] if r[I["missed"]] == 0} - {None}:
+                    seen[k] = seen.get(k, 0) + 1
+                    if d:
+                        die[k] = die.get(k, 0) + 1
+                        delays.setdefault(k, []).append(dstep - t)
+        p0 = base[1] / max(1, base[0])
+        self.omens = {}
+        for k, n in seen.items():
+            p = die.get(k, 0) / n
+            if n >= min_n and p >= min_p and p >= lift * p0 and np.median(delays.get(k, [0])) >= min_delay:
+                self.omens[k] = dict(p=float(p), delay=float(np.median(delays[k])), n=int(n))
+
+    def omen_hazard(self, keys_present):
+        """Per-step probability of my death given the omens on screen."""
+        q = 1.0
+        for k in keys_present:
+            o = self.omens.get(k)
+            if o:
+                q *= (1 - o["p"]) ** (1.0 / max(1.0, o["delay"]))
+        return 1 - q
+
     def zone_event(self, me):
         z = self.zones.get((int(me[0]) // CELL, int(me[1]) // CELL))
         return (z.get("score", 0.0), z.get("death", 0.0)) if z else (0.0, 0.0)
@@ -584,4 +631,5 @@ class Theory:
             births={str(k): round(v["rate"], 4) for k, v in self.births.items()},
             wrap={hex(c): v for c, v in self.wrap.items()},
             zones={str(c): z for c, z in self.zones.items()}, relocate=self.relocate,
+            omens={str(k): v for k, v in self.omens.items()},
             leaf_mean=round(self.leaf_mean, 3)), indent=1)

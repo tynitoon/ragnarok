@@ -147,7 +147,9 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
                     O[mj, 8] = 0
                     break
         O = O[(O[:, 8] > 0) & (O[:, 0] > -20) & (O[:, 0] < 180) & (O[:, 1] > -20) & (O[:, 1] < 230)]
-        uz = r_zone.random(2)                             # places that give points or kill
+        uz = r_zone.random(3)                             # places that give points or kill; omens
+        if th.omens and uz[2] < th.omen_hazard({md.keys[int(k)] for k in O[O[:, 8] > 0, 6]}):
+            return events, True, t, me, -1, disp
         pz_s, pz_d = th.zone_event(me)
         if uz[0] < pz_d:
             return events, True, t, me, -1, disp
@@ -160,7 +162,7 @@ def rollout(th, md, sc, first, hold, horizon, sd, dp=2.0):
             fills[0] = float(np.clip(fills[0] + g["beta"].get(s, 0.0), g["lo"], g["hi"]))
             q = int(np.clip(np.digitize(fills[0], np.array(g["edges"])) - 1, 0, 3))
             extra = max(0.0, g["risk"][q] - base_risk)
-            if ug < 1 - (1 - extra) ** (1 / 8):
+            if ug < 1 - (1 - extra) ** (1 / g.get("risk_win", 8)):
                 return events, True, t, me, q, disp
     gq = th.gauge_q(fills) if g is not None else -1
     return events, False, -1, me, gq, disp
