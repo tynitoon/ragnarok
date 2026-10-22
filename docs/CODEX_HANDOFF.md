@@ -243,3 +243,10 @@ d'abord si « plus vite » est visible (G-place : coût d'entraînement d'un age
 de score), atlas « où je suis × ce que mes actions font là », a priori d'affordance testé sur des cases
 inédites ; jeux candidats Bank Heist, Wizard of Wor, Amidar, Crazy Climber (Freeway en témoin) ;
 graines 8101-8106 ; 7 jours au plus ; chances annoncées ≈ 0,2 pour l'étape entière.
+
+### 22 octobre (~4 h) — v81 arrêtée par KC-pool ; le premier obstacle est la perception générale
+E sur 5 jeux (graine 8101) : seul Amidar éligible (et sa mort n'est vue qu'une fois sur 47). Sur Bank
+Heist, Crazy Climber et Wizard of Wor l'agent lit une autre zone que le score (détecteur de compteurs
+dépendant du hasard de l'échauffement) et ne voit pas ses morts. Détails : `../ragnarok_v81/docs/ARC4_V81_ATLAS.md` §9.
+Proposition : étape « perception générale » (moi, score, mort) mesurée contre la RAM sur un large lot,
+avec seuils fixés d'avance, avant toute nouvelle mesure d'apprentissage.
