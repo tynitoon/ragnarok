@@ -21,8 +21,18 @@ def file_hash(path, n=1 << 20):
     return h.hexdigest()[:16]
 
 
+def full_hash(path):
+    """Full SHA-256 of a file (file_hash reads only the first MiB)."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
 def stamp(inputs=()):
     return dict(code_sha=_git("rev-parse", "HEAD"), dirty=bool(_git("status", "--porcelain", "--", "ragnarok", "scripts")),
+                code_tree=_git("rev-parse", "HEAD:ragnarok") + ":" + _git("rev-parse", "HEAD:scripts"),
                 launched=time.strftime("%Y-%m-%d %H:%M:%S"), launched_ts=time.time(),
                 inputs={p: file_hash(p) for p in inputs if os.path.exists(p)})
 

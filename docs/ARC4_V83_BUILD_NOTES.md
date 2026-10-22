@@ -58,3 +58,14 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     F/V > 1,25 (censure de comparateur pour les deux). Déclaré avant toute image A3.
 18. **W₋g et W_perm,₋g** ajustés depuis zéro (aucun départ à chaud depuis un W qui a vu g) ; une seule
     standardisation par ensemble d'entraînement, commune aux deux têtes.
+19. **Revue du code des promesses (`wf_fd7ce591-9d8`, avant A2 et toute image F, X, P, X0, K\*)** :
+    une tête transportée sans positif garde w, son ordonnée et son pilotage ; MAUVAIS à ordonnée seule
+    tant qu'aucune baisse de vies n'est sentie ; tête neuve à ordonnée seule ; F recalcule sa
+    standardisation à chaque réajustement ; toute échelle ≥ 0,05 (F et W) ; bouton de début de déroulé
+    noté sur la vue archivée de la case (la racine garde une vue sans mouvement) ; placebo décalé dans les
+    seules lignes non censurées de chaque tête, jeu à ≤ 20 déroulés gardés écarté des ajustements poolés
+    de cette tête ; A2b : n premières lignes non perdues ; A3/A4 : rejeu des paliers 1, 2, M\* (écart =
+    Interruption, sans rejeu = « unconfirmed »), code comparé par arbre (`code_tree`), W et têtes hachés
+    par run ; p de permutation recalculé sous l'étiquette permutée, (1+b)/(1+n) ; drapeau KC-nuisance
+    calculé avec la censure du bras transporté pour F (un F piégé ne paraît jamais rapide) ; seuil mémoire
+    14 Go pour les files A3/A4 (un réajustement tient ~0,6 Go de plus).

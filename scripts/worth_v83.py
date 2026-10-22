@@ -3,8 +3,9 @@
 Units: the room games of A1 (development and calibration, build notes §15); if more than 12, the
 first 12 of a fixed shuffle (seed 9149). Arms V, F, K* (W_same), paired seeds 9135-9138, cap 4M,
 early stop at M*_g (A1). PASS if R(K* vs the better of V and F, per game) >= 2.0 with lower bound
->= 1.25 and r_g >= 2 on >= 1/3 of the units; else KC-worth. Flag KC-harm: F more than 1.25x slower
-than V (pooled ratio of climbs). Censoring against K*.
+>= 1.25 and r_g >= 2 on >= 1/3 of the units; else KC-worth. Flag KC-harm (report only): F more than
+1.25x slower than V, F's climbs counted with carried-arm censoring so a trapped F never looks fast.
+Censoring against K*. T(M1), T(M2), T(M*) of every run confirmed by replay (mismatch = Interruption).
 
   python scripts/worth_v83.py run k/n        python scripts/worth_v83.py verdict
 """
@@ -20,7 +21,7 @@ import numpy as np
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ragnarok.evaluation.climb_stats_v83 import pooled, run_climbs, summary   # noqa: E402
-from ragnarok.evaluation.milestones_v83 import ladder                        # noqa: E402
+from ragnarok.evaluation.milestones_v83 import confirm, first_index, ladder  # noqa: E402
 from ragnarok.evaluation.pools_v83 import SEEDS                              # noqa: E402
 from ragnarok.evaluation.provenance_v81 import stamp                         # noqa: E402
 from scripts.room_v83 import gate                                            # noqa: E402
@@ -71,7 +72,7 @@ def run_all(shard, passes=3):
         for out, args in todo:
             if os.path.exists(out):
                 continue
-            gate()
+            gate(14.0)                         # a promise refit holds ~0.6 GB more than a V job
             name = pathlib.Path(out).stem
             print(time.strftime("%H:%M:%S"), "start", name, flush=True)
             with open(OUT / "worth" / "logs" / f"{name}.log", "w") as f:
@@ -79,43 +80,71 @@ def run_all(shard, passes=3):
             print(time.strftime("%H:%M:%S"), "end", name, "exit", r.returncode, flush=True)
 
 
-def verdict():
+def replay_checks(g, s, stem, records, lad, k_star):
+    """§3: T(M1), T(M2), T(M*) of a run confirmed by replay from the epoch's base (a rung not reached needs none)."""
+    npz = np.load(str(stem) + ".npz")
+    out = []
+    for k in sorted({1, 2, k_star}):
+        i = first_index(records, lad[k])
+        if i is not None:
+            got, want, ok = confirm(g, s, npz, records, i)
+            out.append(dict(game=g, seed=s, k=k, replayed=got, recorded=want, ok=ok))
+    return out
+
+
+def verdict(replay=True):
     U = units()
-    data, code, bad = {}, set(), []
+    data, harm_f, code, bad, priors, checks, cens = {}, {}, set(), [], set(), [], {}
     for g, u in U.items():
         lad = ladder(u["B"], u["u"])
         for a in ARMS:
-            C = []
+            C, recs = [], []
             for s in SEEDS_A3:
                 p = OUT / "worth" / f"{a}_{g}_{s}.json"
                 if not p.exists():
                     bad.append(str(p.name))
                     continue
                 j = json.load(open(p, encoding="utf-8"))
-                code.add((j["provenance"]["code_sha"], j["provenance"]["dirty"]))
+                pv = j["provenance"]
+                code.add((pv.get("code_tree") or pv["code_sha"], pv["dirty"]))
+                if a == "K":
+                    priors.add((j.get("W_sha256"), tuple(j.get("carried_heads") or ())))
                 if j["arm"] != a or j["seed"] != s or j["cap"] != CAP or j["stop_at"] != u["M_star"]:
                     bad.append(str(p.name))
                 C.append(run_climbs([j["records"]], lad, u["k_star"], CAP, carried=(a == "K"))[0])
+                recs.append(j["records"])
+                if replay:
+                    checks += [dict(arm=a, **c) for c in replay_checks(g, s, p.with_suffix(""), j["records"], lad, u["k_star"])]
             data[(g, a)] = C
+            cens[f"{g}|{a}"] = sum(max((t for _, t in r), default=-np.inf) < u["M_star"] for r in recs)
+            if a == "F":
+                harm_f[g] = run_climbs(recs, lad, u["k_star"], CAP, carried=True)
     complete = not bad
     res = dict(rule="docs/ARC4_V83_PROTOCOL.md §4 A3", units=U, complete=complete, missing_or_off=bad,
-               code=sorted(code), senses="score rises and lives given as senses (owner decision 2026-10-22)")
+               code=sorted(code), priors=[list(p) for p in priors], replay=replay, replay_checks=checks,
+               censored_at_M_star=cens, senses="score rises and lives given as senses (owner decision 2026-10-22)")
     if complete:
         k_units = {g: (data[(g, "K")], [data[(g, "V")], data[(g, "F")]]) for g in U}
         s = summary(k_units)
         frac = float(np.mean([r >= 2 for r in s["r_g"].values()]))
         passed = s["R"] >= 2.0 and s["lo"] >= 1.25 and frac >= 1 / 3
-        harm = pooled({g: (data[(g, "F")], [data[(g, "V")]]) for g in U})[0]
+        harm = pooled({g: (harm_f[g], [data[(g, "V")]]) for g in U})[0]
         res.update(R=s["R"], lo=s["lo"], hi=s["hi"], r_g=s["r_g"], frac_r2=frac,
                    KC_harm=bool(harm < 1 / 1.25), R_V_over_F=harm, climbs={f"{g}|{a}": c for (g, a), c in data.items()})
-        mixed = len(code) > 1 or any(d for _, d in code)
-        res["WORTH"] = "Interruption" if mixed else ("PASS" if passed else "KC-worth")
+        mixed = len(code) > 1 or any(d for _, d in code) or len(priors) > 1
+        if not replay:
+            res["WORTH"] = "unconfirmed"                      # no replay: never a verdict (§3)
+        elif mixed or not all(c["ok"] for c in checks):
+            res["WORTH"] = "Interruption"                     # mixed code or prior, or a replay mismatch (§3, §6)
+        else:
+            res["WORTH"] = "PASS" if passed else "KC-worth"
     else:
         res["WORTH"] = "incomplete"
     res["provenance"] = stamp()
-    with open(OUT / "worth_verdict.json.tmp", "w", encoding="utf-8") as f:
+    name = "worth_verdict" if replay else "worth_verdict_unconfirmed"
+    with open(OUT / f"{name}.json.tmp", "w", encoding="utf-8") as f:
         json.dump(res, f, indent=1)
-    os.replace(OUT / "worth_verdict.json.tmp", OUT / "worth_verdict.json")
+    os.replace(OUT / f"{name}.json.tmp", OUT / f"{name}.json")
     print(json.dumps({k: res.get(k) for k in ("WORTH", "R", "lo", "frac_r2", "KC_harm")}))
 
 
@@ -123,4 +152,4 @@ if __name__ == "__main__":
     if sys.argv[1] == "run":
         run_all(sys.argv[2])
     elif sys.argv[1] == "verdict":
-        verdict()
+        verdict(replay="--no-replay" not in sys.argv)

@@ -6,8 +6,11 @@ Two logistic heads over the view features (views.features): GOOD = a sensed rise
 dropped. Intercepts are free per game. Refit every 250 iterations on a reservoir of at most 120k rows;
 loss = mean log-loss + (n0/(n0+n)) (kappa0/2) ||w - w0||^2, n0 = 50,000, kappa0 = 1, w0 the carried
 weights (0 for F). The carried object W = both heads' weights + the standardisation (mean, scale); a
-fresh arm fixes its standardisation at its first refit. A head whose labels never had a positive in
-the reservoir is intercept-only. A frozen arm (X0) never refits its weights (intercepts only).
+fresh arm recomputes its standardisation from its reservoir at each refit; every scale >= SD_FLOOR.
+A fresh head without both classes in the reservoir is intercept-only; a carried head keeps its weights
+and steers (BAD is intercept-only while no lives decrease was sensed: synthesis §2.2). A frozen arm
+(X0) never refits its weights (intercepts only). At a rollout start the button is scored on the
+restored cell's archived view (it has the motion channels).
 
 Steering: (a) draw 16 candidate cells with V's weights, pick one with probability proportional to
 exp(beta clip(z, -2, 2)), z the robust z-score of u(c) = max over slots of [P(GOOD) - lambda P(BAD)];
@@ -18,11 +21,12 @@ import numpy as np
 from scipy.optimize import minimize
 
 from ragnarok.agent_v83.adapter import SLOTS
-from ragnarok.agent_v83.logs import labels
+from ragnarok.agent_v83.logs import NONE, labels
 from ragnarok.agent_v83.views import N_FEAT, features, fg_mask, log_view
 
 HORIZON = dict(good=24, bad=40)
 HEADS = ("good", "bad")
+SD_FLOOR = 0.05            # declared: no feature is scaled by less than this (all arms, carried W included)
 
 
 def slot_traits(slot):
@@ -48,14 +52,16 @@ def fit_head(X, y, w0, n0=50000, kappa0=1.0, b0=0.0, weights=None, maxiter=200, 
     sw = np.full(n, 1.0 / n) if weights is None else weights / weights.sum()
     y = y.astype(np.float64)
 
+    dt = X.dtype if X.dtype == np.float32 else np.float64
+
     def f(theta):
         w, b = theta[:d], theta[d]
-        z = X @ w + b + off
+        z = (X @ w.astype(dt)).astype(np.float64) + b + off
         lz = np.logaddexp(0.0, z)
         loss = float(sw @ (lz - y * z)) + lam * float((w - w0) @ (w - w0))
         p = 1.0 / (1.0 + np.exp(-z))
         g = (sw * (p - y)).astype(np.float64)
-        gw = X.T @ g + 2.0 * lam * (w - w0)
+        gw = (X.T @ g.astype(dt)).astype(np.float64) + 2.0 * lam * (w - w0)
         return loss, np.concatenate([gw, [g.sum()]])
 
     th0 = np.concatenate([w0, [b0]]).astype(np.float64)
@@ -87,7 +93,11 @@ class Promise:
         self.b = {h: 0.0 for h in HEADS}
         self.mean, self.scale = self.prior.mean, self.prior.scale
         # a carried head steers from the start (intercept 0 until the first refit); a fresh head once fitted
-        self.active = {h: bool(np.any(self.w[h] != 0)) for h in HEADS}
+        self.carried = {h: bool(np.any(self.w[h] != 0)) for h in HEADS}
+        self.active = dict(self.carried)
+        self.drop_seen = False                        # a lives decrease sensed after some logged row
+        self._cur = None                              # the cell of the current rollout (pick_cell)
+        self._ucache = {}                             # cell slot -> (refits, u)
         self.X = np.zeros((reservoir, N_FEAT), np.float32)
         self.lag = {h: np.zeros(reservoir, np.uint8) for h in HEADS}
         self.avail = np.zeros(reservoir, np.uint8)
@@ -103,6 +113,8 @@ class Promise:
     def add_rows(self, rows):
         """rows: RowLog.get dicts (view, screen, lost, mx, my, lives, slot, rise_lag, drop_lag, avail, t)."""
         for r in rows:
+            if r["drop_lag"] != NONE:
+                self.drop_seen = True
             if r["lost"]:
                 continue
             me = (float(r["mx"]), float(r["my"]))
@@ -122,17 +134,20 @@ class Promise:
     def refit(self):
         if self.n == 0:
             return
-        X = self.X[: self.n].astype(np.float64)
-        if self.mean is None:                        # fresh arm: standardisation fixed at first refit
-            self.mean = X.mean(0)
-            sd = X.std(0)
-            self.scale = np.where(sd > 1e-6, sd, 1.0)
-        Z = (X - self.mean) / self.scale
+        Z = self.X[: self.n].copy()                   # float32 copy, standardised in place
+        if self.prior.mean is None:                   # fresh arm: its own standardisation, recomputed at each refit
+            self.mean = Z.mean(0, dtype=np.float64)
+            self.scale = np.maximum(Z.std(0, dtype=np.float64), SD_FLOOR)
+        Z -= self.mean.astype(np.float32)
+        Z /= self.scale.astype(np.float32)
         for h in HEADS:
             y = labels(self.lag[h][: self.n], self.avail[: self.n], self.t[: self.n], HORIZON[h], stops_on_event=(h == "bad"))
             ok = y >= 0
             if not ok.any() or not (y[ok] == 1).any() or (y[ok] == 1).all():
-                self.active[h] = False          # intercept-only: no steering from this head
+                if self.carried[h] and (h == "good" or self.drop_seen):
+                    self.active[h] = True       # a carried head keeps its w (w0 or last fit), b and steering
+                    continue
+                self.active[h] = False          # intercept-only: a fresh head, or BAD while no lives decrease was sensed
                 continue
             if self.frozen:
                 w = self.prior.w[h]
@@ -142,6 +157,7 @@ class Promise:
                 self.w[h], self.b[h] = fit_head(Z[ok], y[ok], self.prior.w[h], self.n0, self.kappa0, self.b[h])
             self.active[h] = True
         self.refits += 1
+        self._ucache = {}
 
     # ---- scores --------------------------------------------------------------------------------
     def _logits(self, F):
@@ -172,18 +188,24 @@ class Promise:
             p = np.exp(self.beta * np.clip(z, -2, 2))
             i = int(cand[rng.choice(len(cand), p=p / p.sum())])
         arch.chosen[i] += 1
+        self._cur = i
         return i
 
     def _cell_u(self, i, slots):
+        c = self._ucache.get(i)
+        if c is not None and c[0] == self.refits:
+            return c[1]
         v = self.cell_view.get(i)
         if v is None:
             return 0.0
         _, util = self.slot_scores(*v, slots)
-        return float(util.max())
+        self._ucache[i] = (self.refits, float(util.max()))
+        return self._ucache[i][1]
 
     def on_put(self, ex, i, ctx):
         self.shape = ctx["obs"].shape[:2]
         self.cell_view[i] = self._view(ex.body, ctx)
+        self._ucache.pop(i, None)
 
     def on_iter(self, ex, it):
         self.add_rows([ex.rows.get(r) for r in ex.last_rows])
@@ -202,7 +224,9 @@ class Promise:
         ad = ex.body.adapter
         self.shape = ctx["obs"].shape[:2]
         slots = sorted(ad.buttons)
-        logit, _ = self.slot_scores(*self._view(ex.body, ctx), slots)
+        # rollout start (no previous frame): the restored cell's archived view, built with its own previous frame
+        v = self.cell_view.get(self._cur) if ctx["prev_obs"] is None else None
+        logit, _ = self.slot_scores(*(v if v is not None else self._view(ex.body, ctx)), slots)
         by_slot = dict(zip(slots, logit))
         lb = np.array([by_slot[ad.to_effect(b)] for b in range(n_actions)])
         sm = np.exp(lb - lb.max())

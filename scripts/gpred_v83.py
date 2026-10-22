@@ -19,8 +19,8 @@ from scipy.stats import rankdata
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ragnarok.agent_v83.promise import HEADS                     # noqa: E402
-from ragnarok.evaluation.provenance_v81 import stamp             # noqa: E402
-from scripts.train_promise_v83 import OUT, head_labels, load_store, placebo_index   # noqa: E402
+from ragnarok.evaluation.provenance_v81 import full_hash, stamp   # noqa: E402
+from scripts.train_promise_v83 import OUT, head_labels, load_store   # noqa: E402
 
 AUC_MIN = dict(good=0.60, bad=0.65)
 MARGIN = 0.03
@@ -95,7 +95,7 @@ def main():
         heads[h] = dict(passed_games=k, of=len(games), passed=bool(len(games) and k >= 0.5 * len(games) and k >= 6))
     out = dict(rule="docs/ARC4_V83_PROTOCOL.md §4 A2", games=games, heads=heads,
                G_pred="PASS" if any(v["passed"] for v in heads.values()) else "KC-pred",
-               carried_heads=[h for h in HEADS if heads[h]["passed"]], per_game=res, provenance=stamp())
+               carried_heads=[h for h in HEADS if heads[h]["passed"]], per_game=res, provenance=dict(stamp(), W_sha256=full_hash(f"{OUT}/promise_W.npz")))
     with open(f"{OUT}/gpred_verdict.json.tmp", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
     os.replace(f"{OUT}/gpred_verdict.json.tmp", f"{OUT}/gpred_verdict.json")

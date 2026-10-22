@@ -26,13 +26,12 @@ OUT = ROOT / "craft_v6_out" / "v83"
 SIZES = (2000, 10000, 50000)
 
 
-def rows_of(g, s, limit=None):
+def rows_of(g, s):
     z = np.load(OUT / "room" / f"room_{g}_{s}.npz")
-    idx = np.nonzero(~z["row_lost"])[0]
-    if limit:
-        idx = idx[:limit]
-    X = np.stack([feats(z["row_view"][i], z["row_screen"][i], False, (float(z["row_mx"][i]), float(z["row_my"][i])),
-                        int(z["row_lives"][i]), int(z["row_slot"][i]), (210, 160)) for i in idx]) if len(idx) else None
+    idx = np.nonzero(~z["row_lost"])[0]                  # every non-lost row, in time order
+    V, S, MX, MY, LV, SL = (z[k] for k in ("row_view", "row_screen", "row_mx", "row_my", "row_lives", "row_slot"))
+    X = np.stack([feats(V[i], S[i], False, (float(MX[i]), float(MY[i])), int(LV[i]), int(SL[i]), (210, 160))
+                  for i in idx]) if len(idx) else None
     lab = {h: labels(z["row_rise_lag" if h == "good" else "row_drop_lag"][idx], z["row_avail"][idx], z["row_t"][idx],
                      HORIZON[h], stops_on_event=(h == "bad")) for h in HEADS}
     return X, lab
@@ -49,7 +48,7 @@ def main():
     res = {}
     for g in gp["games"]:
         a, s = SEEDS["room"]
-        Xa, la = rows_of(g, a, max(SIZES))
+        Xa, la = rows_of(g, a)
         Xb, lb = rows_of(g, s)
         if Xa is None or Xb is None:
             continue
@@ -60,15 +59,18 @@ def main():
             okb = lb[h] >= 0
             out = []
             for n in SIZES:
-                oka = np.nonzero(la[h] >= 0)[0][:n]
+                if len(Xa) < n:                          # the run has fewer than n non-lost rows
+                    out.append(dict(n=n, available=int(len(Xa))))
+                    continue
+                oka = np.nonzero(la[h][:n] >= 0)[0]      # labelled rows among the first n non-lost rows
                 ya = la[h][oka]
-                if len(oka) < n or ya.min() == ya.max():
-                    out.append(dict(n=n, available=int(len(oka))))
+                if len(oka) == 0 or ya.min() == ya.max():
+                    out.append(dict(n=n, labelled=int(len(oka)), one_class=True))
                     continue
                 wp, bp = fit_head(Za[oka], ya, w0)
                 wf, bf = fit_head(Za[oka], ya, np.zeros_like(w0))
                 lp, lf = logloss(Zb[okb], lb[h][okb], wp, bp), logloss(Zb[okb], lb[h][okb], wf, bf)
-                out.append(dict(n=n, prior=lp, fresh=lf, advantage=lf - lp))
+                out.append(dict(n=n, labelled=int(len(oka)), prior=lp, fresh=lf, advantage=lf - lp))
             res[f"{g}|{h}"] = out
     pred = {}
     for k, v in res.items():

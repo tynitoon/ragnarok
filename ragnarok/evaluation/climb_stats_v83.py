@@ -8,6 +8,7 @@ comparator (A3 WORTH) is taken per game: the comparator arm with the smaller mea
 (and on each resample) -- declared in docs/ARC4_V83_BUILD_NOTES.md before A3.
 """
 import itertools
+import math
 
 import numpy as np
 
@@ -67,22 +68,26 @@ def head_start(T1x, T1f):
 
 
 def permutation_p(units, n_mc=10000, seed=9149):
-    """One-sided p for R(X:F) >= observed: X/F labels swapped within each game (single comparator)."""
-    obs = np.mean([_lg(cc[0], cx) for cx, cc in units.values()])
-    per = []
-    for cx, cc in units.values():
-        pool = list(cx) + list(cc[0])
-        k = len(cx)
-        splits = [(list(s), [i for i in range(len(pool)) if i not in s])
-                  for s in itertools.combinations(range(len(pool)), k)]
-        per.append([(_lg([pool[i] for i in b], [pool[i] for i in a])) for a, b in splits])
-    total = int(np.prod([len(p) for p in per]))
-    if total <= n_mc:
-        vals = [np.mean(c) for c in itertools.product(*per)]
-    else:
-        rng = np.random.default_rng(seed)
-        vals = [np.mean([p[rng.integers(len(p))] for p in per]) for _ in range(n_mc)]
-    return float((np.sum(np.array(vals) >= obs - 1e-12)) / len(vals))
+    """One-sided p for R(X:F) >= observed: X/F labels permuted within each game, each run's C recomputed
+    under its permuted label (censoring against X). units: {game: (records_X, records_F, lad, k_star, cap)}."""
+    obs, per = [], []
+    for rx, rf, lad, ks, cap in units.values():
+        pool = list(rx) + list(rf)
+        cx = [climb(r, lad, ks, cap, True) for r in pool]
+        cf = [climb(r, lad, ks, cap, False) for r in pool]
+        obs.append(_lg(cf[len(rx):], cx[:len(rx)]))
+        vals = []
+        for a in itertools.combinations(range(len(pool)), len(rx)):
+            b = [i for i in range(len(pool)) if i not in a]
+            vals.append(_lg([cf[i] for i in b], [cx[i] for i in a]))
+        per.append(vals)
+    obs = float(np.mean(obs))
+    if math.prod(len(p) for p in per) <= n_mc:                 # Python integers: no wraparound
+        vals = np.array([np.mean(c) for c in itertools.product(*per)])
+        return float(np.sum(vals >= obs - 1e-12) / len(vals))
+    rng = np.random.default_rng(seed)
+    vals = np.array([np.mean([p[rng.integers(len(p))] for p in per]) for _ in range(n_mc)])
+    return float((1 + np.sum(vals >= obs - 1e-12)) / (1 + n_mc))
 
 
 def logo_min(units):

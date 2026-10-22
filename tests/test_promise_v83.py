@@ -3,7 +3,7 @@ signal; the logged views (hence W) do not depend on the palette or on button ord
 import numpy as np
 
 from ragnarok.agent_v83.explorer import Archive
-from ragnarok.agent_v83.promise import HEADS, Promise, fit_head
+from ragnarok.agent_v83.promise import HEADS, SD_FLOOR, Prior, Promise, fit_head
 from ragnarok.agent_v83.views import N_FEAT, log_view
 
 
@@ -85,7 +85,7 @@ def test_placebo_destroys_planted_signal():
              rise_lag=np.where(hit, 3, 255).astype(np.uint8), drop_lag=np.full(len(game), 255, np.uint8),
              avail=np.full(len(game), 60, np.uint8), t=np.full(len(game), 8, np.uint8), slot=np.zeros(len(game), np.int16))
     real = tp.fit(X, m, np.arange(n_g), "good")
-    perm = tp.fit(X, m, np.arange(n_g), "good", shift=tp.placebo_index(m))
+    perm = tp.fit(X, m, np.arange(n_g), "good", y=tp.placebo_labels(m)[0]["good"])
     assert abs(real["w"][5]) > 1.0
     assert abs(perm["w"][5]) < 0.2 * abs(real["w"][5])
 
@@ -111,3 +111,53 @@ def test_head_fit_pulls_to_prior_with_little_data():
     w0 = np.array([2.0, -1.0, 0.0, 0.5])
     w, _ = fit_head(X, y, w0, n0=50000, kappa0=1.0)
     assert np.linalg.norm(w - w0) < 0.5               # 50 rows against n0 = 50,000: the prior dominates
+
+
+def test_carried_head_keeps_steering_without_positives():
+    w = np.zeros(N_FEAT)
+    w[5] = 1.0
+    for frozen in (False, True):
+        pr = Promise(Prior(w={"good": w}, mean=np.zeros(N_FEAT), scale=np.ones(N_FEAT), heads=("good",)), frozen=frozen)
+        n = 500
+        pr.X[:n] = np.random.default_rng(0).normal(size=(n, N_FEAT))
+        pr.lag["good"][:n], pr.lag["bad"][:n], pr.avail[:n], pr.t[:n], pr.n = 255, 255, 90, 8, n
+        pr.refit()
+        assert pr.active["good"] and not pr.active["bad"] and np.array_equal(pr.w["good"], w)
+
+
+def test_fresh_scales_are_floored():
+    pr = Promise()
+    n = 600
+    pr.X[0, 7] = 1 / 255
+    pr.lag["good"][:n] = np.where(np.arange(n) % 5 == 0, 3, 255)
+    pr.lag["bad"][:n], pr.avail[:n], pr.t[:n], pr.n = 255, 90, 8, n
+    pr.refit()
+    assert pr.scale.min() >= SD_FLOOR
+
+
+def test_placebo_trains_on_the_real_rows():
+    import scripts.train_promise_v83 as tp
+    r, n = np.random.default_rng(1), 3000
+    m = dict(games=np.array(["a"]), game=np.zeros(n, np.int16), seed=np.full(n, 9131),
+             it=np.repeat(np.arange(125), 24), t=np.tile(np.arange(4, 100, 4), 125).astype(np.uint8),
+             avail=r.integers(0, 97, n).astype(np.uint8), rise_lag=r.integers(0, 256, n).astype(np.uint8),
+             drop_lag=r.integers(0, 256, n).astype(np.uint8), slot=np.zeros(n, np.int16))
+    yp, out = tp.placebo_labels(m)
+    for h in tp.HEADS:
+        y = tp.head_labels(m, h)
+        assert not out[h] and np.array_equal(yp[h] >= 0, y >= 0) and yp[h][y >= 0].sum() == y[y >= 0].sum()
+
+
+def test_permutation_p_many_games_returns():
+    from ragnarok.evaluation.climb_stats_v83 import permutation_p
+    from ragnarok.evaluation.milestones_v83 import ladder
+    r = np.random.default_rng(4)
+    lad = ladder(10.0, 5.0)
+
+    def recs(t1, ts):
+        return [(int(t1), lad[1]), (int(ts), lad[3])]
+    for G in (11, 13):
+        units = {g: ([recs(1e5, 1e5 + x) for x in r.uniform(2e5, 4e5, 4)],
+                     [recs(1e5, 1e5 + x) for x in r.uniform(4e5, 8e5, 4)], lad, 3, 4_000_000) for g in range(G)}
+        p = permutation_p(units, n_mc=500)
+        assert 0 < p <= 1

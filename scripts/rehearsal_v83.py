@@ -22,7 +22,7 @@ from ragnarok.evaluation.climb_stats_v83 import head_start, run_climbs, summary,
 from ragnarok.evaluation.milestones_v83 import ladder                                 # noqa: E402
 from ragnarok.evaluation.provenance_v81 import stamp                                  # noqa: E402
 from scripts.room_v83 import gate                                                     # noqa: E402
-from scripts.worth_v83 import CAP, OUT, SEEDS_A3, units                               # noqa: E402
+from scripts.worth_v83 import CAP, OUT, SEEDS_A3, replay_checks, units   # noqa: E402
 
 RUNS = [("X", s) for s in SEEDS_A3] + [("P", s) for s in SEEDS_A3] + [("X0", s) for s in SEEDS_A3[:2]]
 
@@ -49,7 +49,7 @@ def run_all(shard, passes=3):
         for out, args in todo:
             if os.path.exists(out):
                 continue
-            gate()
+            gate(14.0)
             name = pathlib.Path(out).stem
             print(time.strftime("%H:%M:%S"), "start", name, flush=True)
             with open(OUT / "rehearsal" / "logs" / f"{name}.log", "w") as f:
@@ -57,7 +57,8 @@ def run_all(shard, passes=3):
             print(time.strftime("%H:%M:%S"), "end", name, "exit", r.returncode, flush=True)
 
 
-def _load(dirname, a, g, seeds, u, code, bad):
+def _load(dirname, a, g, seeds, u, code, bad, priors, checks):
+    lad = ladder(u["B"], u["u"])
     out = []
     for s in seeds:
         p = OUT / dirname / f"{a}_{g}_{s}.json"
@@ -65,24 +66,31 @@ def _load(dirname, a, g, seeds, u, code, bad):
             bad.append(p.name)
             continue
         j = json.load(open(p, encoding="utf-8"))
-        code.add((j["provenance"]["code_sha"], j["provenance"]["dirty"]))
+        pv = j["provenance"]
+        code.add((pv.get("code_tree") or pv["code_sha"], pv["dirty"]))     # code content, not HEAD (A3 and A4 batches)
+        if a in ("X", "P", "X0"):
+            priors.add((j.get("W_sha256"), tuple(j.get("carried_heads") or ())))
         if j["arm"] != a or j["seed"] != s or j["cap"] != CAP or j["stop_at"] != u["M_star"]:
             bad.append(p.name)
         out.append(j["records"])
+        if checks is not None:
+            checks += [dict(arm=a, **c) for c in replay_checks(g, s, p.with_suffix(""), j["records"], lad, u["k_star"])]
     return out
 
 
-def verdict():
+def verdict(replay=True):
     U = units()
-    code, bad, rec = set(), [], {}
+    code, bad, rec, priors = set(), [], {}, set()
+    checks = [] if replay else None
     for g, u in U.items():
         for a in ("V", "F"):
-            rec[(g, a)] = _load("worth", a, g, SEEDS_A3, u, code, bad)
+            rec[(g, a)] = _load("worth", a, g, SEEDS_A3, u, code, bad, priors, checks)
         for a in ("X", "P"):
-            rec[(g, a)] = _load("rehearsal", a, g, SEEDS_A3, u, code, bad)
-        rec[(g, "X0")] = _load("rehearsal", "X0", g, SEEDS_A3[:2], u, code, bad)
+            rec[(g, a)] = _load("rehearsal", a, g, SEEDS_A3, u, code, bad, priors, checks)
+        rec[(g, "X0")] = _load("rehearsal", "X0", g, SEEDS_A3[:2], u, code, bad, priors, checks)
     res = dict(rule="docs/ARC4_V83_PROTOCOL.md §4 A4 (freeze 1)", complete=not bad, missing_or_off=bad,
-               code=sorted(code), senses="score rises and lives given as senses (owner decision 2026-10-22)")
+               code=sorted(code), priors=[list(p) for p in priors], replay=replay, replay_checks=checks or [],
+               senses="score rises and lives given as senses (owner decision 2026-10-22)")
     if not bad:
         def C(g, a, carried, k_from=1):
             u = U[g]
@@ -95,15 +103,21 @@ def verdict():
         go = xf["R"] >= 1.5 and xf["lo"] > 1.1 and xv["lo"] > 1.0 and xp["lo"] > 1.0 and late["lo"] > 1.0
         hs = {g: head_start(T1s(rec[(g, "X")], ladder(U[g]["B"], U[g]["u"])),
                             T1s(rec[(g, "F")], ladder(U[g]["B"], U[g]["u"]))) for g in U}
-        mixed = len(code) > 1 or any(d for _, d in code)
-        res.update(R_XF=xf, R_XV=xv, R_XP=xp, R_late_XF=late, R_X0F=x0f, head_start=hs,
-                   GO="Interruption" if mixed else ("GO" if go else "freeze-2-or-KC-dev"))
+        mixed = len(code) > 1 or any(d for _, d in code) or len(priors) > 1
+        if not replay:
+            label = "unconfirmed"                             # no replay: never a verdict (§3)
+        elif mixed or not all(c["ok"] for c in checks):
+            label = "Interruption"
+        else:
+            label = "GO" if go else "freeze-2-or-KC-dev"
+        res.update(R_XF=xf, R_XV=xv, R_XP=xp, R_late_XF=late, R_X0F=x0f, head_start=hs, GO=label)
     else:
         res["GO"] = "incomplete"
     res["provenance"] = stamp()
-    with open(OUT / "rehearsal_verdict.json.tmp", "w", encoding="utf-8") as f:
+    name = "rehearsal_verdict" if replay else "rehearsal_verdict_unconfirmed"
+    with open(OUT / f"{name}.json.tmp", "w", encoding="utf-8") as f:
         json.dump(res, f, indent=1, default=float)
-    os.replace(OUT / "rehearsal_verdict.json.tmp", OUT / "rehearsal_verdict.json")
+    os.replace(OUT / f"{name}.json.tmp", OUT / f"{name}.json")
     print(json.dumps({k: (res[k]["R"], res[k]["lo"]) if isinstance(res.get(k), dict) and "R" in res[k] else res.get(k)
                       for k in ("GO", "R_XF", "R_XV", "R_XP", "R_late_XF", "R_X0F")}))
 
@@ -112,4 +126,4 @@ if __name__ == "__main__":
     if sys.argv[1] == "run":
         run_all(sys.argv[2])
     elif sys.argv[1] == "verdict":
-        verdict()
+        verdict(replay="--no-replay" not in sys.argv)
