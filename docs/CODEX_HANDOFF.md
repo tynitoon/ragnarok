@@ -234,3 +234,12 @@ rebouclage, replacement, présages) et imagine la suite. Graines de développeme
 v74 : Assault négatif au critère par graine (387/471 et 421/373 contre 383) ; Demon Attack négatif
 (146-149 contre 574) ; file en pause. Superviseur RAM + mémoire réservée actif ; la machine est
 très chargée par Tavern la nuit.
+
+### 22 octobre (3 h) — v80 clos ; v81 « atlas d'entraînement » ouvert
+Lecture honnête de v80 dans `../ragnarok_v80/docs/ARC4_V80_DESIGN.md` §14 (types de notions écrits par
+moi ; KC1 Assault = couche d'objets ; Freeway essai 4 indécidable ; erreur de méthode reconnue).
+v81 (`../ragnarok_v81`, branche `arc4-v81-atlas`, protocole `docs/ARC4_V81_ATLAS.md` figé) : mesurer
+d'abord si « plus vite » est visible (G-place : coût d'entraînement d'un agent neuf jusqu'à des paliers
+de score), atlas « où je suis × ce que mes actions font là », a priori d'affordance testé sur des cases
+inédites ; jeux candidats Bank Heist, Wizard of Wor, Amidar, Crazy Climber (Freeway en témoin) ;
+graines 8101-8106 ; 7 jours au plus ; chances annoncées ≈ 0,2 pour l'étape entière.
