@@ -187,7 +187,7 @@ def terminate(pid):
     return _call(pid, lambda h: bool(k32.TerminateProcess(h, 3)), 0x0001)
 
 
-WORKER = (" learn ", " prep ", " baselines ", "collect_q", "offline_")   # jobs, not queue runners
+WORKER = (" learn ", " prep ", " baselines ", "collect_q", "offline_", "room_job_v83", "bars_v83")   # jobs, not queue runners
 
 
 def main():
