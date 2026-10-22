@@ -36,29 +36,50 @@ class _Ledger:
 
 
 class Trace:
-    """Evaluator only. At every clone of the traced emulator that raises the best true cumulative
-    score so far, records (billed frames, true score, handle). The lineage of every handle (parent
-    handle or reset base, actions since) allows a replay from the base, outside the ledger."""
+    """Evaluator only. Each reset opens an epoch (its base: the ALE state right after the reset). At
+    every clone of the traced emulator that raises the best true cumulative score of its epoch, records
+    (billed frames, true score, handle). The lineage of every handle (parent handle or base, actions
+    since) allows a replay from the base, outside the ledger. Milestones are read on the LAST epoch,
+    the explorer's tree (it resets once, after entry; entry-phase states do not count). The run script
+    sets `stop_at` only after entry."""
 
     def __init__(self, stop_at=None):
         self.stop_at = stop_at
         self.stopped = False
-        self.records = []          # (billed, true, handle), billed increasing
-        self.best = -np.inf
+        self.by_base = {}          # base -> [(billed, true, handle)], billed increasing
+        self.best = {}
         self.lineage = {}          # handle -> (parent, actions since parent)
+        self.base_of = {}
         self.bases = {}            # negative id -> pickled ALE state right after a reset
+        self.cur = None
         self.game = self.seed = None
+        self.rise_billed = []      # billed frames and sizes of the first 1000 sensed rises (all epochs)
+        self.rise_sizes = []
+        self.n_rises = 0
+
+    @property
+    def records(self):
+        return self.by_base.get(self.cur, [])
 
     def on_reset(self, base, state):
         self.bases[base] = state
+        self.by_base[base], self.best[base], self.cur = [], -np.inf, base
 
     def on_clone(self, h, parent, since, billed, true):
         self.lineage[h] = (parent, since)
-        if true > self.best:
-            self.best = true
-            self.records.append((int(billed), float(true), int(h)))
-            if self.stop_at is not None and true >= self.stop_at:
+        base = parent if parent < 0 else self.base_of[parent]
+        self.base_of[h] = base
+        if true > self.best[base]:
+            self.best[base] = true
+            self.by_base[base].append((int(billed), float(true), int(h)))
+            if base == self.cur and self.stop_at is not None and true >= self.stop_at:
                 self.stopped = True
+
+    def on_rise(self, billed, rise):
+        self.n_rises += 1
+        if len(self.rise_billed) < 1000:
+            self.rise_billed.append(int(billed))
+            self.rise_sizes.append(float(rise))
 
     def actions(self, h):
         """(base id, actions from that reset to handle h)."""
@@ -79,7 +100,7 @@ class Trace:
         return env.true_score()
 
     def first_reaching(self, m):
-        """(billed, true, handle) of the first clone whose true cumulative score is >= m, or None."""
+        """(billed, true, handle) of the explorer epoch's first clone with true score >= m, or None."""
         return next((r for r in self.records if r[1] >= m), None)
 
 
@@ -119,7 +140,10 @@ class SenseEnv:
         before = self._e._true_score
         obs, end = self._e.step(a)
         self._since.append(a)
-        return obs, max(0.0, self._e._true_score - before), self._e.ale.lives(), end
+        rise = max(0.0, self._e._true_score - before)
+        if rise > 0 and self._trace is not None:
+            self._trace.on_rise(self.billed, rise)
+        return obs, rise, self._e.ale.lives(), end
 
     def clone(self):
         h = self._next

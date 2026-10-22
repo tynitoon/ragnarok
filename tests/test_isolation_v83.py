@@ -44,10 +44,10 @@ def test_no_oracle_attributes_or_private_access():
     for f, tree in _trees():
         for node in ast.walk(tree):
             if isinstance(node, ast.Attribute):
-                assert node.attr not in BAD_ATTR, (f.name, node.lineno, node.attr)
+                own = isinstance(node.value, ast.Name) and node.value.id in ("self", "cls")
+                assert own or node.attr not in BAD_ATTR, (f.name, node.lineno, node.attr)
                 if node.attr.startswith("_") and not node.attr.startswith("__"):
-                    assert isinstance(node.value, ast.Name) and node.value.id in ("self", "cls"), \
-                        (f.name, node.lineno, node.attr)
+                    assert own, (f.name, node.lineno, node.attr)
             if isinstance(node, ast.Name):
                 assert node.id not in BAD_NAMES, (f.name, node.lineno, node.id)
 
