@@ -10,8 +10,10 @@ FASTER thanks to what it learned before. Innovation is wanted; honesty is non-ne
 
 ## Never
 - Put oracle information in the agent's observations or labels: RAM, emulator reward, `env.true_score()`,
-  `env.lives()`, the 4th element of `env.clone()` are evaluator-only. Reserved games (boxing, frostbite,
-  riverraid, kangaroo) are never opened.
+  `env.lives()`, the 4th element of `env.clone()` are evaluator-only. Exception (owner decision
+  2026-10-22, v83 on): score increments and the lives count may be given as SENSES (like a human reading
+  them); every result using them must say so; nothing else (RAM, positions) without asking Jérémie.
+  Reserved games (boxing, frostbite, riverraid, kangaroo) are never opened.
 - Change a criterion, threshold, seed set or arm after seeing results. Never drop a negative result.
 - Decide from a pilot of a few games: a 10-game pilot gave 462, the frozen run 387 for the same idea.
 - Call a head start "faster learning" (compare climb costs between matched levels; use a placebo arm).
