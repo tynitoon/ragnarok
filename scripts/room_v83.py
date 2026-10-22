@@ -33,8 +33,9 @@ def free_gb():
     return min(m.a, m.x[1]) / 2 ** 30      # physical RAM and commit (x[1] = available page file)
 
 
-def gate(min_gb=14.0, wait_s=6 * 3600):
-    """Do not start while less than `min_gb` is free (Tavern keeps 12 GB). Waits rather than skipping."""
+def gate(min_gb=13.0, wait_s=6 * 3600):
+    """Do not start while less than `min_gb` is free (Tavern keeps 12 GB; a v83 job peaks near 0.4 GB).
+    Waits rather than skipping."""
     t0 = time.time()
     while free_gb() < min_gb and time.time() - t0 < wait_s:
         time.sleep(60)

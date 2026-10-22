@@ -37,12 +37,12 @@ SHAPE = (210, 160)
 def build_store():
     os.makedirs(STORE, exist_ok=True)
     rng = np.random.default_rng(SEEDS["placebo_shift"])
-    meta = dict(game=[], seed=[], it=[], rise_lag=[], drop_lag=[], avail=[], slot=[])
+    meta = dict(game=[], seed=[], it=[], rise_lag=[], drop_lag=[], avail=[], slot=[], t=[])
     chunks = []
     for gi, g in enumerate(GAMES):
         for s in SEEDS["room"]:
             z = np.load(f"{OUT}/room/room_{g}_{s}.npz")
-            keep = np.nonzero(~z["row_lost"])[0]
+            keep = np.nonzero(~z["row_lost"])[0]                 # rows where I am lost are dropped
             if len(keep) > PER_RUN:
                 keep = np.sort(rng.choice(keep, PER_RUN, replace=False))
             X = np.zeros((len(keep), N_FEAT), np.float16)
@@ -51,7 +51,7 @@ def build_store():
                              int(z["row_lives"][i]), int(z["row_slot"][i]), SHAPE)
             chunks.append(X)
             for k, src in (("rise_lag", "row_rise_lag"), ("drop_lag", "row_drop_lag"), ("avail", "row_avail"),
-                           ("it", "row_it"), ("slot", "row_slot")):
+                           ("it", "row_it"), ("slot", "row_slot"), ("t", "row_t")):
                 meta[k].append(z[src][keep])
             meta["game"].append(np.full(len(keep), gi, np.int16))
             meta["seed"].append(np.full(len(keep), s, np.int32))
@@ -74,7 +74,7 @@ def load_store():
 
 def head_labels(m, h, shift=None):
     lag = m["rise_lag"] if h == "good" else m["drop_lag"]
-    y = labels(lag, m["avail"], HORIZON[h])
+    y = labels(lag, m["avail"], m["t"], HORIZON[h], stops_on_event=(h == "bad"))
     if shift is not None:
         y = y[shift]
     return y
