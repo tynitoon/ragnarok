@@ -259,3 +259,22 @@ RAM reste interdite à l'agent (évaluation seulement). Motif : l'innovation rec
 qui s'accumule ; la lecture générique des chiffres (étape v82 « perception générale », verdict du juge
 gardé dans `../ragnarok_v81/docs/panels/v82_perception_judge.md`) devient un chantier séparé, plus tard.
 Tout résultat obtenu avec ces sens le dit explicitement.
+
+### 22 octobre (~9 h) — v83 « carte des promesses » : protocole figé, code revu, A1 lancé
+Worktree `../ragnarok_v83` (branche `arc4-v83-promise`), protocole figé `docs/ARC4_V83_PROTOCOL.md`,
+synthèse chiffrée `docs/panels/v83_promise_map_synthesis.md`, écarts d'implémentation et corrections de
+revue `docs/ARC4_V83_BUILD_NOTES.md`. Idée : l'agent apprend sur ses jeux d'avant « ce qui précède une
+hausse du score / une perte de vie » autour de lui (deux têtes, BON et MAUVAIS) et s'en sert pour piloter
+son exploration d'un jeu neuf ; contrôles : placebo à étiquettes décalées, bras neuf, bras figé.
+- Sens : `ragnarok/evaluation/senses_v83.py` (hausses, vies, poignées opaques, 60 images par chargement,
+  trace évaluateur rejouable). Le paquet agent `ragnarok/agent_v83` n'importe rien de l'évaluation (test AST).
+- Revue contradictoire avant lancement (`wf_015d274f-fc1`) : 11 défauts réels corrigés avant toute image A1,
+  dont des étiquettes sélectionnées sur leur issue et des crochets de pilotage absents.
+- Rodage (graine 9130) : Amidar atteint 490 (barre 31) ; Freeway reste à 17 sous la barre 22,7 (UP constant).
+- **A1 (G-place)** tourne depuis le worktree propre `../ragnarok_v83run` (détaché au commit `2b22e94`),
+  2 tâches : `scripts/room_v83.py run 0/2` et `1/2` (reprise automatique ; sorties
+  `../ragnarok_v83run/craft_v6_out/v83/{bars,room}`). Verdict : `scripts/room_verdict_v83.py` dans ce worktree,
+  puis commit de `room_verdict.json` avant toute image des bras F, X, P, K*. Ne pas modifier ce worktree
+  pendant A1 (provenance : code sale ou mêlé = Interruption).
+- v83 consomme les 24 jeux scellés du juge v82 (et peut-être son second tour) : une v82 relancée plus tard
+  aurait besoin d'un nouveau lot scellé.
