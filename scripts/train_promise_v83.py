@@ -96,7 +96,20 @@ def placebo_index(m):
     return idx
 
 
-def fit(X, m, games, h, shift=None, w0=None, maxiter=300, chunk=200000):
+def standardise(X, m, games, chunk=200000):
+    """Mean and scale over every (non-lost) row of the training games, shared by both heads."""
+    rows = np.nonzero(np.isin(m["game"], games))[0]
+    mean, sq = np.zeros(N_FEAT), np.zeros(N_FEAT)
+    for a in range(0, len(rows), chunk):
+        c = X[rows[a:a + chunk]].astype(np.float64)
+        mean += c.sum(0)
+        sq += (c ** 2).sum(0)
+    mean /= len(rows)
+    sd = np.sqrt(np.maximum(sq / len(rows) - mean ** 2, 0))
+    return mean, np.where(sd > 1e-6, sd, 1.0)
+
+
+def fit(X, m, games, h, shift=None, w0=None, maxiter=300, chunk=200000, stand=None):
     """Pooled logistic head over `games` (indices): equal weight per game, intercept per game."""
     y_all = head_labels(m, h, shift)
     rows = np.nonzero(np.isin(m["game"], games) & (y_all >= 0))[0]
@@ -106,15 +119,7 @@ def fit(X, m, games, h, shift=None, w0=None, maxiter=300, chunk=200000):
     cnt = np.bincount(gpos, minlength=len(ug)).astype(np.float64)
     sw = 1.0 / (len(ug) * cnt[gpos])
     y = y_all[rows].astype(np.float64)
-    mean = np.zeros(N_FEAT)
-    sq = np.zeros(N_FEAT)
-    for a in range(0, len(rows), chunk):
-        c = X[rows[a:a + chunk]].astype(np.float64)
-        mean += c.sum(0)
-        sq += (c ** 2).sum(0)
-    mean /= len(rows)
-    sd = np.sqrt(np.maximum(sq / len(rows) - mean ** 2, 0))
-    scale = np.where(sd > 1e-6, sd, 1.0)
+    mean, scale = stand if stand is not None else standardise(X, m, games, chunk)
     d, G = N_FEAT, len(ug)
 
     def f(theta):
@@ -141,19 +146,21 @@ def fit_all(only=None):
     allg = np.arange(len(names))
     shift = placebo_index(m)
     res = {}
+    st_all = standardise(X, m, allg)
     for h in HEADS:
-        dev = fit(X, m, allg, h)
-        perm = fit(X, m, allg, h, shift=shift)
+        dev = fit(X, m, allg, h, stand=st_all)
+        perm = fit(X, m, allg, h, shift=shift, stand=st_all)
         perm["w"] = perm["w"] * np.linalg.norm(dev["w"]) / max(1e-12, np.linalg.norm(perm["w"]))
         res[("dev", h)], res[("perm", h)] = dev, perm
         for g in (only or names):
             gi = names.index(g)
             rest = allg[allg != gi]
-            mg = fit(X, m, rest, h, w0=dev["w"])
-            pg = fit(X, m, rest, h, shift=shift, w0=perm["w"])
+            st_rest, st_g = standardise(X, m, rest), standardise(X, m, np.array([gi]))
+            mg = fit(X, m, rest, h, stand=st_rest)          # from zero: no warm start that saw g
+            pg = fit(X, m, rest, h, shift=shift, stand=st_rest)
             pg["w"] = pg["w"] * np.linalg.norm(mg["w"]) / max(1e-12, np.linalg.norm(pg["w"]))
             res[("minus_" + g, h)], res[("perm_minus_" + g, h)] = mg, pg
-            res[("same_" + g, h)] = fit(X, m, np.array([gi]), h)
+            res[("same_" + g, h)] = fit(X, m, np.array([gi]), h, stand=st_g)
             print(h, g, mg["converged"], flush=True)
     out = {}
     for (k, h), v in res.items():

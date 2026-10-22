@@ -53,3 +53,8 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     par jeu ; ordonnées libres par jeu ; crête 1e-4 ; L-BFGS ≤ 300 itérations ; placebo = décalage
     circulaire des étiquettes de s lignes, s uniforme entre les lignes de 10 déroulés et n moins
     celles-ci, puis normes égalisées.
+17. **A3 « le meilleur de V et F »** : pris jeu par jeu (le bras comparateur au plus petit log C moyen
+    sur ce jeu, et de même dans chaque rééchantillon) ; drapeau KC-nuisance = rapport poolé des montées
+    F/V > 1,25 (censure de comparateur pour les deux). Déclaré avant toute image A3.
+18. **W₋g et W_perm,₋g** ajustés depuis zéro (aucun départ à chaud depuis un W qui a vu g) ; une seule
+    standardisation par ensemble d'entraînement, commune aux deux têtes.

@@ -44,7 +44,7 @@ def peak_rss_mb():
     return c.PeakWorkingSetSize / 2**20, c.PeakPagefileUsage / 2**20
 
 
-def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None):
+def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None, extra=None):
     prov = stamp()                                 # the code at launch, not HEAD at the end
     t0 = time.time()
     tr = Trace()
@@ -71,7 +71,8 @@ def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None):
                records=[[b, t] for b, t, _ in recs], n_rises=tr.n_rises,
                rises_300k=sum(b <= 300000 for b in tr.rise_billed),
                median_rise=float(np.median(tr.rise_sizes)) if tr.rise_sizes else None, n_rows=int(len(rows["it"])), peak_ws_mb=peak_ws, peak_commit_mb=peak_commit,
-               wall_s=time.time() - t0, provenance=prov)
+               wall_s=time.time() - t0, provenance=prov, steer_refits=getattr(steer, "refits", None),
+               steer_active=getattr(steer, "active", None), **(extra or {}))
     stem = pathlib.Path(stem)
     stem.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(str(stem) + ".npz", **{f"row_{k}": v for k, v in rows.items()},
