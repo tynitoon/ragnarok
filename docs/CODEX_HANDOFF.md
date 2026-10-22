@@ -216,3 +216,21 @@ de relance (depuis chaque copie, en arrière-plan ; skill `ragnarok-run`) :
 3. v74 figée : `python -m scripts.slice_v74 all 0/2` et `all 1/2` dans `F:/dev/ragnarok_v74` ;
 4. v72 : `python -m scripts.slice_v72 all` dans `F:/dev/ragnarok` (trous : Carnival, Breakout).
 Toutes les gardes attendent 14 Go de RAM ET de mémoire réservée ; au plus 2-3 processus à la fois.
+
+### 22 octobre (nuit) — v80 « l'agent qui se fait une théorie du jeu » : milestone 1 négatif
+Branche `arc4-v80-theory` (`../ragnarok_v80`), conception et journal complets dans
+`docs/ARC4_V80_DESIGN.md` (§8-13). L'agent découpe l'écran en objets, fait des expériences par
+branches sœurs, écrit une théorie lisible (types, mouvements, mes tirs, contacts, jauges, zones,
+rebouclage, replacement, présages) et imagine la suite. Graines de développement 98/99.
+- G0 perception : réussi (Freeway 99,9 % des voitures ; Assault 1,7 % de pas mauvais).
+- Théorie lisible et juste : Freeway (voitures qui rebouclent, zone de points en haut, replacement
+  en bas, « une voiture me repousse ») ; Assault (je tire vers le haut à 16 px/pas, la jauge de chaleur
+  monte quand je tire, la surchauffe tue).
+- G1 Freeway réussi à l'essai 4 mais NON confirmé sur la graine 99 (le test était de plus identique
+  entre graines : corrigé). G1 Assault : critère d'arrêt KC1 atteint (classement des morts 0,28/0,47,
+  prédiction pire qu'une moyenne). G2 jamais atteint. Ligne « imagination » arrêtée sur Assault.
+- Causes : couche d'objets bruitée (le fond absorbe les jauges ; débris d'explosion pris pour des
+  présages ; types fragmentés par la forme ; une absence à l'écran est ambiguë).
+v74 : Assault négatif au critère par graine (387/471 et 421/373 contre 383) ; Demon Attack négatif
+(146-149 contre 574) ; file en pause. Superviseur RAM + mémoire réservée actif ; la machine est
+très chargée par Tavern la nuit.
