@@ -89,10 +89,6 @@ probable : KC-place ou un A1 partiel — une réponse propre et bon marché à l
 ## 8. Choix fait au nom de Jérémie (il peut le changer)
 Sur Atari, « plus vite » est d'abord mesuré comme coût d'entraînement AVEC retours en arrière, étiqueté
 comme tel ; Assault et Freeway sont abandonnés comme terrains de test (KC1 ; « monter » quasi optimal).
-EOF
-cd F:/dev/ragnarok_v81 && git add docs/ARC4_V81_ATLAS.md && git commit -q -m "ARC 4 v81 'practice atlas' protocol frozen before any agent code: measure first whether learning faster is visible at all (G-room), atlas of where I am x what my actions do, affordance prior on unseen cells, new seeds 8101-8106, gates, kill criteria, budget
-
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" && git log --oneline -1
 ## 9. Résultat de E (22 octobre, ~4 h) — KC-pool ATTEINT : la ligne s'arrête sur ce lot
 `craft_v6_out/v81/eligibility_*.json` (graine 8101, entrée v73/v74, fenêtres codées : score ±4 pas,
 mort [−30 ; +60]) :
