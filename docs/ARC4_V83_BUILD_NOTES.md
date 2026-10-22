@@ -69,3 +69,9 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     par run ; p de permutation recalculé sous l'étiquette permutée, (1+b)/(1+n) ; drapeau KC-nuisance
     calculé avec la censure du bras transporté pour F (un F piégé ne paraît jamais rapide) ; seuil mémoire
     14 Go pour les files A3/A4 (un réajustement tient ~0,6 Go de plus).
+20. **Script de verdict A1** : une correction de revue (repli du pas u) avait laissé une erreur de
+    syntaxe dans `scripts/room_verdict_v83.py` (commit A1 `2b22e94`) ; trouvée par un essai à blanc sur
+    des données partielles, corrigée sans changer la règle. Le worktree de mesure n'est pas touché (les
+    tâches A1 y tournent encore) : le verdict est calculé dans `ragnarok_v83` sur les sorties importées
+    par `scripts/a1_import_v83.py` (copie vérifiée octet par octet, manifeste SHA-256), en vérifiant que
+    tous les runs A1 portent le même code (`2b22e94`, propre).

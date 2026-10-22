@@ -44,7 +44,12 @@ def game_row(g, replay=True):
     u_src = "bars"
     if u is None:                       # no increment in the reference episodes: the runs' sensed rises
         meds = [r["median_rise"] for r in R if r.get("median_rise") is not None]
-        u, u_src = (max(0.5 * abs(B), float(np.median(meds))), "runs") if meds else \n            ((0.5 * abs(B), "half_bar") if B else (None, "none"))
+        if meds:
+            u, u_src = max(0.5 * abs(B), float(np.median(meds))), "runs"
+        elif B:
+            u, u_src = 0.5 * abs(B), "half_bar"
+        else:
+            u, u_src = None, "none"
     row = dict(game=g, complete=True, code=code, B=B, u=u, u_src=u_src, rises_300k=[r["rises_300k"] for r in R],
                best=[r["records"][-1][1] if r["records"] else None for r in R],
                entry_frames=[r["entry"]["entry_frames"] for r in R], lost_frac=[r["entry"]["lost_frac"] for r in R],
