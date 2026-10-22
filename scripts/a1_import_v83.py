@@ -1,6 +1,6 @@
 """Import the finished A1 outputs from the frozen run worktree into this worktree (evaluator side).
 
-Copies craft_v6_out/v83/{bars,room} and room_verdict.json from SRC, checks every copy byte for byte,
+Copies craft_v6_out/v83/{bars,room} from SRC, checks every copy byte for byte,
 and writes craft_v6_out/v83/a1_manifest.json (SHA-256 of every file). The JSON files and the manifest
 are committed; the .npz row logs stay on disk (about 5 MB each), pinned by their hashes.
 
@@ -20,7 +20,7 @@ def main(src):
     src = pathlib.Path(src) / "craft_v6_out" / "v83"
     dst = ROOT / "craft_v6_out" / "v83"
     files = sorted([p for d in ("bars", "room") for p in (src / d).glob("*") if p.suffix in (".json", ".npz")])
-    files.append(src / "room_verdict.json")
+    # the verdict is computed here, on the imported outputs (build notes 20)
     man = {}
     for p in files:
         q = dst / p.relative_to(src)
