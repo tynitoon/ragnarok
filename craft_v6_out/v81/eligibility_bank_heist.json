@@ -1,0 +1,114 @@
+{
+ "game": "bank_heist",
+ "seed": 8101,
+ "provenance": {
+  "code_sha": "6572956076f12573e33b61593240560c6f080f3f",
+  "dirty": false,
+  "launched": "2026-10-22 02:47:51",
+  "launched_ts": 1792630071.3876455,
+  "inputs": {}
+ },
+ "entry": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.0,
+  "slots": {
+   "0,0,0": [
+    "NOOP"
+   ],
+   "0,0,1": [
+    "FIRE"
+   ],
+   "priv0": [
+    "UP"
+   ],
+   "priv1": [
+    "RIGHT"
+   ],
+   "priv2": [
+    "LEFT"
+   ],
+   "priv3": [
+    "DOWN"
+   ],
+   "priv4": [
+    "UPRIGHT"
+   ],
+   "priv5": [
+    "UPLEFT"
+   ],
+   "priv6": [
+    "DOWNRIGHT"
+   ],
+   "priv7": [
+    "DOWNLEFT",
+    "LEFTFIRE",
+    "DOWNFIRE",
+    "UPRIGHTFIRE",
+    "UPLEFTFIRE",
+    "DOWNRIGHTFIRE",
+    "DOWNLEFTFIRE"
+   ],
+   "0,-1,0": [
+    "UPFIRE"
+   ],
+   "1,0,0": [
+    "RIGHTFIRE"
+   ]
+  }
+ },
+ "labels": {
+  "score_prec": 0.0,
+  "score_rec": 0.0,
+  "score_events": 8,
+  "true_score_events": 9,
+  "death_prec": 0.0,
+  "death_rec": 0.0,
+  "death_labels": 2,
+  "true_deaths": 35
+ },
+ "references": {
+  "constant": {
+   "NOOP": 0.0,
+   "FIRE": 0.0,
+   "UP": 0.0,
+   "RIGHT": 0.0,
+   "LEFT": 0.0,
+   "DOWN": 0.0,
+   "UPRIGHT": 0.0,
+   "UPLEFT": 0.0,
+   "DOWNRIGHT": 0.0,
+   "DOWNLEFT": 0.0,
+   "UPFIRE": 0.0,
+   "RIGHTFIRE": 0.0,
+   "LEFTFIRE": 0.0,
+   "DOWNFIRE": 0.0,
+   "UPRIGHTFIRE": 0.0,
+   "UPLEFTFIRE": 0.0,
+   "DOWNRIGHTFIRE": 0.0,
+   "DOWNLEFTFIRE": 0.0
+  },
+  "uniform": 17.0,
+  "random_repeat": 15.0,
+  "best_constant": {
+   "button": "NOOP",
+   "mean": 0.0
+  },
+  "bar": 15.0
+ },
+ "practice": {
+  "best_practice_score": 0.0,
+  "best_len": 32,
+  "agent_events": 2,
+  "iterations": 3066,
+  "billed_frames": 1627660
+ },
+ "E": {
+  "score_ok": false,
+  "death_ok": false,
+  "room_ok": false,
+  "ratio": 0.0,
+  "eligible": false
+ },
+ "secs": 677
+}

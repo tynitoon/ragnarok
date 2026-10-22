@@ -1,0 +1,90 @@
+{
+ "game": "crazy_climber",
+ "seed": 8101,
+ "provenance": {
+  "code_sha": "6572956076f12573e33b61593240560c6f080f3f",
+  "dirty": false,
+  "launched": "2026-10-22 02:55:39",
+  "launched_ts": 1792630539.2059224,
+  "inputs": {}
+ },
+ "entry": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.0,
+  "slots": {
+   "0,0,0": [
+    "NOOP"
+   ],
+   "0,-1,0": [
+    "UP"
+   ],
+   "1,0,0": [
+    "RIGHT"
+   ],
+   "-1,0,0": [
+    "LEFT"
+   ],
+   "0,1,0": [
+    "DOWN"
+   ],
+   "0,-1,1": [
+    "UPRIGHT"
+   ],
+   "-1,-1,0": [
+    "UPLEFT"
+   ],
+   "0,0,1": [
+    "DOWNRIGHT"
+   ],
+   "priv0": [
+    "DOWNLEFT"
+   ]
+  }
+ },
+ "labels": {
+  "score_prec": 0.01818181818181818,
+  "score_rec": 0.02,
+  "score_events": 55,
+  "true_score_events": 50,
+  "death_prec": null,
+  "death_rec": 0.0,
+  "death_labels": 0,
+  "true_deaths": 7
+ },
+ "references": {
+  "constant": {
+   "NOOP": 0.0,
+   "UP": 0.0,
+   "RIGHT": 0.0,
+   "LEFT": 0.0,
+   "DOWN": 0.0,
+   "UPRIGHT": 0.0,
+   "UPLEFT": 0.0,
+   "DOWNRIGHT": 0.0,
+   "DOWNLEFT": 0.0
+  },
+  "uniform": 7900.0,
+  "random_repeat": 2910.0,
+  "best_constant": {
+   "button": "NOOP",
+   "mean": 0.0
+  },
+  "bar": 2910.0
+ },
+ "practice": {
+  "best_practice_score": 0.0,
+  "best_len": 0,
+  "agent_events": 0,
+  "iterations": 3142,
+  "billed_frames": 1686192
+ },
+ "E": {
+  "score_ok": false,
+  "death_ok": false,
+  "room_ok": false,
+  "ratio": 0.0,
+  "eligible": false
+ },
+ "secs": 693
+}

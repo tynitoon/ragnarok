@@ -1,0 +1,66 @@
+{
+ "game": "freeway",
+ "seed": 8101,
+ "provenance": {
+  "code_sha": "6572956076f12573e33b61593240560c6f080f3f",
+  "dirty": false,
+  "launched": "2026-10-22 03:08:46",
+  "launched_ts": 1792631326.7316256,
+  "inputs": {}
+ },
+ "entry": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.001,
+  "slots": {
+   "0,0,0": [
+    "NOOP"
+   ],
+   "0,-1,0": [
+    "UP"
+   ],
+   "0,1,0": [
+    "DOWN"
+   ]
+  }
+ },
+ "labels": {
+  "score_prec": 1.0,
+  "score_rec": 1.0,
+  "score_events": 14,
+  "true_score_events": 13,
+  "death_prec": null,
+  "death_rec": 0.0,
+  "death_labels": 0,
+  "true_deaths": 3
+ },
+ "references": {
+  "constant": {
+   "NOOP": 0.0,
+   "UP": 21.8,
+   "DOWN": 0.0
+  },
+  "uniform": 0.0,
+  "random_repeat": 3.8,
+  "best_constant": {
+   "button": "UP",
+   "mean": 21.8
+  },
+  "bar": 21.8
+ },
+ "practice": {
+  "best_practice_score": 21.0,
+  "best_len": 2026,
+  "agent_events": 21,
+  "iterations": 3212,
+  "billed_frames": 1230188
+ },
+ "E": {
+  "score_ok": true,
+  "death_ok": false,
+  "room_ok": false,
+  "ratio": 0.96,
+  "eligible": false
+ },
+ "secs": 558
+}

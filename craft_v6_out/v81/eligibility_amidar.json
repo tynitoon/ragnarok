@@ -1,0 +1,94 @@
+{
+ "game": "amidar",
+ "seed": 8101,
+ "provenance": {
+  "code_sha": "6572956076f12573e33b61593240560c6f080f3f",
+  "dirty": false,
+  "launched": "2026-10-22 02:59:13",
+  "launched_ts": 1792630753.596839,
+  "inputs": {}
+ },
+ "entry": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.004,
+  "slots": {
+   "0,0,0": [
+    "NOOP"
+   ],
+   "0,0,1": [
+    "FIRE"
+   ],
+   "0,-1,0": [
+    "UP"
+   ],
+   "priv0": [
+    "RIGHT"
+   ],
+   "priv1": [
+    "LEFT"
+   ],
+   "0,1,0": [
+    "DOWN"
+   ],
+   "0,-1,1": [
+    "UPFIRE"
+   ],
+   "0,1,1": [
+    "RIGHTFIRE"
+   ],
+   "priv2": [
+    "LEFTFIRE"
+   ],
+   "priv3": [
+    "DOWNFIRE"
+   ]
+  }
+ },
+ "labels": {
+  "score_prec": 0.9294117647058824,
+  "score_rec": 1.0,
+  "score_events": 170,
+  "true_score_events": 147,
+  "death_prec": 1.0,
+  "death_rec": 0.02127659574468085,
+  "death_labels": 1,
+  "true_deaths": 47
+ },
+ "references": {
+  "constant": {
+   "NOOP": 0.0,
+   "FIRE": 0.0,
+   "UP": 2.0,
+   "RIGHT": 0.0,
+   "LEFT": 12.0,
+   "DOWN": 2.0,
+   "UPFIRE": 2.0,
+   "RIGHTFIRE": 0.0,
+   "LEFTFIRE": 31.0,
+   "DOWNFIRE": 2.0
+  },
+  "uniform": 1.6,
+  "random_repeat": 40.7,
+  "best_constant": {
+   "button": "LEFTFIRE",
+   "mean": 31.0
+  },
+  "bar": 40.7
+ },
+ "practice": {
+  "best_practice_score": 189.0,
+  "best_len": 1202,
+  "agent_events": 49,
+  "iterations": 3141,
+  "billed_frames": 1635540
+ },
+ "E": {
+  "score_ok": true,
+  "death_ok": true,
+  "room_ok": true,
+  "ratio": 4.64,
+  "eligible": true
+ },
+ "secs": 567
+}

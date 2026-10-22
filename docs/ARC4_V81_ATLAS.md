@@ -93,3 +93,19 @@ EOF
 cd F:/dev/ragnarok_v81 && git add docs/ARC4_V81_ATLAS.md && git commit -q -m "ARC 4 v81 'practice atlas' protocol frozen before any agent code: measure first whether learning faster is visible at all (G-room), atlas of where I am x what my actions do, affordance prior on unseen cells, new seeds 8101-8106, gates, kill criteria, budget
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" && git log --oneline -1
+## 9. Résultat de E (22 octobre, ~4 h) — KC-pool ATTEINT : la ligne s'arrête sur ce lot
+`craft_v6_out/v81/eligibility_*.json` (graine 8101, entrée v73/v74, fenêtres codées : score ±4 pas,
+mort [−30 ; +60]) :
+| jeu | score préc./rappel | mort préc./rappel (étiquettes / vraies) | pratique / barre | éligible |
+|---|---|---|---|---|
+| amidar | 0,93 / 1,00 | 1,00 / 0,02 (1 / 47) | 189 / 40,7 (×4,6) | oui (réserve : mort quasi absente) |
+| bank_heist | 0,00 / 0,00 | 0,00 / 0,00 (2 / 35) | 0 / 15 | non |
+| crazy_climber | 0,02 / 0,02 | — / 0,00 (0 / 7) | 0 / 2910 | non |
+| wizard_of_wor | 0,20 / 0,15 | — / 0,00 (0 / 40) | 0 / 500 | non |
+| freeway | 1,00 / 1,00 | pas de mort (fins de partie) | 21 / 21,8 (×0,96) | non (prédit) |
+Un seul jeu éligible : KC-pool (< 3). La ligne v81 s'arrête sur ce lot ; un nouveau lot exige un nouveau
+protocole. Réserves : E ne fixait pas de nombre minimal d'étiquettes (la « précision 1,00 » d'Amidar
+porte sur 1 mort) ; sur Bank Heist et Crazy Climber l'agent compte presque autant de points que la RAM
+mais pas aux mêmes instants (retard d'affichage possible, en cours de diagnostic, sans effet sur le
+verdict puisque la mort échoue aussi). Enseignement principal : la perception « qui tient depuis v71 »
+ne se généralise pas ; sur 4 jeux neufs sur 5, score ou mort échouent.
