@@ -250,3 +250,12 @@ Heist, Crazy Climber et Wizard of Wor l'agent lit une autre zone que le score (d
 dépendant du hasard de l'échauffement) et ne voit pas ses morts. Détails : `../ragnarok_v81/docs/ARC4_V81_ATLAS.md` §9.
 Proposition : étape « perception générale » (moi, score, mort) mesurée contre la RAM sur un large lot,
 avec seuils fixés d'avance, avant toute nouvelle mesure d'apprentissage.
+
+### 22 octobre (~5 h) — DÉCISION DE JÉRÉMIE : « sens du score et des vies »
+Choix explicite de Jérémie (question posée après v81) : l'agent reçoit le score (ses hausses) et le
+nombre de vies comme des sens, l'équivalent d'un humain qui lit ces chiffres à l'écran. Tout le reste
+(moi, effets des boutons, objets, dangers, valeur) reste appris depuis les pixels et les boutons. La
+RAM reste interdite à l'agent (évaluation seulement). Motif : l'innovation recherchée est l'apprentissage
+qui s'accumule ; la lecture générique des chiffres (étape v82 « perception générale », verdict du juge
+gardé dans `../ragnarok_v81/docs/panels/v82_perception_judge.md`) devient un chantier séparé, plus tard.
+Tout résultat obtenu avec ces sens le dit explicitement.
