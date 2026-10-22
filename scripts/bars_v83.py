@@ -81,12 +81,13 @@ def bar(game, seed, n=10):
     B = max(out["best_constant"]["mean"], out["uniform"], out["random_repeat"])
     med = float(np.median(rises)) if rises else None
     out.update(B=B, median_rise=med, n_rises=len(rises),
-               u=max(0.5 * abs(B), med) if med is not None else (0.5 * abs(B) if B else None))
+               u=max(0.5 * abs(B), med) if med is not None else None)     # None: median from the runs' trace
     return out
 
 
 if __name__ == "__main__":
     seed, path, games = int(sys.argv[1]), sys.argv[2], sys.argv[3:]
+    prov = stamp()
     res = {}
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
@@ -98,7 +99,7 @@ if __name__ == "__main__":
         b = bar(g, seed)
         b["wall_s"] = time.time() - t0
         res.setdefault("bars", {})[g] = b
-        res["seed"], res["provenance"] = seed, stamp()
+        res["seed"], res["provenance"] = seed, prov
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(res, f, indent=1)

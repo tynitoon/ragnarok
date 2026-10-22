@@ -61,9 +61,82 @@ def test_explorer_records_replay():
         assert tr.replay(h) == t
     rows = ex.rows.arrays()
     assert len(rows["it"]) > 50
-    g = labels(rows["rise_lag"], rows["avail"], 24)
+    g = labels(rows["rise_lag"], rows["avail"], rows["t"], 24)
     assert set(np.unique(g)) <= {-1, 0, 1}
-    assert (rows["avail"] >= 1).all() and (rows["avail"] <= 96).all()
+    assert (g[rows["t"].astype(int) + 24 > 100] == -1).all()
+    assert (rows["t"] % 4 == 0).all() and (rows["t"] >= 4).all() and (rows["avail"] <= 96).all()
+    last = rows["it"] == rows["it"].max()
+    assert (rows["avail"][~last] >= 1).all()          # avail 0 only on the Spent-cut rollout
+    z = rows["avail"] == 0
+    assert (rows["rise_lag"][z] == 255).all() and (rows["drop_lag"][z] == 255).all()
+
+
+def test_labels_censoring_not_outcome_dependent():
+    t, avail = np.array([60, 80, 80, 20, 20]), np.array([40, 20, 20, 10, 10])
+    lag = np.array([255, 3, 255, 5, 255])
+    assert labels(lag, avail, t, 24).tolist() == [0, -1, -1, -1, -1]
+    assert labels(lag, avail, t, 40, stops_on_event=True).tolist() == [0, -1, -1, 1, -1]
+
+
+class _StubSteer:
+    """Draws exactly like V; records the hooks."""
+
+    def __init__(self):
+        self.puts, self.its = set(), []
+
+    def pick_cell(self, ex, rng):
+        i = ex.arch.draw(rng)
+        ex.arch.chosen[i] += 1
+        return i
+
+    def pick_button(self, ex, rng, n, ctx):
+        return int(rng.integers(n))
+
+    def on_put(self, ex, i, ctx):
+        assert ex.arch.used[i] and set(ctx) >= {"obs", "prev_obs", "me", "prev_me", "lives", "lost"}
+        self.puts.add(int(i))
+
+    def on_iter(self, ex, it):
+        self.its.append(it)
+
+
+def _short(steer):
+    env = SenseEnv("pong", seed=9130, cap=60000)
+    rng = np.random.default_rng(9130)
+    body = Body()
+    body.enter(env, rng, 9130, warm_steps=500, seed_steps=300, check_steps=100)
+    ex = Explorer(body, steer=steer)
+    out = ex.run(env, rng, spent=Spent)
+    return ex, out
+
+
+def test_stub_steer_equals_V_and_hooks_fire():
+    exv, outv = _short(None)
+    stub = _StubSteer()
+    exs, outs = _short(stub)
+    rv, rs = exv.rows.arrays(), exs.rows.arrays()
+    assert all(np.array_equal(rv[k], rs[k], equal_nan=rv[k].dtype.kind == "f") for k in rv)
+    iv, is_ = exv.iters.arrays(), exs.iters.arrays()
+    assert all(np.array_equal(iv[k], is_[k]) for k in iv)
+    assert outv["cells"] == outs["cells"]
+    assert stub.its == list(range(1, outs["iters"] + 1))
+    assert set(np.nonzero(exs.arch.used)[0].tolist()) <= stub.puts
+
+
+def test_me_mask_keeps_neighbour_and_trail():
+    from ragnarok.agent_v83.views import unpack
+    bg = np.zeros((210, 160, 3), np.uint8)
+    obs = bg.copy()
+    obs[100:104, 80:96] = 200                      # me: a 16x4 paddle
+    obs[100:104, 98:100] = 100                     # an object 2 px away, not touching
+    packed, _, lost, _ = log_view(obs, None, bg, (87.5, 101.5), 64.0)
+    w = unpack(packed)
+    assert not lost and w[0].sum() == 8            # only the neighbour remains in 'objects'
+    prev = bg.copy()
+    prev[100:104, 76:92] = 200                     # where I was one step ago
+    from ragnarok.agent_v83.views import fg_mask
+    packed, _, _, _ = log_view(obs, fg_mask(prev, bg), bg, (87.5, 101.5), 64.0, prev_me=(83.5, 101.5))
+    assert unpack(packed)[2].sum() == 0            # my trail is not 'vanished'
 
 
 def _rot_move(m, k):

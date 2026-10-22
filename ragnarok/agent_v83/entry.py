@@ -20,7 +20,7 @@ class Body:
     """Where I am: background, tracker, probes. `probe_calls` and `probe_frames` are logged per arm."""
 
     def __init__(self):
-        self.bg = self.tracker = self.adapter = None
+        self.bg = self.tracker = self.adapter = self.my_size = None
         self.probe_calls = 0
         self.probe_frames = 0
 
@@ -57,7 +57,7 @@ class Body:
                     tr.update(obs)                    # nearest component when the probe's centre was a hole
                 if tr.size is not None:
                     sizes.append(tr.size)
-        tr.size = float(np.median(sizes)) if sizes else None
+        self.my_size = tr.size = float(np.median(sizes)) if sizes else None   # fixed per run: the view's size
         obs, _ = env.reset()
         tr.pos, tr.miss = None, 0
         lost = []
@@ -71,7 +71,7 @@ class Body:
                 obs, _ = env.reset()
                 tr.pos, tr.miss = None, 0
         self.report = dict(entry_frames=env.billed - b0, warm_frames=b1 - b0, adapter_frames=b2 - b1,
-                           my_sizes=[float(s) for s in sizes], lost_frac=float(np.mean(lost)) if lost else 1.0,
+                           my_sizes=[float(s) for s in sizes], my_size=self.my_size, lost_frac=float(np.mean(lost)) if lost else 1.0,
                            slots=self.adapter.mapping(), n_resp=self.adapter.n_resp)
         return self.report
 

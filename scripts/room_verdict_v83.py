@@ -18,11 +18,11 @@ import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from ragnarok.evaluation.milestones_v83 import confirm, first_index, first_T, ladder, top_rung   # noqa: E402
+from ragnarok.evaluation.milestones_v83 import climb, confirm, first_index, first_T, ladder, top_rung   # noqa: E402
 from ragnarok.evaluation.pools_v83 import CALIBRATION, DEV, SEEDS                                # noqa: E402
 from ragnarok.evaluation.provenance_v81 import stamp                                             # noqa: E402
 
-OUT = "craft_v6_out/v83"
+OUT = str(ROOT / "craft_v6_out" / "v83")
 CAP = 2_000_000
 
 
@@ -31,14 +31,21 @@ def game_row(g, replay=True):
     runs = [f"{OUT}/room/room_{g}_{s}" for s in SEEDS["room"]]
     if not os.path.exists(bp) or not all(os.path.exists(r + ".json") for r in runs):
         return dict(game=g, complete=False)
-    bar = json.load(open(bp, encoding="utf-8"))["bars"][g]
+    bj = json.load(open(bp, encoding="utf-8"))
+    bar = bj["bars"][g]
     R = [json.load(open(r + ".json", encoding="utf-8")) for r in runs]
+    code = [[p["code_sha"], p["dirty"]] for p in [bj["provenance"]] + [r["provenance"] for r in R]]
+    off = [s for r, s in zip(R, SEEDS["room"]) if r["seed"] != s or r["cap"] != CAP or r.get("stop_at") is not None
+           or "max_iters" not in r or r["max_iters"] is not None or r.get("steer") is not None
+           or r["summary"]["billed"] < CAP]
+    if off:
+        return dict(game=g, complete=False, code=code, why=f"not a frozen A1 run (seeds {off})")
     B, u = bar["B"], bar["u"]
     u_src = "bars"
     if u is None:                       # no increment in the reference episodes: the runs' sensed rises
         meds = [r["median_rise"] for r in R if r.get("median_rise") is not None]
-        u, u_src = (max(0.5 * abs(B), float(np.median(meds))), "runs") if meds else (None, "none")
-    row = dict(game=g, complete=True, B=B, u=u, u_src=u_src, rises_300k=[r["rises_300k"] for r in R],
+        u, u_src = (max(0.5 * abs(B), float(np.median(meds))), "runs") if meds else \n            ((0.5 * abs(B), "half_bar") if B else (None, "none"))
+    row = dict(game=g, complete=True, code=code, B=B, u=u, u_src=u_src, rises_300k=[r["rises_300k"] for r in R],
                best=[r["records"][-1][1] if r["records"] else None for r in R],
                entry_frames=[r["entry"]["entry_frames"] for r in R], lost_frac=[r["entry"]["lost_frac"] for r in R],
                probe_share=[r["summary"]["probe_frames"] / max(1, r["summary"]["billed"]) for r in R],
@@ -57,9 +64,10 @@ def game_row(g, replay=True):
     c = all(t is not None for t in T1) and float(np.median(T1)) <= 1_000_000
     C = None
     if b:
-        C = [first_T(x, lad[k_star]) - first_T(x, lad[1]) for x in recs]
+        C = [climb(x, lad, k_star, CAP, carried=False) for x in recs]          # floor C >= 5,000 (§3)
         row["C"] = C
-        row["C_late"] = [first_T(x, lad[k_star]) - first_T(x, lad[2]) for x in recs]
+        row["C_raw"] = [first_T(x, lad[k_star]) - first_T(x, lad[1]) for x in recs]
+        row["C_late"] = [climb(x, lad, k_star, CAP, carried=False, k_from=2) for x in recs]
     d = C is not None and float(np.median(C)) >= 300_000
     row.update(a=a, b=b, c=c, d=d, room=bool(a and b and c and d))
     if replay and k_star >= 1:
@@ -86,17 +94,27 @@ def verdict(replay=True):
     se = float(np.sqrt((s2 / 2 + 0.09) / g_proj)) if room else None
     passed = complete and n_room >= 13 and se is not None and se <= 0.23
     interrupted = [r["game"] for r in rows if r.get("interruption")]
+    shas = sorted({c[0] for r in rows for c in r.get("code", [])})
+    dirty = any(c[1] for r in rows for c in r.get("code", []))
+    if not replay:
+        label = "unconfirmed"                    # no replay: never a verdict (§3)
+    elif interrupted or len(shas) > 1 or dirty:
+        label = "Interruption"                   # replay mismatch, mixed or dirty code (§3, §6)
+    elif passed:
+        label = "PASS"
+    else:
+        label = "KC-room" if complete else "incomplete"
     return dict(rule="docs/ARC4_V83_PROTOCOL.md §4 A1", complete=complete, n_room_dev=n_room,
                 room_dev=[r["game"] for r in room], room_cal=[r["game"] for r in rows if r["game"] in CALIBRATION and r.get("room")],
                 sigma2=s2, sigma=None if s2 is None else float(np.sqrt(s2)), G_proj=g_proj, se_proj=se,
-                G_room="PASS" if passed else ("KC-room" if complete else "incomplete"),
+                G_room=label, replay=bool(replay), code_shas=shas, dirty=dirty,
                 interruptions=interrupted, senses="score rises and lives given as senses (owner decision 2026-10-22)",
                 rows=rows, provenance=stamp())
 
 
 if __name__ == "__main__":
     v = verdict(replay="--no-replay" not in sys.argv)
-    path = f"{OUT}/room_verdict.json"
+    path = f"{OUT}/room_verdict.json" if v["replay"] else f"{OUT}/room_verdict_unconfirmed.json"
     with open(path + ".tmp", "w", encoding="utf-8") as f:
         json.dump(v, f, indent=1)
     os.replace(path + ".tmp", path)

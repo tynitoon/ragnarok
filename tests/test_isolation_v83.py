@@ -15,7 +15,7 @@ FILES = sorted(AGENT.glob("*.py"))
 BAD_ATTR = {"ram", "getRAM", "true_score", "game", "ale", "lives", "actions", "cloneState", "restoreState",
             "getScreenRGB", "getMinimalActionSet"}
 BAD_NAMES = {"getattr", "setattr", "vars", "eval", "exec", "globals", "__import__", "compile", "open"}
-ALLOWED_IMPORTS = {"numpy", "scipy", "scipy.ndimage", "zlib", "math", "collections", "heapq", "json", "time",
+ALLOWED_IMPORTS = {"numpy", "scipy", "scipy.ndimage", "scipy.optimize", "zlib", "math", "collections", "heapq", "json", "time",
                    "ragnarok.agent_v71.tracker", "scripts.ref_extract_v70"}
 
 

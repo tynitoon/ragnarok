@@ -18,8 +18,10 @@ def fg_mask(obs, bg):
     return (obs != bg).any(-1)
 
 
-def _me_mask(lab, fg, me, r=4):
-    """My component: the foreground component under my position, else the nearest within r pixels."""
+def _me_mask(lab, fg, me, my_size=None, r=4):
+    """My component: the foreground component under my position, else the nearest within r pixels;
+    other components within r are added, nearest first, only while the total stays <= 1.5x my size
+    (a sprite in pieces), so a separate object next to me is not erased (review B-2)."""
     m = np.zeros(fg.shape, bool)
     if me is None:
         return m
@@ -27,10 +29,18 @@ def _me_mask(lab, fg, me, r=4):
     x, y = int(round(me[0])), int(round(me[1]))
     y0, y1, x0, x1 = max(0, y - r), min(H, y + r + 1), max(0, x - r), min(W, x + r + 1)
     sub = lab[y0:y1, x0:x1]
-    ids = np.unique(sub[sub > 0])
-    if len(ids):
-        m = np.isin(lab, ids)
-    return m
+    ys, xs = np.nonzero(sub)
+    if not len(ys):
+        return m
+    order = np.argsort((ys + y0 - y) ** 2 + (xs + x0 - x) ** 2, kind="stable")
+    ids = list(dict.fromkeys(sub[ys[order], xs[order]].tolist()))      # components, nearest first
+    sizes = np.bincount(lab.ravel())
+    keep, total = [ids[0]], float(sizes[ids[0]])
+    for j in ids[1:]:
+        if my_size and total + sizes[j] <= 1.5 * my_size:
+            keep.append(j)
+            total += float(sizes[j])
+    return np.isin(lab, keep)
 
 
 def _window(mask, cx, cy):
@@ -47,19 +57,24 @@ def pool(a, n):
     return a.reshape(n, a.shape[0] // n, n, a.shape[1] // n).mean((1, 3))
 
 
-def log_view(obs, prev_fg, bg, me, my_size):
-    """Returns (packed 4x64x64 window bits, uint8 8x8 whole-screen foreground, lost flag, fg mask)."""
+def log_view(obs, prev_fg, bg, me, my_size, lost=None, prev_me=None):
+    """Returns (packed 4x64x64 window bits, uint8 8x8 whole-screen foreground, lost flag, fg mask).
+    `lost` (default: me is None) centres the window on the screen and masks nothing; otherwise my
+    component is masked from every channel and my previous one (prev_me on prev_fg) from 'vanished'."""
     fg = fg_mask(obs, bg)
+    lost = me is None if lost is None else bool(lost or me is None)
     lab, n = ndimage.label(fg)
-    mem = _me_mask(lab, fg, me)
+    mem = _me_mask(lab, fg, None if lost else me, my_size)
     sizes = np.bincount(lab.ravel(), minlength=n + 1)
     small_ids = sizes <= 2.0 * (my_size or 32.0)
     small_ids[0] = False
     small = small_ids[lab]
     pf = fg if prev_fg is None else prev_fg
-    chans = (fg & ~mem, fg & ~pf & ~mem, pf & ~fg & ~mem, small & ~mem)
+    pmem = np.zeros_like(fg)
+    if prev_fg is not None and prev_me is not None:
+        pmem = _me_mask(ndimage.label(prev_fg)[0], prev_fg, prev_me, my_size)
+    chans = (fg & ~mem, fg & ~pf & ~mem, pf & ~fg & ~mem & ~pmem, small & ~mem)
     H, W = fg.shape
-    lost = me is None
     cx, cy = (W / 2.0, H / 2.0) if lost else me
     win = np.stack([_window(c, cx, cy) for c in chans])
     screen = np.round(pool(fg.astype(np.float32), 8) * 255).astype(np.uint8)
@@ -80,10 +95,15 @@ def orientation(move):
     return k, sx != 0 and sy != 0, True
 
 
-def _cone_bins(ch, diag):
-    """One-hot distance bin of the nearest set pixel in the forward cone (up, or up-right if diag)."""
+ME_AT = {0: (32, 32), 1: (31, 32), 2: (31, 31), 3: (32, 31)}    # (row, col) of me after k quarter turns
+
+
+def _cone_bins(ch, diag, k=0):
+    """One-hot distance bin of the nearest set pixel in the forward cone (up, or up-right if diag),
+    measured from my position in the oriented window (review C-2)."""
+    row, col = ME_AT[k]
     ys, xs = np.nonzero(ch)
-    dx, dy = xs - (HALF - 0.5), (HALF - 0.5) - ys          # dy > 0 ahead (up)
+    dx, dy = xs - col, row - ys                         # dy > 0 ahead (up)
     if diag:
         dx, dy = (dx - dy) / np.sqrt(2), (dx + dy) / np.sqrt(2)
     ahead = (dy > 0) & (np.abs(dx) <= dy)
@@ -106,8 +126,8 @@ def features(packed, screen, lost, me, lives, move, extra, private, shape=(210, 
     win, k, diag, oriented = oriented_window(packed, move)
     w = win.astype(np.float32)
     f = [pool(w[c], n).ravel() for c in range(4) for n in (8, 4, 2)]
-    f.append(_cone_bins(win[0], diag))
-    f.append(_cone_bins(win[1], diag))
+    f.append(_cone_bins(win[0], diag, k))
+    f.append(_cone_bins(win[1], diag, k))
     rot = np.zeros(4, np.float32)
     if oriented:
         rot[k] = 1.0

@@ -25,7 +25,7 @@ from ragnarok.evaluation.senses_v83 import SenseEnv, Spent, Trace   # noqa: E402
 
 
 def peak_rss_mb():
-    """Peak working set of this process (Windows), MB."""
+    """Peak working set and peak commit of this process (Windows), MB."""
     import ctypes
     from ctypes import wintypes
 
@@ -37,13 +37,15 @@ def peak_rss_mb():
                     ("PagefileUsage", ctypes.c_size_t), ("PeakPagefileUsage", ctypes.c_size_t)]
     c = PMC()
     c.cb = ctypes.sizeof(PMC)
-    k = ctypes.WinDLL("psapi")
-    h = ctypes.windll.kernel32.GetCurrentProcess()
-    k.GetProcessMemoryInfo(h, ctypes.byref(c), c.cb)
+    k32 = ctypes.WinDLL("kernel32")
+    k32.GetCurrentProcess.restype = wintypes.HANDLE
+    k32.K32GetProcessMemoryInfo.argtypes = [wintypes.HANDLE, ctypes.POINTER(PMC), wintypes.DWORD]
+    k32.K32GetProcessMemoryInfo(k32.GetCurrentProcess(), ctypes.byref(c), c.cb)
     return c.PeakWorkingSetSize / 2**20, c.PeakPagefileUsage / 2**20
 
 
 def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None):
+    prov = stamp()                                 # the code at launch, not HEAD at the end
     t0 = time.time()
     tr = Trace()
     env = SenseEnv(game, seed=seed, cap=cap, trace=tr)
@@ -64,11 +66,12 @@ def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None):
         offs.append(offs[-1] + len(a))
     rows, iters = ex.rows.arrays(), ex.iters.arrays()
     peak_ws, peak_commit = peak_rss_mb()
-    out = dict(game=game, seed=seed, cap=cap, stop_at=stop_at, entry=entry, summary=summ,
+    out = dict(game=game, seed=seed, cap=cap, stop_at=stop_at, max_iters=max_iters,
+               steer=None if steer is None else type(steer).__name__, entry=entry, summary=summ,
                records=[[b, t] for b, t, _ in recs], n_rises=tr.n_rises,
                rises_300k=sum(b <= 300000 for b in tr.rise_billed),
                median_rise=float(np.median(tr.rise_sizes)) if tr.rise_sizes else None, n_rows=int(len(rows["it"])), peak_ws_mb=peak_ws, peak_commit_mb=peak_commit,
-               wall_s=time.time() - t0, provenance=stamp())
+               wall_s=time.time() - t0, provenance=prov)
     stem = pathlib.Path(stem)
     stem.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(str(stem) + ".npz", **{f"row_{k}": v for k, v in rows.items()},

@@ -16,7 +16,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ragnarok.evaluation.pools_v83 import CALIBRATION, DEV, SEEDS   # noqa: E402
 
-OUT = "craft_v6_out/v83"
+OUT = str(ROOT / "craft_v6_out" / "v83")
 CAP = 2_000_000
 GAMES = DEV + CALIBRATION
 

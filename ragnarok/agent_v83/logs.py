@@ -1,8 +1,8 @@
 """Explorer logs. RowLog: one promise row every 4th rollout step (packed view, slot, button, and the
 senses' outcome lags: steps to the first rise and to the first lives decrease from that step within the
-rollout, 255 = none, and the steps available after it). Any horizon H gives a label: 1 if lag < H,
-0 if avail >= H, else censored (cut off). IterLog: per iteration billed frames, best S, cells, probe
-frames, lost steps, how the rollout stopped."""
+rollout, 255 = none, the steps available after it, the rollout step t and the tracker's miss count).
+`labels` gives a horizon H a label without selecting rows on their outcome. IterLog: per iteration
+billed frames, best S, cells, probe frames, lost steps, how the rollout stopped."""
 import numpy as np
 
 from ragnarok.agent_v83.views import WIN
@@ -54,12 +54,18 @@ class RowLog(_Chunks):
                               lost=(np.bool_, ()), mx=(np.float32, ()), my=(np.float32, ()),
                               lives=(np.int16, ()), slot=(np.int16, ()), button=(np.int16, ()),
                               it=(np.int32, ()), rise_lag=(np.uint8, ()), drop_lag=(np.uint8, ()),
-                              avail=(np.uint8, ())))
+                              avail=(np.uint8, ()), t=(np.uint8, ()), miss=(np.uint8, ())))
 
-    def add(self, packed, screen, lost, me, lives, slot, button, it):
+    def add(self, packed, screen, lost, me, lives, slot, button, it, t, miss):
         mx, my = (np.nan, np.nan) if me is None else me
         return super().add(view=packed, screen=screen, lost=lost, mx=mx, my=my, lives=lives, slot=slot,
-                           button=button, it=it, rise_lag=NONE, drop_lag=NONE, avail=0)
+                           button=button, it=it, t=t, miss=min(255, int(miss)),
+                           rise_lag=NONE, drop_lag=NONE, avail=0)
+
+    def get(self, i):
+        c, j = divmod(i, self.chunk)
+        src = self.cur if c == len(self.done["it"]) else {k: v[c] for k, v in self.done.items()}
+        return {k: src[k][j] for k in self.fields}
 
     def label(self, row_ids, rises, drops):
         """Rows at rollout steps t; rises[j]/drops[j] are the senses after the j-th step's button."""
@@ -76,10 +82,15 @@ class RowLog(_Chunks):
             self.set(i, "avail", max(0, n - t))
 
 
-def labels(lag, avail, horizon):
-    """1 / 0 / -1 (censored) for a horizon in steps."""
-    lag, avail = np.asarray(lag, int), np.asarray(avail, int)
-    return np.where(lag < horizon, 1, np.where(avail >= horizon, 0, -1))
+def labels(lag, avail, t, horizon, steps=100, stops_on_event=False):
+    """1 / 0 / -1 (censored). A row is kept only if its window [t, t+H) fits the planned rollout
+    (t + H <= steps) and was fully observed (avail >= H), or, for an event that itself stops the
+    rollout (the lives decrease: stops_on_event=True), if that event ended the window. Keeping a row
+    never depends on its outcome otherwise (review A-1)."""
+    lag, avail, t = (np.asarray(v, int) for v in (lag, avail, t))
+    hit = lag < horizon
+    keep = (t + horizon <= steps) & ((avail >= horizon) | (hit & stops_on_event))
+    return np.where(keep, hit.astype(int), -1)
 
 
 class IterLog(_Chunks):
