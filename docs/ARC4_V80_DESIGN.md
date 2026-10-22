@@ -226,3 +226,25 @@ graines, corrigé) ; G1 Assault : KC1. G2 jamais atteint. Pas de G3/G4. La théo
 justes et lisibles (Freeway : voitures qui rebouclent, zone de points en haut, replacement, poussée
 vers le bas ; Assault : tir vers le haut, jauge de chaleur qui monte en tirant), mais ses prédictions
 ne battent pas une moyenne de façon fiable.
+
+## 14. Clôture de v80 (22 octobre, 3 h) — lecture honnête après le post-mortem
+Post-mortem contradictoire (`wf_2d3f677e-77a` : perception, théorie, processus ; 3 propositions ; juge).
+Les verdicts enregistrés plus haut restent tels quels. Lecture :
+- Les « règles découvertes » étaient en bonne partie MES diagnostics : les TYPES de notions
+  (rebouclage, zones, replacement, jauges, présages) ont été écrits par moi après avoir regardé chaque
+  jeu ; l'agent n'en a trouvé que les instances (quelle couleur, quelle zone).
+- Sur Assault, KC1 a surtout mesuré la couche d'objets : vitesse nulle des tirs (traînées du
+  regroupement max sur 2 images, chaque image ouvre un nouveau suivi), mon tir naissant classé
+  « partie de moi » donc jamais lancé en imagination, jauge coupée en trois objets (partie absorbée
+  par le fond, partie verte lue à l'envers, barre rouge visible seulement après le point de non-retour),
+  types définis par apparence et non par entité (193 types ; 39 des 50 présages sont une même explosion
+  qui change de couleur), début de la mort mal daté (« disparu 2 pas » arrive 4 à 9 pas après le début
+  visible). L'idée « intervention → règle notée » n'a donc pas été vraiment testée sur Assault.
+- Le « succès » Freeway (essai 4) est INDÉCIDABLE plutôt qu'acquis : le test venait de 4 trajectoires
+  issues d'une seule ouverture, le rapport à l'extrapolation était vide, le critère de poussée a été codé
+  après ; et j'ai ajusté la théorie entre deux essais sur ce même test (erreur de méthode, désormais
+  exclue par la règle « validation libre / test scellé une fois »).
+Décision : pas de nouvelle réparation de la couche d'objets ; les idées utiles sont gardées pour la
+suite (le point de non-retour comme horloge des événements, « moi » = ce que mon bouton change, admission
+d'un composant seulement sur la perte hors échantillon contre une table sans pixels). Suite : v81
+« atlas d'entraînement » (`../ragnarok_v81`, `docs/ARC4_V81_ATLAS.md`).
