@@ -109,3 +109,9 @@ porte sur 1 mort) ; sur Bank Heist et Crazy Climber l'agent compte presque autan
 mais pas aux mêmes instants (retard d'affichage possible, en cours de diagnostic, sans effet sur le
 verdict puisque la mort échoue aussi). Enseignement principal : la perception « qui tient depuis v71 »
 ne se généralise pas ; sur 4 jeux neufs sur 5, score ou mort échouent.
+Diagnostic après coup (`scripts/score_lag_v81.py`, sans effet sur le verdict) : ce n'est pas un retard
+d'affichage. Les écarts agent/RAM sont dispersés et la plupart des événements de l'agent n'ont aucune
+vraie hausse à moins de 40 pas : l'agent lit une AUTRE zone (Crazy Climber lignes 21-28 au lieu de
+31-38 ; Bank Heist une petite zone en haut au lieu du score en bas, lignes 179-186). Le recensement v71
+(autre graine) avait trouvé les bonnes zones : le détecteur de compteurs dépend du hasard de
+l'échauffement. Suite proposée : une étape « perception générale » mesurée contre la RAM sur un large lot.
