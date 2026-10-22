@@ -206,3 +206,23 @@ Défauts nommés, seuls corrigés dans la tentative 2 : (D-A1) risque des présa
 le plus fort à l'écran (et non leur produit), présages retenus seulement si p ≥ 0,5 et n ≥ 50 ;
 (D-A2) une jauge invisible vaut son minimum (elle disparaît dans le fond quand elle est basse), et
 le filtre de persistance passe à ≥ 2 % des traces. Puis KC1 sur la tentative 2 (H = 32 et H = 16).
+
+## 13. Assault, tentative 2 (22 octobre, 2 h) — KC1 ATTEINT : la ligne « imagination » s'arrête sur Assault
+Incident de procédure d'abord : le premier lancement de la tentative 2 a été arrêté par le superviseur
+(mémoire réservée < 12 Go) et ma commande a recopié le fichier de l'essai 1 ; ces chiffres identiques
+à l'essai 1 ont été repérés, la copie mise en quarantaine (`STALE_copy_of_attempt1_H32_do_not_use.json`)
+et le calcul relancé avec contrôle de fraîcheur des sorties.
+Résultats frais : H = 32, classement 0,28 [0,21 ; 0,34], Brier mort −1,10, score −1,36, G2 0,00 ;
+H = 16, classement 0,47 [0,43 ; 0,50], Brier −0,92, score −0,46, G2 +0,01. KC1 (classement < 0,60 ET
+Brier < 0,05) est atteint aux deux horizons : arrêt de la ligne imagination sur Assault, résultat
+négatif conservé, aucune autre tentative sur ces données.
+Cause probable (lecture après coup, non testée) : la correction D-A2 « jauge invisible = minimum » est
+fausse quand la jauge disparaît en DÉBORDANT (elle vire au rouge avant l'explosion) : la table de risque
+a appris « jauge basse = danger » (0,36 au premier quart contre 0,02 au dernier), donc « tirer protège »,
+d'où un classement inversé. Une absence à l'écran est ambiguë (minimum ou débordement).
+Bilan du milestone 1 (graines de développement) : G0 réussi (Freeway 99,9 %, Assault 1,7 % de pas
+mauvais) ; G1 Freeway réussi à l'essai 4 mais NON confirmé sur la graine 99 (et test identique entre
+graines, corrigé) ; G1 Assault : KC1. G2 jamais atteint. Pas de G3/G4. La théorie trouve des règles
+justes et lisibles (Freeway : voitures qui rebouclent, zone de points en haut, replacement, poussée
+vers le bas ; Assault : tir vers le haut, jauge de chaleur qui monte en tirant), mais ses prédictions
+ne battent pas une moyenne de façon fiable.

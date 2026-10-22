@@ -1,0 +1,67 @@
+{
+ "game": "assault",
+ "train_roots": 400,
+ "heldout_roots": 300,
+ "train_frames": 778808,
+ "base": 1,
+ "H": 16,
+ "labels_heldout": {
+  "death_labels": 840,
+  "death_precision": 1.0,
+  "death_ok": true,
+  "score_labels": 3196,
+  "score_precision": 0.941,
+  "score_ok": true
+ },
+ "labels_train": {
+  "death_labels": 201,
+  "death_precision": 1.0,
+  "death_ok": true,
+  "score_labels": 474,
+  "score_precision": 0.914,
+  "score_ok": true
+ },
+ "G1": {
+  "wrd": 0.48,
+  "wrd_pairs": 74,
+  "wrd_ci": [
+   0.442,
+   0.5
+  ],
+  "death_brier_skill": -0.859,
+  "death_ci": [
+   -1.098,
+   -0.608
+  ],
+  "death_note": null,
+  "score_skill": -0.468,
+  "score_ci": [
+   -0.547,
+   -0.388
+  ],
+  "censored_branches": 0,
+  "roots_without_me": 6,
+  "rollouts": 16
+ },
+ "G2": {
+  "const_dev": 1,
+  "gain_over_const_dev": -0.07,
+  "ci": [
+   -0.217,
+   0.085
+  ],
+  "deviate": 0.463,
+  "conv_q_gain_over_const_dev": -0.1,
+  "conv_q_ci": [
+   -0.35,
+   0.169
+  ],
+  "theory_minus_conv_q": 0.03,
+  "paired_ci": [
+   -0.166,
+   0.226
+  ],
+  "note": "conv_q uses the v74 input whose whole-screen view misses Assault's heat gauge (ARC4_V75_OFFLINE.md)"
+ },
+ "secs": 566
+}
