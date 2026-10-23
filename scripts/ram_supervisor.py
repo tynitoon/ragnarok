@@ -65,7 +65,7 @@ def processes():
           " | ConvertTo-Json -Compress")
     try:
         out = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True,
-                             timeout=90).stdout.strip()
+                             timeout=90, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout.strip()
     except Exception:  # noqa: BLE001
         return []
     if not out:
@@ -187,7 +187,7 @@ def terminate(pid):
     return _call(pid, lambda h: bool(k32.TerminateProcess(h, 3)), 0x0001)
 
 
-WORKER = (" learn ", " prep ", " baselines ", "collect_q", "offline_", "room_job_v83", "bars_v83")   # jobs, not queue runners
+WORKER = (" learn ", " prep ", " baselines ", "collect_q", "offline_", "room_job_v83", "bars_v83", "explore_promise_v83", "arm_job_v83")   # jobs, not queue runners
 
 
 def main():
