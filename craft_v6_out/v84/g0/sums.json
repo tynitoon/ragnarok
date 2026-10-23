@@ -1,0 +1,23 @@
+{
+ "provenance": {
+  "code_sha": "382f27f2cc366542d7da848ff1b32179e5a823ce",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:d9c23b70e6682cdd027ef73b4c9695146acba5c0:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:41:11",
+  "launched_ts": 1792726871.2417362,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\store\\store.json": "b760806bb4d7ebca96d0ec2454b28eb92498623bfade12a7353b613360d1df66"
+  }
+ },
+ "sums_sha256": "1cbe83ff29ed6e1df8367d1f94d06f10cc33d00229182ed919706734d870ab5a",
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "senses": "pixels, own buttons, max(0, r_step) per step, ale.lives(); game over only as an episode boundary",
+ "provenance_end": {
+  "code_sha": "382f27f2cc366542d7da848ff1b32179e5a823ce",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:d9c23b70e6682cdd027ef73b4c9695146acba5c0:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:41:30",
+  "launched_ts": 1792726890.3501644,
+  "inputs": {}
+ }
+}

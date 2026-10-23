@@ -1,0 +1,57 @@
+{
+ "label": "RECIPE-INSENSITIVE",
+ "sentence": "the recipe cannot detect planted shared structure on the real feature geometry",
+ "consequence": "no real-label curve computed; route Sigma closed for v84 live arms; route S is the candidate (only if G1b PROCEED and G0-S PASS); not a mechanism negative",
+ "t8": [
+  {
+   "file": "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\attempts\\planted_attempt1_07a71bc.json",
+   "sha256": "aa72cd9fecb1e6d6dabbd3a4aa8a5bec53649b940ffcda150de2356a9d08d48e",
+   "passed": false,
+   "positive_R": {
+    "K*A:F": 1.6171751129773118,
+    "X:C*": 1.0651861345259264,
+    "X:F": 1.0651861345259264
+   },
+   "null_R": {
+    "X:F": 0.6008967034778161,
+    "X:C*": 0.6008967034778161
+   }
+  },
+  {
+   "file": "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\planted.json",
+   "sha256": "c77f3e02289e5ed14674a750b674463d96bf5a69358703c26dd2a26a55ed3e7c",
+   "passed": false,
+   "positive_R": {
+    "K*A:F": 1.4397020389393622,
+    "X:C*": 1.0261176944396433,
+    "X:F": 1.1781299572917392
+   },
+   "null_R": {
+    "X:F": 0.7573088642082415,
+    "X:C*": 0.7502421536482832
+   }
+  }
+ ],
+ "recipe_amendment": "null-space threshold 1e-2 lambda_max (build note 8)",
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "senses": "pixels, own buttons, max(0, r_step) per step, ale.lives(); game over only as an episode boundary",
+ "provenance": {
+  "code_sha": "979c2e78edb4208beeb199cd2d1c7498f7a5fbc5",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:9461c222f49077619706b36deaf22163c5346acb:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:51:08",
+  "launched_ts": 1792727468.1742673,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\attempts\\planted_attempt1_07a71bc.json": "aa72cd9fecb1e6d6dabbd3a4aa8a5bec53649b940ffcda150de2356a9d08d48e",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\planted.json": "c77f3e02289e5ed14674a750b674463d96bf5a69358703c26dd2a26a55ed3e7c"
+  }
+ },
+ "provenance_end": {
+  "code_sha": "979c2e78edb4208beeb199cd2d1c7498f7a5fbc5",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:9461c222f49077619706b36deaf22163c5346acb:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:51:08",
+  "launched_ts": 1792727468.4314718,
+  "inputs": {}
+ }
+}
