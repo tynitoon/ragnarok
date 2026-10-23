@@ -293,3 +293,14 @@ sur ce lot »), dans le sens défavorable à l'agent. Les comptes sont identique
 reprise ne pouvait donner G-place. Revue du verdict : `wf_420b5f0a-bc1`. Détail et leçons :
 `../ragnarok_v83/docs/ARC4_V83_A1_RESULT.md`. Rien n'a été mesuré sur « apprendre plus vite » (ni
 promesses, ni transfert) ; les lots scellés restent fermés.
+
+### 23 octobre (~5 h) — v84 « porter les questions, pas les réponses » : protocole figé
+Panel de conception (5 propositions, 3 juges, synthèse, 3 audits ; `docs/panels/v84_*`), protocole figé
+avant tout calcul dans le worktree `../ragnarok_v84` (branche `arc4-v84-clock`) :
+`docs/ARC4_V84_PROTOCOL_EN.md` (fait foi, SHA-256 `bea9ed27…`) et `docs/ARC4_V84_PROTOCOL.md`.
+Premier test G0 « horloge du savoir », sans image d'émulateur, sur les 82 journaux A1 : un a priori de
+covariance à moyenne nulle appris sur 40 autres jeux fait-il apprendre plus vite (à expérience égale)
+la prédiction BON/MAUVAIS d'un jeu tenu à l'écart, contre trois témoins réglés (F, P, U), avec contrôle
+planté préalable ? En parallèle : explorateur V2 sans sondes, porte « place » G1b. Graines 9700-9749.
+L'analyse exploratoire v83 (`../ragnarok_v83/craft_v6_out/v83/explore/`) reste scellée jusqu'au commit
+de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
