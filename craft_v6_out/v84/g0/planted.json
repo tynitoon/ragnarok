@@ -1,0 +1,261 @@
+{
+ "provenance": {
+  "code_sha": "382f27f2cc366542d7da848ff1b32179e5a823ce",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:d9c23b70e6682cdd027ef73b4c9695146acba5c0:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:41:44",
+  "launched_ts": 1792726904.6431174,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0\\store\\store.json": "b760806bb4d7ebca96d0ec2454b28eb92498623bfade12a7353b613360d1df66"
+  }
+ },
+ "results": [
+  {
+   "scenario": "positive",
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.015625,
+    "X": 0.0625,
+    "P": 0.25,
+    "U": 0.0625,
+    "K*A": 0.000244140625,
+    "X-mean": 0.25,
+    "P_shift": 1.0,
+    "P_rot": 0.25,
+    "X_8": 0.0625,
+    "K*Beven": 0.000244140625
+   },
+   "n_units": 8,
+   "passed": false,
+   "R": {
+    "K*A:F": 1.4397020389393622,
+    "X:C*": 1.0261176944396433,
+    "X:F": 1.1781299572917392,
+    "P:F": 0.608562810795773,
+    "U:F": 0.9958876616304491,
+    "X:C*_late": 1.3549121068562706
+   },
+   "lo": {
+    "K*A:F": 1.1842495975010505,
+    "X:C*": 0.9099149057635402,
+    "X:F": 0.990907632528428
+   },
+   "units": [
+    {
+     "game": "beam_rider",
+     "eligible": true,
+     "ends": [
+      0.7019804763043415,
+      0.6706508924955159
+     ]
+    },
+    {
+     "game": "crazy_climber",
+     "eligible": true,
+     "ends": [
+      0.7333053373515801,
+      0.76735985747109
+     ]
+    },
+    {
+     "game": "demon_attack",
+     "eligible": true,
+     "ends": [
+      0.8262134458077709,
+      0.8122512122512123
+     ]
+    },
+    {
+     "game": "ice_hockey",
+     "eligible": true,
+     "ends": [
+      0.7905412497375971,
+      0.7323568350749422
+     ]
+    },
+    {
+     "game": "kung_fu_master",
+     "eligible": true,
+     "ends": [
+      0.7946003111716659,
+      0.8017355824996374
+     ]
+    },
+    {
+     "game": "time_pilot",
+     "eligible": true,
+     "ends": [
+      0.7445798575968784,
+      0.7851833530031165
+     ]
+    },
+    {
+     "game": "video_pinball",
+     "eligible": true,
+     "ends": [
+      0.7662067161218995,
+      0.736471156201675
+     ]
+    },
+    {
+     "game": "seaquest",
+     "eligible": true,
+     "ends": [
+      0.7472588795222581,
+      0.7244868540142618
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "null",
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.00390625,
+    "X": 0.25,
+    "P": 0.0625,
+    "U": 0.25,
+    "K*A": 0.000244140625,
+    "X-mean": 0.015625,
+    "P_shift": 0.25,
+    "P_rot": 0.25,
+    "X_8": 0.25,
+    "K*Beven": 0.000244140625
+   },
+   "n_units": 8,
+   "passed": true,
+   "R": {
+    "K*A:F": 1.3820260946847276,
+    "X:C*": 0.7502421536482832,
+    "X:F": 0.7573088642082415,
+    "P:F": 0.5241342671075104,
+    "U:F": 0.788337512693199,
+    "X:C*_late": 0.5389773439532047
+   },
+   "lo": {
+    "K*A:F": 1.1867158650630005,
+    "X:C*": 0.6429162655030592,
+    "X:F": 0.6486633201648881
+   },
+   "units": [
+    {
+     "game": "beam_rider",
+     "eligible": true,
+     "ends": [
+      0.6647077085768892,
+      0.7044164075016491
+     ]
+    },
+    {
+     "game": "crazy_climber",
+     "eligible": true,
+     "ends": [
+      0.79169170620063,
+      0.8394054029698799
+     ]
+    },
+    {
+     "game": "demon_attack",
+     "eligible": true,
+     "ends": [
+      0.7616420115788101,
+      0.7419836096566576
+     ]
+    },
+    {
+     "game": "ice_hockey",
+     "eligible": true,
+     "ends": [
+      0.6564158855695593,
+      0.7545445936027653
+     ]
+    },
+    {
+     "game": "kung_fu_master",
+     "eligible": true,
+     "ends": [
+      0.8105130866519402,
+      0.7354139757060434
+     ]
+    },
+    {
+     "game": "time_pilot",
+     "eligible": true,
+     "ends": [
+      0.6935050215321844,
+      0.7140649714132312
+     ]
+    },
+    {
+     "game": "video_pinball",
+     "eligible": true,
+     "ends": [
+      0.7598331845860352,
+      0.7082447711121569
+     ]
+    },
+    {
+     "game": "seaquest",
+     "eligible": true,
+     "ends": [
+      0.7815990865185488,
+      0.8036942044636429
+     ]
+    }
+   ]
+  }
+ ],
+ "passed": false,
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "senses": "pixels, own buttons, max(0, r_step) per step, ale.lives(); game over only as an episode boundary",
+ "recipe": {
+  "eig_rel": 0.01,
+  "attempt": 2
+ },
+ "provenance_end": {
+  "code_sha": "382f27f2cc366542d7da848ff1b32179e5a823ce",
+  "dirty": false,
+  "code_tree": "fa5aef7f60fda45d19f7c2b686c96c44c6f3356d:d9c23b70e6682cdd027ef73b4c9695146acba5c0:629f648239191cedc6c8a7cf54513c1bc7903f85",
+  "launched": "2026-10-23 05:49:49",
+  "launched_ts": 1792727389.7093532,
+  "inputs": {}
+ }
+}

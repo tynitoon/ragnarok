@@ -257,6 +257,29 @@ def cmd_arms(workers):
     print("curves", len(rows))
 
 
+def cmd_recipe_insensitive():
+    """A.13: T8 failed twice (first pass counted, build note 7; second pass after the single amendment,
+    build note 8): RECIPE-INSENSITIVE. No real-label curve is computed; route Sigma is closed."""
+    p1, p2 = OUT / "attempts" / "planted_attempt1_07a71bc.json", OUT / "planted.json"
+    a1, a2 = json.load(open(p1, encoding="utf-8")), json.load(open(p2, encoding="utf-8"))
+    pos = lambda a: next(r for r in a["results"] if r["scenario"] == "positive")
+    if a1["passed"] or a2["passed"] or a2.get("recipe", {}).get("attempt") != 2:
+        sys.exit("not a double T8 positive failure")
+    prov = prov_v84(p1, p2)
+    res = dict(label="RECIPE-INSENSITIVE",
+               sentence="the recipe cannot detect planted shared structure on the real feature geometry",
+               consequence="no real-label curve computed; route Sigma closed for v84 live arms; route S is the candidate "
+                           "(only if G1b PROCEED and G0-S PASS); not a mechanism negative",
+               t8=[dict(file=str(p), sha256=full_hash(p), passed=a["passed"],
+                        positive_R={k: pos(a)["R"][k] for k in ("K*A:F", "X:C*", "X:F")},
+                        null_R={k: next(r for r in a["results"] if r["scenario"] == "null")["R"][k] for k in ("X:F", "X:C*")})
+                   for p, a in ((p1, a1), (p2, a2))],
+               recipe_amendment="null-space threshold 1e-2 lambda_max (build note 8)",
+               claim_header=CLAIM, senses=SENSES, provenance=prov)
+    save_json("g0_verdict.json", res)
+    print(json.dumps({k: res[k] for k in ("label", "t8")}, default=float))
+
+
 def cmd_verdict():
     prov = prov_v84(STORE / "store.json", *(OUT / n for n in ("sums.npz", "sources.pkl", "g0_kappa.json", "g0_units.json",
                                                               "curves.json", "planted.json", "tests_record.json")), strict=False)
@@ -313,4 +336,4 @@ if __name__ == "__main__":
         sys.exit(0)
     w = int(sys.argv[2]) if len(sys.argv) > 2 else 2
     dict(sums=cmd_sums, sources=lambda: cmd_sources(w), tune=lambda: cmd_tune(w), units=lambda: cmd_units(w),
-         arms=lambda: cmd_arms(w), verdict=cmd_verdict)[cmd]()
+         arms=lambda: cmd_arms(w), verdict=cmd_verdict, recipe_insensitive=cmd_recipe_insensitive)[cmd]()
