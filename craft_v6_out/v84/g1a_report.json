@@ -1,0 +1,182 @@
+{
+ "rule": "G1a (exploratory, no kill)",
+ "panel_M1": 10,
+ "panel_M3": 7,
+ "n_panel": 10,
+ "rows": [
+  {
+   "game": "atlantis",
+   "best": 127400.0,
+   "M1": 32520.0,
+   "M3": 81300.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 2205512,
+   "cells": 2949,
+   "wall_s": 1444.3576111793518,
+   "peak_commit_mb": 256.765625,
+   "billed": 4000000
+  },
+  {
+   "game": "krull",
+   "best": 4870.0,
+   "M1": 4090.0,
+   "M3": 10225.0,
+   "reached_M1": true,
+   "reached_M3": false,
+   "T_M3": null,
+   "cells": 173,
+   "wall_s": 2699.4640667438507,
+   "peak_commit_mb": 353.5546875,
+   "billed": 4000008
+  },
+  {
+   "game": "centipede",
+   "best": 36521.0,
+   "M1": 20098.6,
+   "M3": 50246.5,
+   "reached_M1": true,
+   "reached_M3": false,
+   "T_M3": null,
+   "cells": 1178,
+   "wall_s": 2636.3709750175476,
+   "peak_commit_mb": 229.58203125,
+   "billed": 4000000
+  },
+  {
+   "game": "video_pinball",
+   "best": 710991.0,
+   "M1": 40435.6,
+   "M3": 101089.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 469580,
+   "cells": 1114,
+   "wall_s": 2251.3806109428406,
+   "peak_commit_mb": 382.5625,
+   "billed": 4000000
+  },
+  {
+   "game": "gopher",
+   "best": 19480.0,
+   "M1": 632.0,
+   "M3": 1580.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 194220,
+   "cells": 3322,
+   "wall_s": 1741.9292731285095,
+   "peak_commit_mb": 415.5625,
+   "billed": 4000000
+  },
+  {
+   "game": "name_this_game",
+   "best": 14790.0,
+   "M1": 5540.0,
+   "M3": 13850.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 3470484,
+   "cells": 6656,
+   "wall_s": 2113.3023161888123,
+   "peak_commit_mb": 458.55078125,
+   "billed": 4000004
+  },
+  {
+   "game": "zaxxon",
+   "best": 16100.0,
+   "M1": 1280.0,
+   "M3": 4280.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 403868,
+   "cells": 11783,
+   "wall_s": 1834.6599769592285,
+   "peak_commit_mb": 514.30859375,
+   "billed": 4000000
+  },
+  {
+   "game": "bowling",
+   "best": 89.0,
+   "M1": 63.0,
+   "M3": 157.5,
+   "reached_M1": true,
+   "reached_M3": false,
+   "T_M3": null,
+   "cells": 2637,
+   "wall_s": 1802.0702183246613,
+   "peak_commit_mb": 248.171875,
+   "billed": 4000008
+  },
+  {
+   "game": "seaquest",
+   "best": 1820.0,
+   "M1": 360.0,
+   "M3": 900.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 444272,
+   "cells": 2239,
+   "wall_s": 1775.027694940567,
+   "peak_commit_mb": 270.30859375,
+   "billed": 4000000
+  },
+  {
+   "game": "phoenix",
+   "best": 11590.0,
+   "M1": 1184.0,
+   "M3": 2960.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 124804,
+   "cells": 2393,
+   "wall_s": 1681.478183746338,
+   "peak_commit_mb": 241.03515625,
+   "billed": 4000000
+  },
+  {
+   "game": "ms_pacman",
+   "best": 6620.0,
+   "M1": 1104.0,
+   "M3": 2760.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 165648,
+   "cells": 12400,
+   "wall_s": 1710.6060967445374,
+   "peak_commit_mb": 489.40234375,
+   "billed": 4000000,
+   "A1_T_M3": [
+    294684,
+    646068
+   ]
+  },
+  {
+   "game": "amidar",
+   "best": 1626.0,
+   "M1": 62.0,
+   "M3": 155.0,
+   "reached_M1": true,
+   "reached_M3": true,
+   "T_M3": 181908,
+   "cells": 15720,
+   "wall_s": 2023.7784581184387,
+   "peak_commit_mb": 560.73046875,
+   "billed": 4000000,
+   "A1_T_M3": [
+    176284,
+    387700
+   ]
+  }
+ ],
+ "caption": "V2 at its frozen constants reaches M3 on 7/10 games of the A1-failure panel",
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance": {
+  "code_sha": "93aba43c3e77df624c96bb65298f3539c00f9470",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-23 09:27:45",
+  "launched_ts": 1792740465.7611158,
+  "inputs": {}
+ }
+}

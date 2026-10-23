@@ -1,0 +1,182 @@
+{
+ "game": "bowling",
+ "seed": 9710,
+ "cap": 4000000,
+ "stop_at": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 91084,
+  "warm_frames": 48000,
+  "adapter_frames": 34584,
+  "my_sizes": [
+   96.0,
+   96.0,
+   96.0,
+   96.0,
+   96.0
+  ],
+  "my_size": 96.0,
+  "lost_frac": 0.694,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "1,1,0": [
+    1,
+    5
+   ],
+   "0,-1,0": [
+    2
+   ],
+   "0,0,1": [
+    3
+   ],
+   "1,1,1": [
+    4
+   ]
+  },
+  "n_resp": 6
+ },
+ "summary": {
+  "expansions": 9655,
+  "cells": 2637,
+  "best_S": 89.0,
+  "evicted": 0,
+  "billed": 4000008,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 199783,
+  "probe_frames_after_entry": 0
+ },
+ "records": [
+  [
+   91084,
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   118168,
+   6.0,
+   6.0,
+   289
+  ],
+  [
+   126100,
+   9.0,
+   9.0,
+   525
+  ],
+  [
+   131440,
+   14.0,
+   14.0,
+   501
+  ],
+  [
+   135264,
+   15.0,
+   15.0,
+   740
+  ],
+  [
+   139064,
+   17.0,
+   17.0,
+   761
+  ],
+  [
+   181996,
+   21.0,
+   21.0,
+   725
+  ],
+  [
+   193784,
+   25.0,
+   25.0,
+   937
+  ],
+  [
+   205900,
+   27.0,
+   27.0,
+   937
+  ],
+  [
+   221940,
+   33.0,
+   33.0,
+   1178
+  ],
+  [
+   233616,
+   36.0,
+   36.0,
+   1405
+  ],
+  [
+   234556,
+   42.0,
+   42.0,
+   1402
+  ],
+  [
+   237192,
+   45.0,
+   45.0,
+   1625
+  ],
+  [
+   270036,
+   48.0,
+   48.0,
+   1613
+  ],
+  [
+   291324,
+   69.0,
+   69.0,
+   1981
+  ],
+  [
+   732284,
+   71.0,
+   71.0,
+   1990
+  ],
+  [
+   959324,
+   89.0,
+   89.0,
+   1846
+  ]
+ ],
+ "n_rises": 4416,
+ "rises_300k": 97,
+ "median_rise": 6.0,
+ "peak_ws_mb": 169.20703125,
+ "peak_commit_mb": 248.171875,
+ "wall_s": 1802.0702183246613,
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance": {
+  "code_sha": "93aba43c3e77df624c96bb65298f3539c00f9470",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-23 08:18:34",
+  "launched_ts": 1792736314.73176,
+  "inputs": {}
+ },
+ "provenance_end": {
+  "code_sha": "93aba43c3e77df624c96bb65298f3539c00f9470",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-23 08:48:37",
+  "launched_ts": 1792738117.0009117,
+  "inputs": {}
+ },
+ "npz_sha256": "24b1353036706c4aa4c7bad267d66823288218512de1ad75fa0c306f19fd3e66"
+}
