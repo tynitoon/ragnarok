@@ -1,0 +1,105 @@
+{
+ "game": "zaxxon",
+ "seed": 9132,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 160792,
+  "warm_frames": 48000,
+  "adapter_frames": 100212,
+  "my_sizes": [
+   60.0,
+   70.0,
+   70.0,
+   70.0,
+   70.0
+  ],
+  "my_size": 70.0,
+  "lost_frac": 0.0006666666666666666,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "0,0,1": [
+    1
+   ],
+   "0,1,0": [
+    2
+   ],
+   "priv0": [
+    3
+   ],
+   "priv1": [
+    4
+   ],
+   "priv2": [
+    5
+   ],
+   "1,0,0": [
+    6
+   ],
+   "priv3": [
+    7
+   ],
+   "priv4": [
+    8
+   ],
+   "priv5": [
+    9
+   ],
+   "0,1,1": [
+    10
+   ],
+   "1,0,1": [
+    11,
+    14
+   ],
+   "-1,0,0": [
+    12
+   ],
+   "priv6": [
+    13
+   ],
+   "-1,0,1": [
+    15
+   ],
+   "priv7": [
+    16,
+    17
+   ]
+  },
+  "n_resp": 21
+ },
+ "summary": {
+  "iters": 4005,
+  "cells": 72,
+  "best_S": 0.0,
+  "evicted": 0,
+  "billed": 2000000,
+  "probe_calls": 6,
+  "probe_frames": 7704,
+  "wall_s": 1169.9303576946259
+ },
+ "records": [
+  [
+   160792,
+   0.0
+  ]
+ ],
+ "n_rises": 0,
+ "rises_300k": 0,
+ "median_rise": null,
+ "n_rows": 95857,
+ "peak_ws_mb": 416.97265625,
+ "peak_commit_mb": 1190.5234375,
+ "wall_s": 1201.165227651596,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 17:08:43",
+  "launched_ts": 1792681723.6181197,
+  "inputs": {}
+ }
+}

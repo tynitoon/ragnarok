@@ -1,0 +1,103 @@
+{
+ "game": "tennis",
+ "seed": 9131,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 154372,
+  "warm_frames": 48000,
+  "adapter_frames": 93792,
+  "my_sizes": [
+   2.0,
+   79.0,
+   79.0,
+   79.0,
+   79.0
+  ],
+  "my_size": 79.0,
+  "lost_frac": 0.0,
+  "slots": {
+   "0,0,0": [
+    0,
+    1
+   ],
+   "1,-1,0": [
+    2,
+    10
+   ],
+   "1,0,0": [
+    3,
+    11
+   ],
+   "-1,0,0": [
+    4,
+    12
+   ],
+   "1,1,0": [
+    5,
+    13
+   ],
+   "1,0,1": [
+    6,
+    14
+   ],
+   "-1,0,1": [
+    7,
+    15
+   ],
+   "priv0": [
+    8,
+    16
+   ],
+   "priv1": [
+    9,
+    17
+   ]
+  },
+  "n_resp": 16
+ },
+ "summary": {
+  "iters": 3978,
+  "cells": 1153,
+  "best_S": 8.0,
+  "evicted": 0,
+  "billed": 2000000,
+  "probe_calls": 17,
+  "probe_frames": 21828,
+  "wall_s": 736.158075094223
+ },
+ "records": [
+  [
+   154372,
+   0.0
+  ],
+  [
+   166876,
+   1.0
+  ],
+  [
+   228500,
+   2.0
+  ],
+  [
+   723008,
+   3.0
+  ]
+ ],
+ "n_rises": 108,
+ "rises_300k": 15,
+ "median_rise": 1.0,
+ "n_rows": 95489,
+ "peak_ws_mb": 482.4296875,
+ "peak_commit_mb": 1202.4375,
+ "wall_s": 761.2161092758179,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 12:19:34",
+  "launched_ts": 1792664374.539782,
+  "inputs": {}
+ }
+}

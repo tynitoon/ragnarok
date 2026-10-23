@@ -1,0 +1,101 @@
+{
+ "game": "atlantis",
+ "seed": 9132,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 194448,
+  "warm_frames": 48000,
+  "adapter_frames": 28516,
+  "my_sizes": [],
+  "my_size": null,
+  "lost_frac": 1.0,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "0,0,1": [
+    1
+   ],
+   "priv0": [
+    2
+   ],
+   "priv1": [
+    3
+   ]
+  },
+  "n_resp": 11
+ },
+ "summary": {
+  "iters": 913,
+  "cells": 39,
+  "best_S": 1600.0,
+  "evicted": 0,
+  "billed": 2000032,
+  "probe_calls": 5065,
+  "probe_frames": 1681580,
+  "wall_s": 202.15029311180115
+ },
+ "records": [
+  [
+   194448,
+   0.0
+  ],
+  [
+   232628,
+   200.0
+  ],
+  [
+   239464,
+   400.0
+  ],
+  [
+   244796,
+   500.0
+  ],
+  [
+   357536,
+   600.0
+  ],
+  [
+   570244,
+   800.0
+  ],
+  [
+   594648,
+   1000.0
+  ],
+  [
+   629576,
+   1100.0
+  ],
+  [
+   751288,
+   1200.0
+  ],
+  [
+   789340,
+   1400.0
+  ],
+  [
+   794628,
+   1600.0
+  ]
+ ],
+ "n_rises": 511,
+ "rises_300k": 305,
+ "median_rise": 200.0,
+ "n_rows": 9837,
+ "peak_ws_mb": 137.86328125,
+ "peak_commit_mb": 857.48828125,
+ "wall_s": 230.39297723770142,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 13:52:30",
+  "launched_ts": 1792669950.5132592,
+  "inputs": {}
+ }
+}

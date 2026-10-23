@@ -1,0 +1,73 @@
+{
+ "game": "name_this_game",
+ "seed": 9132,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 102716,
+  "warm_frames": 48000,
+  "adapter_frames": 41136,
+  "my_sizes": [
+   704.0,
+   704.0,
+   704.0,
+   704.0,
+   704.0
+  ],
+  "my_size": 704.0,
+  "lost_frac": 0.7,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "0,0,1": [
+    1
+   ],
+   "-1,0,1": [
+    2
+   ],
+   "-1,0,0": [
+    3
+   ],
+   "priv0": [
+    4
+   ],
+   "-1,-1,0": [
+    5
+   ]
+  },
+  "n_resp": 20
+ },
+ "summary": {
+  "iters": 4123,
+  "cells": 2,
+  "best_S": 0.0,
+  "evicted": 0,
+  "billed": 2000000,
+  "probe_calls": 16,
+  "probe_frames": 7488,
+  "wall_s": 918.7118973731995
+ },
+ "records": [
+  [
+   102716,
+   0.0
+  ]
+ ],
+ "n_rises": 315,
+ "rises_300k": 315,
+ "median_rise": 30.0,
+ "n_rows": 98963,
+ "peak_ws_mb": 503.0859375,
+ "peak_commit_mb": 1222.84375,
+ "wall_s": 943.3026587963104,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 23:32:07",
+  "launched_ts": 1792704727.9847522,
+  "inputs": {}
+ }
+}

@@ -1,0 +1,3283 @@
+{
+ "rule": "docs/ARC4_V83_PROTOCOL.md \u00a74 A1",
+ "complete": true,
+ "n_room_dev": 6,
+ "room_dev": [
+  "alien",
+  "amidar",
+  "bank_heist",
+  "ice_hockey",
+  "jamesbond",
+  "qbert"
+ ],
+ "room_cal": [
+  "breakout",
+  "ms_pacman"
+ ],
+ "sigma2": 1.1651603411954257,
+ "sigma": 1.079425931315079,
+ "G_proj": 2.914285714285714,
+ "se_proj": 0.4804032820874475,
+ "G_room": "Interruption",
+ "replay": true,
+ "code_shas": [
+  "2b22e9416ed645ca17327783e5207efd10c235b6"
+ ],
+ "dirty": false,
+ "interruptions": [
+  "qbert"
+ ],
+ "senses": "score rises and lives given as senses (owner decision 2026-10-22)",
+ "rows": [
+  {
+   "game": "alien",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 302.0,
+   "u": 151.0,
+   "u_src": "bars",
+   "rises_300k": [
+    874,
+    895
+   ],
+   "best": [
+    2560.0,
+    2440.0
+   ],
+   "entry_frames": [
+    163360,
+    168696
+   ],
+   "lost_frac": [
+    0.288,
+    0.31066666666666665
+   ],
+   "probe_share": [
+    0.69336,
+    0.195168
+   ],
+   "cells": [
+    1633,
+    1872
+   ],
+   "iters": [
+    1294,
+    4261
+   ],
+   "k_star": 3,
+   "T1": [
+    439752,
+    197564
+   ],
+   "C": [
+    434920,
+    359840
+   ],
+   "C_raw": [
+    434920,
+    359840
+   ],
+   "C_late": [
+    433440,
+    89968
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 820.0,
+     "recorded": 820.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 910.0,
+     "recorded": 910.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 3,
+     "replayed": 1980.0,
+     "recorded": 1980.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 750.0,
+     "recorded": 750.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 920.0,
+     "recorded": 920.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 3,
+     "replayed": 1790.0,
+     "recorded": 1790.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "amidar",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 31.0,
+   "u": 15.5,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    744.0,
+    379.0
+   ],
+   "entry_frames": [
+    119280,
+    118540
+   ],
+   "lost_frac": [
+    0.04533333333333334,
+    0.020666666666666667
+   ],
+   "probe_share": [
+    0.005179958560331517,
+    0.00666
+   ],
+   "cells": [
+    3134,
+    3203
+   ],
+   "iters": [
+    6204,
+    6142
+   ],
+   "k_star": 4,
+   "T1": [
+    145532,
+    144752
+   ],
+   "C": [
+    338320,
+    1238316
+   ],
+   "C_raw": [
+    338320,
+    1238316
+   ],
+   "C_late": [
+    307888,
+    1158720
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 68.0,
+     "recorded": 68.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 104.0,
+     "recorded": 104.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 4,
+     "replayed": 286.0,
+     "recorded": 286.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 64.0,
+     "recorded": 64.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 93.0,
+     "recorded": 93.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 4,
+     "replayed": 279.0,
+     "recorded": 279.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "assault",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 359.1,
+   "u": 179.55,
+   "u_src": "bars",
+   "rises_300k": [
+    461,
+    530
+   ],
+   "best": [
+    1139.0,
+    1242.0
+   ],
+   "entry_frames": [
+    105512,
+    105512
+   ],
+   "lost_frac": [
+    0.014666666666666666,
+    0.018666666666666668
+   ],
+   "probe_share": [
+    0.011792,
+    0.013131921208472749
+   ],
+   "cells": [
+    345,
+    356
+   ],
+   "iters": [
+    5621,
+    5872
+   ],
+   "k_star": 2,
+   "T1": [
+    844292,
+    349392
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 722.0,
+     "recorded": 722.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 1097.0,
+     "recorded": 1097.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 724.0,
+     "recorded": 724.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 1095.0,
+     "recorded": 1095.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "asterix",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 675.0,
+   "u": 337.5,
+   "u_src": "bars",
+   "rises_300k": [
+    657,
+    604
+   ],
+   "best": [
+    1650.0,
+    1500.0
+   ],
+   "entry_frames": [
+    111128,
+    111800
+   ],
+   "lost_frac": [
+    0.015333333333333332,
+    0.008
+   ],
+   "probe_share": [
+    0.002352,
+    0.002352
+   ],
+   "cells": [
+    1804,
+    1720
+   ],
+   "iters": [
+    5280,
+    5124
+   ],
+   "k_star": 1,
+   "T1": [
+    920484,
+    1555192
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1350.0,
+     "recorded": 1350.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1350.0,
+     "recorded": 1350.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "atlantis",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 14740.0,
+   "u": 7370.0,
+   "u_src": "bars",
+   "rises_300k": [
+    314,
+    305
+   ],
+   "best": [
+    7900.0,
+    1600.0
+   ],
+   "entry_frames": [
+    192124,
+    194448
+   ],
+   "lost_frac": [
+    0.8853333333333333,
+    1.0
+   ],
+   "probe_share": [
+    0.761276,
+    0.8407765475752388
+   ],
+   "cells": [
+    167,
+    39
+   ],
+   "iters": [
+    2206,
+    913
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "bank_heist",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 13.0,
+   "u": 10.0,
+   "u_src": "bars",
+   "rises_300k": [
+    54,
+    46
+   ],
+   "best": [
+    490.0,
+    120.0
+   ],
+   "entry_frames": [
+    158224,
+    167372
+   ],
+   "lost_frac": [
+    0.0,
+    0.278
+   ],
+   "probe_share": [
+    0.003851961480385196,
+    0.75435
+   ],
+   "cells": [
+    37,
+    692
+   ],
+   "iters": [
+    4856,
+    813
+   ],
+   "k_star": 3,
+   "T1": [
+    272416,
+    423140
+   ],
+   "C": [
+    64176,
+    1343120
+   ],
+   "C_raw": [
+    64176,
+    1343120
+   ],
+   "C_late": [
+    8448,
+    1159088
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 40.0,
+     "recorded": 40.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 60.0,
+     "recorded": 60.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 3,
+     "replayed": 100.0,
+     "recorded": 100.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 40.0,
+     "recorded": 40.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 60.0,
+     "recorded": 60.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 3,
+     "replayed": 120.0,
+     "recorded": 120.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "beam_rider",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 996.0,
+   "u": 498.0,
+   "u_src": "bars",
+   "rises_300k": [
+    275,
+    110
+   ],
+   "best": [
+    1900.0,
+    660.0
+   ],
+   "entry_frames": [
+    114648,
+    116704
+   ],
+   "lost_frac": [
+    0.0,
+    0.118
+   ],
+   "probe_share": [
+    0.003696,
+    0.738192
+   ],
+   "cells": [
+    1866,
+    241
+   ],
+   "iters": [
+    4552,
+    959
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "berzerk",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 670.0,
+   "u": 335.0,
+   "u_src": "bars",
+   "rises_300k": [
+    459,
+    457
+   ],
+   "best": [
+    1340.0,
+    1160.0
+   ],
+   "entry_frames": [
+    153128,
+    153128
+   ],
+   "lost_frac": [
+    0.12933333333333333,
+    0.118
+   ],
+   "probe_share": [
+    0.21763234155911945,
+    0.21378557242885515
+   ],
+   "cells": [
+    2041,
+    1927
+   ],
+   "iters": [
+    4671,
+    4555
+   ],
+   "k_star": 0,
+   "T1": [
+    1933836,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "bowling",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 30.0,
+   "u": 15.0,
+   "u_src": "bars",
+   "rises_300k": [
+    48,
+    48
+   ],
+   "best": [
+    0.0,
+    17.0
+   ],
+   "entry_frames": [
+    91084,
+    99440
+   ],
+   "lost_frac": [
+    0.634,
+    0.638
+   ],
+   "probe_share": [
+    0.6432608539131687,
+    0.7228216630700216
+   ],
+   "cells": [
+    16,
+    91
+   ],
+   "iters": [
+    1358,
+    1003
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "carnival",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 956.0,
+   "u": 478.0,
+   "u_src": "bars",
+   "rises_300k": [
+    583,
+    576
+   ],
+   "best": [
+    4320.0,
+    3980.0
+   ],
+   "entry_frames": [
+    98572,
+    97168
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.001404,
+    0.001404
+   ],
+   "cells": [
+    392,
+    364
+   ],
+   "iters": [
+    4407,
+    4475
+   ],
+   "k_star": 2,
+   "T1": [
+    502384,
+    797108
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1940.0,
+     "recorded": 1940.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 3420.0,
+     "recorded": 3420.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2680.0,
+     "recorded": 2680.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 2880.0,
+     "recorded": 2880.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "centipede",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 9318.7,
+   "u": 4659.35,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    3652.0,
+    5403.0
+   ],
+   "entry_frames": [
+    160792,
+    159508
+   ],
+   "lost_frac": [
+    0.05533333333333333,
+    0.008
+   ],
+   "probe_share": [
+    0.755634,
+    0.688861866828799
+   ],
+   "cells": [
+    1469,
+    1555
+   ],
+   "iters": [
+    877,
+    1231
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "chopper_command",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 1130.0,
+   "u": 565.0,
+   "u_src": "bars",
+   "rises_300k": [
+    213,
+    314
+   ],
+   "best": [
+    2400.0,
+    7000.0
+   ],
+   "entry_frames": [
+    164884,
+    164924
+   ],
+   "lost_frac": [
+    0.024,
+    0.013333333333333334
+   ],
+   "probe_share": [
+    0.47507619939040485,
+    0.023112
+   ],
+   "cells": [
+    1491,
+    2393
+   ],
+   "iters": [
+    2780,
+    6076
+   ],
+   "k_star": 1,
+   "T1": [
+    1101660,
+    604200
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "crazy_climber",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 6630.0,
+   "u": 3315.0,
+   "u_src": "bars",
+   "rises_300k": [
+    519,
+    489
+   ],
+   "best": [
+    19100.0,
+    4000.0
+   ],
+   "entry_frames": [
+    122992,
+    122200
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.006048,
+    0.005039909281632931
+   ],
+   "cells": [
+    41,
+    29
+   ],
+   "iters": [
+    4563,
+    4929
+   ],
+   "k_star": -1,
+   "T1": [
+    767572,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "demon_attack",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 502.5,
+   "u": 251.25,
+   "u_src": "bars",
+   "rises_300k": [
+    431,
+    488
+   ],
+   "best": [
+    3805.0,
+    2420.0
+   ],
+   "entry_frames": [
+    99548,
+    99548
+   ],
+   "lost_frac": [
+    0.05266666666666667,
+    0.11533333333333333
+   ],
+   "probe_share": [
+    0.38000839983200335,
+    0.405054
+   ],
+   "cells": [
+    628,
+    1227
+   ],
+   "iters": [
+    3684,
+    3414
+   ],
+   "k_star": 2,
+   "T1": [
+    659976,
+    493840
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1040.0,
+     "recorded": 1040.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 1540.0,
+     "recorded": 1540.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1020.0,
+     "recorded": 1020.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 1520.0,
+     "recorded": 1520.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "fishing_derby",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": -90.0,
+   "u": 45.0,
+   "u_src": "bars",
+   "rises_300k": [
+    254,
+    259
+   ],
+   "best": [
+    8.0,
+    13.0
+   ],
+   "entry_frames": [
+    164644,
+    164644
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.003852,
+    0.003852
+   ],
+   "cells": [
+    1469,
+    1558
+   ],
+   "iters": [
+    4044,
+    4063
+   ],
+   "k_star": 1,
+   "T1": [
+    164644,
+    164644
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 0.0,
+     "recorded": 0.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 0.0,
+     "recorded": 0.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "gopher",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 314.0,
+   "u": 157.0,
+   "u_src": "bars",
+   "rises_300k": [
+    157,
+    304
+   ],
+   "best": [
+    0.0,
+    1800.0
+   ],
+   "entry_frames": [
+    111812,
+    112416
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.003624,
+    0.003624
+   ],
+   "cells": [
+    15,
+    323
+   ],
+   "iters": [
+    4103,
+    5115
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    458788
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "hero",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 1076.5,
+   "u": 538.25,
+   "u_src": "bars",
+   "rises_300k": [
+    106,
+    1000
+   ],
+   "best": [
+    2970.0,
+    2910.0
+   ],
+   "entry_frames": [
+    166048,
+    160912
+   ],
+   "lost_frac": [
+    0.008,
+    0.0
+   ],
+   "probe_share": [
+    0.005778,
+    0.005778
+   ],
+   "cells": [
+    14,
+    24
+   ],
+   "iters": [
+    7070,
+    4798
+   ],
+   "k_star": 1,
+   "T1": [
+    1881800,
+    167904
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 2165.0,
+     "recorded": 2165.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2165.0,
+     "recorded": 2165.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "ice_hockey",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 0.0,
+   "u": 1.0,
+   "u_src": "bars",
+   "rises_300k": [
+    25,
+    12
+   ],
+   "best": [
+    10.0,
+    14.0
+   ],
+   "entry_frames": [
+    163440,
+    159588
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.007704,
+    0.0051359691841848945
+   ],
+   "cells": [
+    1177,
+    972
+   ],
+   "iters": [
+    3978,
+    3998
+   ],
+   "k_star": 3,
+   "T1": [
+    170432,
+    328004
+   ],
+   "C": [
+    570700,
+    628524
+   ],
+   "C_raw": [
+    570700,
+    628524
+   ],
+   "C_late": [
+    423048,
+    398840
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 2.0,
+     "recorded": 2.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 3,
+     "replayed": 8.0,
+     "recorded": 8.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2.0,
+     "recorded": 2.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 3,
+     "replayed": 8.0,
+     "recorded": 8.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "jamesbond",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 20.0,
+   "u": 50.0,
+   "u_src": "bars",
+   "rises_300k": [
+    26,
+    33
+   ],
+   "best": [
+    450.0,
+    700.0
+   ],
+   "entry_frames": [
+    162116,
+    159508
+   ],
+   "lost_frac": [
+    0.004,
+    0.015333333333333332
+   ],
+   "probe_share": [
+    0.246528,
+    0.4063770597046865
+   ],
+   "cells": [
+    487,
+    555
+   ],
+   "iters": [
+    4481,
+    3734
+   ],
+   "k_star": 3,
+   "T1": [
+    223836,
+    220092
+   ],
+   "C": [
+    1561072,
+    283072
+   ],
+   "C_raw": [
+    1561072,
+    283072
+   ],
+   "C_late": [
+    984132,
+    217428
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 150.0,
+     "recorded": 150.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 250.0,
+     "recorded": 250.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 3,
+     "replayed": 450.0,
+     "recorded": 450.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 150.0,
+     "recorded": 150.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 250.0,
+     "recorded": 250.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 3,
+     "replayed": 450.0,
+     "recorded": 450.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "krull",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 1653.0,
+   "u": 826.5,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    270.0,
+    190.0
+   ],
+   "entry_frames": [
+    157220,
+    153368
+   ],
+   "lost_frac": [
+    0.8686666666666667,
+    0.8273333333333334
+   ],
+   "probe_share": [
+    0.882732345353093,
+    0.896232
+   ],
+   "cells": [
+    148,
+    205
+   ],
+   "iters": [
+    208,
+    159
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "kung_fu_master",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 490.0,
+   "u": 245.0,
+   "u_src": "bars",
+   "rises_300k": [
+    33,
+    53
+   ],
+   "best": [
+    1700.0,
+    1600.0
+   ],
+   "entry_frames": [
+    148352,
+    144304
+   ],
+   "lost_frac": [
+    0.002,
+    0.14733333333333334
+   ],
+   "probe_share": [
+    0.019228,
+    0.071346
+   ],
+   "cells": [
+    430,
+    314
+   ],
+   "iters": [
+    4992,
+    4380
+   ],
+   "k_star": 2,
+   "T1": [
+    1249280,
+    560776
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1100.0,
+     "recorded": 1100.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 1600.0,
+     "recorded": 1600.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1000.0,
+     "recorded": 1000.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 1600.0,
+     "recorded": 1600.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "name_this_game",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 2770.0,
+   "u": 1385.0,
+   "u_src": "bars",
+   "rises_300k": [
+    881,
+    315
+   ],
+   "best": [
+    3510.0,
+    0.0
+   ],
+   "entry_frames": [
+    103184,
+    102716
+   ],
+   "lost_frac": [
+    0.056,
+    0.7
+   ],
+   "probe_share": [
+    0.15093,
+    0.003744
+   ],
+   "cells": [
+    439,
+    2
+   ],
+   "iters": [
+    3797,
+    4123
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "phoenix",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 1193.0,
+   "u": 596.5,
+   "u_src": "bars",
+   "rises_300k": [
+    211,
+    178
+   ],
+   "best": [
+    2610.0,
+    2230.0
+   ],
+   "entry_frames": [
+    108752,
+    108268
+   ],
+   "lost_frac": [
+    0.192,
+    0.24466666666666667
+   ],
+   "probe_share": [
+    0.7263027369726303,
+    0.7087840770229217
+   ],
+   "cells": [
+    350,
+    315
+   ],
+   "iters": [
+    1119,
+    1198
+   ],
+   "k_star": 0,
+   "T1": [
+    1931108,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "pooyan",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 507.5,
+   "u": 253.75,
+   "u_src": "bars",
+   "rises_300k": [
+    698,
+    762
+   ],
+   "best": [
+    1120.0,
+    1040.0
+   ],
+   "entry_frames": [
+    105296,
+    96980
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.10764,
+    0.152334
+   ],
+   "cells": [
+    320,
+    517
+   ],
+   "iters": [
+    5472,
+    5624
+   ],
+   "k_star": 1,
+   "T1": [
+    1076956,
+    296508
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1015.0,
+     "recorded": 1015.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1040.0,
+     "recorded": 1040.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "qbert",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 152.5,
+   "u": 76.25,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    899
+   ],
+   "best": [
+    9075.0,
+    5800.0
+   ],
+   "entry_frames": [
+    93584,
+    99560
+   ],
+   "lost_frac": [
+    0.5586666666666666,
+    0.61
+   ],
+   "probe_share": [
+    0.11278551871858819,
+    0.202644
+   ],
+   "cells": [
+    3665,
+    3354
+   ],
+   "iters": [
+    9360,
+    8091
+   ],
+   "k_star": 6,
+   "T1": [
+    103328,
+    109008
+   ],
+   "C": [
+    722220,
+    973964
+   ],
+   "C_raw": [
+    722220,
+    973964
+   ],
+   "C_late": [
+    721608,
+    968536
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 75.0,
+     "recorded": 375.0,
+     "ok": false
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 475.0,
+     "recorded": 475.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 6,
+     "replayed": 4600.0,
+     "recorded": 5050.0,
+     "ok": false
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 175.0,
+     "recorded": 325.0,
+     "ok": false
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 175.0,
+     "recorded": 525.0,
+     "ok": false
+    },
+    {
+     "seed": 9132,
+     "k": 6,
+     "replayed": 200.0,
+     "recorded": 5250.0,
+     "ok": false
+    }
+   ],
+   "interruption": true
+  },
+  {
+   "game": "road_runner",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 980.0,
+   "u": 490.0,
+   "u_src": "bars",
+   "rises_300k": [
+    21,
+    16
+   ],
+   "best": [
+    5500.0,
+    4300.0
+   ],
+   "entry_frames": [
+    151804,
+    155696
+   ],
+   "lost_frac": [
+    0.192,
+    0.16
+   ],
+   "probe_share": [
+    0.8191756164876702,
+    0.8217567129731481
+   ],
+   "cells": [
+    866,
+    685
+   ],
+   "iters": [
+    906,
+    949
+   ],
+   "k_star": 2,
+   "T1": [
+    627712,
+    388320
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 2000.0,
+     "recorded": 2000.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 3100.0,
+     "recorded": 3100.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2100.0,
+     "recorded": 2100.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 3000.0,
+     "recorded": 3000.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "space_invaders",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 285.0,
+   "u": 142.5,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    1220.0,
+    2385.0
+   ],
+   "entry_frames": [
+    97796,
+    99200
+   ],
+   "lost_frac": [
+    0.06933333333333333,
+    0.058
+   ],
+   "probe_share": [
+    0.0023399344818345086,
+    0.00234
+   ],
+   "cells": [
+    254,
+    289
+   ],
+   "iters": [
+    4920,
+    4878
+   ],
+   "k_star": 2,
+   "T1": [
+    207724,
+    175492
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 585.0,
+     "recorded": 585.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 860.0,
+     "recorded": 860.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 590.0,
+     "recorded": 590.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 855.0,
+     "recorded": 855.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "star_gunner",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 700.0,
+   "u": 350.0,
+   "u_src": "bars",
+   "rises_300k": [
+    116,
+    117
+   ],
+   "best": [
+    900.0,
+    1000.0
+   ],
+   "entry_frames": [
+    174112,
+    170100
+   ],
+   "lost_frac": [
+    0.238,
+    0.27466666666666667
+   ],
+   "probe_share": [
+    0.312654,
+    0.342828
+   ],
+   "cells": [
+    1195,
+    1348
+   ],
+   "iters": [
+    4177,
+    3906
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "tennis",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 0.0,
+   "u": 1.0,
+   "u_src": "bars",
+   "rises_300k": [
+    15,
+    11
+   ],
+   "best": [
+    3.0,
+    2.0
+   ],
+   "entry_frames": [
+    154372,
+    158344
+   ],
+   "lost_frac": [
+    0.0,
+    0.002
+   ],
+   "probe_share": [
+    0.010914,
+    0.0064198330843398075
+   ],
+   "cells": [
+    1153,
+    1019
+   ],
+   "iters": [
+    3978,
+    3998
+   ],
+   "k_star": 1,
+   "T1": [
+    228500,
+    259616
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 2.0,
+     "recorded": 2.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 2.0,
+     "recorded": 2.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "time_pilot",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 3540.0,
+   "u": 1770.0,
+   "u_src": "bars",
+   "rises_300k": [
+    273,
+    290
+   ],
+   "best": [
+    4200.0,
+    4400.0
+   ],
+   "entry_frames": [
+    116900,
+    119120
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.3259621769077542,
+    0.3803531536432344
+   ],
+   "cells": [
+    2220,
+    2319
+   ],
+   "iters": [
+    2812,
+    2553
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "up_n_down",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 693.0,
+   "u": 346.5,
+   "u_src": "bars",
+   "rises_300k": [
+    614,
+    583
+   ],
+   "best": [
+    2830.0,
+    2900.0
+   ],
+   "entry_frames": [
+    96312,
+    102648
+   ],
+   "lost_frac": [
+    0.648,
+    0.728
+   ],
+   "probe_share": [
+    0.7937137131531632,
+    0.8379305379449375
+   ],
+   "cells": [
+    1098,
+    1066
+   ],
+   "iters": [
+    864,
+    646
+   ],
+   "k_star": 2,
+   "T1": [
+    284888,
+    748172
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1650.0,
+     "recorded": 1650.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 2190.0,
+     "recorded": 2190.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1400.0,
+     "recorded": 1400.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 2430.0,
+     "recorded": 2430.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "video_pinball",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 24453.7,
+   "u": 12226.85,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    31713.0,
+    40329.0
+   ],
+   "entry_frames": [
+    115792,
+    115792
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.027888,
+    0.025872
+   ],
+   "cells": [
+    481,
+    246
+   ],
+   "iters": [
+    4882,
+    4734
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "wizard_of_wor",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 850.0,
+   "u": 425.0,
+   "u_src": "bars",
+   "rises_300k": [
+    85,
+    89
+   ],
+   "best": [
+    1300.0,
+    7100.0
+   ],
+   "entry_frames": [
+    124420,
+    122940
+   ],
+   "lost_frac": [
+    0.22933333333333333,
+    0.22333333333333333
+   ],
+   "probe_share": [
+    0.00444,
+    0.09582904170958291
+   ],
+   "cells": [
+    11,
+    1403
+   ],
+   "iters": [
+    4221,
+    4152
+   ],
+   "k_star": 0,
+   "T1": [
+    null,
+    618004
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "yars_revenge",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 4164.4,
+   "u": 2082.2,
+   "u_src": "bars",
+   "rises_300k": [
+    494,
+    554
+   ],
+   "best": [
+    19600.0,
+    22630.0
+   ],
+   "entry_frames": [
+    164684,
+    164684
+   ],
+   "lost_frac": [
+    0.25066666666666665,
+    0.012
+   ],
+   "probe_share": [
+    0.272208,
+    0.382632
+   ],
+   "cells": [
+    6551,
+    6446
+   ],
+   "iters": [
+    3451,
+    2854
+   ],
+   "k_star": 2,
+   "T1": [
+    311340,
+    218444
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 8335.0,
+     "recorded": 8335.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 12651.0,
+     "recorded": 12651.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 8373.0,
+     "recorded": 8373.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 12598.0,
+     "recorded": 12598.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "zaxxon",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 0.0,
+   "u": 200.0,
+   "u_src": "runs",
+   "rises_300k": [
+    1,
+    0
+   ],
+   "best": [
+    0.0,
+    0.0
+   ],
+   "entry_frames": [
+    162076,
+    160792
+   ],
+   "lost_frac": [
+    0.002,
+    0.0006666666666666666
+   ],
+   "probe_share": [
+    0.003852,
+    0.003852
+   ],
+   "cells": [
+    72,
+    72
+   ],
+   "iters": [
+    3993,
+    4005
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": false,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "freeway",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 21.2,
+   "u": 10.6,
+   "u_src": "bars",
+   "rises_300k": [
+    125,
+    135
+   ],
+   "best": [
+    21.0,
+    23.0
+   ],
+   "entry_frames": [
+    82208,
+    82208
+   ],
+   "lost_frac": [
+    0.0006666666666666666,
+    0.0006666666666666666
+   ],
+   "probe_share": [
+    0.000924,
+    0.000924
+   ],
+   "cells": [
+    182,
+    196
+   ],
+   "iters": [
+    4417,
+    4518
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "pong",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": -20.7,
+   "u": 10.35,
+   "u_src": "bars",
+   "rises_300k": [
+    6,
+    11
+   ],
+   "best": [
+    8.0,
+    9.0
+   ],
+   "entry_frames": [
+    100016,
+    100016
+   ],
+   "lost_frac": [
+    0.5973333333333334,
+    0.0026666666666666666
+   ],
+   "probe_share": [
+    0.00234,
+    0.001638
+   ],
+   "cells": [
+    97,
+    111
+   ],
+   "iters": [
+    4126,
+    4129
+   ],
+   "k_star": 1,
+   "T1": [
+    100016,
+    100016
+   ],
+   "a": false,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 0.0,
+     "recorded": 0.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 0.0,
+     "recorded": 0.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "breakout",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 1.9,
+   "u": 1.0,
+   "u_src": "bars",
+   "rises_300k": [
+    491,
+    514
+   ],
+   "best": [
+    41.0,
+    89.0
+   ],
+   "entry_frames": [
+    88652,
+    88652
+   ],
+   "lost_frac": [
+    0.0,
+    0.0
+   ],
+   "probe_share": [
+    0.0009959920320637434,
+    0.000996
+   ],
+   "cells": [
+    657,
+    699
+   ],
+   "iters": [
+    10702,
+    10743
+   ],
+   "k_star": 5,
+   "T1": [
+    94832,
+    117144
+   ],
+   "C": [
+    578056,
+    901656
+   ],
+   "C_raw": [
+    578056,
+    901656
+   ],
+   "C_late": [
+    555144,
+    896716
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 6.0,
+     "recorded": 6.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 5,
+     "replayed": 35.0,
+     "recorded": 35.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 6.0,
+     "recorded": 6.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 5,
+     "replayed": 35.0,
+     "recorded": 35.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "seaquest",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 180.0,
+   "u": 90.0,
+   "u_src": "bars",
+   "rises_300k": [
+    130,
+    146
+   ],
+   "best": [
+    420.0,
+    240.0
+   ],
+   "entry_frames": [
+    162236,
+    164804
+   ],
+   "lost_frac": [
+    0.09,
+    0.22066666666666668
+   ],
+   "probe_share": [
+    0.8005627921209103,
+    0.782590174098259
+   ],
+   "cells": [
+    1344,
+    1108
+   ],
+   "iters": [
+    798,
+    865
+   ],
+   "k_star": -1,
+   "T1": [
+    1558900,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "ms_pacman",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 523.0,
+   "u": 261.5,
+   "u_src": "bars",
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "best": [
+    7580.0,
+    4770.0
+   ],
+   "entry_frames": [
+    117416,
+    114728
+   ],
+   "lost_frac": [
+    0.0006666666666666666,
+    0.0013333333333333333
+   ],
+   "probe_share": [
+    0.004368,
+    0.004368
+   ],
+   "cells": [
+    3900,
+    3431
+   ],
+   "iters": [
+    5570,
+    5392
+   ],
+   "k_star": 4,
+   "T1": [
+    130732,
+    119700
+   ],
+   "C": [
+    409060,
+    1597256
+   ],
+   "C_raw": [
+    409060,
+    1597256
+   ],
+   "C_late": [
+    321004,
+    1584000
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9131,
+     "k": 1,
+     "replayed": 1050.0,
+     "recorded": 1050.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 2,
+     "replayed": 1720.0,
+     "recorded": 1720.0,
+     "ok": true
+    },
+    {
+     "seed": 9131,
+     "k": 4,
+     "replayed": 5430.0,
+     "recorded": 5430.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 1,
+     "replayed": 1100.0,
+     "recorded": 1100.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 2,
+     "replayed": 2060.0,
+     "recorded": 2060.0,
+     "ok": true
+    },
+    {
+     "seed": 9132,
+     "k": 4,
+     "replayed": 4710.0,
+     "recorded": 4710.0,
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "asteroids",
+   "complete": true,
+   "code": [
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ],
+    [
+     "2b22e9416ed645ca17327783e5207efd10c235b6",
+     false
+    ]
+   ],
+   "B": 782.0,
+   "u": 391.0,
+   "u_src": "bars",
+   "rises_300k": [
+    419,
+    464
+   ],
+   "best": [
+    390.0,
+    330.0
+   ],
+   "entry_frames": [
+    137912,
+    139936
+   ],
+   "lost_frac": [
+    0.4686666666666667,
+    0.3546666666666667
+   ],
+   "probe_share": [
+    0.77112240857256,
+    0.7756778323763582
+   ],
+   "cells": [
+    2065,
+    1906
+   ],
+   "iters": [
+    1417,
+    1254
+   ],
+   "k_star": -1,
+   "T1": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  }
+ ],
+ "provenance": {
+  "code_sha": "4a90d83aac8ac3f02a3b70672f7923641493b27a",
+  "dirty": false,
+  "code_tree": "cd0fd1808fec053ff2f454b349b4dc9a67a56cb9:3785f09feca24f3dffb20d9ba36ef3d9708d674c",
+  "launched": "2026-10-23 01:48:52",
+  "launched_ts": 1792712932.4504929,
+  "inputs": {}
+ }
+}
