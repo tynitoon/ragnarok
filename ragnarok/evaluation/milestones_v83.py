@@ -36,8 +36,10 @@ def first_index(records, m):
 
 
 def replay(game, seed, base_state, actions):
-    """True score after `actions` from the pickled+zlib base state, on a fresh emulator (unbilled)."""
+    """True score after `actions` from the pickled+zlib base state, on a fresh emulator (unbilled) that
+    first plays one NOOP step (senses_v83.Trace.replay; build notes 21)."""
     env = AtariEnv(game, seed=seed)
+    env.step(0)
     env.ale.restoreState(pickle.loads(zlib.decompress(bytes(base_state))))
     env._true_score = 0.0
     for a in actions:

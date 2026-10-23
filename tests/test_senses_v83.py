@@ -121,3 +121,23 @@ def test_trace_replay_matches():
     for billed, true, h in tr.records:
         assert tr.replay(h) == true
     assert tr.first_reaching(tr.records[-1][1])[2] == tr.records[-1][2]
+
+
+def test_replay_exact_after_root_restores_qbert():
+    """Q*bert: a fresh emulator right after reset keeps a context outside the saved state; the replay
+    plays one NOOP before restoring, as the live emulator always has (build notes 21)."""
+    tr = Trace()
+    env = SenseEnv("qbert", seed=9131, trace=tr)
+    rng = np.random.default_rng(1)
+    env.reset()
+    root = env.clone()
+    hs = []
+    for _ in range(40):
+        env.restore(root)
+        for _ in range(int(rng.integers(1, 60))):
+            _, _, _, end = env.step(int(rng.integers(env.n_actions)))
+            if end:
+                break
+        hs.append(env.clone())
+    for h in hs:
+        assert tr.replay(h) == env._store[h][2]

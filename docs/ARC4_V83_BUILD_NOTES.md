@@ -75,3 +75,16 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     tâches A1 y tournent encore) : le verdict est calculé dans `ragnarok_v83` sur les sorties importées
     par `scripts/a1_import_v83.py` (copie vérifiée octet par octet, manifeste SHA-256), en vérifiant que
     tous les runs A1 portent le même code (`2b22e94`, propre).
+21. **Rejeu de vérification (trouvé au verdict A1, Q\*bert)** : 5 des 6 vérifications Q\*bert d'A1
+    divergeaient (88 autres, sur 22 jeux, concordaient). Première hypothèse, fausse : un état sauvé à
+    l'image 0 se restaurerait mal ; la correction « ancre » qui en découlait (commits b1ad9ab, e849778)
+    échouait encore sur les vrais runs et a été annulée (e696ffb, 7e10f35). Cause établie : juste après
+    une remise à zéro, ALE garde un contexte hors de l'état sauvé qui modifie les images suivantes de
+    Q\*bert ; l'émulateur vivant a toujours joué avant de restaurer quoi que ce soit, l'émulateur neuf
+    de vérification non. Correction côté évaluateur seulement : l'émulateur de vérification joue un pas
+    NOOP avant de restaurer la base. Avec elle, les 6 vérifications Q\*bert passent sur les fichiers A1
+    d'origine (sans relance), les autres jeux restent justes, et deux relances complètes de Q\*bert
+    reproduisent A1 à l'identique (mêmes enregistrements, mêmes images facturées : runs déterministes).
+    Le verdict calculé avec l'ancienne vérification est gardé tel quel
+    (`room_verdict_first_pass.json`, « Interruption ») ; le verdict officiel est recalculé avec la
+    vérification corrigée, sans changer aucune règle.

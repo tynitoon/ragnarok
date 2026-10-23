@@ -90,9 +90,13 @@ class Trace:
         return h, b"".join(reversed(segs))
 
     def replay(self, h):
-        """True cumulative score at handle h, replayed from its reset base on a fresh emulator."""
+        """True cumulative score at handle h, replayed from its reset base on a fresh emulator. The fresh
+        emulator first plays one NOOP step: right after a reset, ALE keeps a context outside the saved
+        state that alters the next frames in some games (Q*bert), while the live emulator always played
+        before restoring anything (build notes 21)."""
         base, acts = self.actions(h)
         env = AtariEnv(self.game, seed=self.seed)
+        env.step(0)
         env.ale.restoreState(pickle.loads(zlib.decompress(self.bases[base])))
         env._true_score = 0.0
         for a in acts:
