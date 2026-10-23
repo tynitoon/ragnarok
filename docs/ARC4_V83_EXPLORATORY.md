@@ -25,3 +25,8 @@ les mêmes journaux A1 et une question voisine. Le résultat de cette analyse
 (`craft_v6_out/v83/explore/explore_promise.json` et le journal de calcul au-delà des lignes de
 convergence) n'est pas lu tant que les seuils de ce test v84 ne sont pas figés et committés. Le calcul
 continue jusqu'au bout ; sa sortie sera lue et rapportée telle quelle après le gel.
+
+**Amendement (23 octobre, gel du protocole v84).** Point de levée du scellé précisé : le résultat n'est lu
+qu'après le commit de `g0_verdict.json` de v84 (`F:\dev\ragnarok_v84`), puis rapporté avec l'étiquette
+« exploratoire ». À la fin du calcul, les SHA-256 de `explore_promise.json` et `run.log` sont committés
+sans afficher leur contenu.
