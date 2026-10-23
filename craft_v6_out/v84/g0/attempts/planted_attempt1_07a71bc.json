@@ -1,0 +1,245 @@
+{
+ "provenance": {
+  "code_sha": "07a71bc1fe4587228483d8d4a34fed13e1519a62",
+  "dirty": false,
+  "code_tree": "a5f3e2be7c9b2d03d879754b5e6e7b70d017d366:f67e6815df212c0e506768757152459af0d8a190",
+  "launched": "2026-10-23 05:08:28",
+  "launched_ts": 1792724908.230479,
+  "inputs": {}
+ },
+ "results": [
+  {
+   "scenario": "positive",
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.015625,
+    "X": 0.015625,
+    "P": 0.0625,
+    "U": 0.25,
+    "K*A": 0.00390625,
+    "X-mean": 0.015625,
+    "P_shift": 0.0625,
+    "P_rot": 0.0625,
+    "X_8": 0.015625,
+    "K*Beven": 0.00390625
+   },
+   "n_units": 7,
+   "passed": false,
+   "R": {
+    "K*A:F": 1.6171751129773118,
+    "X:C*": 1.0651861345259264,
+    "X:F": 1.0651861345259264,
+    "P:F": 0.5542174427138762,
+    "U:F": 0.6655453047551894,
+    "X:C*_late": 1.0185793940115586
+   },
+   "lo": {
+    "K*A:F": 1.3596682692590718,
+    "X:C*": 0.753369173226549,
+    "X:F": 0.753369173226549
+   },
+   "units": [
+    {
+     "game": "beam_rider",
+     "eligible": false,
+     "ends": [
+      0.7126901396592807,
+      0.5551514798113306
+     ]
+    },
+    {
+     "game": "crazy_climber",
+     "eligible": true,
+     "ends": [
+      0.792692999417831,
+      0.6936366821039646
+     ]
+    },
+    {
+     "game": "demon_attack",
+     "eligible": true,
+     "ends": [
+      0.7706031366159173,
+      0.809532888465205
+     ]
+    },
+    {
+     "game": "ice_hockey",
+     "eligible": true,
+     "ends": [
+      0.6776975522576696,
+      0.6895576182251367
+     ]
+    },
+    {
+     "game": "kung_fu_master",
+     "eligible": true,
+     "ends": [
+      0.7582826773057615,
+      0.782909090909091
+     ]
+    },
+    {
+     "game": "time_pilot",
+     "eligible": true,
+     "ends": [
+      0.7960008426850824,
+      0.7840120290517675
+     ]
+    },
+    {
+     "game": "video_pinball",
+     "eligible": true,
+     "ends": [
+      0.6981410974367811,
+      0.7733522112219898
+     ]
+    },
+    {
+     "game": "seaquest",
+     "eligible": true,
+     "ends": [
+      0.7547124806551131,
+      0.7427315812649192
+     ]
+    }
+   ]
+  },
+  {
+   "scenario": "null",
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.015625,
+    "X": 0.25,
+    "P": 0.25,
+    "U": 0.25,
+    "K*A": 0.00390625,
+    "X-mean": 0.015625,
+    "P_shift": 0.25,
+    "P_rot": 0.25,
+    "X_8": 0.25,
+    "K*Beven": 0.00390625
+   },
+   "n_units": 7,
+   "passed": true,
+   "R": {
+    "K*A:F": 1.927840204387473,
+    "X:C*": 0.6008967034778161,
+    "X:F": 0.6008967034778161,
+    "P:F": 0.6368378733634108,
+    "U:F": 0.6450206536770046,
+    "X:C*_late": 0.3295579788466864
+   },
+   "lo": {
+    "K*A:F": 1.3311156118165601,
+    "X:C*": 0.4698119440114398,
+    "X:F": 0.4698119440114398
+   },
+   "units": [
+    {
+     "game": "beam_rider",
+     "eligible": true,
+     "ends": [
+      0.6610884477867418,
+      0.7044109657557284
+     ]
+    },
+    {
+     "game": "crazy_climber",
+     "eligible": true,
+     "ends": [
+      0.846516991523273,
+      0.8215002360271665
+     ]
+    },
+    {
+     "game": "demon_attack",
+     "eligible": true,
+     "ends": [
+      0.7712944789735762,
+      0.828392113134479
+     ]
+    },
+    {
+     "game": "ice_hockey",
+     "eligible": false,
+     "ends": [
+      0.5559251201666063,
+      0.7378404575374272
+     ]
+    },
+    {
+     "game": "kung_fu_master",
+     "eligible": true,
+     "ends": [
+      0.7467827997489014,
+      0.7950380167614309
+     ]
+    },
+    {
+     "game": "time_pilot",
+     "eligible": true,
+     "ends": [
+      0.7565914555215176,
+      0.7332293697205978
+     ]
+    },
+    {
+     "game": "video_pinball",
+     "eligible": true,
+     "ends": [
+      0.7671492077595504,
+      0.7147016011644833
+     ]
+    },
+    {
+     "game": "seaquest",
+     "eligible": true,
+     "ends": [
+      0.7726495565354461,
+      0.7642895450222271
+     ]
+    }
+   ]
+  }
+ ],
+ "passed": false
+}

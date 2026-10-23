@@ -25,3 +25,29 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
 6. **Certificat de préfixe sur les flux réels (vi).** Vérifié courbe par courbe : tout bras à moyenne
    nulle vaut exactement 0,5 à chaque point de mesure antérieur à la première ligne qui complète les deux
    classes.
+7. **T8, premier passage (23 octobre, code 07a71bc, avant la revue T9) — compté comme premier échec
+   positif.** Positif : R(K\*A:F) = 1,62, R(X:C\*) = 1,07 (échec) ; nul : R(X:F) = 0,60, R(X:C\*) = 0,60
+   (réussi). Gardé dans `craft_v6_out/v84/g0/attempts/planted_attempt1_07a71bc.json`. Ce résultat a été
+   lu avant la revue ; par prudence il compte comme le premier échec positif d'A.15 T8 : il reste donc
+   UNE modification de recette, puis un seul nouveau passage ; un second échec positif donne
+   RECIPE-INSENSITIVE. Diagnostic (étiquettes plantées seulement) : les têtes sources retrouvent mal la
+   direction plantée (cosinus médian 0,30 ; la direction du jeu tenu à l'écart n'est qu'à 40-50 % dans
+   l'espace des têtes), le bruit d'estimation se loge dans les directions de très faible variance.
+8. **Modification de recette unique (A.15 T8, déclarée avant le second passage).** Seuil d'espace nul de
+   A.5 relevé de 1e-5 à **1e-2 × λ_max** (bouton autorisé « null-space threshold ») : sur la géométrie
+   de 40 jeux, 88 directions gardées (85 % de la variance de x̃) au lieu de 342. Choix par raisonnement
+   (les directions écartées portent ~15 % de la variance et l'essentiel du bruit des têtes), sans essai
+   de valeurs sur T8. Aucun autre bouton n'est changé. S'applique à G0 entier (géométrie de tous les bras).
+9. **Corrections de la revue T9 (`wf_d1fa216a-b76`), qui ne sont pas des modifications de recette :**
+   K\*A ajusté avec une seule ordonnée sur tout le flux A (ρ par 2 plis pairs/impairs) comme le dit A.7 ;
+   K\*Beven n'était jamais calculé (plis tirés des blocs pairs : (bloc // 2) % 2) ; contrôles (vi) rendus
+   capables d'échouer (enregistrement machine des tests, `planted.json` réussi et inchangé, empreintes
+   des entrées de chaque étape, arbre de code propre ancré au worktree, fichiers du magasin égaux à
+   `store.json`) ; certificat de préfixe aussi sur F ; part N(0,25) avec K\*A ; profil R(q) rapporté ;
+   tests d'agrégation ajoutés ; T7 ramené aux tailles figées (6 jeux, 2 000 lignes, 20 dimensions) avec
+   la règle F seul ci-dessous, l'ancien générateur gardé comme test T7b.
+10. **Règle de choix du générateur T7 aux tailles figées (déclarée avant de lancer X).** Grille
+    wn ∈ {0,2 ; 0,3 ; 0,4 ; 0,5}, biais ∈ {−2,5 ; −2,0 ; −1,5} ; on prend le plus grand wn (puis le plus
+    grand biais) pour lequel F seul (κ = 0,25) franchit N(0,25) après c(n₀) sur au moins 4 des 6 jeux,
+    pour les graines 11 et 12 ; puis T7 tourne une fois. Si aucun réglage ne convient, on garde le test
+    3 000/60 au titre « corrigé et noté ».
