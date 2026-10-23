@@ -16,6 +16,7 @@ def _edges(n, k):
 
 
 def block_mean(lum, w, h):
+    """Reference implementation (np.add.reduceat), used by the tests."""
     H, W = lum.shape
     ey, ex = _edges(H, h), _edges(W, w)
     s = np.add.reduceat(np.add.reduceat(lum, ey, axis=0), ex, axis=1)
@@ -24,13 +25,36 @@ def block_mean(lum, w, h):
     return s / np.outer(hy, wx)
 
 
+_POOL = {}
+
+
+def _pool(H, W, w, h):
+    """Averaging matrices with the same block edges as block_mean: (h x H) and (W x w)."""
+    k = (H, W, w, h)
+    if k not in _POOL:
+        ey, ex = np.append(_edges(H, h), H), np.append(_edges(W, w), W)
+        Ay = np.zeros((h, H))
+        for i in range(h):
+            Ay[i, ey[i]:ey[i + 1]] = 1.0 / (ey[i + 1] - ey[i])
+        Ax = np.zeros((W, w))
+        for j in range(w):
+            Ax[ex[j]:ex[j + 1], j] = 1.0 / (ex[j + 1] - ex[j])
+        _POOL[k] = (Ay, Ax)
+    return _POOL[k]
+
+
+_LUM = np.array([0.299, 0.587, 0.114])
+
+
 def codes(obs):
-    """The four codes (bytes) of a frame, coarse to fine, and the finest block means (for the share of
-    changed blocks between a parent and its child cell)."""
-    lum = luminance(obs.astype(np.float64))
+    """The four codes (bytes) of a frame, coarse to fine, and the finest quantised blocks (for the share
+    of changed blocks between a parent and its child cell)."""
+    lum = obs.astype(np.float64) @ _LUM
+    H, W = lum.shape
     out, fine = [], None
     for w, h, d in RES:
-        m = block_mean(lum, w, h)
+        Ay, Ax = _pool(H, W, w, h)
+        m = Ay @ lum @ Ax
         q = np.minimum((m * d / 256.0).astype(np.int64), d - 1).astype(np.uint8)
         out.append(q.tobytes())
         fine = q

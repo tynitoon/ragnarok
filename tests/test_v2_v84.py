@@ -196,3 +196,20 @@ def test_5_prefix_identity_stub_steer(tmp_path):
 
 def test_6_determinism(tmp_path):
     _same(_v2_run(tmp_path / "a"), _v2_run(tmp_path / "b"))
+
+
+def test_framecodes_equal_reference_blocks():
+    """Fast block means (averaging matrices) give the same codes as np.add.reduceat (protocol §5)."""
+    from ragnarok.agent_v84.framecode import RES, block_mean, codes, luminance
+    env = SenseEnv84("qbert", seed=3)
+    rng = np.random.default_rng(2)
+    for t in range(600):
+        o, _, _, end = env.step(int(rng.integers(env.n_actions)))
+        if end:
+            env.reset()
+        if t % 20 == 0:
+            c, _ = codes(o)
+            lum = luminance(o.astype(np.float64))
+            ref = tuple(np.minimum((block_mean(lum, w, h) * d / 256.0).astype(np.int64), d - 1).astype(np.uint8).tobytes()
+                        for w, h, d in RES)
+            assert c == ref
