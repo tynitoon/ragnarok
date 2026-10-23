@@ -75,13 +75,3 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     tâches A1 y tournent encore) : le verdict est calculé dans `ragnarok_v83` sur les sorties importées
     par `scripts/a1_import_v83.py` (copie vérifiée octet par octet, manifeste SHA-256), en vérifiant que
     tous les runs A1 portent le même code (`2b22e94`, propre).
-21. **Rejeu ancré (trouvé au verdict A1, Q\*bert)** : sur Q\*bert, un état sauvegardé à l'image 0
-    d'épisode (juste après la remise à zéro) ne se restaure pas fidèlement (7 octets de RAM diffèrent
-    après un pas, avec ou sans le générateur aléatoire de l'émulateur ; testé : jamais au-delà de
-    l'image 0). Le rejeu de vérification partait de cet état de base, alors que le run vivant repart
-    d'états restaurés : 5 des 6 vérifications Q\*bert d'A1 divergent, les 88 autres (22 jeux)
-    concordent. Correction côté évaluateur seulement (le comportement de l'agent ne change pas) : la
-    trace garde l'état du premier clone pris après l'image 0 sur chaque lignée (« ancre ») et le rejeu
-    part de là ; test de régression `test_replay_exact_where_frame0_restore_is_not` (6/40 écarts avec
-    l'ancien rejeu, 0 avec l'ancré). Le verdict A1 enregistré reste « Interruption » ; la levée de
-    l'Interruption passe par une ré-exécution des deux runs Q\*bert avec ce rejeu (addendum).
