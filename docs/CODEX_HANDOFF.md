@@ -304,3 +304,18 @@ la prédiction BON/MAUVAIS d'un jeu tenu à l'écart, contre trois témoins rég
 planté préalable ? En parallèle : explorateur V2 sans sondes, porte « place » G1b. Graines 9700-9749.
 L'analyse exploratoire v83 (`../ragnarok_v83/craft_v6_out/v83/explore/`) reste scellée jusqu'au commit
 de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
+
+### 23 octobre (~7 h) — v84 : G0 = RECIPE-INSENSITIVE ; V2 construit ; G1a lancé
+- **G0 (horloge du savoir) : RECIPE-INSENSITIVE** (`../ragnarok_v84/craft_v6_out/v84/g0/g0_verdict.json`).
+  Le contrôle planté positif a échoué deux fois (premier passage compté par prudence, puis l'unique
+  modification de recette autorisée : seuil d'espace nul 1e-2) : X:C\* 1,07 puis 1,03 ; même le plafond
+  intra-jeu K\*A n'atteint que 1,62 puis 1,44 (seuil 2). Le nul passe. Aucune courbe sur les vraies
+  étiquettes n'a été calculée ; voie Σ fermée ; ce n'est pas un négatif sur le mécanisme. Leçon : cet
+  apprenant logistique apprend déjà vite les conséquences ; la marge pour 2× est structurellement faible.
+- **V2 construit** (`ragnarok/agent_v84/explorer2.py`) et testé (tests de construction 1-6 réussis ;
+  test 7 : 0,45 Go, ~50 min par run de 4 M ; 3 tâches parallèles).
+- **G1a** (exploratoire, 12 runs, graine 9710) tourne : `scripts/queue_v84.py g1a k/3` (processus
+  détachés, journaux `craft_v6_out/v84/logs/`), rapport `scripts/room_verdict_v84.py g1a`. Ensuite G1b
+  (porte « place », 41 jeux × graines 9712-9713, `queue_v84.py g1b`), puis verdict `room_verdict_v84.py g1b`.
+  Ne pas committer de code pendant G1b (code mêlé = Interruption).
+- L'analyse exploratoire v83 tourne encore ; son scellé est levable (g0_verdict committé) dès sa fin.
