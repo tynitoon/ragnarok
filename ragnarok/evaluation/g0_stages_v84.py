@@ -75,7 +75,8 @@ def unit_rows(g, head_list, streams, seeds, geo, gi_of, kF, outside):
             thr = 0.60 if head == "good" else 0.65
             ok = end >= thr and end - dd["slot_auc"] >= 0.03
             dirs.append(dict(dir=di, counts=dd["counts"], auc_F=a, auc_F_end=end, auc_slot=dd["slot_auc"],
-                             clocks=dd["clocks"], c_end=dd["c_end"], removed=dd["removed"], ok=bool(ok)))
+                             clocks=dd["clocks"], c_end=dd["c_end"], removed=dd["removed"], ok=bool(ok),
+                             prefix_ok=_prefix_ok({"F": a}, dd)))
         res.append(dict(game=g, head=head, eligible=len(dirs) == 2 and all(x["ok"] for x in dirs), dirs=dirs,
                         d=geo["d"], outside=outside))
     return res
@@ -118,7 +119,8 @@ def arm_curve_rows(g, head_list, streams, seeds, geo, sources, src, gi_of, kap):
             sB = streams[1 - di]
             t_idx, _ = G.test_set(streams[di], sB, head, gi_of[g], seeds[1 - di])
             ev = np.nonzero((sB["block"] % 2 == 0) & ~np.isin(sB["hash"], sB["hash"][t_idx]))[0]
-            kb = k_star(G.project(sB["X"][ev], geo), sB["y"][head][ev], sB["block"][ev], geo["d"]) if len(ev) else None
+            kb = k_star(G.project(sB["X"][ev], geo), sB["y"][head][ev], sB["block"][ev], geo["d"],
+                        fold=(sB["block"][ev] // 2) % 2) if len(ev) else None
             cur["K*Beven"] = curve_for("K*Beven", (kb, None), dd, kap["K*Beven"]) if kb is not None else None
             lam_X = arms["_lam_X"]
             integ = dict(trace_ok=all(abs(np.trace(arms[a][0]) - geo["d"]) < 1e-6 * geo["d"] for a in ("X", "P", "U", "P_rot")),
@@ -136,6 +138,8 @@ def summarize(units, curve_rows):
     unit_game = {(u["game"], u["head"]): u["game"] for u in elig}
     base = {(u["game"], u["head"], d["dir"]): d for u in elig for d in u["dirs"]}
     lam, late, ends, same = {}, {}, {}, []
+    lvl = {q: {} for q in G.QS}
+    n_kstar_none = 0
     for r in curve_rows:
         key = (r["game"], r["head"], r["dir"])
         if key not in base:
@@ -143,6 +147,7 @@ def summarize(units, curve_rows):
         b = base[key]
         cl, c_end, fend = b["clocks"], b["c_end"], b["auc_F_end"]
         arms = dict(r["curves"], F=b["auc_F"])
+        n_kstar_none += arms.get("K*A") is None
         N25 = {}
         for arm, a in arms.items():
             if a is None:
@@ -152,11 +157,15 @@ def summarize(units, curve_rows):
                     ls = [G.lambdas(x, cl, fend, True, c_end) for x in a]
                     lam[(arm,) + key] = float(np.mean([x[0] for x in ls]))
                     late[(arm,) + key] = float(np.mean([x[1] for x in ls]))
+                    for q in G.QS:
+                        lvl[q][(arm,) + key] = float(np.mean([math.log(x[2][q]) for x in ls]))
                 continue
             l, ll, N, _ = G.lambdas(a, cl, fend, arm in G.CARRIED, c_end)
             lam[(arm,) + key], late[(arm,) + key] = l, ll
+            for q in G.QS:
+                lvl[q][(arm,) + key] = math.log(N[q])
             ends[(arm,) + key] = float(np.mean(a[-3:]))
-            if arm in ("F", "X", "P", "U"):
+            if arm in DECISION:
                 N25[arm] = N[0.25]
         same.append(len({round(v, 6) for v in N25.values()}) == 1)
 
@@ -190,4 +199,7 @@ def summarize(units, curve_rows):
     guard = [ends[("X",) + k] - base[k]["auc_F_end"] for k in base if ("X",) + k in ends]
     res["ceiling_guard"] = float(np.mean(guard)) if guard else None
     res["share_same_N025"] = float(np.mean(same)) if same else None
+    res["n_dirs_kstar_none"] = n_kstar_none
+    res["profile_X:C*"] = {str(q): summ(lg("X", ("F", "P", "U"), lvl[q])) for q in G.QS}   # C* per level
+    res["profile_X:F"] = {str(q): summ(lg("X", ("F",), lvl[q])) for q in G.QS}
     return res

@@ -6,9 +6,9 @@ import subprocess
 import time
 
 
-def _git(*args):
+def _git(*args, cwd=None):
     try:
-        return subprocess.run(["git", *args], capture_output=True, text=True, timeout=20).stdout.strip()
+        return subprocess.run(["git", *args], capture_output=True, text=True, timeout=20, cwd=cwd).stdout.strip()
     except Exception:
         return ""
 
@@ -30,11 +30,15 @@ def full_hash(path):
     return h.hexdigest()
 
 
-def stamp(inputs=()):
-    return dict(code_sha=_git("rev-parse", "HEAD"), dirty=bool(_git("status", "--porcelain", "--", "ragnarok", "scripts")),
-                code_tree=_git("rev-parse", "HEAD:ragnarok") + ":" + _git("rev-parse", "HEAD:scripts"),
+def stamp(inputs=(), cwd=None, paths=("ragnarok", "scripts"), full=False):
+    """cwd: repository root (None = process cwd, the v81-v83 behaviour); paths: code trees checked;
+    full: full SHA-256 of the inputs instead of the first-MiB hash."""
+    h = full_hash if full else file_hash
+    return dict(code_sha=_git("rev-parse", "HEAD", cwd=cwd),
+                dirty=bool(_git("status", "--porcelain", "--", *paths, cwd=cwd)),
+                code_tree=":".join(_git("rev-parse", f"HEAD:{p}", cwd=cwd) for p in paths),
                 launched=time.strftime("%Y-%m-%d %H:%M:%S"), launched_ts=time.time(),
-                inputs={p: file_hash(p) for p in inputs if os.path.exists(p)})
+                inputs={str(p): h(p) for p in inputs if os.path.exists(p)})
 
 
 def fresh(out_path, launched_ts):

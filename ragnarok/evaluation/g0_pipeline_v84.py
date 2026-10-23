@@ -64,9 +64,9 @@ def arm_sigmas(g, head, geo, sources, source_games, gi_of):
     return out
 
 
-def k_star(Z_learn, y_learn, block, d):
-    """K*: norm[u u^T + tau^2 I] from a head on one stream (or its even blocks)."""
-    w = stream_head_dir(Z_learn, y_learn, block)
+def k_star(Z_learn, y_learn, block, d, fold=None):
+    """K*: norm[u u^T + tau^2 I] from a head on one stream (or its even blocks, with `fold`)."""
+    w = stream_head_dir(Z_learn, y_learn, block, fold)
     if w is None or not np.any(w):
         return None
     u = w / np.linalg.norm(w)

@@ -15,7 +15,7 @@ from ragnarok.agent_v84.consequence import auc, checkpoints, run_curve
 HEADS = ("good", "bad")
 HEAD_INDEX = {"good": 0, "bad": 1}
 SD_FLOOR = 0.05
-EIG_REL = 1e-5
+EIG_REL = 1e-2                 # A.15 T8 recipe amendment (build note 8); frozen value was 1e-5
 QS = (0.25, 0.375, 0.5, 0.625, 0.75)
 LATE_QS = (0.625, 0.75)
 FLOOR = 5000
@@ -216,14 +216,17 @@ def haar(d, rng):
     return Qm * np.sign(np.diag(R))
 
 
-def stream_head_dir(Z, y, block):
-    """K*: a head fitted in x_hat on one stream, rho by 2-fold over its even and odd blocks."""
+def stream_head_dir(Z, y, block, fold=None):
+    """K*: a head fitted in x_hat on one stream with one intercept (A.7), rho by 2-fold over its even and
+    odd blocks, or over `fold` in {0, 1} (K*_Beven, whose rows are all even blocks)."""
     ok = y >= 0
-    Z, y, block = Z[ok], y[ok], block[ok]
-    ev = block % 2 == 0
+    f = (np.asarray(block) % 2) if fold is None else np.asarray(fold)
+    Z, y, f = Z[ok], y[ok], f[ok]
+    ev = f == 0
     if min(int((y == 1).sum()), int((y == 0).sum())) < 2 or ev.all() or (~ev).all():
         return None
-    w, _, rho, _ = fit_two_fold(Z[ev], y[ev], Z[~ev], y[~ev])
+    _, _, rho, _ = fit_two_fold(Z[ev], y[ev], Z[~ev], y[~ev])                  # rho only
+    w, _ = _fit_multi(Z, y, np.zeros(len(y), np.int64), 1, rho, maxiter=300)  # whole stream, one intercept
     return w
 
 

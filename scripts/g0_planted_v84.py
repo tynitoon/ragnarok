@@ -24,8 +24,7 @@ sys.path.insert(0, str(ROOT))
 from ragnarok.evaluation import g0_v84 as G                                 # noqa: E402
 from ragnarok.evaluation import g0_stages_v84 as ST                         # noqa: E402
 from ragnarok.evaluation.g0_pipeline_v84 import fit_sources                  # noqa: E402
-from ragnarok.evaluation.provenance_v81 import stamp                         # noqa: E402
-from scripts.g0_v84 import GAMES, GI, OUT, SEEDS, load_game, save_json       # noqa: E402
+from scripts.g0_v84 import CLAIM, GAMES, GI, OUT, SEEDS, SENSES, STORE, load_game, prov_v84, save_json  # noqa: E402
 
 CAP = 6000
 
@@ -105,9 +104,10 @@ def run(scenario):
 
 
 if __name__ == "__main__":
-    prov = stamp()
+    prov = prov_v84(STORE / "store.json")
     with Pool(2) as p:
         out = p.map(run, ["positive", "null"])
     passed = all(o["passed"] for o in out)
-    save_json("planted.json", dict(provenance=prov, results=out, passed=passed))
+    save_json("planted.json", dict(provenance=prov, results=out, passed=passed, claim_header=CLAIM, senses=SENSES,
+                                   recipe=dict(eig_rel=G.EIG_REL, attempt=2)))
     print(json.dumps([{k: o[k] for k in ("scenario", "passed", "n_units", "R")} for o in out]))

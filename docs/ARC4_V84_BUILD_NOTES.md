@@ -51,3 +51,8 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
     grand biais) pour lequel F seul (κ = 0,25) franchit N(0,25) après c(n₀) sur au moins 4 des 6 jeux,
     pour les graines 11 et 12 ; puis T7 tourne une fois. Si aucun réglage ne convient, on garde le test
     3 000/60 au titre « corrigé et noté ».
+11. **T7, résultat de la règle F seul (23 octobre).** Aux tailles figées (6 jeux, 2 000 lignes,
+    20 dimensions), nombre de jeux où F franchit N(0,25) après c(n₀), graines 11 (commun) / 12
+    (indépendant) : wn 0,5 : (0,1) (1,1) (2,1) ; wn 0,4 : (0,1) (1,1) (3,0) ; wn 0,3 : (3,2) (1,1) (4,1) ;
+    wn 0,2 : (4,3) (2,3) (5,1), pour biais −1,5 / −2,0 / −2,5. Aucun réglage n'atteint 4 et 4 : T7 garde le
+    générateur 3 000/60 (note 2) au titre « corrigé et noté ».
