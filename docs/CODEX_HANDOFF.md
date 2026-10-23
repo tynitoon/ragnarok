@@ -276,5 +276,20 @@ son exploration d'un jeu neuf ; contrôles : placebo à étiquettes décalées, 
   `../ragnarok_v83run/craft_v6_out/v83/{bars,room}`). Verdict : `scripts/room_verdict_v83.py` dans ce worktree,
   puis commit de `room_verdict.json` avant toute image des bras F, X, P, K*. Ne pas modifier ce worktree
   pendant A1 (provenance : code sale ou mêlé = Interruption).
-- v83 consomme les 24 jeux scellés du juge v82 (et peut-être son second tour) : une v82 relancée plus tard
-  aurait besoin d'un nouveau lot scellé.
+- v83 s'est arrêtée à A1 (KC-place, 23 octobre) : les 24 jeux scellés et les 9 jeux du second tour n'ont
+  pas été ouverts (aucune barre, aucun run). Ils restent utilisables par une version suivante sous son
+  propre protocole.
+
+### 23 octobre (~3 h) — v83 A1 : KC-place (négatif, gardé)
+**A1 (G-place) : KC-place.** 6 des 35 jeux de développement ont de la place (alien, amidar, bank_heist,
+ice_hockey, jamesbond, qbert ; seuil 13) ; calibration : breakout, ms_pacman. σ̂ = 1,08 ; se_proj = 0,48
+(seuil 0,23). Le critère (b) échoue sur 29 des 35 jeux de développement (33 des 41 avec la calibration) et
+écarte à lui seul chaque jeu non retenu ; (d) n'a écarté aucun jeu (calculé seulement si (b) passe).
+Première notation : Interruption (5 des 6 rejeux Q*bert en écart, `room_verdict_first_pass.json`). Le
+vérificateur a été corrigé côté évaluateur (un pas NOOP avant restauration, note 21), puis le verdict
+recalculé sur les mêmes fichiers A1. Cela franchit la lettre du §6 (« défaut après notation jamais renoté
+sur ce lot »), dans le sens défavorable à l'agent. Les comptes sont identiques dans les deux notations
+(6/35, se_proj 0,48 ; sans Q*bert 5/35, se_proj 0,57) et les runs sont déterministes : aucune notation ni
+reprise ne pouvait donner G-place. Revue du verdict : `wf_420b5f0a-bc1`. Détail et leçons :
+`../ragnarok_v83/docs/ARC4_V83_A1_RESULT.md`. Rien n'a été mesuré sur « apprendre plus vite » (ni
+promesses, ni transfert) ; les lots scellés restent fermés.
