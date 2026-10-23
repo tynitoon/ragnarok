@@ -88,3 +88,24 @@ graines, ni les bras du protocole figé (`docs/ARC4_V83_PROTOCOL.md`).
     Le verdict calculé avec l'ancienne vérification est gardé tel quel
     (`room_verdict_first_pass.json`, « Interruption ») ; le verdict officiel est recalculé avec la
     vérification corrigée, sans changer aucune règle.
+22. **Après le verdict A1 (revue `wf_420b5f0a-bc1`)** :
+    - Les relances Q\*bert (`qbert_check/`) ont tourné sur les commits annulés e849778 (9131) et b1ad9ab
+      (9132). L'explorateur est inchangé depuis 2b22e94, mais le format npz est différent
+      (`rec_start`/`start_bytes`, sans `base_state`) et la vérification actuelle ne sait pas le rejouer.
+      Enregistrements et images facturées sont identiques à A1.
+    - `room_verdict_addendum.json` est la sortie de la règle de levée déclarée puis annulée :
+      `interruption_lifted: false`, 5 des 6 rejeux ancrés en écart. Négatif gardé, ce n'est pas le verdict.
+    - σ̂² est poolé sur les 6 jeux à place de développement. Avec breakout et ms_pacman : σ̂² = 1,002,
+      se_proj = 0,450, même verdict.
+    - (d) est la médiane de deux valeurs : bank_heist (64 176 / 1 343 120) et jamesbond
+      (1 561 072 / 283 072) passent grâce à une seule graine. Les 12 hausses d'ice_hockey 9132
+      comprennent l'entrée, comme le prévoit la règle.
+    - Barres négatives (fishing_derby, pong) : M1 = 0 est atteint par le clone racine, la vérification
+      k = 1 rejoue zéro action, et M3 = 3|B| dépasse le score maximal.
+    - Non produit : justesse de « moi » contre les juges RAM `*_v70` sur la calibration (synthèse §2.5) ;
+      reporté, v83 s'arrêtant à A1.
+    - Anomalies : gopher 9131 et name_this_game 9132 font environ 4 100 déroulés complets sans aucune
+      hausse ; zaxxon fait 0/0.
+    - Arrêts du superviseur pendant A1 : 24 (sortie 3), 21 tâches distinctes, toutes graine 9132, toutes
+      relancées et terminées ; copie des lignes dans `craft_v6_out/v83/a1_supervisor_actions.txt`.
+    - La provenance de `room_verdict.json` est tamponnée en fin de calcul, contrairement à la note 12.

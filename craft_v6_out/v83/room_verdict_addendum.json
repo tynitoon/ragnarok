@@ -1,0 +1,82 @@
+{
+ "rule": "docs/ARC4_V83_PROTOCOL.md \u00a74 A1; build notes 21",
+ "qbert_rerun": {
+  "9131": {
+   "records_equal": true,
+   "billed_equal": true,
+   "code_a1": "2b22e9416ed645ca17327783e5207efd10c235b6",
+   "code_rerun": "e8497781f62fc5f1805e4f73cc15153f59d621b6",
+   "rerun_dirty": false
+  },
+  "9132": {
+   "records_equal": true,
+   "billed_equal": true,
+   "code_a1": "2b22e9416ed645ca17327783e5207efd10c235b6",
+   "code_rerun": "b1ad9abc2b02b9bd3dd032f4e2dcf1fc733cf793",
+   "rerun_dirty": false
+  }
+ },
+ "qbert_replay_checks": [
+  {
+   "seed": 9131,
+   "k": 1,
+   "replayed": 75.0,
+   "recorded": 375.0,
+   "ok": false
+  },
+  {
+   "seed": 9131,
+   "k": 2,
+   "replayed": 475.0,
+   "recorded": 475.0,
+   "ok": true
+  },
+  {
+   "seed": 9131,
+   "k": 6,
+   "replayed": 4600.0,
+   "recorded": 5050.0,
+   "ok": false
+  },
+  {
+   "seed": 9132,
+   "k": 1,
+   "replayed": 175.0,
+   "recorded": 325.0,
+   "ok": false
+  },
+  {
+   "seed": 9132,
+   "k": 2,
+   "replayed": 175.0,
+   "recorded": 525.0,
+   "ok": false
+  },
+  {
+   "seed": 9132,
+   "k": 6,
+   "replayed": 200.0,
+   "recorded": 5250.0,
+   "ok": false
+  }
+ ],
+ "interruption_lifted": false,
+ "n_room_dev": 6,
+ "sigma": 1.079425931315079,
+ "se_proj": 0.4804032820874475,
+ "without_qbert": {
+  "n_room_dev": 5,
+  "se_proj": 0.5684019787206483
+ },
+ "G_room": "Interruption",
+ "verdict_sha256": "16c4ecc99eacb95ac8ca9841b6b977e8ed95b346914e8368b8bfd3028223cc15",
+ "senses": "score rises and lives given as senses (owner decision 2026-10-22)",
+ "provenance": {
+  "code_sha": "e8497781f62fc5f1805e4f73cc15153f59d621b6",
+  "dirty": false,
+  "code_tree": "c6f734edbba35bcf83ea00730aaa59a39c917bc3:10defbd7b7d42d1f2a9f254ffe0cce8fec93146c",
+  "launched": "2026-10-23 02:24:49",
+  "launched_ts": 1792715089.8535,
+  "inputs": {}
+ }
+}
