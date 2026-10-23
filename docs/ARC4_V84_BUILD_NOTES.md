@@ -56,3 +56,21 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
     (indépendant) : wn 0,5 : (0,1) (1,1) (2,1) ; wn 0,4 : (0,1) (1,1) (3,0) ; wn 0,3 : (3,2) (1,1) (4,1) ;
     wn 0,2 : (4,3) (2,3) (5,1), pour biais −1,5 / −2,0 / −2,5. Aucun réglage n'atteint 4 et 4 : T7 garde le
     générateur 3 000/60 (note 2) au titre « corrigé et noté ».
+12. **G0-S (préparé le 23 octobre pendant G1b, avant toute donnée G0-S).** Implémentation
+    `scripts/g0s_v84.py` : flux d'expansions des sorties G1b (44 variables du sens de la recherche, ADV
+    comme unique tête, horloge = images facturées à la fin de l'expansion moins l'entrée, blocs de 50
+    expansions, « bouton » = processus pour le taux de base) ; témoin T_clock = têtes sources ajustées sur
+    les 7 variables de contexte du run seulement (colonnes 19-25), les autres mises à 0 donc écartées par
+    le plancher d'écart-type ; C\* = meilleur de {F, P, U, T_clock} ; règle de bord de κ étendue à
+    T_clock ; seuil d'espace nul tel qu'amendé (1e-2).
+13. **T8-S (contrôle planté de G0-S), déclaré avant toute donnée G0-S.** Même générateur que T8 (sous-
+    espace commun de dimension 5, écart-type des logits 1,5, taux de base 0,15 ; nul : directions
+    indépendantes), 12 jeux tirés avec 9708, κ sur 4, métrique sur 8 ; mêmes seuils de réussite. S'il
+    échoue, G0-S = RECIPE-INSENSITIVE (voie S fermée, v84 s'arrête à la faisabilité), sans courbe réelle.
+14. **Observation de méthode (synthétique seulement, 23 octobre).** Sur un jeu de données synthétique
+    (sous-espace commun de dimension 3 dans 44 variables), l'horloge donne R(K\*A:F) = 1,59 et
+    R(X:F) = 1,48 ; dans les deux passages de T8 sur la géométrie réelle, K\*A n'atteignait que 1,62 et
+    1,44. Le plafond pratique de cette mesure semble proche de 1,5× même avec un a priori presque parfait :
+    l'apprenant F atteint vite les premiers niveaux. Le seuil figé (ii) « K\* ≥ 2,0 » risque donc d'être
+    hors de portée par construction. Rien n'est changé (seuils figés) ; leçon pour la suite : simuler le
+    plafond atteignable d'un instrument avant d'en figer les seuils.
