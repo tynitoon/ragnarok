@@ -1,0 +1,244 @@
+{
+ "note": "EXPLORATORY, no claim (docs/ARC4_V83_EXPLORATORY.md)",
+ "held_out": [
+  "alien",
+  "amidar",
+  "bank_heist",
+  "ice_hockey",
+  "jamesbond",
+  "qbert",
+  "breakout",
+  "ms_pacman"
+ ],
+ "per_run": 5000,
+ "summary": {
+  "good": {
+   "would_pass": 0,
+   "of": 8,
+   "median_auc": 0.5186170507575147
+  },
+  "bad": {
+   "would_pass": 0,
+   "of": 8,
+   "median_auc": 0.5074655580499245
+  }
+ },
+ "per_game": {
+  "good": [
+   {
+    "game": "alien",
+    "head": "good",
+    "n": 6933,
+    "pos_rate": 0.4774267993653541,
+    "auc": 0.5095398398783202,
+    "auc_placebo": 0.490957819836843,
+    "auc_slot": 0.5896619699753088,
+    "diff": -0.08012213009698865,
+    "diff_lo": -0.10561814231796465,
+    "clusters": 112,
+    "passed": false
+   },
+   {
+    "game": "amidar",
+    "head": "good",
+    "n": 6784,
+    "pos_rate": 0.38060141509433965,
+    "auc": 0.5106025919566906,
+    "auc_placebo": 0.4711387941487787,
+    "auc_slot": 0.6403884063912615,
+    "diff": -0.12978581443457093,
+    "diff_lo": -0.14932493681977954,
+    "clusters": 248,
+    "passed": false
+   },
+   {
+    "game": "bank_heist",
+    "head": "good",
+    "n": 7448,
+    "pos_rate": 0.0549140708915145,
+    "auc": 0.3989326320593855,
+    "auc_placebo": 0.5233175208608969,
+    "auc_slot": 0.5906194652149341,
+    "diff": -0.19168683315554863,
+    "diff_lo": -0.23755849168817966,
+    "clusters": 115,
+    "passed": false
+   },
+   {
+    "game": "ice_hockey",
+    "head": "good",
+    "n": 7908,
+    "pos_rate": 0.005816894284269095,
+    "auc": 0.5780446395982879,
+    "auc_placebo": 0.4659921692676938,
+    "auc_slot": 0.6527573468417153,
+    "diff": -0.07471270724342738,
+    "diff_lo": -0.1776673507598269,
+    "clusters": 160,
+    "passed": false
+   },
+   {
+    "game": "jamesbond",
+    "head": "good",
+    "n": 6696,
+    "pos_rate": 0.006869772998805257,
+    "auc": 0.4779633867276888,
+    "auc_placebo": 0.561101667211507,
+    "auc_slot": 0.7238623733246159,
+    "diff": -0.2458989865969271,
+    "diff_lo": -0.3557835566158055,
+    "clusters": 165,
+    "passed": false
+   },
+   {
+    "game": "qbert",
+    "head": "good",
+    "n": 5036,
+    "pos_rate": 0.3733121525019857,
+    "auc": 0.5989015350699781,
+    "auc_placebo": 0.48810969649165387,
+    "auc_slot": 0.6804588692932071,
+    "diff": -0.08155733422322897,
+    "diff_lo": -0.10193634788793918,
+    "clusters": 350,
+    "passed": false
+   },
+   {
+    "game": "breakout",
+    "head": "good",
+    "n": 3789,
+    "pos_rate": 0.5410398522037477,
+    "auc": 0.5266315095583388,
+    "auc_placebo": 0.5430348251728636,
+    "auc_slot": 0.5481215725325741,
+    "diff": -0.02149006297423528,
+    "diff_lo": -0.04815332383802055,
+    "clusters": 428,
+    "passed": false
+   },
+   {
+    "game": "ms_pacman",
+    "head": "good",
+    "n": 6827,
+    "pos_rate": 0.5342024315218984,
+    "auc": 0.5793383206322764,
+    "auc_placebo": 0.4933938983191147,
+    "auc_slot": 0.5936540414883948,
+    "diff": -0.01431572085611843,
+    "diff_lo": -0.03422397188343795,
+    "clusters": 220,
+    "passed": false
+   }
+  ],
+  "bad": [
+   {
+    "game": "alien",
+    "head": "bad",
+    "n": 7226,
+    "pos_rate": 0.32286188762801,
+    "auc": 0.5089851234769546,
+    "auc_placebo": 0.5030726558204119,
+    "auc_slot": 0.5371636256348787,
+    "diff": -0.028178502157924168,
+    "diff_lo": -0.05452824885393313,
+    "clusters": 112,
+    "passed": false
+   },
+   {
+    "game": "amidar",
+    "head": "bad",
+    "n": 7339,
+    "pos_rate": 0.35181904891674615,
+    "auc": 0.48604649155787705,
+    "auc_placebo": 0.49461448390215274,
+    "auc_slot": 0.5291811797755096,
+    "diff": -0.043134688217632555,
+    "diff_lo": -0.06700093501943634,
+    "clusters": 248,
+    "passed": false
+   },
+   {
+    "game": "bank_heist",
+    "head": "bad",
+    "n": 6966,
+    "pos_rate": 0.20901521676715476,
+    "auc": 0.3159257144851519,
+    "auc_placebo": 0.27595543068546696,
+    "auc_slot": 0.533470238926228,
+    "diff": -0.21754452444107614,
+    "diff_lo": -0.25041460652352227,
+    "clusters": 115,
+    "passed": false
+   },
+   {
+    "game": "ice_hockey",
+    "head": "bad",
+    "n": 6227,
+    "passed": false,
+    "why": "one class"
+   },
+   {
+    "game": "jamesbond",
+    "head": "bad",
+    "n": 7503,
+    "pos_rate": 0.3818472610955618,
+    "auc": 0.5089018029225151,
+    "auc_placebo": 0.48730654348665364,
+    "auc_slot": 0.6083741412280523,
+    "diff": -0.09947233830553726,
+    "diff_lo": -0.12116939961437725,
+    "clusters": 165,
+    "passed": false
+   },
+   {
+    "game": "qbert",
+    "head": "bad",
+    "n": 8640,
+    "pos_rate": 0.6630787037037037,
+    "auc": 0.5074655580499245,
+    "auc_placebo": 0.5007567853896108,
+    "auc_slot": 0.6483862410527862,
+    "diff": -0.14092068300286165,
+    "diff_lo": -0.16179921505793937,
+    "clusters": 350,
+    "passed": false
+   },
+   {
+    "game": "breakout",
+    "head": "bad",
+    "n": 9242,
+    "pos_rate": 0.8103224410300801,
+    "auc": 0.4751719521394261,
+    "auc_placebo": 0.49012828627070987,
+    "auc_slot": 0.5666119016771279,
+    "diff": -0.09143994953770185,
+    "diff_lo": -0.11370036678487937,
+    "clusters": 430,
+    "passed": false
+   },
+   {
+    "game": "ms_pacman",
+    "head": "bad",
+    "n": 7422,
+    "pos_rate": 0.3496362166531932,
+    "auc": 0.516402277969977,
+    "auc_placebo": 0.46421054816496643,
+    "auc_slot": 0.5365770096195414,
+    "diff": -0.020174731649564404,
+    "diff_lo": -0.04158617998650113,
+    "clusters": 220,
+    "passed": false
+   }
+  ]
+ },
+ "W_sha256": "bdc7db2ab323cd5f6e46e3e117e538db159072d9ced0c516fc95ce7053747e06",
+ "senses": "score rises and lives given as senses (owner decision 2026-10-22)",
+ "provenance": {
+  "code_sha": "b9617d7c815c88e6c57261c1871fb97752f930d5",
+  "dirty": false,
+  "code_tree": "b4457846c3608b87d5d6179ff12360ea66581a69:73e0854227bf87664869f956b164c05e09f0bc6d",
+  "launched": "2026-10-23 03:07:02",
+  "launched_ts": 1792717622.8347697,
+  "inputs": {}
+ }
+}
