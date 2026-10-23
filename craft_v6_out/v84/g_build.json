@@ -1,0 +1,21 @@
+{
+ "test": "G-build test 7 (engineering, unsteered)",
+ "run": "amidar seed 9700 cap 4M",
+ "peak_commit_mb": 445.0625,
+ "peak_ws_mb": 363.1484375,
+ "wall_s": 2974.6613776683807,
+ "billed_fps": 1344.690871380899,
+ "target_unsteered_gb": 1.0,
+ "met": true,
+ "workers": 3,
+ "note": "steered smoke deferred: no steering object exists before G1b and route S (protocol \u00a76.2)",
+ "tests_1_6": "tests/test_v2_v84.py: 9 passed (commit 3a1632e)",
+ "provenance": {
+  "code_sha": "b9452ed7c8c8cd7d43009f9589f1ff9486088ab2",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:851e4f07fe97233dc179e99f41c0e3f815d84558:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-23 06:14:00",
+  "launched_ts": 1792728840.4264817,
+  "inputs": {}
+ }
+}
