@@ -39,7 +39,10 @@ class Trace:
     """Evaluator only. Each reset opens an epoch (its base: the ALE state right after the reset). At
     every clone of the traced emulator that raises the best true cumulative score of its epoch, records
     (billed frames, true score, handle). The lineage of every handle (parent handle or base, actions
-    since) allows a replay from the base, outside the ledger. Milestones are read on the LAST epoch,
+    since) allows a replay outside the ledger. A replay starts from the handle's ANCHOR: the first clone
+    on its lineage taken after episode frame 0 (its state is kept), else from the base. In some games
+    (Q*bert) a state saved at episode frame 0 does not restore faithfully (build notes 21), so a replay
+    from the reset base can leave the live trajectory; from frame 1 on, restores are exact. Milestones are read on the LAST epoch,
     the explorer's tree (it resets once, after entry; entry-phase states do not count). The run script
     sets `stop_at` only after entry."""
 
@@ -50,6 +53,8 @@ class Trace:
         self.best = {}
         self.lineage = {}          # handle -> (parent, actions since parent)
         self.base_of = {}
+        self.frame = {}            # handle -> episode frame number at the clone
+        self.anchors = {}          # handle -> (pickled state, true score): first clones after frame 0
         self.bases = {}            # negative id -> pickled ALE state right after a reset
         self.cur = None
         self.game = self.seed = None
@@ -65,8 +70,11 @@ class Trace:
         self.bases[base] = state
         self.by_base[base], self.best[base], self.cur = [], -np.inf, base
 
-    def on_clone(self, h, parent, since, billed, true):
+    def on_clone(self, h, parent, since, billed, true, state=None, frame=None):
         self.lineage[h] = (parent, since)
+        self.frame[h] = frame
+        if state is not None and frame and (parent < 0 or not self.frame.get(parent)):
+            self.anchors[h] = (state, float(true))
         base = parent if parent < 0 else self.base_of[parent]
         self.base_of[h] = base
         if true > self.best[base]:
@@ -81,20 +89,24 @@ class Trace:
             self.rise_billed.append(int(billed))
             self.rise_sizes.append(float(rise))
 
-    def actions(self, h):
-        """(base id, actions from that reset to handle h)."""
-        segs = []
-        while h > 0:
-            h, seg = self.lineage[h]
+    def start(self, h):
+        """(start state, true score there, actions from there to handle h): from h's anchor if its
+        lineage has one, else from its reset base."""
+        segs, x = [], h
+        while x > 0:
+            if x in self.anchors:
+                st, true = self.anchors[x]
+                return st, true, b"".join(reversed(segs))
+            x, seg = self.lineage[x]
             segs.append(seg)
-        return h, b"".join(reversed(segs))
+        return self.bases[x], 0.0, b"".join(reversed(segs))
 
     def replay(self, h):
-        """True cumulative score at handle h, replayed from its reset base on a fresh emulator."""
-        base, acts = self.actions(h)
+        """True cumulative score at handle h, replayed from its start state on a fresh emulator."""
+        st, true, acts = self.start(h)
         env = AtariEnv(self.game, seed=self.seed)
-        env.ale.restoreState(pickle.loads(zlib.decompress(self.bases[base])))
-        env._true_score = 0.0
+        env.ale.restoreState(pickle.loads(zlib.decompress(st)))
+        env._true_score = true
         for a in acts:
             env.step(a)
         return env.true_score()
@@ -152,7 +164,8 @@ class SenseEnv:
         ob = zlib.compress(self._e.obs().tobytes(), 1)
         self._store[h] = (st, ob, self._e._true_score, self._e.ale.lives())
         if self._trace is not None:
-            self._trace.on_clone(h, self._anchor, bytes(self._since), self.billed, self._e._true_score)
+            self._trace.on_clone(h, self._anchor, bytes(self._since), self.billed, self._e._true_score,
+                                 st, self._e.ale.getEpisodeFrameNumber())
         self._anchor, self._since = h, bytearray()
         return h
 

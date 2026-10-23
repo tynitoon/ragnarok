@@ -121,3 +121,24 @@ def test_trace_replay_matches():
     for billed, true, h in tr.records:
         assert tr.replay(h) == true
     assert tr.first_reaching(tr.records[-1][1])[2] == tr.records[-1][2]
+
+
+def test_replay_exact_where_frame0_restore_is_not():
+    """Q*bert: a state saved at episode frame 0 does not restore faithfully; replays from the first clone
+    after frame 0 (the anchor) must still be exact (build notes 21)."""
+    tr = Trace()
+    env = SenseEnv("qbert", seed=9131, trace=tr)
+    rng = np.random.default_rng(1)
+    env.reset()
+    root = env.clone()
+    hs = []
+    for _ in range(40):
+        env.restore(root)
+        for _ in range(int(rng.integers(1, 60))):
+            _, _, _, end = env.step(int(rng.integers(env.n_actions)))
+            if end:
+                break
+        hs.append(env.clone())
+    assert tr.anchors
+    for h in hs:
+        assert tr.replay(h) == env._store[h][2]

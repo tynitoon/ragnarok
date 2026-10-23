@@ -35,21 +35,27 @@ def first_index(records, m):
     return None
 
 
-def replay(game, seed, base_state, actions):
-    """True score after `actions` from the pickled+zlib base state, on a fresh emulator (unbilled)."""
+def replay(game, seed, start_state, actions, start_true=0.0):
+    """True score after `actions` from a pickled+zlib start state (score start_true there), on a fresh
+    emulator (unbilled)."""
     env = AtariEnv(game, seed=seed)
-    env.ale.restoreState(pickle.loads(zlib.decompress(bytes(base_state))))
-    env._true_score = 0.0
+    env.ale.restoreState(pickle.loads(zlib.decompress(bytes(start_state))))
+    env._true_score = float(start_true)
     for a in actions:
         env.step(int(a))
     return env.true_score()
 
 
 def confirm(game, seed, npz, records, idx):
-    """Replay record `idx` of a room_job npz; returns (replayed, recorded, ok)."""
+    """Replay record `idx` of a room_job npz; returns (replayed, recorded, ok). Newer files replay from
+    each record's anchor (senses_v83.Trace.start); A1 files (base_state only) from the reset base."""
     off = npz["rec_offsets"]
     acts = npz["rec_actions"][off[idx]:off[idx + 1]]
-    got = replay(game, seed, npz["base_state"], acts)
+    if "start_offsets" in npz.files:
+        so, k = npz["start_offsets"], int(npz["rec_start"][idx])
+        got = replay(game, seed, npz["start_bytes"][so[k]:so[k + 1]], acts, npz["start_true"][k])
+    else:
+        got = replay(game, seed, npz["base_state"], acts)
     return got, records[idx][1], bool(got == records[idx][1])
 
 

@@ -57,13 +57,16 @@ def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None, extra=N
     summ = ex.run(env, rng, spent=Spent, max_iters=max_iters)
     recs = tr.records
     acts, offs = [], [0]
-    base = None
+    starts, start_ix, rec_start = [], {}, []
     for _, _, h in recs:
-        b, a = tr.actions(h)
-        base = b if base is None else base
-        assert b == base
+        st, true, a = tr.start(h)
+        if st not in start_ix:
+            start_ix[st] = len(starts)
+            starts.append((st, true))
+        rec_start.append(start_ix[st])
         acts.append(np.frombuffer(a, np.uint8))
         offs.append(offs[-1] + len(a))
+    s_off = np.cumsum([0] + [len(s) for s, _ in starts]).astype(np.int64)
     rows, iters = ex.rows.arrays(), ex.iters.arrays()
     peak_ws, peak_commit = peak_rss_mb()
     out = dict(game=game, seed=seed, cap=cap, stop_at=stop_at, max_iters=max_iters,
@@ -78,8 +81,9 @@ def run(game, seed, cap, stem, stop_at=None, max_iters=None, steer=None, extra=N
     np.savez_compressed(str(stem) + ".npz", **{f"row_{k}": v for k, v in rows.items()},
                         **{f"iter_{k}": v for k, v in iters.items()},
                         rec_actions=np.concatenate(acts) if acts else np.zeros(0, np.uint8),
-                        rec_offsets=np.array(offs, np.int64),
-                        base_state=np.frombuffer(tr.bases[base], np.uint8) if base is not None else np.zeros(0, np.uint8))
+                        rec_offsets=np.array(offs, np.int64), rec_start=np.array(rec_start, np.int64),
+                        start_bytes=np.frombuffer(b"".join(s for s, _ in starts), np.uint8), start_offsets=s_off,
+                        start_true=np.array([t for _, t in starts], np.float64))
     tmp = str(stem) + ".json.tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=1)
