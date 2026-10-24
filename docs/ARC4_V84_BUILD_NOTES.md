@@ -115,3 +115,12 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
     K\*A est au bord prolongé de la grille dans T8 et T8-S (leçon pour v85, pas un motif de relance).
 19. **G0′ (rapport seulement, §6.1/§8) : non exécuté.** Il concerne la voie Σ, fermée par G0
     (RECIPE-INSENSITIVE) ; il ne peut ni rouvrir ni fermer quoi que ce soit. Déclaré non exécuté.
+20. **Revue a posteriori du code G0-S (`wf_a259f054-320`, 24 octobre, étiquetée comme telle).** Aucun
+    bogue n'a pu provoquer un faux échec de T8-S (chemin des données et chemin statistique relus). Lecture :
+    dans le scénario positif, X:F = 1,146 ≈ K\*A:F = 1,156 — la structure commune plantée était captée
+    presque au niveau de l'a priori parfait du jeu ; la limite est la vitesse de F, qui atteint la plupart
+    des niveaux dès les premiers points de mesure (n₀ = 128 expansions ≈ 1,4 % de l'horloge), K\*A franchissant
+    tout au premier point. Le plafond tient donc à la mesure (et au générateur planté, dominé par les axes de
+    forte variance que F apprend en premier), pas au mécanisme. Écarts mineurs relevés : T8-S n'applique pas
+    le plafond de 6 000 lignes de T8 (sans effet défavorable : il aurait plutôt abaissé le résultat) ;
+    `planted_s.json` ne garde ni bornes ni détail par unité. Le libellé RECIPE-INSENSITIVE tient.
