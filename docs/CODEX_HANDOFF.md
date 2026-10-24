@@ -339,3 +339,20 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - Leçons pour v85 : simuler le plafond atteignable d'un instrument (avec un a priori oracle) avant d'en
   figer les seuils ; l'« horloge du savoir » plafonne vers 1,2-1,6× ; le contenu « conséquences » ne se
   transfère pas entre jeux dans la vue égocentrique (exploratoire v83) ; V2 est l'acquis réutilisable.
+
+### 24 octobre (~12 h) — PAUSE demandée par Jérémie ; point de reprise
+- **État** : v84 close (faisabilité ; voir l'entrée précédente). Panel de conception v85 terminé, sorties
+  dans `docs/panels/v85_*` (brief, 5 propositions, juges, brouillon + audits, `v85_plan_final.md`).
+  **Rien n'est figé pour v85** : ni worktree, ni protocole, ni calcul lancé.
+- **Plan v85 proposé** (`docs/panels/v85_plan_final.md`) : premier test G1 « le savoir a-t-il de la place
+  dans la montée de V2 ? », en ligne (retours en arrière facturés), tous les bras repartant d'une même
+  sauvegarde au palier M1 ; trois instruments évaluateurs (choisir parmi ses propositions O_4, où repartir
+  K\*map, comment bouger K\*mac) ; étape I de calibration (accélérations plantées ×1 à ×2 dans le régime
+  réel) avant de figer les seuils ; puis seulement un objet transportable (familles W ou M), répétition en
+  développement, test scellé unique. Chances écrites : place ≈ 35 %, gain transporté confirmé ≈ 1 %.
+- **Pour reprendre** : relire le plan final et les audits, décider de l'adopter (ou l'amender), créer le
+  worktree `../ragnarok_v85` depuis la branche `arc4-v84-clock`, figer `ARC4_V85_PROTOCOL_EN.md` + version
+  française (graines neuves vérifiées), puis coder dans l'ordre de la partie B du plan.
+- **Machine** : aucun calcul Ragnarok en cours ; superviseur mémoire arrêté (le relancer caché avant
+  tout calcul : `pythonw -u scripts\ram_supervisor.py --low 12 --high 14 --clow 12 --chigh 14`, via WMI
+  Win32_Process.Create avec ShowWindow=0, depuis `F:\dev\ragnarok`).
