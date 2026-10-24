@@ -36,6 +36,8 @@ OUT = ROOT / "craft_v6_out" / "v84"
 CAP = 4_000_000
 PATHS = ("ragnarok", "scripts", "tests")
 A1_ROOM = pathlib.Path(r"F:\dev\ragnarok_v83\craft_v6_out\v83\room")
+RESCORE_NOTE = ("re-scored after the replay-checker fix of build note 15; the first pass (Interruption, 2/200 "
+                "checks) is kept in room_verdict_v84_first_pass.json; counts unchanged")
 CLAIM = ("Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 "
          "(score rises, lives count). It is not live play without savestates.")
 
@@ -59,11 +61,16 @@ def top_rung(records, lad):
     return max(ks) if ks else -1
 
 
-def replay_cum(game, seed, npz, idx):
+def replay_cum(game, seed, npz, idx, pre_step=True):
+    """Cumulative sensed rise of record idx, replayed from the reset base. ALE keeps, right after a reset,
+    a context outside the saved state (v83 note 21): pre_step=True plays one NOOP on the fresh emulator
+    before restoring (the live emulator had stepped since its reset); pre_step=False restores in the
+    post-reset context (V2's first rollout restores the root before any step: build note 15)."""
     off = npz["rec_offsets"]
     acts = npz["rec_actions"][off[idx]:off[idx + 1]]
     env = AtariEnv(game, seed=seed)
-    env.step(0)
+    if pre_step:
+        env.step(0)
     env.ale.restoreState(pickle.loads(zlib.decompress(bytes(npz["base_state"]))))
     env._true_score, cum = 0.0, 0.0
     for a in acts:
@@ -111,8 +118,13 @@ def game_row(g, stems, seeds, replay=True):
             npz = np.load(str(stem) + ".npz")
             for k in sorted({1, 2, ks} & set(range(ks + 1))):
                 i = next(j for j, r in enumerate(x) if r[1] >= lad[k])
-                got = replay_cum(g, s, npz, i)
-                checks.append(dict(seed=s, k=k, replayed=got, recorded=x[i][1], ok=bool(got == x[i][1])))
+                got = replay_cum(g, s, npz, i, pre_step=True)
+                ctx = "after_step"
+                if got != x[i][1]:
+                    got2 = replay_cum(g, s, npz, i, pre_step=False)
+                    if got2 == x[i][1]:
+                        got, ctx = got2, "post_reset"
+                checks.append(dict(seed=s, k=k, replayed=got, recorded=x[i][1], context=ctx, ok=bool(got == x[i][1])))
         row["replay"] = checks
         row["interruption"] = not all(c["ok"] for c in checks)
     return row
@@ -174,7 +186,7 @@ def cmd_g1b():
         label = "Interruption"
     else:
         label = "PROCEED" if proceed else "KC-room-84"
-    out = dict(rule="docs/ARC4_V84_PROTOCOL_EN.md §8 G1b", n_room_dev=n, room_dev=[r["game"] for r in room],
+    out = dict(rule="docs/ARC4_V84_PROTOCOL_EN.md §8 G1b", rescored=RESCORE_NOTE, n_room_dev=n, room_dev=[r["game"] for r in room],
                room_cal=[r["game"] for r in rows if r["game"] in CALIBRATION and r["room"]], sigma2_winsor=s2,
                se_proj=se, G1b=label, climbs_most=climbs >= 18, n_climbs=climbs, interruptions=interrupted, codes=codes,
                rows=rows, claim_header=CLAIM, provenance=prov)

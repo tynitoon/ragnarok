@@ -56,3 +56,14 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
     (indépendant) : wn 0,5 : (0,1) (1,1) (2,1) ; wn 0,4 : (0,1) (1,1) (3,0) ; wn 0,3 : (3,2) (1,1) (4,1) ;
     wn 0,2 : (4,3) (2,3) (5,1), pour biais −1,5 / −2,0 / −2,5. Aucun réglage n'atteint 4 et 4 : T7 garde le
     générateur 3 000/60 (note 2) au titre « corrigé et noté ».
+15. **Vérificateur de rejeu, G1b (24 octobre, après la première notation).** 2 des 200 vérifications
+    échouaient, toutes deux au palier le plus profond de Q\*bert (12 225 rejoué 875 ; 12 275 rejoué 5 200).
+    Diagnostic (run reproduit à l'identique jusqu'au palier, mémoire comparée à chaque sauvegarde) : la
+    divergence naît dès le premier déroulé depuis la racine. V2 ne sonde pas à la racine : son premier
+    déroulé restaure la racine juste après la remise à zéro, dans le contexte ALE « post-reset » hors de
+    l'état sauvé (note 21 de v83) ; le vérificateur jouait toujours un NOOP avant de restaurer (contexte
+    « après un pas »). Rejoués sans ce NOOP, les deux paliers retombent exactement (12 225 et 12 275).
+    Correction côté évaluateur seulement : un palier est confirmé si le rejeu exact tombe juste dans l'un
+    des deux contextes, et le contexte utilisé est noté. Première notation gardée
+    (`room_verdict_v84_first_pass.json`, « Interruption ») ; verdict recalculé sur les mêmes fichiers et
+    étiqueté « re-scored » (§3.3, point 5). Les comptes ne changent pas (22/35, se_proj 0,142).
