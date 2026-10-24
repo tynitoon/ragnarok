@@ -319,3 +319,23 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   (porte « place », 41 jeux × graines 9712-9713, `queue_v84.py g1b`), puis verdict `room_verdict_v84.py g1b`.
   Ne pas committer de code pendant G1b (code mêlé = Interruption).
 - L'analyse exploratoire v83 tourne encore ; son scellé est levable (g0_verdict committé) dès sa fin.
+
+### 24 octobre (~9 h 40) — v84 : G1b = PROCEED (re-noté) ; G0-S = RECIPE-INSENSITIVE ; v84 s'arrête à la faisabilité
+- **G1b : PROCEED, re-noté après correction du vérificateur de rejeu** (première notation gardée :
+  Interruption, 2/200, Q\*bert ; notes 15-16 de `../ragnarok_v84/docs/ARC4_V84_BUILD_NOTES.md`).
+  22/35 jeux de dev « de place », se_proj 0,142 (seuil 0,23), 21/35 atteignent M3 en ≤ 7 000 pas. Sans
+  Q\*bert : 21/35, se_proj ≈ 0,15, 20/35. La légende « grimpe sur la plupart » repose sur (d) avec médiane
+  = moyenne des deux graines ; lecture par graine : 18/35 et 17. Revue : `wf_f59985c8-809`.
+- Établi : une recherche avec retours en arrière facturés (V2, sens du score et des vies) atteint M3
+  (≈ 5×B′) sur 22/35 jeux de dev. Non établi : jeu en direct, apprentissage plus rapide grâce à d'autres
+  jeux (rien n'est transporté), jeux neufs (jeux de dev déjà vus par A1), score vrai (hausses senties).
+- Contre 6/35 pour A1 (v83) : indicatif seulement (plafond 2 M contre 4 M, échelle, barres, (c) différents) ;
+  relecture exploratoire aux conditions d'A1 : environ 18/35.
+- 31 arrêts du superviseur, tous relancés de zéro et terminés (note 17).
+- **G0-S : RECIPE-INSENSITIVE** (règle de la note 13) : T8-S positif échoué (K\*A:F 1,16 ; X:C\* 1,13 ;
+  seuils 2,0), nul réussi ; aucune courbe réelle. Voie S fermée ; pas un négatif sur le mécanisme (plafond
+  de l'instrument, note 14, écrite avant les données). Option M exclue (exige G0 PASS). G0′ non exécuté
+  (note 19). **v84 s'arrête à la faisabilité ; G1b PROCEED en est le résultat positif.**
+- Leçons pour v85 : simuler le plafond atteignable d'un instrument (avec un a priori oracle) avant d'en
+  figer les seuils ; l'« horloge du savoir » plafonne vers 1,2-1,6× ; le contenu « conséquences » ne se
+  transfère pas entre jeux dans la vue égocentrique (exploratoire v83) ; V2 est l'acquis réutilisable.
