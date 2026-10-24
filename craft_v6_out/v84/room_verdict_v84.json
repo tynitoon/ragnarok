@@ -1,0 +1,4510 @@
+{
+ "rule": "docs/ARC4_V84_PROTOCOL_EN.md \u00a78 G1b",
+ "rescored": "re-scored after the replay-checker fix of build note 15; the first pass (Interruption, 2/200 checks) is kept in room_verdict_v84_first_pass.json; counts unchanged",
+ "n_room_dev": 22,
+ "room_dev": [
+  "alien",
+  "amidar",
+  "asterix",
+  "atlantis",
+  "bank_heist",
+  "carnival",
+  "chopper_command",
+  "crazy_climber",
+  "gopher",
+  "hero",
+  "jamesbond",
+  "kung_fu_master",
+  "phoenix",
+  "pooyan",
+  "qbert",
+  "space_invaders",
+  "time_pilot",
+  "up_n_down",
+  "video_pinball",
+  "wizard_of_wor",
+  "yars_revenge",
+  "zaxxon"
+ ],
+ "room_cal": [
+  "pong",
+  "breakout",
+  "seaquest",
+  "asteroids"
+ ],
+ "sigma2_winsor": 0.37626931935599583,
+ "se_proj": 0.14198562032543202,
+ "G1b": "PROCEED",
+ "climbs_most": true,
+ "n_climbs": 21,
+ "interruptions": [],
+ "codes": [
+  [
+   "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+   false
+  ]
+ ],
+ "rows": [
+  {
+   "game": "alien",
+   "B_prime": 392.0,
+   "u_prime": 196.0,
+   "k_star": 4,
+   "best": [
+    6570.0,
+    3570.0
+   ],
+   "best_true": [
+    6570.0,
+    3570.0
+   ],
+   "rises_300k": [
+    979,
+    905
+   ],
+   "cells": [
+    15239,
+    15876
+   ],
+   "expansions": [
+    8756,
+    14339
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.234,
+    0.328
+   ],
+   "T1": [
+    183496,
+    172628
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1209,
+    1397
+   ],
+   "C": [
+    235600,
+    1373384
+   ],
+   "lambda": [
+    11.748542120188288,
+    11.801220686926248
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 930.0,
+     "recorded": 930.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 1180.0,
+     "recorded": 1180.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 5340.0,
+     "recorded": 5340.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 910.0,
+     "recorded": 910.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1570.0,
+     "recorded": 1570.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 3530.0,
+     "recorded": 3530.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "amidar",
+   "B_prime": 31.0,
+   "u_prime": 15.5,
+   "k_star": 6,
+   "best": [
+    1668.0,
+    1442.0
+   ],
+   "best_true": [
+    1668.0,
+    1442.0
+   ],
+   "rises_300k": [
+    354,
+    424
+   ],
+   "cells": [
+    651,
+    1810
+   ],
+   "expansions": [
+    8937,
+    8943
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.28,
+    0.26866666666666666
+   ],
+   "T1": [
+    151648,
+    152404
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    855,
+    1186
+   ],
+   "C": [
+    1104756,
+    455364
+   ],
+   "lambda": [
+    11.237898977933074,
+    10.957798500868043
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 77.0,
+     "recorded": 77.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 93.0,
+     "recorded": 93.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 6,
+     "replayed": 1066.0,
+     "recorded": 1066.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 72.0,
+     "recorded": 72.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 98.0,
+     "recorded": 98.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 6,
+     "replayed": 1070.0,
+     "recorded": 1070.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "assault",
+   "B_prime": 386.4,
+   "u_prime": 193.2,
+   "k_star": 0,
+   "best": [
+    630.0,
+    672.0
+   ],
+   "best_true": [
+    630.0,
+    672.0
+   ],
+   "rises_300k": [
+    643,
+    692
+   ],
+   "cells": [
+    2031,
+    2611
+   ],
+   "expansions": [
+    19121,
+    16568
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.019333333333333334,
+    0.027333333333333334
+   ],
+   "T1": [
+    null,
+    null
+   ],
+   "reached_M1": [
+    false,
+    false
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "asterix",
+   "B_prime": 595.0,
+   "u_prime": 297.5,
+   "k_star": 7,
+   "best": [
+    75500.0,
+    88500.0
+   ],
+   "best_true": [
+    75500.0,
+    88500.0
+   ],
+   "rises_300k": [
+    725,
+    667
+   ],
+   "cells": [
+    12646,
+    19261
+   ],
+   "expansions": [
+    11507,
+    10362
+   ],
+   "billed": [
+    4000012,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.006,
+    0.006666666666666667
+   ],
+   "T1": [
+    155668,
+    139992
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1738,
+    1591
+   ],
+   "C": [
+    2027088,
+    2602192
+   ],
+   "lambda": [
+    13.096405000090973,
+    12.842534690363804
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1200.0,
+     "recorded": 1200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 1800.0,
+     "recorded": 1800.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 7,
+     "replayed": 38900.0,
+     "recorded": 38900.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1200.0,
+     "recorded": 1200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1800.0,
+     "recorded": 1800.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 7,
+     "replayed": 38900.0,
+     "recorded": 38900.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "atlantis",
+   "B_prime": 16260.0,
+   "u_prime": 8130.0,
+   "k_star": 3,
+   "best": [
+    114900.0,
+    212600.0
+   ],
+   "best_true": [
+    114900.0,
+    212600.0
+   ],
+   "rises_300k": [
+    643,
+    594
+   ],
+   "cells": [
+    2957,
+    3523
+   ],
+   "expansions": [
+    13479,
+    14046
+   ],
+   "billed": [
+    4000056,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    1.0,
+    1.0
+   ],
+   "T1": [
+    278156,
+    292308
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    3468,
+    3478
+   ],
+   "C": [
+    1716764,
+    196764
+   ],
+   "lambda": [
+    13.046697875928789,
+    12.08759314722621
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 32600.0,
+     "recorded": 32600.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 48800.0,
+     "recorded": 48800.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 81400.0,
+     "recorded": 81400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 33500.0,
+     "recorded": 33500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 49900.0,
+     "recorded": 49900.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 81400.0,
+     "recorded": 81400.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "bank_heist",
+   "B_prime": 15.0,
+   "u_prime": 10.0,
+   "k_star": 5,
+   "best": [
+    360.0,
+    1362.0
+   ],
+   "best_true": [
+    360.0,
+    1362.0
+   ],
+   "rises_300k": [
+    73,
+    71
+   ],
+   "cells": [
+    1974,
+    5955
+   ],
+   "expansions": [
+    9627,
+    8973
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.5946666666666667,
+    0.021333333333333333
+   ],
+   "T1": [
+    227316,
+    201464
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    660,
+    696
+   ],
+   "C": [
+    1559152,
+    169000
+   ],
+   "lambda": [
+    11.321545619368983,
+    10.06911483474676
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 40.0,
+     "recorded": 40.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 60.0,
+     "recorded": 60.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 360.0,
+     "recorded": 360.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 40.0,
+     "recorded": 40.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 60.0,
+     "recorded": 60.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 380.0,
+     "recorded": 380.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "beam_rider",
+   "B_prime": 996.0,
+   "u_prime": 498.0,
+   "k_star": 1,
+   "best": [
+    2160.0,
+    12180.0
+   ],
+   "best_true": [
+    2160.0,
+    12180.0
+   ],
+   "rises_300k": [
+    185,
+    181
+   ],
+   "cells": [
+    3369,
+    3547
+   ],
+   "expansions": [
+    8508,
+    8370
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.092,
+    0.0
+   ],
+   "T1": [
+    3892680,
+    543768
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    false,
+    true
+   ],
+   "depth_M3": [
+    null,
+    4717
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 2004.0,
+     "recorded": 2004.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 2004.0,
+     "recorded": 2004.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "berzerk",
+   "B_prime": 670.0,
+   "u_prime": 335.0,
+   "k_star": 2,
+   "best": [
+    3420.0,
+    2440.0
+   ],
+   "best_true": [
+    3420.0,
+    2440.0
+   ],
+   "rises_300k": [
+    587,
+    622
+   ],
+   "cells": [
+    18111,
+    20000
+   ],
+   "expansions": [
+    14650,
+    17479
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.126,
+    0.12933333333333333
+   ],
+   "T1": [
+    495064,
+    1083112
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    false
+   ],
+   "depth_M3": [
+    3110,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1370.0,
+     "recorded": 1370.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2030.0,
+     "recorded": 2030.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1370.0,
+     "recorded": 1370.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2040.0,
+     "recorded": 2040.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "bowling",
+   "B_prime": 31.5,
+   "u_prime": 15.75,
+   "k_star": 1,
+   "best": [
+    66.0,
+    72.0
+   ],
+   "best_true": [
+    66.0,
+    72.0
+   ],
+   "rises_300k": [
+    116,
+    124
+   ],
+   "cells": [
+    2061,
+    2417
+   ],
+   "expansions": [
+    9211,
+    9555
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.6266666666666667,
+    0.5586666666666666
+   ],
+   "T1": [
+    3438912,
+    1559056
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 66.0,
+     "recorded": 66.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 63.0,
+     "recorded": 63.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "carnival",
+   "B_prime": 732.0,
+   "u_prime": 366.0,
+   "k_star": 3,
+   "best": [
+    6820.0,
+    5160.0
+   ],
+   "best_true": [
+    6320.0,
+    5160.0
+   ],
+   "rises_300k": [
+    913,
+    911
+   ],
+   "cells": [
+    12155,
+    19428
+   ],
+   "expansions": [
+    13565,
+    15913
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    117604,
+    140736
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    878,
+    1600
+   ],
+   "C": [
+    325068,
+    2242100
+   ],
+   "lambda": [
+    10.604491430805819,
+    13.149935374622657
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1520.0,
+     "recorded": 1520.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2380.0,
+     "recorded": 2380.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 3840.0,
+     "recorded": 3840.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1720.0,
+     "recorded": 1720.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2900.0,
+     "recorded": 2900.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 3660.0,
+     "recorded": 3660.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "centipede",
+   "B_prime": 10049.3,
+   "u_prime": 5024.65,
+   "k_star": 1,
+   "best": [
+    35963.0,
+    29238.0
+   ],
+   "best_true": [
+    35963.0,
+    29238.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    1928,
+    1942
+   ],
+   "expansions": [
+    10664,
+    10360
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.027333333333333334,
+    0.008
+   ],
+   "T1": [
+    1929064,
+    2681432
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 20171.0,
+     "recorded": 20171.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 20367.0,
+     "recorded": 20367.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "chopper_command",
+   "B_prime": 1130.0,
+   "u_prime": 565.0,
+   "k_star": 5,
+   "best": [
+    39900.0,
+    26200.0
+   ],
+   "best_true": [
+    39900.0,
+    26200.0
+   ],
+   "rises_300k": [
+    248,
+    235
+   ],
+   "cells": [
+    3141,
+    2961
+   ],
+   "expansions": [
+    11596,
+    11940
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.12733333333333333,
+    0.03333333333333333
+   ],
+   "T1": [
+    262752,
+    265696
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    2237,
+    1752
+   ],
+   "C": [
+    1773168,
+    1318964
+   ],
+   "lambda": [
+    12.696255651708352,
+    12.16768267326312
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 3500.0,
+     "recorded": 3500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 19400.0,
+     "recorded": 19400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 3500.0,
+     "recorded": 3500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 19300.0,
+     "recorded": 19300.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "crazy_climber",
+   "B_prime": 7680.0,
+   "u_prime": 3840.0,
+   "k_star": 3,
+   "best": [
+    54500.0,
+    53100.0
+   ],
+   "best_true": [
+    54500.0,
+    53100.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    14909,
+    12892
+   ],
+   "expansions": [
+    9285,
+    9199
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    332884,
+    274460
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    9604,
+    9670
+   ],
+   "C": [
+    1971068,
+    2502824
+   ],
+   "lambda": [
+    12.578581887719102,
+    12.742557343078719
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 15400.0,
+     "recorded": 15400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 23100.0,
+     "recorded": 23100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 38500.0,
+     "recorded": 38500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 15400.0,
+     "recorded": 15400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 23100.0,
+     "recorded": 23100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 38500.0,
+     "recorded": 38500.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "demon_attack",
+   "B_prime": 763.0,
+   "u_prime": 381.5,
+   "k_star": 3,
+   "best": [
+    5980.0,
+    7060.0
+   ],
+   "best_true": [
+    5980.0,
+    7060.0
+   ],
+   "rises_300k": [
+    867,
+    984
+   ],
+   "cells": [
+    2405,
+    3051
+   ],
+   "expansions": [
+    16632,
+    13606
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.03266666666666666,
+    0.026
+   ],
+   "T1": [
+    138948,
+    169164
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    3757,
+    3478
+   ],
+   "C": [
+    68644,
+    106644
+   ],
+   "lambda": [
+    10.306846042363041,
+    10.747912326740323
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1600.0,
+     "recorded": 1600.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2340.0,
+     "recorded": 2340.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 3815.0,
+     "recorded": 3815.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1540.0,
+     "recorded": 1540.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2320.0,
+     "recorded": 2320.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 3820.0,
+     "recorded": 3820.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "fishing_derby",
+   "B_prime": 10.3,
+   "u_prime": 5.15,
+   "k_star": 2,
+   "best": [
+    46.0,
+    62.0
+   ],
+   "best_true": [
+    -52.0,
+    -36.0
+   ],
+   "rises_300k": [
+    162,
+    165
+   ],
+   "cells": [
+    11755,
+    12861
+   ],
+   "expansions": [
+    13098,
+    13555
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    259312,
+    203940
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    false,
+    true
+   ],
+   "depth_M3": [
+    null,
+    2522
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 21.0,
+     "recorded": 21.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 31.0,
+     "recorded": 31.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 21.0,
+     "recorded": 21.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 31.0,
+     "recorded": 31.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "gopher",
+   "B_prime": 316.0,
+   "u_prime": 158.0,
+   "k_star": 6,
+   "best": [
+    14640.0,
+    21800.0
+   ],
+   "best_true": [
+    14640.0,
+    21800.0
+   ],
+   "rises_300k": [
+    613,
+    646
+   ],
+   "cells": [
+    3640,
+    5363
+   ],
+   "expansions": [
+    9516,
+    11101
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    138484,
+    149048
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1818,
+    1859
+   ],
+   "C": [
+    890588,
+    1277412
+   ],
+   "lambda": [
+    11.69358086722045,
+    11.667615199661363
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 640.0,
+     "recorded": 640.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 960.0,
+     "recorded": 960.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 6,
+     "replayed": 10500.0,
+     "recorded": 10500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 640.0,
+     "recorded": 640.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 960.0,
+     "recorded": 960.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 6,
+     "replayed": 10440.0,
+     "recorded": 10440.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "hero",
+   "B_prime": 1734.5,
+   "u_prime": 867.25,
+   "k_star": 3,
+   "best": [
+    10700.0,
+    11310.0
+   ],
+   "best_true": [
+    10700.0,
+    11310.0
+   ],
+   "rises_300k": [
+    305,
+    320
+   ],
+   "cells": [
+    8666,
+    13646
+   ],
+   "expansions": [
+    9626,
+    8555
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.009333333333333334,
+    0.0
+   ],
+   "T1": [
+    386748,
+    510492
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1616,
+    1506
+   ],
+   "C": [
+    735064,
+    1141240
+   ],
+   "lambda": [
+    11.012453020325175,
+    12.801806128170895
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 4025.0,
+     "recorded": 4025.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 5225.0,
+     "recorded": 5225.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 8725.0,
+     "recorded": 8725.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 3925.0,
+     "recorded": 3925.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 5220.0,
+     "recorded": 5220.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 8780.0,
+     "recorded": 8780.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "ice_hockey",
+   "B_prime": 9.0,
+   "u_prime": 4.5,
+   "k_star": 1,
+   "best": [
+    21.0,
+    24.0
+   ],
+   "best_true": [
+    13.0,
+    16.0
+   ],
+   "rises_300k": [
+    30,
+    25
+   ],
+   "cells": [
+    5255,
+    5649
+   ],
+   "expansions": [
+    10620,
+    10086
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    855172,
+    860640
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 18.0,
+     "recorded": 18.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 18.0,
+     "recorded": 18.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "jamesbond",
+   "B_prime": 55.0,
+   "u_prime": 50.0,
+   "k_star": 8,
+   "best": [
+    25850.0,
+    24350.0
+   ],
+   "best_true": [
+    25850.0,
+    24350.0
+   ],
+   "rises_300k": [
+    33,
+    39
+   ],
+   "cells": [
+    2096,
+    1059
+   ],
+   "expansions": [
+    11699,
+    14180
+   ],
+   "billed": [
+    4000000,
+    4000056
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.011333333333333334
+   ],
+   "T1": [
+    195272,
+    184932
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1105,
+    1360
+   ],
+   "C": [
+    778732,
+    576520
+   ],
+   "lambda": [
+    12.600316921681856,
+    12.43716997747571
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 200.0,
+     "recorded": 200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 300.0,
+     "recorded": 300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 8,
+     "replayed": 15650.0,
+     "recorded": 15650.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 200.0,
+     "recorded": 200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 300.0,
+     "recorded": 300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 8,
+     "replayed": 14050.0,
+     "recorded": 14050.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "krull",
+   "B_prime": 2045.0,
+   "u_prime": 1022.5,
+   "k_star": 0,
+   "best": [
+    3680.0,
+    4530.0
+   ],
+   "best_true": [
+    3680.0,
+    4530.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    211,
+    243
+   ],
+   "expansions": [
+    8948,
+    9013
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.9246666666666666,
+    0.6013333333333334
+   ],
+   "T1": [
+    null,
+    1287736
+   ],
+   "reached_M1": [
+    false,
+    true
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "kung_fu_master",
+   "B_prime": 710.0,
+   "u_prime": 355.0,
+   "k_star": 5,
+   "best": [
+    15400.0,
+    17200.0
+   ],
+   "best_true": [
+    15400.0,
+    17200.0
+   ],
+   "rises_300k": [
+    130,
+    132
+   ],
+   "cells": [
+    231,
+    253
+   ],
+   "expansions": [
+    11223,
+    12883
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.14733333333333334,
+    0.0006666666666666666
+   ],
+   "T1": [
+    169648,
+    173316
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1150,
+    1177
+   ],
+   "C": [
+    1693432,
+    1420736
+   ],
+   "lambda": [
+    12.006005513636273,
+    11.990908466178636
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1500.0,
+     "recorded": 1500.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2200.0,
+     "recorded": 2200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 12200.0,
+     "recorded": 12200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1800.0,
+     "recorded": 1800.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2200.0,
+     "recorded": 2200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 12100.0,
+     "recorded": 12100.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "name_this_game",
+   "B_prime": 2770.0,
+   "u_prime": 1385.0,
+   "k_star": 2,
+   "best": [
+    16030.0,
+    13340.0
+   ],
+   "best_true": [
+    16030.0,
+    13340.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    7649,
+    15436
+   ],
+   "expansions": [
+    10420,
+    8626
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.8366666666666667,
+    0.008666666666666666
+   ],
+   "T1": [
+    285656,
+    301712
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    false
+   ],
+   "depth_M3": [
+    9394,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 5590.0,
+     "recorded": 5590.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 8320.0,
+     "recorded": 8320.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 5540.0,
+     "recorded": 5540.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 8320.0,
+     "recorded": 8320.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "phoenix",
+   "B_prime": 592.0,
+   "u_prime": 296.0,
+   "k_star": 5,
+   "best": [
+    12300.0,
+    10710.0
+   ],
+   "best_true": [
+    12300.0,
+    10710.0
+   ],
+   "rises_300k": [
+    351,
+    300
+   ],
+   "cells": [
+    2647,
+    8691
+   ],
+   "expansions": [
+    9162,
+    9230
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.224,
+    0.28
+   ],
+   "T1": [
+    121128,
+    132156
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    962,
+    1185
+   ],
+   "C": [
+    798208,
+    2622600
+   ],
+   "lambda": [
+    11.010985330209149,
+    11.847032152401187
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1420.0,
+     "recorded": 1420.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 1810.0,
+     "recorded": 1810.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 10430.0,
+     "recorded": 10430.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1230.0,
+     "recorded": 1230.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1820.0,
+     "recorded": 1820.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 10190.0,
+     "recorded": 10190.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "pooyan",
+   "B_prime": 517.0,
+   "u_prime": 258.5,
+   "k_star": 5,
+   "best": [
+    12515.0,
+    11415.0
+   ],
+   "best_true": [
+    12515.0,
+    11415.0
+   ],
+   "rises_300k": [
+    1000,
+    989
+   ],
+   "cells": [
+    14499,
+    6079
+   ],
+   "expansions": [
+    13733,
+    12565
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    109460,
+    165148
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1859,
+    2558
+   ],
+   "C": [
+    2450472,
+    1563836
+   ],
+   "lambda": [
+    12.666459625915632,
+    12.950179019887447
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1090.0,
+     "recorded": 1090.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 1565.0,
+     "recorded": 1565.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 8805.0,
+     "recorded": 8805.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1045.0,
+     "recorded": 1045.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1575.0,
+     "recorded": 1575.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 8805.0,
+     "recorded": 8805.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "qbert",
+   "B_prime": 187.5,
+   "u_prime": 93.75,
+   "k_star": 7,
+   "best": [
+    19375.0,
+    18725.0
+   ],
+   "best_true": [
+    19375.0,
+    18725.0
+   ],
+   "rises_300k": [
+    456,
+    1000
+   ],
+   "cells": [
+    19331,
+    18152
+   ],
+   "expansions": [
+    23356,
+    24079
+   ],
+   "billed": [
+    4000000,
+    4000052
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.396,
+    0.44333333333333336
+   ],
+   "T1": [
+    110604,
+    97572
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    464,
+    455
+   ],
+   "C": [
+    1427220,
+    785616
+   ],
+   "lambda": [
+    11.476283425190516,
+    11.478473399193957
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 775.0,
+     "recorded": 775.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 775.0,
+     "recorded": 775.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 7,
+     "replayed": 12225.0,
+     "recorded": 12225.0,
+     "context": "post_reset",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 375.0,
+     "recorded": 375.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1025.0,
+     "recorded": 1025.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 7,
+     "replayed": 12275.0,
+     "recorded": 12275.0,
+     "context": "post_reset",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "road_runner",
+   "B_prime": 1000.0,
+   "u_prime": 500.0,
+   "k_star": 4,
+   "best": [
+    67900.0,
+    12600.0
+   ],
+   "best_true": [
+    67900.0,
+    12600.0
+   ],
+   "rises_300k": [
+    273,
+    198
+   ],
+   "cells": [
+    1328,
+    316
+   ],
+   "expansions": [
+    20712,
+    20743
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.2773333333333333,
+    0.182
+   ],
+   "T1": [
+    164460,
+    178216
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    770,
+    1004
+   ],
+   "C": [
+    36848,
+    68156
+   ],
+   "lambda": [
+    9.906092097105832,
+    10.28734486155926
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 3300.0,
+     "recorded": 3300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 9000.0,
+     "recorded": 9000.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 2000.0,
+     "recorded": 2000.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 3000.0,
+     "recorded": 3000.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 9000.0,
+     "recorded": 9000.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "space_invaders",
+   "B_prime": 285.0,
+   "u_prime": 142.5,
+   "k_star": 3,
+   "best": [
+    2715.0,
+    2325.0
+   ],
+   "best_true": [
+    2715.0,
+    2325.0
+   ],
+   "rises_300k": [
+    1000,
+    763
+   ],
+   "cells": [
+    429,
+    1547
+   ],
+   "expansions": [
+    12820,
+    10669
+   ],
+   "billed": [
+    4000004,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.06666666666666667,
+    0.058666666666666666
+   ],
+   "T1": [
+    121576,
+    128840
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1666,
+    1775
+   ],
+   "C": [
+    107788,
+    601532
+   ],
+   "lambda": [
+    10.052557402711436,
+    12.241896118127837
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 585.0,
+     "recorded": 585.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 860.0,
+     "recorded": 860.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 1445.0,
+     "recorded": 1445.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 580.0,
+     "recorded": 580.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 860.0,
+     "recorded": 860.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 1430.0,
+     "recorded": 1430.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "star_gunner",
+   "B_prime": 690.0,
+   "u_prime": 345.0,
+   "k_star": -1,
+   "best": [
+    37800.0,
+    800.0
+   ],
+   "best_true": [
+    37800.0,
+    800.0
+   ],
+   "rises_300k": [
+    184,
+    107
+   ],
+   "cells": [
+    1594,
+    271
+   ],
+   "expansions": [
+    10602,
+    12636
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.194,
+    0.17866666666666667
+   ],
+   "T1": [
+    208176,
+    null
+   ],
+   "reached_M1": [
+    true,
+    false
+   ],
+   "reached_M3": [
+    true,
+    false
+   ],
+   "depth_M3": [
+    1118,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "tennis",
+   "B_prime": 1.1,
+   "u_prime": 1.0,
+   "k_star": 4,
+   "best": [
+    18.0,
+    26.0
+   ],
+   "best_true": [
+    13.0,
+    12.0
+   ],
+   "rises_300k": [
+    2,
+    5
+   ],
+   "cells": [
+    564,
+    760
+   ],
+   "expansions": [
+    8346,
+    8337
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0006666666666666666
+   ],
+   "T1": [
+    512840,
+    297984
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1217,
+    1238
+   ],
+   "C": [
+    2645912,
+    1108936
+   ],
+   "lambda": [
+    13.97124868361862,
+    13.163778829341487
+   ],
+   "a": false,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 6.0,
+     "recorded": 6.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 18.0,
+     "recorded": 18.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 4.0,
+     "recorded": 4.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 6.0,
+     "recorded": 6.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 18.0,
+     "recorded": 18.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "time_pilot",
+   "B_prime": 3180.0,
+   "u_prime": 1590.0,
+   "k_star": 3,
+   "best": [
+    39200.0,
+    20800.0
+   ],
+   "best_true": [
+    39200.0,
+    20800.0
+   ],
+   "rises_300k": [
+    369,
+    332
+   ],
+   "cells": [
+    8946,
+    9521
+   ],
+   "expansions": [
+    10595,
+    9428
+   ],
+   "billed": [
+    4000000,
+    4000040
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    183192,
+    182788
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    3329,
+    3481
+   ],
+   "C": [
+    311264,
+    534132
+   ],
+   "lambda": [
+    12.57289738928296,
+    12.749487536508848
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 8100.0,
+     "recorded": 8100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 12100.0,
+     "recorded": 12100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 3,
+     "replayed": 15900.0,
+     "recorded": 15900.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 7600.0,
+     "recorded": 7600.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 12200.0,
+     "recorded": 12200.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 3,
+     "replayed": 16000.0,
+     "recorded": 16000.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "up_n_down",
+   "B_prime": 1098.0,
+   "u_prime": 549.0,
+   "k_star": 5,
+   "best": [
+    32610.0,
+    25910.0
+   ],
+   "best_true": [
+    32610.0,
+    25910.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    13635,
+    16776
+   ],
+   "expansions": [
+    9793,
+    9539
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.386,
+    0.576
+   ],
+   "T1": [
+    107996,
+    99640
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1111,
+    1114
+   ],
+   "C": [
+    784908,
+    2894808
+   ],
+   "lambda": [
+    11.093909491563949,
+    12.262143684845794
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 2610.0,
+     "recorded": 2610.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 3650.0,
+     "recorded": 3650.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 18900.0,
+     "recorded": 18900.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 2290.0,
+     "recorded": 2290.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 3300.0,
+     "recorded": 3300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 18820.0,
+     "recorded": 18820.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "video_pinball",
+   "B_prime": 20217.8,
+   "u_prime": 10108.9,
+   "k_star": 5,
+   "best": [
+    705194.0,
+    468253.0
+   ],
+   "best_true": [
+    705194.0,
+    468253.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    1180,
+    1134
+   ],
+   "expansions": [
+    8737,
+    9098
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    167900,
+    158348
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    5030,
+    5355
+   ],
+   "C": [
+    483728,
+    1064912
+   ],
+   "lambda": [
+    11.449103233763417,
+    12.111010723324133
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 40436.0,
+     "recorded": 40436.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 60843.0,
+     "recorded": 60843.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 344400.0,
+     "recorded": 344400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 40935.0,
+     "recorded": 40935.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 61041.0,
+     "recorded": 61041.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 346533.0,
+     "recorded": 346533.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "wizard_of_wor",
+   "B_prime": 620.0,
+   "u_prime": 310.0,
+   "k_star": 7,
+   "best": [
+    128700.0,
+    77700.0
+   ],
+   "best_true": [
+    128700.0,
+    77700.0
+   ],
+   "rises_300k": [
+    115,
+    86
+   ],
+   "cells": [
+    439,
+    512
+   ],
+   "expansions": [
+    10504,
+    8886
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.17333333333333334,
+    0.5146666666666667
+   ],
+   "T1": [
+    214992,
+    220620
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    2170,
+    1898
+   ],
+   "C": [
+    1348400,
+    977432
+   ],
+   "lambda": [
+    12.345389585627112,
+    12.200673799033213
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1300.0,
+     "recorded": 1300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2000.0,
+     "recorded": 2000.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 7,
+     "replayed": 41100.0,
+     "recorded": 41100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1300.0,
+     "recorded": 1300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2000.0,
+     "recorded": 2000.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 7,
+     "replayed": 41400.0,
+     "recorded": 41400.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "yars_revenge",
+   "B_prime": 3927.8,
+   "u_prime": 1963.9,
+   "k_star": 5,
+   "best": [
+    79980.0,
+    106890.0
+   ],
+   "best_true": [
+    79980.0,
+    106890.0
+   ],
+   "rises_300k": [
+    541,
+    740
+   ],
+   "cells": [
+    2359,
+    1251
+   ],
+   "expansions": [
+    8577,
+    8503
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.11066666666666666,
+    0.15466666666666667
+   ],
+   "T1": [
+    286312,
+    185424
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    2126,
+    1636
+   ],
+   "C": [
+    1626972,
+    1046900
+   ],
+   "lambda": [
+    11.610024907260541,
+    11.445062842348557
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 7989.0,
+     "recorded": 7989.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 12052.0,
+     "recorded": 12052.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 5,
+     "replayed": 66981.0,
+     "recorded": 66981.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 7930.0,
+     "recorded": 7930.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 11817.0,
+     "recorded": 11817.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 5,
+     "replayed": 67004.0,
+     "recorded": 67004.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "zaxxon",
+   "B_prime": 280.0,
+   "u_prime": 500.0,
+   "k_star": 4,
+   "best": [
+    9500.0,
+    17000.0
+   ],
+   "best_true": [
+    9500.0,
+    17000.0
+   ],
+   "rises_300k": [
+    14,
+    24
+   ],
+   "cells": [
+    20000,
+    6956
+   ],
+   "expansions": [
+    12201,
+    8767
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0006666666666666666,
+    0.0
+   ],
+   "T1": [
+    275336,
+    226504
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1660,
+    1005
+   ],
+   "C": [
+    3288864,
+    469092
+   ],
+   "lambda": [
+    12.067429934327265,
+    10.742700201168907
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1600.0,
+     "recorded": 1600.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2300.0,
+     "recorded": 2300.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 9100.0,
+     "recorded": 9100.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1400.0,
+     "recorded": 1400.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2700.0,
+     "recorded": 2700.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 8400.0,
+     "recorded": 8400.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "freeway",
+   "B_prime": 22.3,
+   "u_prime": 11.15,
+   "k_star": -1,
+   "best": [
+    26.0,
+    10.0
+   ],
+   "best_true": [
+    26.0,
+    10.0
+   ],
+   "rises_300k": [
+    98,
+    93
+   ],
+   "cells": [
+    40,
+    22
+   ],
+   "expansions": [
+    11425,
+    8512
+   ],
+   "billed": [
+    4000048,
+    4000052
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0006666666666666666,
+    0.0006666666666666666
+   ],
+   "T1": [
+    null,
+    null
+   ],
+   "reached_M1": [
+    false,
+    false
+   ],
+   "reached_M3": [
+    false,
+    false
+   ],
+   "depth_M3": [
+    null,
+    null
+   ],
+   "a": true,
+   "b": false,
+   "c": false,
+   "d": false,
+   "room": false
+  },
+  {
+   "game": "pong",
+   "B_prime": 0.3,
+   "u_prime": 1.0,
+   "k_star": 4,
+   "best": [
+    20.0,
+    20.0
+   ],
+   "best_true": [
+    13.0,
+    8.0
+   ],
+   "rises_300k": [
+    16,
+    23
+   ],
+   "cells": [
+    1013,
+    1002
+   ],
+   "expansions": [
+    8474,
+    8476
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.021333333333333333,
+    0.5506666666666666
+   ],
+   "T1": [
+    244372,
+    150948
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    998,
+    961
+   ],
+   "C": [
+    970916,
+    583364
+   ],
+   "lambda": [
+    12.065977024713007,
+    12.326206240560303
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 3.0,
+     "recorded": 3.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 5.0,
+     "recorded": 5.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 17.0,
+     "recorded": 17.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 3.0,
+     "recorded": 3.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 5.0,
+     "recorded": 5.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 17.0,
+     "recorded": 17.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "breakout",
+   "B_prime": 2.2,
+   "u_prime": 1.1,
+   "k_star": 8,
+   "best": [
+    398.0,
+    423.0
+   ],
+   "best_true": [
+    398.0,
+    423.0
+   ],
+   "rises_300k": [
+    413,
+    426
+   ],
+   "cells": [
+    2072,
+    1156
+   ],
+   "expansions": [
+    21550,
+    26896
+   ],
+   "billed": [
+    4000048,
+    4000032
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0
+   ],
+   "T1": [
+    97464,
+    101972
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    429,
+    512
+   ],
+   "C": [
+    1960116,
+    642344
+   ],
+   "lambda": [
+    11.50818725550134,
+    11.512632443833288
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 5.0,
+     "recorded": 5.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 7.0,
+     "recorded": 7.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 8,
+     "replayed": 285.0,
+     "recorded": 285.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 5.0,
+     "recorded": 5.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 7.0,
+     "recorded": 7.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 8,
+     "replayed": 285.0,
+     "recorded": 285.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "seaquest",
+   "B_prime": 180.0,
+   "u_prime": 90.0,
+   "k_star": 4,
+   "best": [
+    1720.0,
+    3340.0
+   ],
+   "best_true": [
+    1720.0,
+    3340.0
+   ],
+   "rises_300k": [
+    334,
+    385
+   ],
+   "cells": [
+    1358,
+    2688
+   ],
+   "expansions": [
+    15808,
+    11267
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.11933333333333333,
+    0.06133333333333333
+   ],
+   "T1": [
+    297456,
+    205564
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1790,
+    2160
+   ],
+   "C": [
+    1948324,
+    1337472
+   ],
+   "lambda": [
+    12.701038417592367,
+    12.815760340054048
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 360.0,
+     "recorded": 360.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 540.0,
+     "recorded": 540.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 1620.0,
+     "recorded": 1620.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 360.0,
+     "recorded": 360.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 560.0,
+     "recorded": 560.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 1620.0,
+     "recorded": 1620.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "ms_pacman",
+   "B_prime": 552.0,
+   "u_prime": 276.0,
+   "k_star": 4,
+   "best": [
+    10691.0,
+    8170.0
+   ],
+   "best_true": [
+    10691.0,
+    8170.0
+   ],
+   "rises_300k": [
+    1000,
+    1000
+   ],
+   "cells": [
+    11291,
+    7511
+   ],
+   "expansions": [
+    12779,
+    12361
+   ],
+   "billed": [
+    4000000,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.0,
+    0.0006666666666666666
+   ],
+   "T1": [
+    135980,
+    157744
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    1178,
+    1312
+   ],
+   "C": [
+    425008,
+    169648
+   ],
+   "lambda": [
+    11.670473516447716,
+    9.72758224187505
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": false,
+   "room": false,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1110.0,
+     "recorded": 1110.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 1660.0,
+     "recorded": 1660.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 5390.0,
+     "recorded": 5390.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1250.0,
+     "recorded": 1250.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 1680.0,
+     "recorded": 1680.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 5080.0,
+     "recorded": 5080.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  },
+  {
+   "game": "asteroids",
+   "B_prime": 715.0,
+   "u_prime": 357.5,
+   "k_star": 4,
+   "best": [
+    7040.0,
+    14470.0
+   ],
+   "best_true": [
+    7040.0,
+    14470.0
+   ],
+   "rises_300k": [
+    553,
+    551
+   ],
+   "cells": [
+    1709,
+    2695
+   ],
+   "expansions": [
+    12989,
+    11735
+   ],
+   "billed": [
+    4000056,
+    4000000
+   ],
+   "code": [
+    [
+     "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+     false
+    ]
+   ],
+   "me_lost": [
+    0.4713333333333333,
+    0.3253333333333333
+   ],
+   "T1": [
+    323908,
+    498388
+   ],
+   "reached_M1": [
+    true,
+    true
+   ],
+   "reached_M3": [
+    true,
+    true
+   ],
+   "depth_M3": [
+    2250,
+    2960
+   ],
+   "C": [
+    1506752,
+    598276
+   ],
+   "lambda": [
+    13.003404435133957,
+    11.914405801247703
+   ],
+   "a": true,
+   "b": true,
+   "c": true,
+   "d": true,
+   "room": true,
+   "replay": [
+    {
+     "seed": 9712,
+     "k": 1,
+     "replayed": 1460.0,
+     "recorded": 1460.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 2,
+     "replayed": 2160.0,
+     "recorded": 2160.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9712,
+     "k": 4,
+     "replayed": 6440.0,
+     "recorded": 6440.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 1,
+     "replayed": 1520.0,
+     "recorded": 1520.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 2,
+     "replayed": 2150.0,
+     "recorded": 2150.0,
+     "context": "after_step",
+     "ok": true
+    },
+    {
+     "seed": 9713,
+     "k": 4,
+     "replayed": 6490.0,
+     "recorded": 6490.0,
+     "context": "after_step",
+     "ok": true
+    }
+   ],
+   "interruption": false
+  }
+ ],
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance": {
+  "code_sha": "ac8b12636d31c00fcea19ebb71baf0e45d73d6bc",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:672b4d8f7edf1776fafcade3d09f0fa74458d0cc:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:17:56",
+  "launched_ts": 1792826276.610405,
+  "inputs": {}
+ }
+}
