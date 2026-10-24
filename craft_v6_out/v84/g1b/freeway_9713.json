@@ -1,0 +1,139 @@
+{
+ "game": "freeway",
+ "seed": 9713,
+ "cap": 4000000,
+ "stop_at": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 82472,
+  "warm_frames": 48000,
+  "adapter_frames": 26688,
+  "my_sizes": [
+   22.0,
+   22.0,
+   22.0,
+   22.0,
+   22.0
+  ],
+  "my_size": 22.0,
+  "lost_frac": 0.0006666666666666666,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "0,-1,0": [
+    1
+   ],
+   "0,0,1": [
+    2
+   ]
+  },
+  "n_resp": 20
+ },
+ "summary": {
+  "expansions": 8512,
+  "cells": 22,
+  "best_S": 10.0,
+  "evicted": 0,
+  "billed": 4000052,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 204415,
+  "probe_frames_after_entry": 0
+ },
+ "records": [
+  [
+   82472,
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   86384,
+   1.0,
+   1.0,
+   43
+  ],
+  [
+   86652,
+   2.0,
+   2.0,
+   110
+  ],
+  [
+   86852,
+   3.0,
+   3.0,
+   160
+  ],
+  [
+   87980,
+   4.0,
+   4.0,
+   270
+  ],
+  [
+   88180,
+   5.0,
+   5.0,
+   320
+  ],
+  [
+   95120,
+   6.0,
+   6.0,
+   430
+  ],
+  [
+   95320,
+   7.0,
+   7.0,
+   480
+  ],
+  [
+   97620,
+   8.0,
+   8.0,
+   695
+  ],
+  [
+   100112,
+   9.0,
+   9.0,
+   733
+  ],
+  [
+   103560,
+   10.0,
+   10.0,
+   825
+  ]
+ ],
+ "n_rises": 1082,
+ "rises_300k": 93,
+ "median_rise": 1.0,
+ "peak_ws_mb": 134.1796875,
+ "peak_commit_mb": 211.8671875,
+ "wall_s": 2904.541771173477,
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance": {
+  "code_sha": "f3bebe6c551a49d7a8f46286f8293cb11bb916f1",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 02:30:52",
+  "launched_ts": 1792801852.8426101,
+  "inputs": {}
+ },
+ "provenance_end": {
+  "code_sha": "f3bebe6c551a49d7a8f46286f8293cb11bb916f1",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 03:19:17",
+  "launched_ts": 1792804757.605709,
+  "inputs": {}
+ },
+ "npz_sha256": "616a43a0c6379fede4c995677b859f9e77b1b6ee049863498869aa0ceb9107e2"
+}

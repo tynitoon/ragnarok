@@ -1,0 +1,192 @@
+{
+ "game": "bowling",
+ "seed": 9713,
+ "cap": 4000000,
+ "stop_at": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 91552,
+  "warm_frames": 48000,
+  "adapter_frames": 35052,
+  "my_sizes": [
+   96.0,
+   96.0,
+   96.0,
+   96.0,
+   96.0
+  ],
+  "my_size": 96.0,
+  "lost_frac": 0.5586666666666666,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "1,1,0": [
+    1,
+    4,
+    5
+   ],
+   "0,0,1": [
+    2
+   ],
+   "priv0": [
+    3
+   ]
+  },
+  "n_resp": 7
+ },
+ "summary": {
+  "expansions": 9555,
+  "cells": 2417,
+  "best_S": 72.0,
+  "evicted": 0,
+  "billed": 4000000,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 200160,
+  "probe_frames_after_entry": 0
+ },
+ "records": [
+  [
+   91552,
+   0.0,
+   0.0,
+   0
+  ],
+  [
+   94256,
+   3.0,
+   3.0,
+   234
+  ],
+  [
+   100904,
+   6.0,
+   6.0,
+   457
+  ],
+  [
+   103864,
+   13.0,
+   13.0,
+   685
+  ],
+  [
+   128900,
+   21.0,
+   21.0,
+   935
+  ],
+  [
+   150684,
+   24.0,
+   24.0,
+   1165
+  ],
+  [
+   154964,
+   27.0,
+   27.0,
+   1388
+  ],
+  [
+   164032,
+   32.0,
+   32.0,
+   1622
+  ],
+  [
+   176096,
+   38.0,
+   38.0,
+   1845
+  ],
+  [
+   213984,
+   44.0,
+   44.0,
+   2052
+  ],
+  [
+   302844,
+   45.0,
+   45.0,
+   2132
+  ],
+  [
+   342760,
+   47.0,
+   47.0,
+   2127
+  ],
+  [
+   374716,
+   48.0,
+   48.0,
+   1962
+  ],
+  [
+   436112,
+   55.0,
+   55.0,
+   2072
+  ],
+  [
+   439980,
+   57.0,
+   57.0,
+   2071
+  ],
+  [
+   1559056,
+   63.0,
+   63.0,
+   1931
+  ],
+  [
+   1561624,
+   69.0,
+   69.0,
+   2040
+  ],
+  [
+   1605364,
+   70.0,
+   70.0,
+   2098
+  ],
+  [
+   1634216,
+   72.0,
+   72.0,
+   2099
+  ]
+ ],
+ "n_rises": 4107,
+ "rises_300k": 124,
+ "median_rise": 6.0,
+ "peak_ws_mb": 166.7109375,
+ "peak_commit_mb": 244.98828125,
+ "wall_s": 1690.7005321979523,
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance": {
+  "code_sha": "f3bebe6c551a49d7a8f46286f8293cb11bb916f1",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 06:28:20",
+  "launched_ts": 1792816100.0403082,
+  "inputs": {}
+ },
+ "provenance_end": {
+  "code_sha": "f3bebe6c551a49d7a8f46286f8293cb11bb916f1",
+  "dirty": false,
+  "code_tree": "c26d2a87da39bb62b093253754d56d25bd5d9336:2049c8b9b949d42c506055abdeef7c8190eb4737:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 06:56:30",
+  "launched_ts": 1792817790.9374537,
+  "inputs": {}
+ },
+ "npz_sha256": "c501be361d38211e5702172b87de657c3612f5294bd5fa51748c341dd6d2dee0"
+}
