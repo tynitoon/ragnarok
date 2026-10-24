@@ -1,0 +1,677 @@
+{
+ "provenance": {
+  "code_sha": "68fccf9660fc0ea14509496c9a7d513d84296da4",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:22:46",
+  "launched_ts": 1792826566.412248,
+  "inputs": {}
+ },
+ "streams": [
+  {
+   "game": "alien",
+   "seed": 9712,
+   "n": 8756,
+   "adv_rate": 0.6579488350845135,
+   "source_npz_sha256": "a4222788542dadfa756088755ced43bf561b4d806c6bdcb49260d51b7f81df98",
+   "file_sha256": "491161def8793d29e4df5602ed0f78fe44ea239765bf128abacabb5ce749ab2f"
+  },
+  {
+   "game": "alien",
+   "seed": 9713,
+   "n": 14339,
+   "adv_rate": 0.482878861845317,
+   "source_npz_sha256": "5a56d07fde5c2f0b3435adfbf66337b181894014850b338fba1d51c0d2610cdf",
+   "file_sha256": "ecda78b9a20bd8931969f70d03b9515b56d9cd5ac9c9e93852de9868c81cf714"
+  },
+  {
+   "game": "amidar",
+   "seed": 9712,
+   "n": 8937,
+   "adv_rate": 0.1348327179142889,
+   "source_npz_sha256": "e09b601f75146fe43679467ca6935cd0e855f88f60add9cc2d6eca4f3c10d5fe",
+   "file_sha256": "e4bf013fa8466506793cc3da62d2e57d5784641e06d5c29900f5e6886540a815"
+  },
+  {
+   "game": "amidar",
+   "seed": 9713,
+   "n": 8943,
+   "adv_rate": 0.09661187520966119,
+   "source_npz_sha256": "4bf94493f6bbca43455d9195f6aa498752435b5e343e45dae34dede75716650a",
+   "file_sha256": "9cbbc77f1fc4de74a956e81542a5a3015c1f09c1d81f905cce563034dd3bbfc1"
+  },
+  {
+   "game": "assault",
+   "seed": 9712,
+   "n": 19121,
+   "adv_rate": 0.029914753412478425,
+   "source_npz_sha256": "06bb4aba9163e7e0c9b9b3bb49a545163fc2b4008436c66121a0005a0fedca20",
+   "file_sha256": "0c251956a4afbd5294ad717982fa32df69c39d57b50b8494e74ec800f1b5fd56"
+  },
+  {
+   "game": "assault",
+   "seed": 9713,
+   "n": 16568,
+   "adv_rate": 0.04092225977788508,
+   "source_npz_sha256": "ca0322a8a4de92f5a8ee41987d8fcfe0ca8fe274ccbb48f5eac5df29b59e979e",
+   "file_sha256": "a594b39b7da523b782d72dcec8428f09a63af5257ff189e01da5ef6aab205865"
+  },
+  {
+   "game": "asterix",
+   "seed": 9712,
+   "n": 11507,
+   "adv_rate": 0.4382549752324672,
+   "source_npz_sha256": "9ca6134ef22be6dbc4827dc325aaf057184c540f21e4afe800ab84b3a97c7e44",
+   "file_sha256": "115c6f2cdffdb4e5e82ecfcca1de2010152e9baca5ad5ea83e424025a1afedc6"
+  },
+  {
+   "game": "asterix",
+   "seed": 9713,
+   "n": 10362,
+   "adv_rate": 0.4706620343563019,
+   "source_npz_sha256": "319abbb21e12fb0721a774857f50388164c9122391269129877b65aeacffe656",
+   "file_sha256": "607408da371f551fc9caa2667e3e95cc28e5f308b5e33f747ca0347efee9107d"
+  },
+  {
+   "game": "atlantis",
+   "seed": 9712,
+   "n": 13479,
+   "adv_rate": 0.040804213962460124,
+   "source_npz_sha256": "f7cd529ec28d3ed9f20cebf69725f52110f76ff10e45ba779bc58f8216e24357",
+   "file_sha256": "a50bda4884a3b9f5a9f15dfc69ad31de897b70a97264f7a5a00f83a17205417b"
+  },
+  {
+   "game": "atlantis",
+   "seed": 9713,
+   "n": 14046,
+   "adv_rate": 0.12836394703118326,
+   "source_npz_sha256": "e65a300a19b40d7a2107c650dea46e2a1e22ed7a5dc558fc4167bbbb8e770245",
+   "file_sha256": "52fa18fb8e8a4edab8a646ddb900999a66355d54c175e0b62c8f360d08847cb3"
+  },
+  {
+   "game": "bank_heist",
+   "seed": 9712,
+   "n": 9627,
+   "adv_rate": 0.12246805858522904,
+   "source_npz_sha256": "eea2a9fb6d7f9499409cc7fbcb30e7159f482ee6e6ad22715070c66bc591f40a",
+   "file_sha256": "1f4521c08286465daf58e6bfaf39a031bfff8323c00ebcf65042099b480fa3d0"
+  },
+  {
+   "game": "bank_heist",
+   "seed": 9713,
+   "n": 8973,
+   "adv_rate": 0.3409116237601694,
+   "source_npz_sha256": "02f3beff4d640aa6c3ea19b957b27f42e43a7a23d7bc4d580894ea924cbbcfcd",
+   "file_sha256": "844978abd8c0fa905fe8ed28104d82459811a533a3c91afcaae8caa70c70009a"
+  },
+  {
+   "game": "beam_rider",
+   "seed": 9712,
+   "n": 8508,
+   "adv_rate": 0.12494123178185237,
+   "source_npz_sha256": "799e5fbb62148d90e6b8ec6bca02142c22302ab119ea4276e0c8b68e91892f38",
+   "file_sha256": "c0878760fd39514d29fdcd947c0c86f90a517f3895c9674ed4926e12af2ee473"
+  },
+  {
+   "game": "beam_rider",
+   "seed": 9713,
+   "n": 8370,
+   "adv_rate": 0.27395459976105135,
+   "source_npz_sha256": "1b077053ae1719acfc3e364fc9fe4cc56311f5129a6f959ea5d36b7e1bc85bbd",
+   "file_sha256": "6f5267aa6307b6a1a207b62d4b6d03d66c00a7be6d571ea4930ac3615e21a502"
+  },
+  {
+   "game": "berzerk",
+   "seed": 9712,
+   "n": 14650,
+   "adv_rate": 0.4345392491467577,
+   "source_npz_sha256": "5e512d1b24ef40a5fc981768e33fd2582536227a98f9b6895fc665ed8a73ecfd",
+   "file_sha256": "a9fd2b2428266ca393a05039dda2774fb37a593dea8a361413a5cb0addcd7a76"
+  },
+  {
+   "game": "berzerk",
+   "seed": 9713,
+   "n": 17479,
+   "adv_rate": 0.3705017449510842,
+   "source_npz_sha256": "5fa788c98985d02020b00d7b6f58953a8c2cfc61ea129dc683f88bdec53c91c6",
+   "file_sha256": "2d3eedacceb450ea4b7ec204996bd4a36c1c819845aa647cc78908b17986de69"
+  },
+  {
+   "game": "bowling",
+   "seed": 9712,
+   "n": 9211,
+   "adv_rate": 0.0319183584844208,
+   "source_npz_sha256": "5d4daf5ee5f33fda09e4527830313b0cd068a77b6298f9996e979952d7ef107f",
+   "file_sha256": "cc4e0cf81126ffee6a177a41e41ade9dc202e102814c923b4fa813d2247a58e8"
+  },
+  {
+   "game": "bowling",
+   "seed": 9713,
+   "n": 9555,
+   "adv_rate": 0.044060701203558345,
+   "source_npz_sha256": "c501be361d38211e5702172b87de657c3612f5294bd5fa51748c341dd6d2dee0",
+   "file_sha256": "19a5f53c00fadadce7a5922aec399a360b0bdec50f9dd330effe0abc9a84092f"
+  },
+  {
+   "game": "carnival",
+   "seed": 9712,
+   "n": 13565,
+   "adv_rate": 0.1574640619240693,
+   "source_npz_sha256": "81805a043e122c2345bef920c8179b92d28b37e91d35e33e4b9e545504382214",
+   "file_sha256": "491107d8f5f2f75f5e5a67de5b66c0cef88a3b6dd3a884705ab07b46f24c7b71"
+  },
+  {
+   "game": "carnival",
+   "seed": 9713,
+   "n": 15913,
+   "adv_rate": 0.1532709105762584,
+   "source_npz_sha256": "0882dad3423c9f030055f95879367fd98558742dbd5aef57f5b81b591665c69c",
+   "file_sha256": "0addf3de51a447f9061324ddaa38f4931c11a69fcaa19406cfe0440b7da3e86d"
+  },
+  {
+   "game": "centipede",
+   "seed": 9712,
+   "n": 10664,
+   "adv_rate": 0.046042760690172546,
+   "source_npz_sha256": "4c24c445e76e60a20c449287723f20f6007d2c46152395d1f641ad84b31226f8",
+   "file_sha256": "f43e3f57865b501c3880dd84f5cf87cdab9906246ddd29af2a82ca14caa24cc6"
+  },
+  {
+   "game": "centipede",
+   "seed": 9713,
+   "n": 10360,
+   "adv_rate": 0.054247104247104244,
+   "source_npz_sha256": "4bef6321d51d3d3c9a0044f0589c2f7e41e5d4952ddfee7626751cb79ea60ac3",
+   "file_sha256": "a6e3755da26fdb41d8ae62021cbb42241bbb9c55dd28ed325114189e8ac40085"
+  },
+  {
+   "game": "chopper_command",
+   "seed": 9712,
+   "n": 11596,
+   "adv_rate": 0.19489479130734735,
+   "source_npz_sha256": "bad5a406506d1a265331905ae6df261db3f61e920608c2f987250d90635d1fe2",
+   "file_sha256": "b3fac374f87d56beeaf7267f869acc2f46b54c64505d18a6a244530d62096aa1"
+  },
+  {
+   "game": "chopper_command",
+   "seed": 9713,
+   "n": 11940,
+   "adv_rate": 0.06549413735343383,
+   "source_npz_sha256": "8345ab089437cca6b04491abde82078da2e3fae0b01b58b5da3c1b09068f7f1e",
+   "file_sha256": "845527925654e6bb692b75aecbade5ebeb55a7cb6189e904bea5693132dfc23e"
+  },
+  {
+   "game": "crazy_climber",
+   "seed": 9712,
+   "n": 9285,
+   "adv_rate": 0.3893376413570275,
+   "source_npz_sha256": "f6ea891c80e469a8a0167b0a06d760a22b13176eb28d832593efd4aeecd3d367",
+   "file_sha256": "30d2f6e0324f6a6a358fb139fc3578be72265cdae1221f116d39f8932ef88f1c"
+  },
+  {
+   "game": "crazy_climber",
+   "seed": 9713,
+   "n": 9199,
+   "adv_rate": 0.34547233394934235,
+   "source_npz_sha256": "360efe03b7026803862af1c4f923a3d668ddc7959f3902b7fa2eed20dfa14368",
+   "file_sha256": "c6396054ab539a84c2e9873acda58c830ddcb9e3e6755f219b40aed045b14991"
+  },
+  {
+   "game": "demon_attack",
+   "seed": 9712,
+   "n": 16632,
+   "adv_rate": 0.020803270803270803,
+   "source_npz_sha256": "e56e1864b57eccca9b9fe54460220b48a26953b3595e8d67e30564c6b4e85e8c",
+   "file_sha256": "e0504f5556c1806ded9601456ce6368fb2ee93fbd1aeec494aac6623bc1c5e3b"
+  },
+  {
+   "game": "demon_attack",
+   "seed": 9713,
+   "n": 13606,
+   "adv_rate": 0.07423195648978392,
+   "source_npz_sha256": "32400ca0a660118efcfa1516c0376e85124a23fcdd34e4184cedcd81028398fe",
+   "file_sha256": "c78e5c48e4a68feaca6c7cfa171c02a598986aa021d86f27b292c193a9e624e1"
+  },
+  {
+   "game": "fishing_derby",
+   "seed": 9712,
+   "n": 13098,
+   "adv_rate": 0.18346312414109026,
+   "source_npz_sha256": "831510c50c44db98ac24cdc8a4d5ac5a6f10f0914c0e91d76a7dc679033e74d9",
+   "file_sha256": "d709d9beb746118425dd614695d2797ce45853894c02585bc615f9af95451cf0"
+  },
+  {
+   "game": "fishing_derby",
+   "seed": 9713,
+   "n": 13555,
+   "adv_rate": 0.2763555883437846,
+   "source_npz_sha256": "9b5cf13ae1e31d4e9dd0ab239d9b310c6d53dc794b96c6a44b7541c499ca8d89",
+   "file_sha256": "38cb17b26213071bbab24543434c3c07232430f8e4127017bf337797b6d16ff4"
+  },
+  {
+   "game": "gopher",
+   "seed": 9712,
+   "n": 9516,
+   "adv_rate": 0.416141235813367,
+   "source_npz_sha256": "2de7922f6ef59cd92d99446e52bc8831bf1a7f59015c129cddb1c9d9f191f6a2",
+   "file_sha256": "73b68133a6c48b16898fa74dad84c4441e6c4cbd839b643d6b7fd3bf28d824e3"
+  },
+  {
+   "game": "gopher",
+   "seed": 9713,
+   "n": 11101,
+   "adv_rate": 0.37221871903432124,
+   "source_npz_sha256": "a4e1ff724f74cd1c6cfabb94ed67c8a27b751670926c674f07faf3cec1f34aa9",
+   "file_sha256": "9921d54fdcb912f781504d2a5d4cdbf93f68584230e806228d3ce2c200d17fb5"
+  },
+  {
+   "game": "hero",
+   "seed": 9712,
+   "n": 9626,
+   "adv_rate": 0.5572408061500104,
+   "source_npz_sha256": "379b55a2c83013e989d16ca89d08b09eefd556c700018d5865b7e2a3fb5da181",
+   "file_sha256": "eccddbbe4b76ff9431d52cca4479bb496d77b6ad73a1271ccc03b6c626fb5520"
+  },
+  {
+   "game": "hero",
+   "seed": 9713,
+   "n": 8555,
+   "adv_rate": 0.5442431326709527,
+   "source_npz_sha256": "60d53e019c13da36abff4eeeea31cb5b76956fb9a09e11be934f7d893749a3b6",
+   "file_sha256": "487bc6dac1e1daf43738affe279ac04b628d195b80a0c828f0576b97a631ee11"
+  },
+  {
+   "game": "ice_hockey",
+   "seed": 9712,
+   "n": 10620,
+   "adv_rate": 0.2576271186440678,
+   "source_npz_sha256": "34764913ef6f156e8fb9be501c13cfb3fafcd47589174ba2c0857463a3db2e59",
+   "file_sha256": "ca9a5ac04304b407f1719cfd576bdf1a530f4e6dbb93b20857ee924a761d0855"
+  },
+  {
+   "game": "ice_hockey",
+   "seed": 9713,
+   "n": 10086,
+   "adv_rate": 0.26621058893515764,
+   "source_npz_sha256": "b1b922e1b20919e64360567fa67b3a664d47c09e77fb10ab89e7bcd652633eeb",
+   "file_sha256": "68b27c3d9384c062a3b3282e0cb1842c3844831b8752cbe243dde210e79aa7aa"
+  },
+  {
+   "game": "jamesbond",
+   "seed": 9712,
+   "n": 11699,
+   "adv_rate": 0.07436533037011711,
+   "source_npz_sha256": "e68abcae30603ff0e30abb1d8ffac3c08f8f1746ae04797c5981f7851a18cc21",
+   "file_sha256": "8d99953d236fbc1627dc4e597740285d2ebe187ca11643da5803168f607be8ec"
+  },
+  {
+   "game": "jamesbond",
+   "seed": 9713,
+   "n": 14180,
+   "adv_rate": 0.061212976022567,
+   "source_npz_sha256": "1ad4f3a77928ff382e6203c75988b19f814144d219aff71c2bc541f0306bd688",
+   "file_sha256": "975c0b3cb1817c3f76db48744c71c9c929b345e193a9d1fc6312bb3539c02d99"
+  },
+  {
+   "game": "krull",
+   "seed": 9712,
+   "n": 8948,
+   "adv_rate": 0.028945015645954402,
+   "source_npz_sha256": "a27e5cb7edadccbb0bf4a2d5d0cb2381a10a487a1c18cebcd35f2cab0669a017",
+   "file_sha256": "2a300f6306674e7aeee4a591f5ddeef393c1b7315c8f9f14fe1cb599e62e43be"
+  },
+  {
+   "game": "krull",
+   "seed": 9713,
+   "n": 9013,
+   "adv_rate": 0.02696105625208033,
+   "source_npz_sha256": "61d3ac2bcccdb974a8fac2a0923fb10cc927d9b09df264b687ad60a5fcea1d25",
+   "file_sha256": "c5ea3eb3ee5786dce21a7e29407dac0b306427fb60085ea67021a1094e6a9266"
+  },
+  {
+   "game": "kung_fu_master",
+   "seed": 9712,
+   "n": 11223,
+   "adv_rate": 0.017285930678071815,
+   "source_npz_sha256": "c86e2a740d83048cc80d13385441d50aa232847dbf5f186e2eba63d0f34e7df5",
+   "file_sha256": "8a82ea973e61f98e68da04309123ee19e4141b4a6f6b627d6d6999ffa0392e5f"
+  },
+  {
+   "game": "kung_fu_master",
+   "seed": 9713,
+   "n": 12883,
+   "adv_rate": 0.017697741209345648,
+   "source_npz_sha256": "7fd101202be79689eb4771f8e9737d8b934bb0021efb108d85391e280748e986",
+   "file_sha256": "c9ec1622b56092aeb6094141f16062acbd93dca96cd790dcd60c93e3ffcb1d6a"
+  },
+  {
+   "game": "name_this_game",
+   "seed": 9712,
+   "n": 10420,
+   "adv_rate": 0.43618042226487524,
+   "source_npz_sha256": "b6d8c53fbf811b981beb3ee1dc4174c45629681061628ffe44e72e6191cc49c3",
+   "file_sha256": "c0edde91bb1240f8ab03ed93f5eba8b249db3cea9b7ae4aa682e2c125983acbc"
+  },
+  {
+   "game": "name_this_game",
+   "seed": 9713,
+   "n": 8626,
+   "adv_rate": 0.365522837931834,
+   "source_npz_sha256": "457b06a42f194c4ad8b2bf12fcd0f9e5ae76bb8adfa3f11e7d0e073e6c9a651e",
+   "file_sha256": "b8e4ed03a2fd5c7ca6f251ff5adb4b798be0ec4245a31c380510a3a24a60d35e"
+  },
+  {
+   "game": "phoenix",
+   "seed": 9712,
+   "n": 9162,
+   "adv_rate": 0.09048242741759441,
+   "source_npz_sha256": "1a1c14585141bb652b347002258752aa3c7aca0f174eb6f0d3c7c6053d3a1659",
+   "file_sha256": "0ea7ae254bb0dd7ef0cd6c85017f26d86199854df99ba8a8c9d4bfc4ba6b3c24"
+  },
+  {
+   "game": "phoenix",
+   "seed": 9713,
+   "n": 9230,
+   "adv_rate": 0.12275189599133261,
+   "source_npz_sha256": "48ca060307d520fcc829807769ecf60b0060480a2562d32e8b1c56ce548fd975",
+   "file_sha256": "bda57dd9605a6ba08db74200227464e58d5330a322b0acca7ea84e8ad5205b59"
+  },
+  {
+   "game": "pooyan",
+   "seed": 9712,
+   "n": 13733,
+   "adv_rate": 0.30117235855239205,
+   "source_npz_sha256": "a17db70a6745b0a9c47e96c51dcbbd4f33aaea87f3585d2294e2e42c1b4f1205",
+   "file_sha256": "70a7e0defaf37d1c8e26b16e4e41f18b7477593192bf5643c3b9516a65bc00b6"
+  },
+  {
+   "game": "pooyan",
+   "seed": 9713,
+   "n": 12565,
+   "adv_rate": 0.2958217270194986,
+   "source_npz_sha256": "ba173cefb1eeac065085dd77c153a7178b2f6272d6b01f83b7bae769f44541e0",
+   "file_sha256": "5676bc0075a22813a4bb1d6389b4bb008ba70f7fdeef8447e8b3186c45f9b01d"
+  },
+  {
+   "game": "qbert",
+   "seed": 9712,
+   "n": 23356,
+   "adv_rate": 0.3502312039732831,
+   "source_npz_sha256": "471413414873610f4d16514194b340673f4b43992c0ca79913820c3019bd3231",
+   "file_sha256": "5560a16fbff775fa306737eb2f86c3210f60a279ae809830a4d07cd9f98c431b"
+  },
+  {
+   "game": "qbert",
+   "seed": 9713,
+   "n": 24079,
+   "adv_rate": 0.34532164957016487,
+   "source_npz_sha256": "00c3fee89370992bf13dca7f519069fb13e42d4af118c8f84a081409aa65a109",
+   "file_sha256": "1e1fa04d202c7f28b4d80f0eb1c0116199f979df3feaabad7d3e98f04544bf97"
+  },
+  {
+   "game": "road_runner",
+   "seed": 9712,
+   "n": 20712,
+   "adv_rate": 0.026844341444573195,
+   "source_npz_sha256": "37515f66de4e38bd1b434cc2d3e60f3d80440eddb9287658434f8f6f5baa41eb",
+   "file_sha256": "6faa4e307e6a1848405fd8f4d56b7dcfb923dd788df48f3018d07fe422e8bbd9"
+  },
+  {
+   "game": "road_runner",
+   "seed": 9713,
+   "n": 20743,
+   "adv_rate": 0.011136286940172588,
+   "source_npz_sha256": "4b92b40041f1c32521d2f7e52feebaacd2ae0935b408e80eb957134fefb6b8fa",
+   "file_sha256": "6f5de0bdcabcd5452470a6e6c6386322b245e472a105cdbdb655083f64da322e"
+  },
+  {
+   "game": "space_invaders",
+   "seed": 9712,
+   "n": 12820,
+   "adv_rate": 0.014352574102964118,
+   "source_npz_sha256": "d97b2810d1e1a41a1a1a7f8eb7d28f487407e8d11c976ce68e8d4a5ea5fcf4cd",
+   "file_sha256": "f30cf4e2d999a481312b6958febb723d122d6a506b057bc6739bf47e0d9cae72"
+  },
+  {
+   "game": "space_invaders",
+   "seed": 9713,
+   "n": 10669,
+   "adv_rate": 0.0491142562564439,
+   "source_npz_sha256": "5d70d73b1948d09cfcf2f43930b8f6867214eb045d445d947449ab5c7a8f1127",
+   "file_sha256": "119775aea3fff889b5891cb9ceff20cf4ab9e3d0322d29a987e680363ded5949"
+  },
+  {
+   "game": "star_gunner",
+   "seed": 9712,
+   "n": 10602,
+   "adv_rate": 0.053763440860215055,
+   "source_npz_sha256": "284d6ada0a9561c23f5ef2fcb834728e9f5516d4ae25cb38779762bc38054853",
+   "file_sha256": "a1cb90fcac8d8108d1c66e6a6dbc4b742685bcd173636afb9ff1b7d23dc76fd7"
+  },
+  {
+   "game": "star_gunner",
+   "seed": 9713,
+   "n": 12636,
+   "adv_rate": 0.0097340930674264,
+   "source_npz_sha256": "b7896e74efe0bda37c5618ab0ce563eeaf108c0e870e45542b54a1b7aa3c3ce1",
+   "file_sha256": "78238359cc489a0c6d4424399f926e79d8d21fb2581861347aa7e69ab6a6010e"
+  },
+  {
+   "game": "tennis",
+   "seed": 9712,
+   "n": 8346,
+   "adv_rate": 0.03330936975796789,
+   "source_npz_sha256": "8268d3c06a9794a73dc6745e40cd2ee180c3bbd84873e4841d8f7853329fca91",
+   "file_sha256": "c43534fed73d88d381978521e3a2524774f0a9bed5e0863db706f18e700a91d5"
+  },
+  {
+   "game": "tennis",
+   "seed": 9713,
+   "n": 8337,
+   "adv_rate": 0.044620367038503056,
+   "source_npz_sha256": "41e128f1734053cbdc3033bfe16ffd4396a5eadb607e9384fdb10b2cd4a8ad83",
+   "file_sha256": "5d98266a6a68d8b48654829790e60c2bc9238c2714c8cf8a510c658f36802b49"
+  },
+  {
+   "game": "time_pilot",
+   "seed": 9712,
+   "n": 10595,
+   "adv_rate": 0.14440773949976404,
+   "source_npz_sha256": "5b26d8efad1899c0d3016aed100cd63ecf894b586298cb2b9791d7f1bae28c96",
+   "file_sha256": "8da308b4da60f48926bf6d7f5d26bce2c5bda9bd4825a433a6789ffb4b7f2fd7"
+  },
+  {
+   "game": "time_pilot",
+   "seed": 9713,
+   "n": 9428,
+   "adv_rate": 0.24236317352566822,
+   "source_npz_sha256": "434bcfa0f73ef4d96610a860a4e23c87d7198945ae83575ac68e5000da2b0fb7",
+   "file_sha256": "deb96189ca1fcc4eed682def6a5fcadc8450964b72ec2d85097e6ed1181c24fa"
+  },
+  {
+   "game": "up_n_down",
+   "seed": 9712,
+   "n": 9793,
+   "adv_rate": 0.5911365260900643,
+   "source_npz_sha256": "f170f442ca4a7c452494ced17eec30dcc34fc17ae616248b9bda1ab0d4865d51",
+   "file_sha256": "751094a7ec8dcc19beef4dec92698778af33b887a7bebe08fb1e42e7d17b96a7"
+  },
+  {
+   "game": "up_n_down",
+   "seed": 9713,
+   "n": 9539,
+   "adv_rate": 0.26082398574274035,
+   "source_npz_sha256": "627f438ec7b3fd53af4243223b42694e950e06b3b3c64a638393b1426a013265",
+   "file_sha256": "a45a36a1c33acd2c2b3a324c03c003031a7749775e0d7b53ad6ef5182105c798"
+  },
+  {
+   "game": "video_pinball",
+   "seed": 9712,
+   "n": 8737,
+   "adv_rate": 0.04463774751058716,
+   "source_npz_sha256": "681a4963ce55246fe4e0cb91f53a4cecf510401f0509308306e8017084703c27",
+   "file_sha256": "664828b476323829434a66fea8ecb61e86c3da0c0e0b967e39f8e2fe574aa869"
+  },
+  {
+   "game": "video_pinball",
+   "seed": 9713,
+   "n": 9098,
+   "adv_rate": 0.1122224664761486,
+   "source_npz_sha256": "5b55c7e5c861b4efecf64a28c967a822f47e2e5c185a0fd91a5fa44639267c0e",
+   "file_sha256": "6c831e655f5e1e5c40b75af53b525386f40dc638f1a0fa42548d7938ad5c4ecd"
+  },
+  {
+   "game": "wizard_of_wor",
+   "seed": 9712,
+   "n": 10504,
+   "adv_rate": 0.05416984006092917,
+   "source_npz_sha256": "f9e84f34857f6a3d6a96eb8424905254cbb5171b3709a5bfc7c1e551e08de1e9",
+   "file_sha256": "e503a15aba624946186dd363648e972689cb9edd53257d30f6b8f76cf1e01059"
+  },
+  {
+   "game": "wizard_of_wor",
+   "seed": 9713,
+   "n": 8886,
+   "adv_rate": 0.06313301823092506,
+   "source_npz_sha256": "369bf43523ad52d179ef5a922b72e90c730f81c2d86ea8cb15b946fdc9ca6d8a",
+   "file_sha256": "9ec4ed2b51752422743e4211452252b7fbc5099cb06c98c47f5800967e9e88f3"
+  },
+  {
+   "game": "yars_revenge",
+   "seed": 9712,
+   "n": 8577,
+   "adv_rate": 0.06902180249504489,
+   "source_npz_sha256": "17a541eca6b1e829f7f62f7e32c34b0f6ea37847460cc361afd578f15daa179f",
+   "file_sha256": "2abcd70e4f39bde05225255fe2b4dfdf197ea3197e74546076c3aaec9ba83c38"
+  },
+  {
+   "game": "yars_revenge",
+   "seed": 9713,
+   "n": 8503,
+   "adv_rate": 0.13971539456662355,
+   "source_npz_sha256": "868644b5564853d6bdd1cacdc2b9f9208385d0fd0bf1af58003a97c221717d2f",
+   "file_sha256": "9d12e635c046192887ccaaf5feb1e763e864d7edcecca61d0e5fe5037719949c"
+  },
+  {
+   "game": "zaxxon",
+   "seed": 9712,
+   "n": 12201,
+   "adv_rate": 0.15687238750922056,
+   "source_npz_sha256": "af0915a30b2e854462380992ddeddc317f5edd6083b590c2b0ed2548e04ae3c2",
+   "file_sha256": "8b0429295fad53ddbaea472ac3a45dc1c05310ad8d749dc99fb5aea14253ef28"
+  },
+  {
+   "game": "zaxxon",
+   "seed": 9713,
+   "n": 8767,
+   "adv_rate": 0.3506330557773469,
+   "source_npz_sha256": "4ae7f1731575b1f8166c164dbe6a31e8f5d58fca7b936acc7bee5500e3405235",
+   "file_sha256": "56f77e903b09d5fa9cba3abe0703947988ad2ab3d3ed35a52fd217e4f0139673"
+  },
+  {
+   "game": "freeway",
+   "seed": 9712,
+   "n": 11425,
+   "adv_rate": 0.002450765864332604,
+   "source_npz_sha256": "c4684e8f3407fe1e9a6aabb1bc2adcf0d8ee6a1974c4b8b91c282b1a1367c766",
+   "file_sha256": "b6355b115a8acf3aa0409d8526280d99c8441846a012895a64920bac0a23f794"
+  },
+  {
+   "game": "freeway",
+   "seed": 9713,
+   "n": 8512,
+   "adv_rate": 0.002232142857142857,
+   "source_npz_sha256": "616a43a0c6379fede4c995677b859f9e77b1b6ee049863498869aa0ceb9107e2",
+   "file_sha256": "a9cfa4e856dee6ae3dff9ddfa01e27167cb54fde4d566c387ce6ebc44ace2e4e"
+  },
+  {
+   "game": "pong",
+   "seed": 9712,
+   "n": 8474,
+   "adv_rate": 0.03575643143733774,
+   "source_npz_sha256": "497b266c014d2905280f4e52a2de637bef287fa695933378956e02078ee7f270",
+   "file_sha256": "de8299358f8fb4307f3b3a4008a6f7a023b715b4a47abf4b84ec9e30a63c07f0"
+  },
+  {
+   "game": "pong",
+   "seed": 9713,
+   "n": 8476,
+   "adv_rate": 0.031854648419065594,
+   "source_npz_sha256": "78d44fa6aa4a1defbcc0048f03a77616b74b0c4f6e0c6fbd24bb85b6f16c2df7",
+   "file_sha256": "961636ad6d6c7c8b4b218ada60debea4195fd597bae6215488be7f3560265323"
+  },
+  {
+   "game": "breakout",
+   "seed": 9712,
+   "n": 21550,
+   "adv_rate": 0.03331786542923434,
+   "source_npz_sha256": "c5ea2a6e18452c07f6ad4f94857f684ae632bcd245856ff2dee74375c34f9604",
+   "file_sha256": "bedc7b4a5111f392f73580e97f22955dc681b935ddb8f66e7d1f8be87061eedf"
+  },
+  {
+   "game": "breakout",
+   "seed": 9713,
+   "n": 26896,
+   "adv_rate": 0.017623438429506245,
+   "source_npz_sha256": "65a932e8900f5c5ef7f09783b7fdefcf9b8682ba536c498db57afbacd7040125",
+   "file_sha256": "103f567ec9c6c9bdd2e4dc08b58c36bba388cc4b25b8f64a417eb0a67ba602ee"
+  },
+  {
+   "game": "seaquest",
+   "seed": 9712,
+   "n": 15808,
+   "adv_rate": 0.04187753036437247,
+   "source_npz_sha256": "7a29e18de5f0c845a8120d9e9cc09d7e1620cdb0338440c36e9d02c4ce2fb852",
+   "file_sha256": "f5ca4baa00c49e9b7e459aed17368d2ecae306aedf6111948c48d8b96b414c7f"
+  },
+  {
+   "game": "seaquest",
+   "seed": 9713,
+   "n": 11267,
+   "adv_rate": 0.06834117333806693,
+   "source_npz_sha256": "9cfd2f4f9eddb2dac873f4f3a45cb6d7cc20f9562adb04798404bce1d45a1ee7",
+   "file_sha256": "926afcedf64e33b7da9d74810c2202a5af42ffe5d9445010c18371aed62c9dfb"
+  },
+  {
+   "game": "ms_pacman",
+   "seed": 9712,
+   "n": 12779,
+   "adv_rate": 0.4086391736442601,
+   "source_npz_sha256": "46f114f9d65ce77fe0f0c7513776e3ec50453305c9f9e00a0df2ab4a97757ce0",
+   "file_sha256": "74cefbdb0819a7f29f637b6c2ae2e63061f317f1de8ee87b9c6d7ecf9f392804"
+  },
+  {
+   "game": "ms_pacman",
+   "seed": 9713,
+   "n": 12361,
+   "adv_rate": 0.42771620419059947,
+   "source_npz_sha256": "a04a807e008b492593c5b52d4ba3fc73506bbc118acb01e7e16c93ea6d425173",
+   "file_sha256": "240241fb0cbfcff49118fd26d705a1136e2e3f58469379a456ecc062c9e7b627"
+  },
+  {
+   "game": "asteroids",
+   "seed": 9712,
+   "n": 12989,
+   "adv_rate": 0.04134267457079067,
+   "source_npz_sha256": "d2100972e863aa15df65f416366d4289aca52eb7ba12e77631c14a68a00bbd8f",
+   "file_sha256": "ca5f2cac2525d8adef3f0aad946bbae2100a8c655f7ad4943b076d5d7d6e9978"
+  },
+  {
+   "game": "asteroids",
+   "seed": 9713,
+   "n": 11735,
+   "adv_rate": 0.0783979548359608,
+   "source_npz_sha256": "c8379031b817e9cdf8bb741fa8c41242f5e2d9b08a9760cb57f06f8859223a83",
+   "file_sha256": "543410c29a57806079ee8d7346ad0bf0e5342946de261c99d310a896e64a5cb7"
+  }
+ ],
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance_end": {
+  "code_sha": "68fccf9660fc0ea14509496c9a7d513d84296da4",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:22:50",
+  "launched_ts": 1792826570.171718,
+  "inputs": {}
+ }
+}

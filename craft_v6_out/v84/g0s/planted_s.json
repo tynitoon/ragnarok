@@ -1,0 +1,114 @@
+{
+ "provenance": {
+  "code_sha": "68fccf9660fc0ea14509496c9a7d513d84296da4",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:23:03",
+  "launched_ts": 1792826583.837893,
+  "inputs": {}
+ },
+ "results": [
+  {
+   "scenario": "positive",
+   "passed": false,
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.0625,
+    "X": 0.0625,
+    "P": 1.0,
+    "U": 1.0,
+    "K*A": 0.000244140625,
+    "X-mean": 0.25,
+    "P_shift": null,
+    "P_rot": 1.0,
+    "T_clock": 1.0,
+    "X_8": 0.0625,
+    "K*Beven": 0.000244140625
+   },
+   "n_units": 6,
+   "R": {
+    "K*A:F": 1.1555413205830665,
+    "X:C*": 1.1251615102328272,
+    "X:F": 1.1455307153016856,
+    "P:F": 0.8752925712305001,
+    "U:F": 0.9382982342088045,
+    "T_clock:F": 0.801223715920695
+   }
+  },
+  {
+   "scenario": "null",
+   "passed": true,
+   "pool": [
+    "beam_rider",
+    "berzerk",
+    "crazy_climber",
+    "demon_attack",
+    "ice_hockey",
+    "krull",
+    "kung_fu_master",
+    "phoenix",
+    "star_gunner",
+    "time_pilot",
+    "video_pinball",
+    "seaquest"
+   ],
+   "tune": [
+    "berzerk",
+    "krull",
+    "phoenix",
+    "star_gunner"
+   ],
+   "kappa": {
+    "F": 0.25,
+    "X": 1.0,
+    "P": 1.0,
+    "U": 4.0,
+    "K*A": 0.00390625,
+    "X-mean": 0.0625,
+    "P_shift": null,
+    "P_rot": 1.0,
+    "T_clock": 0.25,
+    "X_8": 1.0,
+    "K*Beven": 0.00390625
+   },
+   "n_units": 8,
+   "R": {
+    "K*A:F": 1.4151076702492398,
+    "X:C*": 0.763511609887169,
+    "X:F": 0.8424092784564028,
+    "P:F": 0.8869328218450261,
+    "U:F": 0.922850886628696,
+    "T_clock:F": 0.7670776104569255
+   }
+  }
+ ],
+ "passed": false,
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance_end": {
+  "code_sha": "68fccf9660fc0ea14509496c9a7d513d84296da4",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:36:38",
+  "launched_ts": 1792827398.6871872,
+  "inputs": {}
+ }
+}
