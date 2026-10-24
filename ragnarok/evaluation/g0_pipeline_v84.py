@@ -11,13 +11,21 @@ DECISION = ("F", "X", "P", "U", "K*A")
 REPORT = ("X-mean", "X_8", "P_shift", "P_rot", "K*Beven")
 
 
-def fit_sources(dataset, games, gi_of, seeds, heads=HEADS, kinds=("real", "perm", "shift")):
-    """Source heads once per (game, head, kind) in the game's own geometry (A.7)."""
+def fit_sources(dataset, games, gi_of, seeds, heads=HEADS, kinds=("real", "perm", "shift"), clock_cols=None):
+    """Source heads once per (game, head, kind) in the game's own geometry (A.7). Kind "clock" (G0-S
+    control T_clock, protocol 6.2): real labels, every feature outside `clock_cols` set to 0 (so excluded
+    by the SD floor)."""
     out = {}
     for h in games:
         streams = dataset[h]
         for head in heads:
             for kind in kinds:
+                if kind == "clock":
+                    keep = np.zeros(np.asarray(streams[0]["X"]).shape[1], bool)
+                    keep[list(clock_cols)] = True
+                    masked = [dict(st, X=np.where(keep, np.asarray(st["X"], np.float64), 0.0)) for st in streams]
+                    out[(h, head, kind)] = source_head(masked, head, None)
+                    continue
                 if kind == "real":
                     lab = None
                 elif kind == "perm":
@@ -59,6 +67,9 @@ def arm_sigmas(g, head, geo, sources, source_games, gi_of):
             pick = rng8.choice(len(real), 8, replace=False)
             draws.append(sigma_from_dirs(V[pick], d))
     out["X_8"] = draws                                       # list of Sigmas, lambda averaged over draws
+    clk = [sources[(h, head, "clock")] for h in source_games if sources.get((h, head, "clock")) is not None]
+    if len(clk) >= 2:
+        out["T_clock"] = (sigma_from_dirs(np.array([map_head(hd, geo) for hd in clk]), d), None)
     out["_n_sources"] = len(real)
     out["_lam_X"] = lam_X
     return out

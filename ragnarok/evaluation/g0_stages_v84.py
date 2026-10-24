@@ -8,7 +8,7 @@ import numpy as np
 from ragnarok.evaluation import g0_v84 as G
 from ragnarok.evaluation.g0_pipeline_v84 import arm_sigmas, curve_for, direction_data, k_star
 
-TUNED = ("F", "X", "P", "U", "K*A", "X-mean", "P_shift", "P_rot")
+TUNED = ("F", "X", "P", "U", "K*A", "X-mean", "P_shift", "P_rot", "T_clock")   # T_clock: G0-S only (absent in G0)
 DECISION = ("F", "X", "P", "U", "K*A")
 
 
@@ -110,7 +110,7 @@ def arm_curve_rows(g, head_list, streams, seeds, geo, sources, src, gi_of, kap):
         arms = arm_sigmas(g, head, geo, sources, src, gi_of)
         for di, dd in enumerate(directions(g, head, streams, seeds, geo, gi_of)):
             cur = {}
-            for arm in ("X", "P", "U", "X-mean", "P_shift", "P_rot"):
+            for arm in ("X", "P", "U", "X-mean", "P_shift", "P_rot", "T_clock"):
                 if arm in arms:
                     cur[arm] = curve_for(arm, arms[arm], dd, kap[arm])
             cur["X_8"] = [curve_for("X_8", (S, None), dd, kap["X_8"]) for S in arms["X_8"]]
@@ -131,7 +131,7 @@ def arm_curve_rows(g, head_list, streams, seeds, geo, sources, src, gi_of, kap):
     return res
 
 
-def summarize(units, curve_rows):
+def summarize(units, curve_rows, comps=("F", "P", "U")):
     """A.11-A.12 aggregation from unit rows (holding the F curves) and the other arms' curve rows."""
     elig = [u for u in units if u["eligible"]]
     games = sorted({u["game"] for u in elig})
@@ -191,15 +191,16 @@ def summarize(units, curve_rows):
                     HL=G.hodges_lehmann(d), per_game={k: math.exp(v) for k, v in d.items()})
 
     res = dict(n_units=len(elig), n_games=len(games), games=games)
-    res["X:C*"] = summ(lg("X", ("F", "P", "U"), lam))
-    res["X:C*_late"] = summ(lg("X", ("F", "P", "U"), late))
-    for a in ("K*A", "X", "P", "U", "P_rot", "X-mean", "X_8", "P_shift", "K*Beven"):
+    res["X:C*"] = summ(lg("X", comps, lam))
+    res["X:C*_late"] = summ(lg("X", comps, late))
+    res["comparators"] = list(comps)
+    for a in ("K*A", "X", "P", "U", "P_rot", "X-mean", "X_8", "P_shift", "K*Beven", "T_clock"):
         res[f"{a}:F"] = summ(lg(a, ("F",), lam))
     res["X:F_late"] = summ(lg("X", ("F",), late))
     guard = [ends[("X",) + k] - base[k]["auc_F_end"] for k in base if ("X",) + k in ends]
     res["ceiling_guard"] = float(np.mean(guard)) if guard else None
     res["share_same_N025"] = float(np.mean(same)) if same else None
     res["n_dirs_kstar_none"] = n_kstar_none
-    res["profile_X:C*"] = {str(q): summ(lg("X", ("F", "P", "U"), lvl[q])) for q in G.QS}   # C* per level
+    res["profile_X:C*"] = {str(q): summ(lg("X", comps, lvl[q])) for q in G.QS}   # C* per level
     res["profile_X:F"] = {str(q): summ(lg("X", ("F",), lvl[q])) for q in G.QS}
     return res
