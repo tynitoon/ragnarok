@@ -1,0 +1,26 @@
+{
+ "provenance": {
+  "code_sha": "57b34357fba148e06d92a2252f688814c874071b",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:37:30",
+  "launched_ts": 1792827450.2215343,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0s\\store.json": "a7b2899ea89b5f681a18ba1b9114173c114e33b70902d8fc18efd3f691fb2ee6",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g0s\\planted_s.json": "9bf8469ba1fcb28139e4a6b26b77ba0eecebe4409123321e707616cd3bd52666"
+  }
+ },
+ "label": "RECIPE-INSENSITIVE",
+ "sentence": "the recipe cannot detect planted shared structure on the expansion features",
+ "consequence": "KC-search-sense path: route S closed; v84 ends at feasibility",
+ "planted_sha256": "9bf8469ba1fcb28139e4a6b26b77ba0eecebe4409123321e707616cd3bd52666",
+ "claim_header": "Every v84 claim concerns a SEARCH WITH BILLED REWINDS and uses the SENSES granted on 22 October 2026 (score rises, lives count). It is not live play without savestates.",
+ "provenance_end": {
+  "code_sha": "57b34357fba148e06d92a2252f688814c874071b",
+  "dirty": false,
+  "code_tree": "28d29bb5ae09ad8b759bea8a6ab0ed5e880dbed1:b2f52705e103c072348d8885c896f40c44d188be:d67561cef6148b6898b36fd071d2ab74f6b4d6f7",
+  "launched": "2026-10-24 09:37:30",
+  "launched_ts": 1792827450.3372734,
+  "inputs": {}
+ }
+}
