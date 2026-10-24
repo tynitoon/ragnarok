@@ -1,8 +1,9 @@
 """v84 G1a report and G1b room verdict (docs/ARC4_V84_PROTOCOL_EN.md §7.1-7.3, §8), evaluator side.
 
 Ladder: B' and u' from bars_v84 (seed 9706), M_k = B' + 2^k u'. T(M) = billed frames at the first record
-(new best of the cumulative SENSED rise) >= M, replay-confirmed for M1, M2 and M_top (one NOOP before
-restoring the base; a mismatch is an Interruption).
+(new best of the cumulative SENSED rise) >= M, replay-confirmed for M1, M2 and M_top: exact replay after
+one NOOP (§7.2), else exact replay in the post-reset context (build notes 15-16, dated deviation from
+§7.2); the context used is recorded; no match in either context is an Interruption.
 
 G1b, per game on both seeds 9712-9713 (cap 4M): (a) >= 10 sensed rises in the first 300k billed frames;
 (b) H = min over seeds of the best cumulative rise >= M3; (c) median T(M1) <= 1.5M; (d) median

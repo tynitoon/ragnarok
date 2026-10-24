@@ -1,4 +1,4 @@
-# v84 — notes de construction (choix d'implémentation ; aucun critère, seuil, bras ou graine changé)
+# v84 — notes de construction (choix d'implémentation et écarts datés ; aucun seuil, bras ou graine changé ; la note 16 modifie la méthode de rejeu du §7.2)
 
 Le protocole qui fait foi est `docs/ARC4_V84_PROTOCOL_EN.md`. Ce fichier note les précisions
 d'implémentation prises là où le texte laisse un choix, et tout écart, avec sa date.
@@ -85,3 +85,33 @@ d'implémentation prises là où le texte laisse un choix, et tout écart, avec 
     des deux contextes, et le contexte utilisé est noté. Première notation gardée
     (`room_verdict_v84_first_pass.json`, « Interruption ») ; verdict recalculé sur les mêmes fichiers et
     étiqueté « re-scored » (§3.3, point 5). Les comptes ne changent pas (22/35, se_proj 0,142).
+16. **Écart au texte du §7.2 (rejeu), 24 octobre, au titre du §3.3 point 5.** Déclencheur : première
+    notation G1b = Interruption (2/200 vérifications, Q\*bert M7). Le §7.2 figé dit « rejeu de la
+    note 21 (un NOOP avant de restaurer) ; un écart est une Interruption ». Depuis ac8b126, un palier
+    est confirmé si le rejeu exact tombe juste dans l'un des deux contextes ALE (après un pas, ou
+    post-reset) ; le contexte est noté. Cette règle vaut pour toute vérification de rejeu ultérieure.
+    Effet : le re-scoring fait passer G1b d'Interruption (pas de verdict) à PROCEED, comptes
+    identiques. Lecture exacte : 198/200 vérifications tombent juste avec le rejeu figé ; les 2
+    échecs tombent juste seulement en post-reset (12 225, 12 275) ; 4 des 198 (Q\*bert M1/M2, deux
+    graines) sont sur des lignées issues du même premier déroulé post-reset. Le vérificateur confirme
+    que les scores enregistrés sont reproductibles, pas que chaque rejeu a pris le contexte de sa
+    lignée. Robustesse (calcul à la main, non officiel) : sans Q\*bert, 21/35 jeux de place,
+    se_proj ≈ 0,15, 20/35 « grimpe » ; PROCEED et la légende tiennent. Le rejeu de diagnostic de la
+    note 15 n'a laissé que les lignes de promesse d'une reprise partielle (graine 9712), copiées dans
+    `craft_v6_out/v84/qbert_check/` ; la comparaison mémoire n'a pas été conservée.
+17. **Arrêts du superviseur pendant G1b (23-24 octobre).** 31 arrêts (mémoire engagée < 12 Go,
+    sortie 3) de `v2_job_v84.py` ; chacun relancé de zéro par la file et terminé (sortie 0) ; aucune
+    sortie partielle utilisée (JSON écrit en fin de run). Copie des lignes du superviseur :
+    `craft_v6_out/v84/g1b_supervisor_actions.txt`. Débits G1b mesurés en temps mural ; le test 7 dirigé
+    n'a jamais tourné (sans objet, aucun bras dirigé dans v84).
+18. **Rapports G1b et G0-S : sens et pénalités (§3.2).** Sens de l'agent : pixels, ses boutons,
+    max(0, r_step) par pas, ale.lives() ; fin de partie seulement comme limite d'épisode. L'échelle
+    compte les hausses senties et ignore les pénalités ; sur les 22 jeux de place de développement,
+    elle ne diffère du score vrai que sur carnival 9712 (6 820 contre 6 320), sans effet sur T1, C,
+    λ ni k\*. Ces deux phrases manquent dans `room_verdict_v84.json` et `g0s/g0s_verdict.json` ; les
+    comptes n'en dépendent pas. Le libellé G0-S RECIPE-INSENSITIVE vient de la note 13 (déclarée avant
+    toute donnée), pas de la partie C (PASS-S / KC-search-sense) ; sa conséquence est celle de
+    KC-search-sense. Ce n'est pas un négatif sur le mécanisme (instrument plafonné, note 14). Le κ de
+    K\*A est au bord prolongé de la grille dans T8 et T8-S (leçon pour v85, pas un motif de relance).
+19. **G0′ (rapport seulement, §6.1/§8) : non exécuté.** Il concerne la voie Σ, fermée par G0
+    (RECIPE-INSENSITIVE) ; il ne peut ni rouvrir ni fermer quoi que ce soit. Déclaré non exécuté.

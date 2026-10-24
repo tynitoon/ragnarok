@@ -4,7 +4,9 @@ Same agent API as v83's SenseEnv (step -> (obs, rise, lives, end); clone/restore
 plus the ladder quantity: the cumulative SENSED rise of a trajectory, sum over its agent steps of
 max(0, r_step), kept with every handle (restored with it), and the lineage depth (agent steps since the
 reset). Trace84 records, per epoch, every clone that raises the best cumulative sensed rise: (billed,
-cum_rise, true score, depth, handle). Replay (note 21 of v83: one NOOP before restoring) recomputes the
+cum_rise, true score, depth, handle). Replay84 plays one NOOP before restoring (note 21 of v83, the 'after_step' context); V2's first rollout
+restores the root post-reset instead, and the G1b checker also tries that context (build notes 15-16). It
+recomputes the
 cumulative sensed rise and the true score from the reset base.
 """
 import pickle
