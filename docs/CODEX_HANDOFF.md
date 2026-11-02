@@ -356,3 +356,15 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - **Machine** : aucun calcul Ragnarok en cours ; superviseur mémoire arrêté (le relancer caché avant
   tout calcul : `pythonw -u scripts\ram_supervisor.py --low 12 --high 14 --clow 12 --chigh 14`, via WMI
   Win32_Process.Create avec ShowWindow=0, depuis `F:\dev\ragnarok`).
+
+### 3 novembre — v85 : protocole figé (aucun code ni calcul encore)
+- Worktree `../ragnarok_v85` (branche `arc4-v85`, depuis `arc4-v84-clock`) ; protocole qui fait foi
+  `docs/ARC4_V85_PROTOCOL_EN.md` (= plan final du panel `wf_8db018d6-25c`, SHA-256 `6408f26d…`), version
+  française `docs/ARC4_V85_PROTOCOL.md` ; commit `6ef0e05`. Graines 9800-9899 vérifiées neuves.
+- **Prochaine étape** : coder dans l'ordre de la partie B du protocole, en commençant par
+  `ragnarok/evaluation/senses_v85.py` (départ depuis s1, bac à sable non facturé et non tracé, plafond
+  relatif au départ de l'horloge, images oracle), puis `start_v85.py` (S0), `agent_v85/explorer2s.py`
+  (V2s), `oracle_v85.py`, `ckpt_v85.py` (points de reprise toutes les ≤ 5 min), `scripts/v85_job.py`,
+  `v85_stage0.py`, `v85_calib.py`, `v85_verdict.py`, `queue_v85.py` ; tests de construction 1-9 avant
+  l'étape I. Rigueur proportionnée : revue contradictoire avant l'étape I et avant G1 seulement.
+- Relancer le superviseur caché avant tout calcul (voir l'entrée du 24 octobre).
