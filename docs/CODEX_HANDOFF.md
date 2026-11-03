@@ -455,3 +455,12 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   `queue_v85.py smoke --launch 3 --min-free 8`). Ensuite : vérifier les tests 4/8/9 sur ces sorties, puis
   lancer l'étape I : `python scripts/queue_v85.py istage --launch 3 --min-free 8` depuis `F:\dev\ragnarok_v85`
   (128 exécutions : 16 unités × 2 départs × (3 V2s + 1 D)). Ne rien commiter dans `ragnarok_v85` pendant les calculs.
+- 12 h 30 : smoke G-build concluant (20/20, rejeux exacts, dés OK, ≤ 220 Mo par exécution, 2,8-4,7 k images/s
+  par processus ; commit `151d037`). **Étape I lancée** : 4 processus cachés (`queue_v85.py istage --launch 4
+  --min-free 8` ; 4e autorisé par §13.2, marge ample). 128 exécutions (96 V2s + 32 D).
+- **Après l'étape I, dans l'ordre** : (1) `python scripts/v85_verdict.py istage` (contrôle D, ligne instrument,
+  rapport de régime ; arrêt si D-CONTROL-FAIL ou INSTRUMENT-FAIL) ; (2) fusionner `arc4-v85-families` dans
+  `arc4-v85` (aucun calcul en cours ; conflit attendu dans `docs/ARC4_V85_BUILD_NOTES.md` : garder les notes 5-7
+  puis 6 des familles, renuméroter en 8) ; (3) `python scripts/v85_objects.py` (~30 min) ; (4)
+  `python scripts/v85_calib.py closures`, puis la calibration et `f1` → `f1_thresholds.json`, commit F1 ;
+  (5) file G1 (`queue_v85.py g1`).
