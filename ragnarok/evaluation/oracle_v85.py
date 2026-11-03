@@ -60,6 +60,13 @@ def _lex_rank_corr(pairs):
     return float(spearmanr(cols[0], cols[1])[0])
 
 
+def _over(env):
+    """The run is already over (billed cap reached or evaluator stop fired): the next real restore raises
+    Spent, so a chooser spends no look-ahead (A.5 run boundary; no oracle frames after the end)."""
+    tr, led = env._trace, env._led
+    return bool((tr is not None and tr.stopped) or (led.cap is not None and led.billed >= led.cap))
+
+
 class DiceMismatch(RuntimeError):
     """O_4-dice: the re-executed winner differs from its look-ahead; the run is aborted (counted)."""
 
@@ -100,6 +107,8 @@ class OChooser:
         return best[1], best[2], outs[best[1]]
 
     def __call__(self, ex, env, e):
+        if _over(env):
+            return ex.propose(e, 0)                 # V2s's terminal path: chosen += 1, then restore raises Spent
         return self._look(ex, env, e)[1]
 
     def after(self, ex, env, e, out):
@@ -130,6 +139,9 @@ class ODice(OChooser):
         self._want = None
 
     def __call__(self, ex, env, e):
+        if _over(env):
+            self._want = None
+            return ex.propose(e, 0)
         w, p, out = self._look(ex, env, e)
         self._want = (e, w, out["acts"], out["frames"], out["max_S"])
         return (*p, ex.stream(e, w, 1))

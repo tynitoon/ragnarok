@@ -128,6 +128,9 @@ def test_resume_after_a_real_process_kill(smoke, ref, tmp_path):
     assert prov["closure_consistent"] and not out.with_suffix(".ckpt").exists()
     files = [f for f, _ in prov["closure_files"]]                     # a fresh process: V2s's own closure
     assert "ragnarok/evaluation/arms_v85/v2s.py" in files and "ragnarok/evaluation/oracle_v85.py" not in files
+    c = subprocess.run(cmd[:-2] + ["--closure-only"], cwd=J.ROOT, capture_output=True, text=True, timeout=600)
+    assert c.returncode == 0, c.stderr[-2000:]                       # F1's producer, in its own process
+    assert json.loads(c.stdout.strip().splitlines()[-1])["closure_hash"] == prov["closure_hash"]
 
 
 @needs_v84
@@ -312,6 +315,78 @@ def test_arm_registry(smoke):
             arms_v85.load(bad)
 
 
+# ---------------------------------------------------------------- review fixes: code identity, F1 drops, closures
+@needs_v84
+def test_commit_during_a_run_is_not_a_mixed_closure(smoke, tmp_path, monkeypatch):
+    """A commit on the branch while a run is in flight (HEAD moves, the closure does not) leaves
+    closure_consistent true: §13.4 identity is the closure hash, never the tree's HEAD."""
+    from scripts import v85_verdict as V
+    real = J.stamp
+
+    def moved(inputs, **kw):
+        st = real(inputs, **kw)
+        return dict(st, code_sha="0" * 40) if inputs else st          # the end stamp sees another commit
+    monkeypatch.setattr(J, "stamp", moved)
+    o = run(smoke, "v2s", tmp_path / "h.json", 5_000)
+    p = o["provenance"]
+    assert p["commit"] == "0" * 40 and p["segments"][0]["code_sha"] != p["commit"]
+    assert p["closure_consistent"] is True
+    assert not any("mixed closure" in w for w in V.interruptions([dict(o, provenance=dict(p, dirty=False))]))
+
+
+@needs_v84
+def test_closure_only_equals_the_runs_closure(smoke, tmp_path, capsys):
+    """F1's producer (v85_calib.arm_closures -> v85_job --closure-only) gives the closure a run of that arm ends
+    with: no project module is imported during a run after the build."""
+    for arm in ("v2s", "o4", "kmap", "kmac", "d"):
+        c = J.run(GAME, "A", arm, SEED, out=tmp_path / f"{arm}.json", v85=smoke, s0=smoke, cap=4_000, smoke=True,
+                  closure_only=True)
+        assert not (tmp_path / f"{arm}.json").exists() and not (tmp_path / f"{arm}.ckpt").exists()
+        o = run(smoke, arm, tmp_path / f"{arm}.json", 4_000)             # same process, same modules loaded
+        assert c["closure_hash"] == o["provenance"]["closure_hash"], arm
+    J.main([GAME, "A", "o4", str(SEED), "--smoke", str(smoke), "--cap", str(CAP_O), "--closure-only"])
+    assert json.loads(capsys.readouterr().out.strip().splitlines()[-1])["closure_hash"] == J.run(
+        GAME, "A", "o4", SEED, v85=smoke, s0=smoke, cap=CAP_O, smoke=True, closure_only=True)["closure_hash"]
+
+
+@needs_v84
+def test_f1_dropped_start_refuses_rows_but_not_v2s(smoke, tmp_path):
+    """A.10.4: a (g, s) dropped by the F1 cross-fit is absent from f1 K_gs: rows refuse it (no KeyError, no run);
+    V2s / D certificate reruns keep the I-stage rungs K_g."""
+    v = tmp_path / "v85"
+    v.mkdir()
+    json.dump(dict(units=[GAME], n=4, K_gs={GAME: {"B": [2, 3]}}), open(v / "f1_thresholds.json", "w"))
+    with pytest.raises(SystemExit, match="dropped by the F1 cross-fit"):
+        J.run(GAME, "A", "o4", SEED, out=tmp_path / "o.json", v85=v, s0=smoke, cap=CAP_O, smoke=True)
+    c = J.run(GAME, "A", "v2s", SEED, out=tmp_path / "v.json", v85=v, s0=smoke, cap=CAP_V, smoke=True,
+              closure_only=True)
+    assert c["rungs_source"] == "s0" and c["rungs"] == sorted(J.Starts(smoke).unit(GAME)["K_g"])
+    c = J.run(GAME, "B", "o4", SEED, out=tmp_path / "b.json", v85=v, s0=smoke, cap=CAP_O, smoke=True,
+              closure_only=True)
+    assert c["rungs_source"] == "f1" and c["rungs"] == [2, 3]
+
+
+def test_blas_threads_capped_before_numpy_loads():
+    """OMP_NUM_THREADS must be set before numpy is imported (OpenBLAS reads it when it loads, §13.2)."""
+    for f in ("v85_job.py", "v85_stage0.py", "v85_calib.py", "v85_verdict.py"):
+        src = (J.ROOT / "scripts" / f).read_text(encoding="utf-8")
+        assert 0 <= src.index('os.environ.setdefault("OMP_NUM_THREADS"') < src.index("import numpy"), f
+
+
+@needs_v84
+def test_f1_input_hashes_match_the_arms(smoke, ref, tmp_path):
+    """A.10.6 maps and libraries: v85_calib.input_hashes hashes K*map's map as the K*map run does."""
+    from scripts import v85_calib as C
+    s0 = tmp_path / "v85" / "s0"
+    s0.mkdir(parents=True)
+    for f in smoke.iterdir():
+        if f.is_file():
+            (s0 / f.name).write_bytes(f.read_bytes())
+    h = C.input_hashes(tmp_path / "v85", {(GAME, "A"): [2, 3], (GAME, "B"): [2, 3]})
+    assert h["maps"][f"{GAME}/A"] == ref("kmap", CAP_V)[0]["instrument"]["map_sha256"]
+    assert len(h["libraries"][f"{GAME}/A"]) == 64 and set(h["maps"]) == {f"{GAME}/A", f"{GAME}/B"}
+
+
 # ---------------------------------------------------------------- queue
 def _fake_v85(tmp_path, monkeypatch):
     v = tmp_path / "v85"
@@ -334,12 +409,15 @@ def test_queue_istage_and_g1(tmp_path, monkeypatch):
     assert "u1_B_v2s_9809" not in names and "u0_B_v2s_9811" in names and "u0_A_d_9819" in names
     assert names[0].startswith("space_invaders")                  # longest first (largest reference gap)
     assert Q._parse("space_invaders_B_kmac_exact_9818") == ("space_invaders", "B", "kmac_exact", 9818)
-    json.dump(dict(units=["u0", "u1", "space_invaders"], n=4, K_gs={"u0": {"A": [2, 3], "B": [2]}}),
+    from scripts.v85_verdict import kgs_to_json
+    kgs = {("u0", "A"): [2, 3], ("u1", "A"): [2, 3], ("space_invaders", "A"): [2, 3], ("space_invaders", "B"): [2, 3]}
+    json.dump(dict(units=["u0", "u1", "space_invaders"], n=6, n_O4=4, K_gs=kgs_to_json(kgs)),   # the real F1 layout
               open(v / "f1_thresholds.json", "w"))
     js = Q.jobs("g1")
     names = [j.name for j in js]
-    assert "u0_A_o4_9812" in names and "u0_A_o4_9813" in names and "u0_A_o4_9814" not in names
-    assert not any(n.startswith("u0_B_") for n in names)          # |K_{u0,B}| < 2: dropped
+    assert "u0_A_o4_9812" in names and "u0_A_o4_9813" in names and "u0_A_o4_9814" not in names   # O_4 at n_O4 = 4
+    assert "u0_A_kmap_9814" in names and "u0_A_kmac_9814" in names                               # n = 6
+    assert not any(n.startswith("u0_B_") for n in names)          # (u0, B) absent from F1 K_gs: dropped (A.10.4)
     assert "u1_A_kmac_9812" not in names and "u1_A_kmap_9813" in names   # u1's B start invalid: no K*mac
     assert "space_invaders_B_kmap_9816" in names
     tiers = [j.tier for j in js]
@@ -348,9 +426,16 @@ def test_queue_istage_and_g1(tmp_path, monkeypatch):
     dice = sorted(j.name for j in js if "o4_dice" in j.name)
     assert dice == ["space_invaders_B_o4_dice_9818", "u0_A_o4_dice_9818"]   # positions 3 (odd) and 0 (even); u1: B invalid
     (v / "g1").mkdir()
-    json.dump(dict(rows={"O_4": "ROOM-K", "K*map": "NO-ROOM-K", "K*mac": "INCONCLUSIVE-K"}), open(v / "g1" / "g1_verdict.json", "w"))
+    rows = dict(o4=dict(label="ROOM-K", stats={}, captions=[]), kmap=dict(label="NO-ROOM-K", stats={}, captions=[]),
+                kmac=dict(label="INCONCLUSIVE-K", stats={}, captions=[]))             # v85_verdict g1's own format
+    json.dump(dict(G1="ROOM", rows=rows), open(v / "g1" / "g1_verdict.json", "w"))
     p = Q.jobs("g1p")
-    assert p and all(Q._parse(j.name)[2] == "gf4" for j in p) and "u0_A_gf4_9812" in [j.name for j in p]
+    names = [j.name for j in p]
+    assert p and all(Q._parse(j.name)[2] == "gf4" for j in p) and "u0_A_gf4_9812" in names
+    assert "u0_A_gf4_9814" not in names and "space_invaders_B_gf4_9816" in names   # the O_4 row's own seeds
+    json.dump(dict(G1="NO-ROOM", rows=rows), open(v / "g1" / "g1_verdict.json", "w"))
+    with pytest.raises(SystemExit):                                # G1-P runs only after a ROOM verdict
+        Q.jobs("g1p")
 
 
 def test_queue_smoke_list():

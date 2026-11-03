@@ -85,6 +85,28 @@ def test_o4_and_kmap_run(setup):
     assert km.caption()["MAP_WEAK"] == (km.coverage < 0.30)
 
 
+def test_no_lookahead_after_the_run_is_over(setup):
+    """A.5 run boundary: once the cap is reached or the evaluator stop fired, O_4 / O_4-dice spend no look-ahead
+    (no oracle frames, no log entry) and return V2s's own proposal; the real restore then raises Spent."""
+    for cls in (OChooser, ODice):
+        o = cls(4)
+        _, env, ex = run(setup, cap=SMALL, chooser=o, after=o.after)
+        assert env.billed >= env._led.cap                                 # the run ended on its cap
+        of, n, e = env.oracle_frames, len(o.log), ex.exp_n
+        assert o(ex, env, e) == ex.propose(e, 0)
+        assert env.oracle_frames == of and len(o.log) == n
+        with pytest.raises(Spent):
+            env.restore(0)
+        env._led.cap = None                                               # no cap, but the evaluator stop fired
+        env._trace.stopped = True
+        assert o(ex, env, e) == ex.propose(e, 0) and env.oracle_frames == of and len(o.log) == n
+        with pytest.raises(Spent):
+            env.restore(0)
+        env._trace.stopped = False                                        # a live run: the look-ahead runs
+        o(ex, env, e)
+        assert env.oracle_frames > of and len(o.log) == n + 1
+
+
 def test_dice_reexecution_matches_lookahead(setup, real):
     """G-build test 8 on the breakout smoke start A: actions, frames and max S of every executed winner
     equal its look-ahead; a tampered outcome raises."""

@@ -29,7 +29,7 @@ def synthetic(factors, arm="O_4", ks=KS, n_arm=3):
                 T = np.cumsum(rng.uniform(1e5, 9e5, size=len(ks)))
                 out.append(mk(f"g{u}", s, "V2s", s0 + i, T.tolist(), ks))
                 if i < n_arm:
-                    out.append(mk(f"g{u}", s, arm, 9812 + i, (T / f).tolist(), ks))
+                    out.append(mk(f"g{u}", s, arm, V.G1_SEED0[s] + i, (T / f).tolist(), ks))
     return out
 
 
@@ -296,6 +296,8 @@ def test_comparator_certificate_and_interruptions():
     ist = [dict(r, records=[[10, 5.0, 0, 1, 0]], exp_meta_sha256="e1") for r in synthetic([1.0]) if r["arm"] == "V2s"]
     rerun = [dict(r, provenance=dict(dirty=False, closure_hash="h_new")) for r in ist if r["seed"] in (9806, 9809)]
     assert V.certificate(ist, rerun, "g0")["ok"]
+    assert V.certificate(ist, rerun, "g0", closure="h_new")["ok"]        # reruns under the committed V2s closure
+    assert not V.certificate(ist, rerun, "g0", closure="h_v2s")["ok"]    # reruns under another closure: no certificate
     bad = [dict(r, records=[[11, 5.0, 0, 1, 0]]) if r["start"] == "B" else r for r in rerun]
     assert not V.certificate(ist, bad, "g0")["ok"]
     assert not V.certificate(ist, [rerun[0]], "g0")["ok"]                 # 9809 not re-executed
@@ -343,47 +345,405 @@ def test_g1_report_end_to_end_on_synthetic_runs():
     assert rep["rows"]["kmac"]["label"] == "NO-ROOM-K"
     assert rep["sentences"][0].startswith("From a savestate shared by all arms at M1 on 6 development games")
     assert "O_4-dice" in rep["caption_rows"] and "label" not in rep["caption_rows"]["O_4-dice"]
-    assert V.o_ties([dict(instrument=dict(o_ties=0.9, expansions_scored=300)),
-                     dict(instrument=dict(o_ties=0.5, expansions_scored=100))]) == pytest.approx(0.8)
+    # O-TIES pooled over expansions, weighted by the key OChooser.caption() writes ("expansions")
+    from ragnarok.evaluation.oracle_v85 import OChooser
+    o = OChooser(4)
+    o.log = [(e, 0, [(0.0, 0, 0)] * 4, True) for e in range(9)] + [(9, 1, [(0.0, 0, 0), (1.0, 0, 0)] * 2, False)]
+    c1 = dict(o.caption(), oracle_frames=1)                               # 10 expansions, 0.9 tied
+    o.log = o.log[-1:] * 990 + o.log[:10]                                  # 1000 expansions, 9 tied
+    c2 = dict(o.caption(), oracle_frames=1)
+    assert (c1["expansions"], c1["o_ties"], c2["expansions"], c2["o_ties"]) == (10, 0.9, 1000, 0.009)
+    assert V.o_ties([dict(instrument=c1), dict(instrument=c2)]) == pytest.approx((9 + 9) / 1010)   # not 0.4545
     assert rep["interruptions"] == [] and rep["claim_header"] == V.CLAIM   # caption rows never interrupt G1
+
+
+def fake_starts(units, K=(2, 3, 4), dropped=(), invalid_b=()):
+    """An s0/starts.json: units in A.2 order, both starts valid (E 9819 / 9820), dropped units with K_g [] (A.3.5)."""
+    u = {}
+    for g in list(units) + list(dropped):
+        drop = g in dropped
+        u[g] = dict(K_g=[] if drop else list(K), k_first=None if drop else min(K), k_ref=None if drop else max(K),
+                    kept=not drop, drop="A.3.5: no valid start" if drop else None,
+                    A=dict(valid=not drop, E=9819, s1_sha256=f"s1{g}A", entry=dict(sha256=f"e{g}A")),
+                    B=dict(valid=not drop and g not in invalid_b, E=9820, s1_sha256=f"s1{g}B", entry=dict(sha256=f"e{g}B")))
+    order = list(dropped) + list(units)
+    return dict(order=order, kept=[g for g in order if g not in dropped], units=u)
+
+
+def istage_runs(factors, K=(2, 3, 4), d_speed=6.0):
+    """I-stage runs: 3 V2s per start (9806.. / 9809..), 1 D per start on E_s, D d_speed x faster."""
+    rs = [dict(r, rungs=list(K), k_ref=max(K)) for r in synthetic(factors, arm="D", ks=K, n_arm=1)]
+    for r in rs:
+        if r["arm"] == "D":
+            r["T"] = {k: v / d_speed for k, v in r["T"].items()}
+            r["seed"] = 9819 if r["start"] == "A" else 9820
+    return rs
+
+
+def write_runs(d, rs):
+    import json
+    d.mkdir(parents=True, exist_ok=True)
+    for i, r in enumerate(rs):
+        (d / f"run{i}.json").write_text(json.dumps(r), encoding="utf-8")
 
 
 def test_cli_istage_calib_f1_g1_g1p(tmp_path):
     import json
     K = [2, 3, 4]
-    ist = [dict(r, rungs=K, k_ref=4) for r in synthetic([1.0] * 4, arm="D", n_arm=1)]
-    for r in ist:
-        if r["arm"] == "D":
-            r["T"] = {k: v / 6 for k, v in r["T"].items()}
-    for d, rs in (("istage", ist),):
-        (tmp_path / d).mkdir()
-        for i, r in enumerate(rs):
-            (tmp_path / d / f"run{i}.json").write_text(json.dumps(r), encoding="utf-8")
+    units = [f"g{u}" for u in range(4)]
+    (tmp_path / "s0").mkdir()
+    (tmp_path / "s0" / "starts.json").write_text(json.dumps(fake_starts(units, K, dropped=["gx"])), encoding="utf-8")
+    write_runs(tmp_path / "istage", istage_runs([1.0] * 4, K))
     V.main(["istage", "--out", str(tmp_path)])
     iv = json.loads((tmp_path / "istage" / "istage_verdict.json").read_text(encoding="utf-8"))
+    assert iv["stage"] == "PASS" and iv["missing"] == [] and iv["interruptions"] == []
     assert iv["d_control"]["passed"] and iv["K_gs"]["g0"] == {"A": K, "B": K} and iv["provenance"]["closure_hash"]
+    assert "gx" not in iv["K_gs"] and iv["units"] == units                # S0 drop: no crash, no cell
     C.main(["run", "--out", str(tmp_path), "--sims", "2"])
     cal = json.loads((tmp_path / "calib.json").read_text(encoding="utf-8"))
-    assert cal["sims"] == 2 and cal["U"] == 4
+    assert cal["sims"] == 2 and cal["U"] == 4 and cal["units"] == units
     cal.update(outcome="SELECTED", selection=dict(n=4, tau_pt=1.8, tau_lb=1.25, oc={}, criteria={}))
     (tmp_path / "calib.json").write_text(json.dumps(cal), encoding="utf-8")
-    clo = tmp_path / "closures.json"
-    clo.write_text(json.dumps({"V2s": "h_v2s", "O_4": "h_o4", "K*map": "h_kmap", "K*mac": "h_kmac"}), encoding="utf-8")
-    C.main(["f1", "--out", str(tmp_path), "--closures", str(clo)])
+    hs, sg, clo = tmp_path / "hashes.json", tmp_path / "grep.json", tmp_path / "closures.json"
+    hs.write_text(json.dumps({k: {"x": "h"} for k in C.HASH_KEYS}), encoding="utf-8")
+    sg.write_text(json.dumps(dict(PASS=True, foreign_files=0)), encoding="utf-8")
+    with pytest.raises(SystemExit):                                       # A.10.6: hashes and seed grep required
+        C.main(["f1", "--out", str(tmp_path), "--closures", str(clo)])
+    clo.write_text(json.dumps(dict(closures={"v2s": "h_v2s", "o4": "h_o4"})), encoding="utf-8")
+    with pytest.raises(SystemExit):                                       # closures per arm type: all gated arms
+        C.main(["f1", "--out", str(tmp_path), "--closures", str(clo), "--hashes", str(hs), "--seed-grep", str(sg)])
+    clo.write_text(json.dumps(dict(closures={a: f"h_{V.canon(a)}" for a in C.GATE_ARMS}, unit="g0")), encoding="utf-8")
+    C.main(["f1", "--out", str(tmp_path), "--closures", str(clo), "--hashes", str(hs), "--seed-grep", str(sg)])
+    f1 = json.loads((tmp_path / "f1_thresholds.json").read_text(encoding="utf-8"))
+    assert f1["budget"]["mean_v2s_billed"] == 4e6 and f1["n_O4"] == 4 and f1["istage_stage"] == "PASS"
+    assert f1["hashes"]["starts"]["g0/A"] == dict(s1="s1g0A", entry="eg0A") and f1["units"] == units
     rs = [r for r in synthetic([2.6] * 4, arm="O_4", n_arm=2) if r["arm"] != "V2s"]
+    rs += [r for r in synthetic([1.0] * 4, arm="K*map", n_arm=2) if r["arm"] != "V2s"]
     rs += [r for r in synthetic([1.0] * 4, arm="K*mac", n_arm=2) if r["arm"] != "V2s"]
-    rs += [dict(r, arm="GF4", provenance=dict(dirty=False, closure_hash="h_gf4"), T={k: t * 2 for k, t in r["T"].items()})
+    for r in rs:
+        if r["arm"] == "K*map":
+            r["instrument"] = dict(coins=100, found=10)
+    gf4 = [dict(r, arm="GF4", provenance=dict(dirty=False, closure_hash="h_gf4"), T={k: t * 2 for k, t in r["T"].items()})
            for r in rs if r["arm"] == "O_4"]
-    (tmp_path / "g1").mkdir()
-    (tmp_path / "g1p").mkdir()
-    for i, r in enumerate(rs):
-        (tmp_path / ("g1p" if r["arm"] == "GF4" else "g1") / f"run{i}.json").write_text(json.dumps(r), encoding="utf-8")
+    write_runs(tmp_path / "g1", rs[1:])                                   # one O_4 run missing
+    V.main(["g1", "--out", str(tmp_path)])
+    g1 = json.loads((tmp_path / "g1" / "g1_verdict.json").read_text(encoding="utf-8"))
+    assert g1["G1"] == "INCOMPLETE" and g1["rows"] == {} and g1["missing"] == ["g0/A/O_4/9812"]
+    write_runs(tmp_path / "g1", rs)
     V.main(["g1", "--out", str(tmp_path)])
     g1 = json.loads((tmp_path / "g1" / "g1_verdict.json").read_text(encoding="utf-8"))
     assert g1["G1"] == "ROOM" and g1["rows"]["o4"]["label"] == "ROOM-K" and g1["interruptions"] == []
+    assert g1["units"] == units and g1["certificate_unit"] == "g0"
+    write_runs(tmp_path / "g1p", gf4[:-1])
     V.main(["g1p", "--out", str(tmp_path)])
     g1p = json.loads((tmp_path / "g1p" / "g1p_verdict.json").read_text(encoding="utf-8"))
-    assert g1p["rows"]["o4"]["label"] == "SEPARATED-K" and g1p["routing"]["families"] == ["W"]
+    assert g1p["status"] == "INCOMPLETE" and g1p["routing"] is None   # a placebo run missing: no routing
+    write_runs(tmp_path / "g1p", gf4)
+    V.main(["g1p", "--out", str(tmp_path)])
+    g1p = json.loads((tmp_path / "g1p" / "g1p_verdict.json").read_text(encoding="utf-8"))
+    assert g1p["status"] == "COMPLETE" and g1p["rows"]["o4"]["label"] == "SEPARATED-K"
+    assert g1p["routing"]["families"] == ["W"]
+    # G2a for the licensed family W (V2s reused from the I-stage), then G2b
+    write_runs(tmp_path / "g2a", fam_runs({"K_S": [3.0] * 4, "F_S": [1.0] * 4}, {"K_S": 4, "F_S": 6}, V.G2_SEEDS, ks=K))
+    V.main(["g2a", "--out", str(tmp_path)])
+    ga = json.loads((tmp_path / "g2a" / "g2a_verdict.json").read_text(encoding="utf-8"))
+    assert ga["families"]["W"]["status"] == "Interruption"                # family closures not committed at F1
+    f1["closure_hashes"].update({a: f"h_{V.canon(a)}" for a in ("K_S", "F_S", *V.FAM["W"]["g2b_runs"])})
+    (tmp_path / "f1_thresholds.json").write_text(json.dumps(f1), encoding="utf-8")
+    V.main(["g2a", "--out", str(tmp_path)])
+    ga = json.loads((tmp_path / "g2a" / "g2a_verdict.json").read_text(encoding="utf-8"))
+    assert ga["families"]["W"]["label"] == "OBJECT-ROOM" and ga["g2b_family"] == "W"
+    fx = {a: [1.0] * 4 for a in V.FAM["W"]["g2b_runs"]}
+    fx.update(X_S=[3.0] * 4)
+    write_runs(tmp_path / "g2b", fam_runs(fx, V.FAM["W"]["g2b_runs"], V.G2_SEEDS, ks=K))
+    V.main(["g2b", "--out", str(tmp_path)])
+    gb = json.loads((tmp_path / "g2b" / "g2b_verdict.json").read_text(encoding="utf-8"))
+    assert gb["status"] == "COMPLETE" and gb["label"] == "GO" and gb["interruptions"] == []
+    assert gb["stats"]["X:F"]["R"] == pytest.approx(3.0) and gb["phi"] == pytest.approx(1.0)
+    # an I-stage that is not PASS stops F1 (§10: INSTRUMENT-FAIL / D stop before G1)
+    iv["stage"] = "INSTRUMENT-FAIL"
+    (tmp_path / "istage" / "istage_verdict.json").write_text(json.dumps(iv), encoding="utf-8")
+    with pytest.raises(SystemExit):
+        C.main(["f1", "--out", str(tmp_path), "--closures", str(clo), "--hashes", str(hs), "--seed-grep", str(sg)])
+
+
+# ------------------------------------------------------------------ review fixes (G1-P routing, S0 drops, order,
+# completeness, D control, budget, closures, captions, G2 / B1)
+
+def test_routing_needs_g1p_labels_and_g1p_needs_room():
+    room = dict(o4="ROOM-K", kmap="NO-ROOM-K", kmac="NO-ROOM-K")
+    with pytest.raises(ValueError):                                       # no G1-P label: no licence
+        V.routing(room, dict(o4=None))
+    with pytest.raises(ValueError):
+        V.routing(room, {})
+    assert V.routing(room, dict(o4="NOT-SEPARATED-K"))["families"] == ["W"]
+    assert V.routing(room, dict(o4="GENERIC-K"))["result"] == "ROOM-UNCARRIED"
+    # g1p_report on g1_report's own format: rows {"o4": {"label": ...}}
+    rs = synthetic([2.6] * 4, arm="O_4", n_arm=2)
+    gf4 = [dict(r, arm="GF4", provenance=dict(dirty=False, closure_hash="h_gf4")) for r in rs if r["arm"] == "O_4"]
+    v = dict(G1="ROOM", rows=dict(o4=dict(label="ROOM-K"), kmap=dict(label="NO-ROOM-K"), kmac=dict(label="NO-ROOM-K")))
+    rep = V.g1p_report(v, V.group(rs + gf4), kgs(4), B=200)
+    assert rep["status"] == "COMPLETE" and rep["rows"]["o4"]["label"] == "GENERIC-K" and rep["routing"]["families"] == []
+    assert V.g1p_report(v, V.group(rs), kgs(4), B=200)["routing"] is None             # no placebo runs
+    assert V.g1p_report(v, V.group(rs + gf4), kgs(4), missing=["g0/A/GF4/9812"], B=200)["status"] == "INCOMPLETE"
+    for g1 in ("NO-ROOM", "INCONCLUSIVE", "Interruption", "INCOMPLETE"):
+        rep = V.g1p_report(dict(v, G1=g1), V.group(rs + gf4), kgs(4), B=200)
+        assert rep["status"] == "NOT-RUN" and rep["routing"] is None
+    # interruptions only on the ROOM rows' K runs and their placebos: a caption row's closure never counts
+    dice = [dict(r, arm="O_4-dice", provenance=dict(dirty=False, closure_hash=f"h_dice{i}"))
+            for i, r in enumerate(x for x in rs if x["arm"] == "O_4")]
+    com = dict(o4="h_o4", gf4="h_gf4")
+    rep = V.g1p_report(v, V.group(rs + gf4 + dice), kgs(4), com, B=200, require_committed=True)
+    assert rep["interruptions"] == [] and rep["status"] == "COMPLETE"
+    rep = V.g1p_report(v, V.group(rs + gf4), kgs(4), None, B=200, require_committed=True)
+    assert rep["status"] == "Interruption" and rep["routing"] is None
+
+
+def test_s0_dropped_units_and_istage_cells():
+    starts = fake_starts(["g0", "g1"], dropped=["gx"])
+    starts["units"]["g9"] = dict(starts["units"]["g0"])                  # kept, but outside the I-stage
+    starts["units"]["g9"]["B"] = dict(valid=False, E=9820)
+    starts["order"].append("g9")
+    starts["kept"].append("g9")
+    ur = V.unit_rungs({}, starts)                                         # K_g [] and k_ref None: no TypeError
+    assert set(ur) == {"g0", "g1", "g9"} and ur["g0"] == ([2, 3, 4], 4)
+    assert V.unit_rungs({}, {"units": {"g": {"K_g": [3], "k_ref": 3}}}) == {}          # |K_g| < 2: no unit
+    runs = V.group(istage_runs([1.0, 1.0]))
+    K_gs, det = V.istage_kgs(runs, starts, V.start_validity(starts))
+    assert set(K_gs) == {("g0", "A"), ("g0", "B"), ("g1", "A"), ("g1", "B")}       # no g9 cell, no gx
+    assert V.a2_order(starts, {"g1", "g9", "g0"}) == ["g0", "g1", "g9"]
+
+
+def test_a2_order_is_not_a_repermutation_and_certificate_unit():
+    from ragnarok.evaluation.start_v85 import unit_order
+    games = [f"u{i:02d}" for i in range(16)]
+    order = unit_order(games)
+    starts = dict(order=order, kept=order[1:], units={g: dict(kept=g != order[0]) for g in order})
+    sub = set(order[1:11])
+    assert V.a2_order(starts, sub) == order[1:11]
+    assert unit_order(sub) != order[1:11]                                 # what the old code did
+    ist = [dict(game=g, start="A", arm="V2s", seed=9806) for g in (order[3], order[2])]
+    assert V.certificate_unit(starts, ist) == order[2]
+    with pytest.raises(SystemExit):
+        V.a2_order(None, sub)
+
+
+def test_completeness_istage_and_g1():
+    starts = fake_starts(["g0", "g1", "g2"], invalid_b=["g2"])
+    rs = istage_runs([1.0, 1.0])                                         # g2 not run yet
+    units, stray = V.istage_units(starts, rs, U=3)
+    assert units == ["g0", "g1", "g2"] and stray == []
+    miss = V.missing_istage(V.group(rs), starts, units)
+    assert miss == ["g2/A/V2s/9806", "g2/A/V2s/9807", "g2/A/V2s/9808", "g2/A/D/9819"]   # B invalid: nothing there
+    assert V.istage_units(starts, rs, U=None)[0] == ["g0", "g1"]        # U unknown: units with runs (in order)
+    rep = V.istage_report(V.group(rs), ["g0", "g1", "g2"], starts, valid=V.start_validity(starts), missing=miss, B=50)
+    assert rep["stage"] == "INCOMPLETE" and rep["K_gs"] is None
+    # cross-fit needs all 3 V2s runs at the other start: 2 runs give no K (not a drop on fewer runs)
+    lad = [0, 10, 20, 40, 80, 160]
+    rec = dict(cap=CAP, ladder=lad, records=[[1000 * i, lad[i] + 1, 0, i, 0] for i in range(1, 6)])
+    assert V.cross_fit([2, 3, 4], 4, [rec, rec])["K"] == [] and V.cross_fit([2, 3, 4], 4, [rec] * 3)["K"] == [2, 3, 4]
+    # G1: n/2 per row per kept (g, s), O_4 at n_O4, K*mac only where the other start is valid
+    K_gs = {("g0", "A"): [2, 3], ("g0", "B"): [2, 3], ("g2", "A"): [2, 3]}
+    exp = V.g1_expected(K_gs, starts, n=6, n_O4=4)
+    assert exp[("g0", "A", "o4")] == [9812, 9813] and exp[("g0", "B", "kmap")] == [9815, 9816, 9817]
+    assert ("g2", "A", "kmac") not in exp and exp[("g2", "A", "o4")] == [9812, 9813]
+    rep = V.g1_report({}, K_gs, dict(n=4, tau_pt=1.8, tau_lb=1.25), missing=["g0/A/O_4/9812"])
+    assert rep["G1"] == "INCOMPLETE" and rep["rows"] == {}
+    with pytest.raises(ValueError):                                       # cells of exactly 3 V2s runs
+        C.prepare({("g0", "A"): np.array([[1e5, 2e5], [1.5e5, 3e5]])}, ["g0"], require_m=3)
+    with pytest.raises(ValueError):                                       # one (game, start, arm, seed) twice
+        V.group(rs + rs[:1])
+
+
+def test_d_control_scores_cross_fit_dropped_units_on_K_g():
+    rs = istage_runs([1.0] * 5, d_speed=8.0)
+    for r in rs:                                                          # one V2s run per start misses rung 4
+        if r["arm"] == "V2s" and r["game"] in ("g0", "g1") and r["seed"] in (9807, 9810):
+            r["T"]["4"] = None
+    runs = V.group(rs)
+    units = [f"g{u}" for u in range(5)]
+    K_gs, _ = V.istage_kgs(runs)
+    K_gs = {k: v for k, v in K_gs.items() if k[0] not in ("g0", "g1")}  # as if A.10.4 dropped g0, g1
+    d = V.d_control(runs, K_gs, units, {g: [2, 3, 4] for g in units})
+    assert d["passed"] and d["share"] == 1.0 and d["uncross_fitted_units"] == ["g0", "g1"]
+    assert not V.d_control(runs, K_gs, units)["passed"]                   # the old rule: 3/5 < 0.8
+
+
+def test_istage_stages_d_fix_interruptions():
+    starts = fake_starts([f"g{u}" for u in range(5)])
+    rs = istage_runs([1.0] * 5, d_speed=2.0)                               # D only 2x: the D control fails
+    runs = V.group(rs)
+    units = [f"g{u}" for u in range(5)]
+    rep = V.istage_report(runs, units, starts, valid=V.start_validity(starts), B=50)
+    assert rep["stage"] == "D-CONTROL-FAIL"
+    rep = V.istage_report(runs, units, starts, valid=V.start_validity(starts), B=50, d_fix="2026-11-04")
+    assert rep["stage"] == "Interruption (D)" and rep["d_fix"] == "2026-11-04"
+    for r in rs:                                                          # D reruns launched after the fix
+        if r["arm"] == "D":
+            r["provenance"] = dict(r["provenance"], launched="2026-11-04 09:00:00")
+    assert V.stale_d(runs, "2026-11-04") == [] and V.stale_d(runs, None) == []
+    runs[("g0", "A", "d")][0]["provenance"]["launched"] = "2026-11-03 22:00:00"   # a first-pass D left in istage/
+    assert len(V.stale_d(runs, "2026-11-04")) == 1
+    dirty = [dict(r, provenance=dict(dirty=True, closure_hash="h_v2s")) if r["arm"] == "V2s" and r["seed"] == 9806
+             else r for r in istage_runs([1.0] * 5)]
+    rep = V.istage_report(V.group(dirty), units, starts, valid=V.start_validity(starts), B=50)
+    assert rep["stage"] == "Interruption" and rep["K_gs"] is None
+    dmis = [dict(r, replay=[dict(k=2, ok=False)], interruption=True) if r["arm"] == "D" and r["game"] == "g0" else r
+            for r in istage_runs([1.0] * 5)]
+    rep = V.istage_report(V.group(dmis), units, starts, valid=V.start_validity(starts), B=50)
+    assert rep["interruptions"] == [] and rep["stage"] == "D-CONTROL-FAIL"   # D's confirmation: the D control's
+    assert V.interruptions(dmis, None, require_committed=True)[0].startswith("no committed closure hashes")
+    rep = V.istage_report(V.group(istage_runs([1.0] * 5)), units, starts, valid=V.start_validity(starts), B=50,
+                          committed=dict(v2s="h_new", d="h_d"))           # V2s changed (a D fix touched it)
+    assert rep["stage"] == "Interruption" and rep["interruptions"] == ["missing comparator certificate: V2s closure changed"]
+    assert V.interruptions([r for r in dmis if r["arm"] == "V2s"], dict(v2s="h_v2s", d="h_d")) == []
+    assert V.interruptions(dmis, dict(v2s="h_v2s"), require_committed=True) == [
+        "replay mismatch: g0/A/D/9819", "replay mismatch: g0/B/D/9820", "no committed closure hash: D"]
+
+
+def test_budget_projection_and_n_O4():
+    starts = fake_starts([f"g{u}" for u in range(12)], invalid_b=["g11"])
+    K_gs = {(f"g{u}", s): [2, 3] for u in range(12) for s in "AB" if not (u == 11 and s == "B")}
+    v2s = [dict(game="g0", start="A", arm="v2s", seed=9806, billed=1_000_000, stopped=True),
+           dict(game="g0", start="A", arm="v2s", seed=9807, billed=3_000_000, stopped=True),
+           dict(game="g0", start="A", arm="v2s", seed=9808, billed=4_000_100, stopped=False)]
+    b = C.budget_projection(v2s, K_gs, starts, n=6)
+    mb = (1e6 + 3e6 + 4e6) / 3                                            # the unstopped run at the 4M cap
+    cells, kmac = 23, 22                                                  # g11/A has no K*mac (B invalid)
+    assert b["mean_v2s_billed"] == pytest.approx(mb) and (b["cells"], b["kmac_cells"]) == (cells, kmac)
+    assert b["projection_frames"] == pytest.approx(mb * (3 * 5 * cells + 3 * (cells + kmac)))
+    assert b["projection_frames"] > 0.6e9 and b["n_O4"] == 4
+    assert C.budget_projection(v2s[:1], K_gs, starts, n=6)["n_O4"] == 6   # 1M per run: below 0.6G
+    f1 = C.assemble_f1(dict(U=12, units=[], outcome="SELECTED", selection=dict(n=6)), K_gs, b)
+    assert f1["n_O4"] == 4
+    assert V.row_thr(dict(n=6, n_O4=4, tau_pt=1.8, tau_lb=1.25), "o4")["n"] == 4
+    assert V.row_thr(dict(n=6, n_O4=4, tau_pt=1.8, tau_lb=1.25), "kmap")["n"] == 6
+
+
+def test_arm_closures_producer(tmp_path):
+    import json
+    (tmp_path / "s0").mkdir()
+    st = fake_starts(["g0", "g1"], invalid_b=["g0"])
+    (tmp_path / "s0" / "starts.json").write_text(json.dumps(st), encoding="utf-8")
+    calls = []
+
+    def runner(v85, unit, arm, seed):
+        calls.append((unit, arm, seed))
+        return dict(closure_hash=f"h_{arm}", closure_files=[], closure_foreign=[])
+    c = C.arm_closures(tmp_path, runner=runner)
+    assert c["unit"] == "g1" and set(c["closures"]) == set(C.arm_modules()) >= set(C.GATE_ARMS)   # every arm module
+    assert ("g1", "d", 9819) in calls and ("g1", "o4_dice", 9818) in calls and len(calls) == len(C.arm_modules())
+    with pytest.raises(RuntimeError):
+        C.arm_closures(tmp_path, runner=lambda *a: dict(closure_hash="h", closure_foreign=["ragnarok.x: elsewhere"]))
+
+
+def test_dice_caption_and_instrument_summary():
+    rs = synthetic([2.0] * 4, arm="O_4", n_arm=2)
+    dice = []
+    for r in rs:
+        if r["arm"] == "O_4" and r["seed"] in (9812, 9815):
+            d = dict(r, arm="O_4-dice", seed=9818, aborted=None)
+            if r["game"] == "g0":                                          # aborted early: censored if kept
+                d.update(aborted="DiceMismatch: expansion 7", T={k: None for k in r["T"]})
+            dice.append(d)
+    g4 = dict(G4=1.9, G4_dice_starts=1.8, per_unit={f"g{u}": {"A": 1.5 + u / 10, "B": 2.5} for u in range(4)})
+    cap = V.dice_caption(V.group(rs + dice), kgs(4), B=100, g4=g4)
+    assert cap["aborted"] == 2 and cap["runs"] == 8 and len(cap["aborted_runs"]) == 2
+    clean = V.contrast(V.group(rs + [d for d in dice if not d["aborted"]]), kgs(4), "O_4-dice", "v2s", gate="G1C", B=100)
+    assert cap["R"] == clean["R"] and cap["units"] == ["g1", "g2", "g3"]    # aborted runs left out of R
+    assert cap["G4_pred_cells"] == pytest.approx(np.mean([1.6, 1.7, 1.8, 2.5, 2.5, 2.5])) and cap["G4_S0"] == 1.9
+    ins = [dict(game="g0", start="A", instrument=dict(fidelity=0.5, size=10, hold=4, bandit_k=5, q5_expansions=10)),
+           dict(game="g0", start="A", instrument=dict(fidelity=0.7, size=10, hold=4, bandit_k=5, q5_expansions=30)),
+           dict(game="g1", start="B", instrument=dict(fidelity=0.9, size=3, hold=4, bandit_k=4, q5_expansions=0))]
+    s = V.instrument_summary(ins)
+    assert s["fidelity"] == pytest.approx(0.7) and s["q5_expansions"] == pytest.approx(40 / 3)
+    assert "size" not in s and "hold" not in s and "bandit_k" not in s
+    assert s["per_start"] == {"g0/A": dict(size=10, hold=4, bandit_k=5), "g1/B": dict(size=3, hold=4, bandit_k=4)}
+
+
+def fam_runs(factors, plan, seeds, ks=KS):
+    """Runs of every arm in plan {arm: runs per unit} at the §12 seed sets; arm a's T = the (unit, start)'s base T
+    / factors[a][u] for every run (no run noise: every R and the interaction are exact)."""
+    rng = np.random.default_rng([9800, 7])
+    out = []
+    for u in range(len(next(iter(factors.values())))):
+        for s in "AB":
+            base = np.cumsum(rng.uniform(1e5, 6e5, size=len(ks)))
+            for arm, n in plan.items():
+                for sd in seeds[n][s]:
+                    f = factors.get(arm, [1.0] * 99)[u]
+                    out.append(mk(f"g{u}", s, arm, sd, (base / f).tolist(), ks, rungs=list(ks), k_ref=max(ks)))
+    return out
+
+
+def as_v2s(rs, arm):
+    """V2s runs (9806.. / 9809..) equal to `arm`'s 6-run G2 runs (9826.. / 9829..)."""
+    m = dict(zip(V.G2_SEEDS[6]["A"] + V.G2_SEEDS[6]["B"], V.V2S_SEEDS["A"] + V.V2S_SEEDS["B"]))
+    return [dict(r, arm="V2s", seed=m[r["seed"]]) for r in rs if r["arm"] == arm]
+
+
+def test_g2a_g2b_and_censoring_sensitivity():
+    U = 6
+    fac = {"K_mine": [2.2] * U, "F_M": [1.0] * U}
+    runs = fam_runs(fac, {"K_mine": 4, "F_M": 6}, V.G2_SEEDS)
+    runs += as_v2s(runs, "F_M")
+    rep = V.g2a_report(V.group(runs), kgs(U), "M", B=300)
+    assert rep["label"] == "OBJECT-ROOM" and rep["stats"]["K:F"]["R"] == pytest.approx(2.2, rel=1e-9)
+    assert rep["sealed_top_label"] == "FASTER-2X" and rep["captions"] == []
+    assert V.g2a_report(V.group(runs), kgs(U), "M", missing=["x"])["status"] == "INCOMPLETE"
+    assert V.g2b_family({"M": rep, "W": dict(rep, label="KC-object")}) == "M"
+    assert V.g2b_family({"M": rep, "W": rep}) == "M"                      # a tie goes to M
+    # CENSORING-SENSITIVE: a claim that changes with misses at 8M drops one step
+    assert V.sensitive("OBJECT-ROOM", "KC-object") == dict(label="KC-object", primary="OBJECT-ROOM",
+                                                          label_8M="KC-object", captions=["CENSORING-SENSITIVE"])
+    assert V.sensitive("FASTER-2X", "FASTER-PARTIAL")["label"] == "FASTER-PARTIAL"
+    assert V.sensitive("FASTER-PARTIAL", "NULL")["label"] == "NOT-SIGNIFICANT"
+    assert V.sensitive("NULL", "FASTER-PARTIAL")["label"] == "NULL"
+    # G2b family M: X_on 2x faster than F_M and every comparator; interaction exact on noiseless runs
+    A = V.FAM["M"]
+    f = {a: [1.0] * U for a in A["g2b_runs"]}
+    f.update(X_on=[3.0] * U, X_frozen=[1.5] * U, X4_on=[1.2] * U, F_M=[1.0] * U)
+    plan = dict(A["g2b_runs"], F_M=6, K_mine=4)
+    rs = fam_runs(f, plan, V.G2_SEEDS)
+    v2s = as_v2s(rs, "F_M")                                               # lam(V2s) - lam(F_M) = 0
+    rep = V.g2b_report(V.group(rs + v2s), kgs(U), "M", B=300, R_KF=2.0)
+    assert rep["status"] == "COMPLETE" and rep["label"] == "GO" and rep["clauses"]["vs_P_on"]
+    assert rep["phi"] == pytest.approx(math.log(3.0) / math.log(2.0), rel=0.05)
+    I = rep["interaction"]                                                # [lam(X_frozen) - lam(X_on)] - 0 = log 2
+    assert I["I"] == pytest.approx(math.log(2.0), abs=1e-9) and I["LB90"] <= I["I"] <= I["UB90"]
+    assert rep["vocab"] == "ADAPTS" and rep["accelerates_in_run_learning"]
+    assert rep["dose"]["X4:F"]["R"] == pytest.approx(1.2, rel=1e-6)
+
+
+def test_b1_ladder_p_value_and_page():
+    assert V.sign_flip_p([1.0] * 6) == pytest.approx(1 / 64)
+    assert V.sign_flip_p([1.0, -1.0]) == pytest.approx(0.75)
+    pl = V.page_L(np.array([[4.0, 3.0, 2.0, 1.0]] * 6))                   # lam falls with dose: perfect order
+    assert pl["L"] == 6 * (1 + 4 + 9 + 16) and pl["p"] < 0.001
+    st = lambda R, LB, UB=3.0, late=1.2: dict(R=R, LB90=LB, UB95=UB, LB90_late=late)   # noqa: E731
+    good = {"V2s": st(1.8, 1.2), "DM_on": st(1.7, 1.1), "S": st(1.6, 1.1), "P_on": st(1.5, 1.05)}
+    tv = {"DM_on": st(1.0, 0.9), "S": st(1.0, 0.9)}
+    assert V.b1_label(st(2.1, 1.4), 0.01, 1.2, True, good, tv) == "FASTER-2X"
+    assert V.b1_label(st(2.1, 1.4), 0.01, 1.2, False, good, tv) == "FASTER-PARTIAL"   # ceiling rule
+    assert V.b1_label(st(2.1, 1.4, late=1.0), 0.01, 1.2, True, good, tv) == "EARLY-RUNGS-ONLY"
+    assert V.b1_label(st(0.7, 0.5, UB=0.9), 0.9, 0.6, True, good, tv) == "NEGATIVE-TRANSFER"
+    bad_t = dict(good, S=st(1.1, 0.95))
+    assert V.b1_label(st(1.5, 1.2), 0.01, 1.2, True, bad_t, dict(tv, S=st(1.4, 1.1))) == "TUNED-DEFAULTS"
+    assert V.b1_label(st(1.5, 1.2), 0.01, 1.2, True, dict(good, P_on=st(1.1, 0.9)), tv) == "GENERIC"
+    assert V.b1_label(st(1.3, 0.95), 0.2, 1.0, True, dict(good, P_on=st(1.1, 0.9)), tv) == "NOT-SIGNIFICANT"
+    assert V.b1_label(st(1.1, 0.95), 0.2, 1.0, True, dict(good, P_on=st(1.1, 0.9)), tv) == "NULL"
+    # end to end on sealed-like runs: X_on 2.5x faster than every other arm, family M
+    U = 8
+    A = V.FAM["M"]
+    f = {a: [1.0] * U for a in A["b1_runs"]}
+    f.update(X_on=[2.5] * U, X4_on=[1.3] * U, X12_on=[1.8] * U)
+    rs = fam_runs(f, A["b1_runs"], V.B1_SEEDS)
+    K_gs, _ = V.istage_kgs(V.group([r for r in rs if r["arm"] == "V2s"]))
+    rep = V.b1_report(V.group(rs), K_gs, "M", allow_2x=False, B=300)
+    assert rep["status"] == "COMPLETE" and rep["label"] == "FASTER-PARTIAL" and rep["p"] == pytest.approx(1 / 256)
+    assert V.b1_report(V.group(rs), K_gs, "M", allow_2x=True, B=300)["label"] == "FASTER-2X"
+    assert rep["accumulates"]["ACCUMULATES"] and rep["logo_min"] == pytest.approx(2.5, rel=1e-6)
+    assert V.b1_report(V.group(rs), K_gs, "M", True, B=300, line=dict(instrument_fail=True))["label"] == "INCONCLUSIVE"
 
 
 # ------------------------------------------------------------------ calibration: selection, smoke, runtime
@@ -433,3 +793,25 @@ def test_calibration_smoke_and_f1_assembly():
 def test_calibration_runtime_under_30_minutes():
     t = C.time_run(sims=4, U=16, K=5)                                     # worst case: U = 16, 5 counted rungs
     assert t["extrapolated_s"] < C.RUNTIME_LIMIT_S, t
+
+
+def test_cli_b1_sealed(tmp_path):
+    import json
+    U = 6
+    root = tmp_path / "sealed"
+    (root / "s0").mkdir(parents=True)
+    (root / "s0" / "starts.json").write_text(json.dumps(fake_starts([f"g{u}" for u in range(U)])), encoding="utf-8")
+    A = V.FAM["M"]
+    f = {a: [1.0] * U for a in A["b1_runs"]}
+    f.update(X_on=[2.5] * U, X4_on=[1.3] * U, X12_on=[1.8] * U)
+    write_runs(root / "b1", fam_runs(f, A["b1_runs"], V.B1_SEEDS))
+    V.main(["b1", "--out", str(tmp_path), "--family", "M"])
+    b = json.loads((root / "b1" / "b1_verdict.json").read_text(encoding="utf-8"))
+    assert b["status"] == "Interruption" and b["label"] is None           # no F2 closures committed
+    (root / "closures.json").write_text(json.dumps(dict(closures={a: f"h_{V.canon(a)}" for a in A["b1_runs"]})),
+                                        encoding="utf-8")
+    V.main(["b1", "--out", str(tmp_path), "--family", "M"])
+    b = json.loads((root / "b1" / "b1_verdict.json").read_text(encoding="utf-8"))
+    assert b["status"] == "COMPLETE" and b["label"] == "FASTER-PARTIAL" and not b["allow_2x"]   # no G2a ceiling
+    assert b["instrument_line"]["instrument_fail"] is False and b["accumulates"]["ACCUMULATES"]
+    assert set(b["K_gs"]) == {f"g{u}" for u in range(U)}

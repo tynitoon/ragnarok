@@ -9,12 +9,14 @@ Stages (one job = one scripts/v85_job.py run; outputs under craft_v6_out/v85/<st
           module exists; start built by v85_job --smoke in smoke/<game>/.
   istage  the first U valid units in draw order (U from s0/natural_spikeins.json "U", else --U): V2s 9806-9808 at
           A, 9809-9811 at B; D 1 per start with agent seed E_s (A.10.2).
-  g1      F1 units and n (f1_thresholds.json "units", "n", "K_gs"): O_4, K*map, K*mac with n/2 runs per start (A
-          9812.., B 9815..; K*mac only when the other start is valid); (g, s) dropped when |K_{g,s}| < 2. Caption
+  g1      F1 units and n (f1_thresholds.json "units", "n", "n_O4", "K_gs"): O_4 (n_O4/2, §13.1 budget rule),
+          K*map, K*mac (n/2) runs per start (A 9812.., B 9815..; K*mac only when the other start is valid);
+          (g, s) dropped when absent from K_gs or |K_{g,s}| < 2 (A.10.4; never K_g after F1). Caption
           rows are queued after every core row: O_4-dice on 9818 (start A for units at even 0-based positions of
           the A.2 draw order, B at odd ones; skipped if that start is invalid), K*mac-exact on 9818 at every kept start (it uses the start's own lineage).
-  g1p     G1-P (§7.2) for the ROOM rows of g1/g1_verdict.json ("rows": {"O_4"|"K*map"|"K*mac": label}): GF4, GF,
-          K~mac on that row's units, starts and seeds.
+  g1p     G1-P (§7.2) after a ROOM verdict (g1/g1_verdict.json "G1" == "ROOM"), for its ROOM-K rows ("rows":
+          {"o4"|"kmap"|"kmac": {"label": ..}}, as v85_verdict writes them): GF4, GF, K~mac on that row's units,
+          starts and seeds.
 Worker (§13.3): longest-first dynamic claiming (an atomic claim file per job; a dead worker's claim is taken
 over); before each start, under a shared lock: >= 14.5 GB free on min(RAM, commit), >= 2 min since the last
 start by any worker, >= 25 min since the last TERMINATE (a job exit code 3, the supervisor's
@@ -45,7 +47,6 @@ SMOKE_ARMS = ("v2s", "d", "o4", "o4_dice", "kmap", "kmac", "kmac_exact", "gf4", 
 V2S_SEEDS = {"A": (9806, 9807, 9808), "B": (9809, 9810, 9811)}
 G1_SEED0 = {"A": 9812, "B": 9815}
 CAPTION_SEED = 9818
-ROW_ARM = {"O_4": "o4", "K*map": "kmap", "K*mac": "kmac"}
 PLACEBO = {"o4": "gf4", "kmap": "gf", "kmac": "kmac_tilde"}
 ARM_COST = {"o4": 5.0, "o4_dice": 5.0, "o1": 2.0, "d": 0.2}     # emulated frames per billed frame, roughly
 
@@ -117,7 +118,8 @@ def jobs(stage, U=None):
     if f1 is None:
         raise SystemExit("no f1_thresholds.json: G1 launches only after F1 (§6)")
     kgs, n = f1.get("K_gs", {}), int(f1["n"])
-    keep = lambda g, s: _valid(starts, g, s) and len(kgs.get(g, {}).get(s, starts["units"][g]["K_g"])) >= 2  # noqa: E731
+    n_o4 = int(f1.get("n_O4") or n)
+    keep = lambda g, s: _valid(starts, g, s) and len(kgs.get(g, {}).get(s, [])) >= 2       # noqa: E731  A.10.4
     if stage == "g1":
         out = []
         for g in f1["units"]:
@@ -129,7 +131,8 @@ def jobs(stage, U=None):
                 for arm in ("o4", "kmap", "kmac"):
                     if arm == "kmac" and not _valid(starts, g, "B" if s == "A" else "A"):
                         continue
-                    out += [_job(V85 / "g1", g, s, arm, G1_SEED0[s] + i, c) for i in range(n // 2)]
+                    m = n_o4 if arm == "o4" else n
+                    out += [_job(V85 / "g1", g, s, arm, G1_SEED0[s] + i, c) for i in range(m // 2)]
                 if s == ("B" if pos % 2 else "A"):
                     out.append(_job(V85 / "g1", g, s, "o4_dice", CAPTION_SEED, c, tier=1))
                 out.append(_job(V85 / "g1", g, s, "kmac_exact", CAPTION_SEED, c, tier=1))   # own lineage only
@@ -138,7 +141,9 @@ def jobs(stage, U=None):
         v = _load(V85 / "g1" / "g1_verdict.json")
         if v is None:
             raise SystemExit("no g1/g1_verdict.json")
-        room = [ROW_ARM[r] for r, lab in v["rows"].items() if str(lab).startswith("ROOM")]
+        if v.get("G1") != "ROOM":
+            raise SystemExit(f"G1 is {v.get('G1')!r}: G1-P runs only after a ROOM verdict (§7.2)")
+        room = [r for r, x in v["rows"].items() if isinstance(x, dict) and x.get("label") == "ROOM-K"]
         out = []
         for j in jobs("g1"):
             g, s, arm, seed = _parse(j.name)

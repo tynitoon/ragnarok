@@ -18,7 +18,9 @@
 (d) dice_g4.json: per segment p = share of expansions between M1 and M_{k_ref} that raised archive-best S,
     G_4 = mean over segments of (1 - (1 - p)^4) / p.
 (e) stalls.json (report only, §11 v86): plateaus of >= 1M billed frames without a new best record in the G1b runs.
-(f) seed_grep.json: the block 9800-9899 in the project .py files of every git worktree.
+(f) seed_grep.json: the block 9800-9899 in the project .py files of every git worktree (uncommitted files
+    included) and in the committed .py files of every local git branch (finished worktrees are removed, their
+    branches remain).
 Also starts.json (the layout scripts/v85_job.py loads), rungs.json and s0.json (labels). Every JSON carries the
 commit, dirty flag, closure hash, input hashes, claim_header and senses (A.15).
 
@@ -45,7 +47,10 @@ Choices where the text leaves room (each listed in the build result):
   the next record or at the run's end ("open"); its state is that record's lineage (rec_offsets / rec_actions).
 - (f) worktrees from `git worktree list`; .git, __pycache__, node_modules, site-packages and virtual environments
   skipped; a hit is 98dd not inside a longer number, word or decimal. Hits in this worktree's own v85 files
-  (path containing "v85") are owned; any other hit is foreign; PASS iff no foreign hit.
+  (path containing "v85") are owned; any other hit is foreign; PASS iff no foreign hit. Branches: `git grep`
+  over every refs/heads/* (*.py), each hit re-checked with the same pattern; a hit is owned only on this
+  worktree's own branch in a v85 path (other branches' copies of v85 files are foreign: reviewed by hand).
+- (d) dice_g4.json also gives "per_unit" {game: {start: G_4}} for the verdict's O_4-dice caption.
 """
 import argparse
 import hashlib
@@ -59,9 +64,9 @@ import subprocess
 import sys
 import time
 
-import numpy as np
+os.environ.setdefault("OMP_NUM_THREADS", "2")       # before numpy: BLAS reads it when it loads (§13.2)
+import numpy as np                                     # noqa: E402
 
-os.environ.setdefault("OMP_NUM_THREADS", "2")
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -268,9 +273,9 @@ def natural_cells(units, kept):
     return cells
 
 
-def p_room_x2(cells, units, sims, B):
+def p_room_x2(cells, units, sims, B, seed=calib.SEED_SIM):
     return float(calib.p_room_x2(cells, units, n=SPIKE["n"], tau=SPIKE["tau"], tau_pt=SPIKE["tau_pt"],
-                                 tau_lb=SPIKE["tau_lb"], sims=sims, B=B))
+                                 tau_lb=SPIKE["tau_lb"], sims=sims, B=B, seed=seed))
 
 
 def choose_U(kept, p_fn):
@@ -329,9 +334,34 @@ def _py_files(root):
                 yield pathlib.Path(dp) / f
 
 
-def seed_grep(roots=None, own=ROOT):
-    """(f): the seed block 9800-9899 in the project .py files of every worktree."""
+def _git(args, cwd):
+    return subprocess.run(["git", *args], cwd=str(cwd), capture_output=True, timeout=300)
+
+
+def branch_grep(repo):
+    """(f) committed side: [(branch, path, line, text)] of the seed block in the *.py files of every local branch."""
+    r = _git(["for-each-ref", "--format=%(refname:short)", "refs/heads"], repo)
+    if r.returncode != 0:
+        raise RuntimeError(f"git for-each-ref failed in {repo}: {r.stderr.decode(errors='replace')}")
+    hits = []
+    for br in r.stdout.decode().split():
+        g = _git(["grep", "-I", "-n", "-E", r"(^|[^0-9A-Za-z.])98[0-9]{2}([^0-9A-Za-z]|$)", br, "--", "*.py"], repo)
+        if g.returncode not in (0, 1):
+            raise RuntimeError(f"git grep failed on {br}: {g.stderr.decode(errors='replace')}")
+        for ln in g.stdout.splitlines():
+            ref, path, num, text = ln.split(b":", 3)
+            if SEED_RE.search(text):
+                hits.append((br, path.decode("utf-8", "replace"), int(num),
+                             text.decode("utf-8", "replace").strip()[:160]))
+    return hits
+
+
+def seed_grep(roots=None, own=ROOT, repo="auto"):
+    """(f): the seed block 9800-9899 in the project .py files of every worktree and, through `repo`, of every
+    local branch (repo "auto": ROOT when the worktrees are listed from git, none for explicit roots)."""
     own = pathlib.Path(own).resolve()
+    if repo == "auto":
+        repo = ROOT if roots is None else None
     rep, n_foreign = [], 0
     for root in (roots or worktrees()):
         root = pathlib.Path(root).resolve()
@@ -353,14 +383,26 @@ def seed_grep(roots=None, own=ROOT):
             foreign.append(dict(path=rel, lines=lines))
         n_foreign += len(foreign)
         rep.append(dict(root=str(root), files_scanned=n, owned=owned, foreign=foreign))
+    branches = None
+    if repo is not None:
+        cur = _git(["rev-parse", "--abbrev-ref", "HEAD"], own).stdout.decode().strip()
+        owned_b, foreign_b = {}, {}
+        for br, path, num, text in branch_grep(repo):
+            d = owned_b if (br == cur and "v85" in path.lower()) else foreign_b
+            d.setdefault(f"{br}:{path}", []).append([num, text])
+        branches = dict(repo=str(pathlib.Path(repo).resolve()), current=cur, owned=sorted(owned_b),
+                        foreign=[dict(path=k, lines=v) for k, v in sorted(foreign_b.items())])
+        n_foreign += len(foreign_b)
     return dict(rule="docs/ARC4_V85_PROTOCOL_EN.md A.10.1(f), §3, §12: seed block 9800-9899",
-                pattern=SEED_RE.pattern.decode(), worktrees=rep, foreign_files=n_foreign, PASS=n_foreign == 0)
+                pattern=SEED_RE.pattern.decode(), worktrees=rep, branches=branches, foreign_files=n_foreign,
+                PASS=n_foreign == 0)
 
 
 # ---------------------------------------------------------------- the stage
 def run(out=OUT, units=None, sims=calib.SIMS, B=calib.B_CAL, seeds=s0lib.ENTRY_SEEDS, v84=s0lib.V84, grep_roots=None,
-        log=print):
-    """S0: (a) for the asked units (all 16 by default) not yet done, then (b)-(f) and the JSONs over every unit done."""
+        log=print, sim_seed=calib.SEED_SIM, grep_repo="auto"):
+    """S0: (a) for the asked units (all 16 by default) not yet done, then (b)-(f) and the JSONs over every unit done.
+    sim_seed: the spike-in simulations' [seed, b] (9802, §12; 9800 in tests)."""
     out = pathlib.Path(out)
     elig = s0lib.eligible_units(v84)
     draw = s0lib.unit_order(elig)
@@ -413,13 +455,15 @@ def run(out=OUT, units=None, sims=calib.SIMS, B=calib.B_CAL, seeds=s0lib.ENTRY_S
     csha = _sha(json.dumps({f"{g}/{s}": a.tolist() for (g, s), a in sorted(cells.items())}).encode())
     prev = out / "natural_spikeins.json"
     old = json.load(open(prev, encoding="utf-8")) if prev.exists() else None
-    if old and old.get("cells_sha256") == csha and old.get("sims") == sims and old.get("B") == B and old.get("table"):
+    if (old and old.get("cells_sha256") == csha and old.get("sims") == sims and old.get("B") == B
+            and old.get("sim_seed", calib.SEED_SIM) == sim_seed and old.get("table")):
         U, qual, table = old["U_partial"], old["qualified"], old["table"]
     else:
-        U, qual, table = choose_U(kept, lambda us: p_room_x2(cells, us, sims, B))
+        U, qual, table = choose_U(kept, lambda us: p_room_x2(cells, us, sims, B, sim_seed))
     first = kept[:U] if U else []
     ck.write_json(prev, _out(dict(rule="docs/ARC4_V85_PROTOCOL_EN.md A.10.1(c), A.2", **SPIKE, sims=sims, B=B,
-                                  seeds="[9802, b] (scripts/v85_calib.simulate)", target=P_TARGET,
+                                  seeds=f"[{sim_seed}, b] (scripts/v85_calib.simulate)", sim_seed=sim_seed,
+                                  target=P_TARGET,
                                   candidates=list(U_CANDIDATES), cells={f"{g}/{s}": a.tolist() for (g, s), a in
                                                                         sorted(cells.items())},
                                   cells_sha256=csha, table=table, U=U if complete else None, U_partial=U,
@@ -449,7 +493,9 @@ def run(out=OUT, units=None, sims=calib.SIMS, B=calib.B_CAL, seeds=s0lib.ENTRY_S
     ck.write_json(out / "dice_g4.json", _out(dict(
         rule="docs/ARC4_V85_PROTOCOL_EN.md A.10.1(d): G_4 = mean over segments of (1 - (1 - p)^4) / p",
         segments=segs, G4=g4(lambda s: s["first_U"]), G4_all_kept=g4(lambda s: True),
-        G4_dice_starts=g4(lambda s: s["dice"]), **base), uin + [x for g in kept for x in ref_inputs(g, v84)]))
+        G4_dice_starts=g4(lambda s: s["dice"]),
+        per_unit={g: {s["start"]: s["G4"] for s in segs if s["game"] == g} for g in kept},
+        **base), uin + [x for g in kept for x in ref_inputs(g, v84)]))
 
     # (e) stall inventory (report only)
     rows, runs, sin = stall_inventory(v84, set(elig))
@@ -458,7 +504,7 @@ def run(out=OUT, units=None, sims=calib.SIMS, B=calib.B_CAL, seeds=s0lib.ENTRY_S
         min_len=STALL_MIN, n=len(rows), plateaus=rows, runs=runs, **base), sin))
 
     # (f) seed grep
-    grep = seed_grep(grep_roots)
+    grep = seed_grep(grep_roots, repo=grep_repo)
     ck.write_json(out / "seed_grep.json", _out(grep, []))
 
     files = {f: _sha((out / f).read_bytes()) for f in ("starts.json", "rungs.json", "natural_spikeins.json",

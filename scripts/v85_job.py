@@ -3,6 +3,7 @@ Evaluator side. Never edited after the I-stage launch: new arms are new files in
 
   python scripts/v85_job.py UNIT START ARM SEED [--out OUT] [--v85 DIR] [--ckpt-s S] [--keep-ckpt]
   python scripts/v85_job.py breakout A v2s 9800 --smoke DIR [--cap N] [--out OUT] [--ckpt-s S]
+  python scripts/v85_job.py UNIT START ARM SEED --closure-only [--v85 DIR]   # the built run's closure, no run
 
 Run (A.5): SenseEnv85(g, seed=E_s, trace=Trace85(stop_at=M_{k_ref})); start_from(s1): reset, one NOOP, restore
 s1 (billed 60), cum = S(s1), clock start; cap = clock start + 4M billed; the start's cached Body (SHA-256
@@ -18,7 +19,9 @@ Start data (written by scripts/v85_stage0.py; `build_smoke` below writes the sam
   START = {"valid": bool, "E": int, "s1": file (relative to s0/) of the pickled s1 dict of start_v85.top_lineage,
            "s1_sha256": SHA-256 of that file, "entry": {"path": Body pickle (relative to s0/), "sha256", "entry_frames"}}
   <v85>/f1_thresholds.json, if present: {"units": [...], "K_gs": {game: {"A": [...], "B": [...]}}} gives the run's
-  rungs K_{g,s} (A.10.4); otherwise rungs = K_g. k_first = min(rungs); k_ref = max(K_g), the evaluator stop (A.4).
+  rungs K_{g,s} (A.10.4); otherwise rungs = K_g. A start that F1 dropped (its unit in K_gs, the start absent)
+  refuses every arm but V2s and D (certificate reruns, which keep the I-stage rungs K_g). k_first = min(rungs);
+  k_ref = max(K_g), the evaluator stop (A.4).
 
 Run JSON (shared schema): game, start, arm, seed, cap, k_ref, ladder, S1, rungs, records [[billed since clock, cum,
 true, depth, oracle frames since clock]], T and T_total for every ladder rung k >= 1 (null if missed), replay
@@ -27,7 +30,9 @@ the run's rungs and, if higher, of K_g), replayed by Trace85.replay85 on a fresh
 restore s1, the lineage's actions); ok = cum equal exactly, else interruption = true. Then summary (explorer),
 instrument (arm captions), entry, oracle_frames, wall_s, peak_ws_mb, peak_commit_mb, claim_header, senses,
 provenance (commit, dirty, closure hash §13.4, input SHA-256s, one segment per process with its launch stamp and
-whether its closure agrees with the final one, checkpoint stats); extras E, k_first, rungs_source, billed,
+whether its closure agrees with the final one, checkpoint stats; closure_consistent = every segment's closure
+agrees and no foreign module: the code identity is the closure (§13.4), so a commit elsewhere in the tree during
+the run changes only the recorded commits, never closure_consistent); extras E, k_first, rungs_source, billed,
 stopped, s1_sha256, aborted (null, or the message of an exception listed in the arm's ABORTS: the run then
 ends there and is written, never retried), and exp = {n, meta_sha256, feat_sha256}: the explorer's exp_meta (N x 8, float64) and
 exp_feat (N x 44, float32), kept for the comparator certificate of §13.4, are written to the sidecar `<OUT>.npz`
@@ -48,9 +53,9 @@ import pickle
 import sys
 import time
 
-import numpy as np
+os.environ.setdefault("OMP_NUM_THREADS", "2")      # before numpy (BLAS reads it when it loads): ~0.4 GB of commit
+import numpy as np                                  # noqa: E402  otherwise (§13.2)
 
-os.environ.setdefault("OMP_NUM_THREADS", "2")      # BLAS thread buffers: ~0.4 GB of commit otherwise (§13.2)
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ragnarok.agent_v84.explorer2 import N_EXP_FEAT                        # noqa: E402
@@ -135,9 +140,10 @@ def _first(recs, m):
 
 
 def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.0, smoke=False, keep_ckpt=False,
-        observe=None):
+        observe=None, closure_only=False):
     """One run; returns the run JSON dict. `observe(d)` (tests, diagnostics) sees the built run before it starts
-    and must not change it."""
+    and must not change it. closure_only: build the run exactly (start, Body, arm hooks, explorer), then return
+    its closure (§13.4) without running, reading or writing any run file (F1 closure hashes per arm type)."""
     t0 = time.time()
     v85 = pathlib.Path(v85)
     s0 = pathlib.Path(s0) if s0 else v85 / "s0"
@@ -147,7 +153,7 @@ def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.
     else:
         assert cap == CAP, "cap = 4M billed frames from s1 (§5); smaller caps are for smoke runs only"
     out = pathlib.Path(out) if out else v85 / "runs" / f"{game}_{start}_{arm}_{seed}.json"
-    if out.exists():
+    if out.exists() and not closure_only:
         return json.load(open(out, encoding="utf-8"))
     S = Starts(s0)
     u, me = S.unit(game), S.start(game, start)
@@ -159,10 +165,12 @@ def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.
         raise SystemExit(f"{game}: fewer than 2 counted rungs (A.4)")
     f1p = v85 / "f1_thresholds.json"
     f1 = json.load(open(f1p, encoding="utf-8")) if f1p.exists() else None
-    if f1 is not None and game in f1.get("K_gs", {}):
+    if f1 is not None and game in f1.get("K_gs", {}) and start in f1["K_gs"][game]:
         rungs, src = sorted(int(k) for k in f1["K_gs"][game][start]), "f1"
+    elif f1 is not None and game in f1.get("K_gs", {}) and arm not in ("v2s", "d"):
+        raise SystemExit(f"{game} {start}: (g, s) dropped by the F1 cross-fit (A.10.4): no {arm} run")
     else:
-        rungs, src = K_g, "s0"
+        rungs, src = K_g, "s0"                 # before F1, a unit outside F1, or a V2s / D (certificate) rerun
     k_first, k_ref, E = min(rungs), max(K_g), int(me["E"])
     s1, other_s1 = S.load_s1(game, start), S.load_s1(game, other)
     inputs = [S.path, S.file(me["s1"]), S.file(me["entry"]["path"])]
@@ -171,7 +179,7 @@ def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.
     key = dict(game=game, start=start, arm=arm, seed=seed, E=E, cap=int(cap), s1_sha256=me["s1_sha256"],
                body_sha256=me["entry"]["sha256"], rungs=rungs, k_ref=k_ref)
     ck_path = out.with_suffix(".ckpt")
-    st = ck.load(ck_path, key)
+    st = None if closure_only else ck.load(ck_path, key)
     prior = st["meta"] if st is not None else dict(segments=[], wall_s=0.0, peak_ws_mb=0.0, peak_commit_mb=0.0)
     seg = dict(stamp=stamp((), cwd=str(ROOT), paths=PATHS), resumed_at_exp=None if st is None else st["exp"],
                closure_pairs=None)
@@ -193,6 +201,10 @@ def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.
     ex = make(body, budget=cap, seed=seed, steer=hooks["steer"], q5=hooks["q5"], chooser=hooks["chooser"],
               boundary=cp, **hooks["kwargs"])
     objs = arms_v85.stateful(hooks)
+    if closure_only:
+        h, pairs, foreign = ck.closure_hash(ROOT, [JOB])
+        return dict(game=game, start=start, arm=arm, seed=seed, rungs=rungs, rungs_source=src, closure_hash=h,
+                    closure_files=pairs, closure_foreign=foreign)
 
     def meta():
         seg["closure_pairs"] = ck.closure_hash(ROOT, [JOB])[1]
@@ -251,8 +263,7 @@ def run(game, start, arm, seed, out=None, v85=V85, s0=None, cap=CAP, ckpt_s=300.
     seg_out[-1]["closure_agrees"] = True
     prov = dict(commit=end["code_sha"], dirty=bool(end["dirty"] or any(s["dirty"] for s in seg_out)),
                 closure_hash=h, closure_files=pairs, closure_foreign=foreign,
-                closure_consistent=bool(all(s["closure_agrees"] for s in seg_out)
-                                        and all(s["code_sha"] == end["code_sha"] for s in seg_out) and not foreign),
+                closure_consistent=bool(all(s["closure_agrees"] for s in seg_out) and not foreign),
                 code_tree=end["code_tree"], inputs=end["inputs"], segments=seg_out, ckpt=cp.stats(),
                 launched=segs[0]["stamp"]["launched"], ended=end["launched"], python=sys.version.split()[0],
                 hashseed=os.environ.get("PYTHONHASHSEED"))
@@ -284,7 +295,14 @@ def main(argv=None):
     ap.add_argument("--keep-ckpt", action="store_true")
     ap.add_argument("--smoke", metavar="DIR", help="smoke run on seed 9800 from a start built in DIR")
     ap.add_argument("--cap", type=int, default=CAP, help="smoke runs only")
+    ap.add_argument("--closure-only", action="store_true", help="print the built run's closure hash; no run")
     a = ap.parse_args(argv)
+    if a.closure_only:
+        kw = dict(v85=a.smoke, s0=a.smoke, cap=a.cap, smoke=True) if a.smoke else dict(v85=a.v85)
+        if a.smoke:
+            build_smoke(a.smoke, a.unit)
+        print(json.dumps(run(a.unit, a.start, a.arm, a.seed, out=a.out, closure_only=True, **kw)))
+        return
     if a.smoke:
         d = build_smoke(a.smoke, a.unit)
         out = a.out or str(d / f"{a.unit}_{a.start}_{a.arm}_{a.seed}.json")

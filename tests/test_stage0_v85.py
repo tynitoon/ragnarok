@@ -3,7 +3,6 @@
 2 units, both starts, from the cached files. Seed 9800 only (§12): entry and emulator seeds 9800 at both starts,
 spike-in simulations forced to [9800, b], few simulations.
 """
-import functools
 import json
 import pathlib
 
@@ -12,7 +11,6 @@ import pytest
 
 from ragnarok.evaluation import start_v85 as s0lib
 from ragnarok.evaluation.oracle_v85 import d_script
-from scripts import v85_calib as C
 from scripts import v85_job as J
 from scripts import v85_stage0 as S0
 
@@ -90,6 +88,36 @@ def test_seed_grep(tmp_path):
     assert S0.seed_grep([r], own=tmp_path / "other")["foreign_files"] == 3      # v85 files elsewhere are foreign
 
 
+def test_seed_grep_covers_every_local_branch(tmp_path):
+    """K5: a finished worktree is removed but its branch remains: the grep reads committed .py files of every
+    local branch, beside the worktree scan (uncommitted files)."""
+    import subprocess
+    r = tmp_path / "repo"
+    r.mkdir()
+    git = lambda *a: subprocess.run(["git", *a], cwd=r, check=True, capture_output=True)   # noqa: E731
+    git("init", "-q")
+    git("symbolic-ref", "HEAD", "refs/heads/arc4-v85")
+    git("config", "user.email", "t@t")
+    git("config", "user.name", "t")
+    (r / "v85_mine.py").write_text("SEED = 9812\n", encoding="utf-8")
+    git("add", ".")
+    git("commit", "-q", "-m", "a")
+    git("checkout", "-q", "-b", "arc4-old")
+    (r / "old_arc.py").write_text("x = 1\nseed = 9851  # an old arc\n", encoding="utf-8")
+    (r / "v85_copy.py").write_text("s = 9806\n", encoding="utf-8")
+    git("add", ".")
+    git("commit", "-q", "-m", "b")
+    git("checkout", "-q", "arc4-v85")                                  # old_arc.py is not in the working tree
+    g = S0.seed_grep([r], own=r, repo=r)
+    assert g["worktrees"][0]["foreign"] == [] and g["worktrees"][0]["owned"] == ["v85_mine.py"]
+    b = g["branches"]
+    assert b["current"] == "arc4-v85" and b["owned"] == ["arc4-v85:v85_mine.py"]
+    assert {f["path"] for f in b["foreign"]} == {"arc4-old:old_arc.py", "arc4-old:v85_copy.py", "arc4-old:v85_mine.py"}
+    assert next(f for f in b["foreign"] if f["path"] == "arc4-old:old_arc.py")["lines"] == [[2, "seed = 9851  # an old arc"]]
+    assert g["foreign_files"] == 3 and not g["PASS"]
+    assert S0.seed_grep([r], own=r)["branches"] is None                # explicit roots: no branch scan by default
+
+
 @pytest.fixture(scope="module")
 def s0(tmp_path_factory):
     if not HAVE_V84:
@@ -97,13 +125,11 @@ def s0(tmp_path_factory):
     out = tmp_path_factory.mktemp("s0")
     grep_root = tmp_path_factory.mktemp("grep")
     (grep_root / "x.py").write_text("y = 2\n", encoding="utf-8")
-    with pytest.MonkeyPatch.context() as mp:
-        mp.setattr(C, "simulate", functools.partial(C.simulate, seed=SEED))
-        summ = S0.run(out, units=list(UNITS), sims=8, B=40, seeds=TEST_SEEDS, grep_roots=[grep_root],
-                      log=lambda s: None)
-        first = {k: _load(out, k)[x] for k, x in (("starts.json", "units"), ("natural_spikeins.json", "table"))}
-        again = S0.run(out, units=list(UNITS), sims=8, B=40, seeds=TEST_SEEDS, grep_roots=[grep_root],
-                       log=lambda s: None)
+    summ = S0.run(out, units=list(UNITS), sims=8, B=40, seeds=TEST_SEEDS, grep_roots=[grep_root],
+                  log=lambda s: None, sim_seed=SEED)                       # spike-ins on [9800, b]: no monkeypatch
+    first = {k: _load(out, k)[x] for k, x in (("starts.json", "units"), ("natural_spikeins.json", "table"))}
+    again = S0.run(out, units=list(UNITS), sims=8, B=40, seeds=TEST_SEEDS, grep_roots=[grep_root],
+                   log=lambda s: None, sim_seed=SEED)
     return out, summ, dict(again, first=first)
 
 
