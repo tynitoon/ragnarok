@@ -1,0 +1,56 @@
+{
+ "order": [
+  "breakout"
+ ],
+ "units": {
+  "breakout": {
+   "k_star": 8,
+   "ladder": [
+    3.3000000000000003,
+    4.4,
+    6.6000000000000005,
+    11.0,
+    19.8,
+    37.400000000000006,
+    72.60000000000001,
+    143.0,
+    283.8,
+    565.4000000000001,
+    1128.6000000000001
+   ],
+   "K_g": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "A": {
+    "valid": true,
+    "E": 9800,
+    "s1": "breakout_A_s1.pkl",
+    "s1_sha256": "4c0a1a27fc03e25f88efee76f2a08977c04f7e5b398955b89d0554ced3db3929",
+    "entry": {
+     "path": "breakout_9800_body.pkl",
+     "sha256": "1c765e387f247048f24984bfb5b1835488ae6e32b2d3736e2e4800645ad312d1",
+     "entry_frames": 88652
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9800,
+    "s1": "breakout_B_s1.pkl",
+    "s1_sha256": "cb530ddb745ff3760d1292f8dda72a6588b713e94fa2e7711a3577ebad3e83c9",
+    "entry": {
+     "path": "breakout_9800_body.pkl",
+     "sha256": "1c765e387f247048f24984bfb5b1835488ae6e32b2d3736e2e4800645ad312d1",
+     "entry_frames": 88652
+    }
+   }
+  }
+ },
+ "smoke": true,
+ "seed": 9800
+}

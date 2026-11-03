@@ -1,0 +1,417 @@
+{
+ "game": "pong",
+ "start": "A",
+ "arm": "o4",
+ "seed": 9800,
+ "cap": 500000,
+ "k_ref": 4,
+ "ladder": [
+  1.3,
+  2.3,
+  4.3,
+  8.3,
+  16.3,
+  32.3,
+  64.3,
+  128.3,
+  256.3,
+  512.3,
+  1024.3
+ ],
+ "S1": 3.0,
+ "rungs": [
+  2,
+  3,
+  4
+ ],
+ "records": [
+  [
+   0,
+   3.0,
+   3.0,
+   0,
+   0
+  ],
+  [
+   37512,
+   4.0,
+   4.0,
+   96,
+   152680
+  ],
+  [
+   73604,
+   5.0,
+   5.0,
+   191,
+   298000
+  ],
+  [
+   73984,
+   6.0,
+   6.0,
+   286,
+   298000
+  ],
+  [
+   80824,
+   7.0,
+   3.0,
+   521,
+   326000
+  ],
+  [
+   82592,
+   8.0,
+   3.0,
+   650,
+   331720
+  ],
+  [
+   214812,
+   9.0,
+   3.0,
+   780,
+   861000
+  ],
+  [
+   221012,
+   10.0,
+   3.0,
+   911,
+   885520
+  ],
+  [
+   229940,
+   11.0,
+   2.0,
+   1078,
+   920480
+  ],
+  [
+   237212,
+   12.0,
+   2.0,
+   1207,
+   950320
+  ],
+  [
+   257764,
+   13.0,
+   3.0,
+   1302,
+   1031880
+  ],
+  [
+   269592,
+   14.0,
+   3.0,
+   1433,
+   1077880
+  ],
+  [
+   368816,
+   15.0,
+   2.0,
+   1600,
+   1476480
+  ],
+  [
+   385468,
+   16.0,
+   2.0,
+   1730,
+   1543120
+  ],
+  [
+   394836,
+   17.0,
+   2.0,
+   1860,
+   1580320
+  ]
+ ],
+ "T": {
+  "1": 0,
+  "2": 73604,
+  "3": 214812,
+  "4": 394836,
+  "5": null,
+  "6": null,
+  "7": null,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "T_total": {
+  "1": 0,
+  "2": 371604,
+  "3": 1075812,
+  "4": 1975156,
+  "5": null,
+  "6": null,
+  "7": null,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "replay": [
+  {
+   "k": 2,
+   "ok": true,
+   "replayed": [
+    5.0,
+    5.0,
+    191
+   ],
+   "recorded": [
+    5.0,
+    5.0,
+    191
+   ]
+  },
+  {
+   "k": 4,
+   "ok": true,
+   "replayed": [
+    17.0,
+    2.0,
+    1860
+   ],
+   "recorded": [
+    17.0,
+    2.0,
+    1860
+   ]
+  }
+ ],
+ "interruption": false,
+ "summary": {
+  "expansions": 852,
+  "cells": 626,
+  "best_S": 17.0,
+  "evicted": 0,
+  "billed": 394836,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 0,
+  "probe_frames_after_entry": 0
+ },
+ "instrument": {
+  "m": 4,
+  "expansions": 853,
+  "o_ties": 0.5392731535756154,
+  "O_TIES": false,
+  "rank_corr": 0.3974093831898167,
+  "n_pairs": 852,
+  "oracle_frames": 1580320,
+  "winner_counts": [
+   579,
+   102,
+   85,
+   87
+  ]
+ },
+ "entry": {
+  "sha256": "8cd326f0b6e235318ba12a0a9cbe48180b11c22c7fc147c31720785fca5a496d",
+  "entry_frames": 113224
+ },
+ "oracle_frames": 1580320,
+ "wall_s": 686.5556118488312,
+ "peak_ws_mb": 113.1953125,
+ "peak_commit_mb": 185.61328125,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "commit": "0a5f6370307adb065efd848114829e6edee65a5b",
+  "dirty": false,
+  "closure_hash": "659551155afdcced8803fc6261988c08e2bfbcc7e4d1a8c817b5a6b9392460a0",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/explorer.py",
+    "3b87fccca13544b3e74f9b8b9ddbb360a9fdc483339aa4de0b546c3c7d5bb3ad"
+   ],
+   [
+    "ragnarok/agent_v83/logs.py",
+    "cfe84f39a62dcf37115152c43ab18938a76f9f79021c29bbc42081dd3932ee3a"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/agent_v83/views.py",
+    "021937daa253051fba4d61d52868184add7dace13e0e3e2d7d01316479d13bd1"
+   ],
+   [
+    "ragnarok/agent_v84/__init__.py",
+    "a29734aa62795bd6f6af9640017adb583c6c0c4bc7f39576e5782c0cb0ae6b6e"
+   ],
+   [
+    "ragnarok/agent_v84/explorer2.py",
+    "6c072f062c9fcce90d47082020ccadd2db5ba8ba00029d60f3538ab194870230"
+   ],
+   [
+    "ragnarok/agent_v84/framecode.py",
+    "f8915688e4b9b1db7a56482cb7805359ff38105f04f8ee34ee5364df6edec0b1"
+   ],
+   [
+    "ragnarok/agent_v84/rowlog.py",
+    "00ef9cd4deabbee99d0b780ec9cf336d2fee45a101f8365aa7d028bb7dfcfc07"
+   ],
+   [
+    "ragnarok/agent_v85/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "ragnarok/agent_v85/explorer2s.py",
+    "70d8406a8d65135bb0d72ed3691f294867ec47a86a9f820ca218836f3bc60e33"
+   ],
+   [
+    "ragnarok/agent_v85/q5_v85.py",
+    "80c72711e478ae8340ac910798e3c3134c9a156d5be9849a3728baf24be8fa20"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/__init__.py",
+    "312233f98396ddb22f1ab032edfd73ff357e6f1dccf528e13fb4acac3a9d68d6"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/o4.py",
+    "6d29f653222a976d9d005104d4ea4fe5960fd30b4a5b52aec6b0ec2f6036c9b6"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/oracle_v85.py",
+    "418ae806f6f13e9efafdc970808ea6576994c0b864172bbf4a65aac24b7c1c08"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_job.py",
+    "6460f825ee9d04ac2d0daa3d39bf490e4272e514b5677380ed2347e5e76fbec3"
+   ]
+  ],
+  "closure_foreign": [],
+  "closure_consistent": true,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\pong\\starts.json": "390d5d2c440163d856d1bd041e9066768bde3e399d012cc24e8435326a892cf8",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\pong\\pong_A_s1.pkl": "e962e8dc46a20901b571029fb73b658e0824153ddd9991b1909551501275696f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\pong\\pong_9800_body.pkl": "8cd326f0b6e235318ba12a0a9cbe48180b11c22c7fc147c31720785fca5a496d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\pong\\pong_B_s1.pkl": "526a05f12f0469c4672e964596e9f420cacbc53c82637115b8c858a41c9c5719"
+  },
+  "segments": [
+   {
+    "code_sha": "0a5f6370307adb065efd848114829e6edee65a5b",
+    "dirty": false,
+    "launched": "2026-11-03 11:35:54",
+    "resumed_at_exp": null,
+    "closure_agrees": true
+   }
+  ],
+  "ckpt": {
+   "writes": 2,
+   "max_mb": 7.725,
+   "max_s": 0.299,
+   "every_s": 300.0,
+   "last_exp": 758
+  },
+  "launched": "2026-11-03 11:35:54",
+  "ended": "2026-11-03 11:47:20",
+  "python": "3.14.3",
+  "hashseed": "0"
+ },
+ "E": 9800,
+ "k_first": 2,
+ "rungs_source": "s0",
+ "billed": 394836,
+ "stopped": true,
+ "s1_sha256": "e962e8dc46a20901b571029fb73b658e0824153ddd9991b1909551501275696f",
+ "exp": {
+  "n": 852,
+  "meta_sha256": "b68640d8a9dee597c061a6571f1f821e124d19346a0d37e12a7a60f3050ab158",
+  "feat_sha256": "1a4a176757f31c8fc087af7fa34eae291a27acd6864f5493686c8e65e0f1c5f2"
+ },
+ "aborted": null
+}

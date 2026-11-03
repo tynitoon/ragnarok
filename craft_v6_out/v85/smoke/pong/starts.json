@@ -1,0 +1,52 @@
+{
+ "order": [
+  "pong"
+ ],
+ "units": {
+  "pong": {
+   "k_star": 4,
+   "ladder": [
+    1.3,
+    2.3,
+    4.3,
+    8.3,
+    16.3,
+    32.3,
+    64.3,
+    128.3,
+    256.3,
+    512.3,
+    1024.3
+   ],
+   "K_g": [
+    2,
+    3,
+    4
+   ],
+   "A": {
+    "valid": true,
+    "E": 9800,
+    "s1": "pong_A_s1.pkl",
+    "s1_sha256": "e962e8dc46a20901b571029fb73b658e0824153ddd9991b1909551501275696f",
+    "entry": {
+     "path": "pong_9800_body.pkl",
+     "sha256": "8cd326f0b6e235318ba12a0a9cbe48180b11c22c7fc147c31720785fca5a496d",
+     "entry_frames": 113224
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9800,
+    "s1": "pong_B_s1.pkl",
+    "s1_sha256": "526a05f12f0469c4672e964596e9f420cacbc53c82637115b8c858a41c9c5719",
+    "entry": {
+     "path": "pong_9800_body.pkl",
+     "sha256": "8cd326f0b6e235318ba12a0a9cbe48180b11c22c7fc147c31720785fca5a496d",
+     "entry_frames": 113224
+    }
+   }
+  }
+ },
+ "smoke": true,
+ "seed": 9800
+}
