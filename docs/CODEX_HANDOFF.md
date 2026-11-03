@@ -481,3 +481,11 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - Vérification indépendante en cours : workflow `wf_7b462b2f-1b5` (recalcul sans le code du verdict, audit du
   code, ampleur de l'artefact de restauration sur les 16 jeux, synthèse). Puis : document de résultat, et la
   décision de la suite avec Jérémie (le protocole arrête G1 ; la suite d'arc est à choisir).
+- Vérification indépendante terminée (`docs/ARC4_V85_ISTAGE_FIRST_PASS.md` dans v85, commit `f4bc6e4`) : aucun
+  bug de code ; l'étape I est une **Interruption** ; cause = **défaut d'ALE 0.12.1** : la restauration ne remet pas
+  les pointeurs de « masques d'objets » de la TIA, donc une restauration dépend de l'historique de l'émulateur
+  (yars : collision mortelle manquée, +46 924 points d'artefact). La ligne instrument échouerait de justesse
+  (t p = 0,010 ; la règle figée fait ~3 % de fausses alertes au lieu de 1 %).
+- Voie choisie (§10, modification 5) : correctif daté de la restauration, choisi sur l'exactitude seule (workflow
+  `wf_5ce33d42-fc7`), note 8 avant la reprise, puis **reprise complète de l'étape I** (96 V2s + 32 D, verdict
+  contraignant ; première passe gardée dans `istage_first_pass/`), confirmation de chaque palier compté atteint.
