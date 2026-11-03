@@ -317,3 +317,21 @@ launched with a 12.5 GB gate while Tavern is off. The RAM supervisor runs at `--
 --chigh 14` (Jérémie's 12 GB rule): when Tavern returns, it suspends Ragnarok processes below 12 GB, and workers
 are relaunched with the default gate. This changes only when jobs start, never what a job computes: runs are
 deterministic and resumable, and no result criterion depends on it.
+
+## 7. S0 result and seed-grep hand review (3 November 2026, 11:30, before any v85 live frame)
+
+S0 (`scripts/v85_stage0.py run`, code `26a3f4f`, clean tree, entry seeds 9819 / 9820) ran 11:12-11:29:
+complete; 16 units kept, every one with both starts valid; KC-start false; KC-floor false (median floor ratio 86.5,
+threshold 8); natural spike-ins at n = 4, tau = 0.2, 1.75 / 1.25: P(ROOM | x2) = 0.63 (U = 10), 0.66 (U = 12),
+0.80 (U = 16), so U = 16; G_4 = 3.91. Files and SHA-256 in `craft_v6_out/v85/s0/s0.json`, committed with this note.
+
+Seed grep (A.10.1(f)): `seed_grep.json` says PASS = false with 66 foreign hits. By the module's own rule, copies of
+v85 files on another branch are foreign and reviewed by hand. Hand review: all 66 hits are the same 33 files of
+v85's own items 12-13 (branch `arc4-v85-families` and its worktree `ragnarok_v85f`, written today with the v85
+seeds of §12); no other worktree and no other branch (master, v73-v84 archives) contains the block 9800-9899.
+The block is unused by any earlier work: the check passes on review. The file is kept as written.
+
+Correction to note 5: it was written at 11:10, not 07:00. With Tavern off, S0 was launched with an 8 GB gate and
+the supervisor runs at `--low 6 --high 8 --clow 6 --chigh 8`; a hidden switch (`supervisor_switch.py`, armed for
+5 November 06:00) restores the standard 12 / 14 before Tavern returns. The G-build smoke stage and the I-stage use
+`queue_v85.py --min-free 8` until then.

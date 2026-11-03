@@ -1,0 +1,525 @@
+{
+ "version": 1,
+ "game": "amidar",
+ "k_star": 6,
+ "ladder": [
+  46.5,
+  62.0,
+  93.0,
+  155.0,
+  279.0,
+  527.0,
+  1023.0,
+  2015.0,
+  3999.0,
+  7967.0,
+  15903.0
+ ],
+ "entry_seeds": {
+  "A": 9819,
+  "B": 9820
+ },
+ "K_g": [
+  4,
+  5,
+  6
+ ],
+ "k_first": 4,
+ "k_ref": 6,
+ "kept": true,
+ "drop": null,
+ "rule": {
+  "2": {
+   "M": 93.0,
+   "above_S1": true,
+   "gaps": [
+    4928,
+    2040
+   ],
+   "median_gap": 3484.0,
+   "gap_ok": false,
+   "record": [
+    25,
+    18
+   ],
+   "counted": false
+  },
+  "3": {
+   "M": 155.0,
+   "above_S1": true,
+   "gaps": [
+    30180,
+    28160
+   ],
+   "median_gap": 29170.0,
+   "gap_ok": false,
+   "record": [
+    44,
+    26
+   ],
+   "counted": false
+  },
+  "4": {
+   "M": 279.0,
+   "above_S1": true,
+   "gaps": [
+    51416,
+    61156
+   ],
+   "median_gap": 56286.0,
+   "gap_ok": true,
+   "record": [
+    57,
+    55
+   ],
+   "counted": true
+  },
+  "5": {
+   "M": 527.0,
+   "above_S1": true,
+   "gaps": [
+    294940,
+    158912
+   ],
+   "median_gap": 226926.0,
+   "gap_ok": true,
+   "record": [
+    85,
+    78
+   ],
+   "counted": true
+  },
+  "6": {
+   "M": 1023.0,
+   "above_S1": true,
+   "gaps": [
+    1104756,
+    455364
+   ],
+   "median_gap": 780060.0,
+   "gap_ok": true,
+   "record": [
+    107,
+    118
+   ],
+   "counted": true
+  }
+ },
+ "natural": {
+  "A": {
+   "1": 0,
+   "2": 4928,
+   "3": 30180,
+   "4": 51416,
+   "5": 294940,
+   "6": 1104756
+  },
+  "B": {
+   "1": 0,
+   "2": 2040,
+   "3": 28160,
+   "4": 61156,
+   "5": 158912,
+   "6": 455364
+  }
+ },
+ "A": {
+  "valid": true,
+  "E": 9819,
+  "s1": "s1/amidar_A_s1.pkl",
+  "s1_sha256": "46f7bdee51898aacb943fbbd869a786e449d7cf75e4655e29ff5cf3008ba441a",
+  "context": "after_step",
+  "record": 107,
+  "S1": 77.0,
+  "lives": 11,
+  "step": 280,
+  "steps_above": 3500,
+  "identity": {
+   "ok": true,
+   "all_steps_equal": true,
+   "rungs": {
+    "2": [
+     [
+      256,
+      94.0
+     ],
+     [
+      256,
+      94.0
+     ]
+    ],
+    "3": [
+     [
+      573,
+      183.0
+     ],
+     [
+      573,
+      183.0
+     ]
+    ],
+    "4": [
+     [
+      1076,
+      310.0
+     ],
+     [
+      1076,
+      310.0
+     ]
+    ],
+    "5": [
+     [
+      1941,
+      562.0
+     ],
+     [
+      1941,
+      562.0
+     ]
+    ],
+    "6": [
+     [
+      3499,
+      1066.0
+     ],
+     [
+      3499,
+      1066.0
+     ]
+    ]
+   }
+  },
+  "entry": {
+   "path": "entry/amidar_9819_body.pkl",
+   "sha256": "92b38b0510a2cd612a2c2694ffe6214871eda5de7b54c1791314d125ab3ff803",
+   "entry_frames": 120060
+  },
+  "entry_report": {
+   "entry_frames": 120060,
+   "warm_frames": 48000,
+   "adapter_frames": 55960,
+   "my_sizes": [
+    40.0,
+    35.0,
+    11.0,
+    34.0,
+    36.0
+   ],
+   "my_size": 35.0,
+   "lost_frac": 0.426,
+   "slots": {
+    "0,0,0": [
+     0
+    ],
+    "0,0,1": [
+     1
+    ],
+    "0,-1,0": [
+     2
+    ],
+    "1,0,0": [
+     3
+    ],
+    "priv0": [
+     4
+    ],
+    "0,1,1": [
+     5
+    ],
+    "0,-1,1": [
+     6
+    ],
+    "0,1,0": [
+     7
+    ],
+    "priv1": [
+     8
+    ],
+    "priv2": [
+     9
+    ]
+   },
+   "n_resp": 14
+  },
+  "body_loads": true,
+  "wall_s": 27.035523414611816,
+  "floor": {
+   "k_ref": 6,
+   "delta_depth": 3500,
+   "F": 14540,
+   "natural_gap": 1104756,
+   "ratio": 75.98046767537826
+  }
+ },
+ "B": {
+  "valid": true,
+  "E": 9820,
+  "s1": "s1/amidar_B_s1.pkl",
+  "s1_sha256": "222ebe0c2e13a44d6a9c285933e4e47eea7a5c6e0c1c67b74e9a8d9cc75c5037",
+  "context": "after_step",
+  "record": 118,
+  "S1": 72.0,
+  "lives": 10,
+  "step": 638,
+  "steps_above": 3398,
+  "identity": {
+   "ok": true,
+   "all_steps_equal": true,
+   "rungs": {
+    "2": [
+     [
+      136,
+      98.0
+     ],
+     [
+      136,
+      98.0
+     ]
+    ],
+    "3": [
+     [
+      546,
+      160.0
+     ],
+     [
+      546,
+      160.0
+     ]
+    ],
+    "4": [
+     [
+      1133,
+      311.0
+     ],
+     [
+      1133,
+      311.0
+     ]
+    ],
+    "5": [
+     [
+      1829,
+      528.0
+     ],
+     [
+      1829,
+      528.0
+     ]
+    ],
+    "6": [
+     [
+      3397,
+      1070.0
+     ],
+     [
+      3397,
+      1070.0
+     ]
+    ]
+   }
+  },
+  "entry": {
+   "path": "entry/amidar_9820_body.pkl",
+   "sha256": "3922b296850248e5bbd18d927b33ba0a47b7ace78b68dce3015359aeb0c93d2f",
+   "entry_frames": 123020
+  },
+  "entry_report": {
+   "entry_frames": 123020,
+   "warm_frames": 48000,
+   "adapter_frames": 58920,
+   "my_sizes": [
+    38.0,
+    35.0,
+    35.0,
+    35.0,
+    24.0
+   ],
+   "my_size": 35.0,
+   "lost_frac": 0.35133333333333333,
+   "slots": {
+    "0,0,0": [
+     0
+    ],
+    "0,0,1": [
+     1
+    ],
+    "0,-1,1": [
+     2
+    ],
+    "0,-1,0": [
+     3
+    ],
+    "priv0": [
+     4
+    ],
+    "0,1,0": [
+     5
+    ],
+    "priv2": [
+     6
+    ],
+    "1,0,0": [
+     7
+    ],
+    "priv1": [
+     8
+    ],
+    "0,1,1": [
+     9
+    ]
+   },
+   "n_resp": 18
+  },
+  "body_loads": true,
+  "wall_s": 25.851263284683228,
+  "floor": {
+   "k_ref": 6,
+   "delta_depth": 3398,
+   "F": 14132,
+   "natural_gap": 455364,
+   "ratio": 32.222190772714406
+  }
+ },
+ "ref_gap": 780060.0,
+ "g4": {
+  "A": {
+   "e_M1": 21,
+   "e_ref": 2474,
+   "n": 2453,
+   "raised": 32,
+   "p": 0.013045250713412148,
+   "G4": 3.922406989962157
+  },
+  "B": {
+   "e_M1": 33,
+   "e_ref": 1066,
+   "n": 1033,
+   "raised": 37,
+   "p": 0.03581800580832527,
+   "G4": 3.7901777313326726
+  }
+ },
+ "wall_s": 52.89259171485901,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "code_sha": "26a3f4ff4c5008502af2e9654df90fe555fe48f9",
+  "dirty": false,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "launched": "2026-11-03 11:25:55",
+  "launched_ts": 1793701555.2666893,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\bars\\amidar_9706.json": "4cbc241cddecd35654259c6b291ea17257a21e8c168802b3c462def8f2555bfa",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\amidar_9712.json": "43d62dfd1e4fb509850baeaa3545e6677f8583bdb656f82ee553e8c2611b2ddb",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\amidar_9712.npz": "e09b601f75146fe43679467ca6935cd0e855f88f60add9cc2d6eca4f3c10d5fe",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\amidar_9713.json": "b0ee9924f83bb0ff543e0db178851685b4d693eaaa8fcd828ec4aa27bcc0b7cc",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\amidar_9713.npz": "4bf94493f6bbca43455d9195f6aa498752435b5e343e45dae34dede75716650a"
+  },
+  "closure_hash": "6ed40c15af1d15de83ec0903531abc67d6f0776ce1132c16c24c8ec34534dac9",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/pools_v83.py",
+    "5173c37a9d084b6c54487a1d0e02058fda18b9098a58784fdd765537eec58c8d"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_calib.py",
+    "6967297256d34692b41ab469f84270e76e63474331314756a674adb087a8b2bd"
+   ],
+   [
+    "scripts/v85_stage0.py",
+    "9bf55736d55652b77dad5ba1d5a15927ebc612c1bbe006c305ad9656c9a9b951"
+   ],
+   [
+    "scripts/v85_verdict.py",
+    "ef6800a084b41f24f87058bdd269a35a0185994a43e252d64e5d5410d02f04bf"
+   ]
+  ],
+  "closure_foreign": []
+ }
+}

@@ -1,0 +1,1466 @@
+{
+ "rule": "docs/ARC4_V85_PROTOCOL_EN.md A.2-A.3",
+ "order": [
+  "wizard_of_wor",
+  "gopher",
+  "phoenix",
+  "bank_heist",
+  "zaxxon",
+  "up_n_down",
+  "yars_revenge",
+  "jamesbond",
+  "pooyan",
+  "qbert",
+  "chopper_command",
+  "alien",
+  "video_pinball",
+  "amidar",
+  "asterix",
+  "kung_fu_master"
+ ],
+ "kept": [
+  "wizard_of_wor",
+  "gopher",
+  "phoenix",
+  "bank_heist",
+  "zaxxon",
+  "up_n_down",
+  "yars_revenge",
+  "jamesbond",
+  "pooyan",
+  "qbert",
+  "chopper_command",
+  "alien",
+  "video_pinball",
+  "amidar",
+  "asterix",
+  "kung_fu_master"
+ ],
+ "units": {
+  "wizard_of_wor": {
+   "k_star": 7,
+   "ladder": [
+    930.0,
+    1240.0,
+    1860.0,
+    3100.0,
+    5580.0,
+    10540.0,
+    20460.0,
+    40300.0,
+    79980.0,
+    159340.0,
+    318060.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "k_first": 3,
+   "k_ref": 7,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/wizard_of_wor_A_s1.pkl",
+    "s1_sha256": "decedc3ba5f94c953e24ad7af97f0b353a9c874fc3e368acbfa79b6240a90834",
+    "context": "after_step",
+    "record": 72,
+    "S1": 1300.0,
+    "lives": 2,
+    "step": 1206,
+    "steps_above": 4061,
+    "entry": {
+     "path": "entry/wizard_of_wor_9819_body.pkl",
+     "sha256": "04c016867036c4f16216d656bab80082f0dc0f2b0e618609737fb8be0961a338",
+     "entry_frames": 124420
+    },
+    "body_loads": true,
+    "wall_s": 24.348570823669434,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 4061,
+     "F": 16904,
+     "natural_gap": 1348400,
+     "ratio": 79.7681022243256
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/wizard_of_wor_B_s1.pkl",
+    "s1_sha256": "d2fa8abeb0675ec6bc396f6815682488367c746e49e1532cee8c0614611c90c0",
+    "context": "after_step",
+    "record": 89,
+    "S1": 1300.0,
+    "lives": 2,
+    "step": 1210,
+    "steps_above": 4873,
+    "entry": {
+     "path": "entry/wizard_of_wor_9820_body.pkl",
+     "sha256": "caa82acb5b064bf3714876cda4d8feaf9d0c3c65ff492f611dc8949321fc05e5",
+     "entry_frames": 122200
+    },
+    "body_loads": true,
+    "wall_s": 25.450363397598267,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 4873,
+     "F": 20272,
+     "natural_gap": 977432,
+     "ratio": 48.21586424625099
+    }
+   },
+   "ref_gap": 1162916.0
+  },
+  "gopher": {
+   "k_star": 6,
+   "ladder": [
+    474.0,
+    632.0,
+    948.0,
+    1580.0,
+    2844.0,
+    5372.0,
+    10428.0,
+    20540.0,
+    40764.0,
+    81212.0,
+    162108.0
+   ],
+   "K_g": [
+    4,
+    5,
+    6
+   ],
+   "k_first": 4,
+   "k_ref": 6,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/gopher_A_s1.pkl",
+    "s1_sha256": "aa649b79584c8a8a6bcedf9f25591e2bc39e53db79bc1fe8c882f44900a3b993",
+    "context": "after_step",
+    "record": 354,
+    "S1": 660.0,
+    "lives": 3,
+    "step": 1028,
+    "steps_above": 5634,
+    "entry": {
+     "path": "entry/gopher_9819_body.pkl",
+     "sha256": "b2d11e323239036895d5b3ea469b3143b41f702cb4d1f5714802d1bdc7905176",
+     "entry_frames": 113020
+    },
+    "body_loads": true,
+    "wall_s": 22.808154344558716,
+    "floor": {
+     "k_ref": 6,
+     "delta_depth": 5634,
+     "F": 23436,
+     "natural_gap": 890588,
+     "ratio": 38.000853387950166
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/gopher_B_s1.pkl",
+    "s1_sha256": "e4eff2bd4964e76bdb66881a49dd5ac57fc83a63a489b4a8712c27f68c6606ad",
+    "context": "after_step",
+    "record": 393,
+    "S1": 640.0,
+    "lives": 2,
+    "step": 1021,
+    "steps_above": 5436,
+    "entry": {
+     "path": "entry/gopher_9820_body.pkl",
+     "sha256": "c6212a1822c1d5520afbef1ed129b260dc52faae691ed97cecb4402ebaebd5e4",
+     "entry_frames": 113020
+    },
+    "body_loads": true,
+    "wall_s": 22.821678161621094,
+    "floor": {
+     "k_ref": 6,
+     "delta_depth": 5436,
+     "F": 22584,
+     "natural_gap": 1277412,
+     "ratio": 56.56269925611052
+    }
+   },
+   "ref_gap": 1084000.0
+  },
+  "phoenix": {
+   "k_star": 5,
+   "ladder": [
+    888.0,
+    1184.0,
+    1776.0,
+    2960.0,
+    5328.0,
+    10064.0,
+    19536.0,
+    38480.0,
+    76368.0,
+    152144.0,
+    303696.0
+   ],
+   "K_g": [
+    4,
+    5
+   ],
+   "k_first": 4,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/phoenix_A_s1.pkl",
+    "s1_sha256": "7b2b89f0df84d9e946af8d33041f1ee1af335de8f6558b28f43c81d60305a4f2",
+    "context": "after_step",
+    "record": 84,
+    "S1": 1500.0,
+    "lives": 2,
+    "step": 689,
+    "steps_above": 2091,
+    "entry": {
+     "path": "entry/phoenix_9819_body.pkl",
+     "sha256": "948419016a61c302855b45c444172bdd9d753b9fc3a13eaed36e118f7cf78b71",
+     "entry_frames": 108028
+    },
+    "body_loads": true,
+    "wall_s": 19.67790460586548,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 2091,
+     "F": 8724,
+     "natural_gap": 798208,
+     "ratio": 91.4956441999083
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/phoenix_B_s1.pkl",
+    "s1_sha256": "2117b8e0113d6bcd3ea3f1131840dbfcecf992010047bbc223d2a26a1461b757",
+    "context": "after_step",
+    "record": 83,
+    "S1": 1230.0,
+    "lives": 2,
+    "step": 771,
+    "steps_above": 1963,
+    "entry": {
+     "path": "entry/phoenix_9820_body.pkl",
+     "sha256": "40fa69297261b7eb98b02a7c5b2225b63f2e4034f717514c2ae43dc4a3e6e76c",
+     "entry_frames": 106740
+    },
+    "body_loads": true,
+    "wall_s": 19.35875177383423,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 1963,
+     "F": 8152,
+     "natural_gap": 2622600,
+     "ratio": 321.71246319921494
+    }
+   },
+   "ref_gap": 1710404.0
+  },
+  "bank_heist": {
+   "k_star": 5,
+   "ladder": [
+    25.0,
+    35.0,
+    55.0,
+    95.0,
+    175.0,
+    335.0,
+    655.0,
+    1295.0,
+    2575.0,
+    5135.0,
+    10255.0
+   ],
+   "K_g": [
+    4,
+    5
+   ],
+   "k_first": 4,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/bank_heist_A_s1.pkl",
+    "s1_sha256": "bb91bb19e0b7037784a38dedf0078bfb059e1ce35727fcbc66a83fdf6bcdfe13",
+    "context": "after_step",
+    "record": 24,
+    "S1": 40.0,
+    "lives": 3,
+    "step": 293,
+    "steps_above": 598,
+    "entry": {
+     "path": "entry/bank_heist_9819_body.pkl",
+     "sha256": "4d9ddd1b2201a260e100a9077378345ccd86724475bb22e5e08aa72e930254f8",
+     "entry_frames": 160792
+    },
+    "body_loads": true,
+    "wall_s": 22.225863456726074,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 598,
+     "F": 2512,
+     "natural_gap": 1559152,
+     "ratio": 620.6815286624204
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/bank_heist_B_s1.pkl",
+    "s1_sha256": "99e11943b05f7a474ce8fee7f9b3d8865d58f50a70fe2037c183e5a80189c020",
+    "context": "after_step",
+    "record": 18,
+    "S1": 40.0,
+    "lives": 4,
+    "step": 493,
+    "steps_above": 748,
+    "entry": {
+     "path": "entry/bank_heist_9820_body.pkl",
+     "sha256": "3201499cf4fcb5a1caf28ca2d07575ffe84118b31def0c935057e24a01518fe9",
+     "entry_frames": 162076
+    },
+    "body_loads": true,
+    "wall_s": 22.841459035873413,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 748,
+     "F": 3112,
+     "natural_gap": 169000,
+     "ratio": 54.30591259640103
+    }
+   },
+   "ref_gap": 864076.0
+  },
+  "zaxxon": {
+   "k_star": 4,
+   "ladder": [
+    780.0,
+    1280.0,
+    2280.0,
+    4280.0,
+    8280.0,
+    16280.0,
+    32280.0,
+    64280.0,
+    128280.0,
+    256280.0,
+    512280.0
+   ],
+   "K_g": [
+    3,
+    4
+   ],
+   "k_first": 3,
+   "k_ref": 4,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/zaxxon_A_s1.pkl",
+    "s1_sha256": "92a226997095b20a4fcfbe1ce1d6f48e19ebe53e7eeccb0f1ef7a06578981ee5",
+    "context": "after_step",
+    "record": 32,
+    "S1": 1600.0,
+    "lives": 3,
+    "step": 893,
+    "steps_above": 1989,
+    "entry": {
+     "path": "entry/zaxxon_9819_body.pkl",
+     "sha256": "69d5ad7e3583a30ce4218c0befdaa18e07dcf5a56eabbeed9fb9249809aff1d5",
+     "entry_frames": 162076
+    },
+    "body_loads": true,
+    "wall_s": 27.375186920166016,
+    "floor": {
+     "k_ref": 4,
+     "delta_depth": 1989,
+     "F": 8256,
+     "natural_gap": 3288864,
+     "ratio": 398.36046511627904
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/zaxxon_B_s1.pkl",
+    "s1_sha256": "f1a63085df121225e23b336d8a060cc763f34eecc313f96945aa8d477b81509f",
+    "context": "after_step",
+    "record": 27,
+    "S1": 1400.0,
+    "lives": 5,
+    "step": 478,
+    "steps_above": 1643,
+    "entry": {
+     "path": "entry/zaxxon_9820_body.pkl",
+     "sha256": "488e6639634d0ff3546ba702aa2d3aecbbc71382296a607164edd99f6cf603d1",
+     "entry_frames": 163360
+    },
+    "body_loads": true,
+    "wall_s": 26.421427249908447,
+    "floor": {
+     "k_ref": 4,
+     "delta_depth": 1643,
+     "F": 6872,
+     "natural_gap": 469092,
+     "ratio": 68.26135040745052
+    }
+   },
+   "ref_gap": 1878978.0
+  },
+  "up_n_down": {
+   "k_star": 5,
+   "ladder": [
+    1647.0,
+    2196.0,
+    3294.0,
+    5490.0,
+    9882.0,
+    18666.0,
+    36234.0,
+    71370.0,
+    141642.0,
+    282186.0,
+    563274.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/up_n_down_A_s1.pkl",
+    "s1_sha256": "3524b63bf4c9f0ffca005feebbe1532ff47d4b5c0e26bd3db2e59a25688b3f4b",
+    "context": "after_step",
+    "record": 310,
+    "S1": 2580.0,
+    "lives": 1,
+    "step": 721,
+    "steps_above": 2980,
+    "entry": {
+     "path": "entry/up_n_down_9819_body.pkl",
+     "sha256": "94c3f19cb55c44c2a9bd2624614b76c2d4d52e6316c15e33f899b72e5dcd17d1",
+     "entry_frames": 106632
+    },
+    "body_loads": true,
+    "wall_s": 42.34295654296875,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 2980,
+     "F": 12400,
+     "natural_gap": 784908,
+     "ratio": 63.299032258064514
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/up_n_down_B_s1.pkl",
+    "s1_sha256": "4fd08637ba8273f3c2b306a2d7791c75ab21ca91b31c0986c0984c8d29f6487d",
+    "context": "after_step",
+    "record": 279,
+    "S1": 2750.0,
+    "lives": 4,
+    "step": 643,
+    "steps_above": 2828,
+    "entry": {
+     "path": "entry/up_n_down_9820_body.pkl",
+     "sha256": "ffea845fced0d9500144f1d15e58df435633d1bb1a6a6bc18edd252bd2a65dae",
+     "entry_frames": 97020
+    },
+    "body_loads": true,
+    "wall_s": 41.574524879455566,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 2828,
+     "F": 11792,
+     "natural_gap": 2894808,
+     "ratio": 245.48914518317503
+    }
+   },
+   "ref_gap": 1839858.0
+  },
+  "yars_revenge": {
+   "k_star": 5,
+   "ladder": [
+    5891.700000000001,
+    7855.6,
+    11783.400000000001,
+    19639.0,
+    35350.200000000004,
+    66772.6,
+    129617.40000000001,
+    255307.0,
+    506686.2,
+    1009444.6000000001,
+    2014961.4000000001
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/yars_revenge_A_s1.pkl",
+    "s1_sha256": "39f5af1687e1539632ba0f753e13965ae4abfc62b5242cf8248a6580fcb0c897",
+    "context": "after_step",
+    "record": 297,
+    "S1": 7989.0,
+    "lives": 2,
+    "step": 1161,
+    "steps_above": 3586,
+    "entry": {
+     "path": "entry/yars_revenge_9819_body.pkl",
+     "sha256": "bf7c47a84a4ba4a6a75f1509e10d8c6431c9310fdb369d3433b46417b3e8ecc7",
+     "entry_frames": 163400
+    },
+    "body_loads": true,
+    "wall_s": 26.549511671066284,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 3586,
+     "F": 14884,
+     "natural_gap": 1626972,
+     "ratio": 109.31013168503091
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/yars_revenge_B_s1.pkl",
+    "s1_sha256": "132f3a46a31b69669b750602a489ac7ce2a72e71b4ab3b65fcb00f512e0cf19d",
+    "context": "after_step",
+    "record": 352,
+    "S1": 7930.0,
+    "lives": 2,
+    "step": 1060,
+    "steps_above": 3255,
+    "entry": {
+     "path": "entry/yars_revenge_9820_body.pkl",
+     "sha256": "aa92984a0be700f1905858c29f9d0a89fa84823b08ad6376c776969b45f1dcd9",
+     "entry_frames": 164684
+    },
+    "body_loads": true,
+    "wall_s": 25.449751615524292,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 3255,
+     "F": 13560,
+     "natural_gap": 1046900,
+     "ratio": 77.20501474926253
+    }
+   },
+   "ref_gap": 1336936.0
+  },
+  "jamesbond": {
+   "k_star": 8,
+   "ladder": [
+    105.0,
+    155.0,
+    255.0,
+    455.0,
+    855.0,
+    1655.0,
+    3255.0,
+    6455.0,
+    12855.0,
+    25655.0,
+    51255.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5,
+    7,
+    8
+   ],
+   "k_first": 3,
+   "k_ref": 8,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/jamesbond_A_s1.pkl",
+    "s1_sha256": "bdc34345fbf9672b664ec357f401d98e9a551fb0b791411c062f8a57304e0ca9",
+    "context": "after_step",
+    "record": 49,
+    "S1": 200.0,
+    "lives": 3,
+    "step": 451,
+    "steps_above": 2742,
+    "entry": {
+     "path": "entry/jamesbond_9819_body.pkl",
+     "sha256": "042062500f16c966382d6893def31d72ce6d51bd9dfb58d1f3ddbaacbae57db9",
+     "entry_frames": 164684
+    },
+    "body_loads": true,
+    "wall_s": 23.952048301696777,
+    "floor": {
+     "k_ref": 8,
+     "delta_depth": 2742,
+     "F": 11388,
+     "natural_gap": 778732,
+     "ratio": 68.38180540920267
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/jamesbond_B_s1.pkl",
+    "s1_sha256": "997cc016a0d171b4593e82badfebbc0a6aacf9f5be4d8ac0b6c2d891f9b6bae6",
+    "context": "after_step",
+    "record": 38,
+    "S1": 200.0,
+    "lives": 4,
+    "step": 552,
+    "steps_above": 2579,
+    "entry": {
+     "path": "entry/jamesbond_9820_body.pkl",
+     "sha256": "16066f8fc303ef264c16da46655836232a2a25e87de1ca0f9f9433466865917e",
+     "entry_frames": 160792
+    },
+    "body_loads": true,
+    "wall_s": 23.323269367218018,
+    "floor": {
+     "k_ref": 8,
+     "delta_depth": 2579,
+     "F": 10736,
+     "natural_gap": 576520,
+     "ratio": 53.69970193740686
+    }
+   },
+   "ref_gap": 677626.0
+  },
+  "pooyan": {
+   "k_star": 5,
+   "ladder": [
+    775.5,
+    1034.0,
+    1551.0,
+    2585.0,
+    4653.0,
+    8789.0,
+    17061.0,
+    33605.0,
+    66693.0,
+    132869.0,
+    265221.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/pooyan_A_s1.pkl",
+    "s1_sha256": "40866b0be0d4e9b6779367b0c08270b5bee3cd7401b366fca1de02bb49d6a8a9",
+    "context": "after_step",
+    "record": 335,
+    "S1": 1090.0,
+    "lives": 1,
+    "step": 915,
+    "steps_above": 5683,
+    "entry": {
+     "path": "entry/pooyan_9819_body.pkl",
+     "sha256": "fd320751cddb1cd22e4b3d0a67ef3384fc4b0dc785872d4cfeec158bb1bf17e5",
+     "entry_frames": 98852
+    },
+    "body_loads": true,
+    "wall_s": 26.938809394836426,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 5683,
+     "F": 23632,
+     "natural_gap": 2450472,
+     "ratio": 103.6929587000677
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/pooyan_B_s1.pkl",
+    "s1_sha256": "35d49584e6696746b4ef074a58c168f387fdf2a5033e5b9281dfbd2794c219f3",
+    "context": "after_step",
+    "record": 364,
+    "S1": 1100.0,
+    "lives": 1,
+    "step": 1218,
+    "steps_above": 5629,
+    "entry": {
+     "path": "entry/pooyan_9820_body.pkl",
+     "sha256": "cf3126052f9ce87e1fea02c5df8ef479539f7804cfea206117f2815091337320",
+     "entry_frames": 108036
+    },
+    "body_loads": true,
+    "wall_s": 27.109283924102783,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 5629,
+     "F": 23416,
+     "natural_gap": 1563836,
+     "ratio": 66.78493337888624
+    }
+   },
+   "ref_gap": 2007154.0
+  },
+  "qbert": {
+   "k_star": 7,
+   "ladder": [
+    281.25,
+    375.0,
+    562.5,
+    937.5,
+    1687.5,
+    3187.5,
+    6187.5,
+    12187.5,
+    24187.5,
+    48187.5,
+    96187.5
+   ],
+   "K_g": [
+    4,
+    5,
+    6,
+    7
+   ],
+   "k_first": 4,
+   "k_ref": 7,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/qbert_A_s1.pkl",
+    "s1_sha256": "7e2e0cb0f73c711b71a8e3bc9b8cc1635e316928f795ea2c356e8dfcc6307c7a",
+    "context": "post_reset",
+    "record": 156,
+    "S1": 775.0,
+    "lives": 3,
+    "step": 343,
+    "steps_above": 2106,
+    "entry": {
+     "path": "entry/qbert_9819_body.pkl",
+     "sha256": "ce862c6777ba9d92cca6a74a5d2d17d2f1163116c5c21fbc823f1ffe326ce536",
+     "entry_frames": 130040
+    },
+    "body_loads": true,
+    "wall_s": 22.658111572265625,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 2106,
+     "F": 8784,
+     "natural_gap": 1427220,
+     "ratio": 162.4795081967213
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/qbert_B_s1.pkl",
+    "s1_sha256": "6abf87e6470392d11ad3e87e745dc586c8acf1ab77d0907dca1422b207cf1d05",
+    "context": "post_reset",
+    "record": 159,
+    "S1": 375.0,
+    "lives": 2,
+    "step": 283,
+    "steps_above": 1747,
+    "entry": {
+     "path": "entry/qbert_9820_body.pkl",
+     "sha256": "f924292a8257bb55a4b9440accc10b3f3f1e2e8ca20e75327aa4cbc04e5436c0",
+     "entry_frames": 106204
+    },
+    "body_loads": true,
+    "wall_s": 21.897512197494507,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 1747,
+     "F": 7288,
+     "natural_gap": 785616,
+     "ratio": 107.79582875960483
+    }
+   },
+   "ref_gap": 1106418.0
+  },
+  "chopper_command": {
+   "k_star": 5,
+   "ladder": [
+    1695.0,
+    2260.0,
+    3390.0,
+    5650.0,
+    10170.0,
+    19210.0,
+    37290.0,
+    73450.0,
+    145770.0,
+    290410.0,
+    579690.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/chopper_command_A_s1.pkl",
+    "s1_sha256": "e658483728cf6063bb9dc550af7d04a058c52a2bfde92fe4426e5fa510d14939",
+    "context": "after_step",
+    "record": 110,
+    "S1": 2300.0,
+    "lives": 1,
+    "step": 1200,
+    "steps_above": 4780,
+    "entry": {
+     "path": "entry/chopper_command_9819_body.pkl",
+     "sha256": "aa219024ce0707008aff92070b0132e009aa6f499d772a94c76db471b5c86833",
+     "entry_frames": 163640
+    },
+    "body_loads": true,
+    "wall_s": 31.329450845718384,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 4780,
+     "F": 19840,
+     "natural_gap": 1773168,
+     "ratio": 89.3733870967742
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/chopper_command_B_s1.pkl",
+    "s1_sha256": "e63b30c1f2ba618bd653809e39f9d90e1fd0b47847dbb4e3f59c4b3276f821f3",
+    "context": "after_step",
+    "record": 101,
+    "S1": 2300.0,
+    "lives": 1,
+    "step": 980,
+    "steps_above": 2987,
+    "entry": {
+     "path": "entry/chopper_command_9820_body.pkl",
+     "sha256": "4ac41350e1dad1e5b4506b1e0f42b03a746e60b42fd4b74d6aa2bca13628dcde",
+     "entry_frames": 164764
+    },
+    "body_loads": true,
+    "wall_s": 29.628108263015747,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 2987,
+     "F": 12428,
+     "natural_gap": 1318964,
+     "ratio": 106.12841969745736
+    }
+   },
+   "ref_gap": 1546066.0
+  },
+  "alien": {
+   "k_star": 4,
+   "ladder": [
+    588.0,
+    784.0,
+    1176.0,
+    1960.0,
+    3528.0,
+    6664.0,
+    12936.0,
+    25480.0,
+    50568.0,
+    100744.0,
+    201096.0
+   ],
+   "K_g": [
+    3,
+    4
+   ],
+   "k_first": 3,
+   "k_ref": 4,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/alien_A_s1.pkl",
+    "s1_sha256": "7da0e3d1bd1a29f376ef76f5cd75de973b5bc156e81537fe045a797d7b37a74b",
+    "context": "after_step",
+    "record": 129,
+    "S1": 930.0,
+    "lives": 2,
+    "step": 638,
+    "steps_above": 674,
+    "entry": {
+     "path": "entry/alien_9819_body.pkl",
+     "sha256": "7d73d72dde5bb906ea15b8c2a0e22b66b501549c9fe0bab612e689d35fbe1f0e",
+     "entry_frames": 168656
+    },
+    "body_loads": true,
+    "wall_s": 29.702635288238525,
+    "floor": {
+     "k_ref": 4,
+     "delta_depth": 674,
+     "F": 2816,
+     "natural_gap": 235600,
+     "ratio": 83.66477272727273
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/alien_B_s1.pkl",
+    "s1_sha256": "8e292ec5aa20bdcebd3e3ad39149bc23ad3afa93007c4b7ea3ba955dd7242cb0",
+    "context": "after_step",
+    "record": 126,
+    "S1": 910.0,
+    "lives": 2,
+    "step": 707,
+    "steps_above": 1411,
+    "entry": {
+     "path": "entry/alien_9820_body.pkl",
+     "sha256": "05a7d6083135bd1cd152ae9a27da8e869e0eb2a52bf5132a37efa0c56b02106f",
+     "entry_frames": 159508
+    },
+    "body_loads": true,
+    "wall_s": 30.077349185943604,
+    "floor": {
+     "k_ref": 4,
+     "delta_depth": 1411,
+     "F": 5884,
+     "natural_gap": 1373384,
+     "ratio": 233.40992522093813
+    }
+   },
+   "ref_gap": 804492.0
+  },
+  "video_pinball": {
+   "k_star": 5,
+   "ladder": [
+    30326.699999999997,
+    40435.6,
+    60653.399999999994,
+    101089.0,
+    181960.19999999998,
+    343702.6,
+    667187.4,
+    1314157.0,
+    2608096.1999999997,
+    5195974.6,
+    10371731.4
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/video_pinball_A_s1.pkl",
+    "s1_sha256": "97b4fe0b1a3bcbf70f43764fe7e61f65a782f56e79c1eae0826c6448b4d9edf5",
+    "context": "after_step",
+    "record": 610,
+    "S1": 40436.0,
+    "lives": 1,
+    "step": 2806,
+    "steps_above": 7063,
+    "entry": {
+     "path": "entry/video_pinball_9819_body.pkl",
+     "sha256": "04b780f43ad9a642c4b3dbe3085d70530b72fd945596531f14a6ee47a10613a0",
+     "entry_frames": 122200
+    },
+    "body_loads": true,
+    "wall_s": 40.470038414001465,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 7063,
+     "F": 29332,
+     "natural_gap": 483728,
+     "ratio": 16.49147688531297
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/video_pinball_B_s1.pkl",
+    "s1_sha256": "a4503a177538c63908415da7c83f59a5f24a3c351200ff2399a051a6e5892aa9",
+    "context": "after_step",
+    "record": 657,
+    "S1": 40635.0,
+    "lives": 1,
+    "step": 3162,
+    "steps_above": 8104,
+    "entry": {
+     "path": "entry/video_pinball_9820_body.pkl",
+     "sha256": "dee92f86cb48841eec567d81f9c1456f808b8921b0549c2f401fd57997dae04b",
+     "entry_frames": 115792
+    },
+    "body_loads": true,
+    "wall_s": 42.7925865650177,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 8104,
+     "F": 33676,
+     "natural_gap": 1064912,
+     "ratio": 31.622282931464543
+    }
+   },
+   "ref_gap": 774320.0
+  },
+  "amidar": {
+   "k_star": 6,
+   "ladder": [
+    46.5,
+    62.0,
+    93.0,
+    155.0,
+    279.0,
+    527.0,
+    1023.0,
+    2015.0,
+    3999.0,
+    7967.0,
+    15903.0
+   ],
+   "K_g": [
+    4,
+    5,
+    6
+   ],
+   "k_first": 4,
+   "k_ref": 6,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/amidar_A_s1.pkl",
+    "s1_sha256": "46f7bdee51898aacb943fbbd869a786e449d7cf75e4655e29ff5cf3008ba441a",
+    "context": "after_step",
+    "record": 107,
+    "S1": 77.0,
+    "lives": 11,
+    "step": 280,
+    "steps_above": 3500,
+    "entry": {
+     "path": "entry/amidar_9819_body.pkl",
+     "sha256": "92b38b0510a2cd612a2c2694ffe6214871eda5de7b54c1791314d125ab3ff803",
+     "entry_frames": 120060
+    },
+    "body_loads": true,
+    "wall_s": 27.035523414611816,
+    "floor": {
+     "k_ref": 6,
+     "delta_depth": 3500,
+     "F": 14540,
+     "natural_gap": 1104756,
+     "ratio": 75.98046767537826
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/amidar_B_s1.pkl",
+    "s1_sha256": "222ebe0c2e13a44d6a9c285933e4e47eea7a5c6e0c1c67b74e9a8d9cc75c5037",
+    "context": "after_step",
+    "record": 118,
+    "S1": 72.0,
+    "lives": 10,
+    "step": 638,
+    "steps_above": 3398,
+    "entry": {
+     "path": "entry/amidar_9820_body.pkl",
+     "sha256": "3922b296850248e5bbd18d927b33ba0a47b7ace78b68dce3015359aeb0c93d2f",
+     "entry_frames": 123020
+    },
+    "body_loads": true,
+    "wall_s": 25.851263284683228,
+    "floor": {
+     "k_ref": 6,
+     "delta_depth": 3398,
+     "F": 14132,
+     "natural_gap": 455364,
+     "ratio": 32.222190772714406
+    }
+   },
+   "ref_gap": 780060.0
+  },
+  "asterix": {
+   "k_star": 7,
+   "ladder": [
+    892.5,
+    1190.0,
+    1785.0,
+    2975.0,
+    5355.0,
+    10115.0,
+    19635.0,
+    38675.0,
+    76755.0,
+    152915.0,
+    305235.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "k_first": 3,
+   "k_ref": 7,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/asterix_A_s1.pkl",
+    "s1_sha256": "e30c714de0440951ce6fe9a61bbd7226cc5ab5b6692096fd3e409b3935bb2c04",
+    "context": "after_step",
+    "record": 216,
+    "S1": 1200.0,
+    "lives": 2,
+    "step": 930,
+    "steps_above": 5327,
+    "entry": {
+     "path": "entry/asterix_9819_body.pkl",
+     "sha256": "4dc96ebbc390d0c40daa43b4f75f9f6463ccbda2a2b495eca9291f1ce9723fb9",
+     "entry_frames": 115280
+    },
+    "body_loads": true,
+    "wall_s": 22.4264874458313,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 5327,
+     "F": 22148,
+     "natural_gap": 2027088,
+     "ratio": 91.52465233881163
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/asterix_B_s1.pkl",
+    "s1_sha256": "bd333575f4720585edb3f2d84499624c89411dee51bcf604c806563f603828aa",
+    "context": "after_step",
+    "record": 216,
+    "S1": 1200.0,
+    "lives": 1,
+    "step": 801,
+    "steps_above": 5353,
+    "entry": {
+     "path": "entry/asterix_9820_body.pkl",
+     "sha256": "9b6aac68724db2d6e63ba5a77daf311f7affd1f088a772cf156eb63f3d2fb9e3",
+     "entry_frames": 114608
+    },
+    "body_loads": true,
+    "wall_s": 21.497374057769775,
+    "floor": {
+     "k_ref": 7,
+     "delta_depth": 5353,
+     "F": 22252,
+     "natural_gap": 2602192,
+     "ratio": 116.94193780334352
+    }
+   },
+   "ref_gap": 2314640.0
+  },
+  "kung_fu_master": {
+   "k_star": 5,
+   "ladder": [
+    1065.0,
+    1420.0,
+    2130.0,
+    3550.0,
+    6390.0,
+    12070.0,
+    23430.0,
+    46150.0,
+    91590.0,
+    182470.0,
+    364230.0
+   ],
+   "K_g": [
+    3,
+    4,
+    5
+   ],
+   "k_first": 3,
+   "k_ref": 5,
+   "kept": true,
+   "drop": null,
+   "A": {
+    "valid": true,
+    "E": 9819,
+    "s1": "s1/kung_fu_master_A_s1.pkl",
+    "s1_sha256": "96af1454900b5a366446a2e2d308b3c31b1cb9daf5bb692b973f1eda03034e1c",
+    "context": "after_step",
+    "record": 72,
+    "S1": 1500.0,
+    "lives": 3,
+    "step": 468,
+    "steps_above": 1874,
+    "entry": {
+     "path": "entry/kung_fu_master_9819_body.pkl",
+     "sha256": "4ae60dce8d9b58963949d975cba9f3b3f961b536155ea765818478fd91cba567",
+     "entry_frames": 144344
+    },
+    "body_loads": true,
+    "wall_s": 24.505568027496338,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 1874,
+     "F": 7796,
+     "natural_gap": 1693432,
+     "ratio": 217.21806054386866
+    }
+   },
+   "B": {
+    "valid": true,
+    "E": 9820,
+    "s1": "s1/kung_fu_master_B_s1.pkl",
+    "s1_sha256": "25737f958ecfbd7e72960548a91cdc1dcc1f4e3a3c968a5be4bc9ef85b1e453c",
+    "context": "after_step",
+    "record": 72,
+    "S1": 1800.0,
+    "lives": 2,
+    "step": 657,
+    "steps_above": 1589,
+    "entry": {
+     "path": "entry/kung_fu_master_9820_body.pkl",
+     "sha256": "78f469c67aeda6e686d5a528d97a3f17ba33c3bc67d282469aa399be4715291f",
+     "entry_frames": 146328
+    },
+    "body_loads": true,
+    "wall_s": 24.040959358215332,
+    "floor": {
+     "k_ref": 5,
+     "delta_depth": 1589,
+     "F": 6596,
+     "natural_gap": 1420736,
+     "ratio": 215.3935718617344
+    }
+   },
+   "ref_gap": 1557084.0
+  }
+ },
+ "draw_order_all": [
+  "wizard_of_wor",
+  "gopher",
+  "phoenix",
+  "bank_heist",
+  "zaxxon",
+  "up_n_down",
+  "yars_revenge",
+  "jamesbond",
+  "pooyan",
+  "qbert",
+  "chopper_command",
+  "alien",
+  "video_pinball",
+  "amidar",
+  "asterix",
+  "kung_fu_master"
+ ],
+ "complete": true,
+ "units_done": [
+  "wizard_of_wor",
+  "gopher",
+  "phoenix",
+  "bank_heist",
+  "zaxxon",
+  "up_n_down",
+  "yars_revenge",
+  "jamesbond",
+  "pooyan",
+  "qbert",
+  "chopper_command",
+  "alien",
+  "video_pinball",
+  "amidar",
+  "asterix",
+  "kung_fu_master"
+ ],
+ "entry_seeds": {
+  "A": 9819,
+  "B": 9820
+ },
+ "test_seeds": false,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "code_sha": "26a3f4ff4c5008502af2e9654df90fe555fe48f9",
+  "dirty": false,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "launched": "2026-11-03 11:27:29",
+  "launched_ts": 1793701649.653784,
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\wizard_of_wor.json": "9607c21bc5c591297195d0a472e2cad0e99e9587fe2d91b2ac14a2c4aaffe7e0",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\gopher.json": "83275e1fd24894629f9f6da841a71fdbf8ec553387d09b3a8ef70f780a2cc219",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\phoenix.json": "ee3f338dede0e3275f69a6f45fcd6e683c4cdd01a21272c2bf2e3a906469369f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\bank_heist.json": "b7702e72fc654fc99b30292ac19337cb2a4fc218cd93dfddaf7895cbb39286df",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\zaxxon.json": "9a85cc06c14d37a09ba57fe4125f2755a8244212c82af80e12e82eba386823f1",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\up_n_down.json": "fae1eadba5e69f78fb2326a5bc2d44dcbe64737c2cca450142eb3e18aa8a5469",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\yars_revenge.json": "b535fa01a028b016e978f87992cdc7a56135bdadd8301e4376abacf398fbaf8d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\jamesbond.json": "1f761d99301a49916456fc84f1acbfe12682b19ce7ed88005b2d4a88c806c6de",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\pooyan.json": "c842960a6d4a9186da4056f13b04a13802c68b22ec53860af591847e5efeb0ac",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\qbert.json": "cbcf24ce75c4a3725ff0975d40588064deedd6516b589cc1ef06681376bf038e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\chopper_command.json": "9943634e93e6fe4022be601f686accd20c4319f39ff13c0b782f807bf34e214e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\alien.json": "322c0abf1f1df464abe032cda66884d1da0960207da29b63df0a0e6f1a486dab",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\video_pinball.json": "df2880baaeea9801321d202f1eca503032d1f04e8dda53f0eb363aff164d4510",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\amidar.json": "032d79bfb11a3ac4cb744336107b298bcd0ae9262a123e49c96cbda386fcf782",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\asterix.json": "f306015affa9853a09e4150a001ab7f59678eea85a825151a5bc82cc2bd1bfec",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\units\\kung_fu_master.json": "39e0507009933be7ef2f536f8ec41fd62024a729a03d6cb8eb0ed795daf9677c"
+  },
+  "closure_hash": "6ed40c15af1d15de83ec0903531abc67d6f0776ce1132c16c24c8ec34534dac9",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/pools_v83.py",
+    "5173c37a9d084b6c54487a1d0e02058fda18b9098a58784fdd765537eec58c8d"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_calib.py",
+    "6967297256d34692b41ab469f84270e76e63474331314756a674adb087a8b2bd"
+   ],
+   [
+    "scripts/v85_stage0.py",
+    "9bf55736d55652b77dad5ba1d5a15927ebc612c1bbe006c305ad9656c9a9b951"
+   ],
+   [
+    "scripts/v85_verdict.py",
+    "ef6800a084b41f24f87058bdd269a35a0185994a43e252d64e5d5410d02f04bf"
+   ]
+  ],
+  "closure_foreign": []
+ }
+}

@@ -1,0 +1,2839 @@
+{
+ "rule": "docs/ARC4_V85_PROTOCOL_EN.md A.10.1(f), \u00a73, \u00a712: seed block 9800-9899",
+ "pattern": "(?<![0-9A-Za-z.])98\\d\\d(?![0-9A-Za-z])",
+ "worktrees": [
+  {
+   "root": "F:\\dev\\ragnarok",
+   "files_scanned": 686,
+   "owned": [],
+   "foreign": []
+  },
+  {
+   "root": "F:\\dev\\ragnarok_v84",
+   "files_scanned": 759,
+   "owned": [],
+   "foreign": []
+  },
+  {
+   "root": "F:\\dev\\ragnarok_v85",
+   "files_scanned": 792,
+   "owned": [
+    "ragnarok/evaluation/oracle_v85.py",
+    "ragnarok/evaluation/start_v85.py",
+    "ragnarok/evaluation/arms_v85/__init__.py",
+    "ragnarok/evaluation/arms_v85/d.py",
+    "ragnarok/evaluation/arms_v85/kmac_exact.py",
+    "ragnarok/evaluation/arms_v85/kmac_tilde.py",
+    "ragnarok/evaluation/arms_v85/o4_dice.py",
+    "scripts/queue_v85.py",
+    "scripts/v85_calib.py",
+    "scripts/v85_job.py",
+    "scripts/v85_stage0.py",
+    "scripts/v85_verdict.py",
+    "tests/test_arms_v85.py",
+    "tests/test_explorer2s_v85.py",
+    "tests/test_gbuild_v85.py",
+    "tests/test_job_v85.py",
+    "tests/test_oracle_v85.py",
+    "tests/test_senses_v85.py",
+    "tests/test_stage0_v85.py",
+    "tests/test_verdict_v85.py"
+   ],
+   "foreign": []
+  },
+  {
+   "root": "F:\\dev\\ragnarok_v85f",
+   "files_scanned": 817,
+   "owned": [],
+   "foreign": [
+    {
+     "path": "ragnarok/agent_v85/macros.py",
+     "lines": [
+      [
+       82,
+       "use inverse CDFs on uniforms supplied by the caller (the evaluator draws them from [9803, 1]). A placebo macro may"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/objects_m_v85.py",
+     "lines": [
+      [
+       15,
+       "(macros.placebo_library); its uniforms are row CANON_UNITS.index(unit) of default_rng([9803, 1]).random((74, 32))"
+      ],
+      [
+       19,
+       "- Dose draws: X4 (x4_<unit>_d<1|2>.json, development, [9804, 1], 2 draws of 4 games, \u00a78.2), X4s (x4s_<unit>.json,"
+      ],
+      [
+       20,
+       "sealed, [9804, 2], 1 draw of 4 games) and X12s (x12s_<unit>.json, sealed, [9804, 3], 1 draw of 12 games): the"
+      ],
+      [
+       22,
+       "default_rng([9804, p]).random((74, draws, 41)); draw d of a unit = the first n games of its sorted sources in the"
+      ],
+      [
+       24,
+       "per unit). One draw for each sealed dose (choice: B1 runs X4 and X12 twice per unit, one run per start, 9853 and"
+      ],
+      [
+       25,
+       "9856, and the seed table maps two draws only for G2)."
+      ],
+      [
+       26,
+       "- Development dose runs: draw 1 on seeds 9826 (A) and 9829 (B), draw 2 on 9827 (A) and 9830 (B) (\u00a712); a smoke run"
+      ],
+      [
+       27,
+       "(seed 9800) uses draw 1."
+      ],
+      [
+       29,
+       "and X12_on only at 9826, the F1 closure build, whose explorer refuses to run (`closure_only_explorer`: the hooks"
+      ],
+      [
+       31,
+       "sealed unit runs X4_on and X12_on only at the B1 2-run seeds 9853 and 9856 (\u00a712); a smoke run takes draw 1 at"
+      ],
+      [
+       32,
+       "seed 9800 only. Any other seed is refused (ValueError), as family W's objects_w_v85.dose_draw."
+      ],
+      [
+       34,
+       "Baseline windows ([9803, 4]): one stream, default_rng([9803, 4]).random(total), consumed in the canonical order of"
+      ],
+      [
+       70,
+       "SEED_P, SEED_BASE = (9803, 1), (9803, 4)"
+      ],
+      [
+       71,
+       "DOSE = {\"X4\": ((9804, 1), 4, 2), \"X4s\": ((9804, 2), 4, 1), \"X12s\": ((9804, 3), 12, 1)}   # seed, games, draws"
+      ],
+      [
+       72,
+       "DEV_DRAW = {9826: 1, 9829: 1, 9827: 2, 9830: 2, 9800: 1}"
+      ],
+      [
+       73,
+       "SMOKE_SEED = 9800"
+      ],
+      [
+       74,
+       "CLOSURE_SEED = 9826                                    # v85_calib.arm_closures: the F1 closure build of X12_on"
+      ],
+      [
+       75,
+       "B1_DOSE_SEEDS = (9853, 9856)                           # \u00a712: B1 2-run arms (X4, X12), one per start"
+      ],
+      [
+       134,
+       "\"\"\"{(game, seed): uniforms, one per non-ADV rollout}, from one [9803, 4] stream in canonical run order.\"\"\""
+      ],
+      [
+       397,
+       "f\"runs in B1 only (\u00a78.2, \u00a79; seeds 9853/9856, \u00a712)\", h[\"explorer\"])"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/objects_w_v85.py",
+     "lines": [
+      [
+       21,
+       "default_rng([9803, 2, i_h, r]) (i_h = h's index in pools_v83 DEV + CALIBRATION, r its G1b seed), then X's"
+      ],
+      [
+       24,
+       "recipe has no random draw: the \u00a712 seed [9803, 3] is reserved and recorded, not consumed."
+      ],
+      [
+       35,
+       "order) drawn without replacement from default_rng([9804, p, i_g]) with i_g = UI[g] (`dose_dev`,"
+      ],
+      [
+       41,
+       "sealed draws were default_rng([9804, 2]) / ([9804, 3]) with no unit index, i.e. one set of positions applied"
+      ],
+      [
+       45,
+       "hooks on a development unit at seed 9826 to hash its closure for F1): scripts/v85_objects.py also writes"
+      ],
+      [
+       46,
+       "x12_s/<unit>_d1 for development units with X12's recipe (`dose_dev`: [9804, 3, i_g], 12 heads, one draw), as"
+      ],
+      [
+       48,
+       "development unit, X12_S at seed 9826 builds its hooks exactly (the closure hash) but its explorer refuses to"
+      ],
+      [
+       49,
+       "run (`closure_only_explorer`); a sealed unit takes X4_S and X12_S only at the B1 2-run seeds 9853 and 9856,"
+      ],
+      [
+       50,
+       "a development unit X4_S only at the G2 dose seeds 9826, 9827, 9829, 9830 (`dose_draw`, \u00a712); a smoke run"
+      ],
+      [
+       51,
+       "(seed 9800) takes draw 1."
+      ],
+      [
+       100,
+       "SEED_P, SEED_U = (9803, 2), (9803, 3)"
+      ],
+      [
+       101,
+       "SEED_X4_DEV, SEED_X4_SEALED, SEED_X12_SEALED = (9804, 1), (9804, 2), (9804, 3)"
+      ],
+      [
+       102,
+       "DOSE = {\"x4_s\": {\"dev\": {9826: 1, 9829: 1, 9827: 2, 9830: 2},     # \u00a712: G2 dose seeds, draw 1 / 2"
+      ],
+      [
+       103,
+       "\"sealed\": {9853: 1, 9856: 1}},                     # B1 2-run arms, the single sealed draw"
+      ],
+      [
+       104,
+       "\"x12_s\": {\"dev\": {9826: 1},                                  # the F1 closure build only (never runs)"
+      ],
+      [
+       105,
+       "\"sealed\": {9853: 1, 9856: 1}}}                    # B1 only"
+      ],
+      [
+       106,
+       "CLOSURE_ONLY = {(\"x12_s\", 9826)}                  # development (arm, seed) built for the closure hash only"
+      ],
+      [
+       107,
+       "SMOKE_SEED = 9800"
+      ],
+      [
+       283,
+       "run (default_rng([9803, 2, i_h, r])), clock-only features (T_clock).\"\"\""
+      ],
+      [
+       366,
+       "\"\"\"Development dose objects of `unit` (module docstring): X4_S, 2 draws of 4 ([9804, 1, i_g]); X12_S's"
+      ],
+      [
+       367,
+       "closure object, 1 draw of 12 ([9804, 3, i_g]; written by scripts/v85_objects.py, never run).\"\"\""
+      ],
+      [
+       373,
+       "default_rng([9804, 2, i_g]) and default_rng([9804, 3, i_g]).\"\"\""
+      ],
+      [
+       398,
+       "\"permuted within each source run, default_rng([9803, 2, i_h, r]); X's spectrum\","
+      ],
+      [
+       399,
+       "u_s=\"v84 A.8 U: diag(lambda_X) on Q axes (seed [9803, 3] reserved, no draw)\","
+      ],
+      [
+       441,
+       "default_rng([9804, 1, i_unit]), `dose_dev`); then the kappa rule and the manifest. `data` (tests) replaces the"
+      ],
+      [
+       460,
+       "default_rng([9804, 2, i_unit]) and default_rng([9804, 3, i_unit]) (`dose_sealed`); no K_S. tag names a"
+      ],
+      [
+       564,
+       "\"\"\"The dose draw a run of `unit` uses (\u00a712; module docstring). Smoke runs (seed 9800) use draw 1. A"
+      ],
+      [
+       565,
+       "development (burned) unit: X4_S draw 1 on 9826/9829, draw 2 on 9827/9830; X12_S only at 9826, the F1"
+      ],
+      [
+       566,
+       "closure build (CLOSURE_ONLY). A sealed unit: the single sealed draw at the B1 2-run seeds 9853 and 9856."
+      ],
+      [
+       617,
+       "f\"X12 runs in B1 only (\u00a78.2, \u00a79; seeds 9853/9856, \u00a712)\")"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/oracle_v85.py",
+     "lines": [
+      [
+       29,
+       "partners from a derangement drawn with default_rng([9801, 2]), permutations of the given unit list"
+      ],
+      [
+       372,
+       "\"\"\"K~mac partners {unit: partner}: a derangement of the unit list drawn with default_rng([9801, 2]).\"\"\""
+      ],
+      [
+       375,
+       "rng = np.random.default_rng([9801, 2])"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/start_v85.py",
+     "lines": [
+      [
+       8,
+       "- `entry_cache`: Body.enter on SenseEnv85(g, seed=E), E = 9819 (A) / 9820 (B), rng [E, 0]; the pickled"
+      ],
+      [
+       29,
+       "ENTRY_SEEDS = {\"A\": 9819, \"B\": 9820}"
+      ],
+      [
+       40,
+       "\"\"\"A.2: default_rng([9801, 1]).permutation of the eligible units (sorted by name first).\"\"\""
+      ],
+      [
+       41,
+       "return [str(g) for g in np.random.default_rng([9801, 1]).permutation(sorted(games))]"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/__init__.py",
+     "lines": [
+      [
+       43,
+       "E: int                         # the start's emulator and entry seed E_s (9819 / 9820; 9800 in smoke runs)"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/d.py",
+     "lines": [
+      [
+       4,
+       "M_{k_ref} then ends the run at the next restore. Agent seed E_s (\u00a712: 9819 / 9820; 9800 in smoke runs),"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/kmac_exact.py",
+     "lines": [
+      [
+       4,
+       "by Q5. Seed 9818 at every kept start. Never in labels or routing."
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/kmac_tilde.py",
+     "lines": [
+      [
+       2,
+       "Partners are a derangement of the stage's units (ctx.units, in draw order) drawn with default_rng([9801, 2])"
+      ],
+      [
+       8,
+       "Smoke runs (seed 9800, never a measurement) on a single-unit start have no derangement: the library is empty"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/o4_dice.py",
+     "lines": [
+      [
+       5,
+       "Seed 9818, one start per unit (queue). Never in labels or routing; the realised R beside S0's G_4 is a verdict"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/p_on.py",
+     "lines": [
+      [
+       2,
+       "sources, matched to X's macros on length and slot frequency ([9803, 1]), n0 = 10 per macro, plus online mining.\"\"\""
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/p_s.py",
+     "lines": [
+      [
+       3,
+       "source run ([9803, 2]), spectrum-matched to X (v84 A.8 P), and kappa_P."
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/x12_on.py",
+     "lines": [
+      [
+       2,
+       "games ([9804, 3], one draw) plus online mining. Sealed unit: B1 seeds 9853/9856 only; development unit: seed 9826"
+      ],
+      [
+       3,
+       "only, the F1 closure build, whose explorer refuses to run; smoke 9800 (objects_m_v85.dose_kind).\"\"\""
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/x12_s.py",
+     "lines": [
+      [
+       2,
+       "source heads ([9804, 3, i_unit], one draw per unit), kappa_X; on a sealed unit B1 seeds 9853/9856 only, smoke"
+      ],
+      [
+       3,
+       "9800 draw 1; on a development unit only seed 9826, the F1 closure build (v85_calib.arm_closures; scripts/v85_objects.py"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/x4_on.py",
+     "lines": [
+      [
+       2,
+       "plus online mining. Development: draw 1 on seeds 9826 (A) / 9829 (B), draw 2 on 9827 (A) / 9830 (B) ([9804, 1]);"
+      ],
+      [
+       3,
+       "sealed: one draw ([9804, 2]) at the B1 seeds 9853/9856 only; smoke: draw 1 at 9800; other seeds refused"
+      ]
+     ]
+    },
+    {
+     "path": "ragnarok/evaluation/arms_v85/x4_s.py",
+     "lines": [
+      [
+       3,
+       "on 9826/9829, draw 2 on 9827/9830, [9804, 1, i_unit]; a sealed unit B1 9853/9856, the single sealed draw"
+      ],
+      [
+       4,
+       "[9804, 2, i_unit]; smoke 9800 draw 1; other seeds refused)."
+      ]
+     ]
+    },
+    {
+     "path": "scripts/queue_v85.py",
+     "lines": [
+      [
+       8,
+       "smoke   G-build smoke runs (\u00a712): breakout and pong, start A, seed 9800, cap 500k, each arm of SMOKE_ARMS whose"
+      ],
+      [
+       10,
+       "istage  the first U valid units in draw order (U from s0/natural_spikeins.json \"U\", else --U): V2s 9806-9808 at"
+      ],
+      [
+       11,
+       "A, 9809-9811 at B; D 1 per start with agent seed E_s (A.10.2)."
+      ],
+      [
+       13,
+       "K*map, K*mac (n/2) runs per start (A 9812.., B 9815..; K*mac only when the other start is valid);"
+      ],
+      [
+       15,
+       "rows are queued after every core row: O_4-dice on 9818 (start A for units at even 0-based positions of"
+      ],
+      [
+       16,
+       "the A.2 draw order, B at odd ones; skipped if that start is invalid), K*mac-exact on 9818 at every kept start (it uses the start's own lineage)."
+      ],
+      [
+       45,
+       "SMOKE_GAMES, SMOKE_SEED, SMOKE_CAP = (\"breakout\", \"pong\"), 9800, 500_000"
+      ],
+      [
+       47,
+       "V2S_SEEDS = {\"A\": (9806, 9807, 9808), \"B\": (9809, 9810, 9811)}"
+      ],
+      [
+       48,
+       "G1_SEED0 = {\"A\": 9812, \"B\": 9815}"
+      ],
+      [
+       49,
+       "CAPTION_SEED = 9818"
+      ]
+     ]
+    },
+    {
+     "path": "scripts/v85_calib.py",
+     "lines": [
+      [
+       3,
+       "On the I-stage V2s runs at the F1 rungs K_{g,s}, per simulation b (generator default_rng([9802, b])):"
+      ],
+      [
+       76,
+       "ARM_SEED = {\"v2s\": 9806, \"o4\": 9812, \"kmap\": 9812, \"kmac\": 9812, \"o4_dice\": 9818, \"kmac_exact\": 9818, \"gf4\": 9812,"
+      ],
+      [
+       77,
+       "\"gf\": 9812, \"kmac_tilde\": 9812}"
+      ],
+      [
+       81,
+       "SEED_SIM, SIMS, B_CAL = 9802, 1000, 1000"
+      ],
+      [
+       276,
+       "simulations on [seed, b] (9802, \u00a712; 9800 in tests).\"\"\""
+      ],
+      [
+       356,
+       "c = runner(v85, unit, arm, E if arm == \"d\" else ARM_SEED.get(arm, 9826))"
+      ],
+      [
+       390,
+       "def synthetic_cells(U=16, K=5, m=3, seed=9800):"
+      ],
+      [
+       391,
+       "\"\"\"Synthetic V2s-like cells for the runtime check (seed 9800: tests and smoke only).\"\"\""
+      ]
+     ]
+    },
+    {
+     "path": "scripts/v85_job.py",
+     "lines": [
+      [
+       5,
+       "python scripts/v85_job.py breakout A v2s 9800 --smoke DIR [--cap N] [--out OUT] [--ckpt-s S]"
+      ],
+      [
+       42,
+       "Smoke (seed 9800 only, \u00a712; never a measurement): `--smoke DIR` builds once, in DIR, a start of the game by the"
+      ],
+      [
+       44,
+       "entry cache on SenseEnv85(g, 9800), shared by both starts (E = 9800). Smoke rungs: K_g = every k in 2..k* with"
+      ],
+      [
+       71,
+       "SMOKE_SEED = 9800"
+      ],
+      [
+       152,
+       "assert seed == SMOKE_SEED, \"smoke runs use seed 9800 only (\u00a712)\""
+      ],
+      [
+       296,
+       "ap.add_argument(\"--smoke\", metavar=\"DIR\", help=\"smoke run on seed 9800 from a start built in DIR\")"
+      ]
+     ]
+    },
+    {
+     "path": "scripts/v85_objects.py",
+     "lines": [
+      [
+       14,
+       "A.2 order of default_rng([9801, 1]) (\u00a712; the rule of start_v85.unit_order(eligible_units()), recomputed here"
+      ],
+      [
+       18,
+       "([9804, 1, i_unit], objects_w_v85.dose_dev); and X12_S's closure object (below)."
+      ],
+      [
+       19,
+       "- M (R/m/*.json): X (x_<unit>), K_mine, P_on, the two X4 draws ([9804, 1]), X12s's closure object; DM once."
+      ],
+      [
+       23,
+       "Per unit: W F_S, X_S, P_S, U_S, T, S, X4_S ([9804, 2, i_unit]) and X12_S ([9804, 3, i_unit]), one draw each per"
+      ],
+      [
+       57,
+       "at seed 9826). Family M already writes x12s_<unit>.json for development units; family W gets the same: X12_S's"
+      ],
+      [
+       58,
+       "recipe ([9804, 3, i_unit], 12 of the unit's heads, one draw) as x12_s/<unit>_d1, and objects_w_v85.DOSE maps"
+      ],
+      [
+       59,
+       "seed 9826 to draw 1 for x12_s on a development unit only. Such a run is built for the closure hash and its"
+      ],
+      [
+       129,
+       "default_rng([9801, 1]).permutation(sorted) (the rule of start_v85.unit_order(eligible_units())).\"\"\""
+      ],
+      [
+       132,
+       "return [str(g) for g in np.random.default_rng([9801, 1]).permutation(games)]"
+      ]
+     ]
+    },
+    {
+     "path": "scripts/v85_stage0.py",
+     "lines": [
+      [
+       9,
+       "Body.enter(SenseEnv85(g, E), rng [E, 0], E) pickled to entry/<g>_<E>_body.pkl (E = 9819 at A, 9820 at B; the"
+      ],
+      [
+       16,
+       "scripts/v85_calib.p_room_x2 (n = 4, tau = 0.2, 1.75 / 1.25, [9802, b]) for U in {10, 12, 16} capped at the number"
+      ],
+      [
+       21,
+       "(f) seed_grep.json: the block 9800-9899 in the project .py files of every git worktree (uncommitted files"
+      ],
+      [
+       28,
+       "- A.2 order: default_rng([9801, 1]).permutation of the 16 eligible units (start_v85.unit_order), drops removed"
+      ],
+      [
+       360,
+       "\"\"\"(f): the seed block 9800-9899 in the project .py files of every worktree and, through `repo`, of every"
+      ],
+      [
+       396,
+       "return dict(rule=\"docs/ARC4_V85_PROTOCOL_EN.md A.10.1(f), \u00a73, \u00a712: seed block 9800-9899\","
+      ],
+      [
+       405,
+       "sim_seed: the spike-in simulations' [seed, b] (9802, \u00a712; 9800 in tests).\"\"\""
+      ]
+     ]
+    },
+    {
+     "path": "scripts/v85_verdict.py",
+     "lines": [
+      [
+       15,
+       "status/stage \"INCOMPLETE\" with the missing runs: I-stage = 3 V2s (9806-9808 / 9809-9811) and 1 D (seed E_s)"
+      ],
+      [
+       18,
+       "O_4; K*mac only where the other start is valid) on 9812.. / 9815..; G1-P = the same (g, s, seed) for each ROOM"
+      ],
+      [
+       26,
+       "(reruns of 9806 / 9809 on the first unit in istage/certificate/ or g1/certificate/, made under the committed"
+      ],
+      [
+       40,
+       "- bootstrap stream of a contrast: default_rng([9805, crc32(\"<gate>:<arm>:<comparator>\")]); lam, lam_late and"
+      ],
+      [
+       70,
+       "unclipped), two-level bootstrap (units, then runs per cell), stream [9805, crc32(\"G2b:interaction\")];"
+      ],
+      [
+       73,
+       "[9859, 2] above 16 units); leave-one-game-out minimum of the point R(X:F); the bootstrap on [9859, .]; the"
+      ],
+      [
+       74,
+       "sealed instrument line is V2s {9853, 9856} against {9854, 9857}; ACCUMULATES uses Page's L over doses"
+      ],
+      [
+       75,
+       "0 (F) / 4 / 12 / 41 (X) on unit means of lam, p by 20,000 within-unit permutations on [9859, 3]."
+      ],
+      [
+       108,
+       "B_VERDICT, SEED_BOOT = 2000, 9805"
+      ],
+      [
+       114,
+       "LINE = ((9806, 9809), (9807, 9810))"
+      ],
+      [
+       115,
+       "LINE_SEALED = ((9853, 9856), (9854, 9857))"
+      ],
+      [
+       116,
+       "SEED_SEALED = 9859"
+      ],
+      [
+       117,
+       "V2S_SEEDS = {\"A\": (9806, 9807, 9808), \"B\": (9809, 9810, 9811)}"
+      ],
+      [
+       118,
+       "G1_SEED0 = {\"A\": 9812, \"B\": 9815}"
+      ],
+      [
+       119,
+       "G2_SEEDS = {6: {\"A\": (9826, 9827, 9828), \"B\": (9829, 9830, 9831)}, 4: {\"A\": (9826, 9827), \"B\": (9829, 9830)}}"
+      ],
+      [
+       120,
+       "B1_SEEDS = {8: {\"A\": (9853, 9854, 9855, 9873, 9874), \"B\": (9856, 9857, 9858, 9875, 9876)},"
+      ],
+      [
+       121,
+       "6: {\"A\": (9853, 9854, 9855), \"B\": (9856, 9857, 9858)}, 4: {\"A\": (9853, 9854), \"B\": (9856, 9857)},"
+      ],
+      [
+       122,
+       "2: {\"A\": (9853,), \"B\": (9856,)}}"
+      ],
+      [
+       273,
+       "seed: the bootstrap seed family ([9805, .] development, [9859, .] sealed).\"\"\""
+      ],
+      [
+       449,
+       "\"\"\"\u00a713.4 reuse certificate: V2s seeds 9806 (A) and 9809 (B) on the first unit in draw order, re-executed under"
+      ],
+      [
+       453,
+       "for s, seed in ((\"A\", 9806), (\"B\", 9809)):"
+      ],
+      [
+       688,
+       "\"\"\"A.10.2: 3 V2s (9806-9808 / 9809-9811) and 1 D (seed E_s) per valid start of each I-stage unit.\"\"\""
+      ],
+      [
+       787,
+       "\"\"\"A.10.2: V2s {9806, 9809} against {9807, 9810}; INSTRUMENT-FAIL if the 99% interval excludes 1.\"\"\""
+      ],
+      [
+       1145,
+       "\"\"\"\u00a79 B1 for one family on sealed runs (bootstrap on [9859, .]); the label ladder of Part C with"
+      ],
+      [
+       1389,
+       "if any(int(r[\"seed\"]) in (9873, 9874, 9875, 9876) for r in allr):   # the 8-seed rule (\u00a79 F2): X and F at 8"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_arms_v85.py",
+     "lines": [
+      [
+       4,
+       "breakout smoke job (seed 9800 only, \u00a712; small caps) and writes a run JSON valid under the shared schema, with"
+      ],
+      [
+       24,
+       "SEED, GAME, TWIN = 9800, \"breakout\", \"breakout_twin\""
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_explorer2s_v85.py",
+     "lines": [
+      [
+       13,
+       "SEED, GAME, CAP = 9800, \"breakout\", 50_000"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_family_m_v85.py",
+     "lines": [
+      [
+       2,
+       "F_M). Seed 9800 only for runs (\u00a712); small caps and 2-3 small games, so nothing here is a measurement."
+      ],
+      [
+       32,
+       "SEED, GAME = 9800, \"breakout\""
+      ],
+      [
+       202,
+       "def test_baseline_uniforms_are_one_9803_4_stream_in_canonical_run_order():"
+      ],
+      [
+       206,
+       "full = np.random.default_rng([9803, 4]).random(sum(len(v) for v in U.values()))"
+      ],
+      [
+       366,
+       "assert len(u) == 32 and u.tolist() == np.random.default_rng([9803, 1]).random((74, 32))[OM.BURNED.index(GAME)].tolist()"
+      ],
+      [
+       385,
+       "\"\"\"Review fix M-7 (\u00a712): development X4_on on the G2 dose seeds, X12_on only at 9826 (the F1 closure build);"
+      ],
+      [
+       386,
+       "sealed X4_on / X12_on only at the B1 2-run seeds 9853/9856; smoke draw 1 at 9800 only; the rest refused.\"\"\""
+      ],
+      [
+       389,
+       "assert [OM.dose_kind(c(\"alien\", s), \"X4s\") for s in (9826, 9829, 9827, 9830)] == \\"
+      ],
+      [
+       391,
+       "assert OM.dose_kind(c(\"alien\", 9826), \"X12s\") == (\"X12s\", 1)                # the F1 closure build only"
+      ],
+      [
+       394,
+       "assert OM.dose_kind(c(\"battle_zone\", 9853), sk) == OM.dose_kind(c(\"pacman\", 9856), sk) == (sk, 1)"
+      ],
+      [
+       395,
+       "for game, seed, sk in ((\"alien\", 9812, \"X12s\"), (\"alien\", 9827, \"X12s\"), (\"alien\", 9853, \"X12s\"),"
+      ],
+      [
+       396,
+       "(\"alien\", 9853, \"X4s\"), (\"alien\", SEED, \"X4s\"), (\"alien\", 9828, \"X4s\"),"
+      ],
+      [
+       397,
+       "(\"battle_zone\", 9826, \"X4s\"), (\"battle_zone\", 9826, \"X12s\"), (\"battle_zone\", 9854, \"X4s\"),"
+      ],
+      [
+       398,
+       "(\"battle_zone\", 9873, \"X12s\"), (\"battle_zone\", SEED, \"X12s\")):"
+      ],
+      [
+       404,
+       "\"\"\"Review fix M-7: X12_on at 9826 on a development unit builds its hooks and explorer exactly (the F1 closure"
+      ],
+      [
+       408,
+       "OM.write_object(od, OM._object(\"X12s\", unit, 1, [9804, 3], [\"pong\"], [], {}, {}))"
+      ],
+      [
+       409,
+       "ctx = types.SimpleNamespace(game=\"alien\", seed=9826, smoke=False, paths=dict(v85=str(tmp_path)))"
+      ],
+      [
+       412,
+       "ex = h[\"explorer\"](None, budget=1000, seed=9826, steer=None, q5=h[\"q5\"], chooser=None, boundary=None, **h[\"kwargs\"])"
+      ],
+      [
+       416,
+       "_, h = arms_v85.build(\"x12_on\", types.SimpleNamespace(game=\"battle_zone\", seed=9853, smoke=False,"
+      ],
+      [
+       447,
+       "assert small[\"x4\"][\"sources\"] == [\"pong\", \"qbert\"] and small[\"x4\"][\"seed\"] == [9804, 1]"
+      ],
+      [
+       527,
+       "arms_v85.build(\"x4_on\", ctx_of(smoke, seed=9812))                      # X4_on runs on the dose seeds"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_family_w_v85.py",
+     "lines": [
+      [
+       4,
+       "Seeds: 9800 only (\u00a712; smoke runs and tests, never a measurement). Object draws inside the builders use their own"
+      ],
+      [
+       5,
+       "\u00a74.4/\u00a712 seeds ([9803, 2], [9804, 1], ...), here on small inputs: real G1b streams truncated to their first"
+      ],
+      [
+       15,
+       "3. Builders on small real games: LOGO, integrity (trace d; P and U carry X's spectrum), the [9803, 2]"
+      ],
+      [
+       17,
+       "X4 draws from [9804, 1, i_g], S's q*, content hashes (tamper detection, rebuild determinism), the G1b npz"
+      ],
+      [
+       47,
+       "SEED, GAME = 9800, \"breakout\""
+      ],
+      [
+       313,
+       "only at 9826 (the F1 closure build, closure-only hooks); a sealed unit takes both only at the B1 2-run seeds"
+      ],
+      [
+       314,
+       "9853/9856; a smoke run (9800) takes draw 1; anything else is refused.\"\"\""
+      ],
+      [
+       316,
+       "assert [W.dose_draw(\"x4_s\", s, unit=dev) for s in (9826, 9829, 9827, 9830)] == [1, 1, 2, 2]"
+      ],
+      [
+       317,
+       "assert [W.dose_draw(a, s, unit=sealed) for a in (\"x4_s\", \"x12_s\") for s in (9853, 9856)] == [1, 1, 1, 1]"
+      ],
+      [
+       318,
+       "assert W.dose_draw(\"x12_s\", 9826, unit=dev) == 1                  # the F1 closure build (v85_calib.arm_closures)"
+      ],
+      [
+       320,
+       "for arm, s, u in ((\"x4_s\", 9828, dev), (\"x12_s\", 9827, dev), (\"x12_s\", 9829, dev), (\"x4_s\", SEED, dev),"
+      ],
+      [
+       321,
+       "(\"x4_s\", 9853, dev), (\"x12_s\", 9856, dev), (\"x4_s\", 9826, sealed), (\"x12_s\", 9826, sealed),"
+      ],
+      [
+       322,
+       "(\"x4_s\", 9854, sealed), (\"x12_s\", 9873, sealed), (\"x12_s\", SEED, sealed)):"
+      ],
+      [
+       326,
+       "W.dose_draw(\"x4_s\", 9826)                                     # the unit's pool decides: no default"
+      ],
+      [
+       343,
+       "\"\"\"Review fix W-3: X12_S at 9826 on a development unit builds its hooks and its explorer exactly (the F1"
+      ],
+      [
+       349,
+       "h = W.hooks_w(wctx(tmp_path, \"alien\", 9826), \"x12_s\")"
+      ],
+      [
+       351,
+       "ex = h[\"explorer\"](None, budget=1000, seed=9826, steer=h[\"steer\"], q5=None, chooser=None, boundary=None)"
+      ],
+      [
+       355,
+       "for c, arm in ((wctx(tmp_path, \"battle_zone\", 9853), \"x12_s\"), (wctx(tmp_path, \"alien\", SEED, True), \"x12_s\"),"
+      ],
+      [
+       356,
+       "(wctx(tmp_path, \"alien\", 9826), \"x4_s\")):"
+      ],
+      [
+       359,
+       "for c in (wctx(tmp_path, \"battle_zone\", 9826), wctx(tmp_path, \"alien\", 9853)):"
+      ],
+      [
+       366,
+       "\"\"\"v85_calib's closure build (v85_job --closure-only, production mode, seed 9826) works on a development unit;"
+      ],
+      [
+       371,
+       "c = J.run(GAME, \"A\", \"x12_s\", 9826, v85=d, s0=d, closure_only=True)"
+      ],
+      [
+       373,
+       "out = d / \"runs\" / f\"{GAME}_A_x12_s_9826.json\""
+      ],
+      [
+       375,
+       "J.run(GAME, \"A\", \"x12_s\", 9826, v85=d, s0=d, out=out)"
+      ],
+      [
+       394,
+       "h = W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")"
+      ],
+      [
+       398,
+       "W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")[\"steer\"].from_state(st)          # unchanged files: resumes"
+      ],
+      [
+       401,
+       "W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")[\"steer\"].from_state(st)"
+      ],
+      [
+       405,
+       "\"\"\"Review fix W-1/M-5: each sealed unit has its own X4_S and X12_S draw, default_rng([9804, 2 | 3, i_unit])"
+      ],
+      [
+       419,
+       "assert side[\"seeds\"] == [9804, p, W.UI[u]] and W.dose_sealed(u)[arm] == ((9804, p, W.UI[u]), size, 1)"
+      ],
+      [
+       420,
+       "pick = W.dose_picks(len(real), size, np.random.default_rng([9804, p, W.UI[u]]), 1)[0]"
+      ],
+      [
+       426,
+       "assert W.dose_dev(\"alien\") == {\"x4_s\": ((9804, 1, W.GI[\"alien\"]), 4, 2), \"x12_s\": ((9804, 3, W.GI[\"alien\"]), 12, 1)}"
+      ],
+      [
+       467,
+       "# P_S: labels permuted within each source run with [9803, 2, i_h, r]"
+      ],
+      [
+       469,
+       "lab = [G.permuted_labels(s[\"y\"][W.HEAD], np.random.default_rng([9803, 2, W.GI[h], s[\"seed\"]])) for s in data[h]]"
+      ],
+      [
+       486,
+       "# X4_S: 2 draws of 4 from [9804, 1, i_g]"
+      ],
+      [
+       487,
+       "picks = W.dose_picks(len(real), 4, np.random.default_rng([9804, 1, W.GI[GAME]]), 2)"
+      ],
+      [
+       490,
+       "assert s[\"draw_sources\"] == [real[i] for i in pick] and s[\"seeds\"] == [9804, 1, W.GI[GAME]]"
+      ],
+      [
+       550,
+       "assert \"amidar\" not in s4[\"sources\"] and s4[\"seeds\"] == [9804, 2, W.UI[\"frogger\"]] and len(s4[\"draw_sources\"]) == 4"
+      ],
+      [
+       552,
+       "assert s12[\"seeds\"] == [9804, 3, W.UI[\"frogger\"]] and len(set(s12[\"draw_sources\"])) == 12 \\"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_gbuild_v85.py",
+     "lines": [
+      [
+       6,
+       "G-build gate is this file plus every referenced node (one pytest process, sequentially). Seed 9800 only (\u00a712);"
+      ],
+      [
+       22,
+       "3. Start identity on alien and zaxxon (\u00a73: K_g = {3, 4}), both starts, seed 9800 at both (one Body per unit,"
+      ],
+      [
+       90,
+       "SEED, GAME = 9800, \"breakout\""
+      ],
+      [
+       766,
+       "note=\"smoke runs on seed 9800 at small caps (never a measurement); a 4M run's archive grows to the \""
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_job_v85.py",
+     "lines": [
+      [
+       3,
+       "G-build test 4: two smoke runs on seed 9800 give the same run JSON. Test 5: a kill (a real process kill at a"
+      ],
+      [
+       7,
+       "lists, claims and gates. Seed 9800 only (\u00a712); smoke caps are small."
+      ],
+      [
+       24,
+       "SEED, GAME = 9800, \"breakout\""
+      ],
+      [
+       397,
+       "A=dict(valid=True, E=9819), B=dict(valid=g != \"u1\", E=9820))"
+      ],
+      [
+       408,
+       "assert sorted(Q._parse(n)[3] for n in names if n.startswith(\"u0_A_v2s\")) == [9806, 9807, 9808]"
+      ],
+      [
+       409,
+       "assert \"u1_B_v2s_9809\" not in names and \"u0_B_v2s_9811\" in names and \"u0_A_d_9819\" in names"
+      ],
+      [
+       411,
+       "assert Q._parse(\"space_invaders_B_kmac_exact_9818\") == (\"space_invaders\", \"B\", \"kmac_exact\", 9818)"
+      ],
+      [
+       418,
+       "assert \"u0_A_o4_9812\" in names and \"u0_A_o4_9813\" in names and \"u0_A_o4_9814\" not in names   # O_4 at n_O4 = 4"
+      ],
+      [
+       419,
+       "assert \"u0_A_kmap_9814\" in names and \"u0_A_kmac_9814\" in names                               # n = 6"
+      ],
+      [
+       421,
+       "assert \"u1_A_kmac_9812\" not in names and \"u1_A_kmap_9813\" in names   # u1's B start invalid: no K*mac"
+      ],
+      [
+       422,
+       "assert \"space_invaders_B_kmap_9816\" in names"
+      ],
+      [
+       425,
+       "assert \"u1_A_kmac_exact_9818\" in names and \"u1_B_kmac_exact_9818\" not in names"
+      ],
+      [
+       427,
+       "assert dice == [\"space_invaders_B_o4_dice_9818\", \"u0_A_o4_dice_9818\"]   # positions 3 (odd) and 0 (even); u1: B invalid"
+      ],
+      [
+       434,
+       "assert p and all(Q._parse(j.name)[2] == \"gf4\" for j in p) and \"u0_A_gf4_9812\" in names"
+      ],
+      [
+       435,
+       "assert \"u0_A_gf4_9814\" not in names and \"space_invaders_B_gf4_9816\" in names   # the O_4 row's own seeds"
+      ],
+      [
+       443,
+       "assert js and all(Q._parse(j.name)[3] == 9800 and \"--smoke\" in j.args for j in js)"
+      ],
+      [
+       452,
+       "j = Q.Job(\"g_A_v2s_9806\", tmp_path / \"o.json\", [], 1.0)"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_objects_v85.py",
+     "lines": [
+      [
+       15,
+       "unit ([9804, 2, i_unit], [9804, 3, i_unit]; review fix W-1/M-5), the near-sibling variants, the F1 kappa.json"
+      ],
+      [
+       18,
+       "5. Every family arm builds its hooks on the driver's objects in production mode at seed 9826 (v85_calib's"
+      ],
+      [
+       136,
+       "assert W.load_object(R, \"x4_s\", u, k)[1][\"seeds\"] == [9804, 1, W.GI[u]]"
+      ],
+      [
+       138,
+       "assert s12[\"seeds\"] == [9804, 3, W.UI[u]] and len(set(s12[\"draw_sources\"])) == 12 and u not in s12[\"draw_sources\"]"
+      ],
+      [
+       272,
+       "assert s4[\"seeds\"] == [9804, 2, W.UI[\"frogger\"]] and len(s4[\"draw_sources\"]) == 4 and \"freeway\" not in s4[\"draw_sources\"]"
+      ],
+      [
+       273,
+       "assert s12[\"seeds\"] == [9804, 3, W.UI[\"frogger\"]] and len(set(s12[\"draw_sources\"])) == 12 \\"
+      ],
+      [
+       275,
+       "assert W.load_object(R, \"x4_s\", \"defender\", 1)[1][\"seeds\"] == [9804, 2, W.UI[\"defender\"]]   # per unit (W-1/M-5)"
+      ],
+      [
+       276,
+       "assert W.load_object(R, \"x12_s\", \"defender\", 1)[1][\"seeds\"] == [9804, 3, W.UI[\"defender\"]]"
+      ],
+      [
+       280,
+       "assert m4[\"seed\"] == [9804, 2] and len(m4[\"sources\"]) == 4 and m12[\"seed\"] == [9804, 3] and len(m12[\"sources\"]) == 12"
+      ],
+      [
+       340,
+       "def ctx(out, game=\"alien\", seed=9826, smoke=False):"
+      ],
+      [
+       341,
+       "return arms_v85.Ctx(game=game, start=\"A\", seed=seed, E=9819, s1=None, other_s1=None, body=None, ladder=[],"
+      ],
+      [
+       350,
+       "mod, hooks = arms_v85.build(arm, ctx(dev[\"out\"]))                            # production mode, seed 9826"
+      ],
+      [
+       361,
+       "for arm, seed in ((\"x12_s\", 9827), (\"x12_on\", 9827), (\"x4_s\", 9853), (\"x4_on\", 9853)):"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_oracle_v85.py",
+     "lines": [
+      [
+       21,
+       "SEED, GAME, CAP, SMALL = 9800, \"breakout\", 40_000, 20_000"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_senses_v85.py",
+     "lines": [
+      [
+       2,
+       "replay from s1, checkpoints. Seed 9800 = smoke runs and tests (\u00a712).\"\"\""
+      ],
+      [
+       12,
+       "SEED = 9800"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_stage0_v85.py",
+     "lines": [
+      [
+       3,
+       "2 units, both starts, from the cached files. Seed 9800 only (\u00a712): entry and emulator seeds 9800 at both starts,"
+      ],
+      [
+       4,
+       "spike-in simulations forced to [9800, b], few simulations."
+      ],
+      [
+       17,
+       "SEED = 9800"
+      ],
+      [
+       74,
+       "files = {\"ragnarok/agent_v85/a.py\": \"SEED = 9800\\n\", \"scripts/old.py\": \"x = 1\\nseed = 9850  # reused\\n\","
+      ],
+      [
+       76,
+       "\".venv-x/lib/v.py\": \"s = 9801\\n\", \"env2/lib/w.py\": \"s = 9801\\n\", \"under.py\": \"f'{g}_9899'\\n\"}"
+      ],
+      [
+       86,
+       "assert next(f for f in w[\"foreign\"] if f[\"path\"] == \"scripts/old.py\")[\"lines\"] == [[2, \"seed = 9850  # reused\"]]"
+      ],
+      [
+       102,
+       "(r / \"v85_mine.py\").write_text(\"SEED = 9812\\n\", encoding=\"utf-8\")"
+      ],
+      [
+       106,
+       "(r / \"old_arc.py\").write_text(\"x = 1\\nseed = 9851  # an old arc\\n\", encoding=\"utf-8\")"
+      ],
+      [
+       107,
+       "(r / \"v85_copy.py\").write_text(\"s = 9806\\n\", encoding=\"utf-8\")"
+      ],
+      [
+       116,
+       "assert next(f for f in b[\"foreign\"] if f[\"path\"] == \"arc4-old:old_arc.py\")[\"lines\"] == [[2, \"seed = 9851  # an old arc\"]]"
+      ],
+      [
+       129,
+       "log=lambda s: None, sim_seed=SEED)                       # spike-ins on [9800, b]: no monkeypatch"
+      ]
+     ]
+    },
+    {
+     "path": "tests/test_verdict_v85.py",
+     "lines": [
+      [
+       1,
+       "\"\"\"G-build test 7 (Part B): v85 verdict and calibration code on synthetic run JSONs only (seed 9800).\"\"\""
+      ],
+      [
+       24,
+       "rng = np.random.default_rng([9800, 1])"
+      ],
+      [
+       27,
+       "for s, s0 in ((\"A\", 9806), (\"B\", 9809)):"
+      ],
+      [
+       73,
+       "rng = np.random.default_rng([9800, 2])"
+      ],
+      [
+       79,
+       "draws = V.boot_draws(np.random.default_rng([9800, 3]), B, U, S, Na, Nc)"
+      ],
+      [
+       114,
+       "if r[\"arm\"] == \"V2s\" and r[\"seed\"] in (9806, 9809):"
+      ],
+      [
+       234,
+       "if r[\"start\"] == \"B\" and r[\"seed\"] == 9810:"
+      ],
+      [
+       264,
+       "if r[\"seed\"] in (9807, 9810):"
+      ],
+      [
+       270,
+       "if r[\"seed\"] in (9806, 9809):"
+      ],
+      [
+       276,
+       "rng = np.random.default_rng([9800, 4])"
+      ],
+      [
+       281,
+       "rs.append(mk(f\"g{u}\", s, \"V2s\", 9806 + i, np.cumsum(rng.uniform(1e5, 2e5, 3) * np.exp(rng.normal(0, 0.1))).tolist()))"
+      ],
+      [
+       282,
+       "rs.append(mk(f\"g{u}\", s, \"K*map\", 9812 + i, np.cumsum(rng.uniform(1e5, 2e5, 3) * np.exp(rng.normal(0, 0.6))).tolist()))"
+      ],
+      [
+       297,
+       "rerun = [dict(r, provenance=dict(dirty=False, closure_hash=\"h_new\")) for r in ist if r[\"seed\"] in (9806, 9809)]"
+      ],
+      [
+       303,
+       "assert not V.certificate(ist, [rerun[0]], \"g0\")[\"ok\"]                 # 9809 not re-executed"
+      ],
+      [
+       338,
+       "dice = [dict(r, arm=\"O_4-dice\", interruption=True) for r in rs if r[\"arm\"] == \"O_4\" and r[\"seed\"] == 9812]"
+      ],
+      [
+       361,
+       "\"\"\"An s0/starts.json: units in A.2 order, both starts valid (E 9819 / 9820), dropped units with K_g [] (A.3.5).\"\"\""
+      ],
+      [
+       367,
+       "A=dict(valid=not drop, E=9819, s1_sha256=f\"s1{g}A\", entry=dict(sha256=f\"e{g}A\")),"
+      ],
+      [
+       368,
+       "B=dict(valid=not drop and g not in invalid_b, E=9820, s1_sha256=f\"s1{g}B\", entry=dict(sha256=f\"e{g}B\")))"
+      ],
+      [
+       374,
+       "\"\"\"I-stage runs: 3 V2s per start (9806.. / 9809..), 1 D per start on E_s, D d_speed x faster.\"\"\""
+      ],
+      [
+       379,
+       "r[\"seed\"] = 9819 if r[\"start\"] == \"A\" else 9820"
+      ],
+      [
+       431,
+       "assert g1[\"G1\"] == \"INCOMPLETE\" and g1[\"rows\"] == {} and g1[\"missing\"] == [\"g0/A/O_4/9812\"]"
+      ],
+      [
+       488,
+       "assert V.g1p_report(v, V.group(rs + gf4), kgs(4), missing=[\"g0/A/GF4/9812\"], B=200)[\"status\"] == \"INCOMPLETE\""
+      ],
+      [
+       505,
+       "starts[\"units\"][\"g9\"][\"B\"] = dict(valid=False, E=9820)"
+      ],
+      [
+       525,
+       "ist = [dict(game=g, start=\"A\", arm=\"V2s\", seed=9806) for g in (order[3], order[2])]"
+      ],
+      [
+       537,
+       "assert miss == [\"g2/A/V2s/9806\", \"g2/A/V2s/9807\", \"g2/A/V2s/9808\", \"g2/A/D/9819\"]   # B invalid: nothing there"
+      ],
+      [
+       548,
+       "assert exp[(\"g0\", \"A\", \"o4\")] == [9812, 9813] and exp[(\"g0\", \"B\", \"kmap\")] == [9815, 9816, 9817]"
+      ],
+      [
+       549,
+       "assert (\"g2\", \"A\", \"kmac\") not in exp and exp[(\"g2\", \"A\", \"o4\")] == [9812, 9813]"
+      ],
+      [
+       550,
+       "rep = V.g1_report({}, K_gs, dict(n=4, tau_pt=1.8, tau_lb=1.25), missing=[\"g0/A/O_4/9812\"])"
+      ],
+      [
+       561,
+       "if r[\"arm\"] == \"V2s\" and r[\"game\"] in (\"g0\", \"g1\") and r[\"seed\"] in (9807, 9810):"
+      ],
+      [
+       587,
+       "dirty = [dict(r, provenance=dict(dirty=True, closure_hash=\"h_v2s\")) if r[\"arm\"] == \"V2s\" and r[\"seed\"] == 9806"
+      ],
+      [
+       601,
+       "\"replay mismatch: g0/A/D/9819\", \"replay mismatch: g0/B/D/9820\", \"no committed closure hash: D\"]"
+      ],
+      [
+       607,
+       "v2s = [dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9806, billed=1_000_000, stopped=True),"
+      ],
+      [
+       608,
+       "dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9807, billed=3_000_000, stopped=True),"
+      ],
+      [
+       609,
+       "dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9808, billed=4_000_100, stopped=False)]"
+      ],
+      [
+       635,
+       "assert (\"g1\", \"d\", 9819) in calls and (\"g1\", \"o4_dice\", 9818) in calls and len(calls) == len(C.arm_modules())"
+      ],
+      [
+       644,
+       "if r[\"arm\"] == \"O_4\" and r[\"seed\"] in (9812, 9815):"
+      ],
+      [
+       645,
+       "d = dict(r, arm=\"O_4-dice\", seed=9818, aborted=None)"
+      ],
+      [
+       667,
+       "rng = np.random.default_rng([9800, 7])"
+      ],
+      [
+       680,
+       "\"\"\"V2s runs (9806.. / 9809..) equal to `arm`'s 6-run G2 runs (9826.. / 9829..).\"\"\""
+      ],
+      [
+       782,
+       "assert np.array_equal(st1, st2)                                        # [9802, b] streams: reproducible"
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "branches": {
+  "repo": "F:\\dev\\ragnarok_v85",
+  "current": "arc4-v85",
+  "owned": [
+   "arc4-v85:ragnarok/evaluation/arms_v85/__init__.py",
+   "arc4-v85:ragnarok/evaluation/arms_v85/d.py",
+   "arc4-v85:ragnarok/evaluation/arms_v85/kmac_exact.py",
+   "arc4-v85:ragnarok/evaluation/arms_v85/kmac_tilde.py",
+   "arc4-v85:ragnarok/evaluation/arms_v85/o4_dice.py",
+   "arc4-v85:ragnarok/evaluation/oracle_v85.py",
+   "arc4-v85:ragnarok/evaluation/start_v85.py",
+   "arc4-v85:scripts/queue_v85.py",
+   "arc4-v85:scripts/v85_calib.py",
+   "arc4-v85:scripts/v85_job.py",
+   "arc4-v85:scripts/v85_stage0.py",
+   "arc4-v85:scripts/v85_verdict.py",
+   "arc4-v85:tests/test_arms_v85.py",
+   "arc4-v85:tests/test_explorer2s_v85.py",
+   "arc4-v85:tests/test_gbuild_v85.py",
+   "arc4-v85:tests/test_job_v85.py",
+   "arc4-v85:tests/test_oracle_v85.py",
+   "arc4-v85:tests/test_senses_v85.py",
+   "arc4-v85:tests/test_stage0_v85.py",
+   "arc4-v85:tests/test_verdict_v85.py"
+  ],
+  "foreign": [
+   {
+    "path": "arc4-v85-families:ragnarok/agent_v85/macros.py",
+    "lines": [
+     [
+      82,
+      "use inverse CDFs on uniforms supplied by the caller (the evaluator draws them from [9803, 1]). A placebo macro may"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/__init__.py",
+    "lines": [
+     [
+      43,
+      "E: int                         # the start's emulator and entry seed E_s (9819 / 9820; 9800 in smoke runs)"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/d.py",
+    "lines": [
+     [
+      4,
+      "M_{k_ref} then ends the run at the next restore. Agent seed E_s (\u00a712: 9819 / 9820; 9800 in smoke runs),"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/kmac_exact.py",
+    "lines": [
+     [
+      4,
+      "by Q5. Seed 9818 at every kept start. Never in labels or routing."
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/kmac_tilde.py",
+    "lines": [
+     [
+      2,
+      "Partners are a derangement of the stage's units (ctx.units, in draw order) drawn with default_rng([9801, 2])"
+     ],
+     [
+      8,
+      "Smoke runs (seed 9800, never a measurement) on a single-unit start have no derangement: the library is empty"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/o4_dice.py",
+    "lines": [
+     [
+      5,
+      "Seed 9818, one start per unit (queue). Never in labels or routing; the realised R beside S0's G_4 is a verdict"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/p_on.py",
+    "lines": [
+     [
+      2,
+      "sources, matched to X's macros on length and slot frequency ([9803, 1]), n0 = 10 per macro, plus online mining.\"\"\""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/p_s.py",
+    "lines": [
+     [
+      3,
+      "source run ([9803, 2]), spectrum-matched to X (v84 A.8 P), and kappa_P."
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/x12_on.py",
+    "lines": [
+     [
+      2,
+      "games ([9804, 3], one draw) plus online mining. Sealed unit: B1 seeds 9853/9856 only; development unit: seed 9826"
+     ],
+     [
+      3,
+      "only, the F1 closure build, whose explorer refuses to run; smoke 9800 (objects_m_v85.dose_kind).\"\"\""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/x12_s.py",
+    "lines": [
+     [
+      2,
+      "source heads ([9804, 3, i_unit], one draw per unit), kappa_X; on a sealed unit B1 seeds 9853/9856 only, smoke"
+     ],
+     [
+      3,
+      "9800 draw 1; on a development unit only seed 9826, the F1 closure build (v85_calib.arm_closures; scripts/v85_objects.py"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/x4_on.py",
+    "lines": [
+     [
+      2,
+      "plus online mining. Development: draw 1 on seeds 9826 (A) / 9829 (B), draw 2 on 9827 (A) / 9830 (B) ([9804, 1]);"
+     ],
+     [
+      3,
+      "sealed: one draw ([9804, 2]) at the B1 seeds 9853/9856 only; smoke: draw 1 at 9800; other seeds refused"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/arms_v85/x4_s.py",
+    "lines": [
+     [
+      3,
+      "on 9826/9829, draw 2 on 9827/9830, [9804, 1, i_unit]; a sealed unit B1 9853/9856, the single sealed draw"
+     ],
+     [
+      4,
+      "[9804, 2, i_unit]; smoke 9800 draw 1; other seeds refused)."
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/objects_m_v85.py",
+    "lines": [
+     [
+      15,
+      "(macros.placebo_library); its uniforms are row CANON_UNITS.index(unit) of default_rng([9803, 1]).random((74, 32))"
+     ],
+     [
+      19,
+      "- Dose draws: X4 (x4_<unit>_d<1|2>.json, development, [9804, 1], 2 draws of 4 games, \u00a78.2), X4s (x4s_<unit>.json,"
+     ],
+     [
+      20,
+      "sealed, [9804, 2], 1 draw of 4 games) and X12s (x12s_<unit>.json, sealed, [9804, 3], 1 draw of 12 games): the"
+     ],
+     [
+      22,
+      "default_rng([9804, p]).random((74, draws, 41)); draw d of a unit = the first n games of its sorted sources in the"
+     ],
+     [
+      24,
+      "per unit). One draw for each sealed dose (choice: B1 runs X4 and X12 twice per unit, one run per start, 9853 and"
+     ],
+     [
+      25,
+      "9856, and the seed table maps two draws only for G2)."
+     ],
+     [
+      26,
+      "- Development dose runs: draw 1 on seeds 9826 (A) and 9829 (B), draw 2 on 9827 (A) and 9830 (B) (\u00a712); a smoke run"
+     ],
+     [
+      27,
+      "(seed 9800) uses draw 1."
+     ],
+     [
+      29,
+      "and X12_on only at 9826, the F1 closure build, whose explorer refuses to run (`closure_only_explorer`: the hooks"
+     ],
+     [
+      31,
+      "sealed unit runs X4_on and X12_on only at the B1 2-run seeds 9853 and 9856 (\u00a712); a smoke run takes draw 1 at"
+     ],
+     [
+      32,
+      "seed 9800 only. Any other seed is refused (ValueError), as family W's objects_w_v85.dose_draw."
+     ],
+     [
+      34,
+      "Baseline windows ([9803, 4]): one stream, default_rng([9803, 4]).random(total), consumed in the canonical order of"
+     ],
+     [
+      70,
+      "SEED_P, SEED_BASE = (9803, 1), (9803, 4)"
+     ],
+     [
+      71,
+      "DOSE = {\"X4\": ((9804, 1), 4, 2), \"X4s\": ((9804, 2), 4, 1), \"X12s\": ((9804, 3), 12, 1)}   # seed, games, draws"
+     ],
+     [
+      72,
+      "DEV_DRAW = {9826: 1, 9829: 1, 9827: 2, 9830: 2, 9800: 1}"
+     ],
+     [
+      73,
+      "SMOKE_SEED = 9800"
+     ],
+     [
+      74,
+      "CLOSURE_SEED = 9826                                    # v85_calib.arm_closures: the F1 closure build of X12_on"
+     ],
+     [
+      75,
+      "B1_DOSE_SEEDS = (9853, 9856)                           # \u00a712: B1 2-run arms (X4, X12), one per start"
+     ],
+     [
+      134,
+      "\"\"\"{(game, seed): uniforms, one per non-ADV rollout}, from one [9803, 4] stream in canonical run order.\"\"\""
+     ],
+     [
+      397,
+      "f\"runs in B1 only (\u00a78.2, \u00a79; seeds 9853/9856, \u00a712)\", h[\"explorer\"])"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/objects_w_v85.py",
+    "lines": [
+     [
+      21,
+      "default_rng([9803, 2, i_h, r]) (i_h = h's index in pools_v83 DEV + CALIBRATION, r its G1b seed), then X's"
+     ],
+     [
+      24,
+      "recipe has no random draw: the \u00a712 seed [9803, 3] is reserved and recorded, not consumed."
+     ],
+     [
+      35,
+      "order) drawn without replacement from default_rng([9804, p, i_g]) with i_g = UI[g] (`dose_dev`,"
+     ],
+     [
+      41,
+      "sealed draws were default_rng([9804, 2]) / ([9804, 3]) with no unit index, i.e. one set of positions applied"
+     ],
+     [
+      45,
+      "hooks on a development unit at seed 9826 to hash its closure for F1): scripts/v85_objects.py also writes"
+     ],
+     [
+      46,
+      "x12_s/<unit>_d1 for development units with X12's recipe (`dose_dev`: [9804, 3, i_g], 12 heads, one draw), as"
+     ],
+     [
+      48,
+      "development unit, X12_S at seed 9826 builds its hooks exactly (the closure hash) but its explorer refuses to"
+     ],
+     [
+      49,
+      "run (`closure_only_explorer`); a sealed unit takes X4_S and X12_S only at the B1 2-run seeds 9853 and 9856,"
+     ],
+     [
+      50,
+      "a development unit X4_S only at the G2 dose seeds 9826, 9827, 9829, 9830 (`dose_draw`, \u00a712); a smoke run"
+     ],
+     [
+      51,
+      "(seed 9800) takes draw 1."
+     ],
+     [
+      100,
+      "SEED_P, SEED_U = (9803, 2), (9803, 3)"
+     ],
+     [
+      101,
+      "SEED_X4_DEV, SEED_X4_SEALED, SEED_X12_SEALED = (9804, 1), (9804, 2), (9804, 3)"
+     ],
+     [
+      102,
+      "DOSE = {\"x4_s\": {\"dev\": {9826: 1, 9829: 1, 9827: 2, 9830: 2},     # \u00a712: G2 dose seeds, draw 1 / 2"
+     ],
+     [
+      103,
+      "\"sealed\": {9853: 1, 9856: 1}},                     # B1 2-run arms, the single sealed draw"
+     ],
+     [
+      104,
+      "\"x12_s\": {\"dev\": {9826: 1},                                  # the F1 closure build only (never runs)"
+     ],
+     [
+      105,
+      "\"sealed\": {9853: 1, 9856: 1}}}                    # B1 only"
+     ],
+     [
+      106,
+      "CLOSURE_ONLY = {(\"x12_s\", 9826)}                  # development (arm, seed) built for the closure hash only"
+     ],
+     [
+      107,
+      "SMOKE_SEED = 9800"
+     ],
+     [
+      283,
+      "run (default_rng([9803, 2, i_h, r])), clock-only features (T_clock).\"\"\""
+     ],
+     [
+      366,
+      "\"\"\"Development dose objects of `unit` (module docstring): X4_S, 2 draws of 4 ([9804, 1, i_g]); X12_S's"
+     ],
+     [
+      367,
+      "closure object, 1 draw of 12 ([9804, 3, i_g]; written by scripts/v85_objects.py, never run).\"\"\""
+     ],
+     [
+      373,
+      "default_rng([9804, 2, i_g]) and default_rng([9804, 3, i_g]).\"\"\""
+     ],
+     [
+      398,
+      "\"permuted within each source run, default_rng([9803, 2, i_h, r]); X's spectrum\","
+     ],
+     [
+      399,
+      "u_s=\"v84 A.8 U: diag(lambda_X) on Q axes (seed [9803, 3] reserved, no draw)\","
+     ],
+     [
+      441,
+      "default_rng([9804, 1, i_unit]), `dose_dev`); then the kappa rule and the manifest. `data` (tests) replaces the"
+     ],
+     [
+      460,
+      "default_rng([9804, 2, i_unit]) and default_rng([9804, 3, i_unit]) (`dose_sealed`); no K_S. tag names a"
+     ],
+     [
+      564,
+      "\"\"\"The dose draw a run of `unit` uses (\u00a712; module docstring). Smoke runs (seed 9800) use draw 1. A"
+     ],
+     [
+      565,
+      "development (burned) unit: X4_S draw 1 on 9826/9829, draw 2 on 9827/9830; X12_S only at 9826, the F1"
+     ],
+     [
+      566,
+      "closure build (CLOSURE_ONLY). A sealed unit: the single sealed draw at the B1 2-run seeds 9853 and 9856."
+     ],
+     [
+      617,
+      "f\"X12 runs in B1 only (\u00a78.2, \u00a79; seeds 9853/9856, \u00a712)\")"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/oracle_v85.py",
+    "lines": [
+     [
+      29,
+      "partners from a derangement drawn with default_rng([9801, 2]), permutations of the given unit list"
+     ],
+     [
+      372,
+      "\"\"\"K~mac partners {unit: partner}: a derangement of the unit list drawn with default_rng([9801, 2]).\"\"\""
+     ],
+     [
+      375,
+      "rng = np.random.default_rng([9801, 2])"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:ragnarok/evaluation/start_v85.py",
+    "lines": [
+     [
+      8,
+      "- `entry_cache`: Body.enter on SenseEnv85(g, seed=E), E = 9819 (A) / 9820 (B), rng [E, 0]; the pickled"
+     ],
+     [
+      29,
+      "ENTRY_SEEDS = {\"A\": 9819, \"B\": 9820}"
+     ],
+     [
+      40,
+      "\"\"\"A.2: default_rng([9801, 1]).permutation of the eligible units (sorted by name first).\"\"\""
+     ],
+     [
+      41,
+      "return [str(g) for g in np.random.default_rng([9801, 1]).permutation(sorted(games))]"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/queue_v85.py",
+    "lines": [
+     [
+      8,
+      "smoke   G-build smoke runs (\u00a712): breakout and pong, start A, seed 9800, cap 500k, each arm of SMOKE_ARMS whose"
+     ],
+     [
+      10,
+      "istage  the first U valid units in draw order (U from s0/natural_spikeins.json \"U\", else --U): V2s 9806-9808 at"
+     ],
+     [
+      11,
+      "A, 9809-9811 at B; D 1 per start with agent seed E_s (A.10.2)."
+     ],
+     [
+      13,
+      "K*map, K*mac (n/2) runs per start (A 9812.., B 9815..; K*mac only when the other start is valid);"
+     ],
+     [
+      15,
+      "rows are queued after every core row: O_4-dice on 9818 (start A for units at even 0-based positions of"
+     ],
+     [
+      16,
+      "the A.2 draw order, B at odd ones; skipped if that start is invalid), K*mac-exact on 9818 at every kept start (it uses the start's own lineage)."
+     ],
+     [
+      45,
+      "SMOKE_GAMES, SMOKE_SEED, SMOKE_CAP = (\"breakout\", \"pong\"), 9800, 500_000"
+     ],
+     [
+      47,
+      "V2S_SEEDS = {\"A\": (9806, 9807, 9808), \"B\": (9809, 9810, 9811)}"
+     ],
+     [
+      48,
+      "G1_SEED0 = {\"A\": 9812, \"B\": 9815}"
+     ],
+     [
+      49,
+      "CAPTION_SEED = 9818"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/v85_calib.py",
+    "lines": [
+     [
+      3,
+      "On the I-stage V2s runs at the F1 rungs K_{g,s}, per simulation b (generator default_rng([9802, b])):"
+     ],
+     [
+      76,
+      "ARM_SEED = {\"v2s\": 9806, \"o4\": 9812, \"kmap\": 9812, \"kmac\": 9812, \"o4_dice\": 9818, \"kmac_exact\": 9818, \"gf4\": 9812,"
+     ],
+     [
+      77,
+      "\"gf\": 9812, \"kmac_tilde\": 9812}"
+     ],
+     [
+      81,
+      "SEED_SIM, SIMS, B_CAL = 9802, 1000, 1000"
+     ],
+     [
+      276,
+      "simulations on [seed, b] (9802, \u00a712; 9800 in tests).\"\"\""
+     ],
+     [
+      356,
+      "c = runner(v85, unit, arm, E if arm == \"d\" else ARM_SEED.get(arm, 9826))"
+     ],
+     [
+      390,
+      "def synthetic_cells(U=16, K=5, m=3, seed=9800):"
+     ],
+     [
+      391,
+      "\"\"\"Synthetic V2s-like cells for the runtime check (seed 9800: tests and smoke only).\"\"\""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/v85_job.py",
+    "lines": [
+     [
+      5,
+      "python scripts/v85_job.py breakout A v2s 9800 --smoke DIR [--cap N] [--out OUT] [--ckpt-s S]"
+     ],
+     [
+      42,
+      "Smoke (seed 9800 only, \u00a712; never a measurement): `--smoke DIR` builds once, in DIR, a start of the game by the"
+     ],
+     [
+      44,
+      "entry cache on SenseEnv85(g, 9800), shared by both starts (E = 9800). Smoke rungs: K_g = every k in 2..k* with"
+     ],
+     [
+      71,
+      "SMOKE_SEED = 9800"
+     ],
+     [
+      152,
+      "assert seed == SMOKE_SEED, \"smoke runs use seed 9800 only (\u00a712)\""
+     ],
+     [
+      296,
+      "ap.add_argument(\"--smoke\", metavar=\"DIR\", help=\"smoke run on seed 9800 from a start built in DIR\")"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/v85_objects.py",
+    "lines": [
+     [
+      14,
+      "A.2 order of default_rng([9801, 1]) (\u00a712; the rule of start_v85.unit_order(eligible_units()), recomputed here"
+     ],
+     [
+      18,
+      "([9804, 1, i_unit], objects_w_v85.dose_dev); and X12_S's closure object (below)."
+     ],
+     [
+      19,
+      "- M (R/m/*.json): X (x_<unit>), K_mine, P_on, the two X4 draws ([9804, 1]), X12s's closure object; DM once."
+     ],
+     [
+      23,
+      "Per unit: W F_S, X_S, P_S, U_S, T, S, X4_S ([9804, 2, i_unit]) and X12_S ([9804, 3, i_unit]), one draw each per"
+     ],
+     [
+      57,
+      "at seed 9826). Family M already writes x12s_<unit>.json for development units; family W gets the same: X12_S's"
+     ],
+     [
+      58,
+      "recipe ([9804, 3, i_unit], 12 of the unit's heads, one draw) as x12_s/<unit>_d1, and objects_w_v85.DOSE maps"
+     ],
+     [
+      59,
+      "seed 9826 to draw 1 for x12_s on a development unit only. Such a run is built for the closure hash and its"
+     ],
+     [
+      129,
+      "default_rng([9801, 1]).permutation(sorted) (the rule of start_v85.unit_order(eligible_units())).\"\"\""
+     ],
+     [
+      132,
+      "return [str(g) for g in np.random.default_rng([9801, 1]).permutation(games)]"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/v85_stage0.py",
+    "lines": [
+     [
+      9,
+      "Body.enter(SenseEnv85(g, E), rng [E, 0], E) pickled to entry/<g>_<E>_body.pkl (E = 9819 at A, 9820 at B; the"
+     ],
+     [
+      16,
+      "scripts/v85_calib.p_room_x2 (n = 4, tau = 0.2, 1.75 / 1.25, [9802, b]) for U in {10, 12, 16} capped at the number"
+     ],
+     [
+      21,
+      "(f) seed_grep.json: the block 9800-9899 in the project .py files of every git worktree (uncommitted files"
+     ],
+     [
+      28,
+      "- A.2 order: default_rng([9801, 1]).permutation of the 16 eligible units (start_v85.unit_order), drops removed"
+     ],
+     [
+      360,
+      "\"\"\"(f): the seed block 9800-9899 in the project .py files of every worktree and, through `repo`, of every"
+     ],
+     [
+      396,
+      "return dict(rule=\"docs/ARC4_V85_PROTOCOL_EN.md A.10.1(f), \u00a73, \u00a712: seed block 9800-9899\","
+     ],
+     [
+      405,
+      "sim_seed: the spike-in simulations' [seed, b] (9802, \u00a712; 9800 in tests).\"\"\""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:scripts/v85_verdict.py",
+    "lines": [
+     [
+      15,
+      "status/stage \"INCOMPLETE\" with the missing runs: I-stage = 3 V2s (9806-9808 / 9809-9811) and 1 D (seed E_s)"
+     ],
+     [
+      18,
+      "O_4; K*mac only where the other start is valid) on 9812.. / 9815..; G1-P = the same (g, s, seed) for each ROOM"
+     ],
+     [
+      26,
+      "(reruns of 9806 / 9809 on the first unit in istage/certificate/ or g1/certificate/, made under the committed"
+     ],
+     [
+      40,
+      "- bootstrap stream of a contrast: default_rng([9805, crc32(\"<gate>:<arm>:<comparator>\")]); lam, lam_late and"
+     ],
+     [
+      70,
+      "unclipped), two-level bootstrap (units, then runs per cell), stream [9805, crc32(\"G2b:interaction\")];"
+     ],
+     [
+      73,
+      "[9859, 2] above 16 units); leave-one-game-out minimum of the point R(X:F); the bootstrap on [9859, .]; the"
+     ],
+     [
+      74,
+      "sealed instrument line is V2s {9853, 9856} against {9854, 9857}; ACCUMULATES uses Page's L over doses"
+     ],
+     [
+      75,
+      "0 (F) / 4 / 12 / 41 (X) on unit means of lam, p by 20,000 within-unit permutations on [9859, 3]."
+     ],
+     [
+      108,
+      "B_VERDICT, SEED_BOOT = 2000, 9805"
+     ],
+     [
+      114,
+      "LINE = ((9806, 9809), (9807, 9810))"
+     ],
+     [
+      115,
+      "LINE_SEALED = ((9853, 9856), (9854, 9857))"
+     ],
+     [
+      116,
+      "SEED_SEALED = 9859"
+     ],
+     [
+      117,
+      "V2S_SEEDS = {\"A\": (9806, 9807, 9808), \"B\": (9809, 9810, 9811)}"
+     ],
+     [
+      118,
+      "G1_SEED0 = {\"A\": 9812, \"B\": 9815}"
+     ],
+     [
+      119,
+      "G2_SEEDS = {6: {\"A\": (9826, 9827, 9828), \"B\": (9829, 9830, 9831)}, 4: {\"A\": (9826, 9827), \"B\": (9829, 9830)}}"
+     ],
+     [
+      120,
+      "B1_SEEDS = {8: {\"A\": (9853, 9854, 9855, 9873, 9874), \"B\": (9856, 9857, 9858, 9875, 9876)},"
+     ],
+     [
+      121,
+      "6: {\"A\": (9853, 9854, 9855), \"B\": (9856, 9857, 9858)}, 4: {\"A\": (9853, 9854), \"B\": (9856, 9857)},"
+     ],
+     [
+      122,
+      "2: {\"A\": (9853,), \"B\": (9856,)}}"
+     ],
+     [
+      273,
+      "seed: the bootstrap seed family ([9805, .] development, [9859, .] sealed).\"\"\""
+     ],
+     [
+      449,
+      "\"\"\"\u00a713.4 reuse certificate: V2s seeds 9806 (A) and 9809 (B) on the first unit in draw order, re-executed under"
+     ],
+     [
+      453,
+      "for s, seed in ((\"A\", 9806), (\"B\", 9809)):"
+     ],
+     [
+      688,
+      "\"\"\"A.10.2: 3 V2s (9806-9808 / 9809-9811) and 1 D (seed E_s) per valid start of each I-stage unit.\"\"\""
+     ],
+     [
+      787,
+      "\"\"\"A.10.2: V2s {9806, 9809} against {9807, 9810}; INSTRUMENT-FAIL if the 99% interval excludes 1.\"\"\""
+     ],
+     [
+      1145,
+      "\"\"\"\u00a79 B1 for one family on sealed runs (bootstrap on [9859, .]); the label ladder of Part C with"
+     ],
+     [
+      1389,
+      "if any(int(r[\"seed\"]) in (9873, 9874, 9875, 9876) for r in allr):   # the 8-seed rule (\u00a79 F2): X and F at 8"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_arms_v85.py",
+    "lines": [
+     [
+      4,
+      "breakout smoke job (seed 9800 only, \u00a712; small caps) and writes a run JSON valid under the shared schema, with"
+     ],
+     [
+      24,
+      "SEED, GAME, TWIN = 9800, \"breakout\", \"breakout_twin\""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_explorer2s_v85.py",
+    "lines": [
+     [
+      13,
+      "SEED, GAME, CAP = 9800, \"breakout\", 50_000"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_family_m_v85.py",
+    "lines": [
+     [
+      2,
+      "F_M). Seed 9800 only for runs (\u00a712); small caps and 2-3 small games, so nothing here is a measurement."
+     ],
+     [
+      32,
+      "SEED, GAME = 9800, \"breakout\""
+     ],
+     [
+      202,
+      "def test_baseline_uniforms_are_one_9803_4_stream_in_canonical_run_order():"
+     ],
+     [
+      206,
+      "full = np.random.default_rng([9803, 4]).random(sum(len(v) for v in U.values()))"
+     ],
+     [
+      366,
+      "assert len(u) == 32 and u.tolist() == np.random.default_rng([9803, 1]).random((74, 32))[OM.BURNED.index(GAME)].tolist()"
+     ],
+     [
+      385,
+      "\"\"\"Review fix M-7 (\u00a712): development X4_on on the G2 dose seeds, X12_on only at 9826 (the F1 closure build);"
+     ],
+     [
+      386,
+      "sealed X4_on / X12_on only at the B1 2-run seeds 9853/9856; smoke draw 1 at 9800 only; the rest refused.\"\"\""
+     ],
+     [
+      389,
+      "assert [OM.dose_kind(c(\"alien\", s), \"X4s\") for s in (9826, 9829, 9827, 9830)] == \\"
+     ],
+     [
+      391,
+      "assert OM.dose_kind(c(\"alien\", 9826), \"X12s\") == (\"X12s\", 1)                # the F1 closure build only"
+     ],
+     [
+      394,
+      "assert OM.dose_kind(c(\"battle_zone\", 9853), sk) == OM.dose_kind(c(\"pacman\", 9856), sk) == (sk, 1)"
+     ],
+     [
+      395,
+      "for game, seed, sk in ((\"alien\", 9812, \"X12s\"), (\"alien\", 9827, \"X12s\"), (\"alien\", 9853, \"X12s\"),"
+     ],
+     [
+      396,
+      "(\"alien\", 9853, \"X4s\"), (\"alien\", SEED, \"X4s\"), (\"alien\", 9828, \"X4s\"),"
+     ],
+     [
+      397,
+      "(\"battle_zone\", 9826, \"X4s\"), (\"battle_zone\", 9826, \"X12s\"), (\"battle_zone\", 9854, \"X4s\"),"
+     ],
+     [
+      398,
+      "(\"battle_zone\", 9873, \"X12s\"), (\"battle_zone\", SEED, \"X12s\")):"
+     ],
+     [
+      404,
+      "\"\"\"Review fix M-7: X12_on at 9826 on a development unit builds its hooks and explorer exactly (the F1 closure"
+     ],
+     [
+      408,
+      "OM.write_object(od, OM._object(\"X12s\", unit, 1, [9804, 3], [\"pong\"], [], {}, {}))"
+     ],
+     [
+      409,
+      "ctx = types.SimpleNamespace(game=\"alien\", seed=9826, smoke=False, paths=dict(v85=str(tmp_path)))"
+     ],
+     [
+      412,
+      "ex = h[\"explorer\"](None, budget=1000, seed=9826, steer=None, q5=h[\"q5\"], chooser=None, boundary=None, **h[\"kwargs\"])"
+     ],
+     [
+      416,
+      "_, h = arms_v85.build(\"x12_on\", types.SimpleNamespace(game=\"battle_zone\", seed=9853, smoke=False,"
+     ],
+     [
+      447,
+      "assert small[\"x4\"][\"sources\"] == [\"pong\", \"qbert\"] and small[\"x4\"][\"seed\"] == [9804, 1]"
+     ],
+     [
+      527,
+      "arms_v85.build(\"x4_on\", ctx_of(smoke, seed=9812))                      # X4_on runs on the dose seeds"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_family_w_v85.py",
+    "lines": [
+     [
+      4,
+      "Seeds: 9800 only (\u00a712; smoke runs and tests, never a measurement). Object draws inside the builders use their own"
+     ],
+     [
+      5,
+      "\u00a74.4/\u00a712 seeds ([9803, 2], [9804, 1], ...), here on small inputs: real G1b streams truncated to their first"
+     ],
+     [
+      15,
+      "3. Builders on small real games: LOGO, integrity (trace d; P and U carry X's spectrum), the [9803, 2]"
+     ],
+     [
+      17,
+      "X4 draws from [9804, 1, i_g], S's q*, content hashes (tamper detection, rebuild determinism), the G1b npz"
+     ],
+     [
+      47,
+      "SEED, GAME = 9800, \"breakout\""
+     ],
+     [
+      313,
+      "only at 9826 (the F1 closure build, closure-only hooks); a sealed unit takes both only at the B1 2-run seeds"
+     ],
+     [
+      314,
+      "9853/9856; a smoke run (9800) takes draw 1; anything else is refused.\"\"\""
+     ],
+     [
+      316,
+      "assert [W.dose_draw(\"x4_s\", s, unit=dev) for s in (9826, 9829, 9827, 9830)] == [1, 1, 2, 2]"
+     ],
+     [
+      317,
+      "assert [W.dose_draw(a, s, unit=sealed) for a in (\"x4_s\", \"x12_s\") for s in (9853, 9856)] == [1, 1, 1, 1]"
+     ],
+     [
+      318,
+      "assert W.dose_draw(\"x12_s\", 9826, unit=dev) == 1                  # the F1 closure build (v85_calib.arm_closures)"
+     ],
+     [
+      320,
+      "for arm, s, u in ((\"x4_s\", 9828, dev), (\"x12_s\", 9827, dev), (\"x12_s\", 9829, dev), (\"x4_s\", SEED, dev),"
+     ],
+     [
+      321,
+      "(\"x4_s\", 9853, dev), (\"x12_s\", 9856, dev), (\"x4_s\", 9826, sealed), (\"x12_s\", 9826, sealed),"
+     ],
+     [
+      322,
+      "(\"x4_s\", 9854, sealed), (\"x12_s\", 9873, sealed), (\"x12_s\", SEED, sealed)):"
+     ],
+     [
+      326,
+      "W.dose_draw(\"x4_s\", 9826)                                     # the unit's pool decides: no default"
+     ],
+     [
+      343,
+      "\"\"\"Review fix W-3: X12_S at 9826 on a development unit builds its hooks and its explorer exactly (the F1"
+     ],
+     [
+      349,
+      "h = W.hooks_w(wctx(tmp_path, \"alien\", 9826), \"x12_s\")"
+     ],
+     [
+      351,
+      "ex = h[\"explorer\"](None, budget=1000, seed=9826, steer=h[\"steer\"], q5=None, chooser=None, boundary=None)"
+     ],
+     [
+      355,
+      "for c, arm in ((wctx(tmp_path, \"battle_zone\", 9853), \"x12_s\"), (wctx(tmp_path, \"alien\", SEED, True), \"x12_s\"),"
+     ],
+     [
+      356,
+      "(wctx(tmp_path, \"alien\", 9826), \"x4_s\")):"
+     ],
+     [
+      359,
+      "for c in (wctx(tmp_path, \"battle_zone\", 9826), wctx(tmp_path, \"alien\", 9853)):"
+     ],
+     [
+      366,
+      "\"\"\"v85_calib's closure build (v85_job --closure-only, production mode, seed 9826) works on a development unit;"
+     ],
+     [
+      371,
+      "c = J.run(GAME, \"A\", \"x12_s\", 9826, v85=d, s0=d, closure_only=True)"
+     ],
+     [
+      373,
+      "out = d / \"runs\" / f\"{GAME}_A_x12_s_9826.json\""
+     ],
+     [
+      375,
+      "J.run(GAME, \"A\", \"x12_s\", 9826, v85=d, s0=d, out=out)"
+     ],
+     [
+      394,
+      "h = W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")"
+     ],
+     [
+      398,
+      "W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")[\"steer\"].from_state(st)          # unchanged files: resumes"
+     ],
+     [
+      401,
+      "W.hooks_w(wctx(tmp_path, \"alien\", 9812), \"x_s\")[\"steer\"].from_state(st)"
+     ],
+     [
+      405,
+      "\"\"\"Review fix W-1/M-5: each sealed unit has its own X4_S and X12_S draw, default_rng([9804, 2 | 3, i_unit])"
+     ],
+     [
+      419,
+      "assert side[\"seeds\"] == [9804, p, W.UI[u]] and W.dose_sealed(u)[arm] == ((9804, p, W.UI[u]), size, 1)"
+     ],
+     [
+      420,
+      "pick = W.dose_picks(len(real), size, np.random.default_rng([9804, p, W.UI[u]]), 1)[0]"
+     ],
+     [
+      426,
+      "assert W.dose_dev(\"alien\") == {\"x4_s\": ((9804, 1, W.GI[\"alien\"]), 4, 2), \"x12_s\": ((9804, 3, W.GI[\"alien\"]), 12, 1)}"
+     ],
+     [
+      467,
+      "# P_S: labels permuted within each source run with [9803, 2, i_h, r]"
+     ],
+     [
+      469,
+      "lab = [G.permuted_labels(s[\"y\"][W.HEAD], np.random.default_rng([9803, 2, W.GI[h], s[\"seed\"]])) for s in data[h]]"
+     ],
+     [
+      486,
+      "# X4_S: 2 draws of 4 from [9804, 1, i_g]"
+     ],
+     [
+      487,
+      "picks = W.dose_picks(len(real), 4, np.random.default_rng([9804, 1, W.GI[GAME]]), 2)"
+     ],
+     [
+      490,
+      "assert s[\"draw_sources\"] == [real[i] for i in pick] and s[\"seeds\"] == [9804, 1, W.GI[GAME]]"
+     ],
+     [
+      550,
+      "assert \"amidar\" not in s4[\"sources\"] and s4[\"seeds\"] == [9804, 2, W.UI[\"frogger\"]] and len(s4[\"draw_sources\"]) == 4"
+     ],
+     [
+      552,
+      "assert s12[\"seeds\"] == [9804, 3, W.UI[\"frogger\"]] and len(set(s12[\"draw_sources\"])) == 12 \\"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_gbuild_v85.py",
+    "lines": [
+     [
+      6,
+      "G-build gate is this file plus every referenced node (one pytest process, sequentially). Seed 9800 only (\u00a712);"
+     ],
+     [
+      22,
+      "3. Start identity on alien and zaxxon (\u00a73: K_g = {3, 4}), both starts, seed 9800 at both (one Body per unit,"
+     ],
+     [
+      90,
+      "SEED, GAME = 9800, \"breakout\""
+     ],
+     [
+      766,
+      "note=\"smoke runs on seed 9800 at small caps (never a measurement); a 4M run's archive grows to the \""
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_job_v85.py",
+    "lines": [
+     [
+      3,
+      "G-build test 4: two smoke runs on seed 9800 give the same run JSON. Test 5: a kill (a real process kill at a"
+     ],
+     [
+      7,
+      "lists, claims and gates. Seed 9800 only (\u00a712); smoke caps are small."
+     ],
+     [
+      24,
+      "SEED, GAME = 9800, \"breakout\""
+     ],
+     [
+      397,
+      "A=dict(valid=True, E=9819), B=dict(valid=g != \"u1\", E=9820))"
+     ],
+     [
+      408,
+      "assert sorted(Q._parse(n)[3] for n in names if n.startswith(\"u0_A_v2s\")) == [9806, 9807, 9808]"
+     ],
+     [
+      409,
+      "assert \"u1_B_v2s_9809\" not in names and \"u0_B_v2s_9811\" in names and \"u0_A_d_9819\" in names"
+     ],
+     [
+      411,
+      "assert Q._parse(\"space_invaders_B_kmac_exact_9818\") == (\"space_invaders\", \"B\", \"kmac_exact\", 9818)"
+     ],
+     [
+      418,
+      "assert \"u0_A_o4_9812\" in names and \"u0_A_o4_9813\" in names and \"u0_A_o4_9814\" not in names   # O_4 at n_O4 = 4"
+     ],
+     [
+      419,
+      "assert \"u0_A_kmap_9814\" in names and \"u0_A_kmac_9814\" in names                               # n = 6"
+     ],
+     [
+      421,
+      "assert \"u1_A_kmac_9812\" not in names and \"u1_A_kmap_9813\" in names   # u1's B start invalid: no K*mac"
+     ],
+     [
+      422,
+      "assert \"space_invaders_B_kmap_9816\" in names"
+     ],
+     [
+      425,
+      "assert \"u1_A_kmac_exact_9818\" in names and \"u1_B_kmac_exact_9818\" not in names"
+     ],
+     [
+      427,
+      "assert dice == [\"space_invaders_B_o4_dice_9818\", \"u0_A_o4_dice_9818\"]   # positions 3 (odd) and 0 (even); u1: B invalid"
+     ],
+     [
+      434,
+      "assert p and all(Q._parse(j.name)[2] == \"gf4\" for j in p) and \"u0_A_gf4_9812\" in names"
+     ],
+     [
+      435,
+      "assert \"u0_A_gf4_9814\" not in names and \"space_invaders_B_gf4_9816\" in names   # the O_4 row's own seeds"
+     ],
+     [
+      443,
+      "assert js and all(Q._parse(j.name)[3] == 9800 and \"--smoke\" in j.args for j in js)"
+     ],
+     [
+      452,
+      "j = Q.Job(\"g_A_v2s_9806\", tmp_path / \"o.json\", [], 1.0)"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_objects_v85.py",
+    "lines": [
+     [
+      15,
+      "unit ([9804, 2, i_unit], [9804, 3, i_unit]; review fix W-1/M-5), the near-sibling variants, the F1 kappa.json"
+     ],
+     [
+      18,
+      "5. Every family arm builds its hooks on the driver's objects in production mode at seed 9826 (v85_calib's"
+     ],
+     [
+      136,
+      "assert W.load_object(R, \"x4_s\", u, k)[1][\"seeds\"] == [9804, 1, W.GI[u]]"
+     ],
+     [
+      138,
+      "assert s12[\"seeds\"] == [9804, 3, W.UI[u]] and len(set(s12[\"draw_sources\"])) == 12 and u not in s12[\"draw_sources\"]"
+     ],
+     [
+      272,
+      "assert s4[\"seeds\"] == [9804, 2, W.UI[\"frogger\"]] and len(s4[\"draw_sources\"]) == 4 and \"freeway\" not in s4[\"draw_sources\"]"
+     ],
+     [
+      273,
+      "assert s12[\"seeds\"] == [9804, 3, W.UI[\"frogger\"]] and len(set(s12[\"draw_sources\"])) == 12 \\"
+     ],
+     [
+      275,
+      "assert W.load_object(R, \"x4_s\", \"defender\", 1)[1][\"seeds\"] == [9804, 2, W.UI[\"defender\"]]   # per unit (W-1/M-5)"
+     ],
+     [
+      276,
+      "assert W.load_object(R, \"x12_s\", \"defender\", 1)[1][\"seeds\"] == [9804, 3, W.UI[\"defender\"]]"
+     ],
+     [
+      280,
+      "assert m4[\"seed\"] == [9804, 2] and len(m4[\"sources\"]) == 4 and m12[\"seed\"] == [9804, 3] and len(m12[\"sources\"]) == 12"
+     ],
+     [
+      340,
+      "def ctx(out, game=\"alien\", seed=9826, smoke=False):"
+     ],
+     [
+      341,
+      "return arms_v85.Ctx(game=game, start=\"A\", seed=seed, E=9819, s1=None, other_s1=None, body=None, ladder=[],"
+     ],
+     [
+      350,
+      "mod, hooks = arms_v85.build(arm, ctx(dev[\"out\"]))                            # production mode, seed 9826"
+     ],
+     [
+      361,
+      "for arm, seed in ((\"x12_s\", 9827), (\"x12_on\", 9827), (\"x4_s\", 9853), (\"x4_on\", 9853)):"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_oracle_v85.py",
+    "lines": [
+     [
+      21,
+      "SEED, GAME, CAP, SMALL = 9800, \"breakout\", 40_000, 20_000"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_senses_v85.py",
+    "lines": [
+     [
+      2,
+      "replay from s1, checkpoints. Seed 9800 = smoke runs and tests (\u00a712).\"\"\""
+     ],
+     [
+      12,
+      "SEED = 9800"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_stage0_v85.py",
+    "lines": [
+     [
+      3,
+      "2 units, both starts, from the cached files. Seed 9800 only (\u00a712): entry and emulator seeds 9800 at both starts,"
+     ],
+     [
+      4,
+      "spike-in simulations forced to [9800, b], few simulations."
+     ],
+     [
+      17,
+      "SEED = 9800"
+     ],
+     [
+      74,
+      "files = {\"ragnarok/agent_v85/a.py\": \"SEED = 9800\\n\", \"scripts/old.py\": \"x = 1\\nseed = 9850  # reused\\n\","
+     ],
+     [
+      76,
+      "\".venv-x/lib/v.py\": \"s = 9801\\n\", \"env2/lib/w.py\": \"s = 9801\\n\", \"under.py\": \"f'{g}_9899'\\n\"}"
+     ],
+     [
+      86,
+      "assert next(f for f in w[\"foreign\"] if f[\"path\"] == \"scripts/old.py\")[\"lines\"] == [[2, \"seed = 9850  # reused\"]]"
+     ],
+     [
+      102,
+      "(r / \"v85_mine.py\").write_text(\"SEED = 9812\\n\", encoding=\"utf-8\")"
+     ],
+     [
+      106,
+      "(r / \"old_arc.py\").write_text(\"x = 1\\nseed = 9851  # an old arc\\n\", encoding=\"utf-8\")"
+     ],
+     [
+      107,
+      "(r / \"v85_copy.py\").write_text(\"s = 9806\\n\", encoding=\"utf-8\")"
+     ],
+     [
+      116,
+      "assert next(f for f in b[\"foreign\"] if f[\"path\"] == \"arc4-old:old_arc.py\")[\"lines\"] == [[2, \"seed = 9851  # an old arc\"]]"
+     ],
+     [
+      129,
+      "log=lambda s: None, sim_seed=SEED)                       # spike-ins on [9800, b]: no monkeypatch"
+     ]
+    ]
+   },
+   {
+    "path": "arc4-v85-families:tests/test_verdict_v85.py",
+    "lines": [
+     [
+      1,
+      "\"\"\"G-build test 7 (Part B): v85 verdict and calibration code on synthetic run JSONs only (seed 9800).\"\"\""
+     ],
+     [
+      24,
+      "rng = np.random.default_rng([9800, 1])"
+     ],
+     [
+      27,
+      "for s, s0 in ((\"A\", 9806), (\"B\", 9809)):"
+     ],
+     [
+      73,
+      "rng = np.random.default_rng([9800, 2])"
+     ],
+     [
+      79,
+      "draws = V.boot_draws(np.random.default_rng([9800, 3]), B, U, S, Na, Nc)"
+     ],
+     [
+      114,
+      "if r[\"arm\"] == \"V2s\" and r[\"seed\"] in (9806, 9809):"
+     ],
+     [
+      234,
+      "if r[\"start\"] == \"B\" and r[\"seed\"] == 9810:"
+     ],
+     [
+      264,
+      "if r[\"seed\"] in (9807, 9810):"
+     ],
+     [
+      270,
+      "if r[\"seed\"] in (9806, 9809):"
+     ],
+     [
+      276,
+      "rng = np.random.default_rng([9800, 4])"
+     ],
+     [
+      281,
+      "rs.append(mk(f\"g{u}\", s, \"V2s\", 9806 + i, np.cumsum(rng.uniform(1e5, 2e5, 3) * np.exp(rng.normal(0, 0.1))).tolist()))"
+     ],
+     [
+      282,
+      "rs.append(mk(f\"g{u}\", s, \"K*map\", 9812 + i, np.cumsum(rng.uniform(1e5, 2e5, 3) * np.exp(rng.normal(0, 0.6))).tolist()))"
+     ],
+     [
+      297,
+      "rerun = [dict(r, provenance=dict(dirty=False, closure_hash=\"h_new\")) for r in ist if r[\"seed\"] in (9806, 9809)]"
+     ],
+     [
+      303,
+      "assert not V.certificate(ist, [rerun[0]], \"g0\")[\"ok\"]                 # 9809 not re-executed"
+     ],
+     [
+      338,
+      "dice = [dict(r, arm=\"O_4-dice\", interruption=True) for r in rs if r[\"arm\"] == \"O_4\" and r[\"seed\"] == 9812]"
+     ],
+     [
+      361,
+      "\"\"\"An s0/starts.json: units in A.2 order, both starts valid (E 9819 / 9820), dropped units with K_g [] (A.3.5).\"\"\""
+     ],
+     [
+      367,
+      "A=dict(valid=not drop, E=9819, s1_sha256=f\"s1{g}A\", entry=dict(sha256=f\"e{g}A\")),"
+     ],
+     [
+      368,
+      "B=dict(valid=not drop and g not in invalid_b, E=9820, s1_sha256=f\"s1{g}B\", entry=dict(sha256=f\"e{g}B\")))"
+     ],
+     [
+      374,
+      "\"\"\"I-stage runs: 3 V2s per start (9806.. / 9809..), 1 D per start on E_s, D d_speed x faster.\"\"\""
+     ],
+     [
+      379,
+      "r[\"seed\"] = 9819 if r[\"start\"] == \"A\" else 9820"
+     ],
+     [
+      431,
+      "assert g1[\"G1\"] == \"INCOMPLETE\" and g1[\"rows\"] == {} and g1[\"missing\"] == [\"g0/A/O_4/9812\"]"
+     ],
+     [
+      488,
+      "assert V.g1p_report(v, V.group(rs + gf4), kgs(4), missing=[\"g0/A/GF4/9812\"], B=200)[\"status\"] == \"INCOMPLETE\""
+     ],
+     [
+      505,
+      "starts[\"units\"][\"g9\"][\"B\"] = dict(valid=False, E=9820)"
+     ],
+     [
+      525,
+      "ist = [dict(game=g, start=\"A\", arm=\"V2s\", seed=9806) for g in (order[3], order[2])]"
+     ],
+     [
+      537,
+      "assert miss == [\"g2/A/V2s/9806\", \"g2/A/V2s/9807\", \"g2/A/V2s/9808\", \"g2/A/D/9819\"]   # B invalid: nothing there"
+     ],
+     [
+      548,
+      "assert exp[(\"g0\", \"A\", \"o4\")] == [9812, 9813] and exp[(\"g0\", \"B\", \"kmap\")] == [9815, 9816, 9817]"
+     ],
+     [
+      549,
+      "assert (\"g2\", \"A\", \"kmac\") not in exp and exp[(\"g2\", \"A\", \"o4\")] == [9812, 9813]"
+     ],
+     [
+      550,
+      "rep = V.g1_report({}, K_gs, dict(n=4, tau_pt=1.8, tau_lb=1.25), missing=[\"g0/A/O_4/9812\"])"
+     ],
+     [
+      561,
+      "if r[\"arm\"] == \"V2s\" and r[\"game\"] in (\"g0\", \"g1\") and r[\"seed\"] in (9807, 9810):"
+     ],
+     [
+      587,
+      "dirty = [dict(r, provenance=dict(dirty=True, closure_hash=\"h_v2s\")) if r[\"arm\"] == \"V2s\" and r[\"seed\"] == 9806"
+     ],
+     [
+      601,
+      "\"replay mismatch: g0/A/D/9819\", \"replay mismatch: g0/B/D/9820\", \"no committed closure hash: D\"]"
+     ],
+     [
+      607,
+      "v2s = [dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9806, billed=1_000_000, stopped=True),"
+     ],
+     [
+      608,
+      "dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9807, billed=3_000_000, stopped=True),"
+     ],
+     [
+      609,
+      "dict(game=\"g0\", start=\"A\", arm=\"v2s\", seed=9808, billed=4_000_100, stopped=False)]"
+     ],
+     [
+      635,
+      "assert (\"g1\", \"d\", 9819) in calls and (\"g1\", \"o4_dice\", 9818) in calls and len(calls) == len(C.arm_modules())"
+     ],
+     [
+      644,
+      "if r[\"arm\"] == \"O_4\" and r[\"seed\"] in (9812, 9815):"
+     ],
+     [
+      645,
+      "d = dict(r, arm=\"O_4-dice\", seed=9818, aborted=None)"
+     ],
+     [
+      667,
+      "rng = np.random.default_rng([9800, 7])"
+     ],
+     [
+      680,
+      "\"\"\"V2s runs (9806.. / 9809..) equal to `arm`'s 6-run G2 runs (9826.. / 9829..).\"\"\""
+     ],
+     [
+      782,
+      "assert np.array_equal(st1, st2)                                        # [9802, b] streams: reproducible"
+     ]
+    ]
+   }
+  ]
+ },
+ "foreign_files": 66,
+ "PASS": false,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "code_sha": "26a3f4ff4c5008502af2e9654df90fe555fe48f9",
+  "dirty": false,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "launched": "2026-11-03 11:29:19",
+  "launched_ts": 1793701759.5050275,
+  "inputs": {},
+  "closure_hash": "6ed40c15af1d15de83ec0903531abc67d6f0776ce1132c16c24c8ec34534dac9",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/pools_v83.py",
+    "5173c37a9d084b6c54487a1d0e02058fda18b9098a58784fdd765537eec58c8d"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_calib.py",
+    "6967297256d34692b41ab469f84270e76e63474331314756a674adb087a8b2bd"
+   ],
+   [
+    "scripts/v85_stage0.py",
+    "9bf55736d55652b77dad5ba1d5a15927ebc612c1bbe006c305ad9656c9a9b951"
+   ],
+   [
+    "scripts/v85_verdict.py",
+    "ef6800a084b41f24f87058bdd269a35a0185994a43e252d64e5d5410d02f04bf"
+   ]
+  ],
+  "closure_foreign": []
+ }
+}
