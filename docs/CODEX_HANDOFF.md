@@ -464,3 +464,6 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   puis 6 des familles, renuméroter en 8) ; (3) `python scripts/v85_objects.py` (~30 min) ; (4)
   `python scripts/v85_calib.py closures`, puis la calibration et `f1` → `f1_thresholds.json`, commit F1 ;
   (5) file G1 (`queue_v85.py g1`).
+- 12 h 40 : `arc4-v85` déjà fusionné DANS `arc4-v85-families` (commit `866396d`, conflit des notes résolu : notes
+  5, 6, 7) ; la fusion de l'étape (2) sera donc une avance rapide :
+  `git -C F:\dev\ragnarok_v85 merge --ff-only arc4-v85-families` (seulement quand aucun calcul ne tourne).
