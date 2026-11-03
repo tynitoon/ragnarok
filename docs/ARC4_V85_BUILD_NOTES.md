@@ -307,3 +307,13 @@ Rejected by the verifiers (kept for the record):
   Verifier: The two stubs (test_gbuild_v85.py:560-567) are skipped explicitly with reason "item 12, written at F1". The module docstring states that F_M and the W arms do not exist yet. The handoff tracks them (CODEX_HANDOFF.md:407-408: "2 sautés : bras F_M et W de l'item 12, écrits à F1"). Those arms do not exist before item 12 and are not used by the I-stage, G1 or G1-P, so no result on the G1 path depends on these identities. The obligation to test them before G2 is real but already recorded. It is not a defect in the code under review.
 
 Tests after the fixes: Run from F:\dev\ragnarok_v85 with F:\dev\ragnarok\.venv-arc4\Scripts\python.exe, one process at a time. (1) pytest -q tests/test_senses_v85.py tests/test_start_v85.py tests/test_explorer2s_v85.py tests/test_oracle_v85.py: 21 passed (354.9 s). (2) pytest -q tests/test_job_v85.py: 17 passed (205.9 s). (3) pytest -q tests/test_verdict_v85.py tests/test_stage0_v85.py: 41 passed (30 verdict + 11 stage0, 89.6 s). (4) pytest -q tests/test_arms_v85.py: 11 passed (156.2 s). (5) pytest -q tests/test_gbuild_v85.py: 34 passed, 2 skipped (both pre-existing 'item 12, written at F1' skips; 407.2 s). Fail-without-fix check: the HEAD code (git archive HEAD into the scratchpad copy C:\Users\jeremie\AppData\Local\Temp\claude\F--dev-ragnarok\826ba484-cdf9-442a-89b7-2049c18871fc\scratchpad\old_head) was run with the new tests, and every new or changed test fails there. Verdict: 19 failed. Job (new tests plus the extended real-process-kill test): 7 of 7 failed. Stage0: the K5 test failed and the sim_seed fixture errored. Oracle: test_no_lookahead_after_the_run_is_over failed. V2s byte identity held: explorer2s.py is unchanged, and test_explorer2s_v85, test_oracle_v85::test_prefix_identities, test_job_v85::test_o1_job_equals_v2s and the G-build identity tests pass. Nothing was committed or deleted. No real v85 compute was run.
+
+## 5. Operational note (3 November 2026, 07:00, before S0)
+
+The §13.3 launch gate (>= 14.5 GB free on min(RAM, commit)) and the 14 GB supervisor guard exist so that the Tavern
+project keeps its memory. Jérémie said on 3 November that Tavern does not run today and will be launched the day
+after tomorrow. `scripts/queue_v85.py` gains `--min-free GB` (default 14.5, unchanged); S0 and the I-stage are
+launched with a 12.5 GB gate while Tavern is off. The RAM supervisor runs at `--low 12 --high 14 --clow 12
+--chigh 14` (Jérémie's 12 GB rule): when Tavern returns, it suspends Ragnarok processes below 12 GB, and workers
+are relaunched with the default gate. This changes only when jobs start, never what a job computes: runs are
+deterministic and resumable, and no result criterion depends on it.

@@ -395,8 +395,11 @@ if __name__ == "__main__":
     g.add_argument("--launch", type=int, nargs="?", const=3)
     g.add_argument("--worker", action="store_true")
     ap.add_argument("--U", type=int)
+    ap.add_argument("--min-free", type=float, default=MIN_FREE_GB,
+                    help="launch gate in GB (default 14.5, §13.3); lower only under a dated build note")
     a = ap.parse_args()
-    extra = ("--U", str(a.U)) if a.U else ()
+    MIN_FREE_GB = a.min_free
+    extra = (("--U", str(a.U)) if a.U else ()) + (("--min-free", str(a.min_free)) if a.min_free != 14.5 else ())
     if a.list:
         for j in jobs(a.stage, a.U):
             print("done" if j.out.exists() else "todo", j.tier, round(j.est), j.name)
