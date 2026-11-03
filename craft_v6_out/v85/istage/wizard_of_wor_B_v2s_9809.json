@@ -1,0 +1,978 @@
+{
+ "game": "wizard_of_wor",
+ "start": "B",
+ "arm": "v2s",
+ "seed": 9809,
+ "cap": 4000000,
+ "k_ref": 7,
+ "ladder": [
+  930.0,
+  1240.0,
+  1860.0,
+  3100.0,
+  5580.0,
+  10540.0,
+  20460.0,
+  40300.0,
+  79980.0,
+  159340.0,
+  318060.0
+ ],
+ "S1": 1300.0,
+ "rungs": [
+  3,
+  4,
+  5,
+  6,
+  7
+ ],
+ "records": [
+  [
+   0,
+   1300.0,
+   1300.0,
+   0,
+   0
+  ],
+  [
+   2732,
+   1400.0,
+   1400.0,
+   198,
+   0
+  ],
+  [
+   2896,
+   1500.0,
+   1500.0,
+   239,
+   0
+  ],
+  [
+   8576,
+   1600.0,
+   1600.0,
+   327,
+   0
+  ],
+  [
+   26552,
+   1700.0,
+   1700.0,
+   516,
+   0
+  ],
+  [
+   26608,
+   1800.0,
+   1800.0,
+   530,
+   0
+  ],
+  [
+   29600,
+   2100.0,
+   2100.0,
+   680,
+   0
+  ],
+  [
+   57240,
+   2300.0,
+   2300.0,
+   820,
+   0
+  ],
+  [
+   57372,
+   2800.0,
+   2800.0,
+   853,
+   0
+  ],
+  [
+   241624,
+   3300.0,
+   3300.0,
+   1148,
+   0
+  ],
+  [
+   268688,
+   3400.0,
+   3400.0,
+   1449,
+   0
+  ],
+  [
+   280236,
+   3500.0,
+   3500.0,
+   1548,
+   0
+  ],
+  [
+   292316,
+   3600.0,
+   3600.0,
+   1653,
+   0
+  ],
+  [
+   313020,
+   3700.0,
+   3700.0,
+   1874,
+   0
+  ],
+  [
+   318768,
+   3800.0,
+   3800.0,
+   1835,
+   0
+  ],
+  [
+   335388,
+   4000.0,
+   4000.0,
+   1844,
+   0
+  ],
+  [
+   355264,
+   4300.0,
+   4300.0,
+   1242,
+   0
+  ],
+  [
+   362428,
+   7100.0,
+   7100.0,
+   1364,
+   0
+  ],
+  [
+   395232,
+   7300.0,
+   7300.0,
+   1661,
+   0
+  ],
+  [
+   414344,
+   7500.0,
+   7500.0,
+   1916,
+   0
+  ],
+  [
+   420436,
+   7700.0,
+   7700.0,
+   1936,
+   0
+  ],
+  [
+   428196,
+   7900.0,
+   7900.0,
+   1879,
+   0
+  ],
+  [
+   428456,
+   8300.0,
+   8300.0,
+   1944,
+   0
+  ],
+  [
+   428460,
+   8500.0,
+   8500.0,
+   1945,
+   0
+  ],
+  [
+   433624,
+   8900.0,
+   8900.0,
+   2124,
+   0
+  ],
+  [
+   436068,
+   9900.0,
+   9900.0,
+   2148,
+   0
+  ],
+  [
+   441780,
+   10100.0,
+   10100.0,
+   2399,
+   0
+  ],
+  [
+   441836,
+   11100.0,
+   11100.0,
+   2413,
+   0
+  ],
+  [
+   455940,
+   11900.0,
+   11900.0,
+   2432,
+   0
+  ],
+  [
+   475280,
+   12100.0,
+   12100.0,
+   2463,
+   0
+  ],
+  [
+   536884,
+   12500.0,
+   12500.0,
+   2593,
+   0
+  ],
+  [
+   682572,
+   13900.0,
+   13900.0,
+   2776,
+   0
+  ],
+  [
+   685664,
+   14100.0,
+   14100.0,
+   2947,
+   0
+  ],
+  [
+   685724,
+   14300.0,
+   14300.0,
+   2962,
+   0
+  ],
+  [
+   703868,
+   14500.0,
+   14500.0,
+   2990,
+   0
+  ],
+  [
+   712108,
+   14700.0,
+   14700.0,
+   3041,
+   0
+  ],
+  [
+   713928,
+   14900.0,
+   14900.0,
+   3232,
+   0
+  ],
+  [
+   730352,
+   15100.0,
+   15100.0,
+   3209,
+   0
+  ],
+  [
+   736988,
+   15300.0,
+   15300.0,
+   3297,
+   0
+  ],
+  [
+   771612,
+   15700.0,
+   15700.0,
+   3461,
+   0
+  ],
+  [
+   771836,
+   15900.0,
+   15900.0,
+   3517,
+   0
+  ],
+  [
+   771964,
+   16900.0,
+   16900.0,
+   3549,
+   0
+  ],
+  [
+   772648,
+   17300.0,
+   17300.0,
+   3635,
+   0
+  ],
+  [
+   772676,
+   17700.0,
+   17700.0,
+   3642,
+   0
+  ],
+  [
+   772804,
+   18700.0,
+   18700.0,
+   3674,
+   0
+  ],
+  [
+   774100,
+   19700.0,
+   19700.0,
+   3858,
+   0
+  ],
+  [
+   791584,
+   20700.0,
+   20700.0,
+   4079,
+   0
+  ],
+  [
+   791736,
+   22100.0,
+   22100.0,
+   4117,
+   0
+  ],
+  [
+   850748,
+   24900.0,
+   24900.0,
+   4340,
+   0
+  ],
+  [
+   861472,
+   25100.0,
+   25100.0,
+   4603,
+   0
+  ],
+  [
+   861504,
+   25500.0,
+   25500.0,
+   4611,
+   0
+  ],
+  [
+   871576,
+   25900.0,
+   25900.0,
+   4662,
+   0
+  ],
+  [
+   893932,
+   26500.0,
+   26500.0,
+   4657,
+   0
+  ],
+  [
+   925412,
+   26900.0,
+   26900.0,
+   4618,
+   0
+  ],
+  [
+   925636,
+   27300.0,
+   27300.0,
+   4674,
+   0
+  ],
+  [
+   925652,
+   27700.0,
+   27700.0,
+   4678,
+   0
+  ],
+  [
+   925884,
+   28100.0,
+   28100.0,
+   4736,
+   0
+  ],
+  [
+   926012,
+   28500.0,
+   28500.0,
+   4768,
+   0
+  ],
+  [
+   926940,
+   28700.0,
+   28700.0,
+   4761,
+   0
+  ],
+  [
+   929000,
+   29100.0,
+   29100.0,
+   4806,
+   0
+  ],
+  [
+   960120,
+   29700.0,
+   29700.0,
+   4790,
+   0
+  ],
+  [
+   960316,
+   30100.0,
+   30100.0,
+   4839,
+   0
+  ],
+  [
+   967632,
+   30500.0,
+   30500.0,
+   4884,
+   0
+  ],
+  [
+   967764,
+   30700.0,
+   30700.0,
+   4917,
+   0
+  ],
+  [
+   967848,
+   31700.0,
+   31700.0,
+   4938,
+   0
+  ],
+  [
+   967920,
+   32100.0,
+   32100.0,
+   4956,
+   0
+  ],
+  [
+   1025700,
+   33100.0,
+   33100.0,
+   5186,
+   0
+  ],
+  [
+   1026220,
+   33200.0,
+   33200.0,
+   5316,
+   0
+  ],
+  [
+   1057640,
+   33300.0,
+   33300.0,
+   5502,
+   0
+  ],
+  [
+   1066908,
+   33400.0,
+   33400.0,
+   5476,
+   0
+  ],
+  [
+   1089996,
+   33500.0,
+   33500.0,
+   5594,
+   0
+  ],
+  [
+   1093188,
+   33600.0,
+   33600.0,
+   5657,
+   0
+  ],
+  [
+   1099188,
+   33800.0,
+   33800.0,
+   5483,
+   0
+  ],
+  [
+   1104200,
+   33900.0,
+   33900.0,
+   5634,
+   0
+  ],
+  [
+   1109052,
+   34000.0,
+   34000.0,
+   5523,
+   0
+  ],
+  [
+   1109140,
+   34200.0,
+   34200.0,
+   5545,
+   0
+  ],
+  [
+   1109652,
+   34300.0,
+   34300.0,
+   5673,
+   0
+  ],
+  [
+   1195516,
+   34400.0,
+   34400.0,
+   6057,
+   0
+  ],
+  [
+   1224684,
+   34500.0,
+   34500.0,
+   6154,
+   0
+  ],
+  [
+   1311212,
+   34700.0,
+   34700.0,
+   5862,
+   0
+  ],
+  [
+   1355728,
+   35000.0,
+   35000.0,
+   6234,
+   0
+  ],
+  [
+   1434912,
+   35300.0,
+   35300.0,
+   6343,
+   0
+  ],
+  [
+   1436428,
+   35400.0,
+   35400.0,
+   6355,
+   0
+  ],
+  [
+   1436464,
+   35900.0,
+   35900.0,
+   6364,
+   0
+  ],
+  [
+   1468760,
+   36100.0,
+   36100.0,
+   6388,
+   0
+  ],
+  [
+   1468768,
+   36200.0,
+   36200.0,
+   6390,
+   0
+  ],
+  [
+   1565484,
+   36400.0,
+   36400.0,
+   6540,
+   0
+  ],
+  [
+   1709240,
+   36600.0,
+   36600.0,
+   6677,
+   0
+  ],
+  [
+   1776056,
+   36800.0,
+   36800.0,
+   6559,
+   0
+  ],
+  [
+   1776448,
+   37000.0,
+   37000.0,
+   6657,
+   0
+  ],
+  [
+   1972528,
+   37500.0,
+   37500.0,
+   6712,
+   0
+  ],
+  [
+   1977068,
+   37700.0,
+   37700.0,
+   6816,
+   0
+  ],
+  [
+   2046060,
+   37900.0,
+   37900.0,
+   6994,
+   0
+  ],
+  [
+   2889704,
+   39300.0,
+   39300.0,
+   7717,
+   0
+  ],
+  [
+   2894832,
+   39700.0,
+   39700.0,
+   7933,
+   0
+  ],
+  [
+   2917584,
+   39900.0,
+   39900.0,
+   8266,
+   0
+  ],
+  [
+   2919160,
+   40100.0,
+   40100.0,
+   8093,
+   0
+  ],
+  [
+   2919192,
+   40500.0,
+   40500.0,
+   8101,
+   0
+  ]
+ ],
+ "T": {
+  "1": 0,
+  "2": 29600,
+  "3": 241624,
+  "4": 362428,
+  "5": 441836,
+  "6": 791584,
+  "7": 2919192,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "T_total": {
+  "1": 0,
+  "2": 29600,
+  "3": 241624,
+  "4": 362428,
+  "5": 441836,
+  "6": 791584,
+  "7": 2919192,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "replay": [
+  {
+   "k": 3,
+   "ok": true,
+   "replayed": [
+    3300.0,
+    3300.0,
+    1148
+   ],
+   "recorded": [
+    3300.0,
+    3300.0,
+    1148
+   ]
+  },
+  {
+   "k": 7,
+   "ok": true,
+   "replayed": [
+    40500.0,
+    40500.0,
+    8101
+   ],
+   "recorded": [
+    40500.0,
+    40500.0,
+    8101
+   ]
+  }
+ ],
+ "interruption": false,
+ "summary": {
+  "expansions": 6590,
+  "cells": 8757,
+  "best_S": 40500.0,
+  "evicted": 163467,
+  "billed": 2919192,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 0,
+  "probe_frames_after_entry": 0
+ },
+ "instrument": {},
+ "entry": {
+  "sha256": "caa82acb5b064bf3714876cda4d8feaf9d0c3c65ff492f611dc8949321fc05e5",
+  "entry_frames": 122200
+ },
+ "oracle_frames": 0,
+ "wall_s": 1245.471227645874,
+ "peak_ws_mb": 488.34375,
+ "peak_commit_mb": 568.640625,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "commit": "151d037351246c49df6af0512109ab56cd61c2a5",
+  "dirty": false,
+  "closure_hash": "be6068375f684814a1fa0f20aaf6717bad7f66831715efd64398cb860abbc300",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/explorer.py",
+    "3b87fccca13544b3e74f9b8b9ddbb360a9fdc483339aa4de0b546c3c7d5bb3ad"
+   ],
+   [
+    "ragnarok/agent_v83/logs.py",
+    "cfe84f39a62dcf37115152c43ab18938a76f9f79021c29bbc42081dd3932ee3a"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/agent_v83/views.py",
+    "021937daa253051fba4d61d52868184add7dace13e0e3e2d7d01316479d13bd1"
+   ],
+   [
+    "ragnarok/agent_v84/__init__.py",
+    "a29734aa62795bd6f6af9640017adb583c6c0c4bc7f39576e5782c0cb0ae6b6e"
+   ],
+   [
+    "ragnarok/agent_v84/explorer2.py",
+    "6c072f062c9fcce90d47082020ccadd2db5ba8ba00029d60f3538ab194870230"
+   ],
+   [
+    "ragnarok/agent_v84/framecode.py",
+    "f8915688e4b9b1db7a56482cb7805359ff38105f04f8ee34ee5364df6edec0b1"
+   ],
+   [
+    "ragnarok/agent_v84/rowlog.py",
+    "00ef9cd4deabbee99d0b780ec9cf336d2fee45a101f8365aa7d028bb7dfcfc07"
+   ],
+   [
+    "ragnarok/agent_v85/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "ragnarok/agent_v85/explorer2s.py",
+    "70d8406a8d65135bb0d72ed3691f294867ec47a86a9f820ca218836f3bc60e33"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/__init__.py",
+    "312233f98396ddb22f1ab032edfd73ff357e6f1dccf528e13fb4acac3a9d68d6"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/v2s.py",
+    "82a5e2ca4b21ed448731b520ee778ef13a98ca69bd6d0026c4694e13c0579b6a"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_job.py",
+    "6460f825ee9d04ac2d0daa3d39bf490e4272e514b5677380ed2347e5e76fbec3"
+   ]
+  ],
+  "closure_foreign": [],
+  "closure_consistent": true,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\starts.json": "0365465b91854988001e5a5148d1acaa8cf92e8da958154863086bbbea8e2c18",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\s1\\wizard_of_wor_B_s1.pkl": "d2fa8abeb0675ec6bc396f6815682488367c746e49e1532cee8c0614611c90c0",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\entry\\wizard_of_wor_9820_body.pkl": "caa82acb5b064bf3714876cda4d8feaf9d0c3c65ff492f611dc8949321fc05e5",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\s1\\wizard_of_wor_A_s1.pkl": "decedc3ba5f94c953e24ad7af97f0b353a9c874fc3e368acbfa79b6240a90834"
+  },
+  "segments": [
+   {
+    "code_sha": "151d037351246c49df6af0512109ab56cd61c2a5",
+    "dirty": false,
+    "launched": "2026-11-03 16:42:56",
+    "resumed_at_exp": null,
+    "closure_agrees": true
+   }
+  ],
+  "ckpt": {
+   "writes": 4,
+   "max_mb": 226.012,
+   "max_s": 1.357,
+   "every_s": 300.0,
+   "last_exp": 6416
+  },
+  "launched": "2026-11-03 16:42:56",
+  "ended": "2026-11-03 17:03:41",
+  "python": "3.14.3",
+  "hashseed": "0"
+ },
+ "E": 9820,
+ "k_first": 3,
+ "rungs_source": "s0",
+ "billed": 2919192,
+ "stopped": true,
+ "s1_sha256": "d2fa8abeb0675ec6bc396f6815682488367c746e49e1532cee8c0614611c90c0",
+ "exp": {
+  "n": 6590,
+  "meta_sha256": "3f2ade2b2fb35150e7818cbb9654f7be7c94e4990e6685f5091955ee15108ddf",
+  "feat_sha256": "8c2efcd704c8a682f1d9f2a4885629e73ca8d29309b46d93a4952da2481c3cf1"
+ },
+ "aborted": null
+}

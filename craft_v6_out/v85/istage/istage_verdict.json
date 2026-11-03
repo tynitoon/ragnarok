@@ -1,0 +1,545 @@
+{
+ "rule": "docs/ARC4_V85_PROTOCOL_EN.md A.10.2-A.10.4",
+ "units": [
+  "wizard_of_wor",
+  "gopher",
+  "phoenix",
+  "bank_heist",
+  "zaxxon",
+  "up_n_down",
+  "yars_revenge",
+  "jamesbond",
+  "pooyan",
+  "qbert",
+  "chopper_command",
+  "alien",
+  "video_pinball",
+  "amidar",
+  "asterix",
+  "kung_fu_master"
+ ],
+ "K_gs": null,
+ "cross_fit": {
+  "alien/A": {
+   "k_top": 3,
+   "K": [],
+   "n_other": 3,
+   "complete": true
+  },
+  "alien/B": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "amidar/A": {
+   "k_top": 6,
+   "K": [
+    4,
+    5,
+    6
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "amidar/B": {
+   "k_top": 6,
+   "K": [
+    4,
+    5,
+    6
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "asterix/A": {
+   "k_top": 7,
+   "K": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "asterix/B": {
+   "k_top": 7,
+   "K": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "bank_heist/A": {
+   "k_top": 5,
+   "K": [
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "bank_heist/B": {
+   "k_top": 5,
+   "K": [
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "chopper_command/A": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "chopper_command/B": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "gopher/A": {
+   "k_top": 6,
+   "K": [
+    4,
+    5,
+    6
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "gopher/B": {
+   "k_top": 6,
+   "K": [
+    4,
+    5,
+    6
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "jamesbond/A": {
+   "k_top": 8,
+   "K": [
+    3,
+    4,
+    5,
+    7,
+    8
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "jamesbond/B": {
+   "k_top": 8,
+   "K": [
+    3,
+    4,
+    5,
+    7,
+    8
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "kung_fu_master/A": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "kung_fu_master/B": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "phoenix/A": {
+   "k_top": 4,
+   "K": [],
+   "n_other": 3,
+   "complete": true
+  },
+  "phoenix/B": {
+   "k_top": 5,
+   "K": [
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "pooyan/A": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "pooyan/B": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "qbert/A": {
+   "k_top": 7,
+   "K": [
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "qbert/B": {
+   "k_top": 7,
+   "K": [
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "up_n_down/A": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "up_n_down/B": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "video_pinball/A": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "video_pinball/B": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "wizard_of_wor/A": {
+   "k_top": 7,
+   "K": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "wizard_of_wor/B": {
+   "k_top": 7,
+   "K": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "yars_revenge/A": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "yars_revenge/B": {
+   "k_top": 5,
+   "K": [
+    3,
+    4,
+    5
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "zaxxon/A": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  },
+  "zaxxon/B": {
+   "k_top": 4,
+   "K": [
+    3,
+    4
+   ],
+   "n_other": 3,
+   "complete": true
+  }
+ },
+ "d_control": {
+  "r_g": {
+   "wizard_of_wor": 7.999999999999998,
+   "gopher": 7.999999999999998,
+   "phoenix": 7.999999999999998,
+   "bank_heist": 7.999999999999998,
+   "zaxxon": 7.999999999999998,
+   "up_n_down": 7.999999999999998,
+   "yars_revenge": 7.999999999999998,
+   "jamesbond": 7.999999999999998,
+   "pooyan": 7.999999999999998,
+   "qbert": 7.999999999999998,
+   "chopper_command": 7.999999999999998,
+   "alien": 7.999999999999998,
+   "video_pinball": 7.999999999999998,
+   "amidar": 7.999999999999998,
+   "asterix": 7.999999999999998,
+   "kung_fu_master": 7.999999999999998
+  },
+  "share": 1.0,
+  "exact": true,
+  "passed": true,
+  "uncross_fitted_units": []
+ },
+ "instrument_line": {
+  "R": 0.8093057245354054,
+  "CI99": [
+   0.6819012581149404,
+   0.9635607341870004
+  ],
+  "U": 16,
+  "instrument_fail": true
+ },
+ "missing": [],
+ "d_fix": null,
+ "regime_ratio": {
+  "name": "R(natural V2 from its own M1 : V2s from s1), on the counted rungs",
+  "R": 1.015181412861346,
+  "LB90": 0.8553199702506381,
+  "UB90": 1.2075061886425131,
+  "r_g": {
+   "alien": 1.9742718942684148,
+   "amidar": 1.9312662676364745,
+   "asterix": 0.6984830043621569,
+   "bank_heist": 1.1388151258161803,
+   "chopper_command": 1.1122531785444667,
+   "gopher": 0.8103623564122167,
+   "jamesbond": 0.7435873262331218,
+   "kung_fu_master": 2.5487113474441876,
+   "phoenix": 0.2749325551549729,
+   "pooyan": 0.7141892072712346,
+   "qbert": 0.8070029578751663,
+   "up_n_down": 0.619734864051461,
+   "video_pinball": 0.9857919108171518,
+   "wizard_of_wor": 1.4340270214433564,
+   "yars_revenge": 1.6740449179510322,
+   "zaxxon": 1.0569990317036666
+  }
+ },
+ "interruptions": [
+  "replay mismatch: yars_revenge/A/v2s/9807"
+ ],
+ "certificate": null,
+ "stage": "Interruption",
+ "U": 16,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": "pixels, own buttons, max(0, r_step) per step, lives (granted 22 October 2026); root S = S(s1), handed over by the evaluator; s1 chosen by the evaluator with hindsight on a lineage that reached the top rung; instruments only: unbilled look-ahead and future-path data (oracle frames)",
+ "provenance": {
+  "code_sha": "151d037351246c49df6af0512109ab56cd61c2a5",
+  "dirty": false,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "launched": "2026-11-03 19:59:10",
+  "launched_ts": 1793732350.7296205,
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_A_d_9819.json": "feafdcf2a8807966bd7037536f9539b131fd7a6c1921849f7df6d1abe676f9d7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_A_v2s_9806.json": "8beac6344b4ef6f0dd28dd59ce0946e28edb65b6b97cd3fc5f4e7b5371c1647d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_A_v2s_9807.json": "2ec8de91c244348d7a3c7025e7731c47690233ddb3d992a03b329b3a27e6204b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_A_v2s_9808.json": "0b0ebeaea1170e9e56212785fdd93e7229dd89e8782e107e966284f7f5ec6b0d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_B_d_9820.json": "6a66e2386fd9de5243b12236912eec955a5e755f270edfe6d76b1bb8bb93a249",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_B_v2s_9809.json": "f8d74729ff21cb3bd6d28f552f52541ef8479768c7228afa9b653a8c93ec7929",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_B_v2s_9810.json": "1b82da3caef2eba662d42a7de074f69d17a4dbe995f432142e7ae4ad2e006716",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\alien_B_v2s_9811.json": "78b9d5b74ad7c3e6b0db743c8a71e70a9b31f461a45c2c63506c166ae60e4be6",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_A_d_9819.json": "021d2ff446d229128ca17d2f28b1485db09e7b814c98a1dea4e6ee89a8ed33ba",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_A_v2s_9806.json": "491657178858842b8c95787b744e98e042c858ee575084e11795ca5391d4dfa8",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_A_v2s_9807.json": "09dcd6addc4b46704e17bdd9f6d3188eec6472cd1897f3e589584a9db32a0ef3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_A_v2s_9808.json": "f577f5c5826d51316f3f7e51dd3c3651396f8e84d32126f0b6da0b14aaa0c49e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_B_d_9820.json": "c6d0f25eb14f29bd6f24cd4179fa4d1ebecb003a528b994c18e6769c11b63357",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_B_v2s_9809.json": "4a6caf3c9d6b862f9624bab32c60237d14542f39ff46b5a85ccd184cff6cf77a",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_B_v2s_9810.json": "7cdd5ab8aee18f004c5dd164349788599ed84b70999d2929b2ba7dc5e34059e6",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\amidar_B_v2s_9811.json": "6375eddbba250fad8d513c1b6afdb64e706353f8a810286b71016b5ff450c27b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_A_d_9819.json": "be1db050fffc90b662caa251325619de6709c61262075fbff97037cf59d54dc5",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_A_v2s_9806.json": "bb2f5b09c195ee990402d85adb0c85dc85246e4a0bdb9573a36b1f64600ebf0d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_A_v2s_9807.json": "0cee7ee9e0d7a41c73c935a865787a4c33029dbee3c3f689ba8413b6639d949f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_A_v2s_9808.json": "3df4b1948a72dcd8e07be546e01306531905e9eafaab36564ad97e38bca89ac3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_B_d_9820.json": "560aabb521197db40f574e27319e923c3512751626dd311a29cd23cb140e4334",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_B_v2s_9809.json": "8868b3b440f0ed76bf71626af85794bee83baaedcd0f78feb27739544c9b949b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_B_v2s_9810.json": "88bbe93464ec31bba52d60954a8a0536aac232139b0f359ce70f18f12a768a95",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\asterix_B_v2s_9811.json": "33950ec3fb42183e423bb2de518d33964ad46a0569e3cfdc951bed802fac149e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_A_d_9819.json": "d73cc2b3149ac53c4e6c238eb242f124ea2af98672accac102dc28ef455de3dd",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_A_v2s_9806.json": "fc764f0dfe84ea46379287515dfe0435caa4a0d012539c6ec83b6b02be3ce058",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_A_v2s_9807.json": "a344a260a29fda2c8812e24392800d63d1565aacd25a13c3c76adc68476e9ea3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_A_v2s_9808.json": "4e2ab226569596e73d8e77523580319e94799a1cd0a2e60f8f7187050f78b70d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_B_d_9820.json": "05c81a4d18ec7562445c85f31b4e9138aa5a4af77977aa6bed0f650cafafc8e1",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_B_v2s_9809.json": "c3ac6c6e397346ca9b8bfed27753be01b0aeed0e718320f751016354382b855d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_B_v2s_9810.json": "689d1e82e0e82a2e3fbeb336e46b333d3b175cc76cddb484203cc070b3d0feb1",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\bank_heist_B_v2s_9811.json": "d8261b0528727b3a074df7d416d7108be7e5d98b18391e4310fcd0f1176576b8",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_A_d_9819.json": "04b243e7bc3c8f91714787dec4ab237d53e035db974820157736184bec5e77e7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_A_v2s_9806.json": "565e794b4b7d4f5f495daeb4e394d54b0ea583473faab1b6e4fe352186ce0b65",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_A_v2s_9807.json": "2c7806235b123b64bd1d17ad4c16548053555ca08174b0650e0f7f5dd88fcf37",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_A_v2s_9808.json": "f8c4e34455f0d88931bd298df0cd7adce3c6568c41fb095b976ea001b59bce25",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_B_d_9820.json": "9cf1bda0c0c7fda345d4fe89045f66e61a378595efba5c93662da54a43ef4c0f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_B_v2s_9809.json": "4b66c57b26c307d708bf52bbd14cc8775f74efdee88b5078a502ca3e0cdd49fb",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_B_v2s_9810.json": "210f4ebb27b5bc3162452497fcd0c552d97f3ca3fdd91e929b65f127d984ce9c",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\chopper_command_B_v2s_9811.json": "45f0e7091802a7a0c1af094d2c0582b2de4e5775b6f059bc16ace1a9b4d4acbd",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_A_d_9819.json": "005131916a7c8e36680d8873eb1f910b43fa3b5e4a17e8af225c6f3344d6facc",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_A_v2s_9806.json": "1f8fab1eb96a05fffe1314561001499b60236e2642dbbbd3210a192c6fc93bc8",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_A_v2s_9807.json": "3008490cbdadff71a3564d7eadd9e717b1cd82b78871ff3c88ca14016e3ff1b7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_A_v2s_9808.json": "eb7dbfcbac4ba1c063ab875b8e986be107bb394fe388491c679cdccad0ca5718",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_B_d_9820.json": "8841a02ecbe88d80a72e3e35da472c8c67b9788af77b8de717b000a14c193a7c",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_B_v2s_9809.json": "d18efd862e0fda12c9c56eff4c6b6d91d8f05f3e109f323be1e4339a49102f11",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_B_v2s_9810.json": "6814a80faf9d8232d86cd53db1d465aad6e17ac2c0d3ebc3713e90ca8930338d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\gopher_B_v2s_9811.json": "b78c1a862a12f882c7df111aab24d5527d4f74c38d72c9dff797282474685e12",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_A_d_9819.json": "e59f6ca02d851551113787383101c2b388a04e4117544769f5440ac3b6b41230",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_A_v2s_9806.json": "8af8eb2cd7b882f40184b4dc40e3492b1956b3af53394d79b5c5c270583584ba",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_A_v2s_9807.json": "b83a1b3c2c7b9d4c1168c2a0e5c8c613a6c5e1ef4a4403e8babb4685227b154b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_A_v2s_9808.json": "35b646bf87e7cdaccb7fabedf75638ea0475946023976de0d6b398a2bc8427cf",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_B_d_9820.json": "46d1c9d535dca8a2284a83389c6fea26bb9d3b06ada91d8bd42da4c430207cce",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_B_v2s_9809.json": "7a13574bbd2721e508c223a09c10723c8b1138db5386a3b325d8545aab815533",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_B_v2s_9810.json": "e458ea516268a67ebf8451f5594a3c98042cfae2af4342f0d45cd5ddb79f10c5",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\jamesbond_B_v2s_9811.json": "01cf3fbf70b5c45ea8273523f069e306cb2bff011a750decdc2fa1cf4784c72d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_A_d_9819.json": "92cfdce245d196517ee4f8147d20137d78e00cc1339e40e186232ca1f16b36df",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_A_v2s_9806.json": "6eb0a3d50868f79df38b58faa93517b9fc9ed67905eb02d9feb8dcb748daca88",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_A_v2s_9807.json": "d50060d3c48e99f9c9bb28d672d4c5de903dc9304c40835492677453f28fd98c",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_A_v2s_9808.json": "7d90e7988a80d27c6d66979702c8a6bc19630ff9a86c9c5f82d7c9c0e10fcc40",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_B_d_9820.json": "b2f12ae917dd78f39e0ecdd444762aa96c65919bd0c7359998700139da97b0c5",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_B_v2s_9809.json": "c8eb49587835384712c69020e56b11c315f511b56a9e9e0f9c25cbb36d2afa9e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_B_v2s_9810.json": "f2826b1828feee92754ec0ca1cb0262e3361e5aa4aae608d5ef9ee6116bb30ff",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\kung_fu_master_B_v2s_9811.json": "4ca9ce6bebca668585532b40f55cfef90a2d33ecef34396a3bca378ca513887a",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_A_d_9819.json": "2401283e938ecaa74255ca9eb6b837e544e71f5371eb84ecd54ac47948abee1d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_A_v2s_9806.json": "f37495970a0fcf89e456dccd10b7c42c828100704a707727a3a41c32b5b8c845",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_A_v2s_9807.json": "068e368289cd6fd7d21c193838ffe4d1d8470044942a884b0f6c0f5d64ff8041",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_A_v2s_9808.json": "3f797d2ecc97c773e1b2d4a3d5359469ec64769d4e1006ec6d653461b4dfcb6d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_B_d_9820.json": "4e5a9129681f22c28afb3aaecbd2a9a03ebc1b4c6cddc25c77c406c8ef4276df",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_B_v2s_9809.json": "d425b81a5e2cc11165b1b55dbcff697a129f08190e03bfbd39df0e8028d09726",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_B_v2s_9810.json": "b3d76571848b55fc81ab76533b6a103df8ddc5940aa319dc446ac2c815c8c471",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\phoenix_B_v2s_9811.json": "e7236947c95aab0050bdc2e1cb53b8a3e4304fd862accc72c10374cae6ea6e39",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_A_d_9819.json": "aa89b7058580f55a6a3e7b229b473fee9c22c22803a972f80555e32b412674bc",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_A_v2s_9806.json": "3205e5f8aaef634f0bd16a23abe2a5d1cb0cbb54e92de52cece8be228115e420",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_A_v2s_9807.json": "1429e0a9b03fd98599b67ee08a1e4d0a7f238ae4dca48b2fb0ac572cc8062d64",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_A_v2s_9808.json": "44ec229ece4dc0fe6cdfa9ec13586d3cf2c78359e0fa95542929853f432f4f8f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_B_d_9820.json": "ffc4433db9b54527544d5a4fce48f2e8d3fd3118182754dacaeda552cc49b340",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_B_v2s_9809.json": "f3a06da0dbfb91c596a4b5f9ca6118d9b53758e99028e503b4c39b50352ce592",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_B_v2s_9810.json": "74fcb965c207ebd5cd5d5afc4de675ea44decedc28d3b418c04756bf58e87de2",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\pooyan_B_v2s_9811.json": "80e60ae75791b20736ddb93b5cf77dd639abf726d108b304dd88c18c6106a1f6",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_A_d_9819.json": "dd03e2eee22c9c5cb992b8f92fba1e649b6cdbc7d88fb381d90958ee0334b35a",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_A_v2s_9806.json": "a57302f7b9d05604ae7a019dcf304a65835e0127eae46dc2ff652c9a0d938937",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_A_v2s_9807.json": "c1869f251a8fe44c0ae2c3b9385829a9b46dfb1e0eb3f653b93db0b469d926f0",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_A_v2s_9808.json": "2b7c11669dde24177bae38177760f1fbe982ac9c35487f3a8df64d8edd35df59",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_B_d_9820.json": "f02b850570871bddf4f373a5fef4112f0be08034c8ed35b937e04da3b690a3c5",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_B_v2s_9809.json": "b0284fafa86478c81fdf9e376ba6608237b1905c4b1d6906d7564ed8619fd829",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_B_v2s_9810.json": "eb78937f62cdc5800bee5fb124103610c5cb201407fc93e64745b4ce08ecc940",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\qbert_B_v2s_9811.json": "cdaa3d11057b34f94028053eb5e960de430d3758a2033fe0f02753d0d1890009",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_A_d_9819.json": "7bc29b6f354b5425efd1cefa129dc914a8f9b8a91fc62581433dc3f5ee19d43b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_A_v2s_9806.json": "396f8dcc91c20a073dea1b8eb418064f30727802ed737c55024b836917621586",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_A_v2s_9807.json": "ad360b2c6ee5af5186af0fb388c0a52798119146698bcb1cded5c51b069bf53f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_A_v2s_9808.json": "c24587254dc0d44b114eb81bff8adbe161c894d52a37ec21f8921d6c913b2600",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_B_d_9820.json": "5f0f83ca578fba0304686e68eada4c752e382cb3059e0e728ef10fec3a7cfde3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_B_v2s_9809.json": "4743cb0d739da4241558d4f448e0aa4febc4bd70d6a649188d2fb8f37f1d8e6d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_B_v2s_9810.json": "da09f89c2a31919b5db6ad66fc63a19ca4727e8a646f051b396a1b7931b139d4",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\up_n_down_B_v2s_9811.json": "3348574a4cb0fa5365bbf6eb04144b849191fee6dde3128c19ed71e58e9f94db",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_A_d_9819.json": "950322cd6046d0cc5c1f3fa5dc80f06d8b079eed1c2d6188771b8e6c9c8fd14f",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_A_v2s_9806.json": "bb66bfb70a5e5a52c62c3481865aa137dc053f8535fad9fbc61e6d98c716164c",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_A_v2s_9807.json": "118d9eb363e511eddee7854863834296de415dfe2ba8903cf90c95dfcc7adcbc",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_A_v2s_9808.json": "e7f5b50671d344a748baf3b8d858002c59ab65764011c2099894d622163544bc",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_B_d_9820.json": "5fb27109c95615081556244d97bdbec86a591efc46b88f48aa7d083c05c581d4",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_B_v2s_9809.json": "417dc68e05614b79fb7076b373b8129cbf4b4d2ae378b58a62c036e9c86506ca",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_B_v2s_9810.json": "cad59730a82d48bad4b740d13dc55b7d679883e08df860c5b3b7e0c5bcf923eb",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\video_pinball_B_v2s_9811.json": "72ab4b83025c1c98636476430838b73432318fc79c832c988290d01eec645523",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_A_d_9819.json": "91f3f0f5f6eac8e1bff52895a124204e0e884e9f1de41054de6ec6dc6627853c",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_A_v2s_9806.json": "47b9dc8487c1a6459e84a4c27c07110d3cbd90042178de620eb4a0a1a16fda9d",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_A_v2s_9807.json": "8d208abbbfd07332b35bca19cec1bc231d5d90e6bd77cd81574510db807a6f3b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_A_v2s_9808.json": "ffb580878d3f0b5b44608b7cd4e67ec3605019b352ba3e8dee2b1d1564991384",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_B_d_9820.json": "0de0a88ca7953bac6371cb74cc72568473f3520fe3fbb6934be805bf8500eae7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_B_v2s_9809.json": "9855158e218224c315c16d79bb29843a063d11fd8be87dbc77b989a83c0f1af0",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_B_v2s_9810.json": "b5b310675eb61059e736812bbf23ebff8b7b46267f7f8135ad14cd36307001e9",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\wizard_of_wor_B_v2s_9811.json": "105b3dc844ff7f1016f026539e0117ff375f89f111b09bd7c7a690d2607c33a2",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_A_d_9819.json": "8db4d1d5a135e685f066b19e67708d9f44910dd6d605267782da61d7f6f7c47b",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_A_v2s_9806.json": "4003984c945f1d03e30c7f150932448c7bb67f82045a6da5ce34a876cd7cb228",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_A_v2s_9807.json": "8cb56ba908ba61d7da960ede1a8626c98e9dbe818133219fbce1dd3190b52f73",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_A_v2s_9808.json": "955ddcace62681ead0b8f3ab6dfd23f75a96d2677be7bf204fb771b60814871e",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_B_d_9820.json": "2ef4d22709e5fbd62933f66ef8c1b5c423ab6af0d6bb55b57cf70fd4755767eb",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_B_v2s_9809.json": "e23aff4e22e45ccfbb9d1d9f1ebb388f25de162f53d34ccaed8745bb464903d6",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_B_v2s_9810.json": "a8ecc35b719043e0089164dd0699baba2b8845e799a75d8709e51925dc68e9d3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\yars_revenge_B_v2s_9811.json": "9762237d0dc0f15e9f285c281d85edd9e5763244ff1b7c1112380c191c1ddaf7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_A_d_9819.json": "03de807ee105efcdcbd74eadfe3b8bfd81baf7ce5c00e3e4df39b5fb83224c85",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_A_v2s_9806.json": "62d47486661d2fa8a38bab4f435d2714b1ea176f5906f33dad986bca2d63a095",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_A_v2s_9807.json": "b044cc69db390cf922fda035331f080768516bac08f51c0b3e6fb0a6e3885fb7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_A_v2s_9808.json": "80500b24435c14617ab874230ee6644e3a2bd7cc6b48147561282474f9be1592",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_B_d_9820.json": "e95e8d2aae11c80af61e18f634e53a5218bdfd492bb0878ed6ade69d4e38a249",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_B_v2s_9809.json": "998f4e0bfdea3779a6d6af34509bbf5a77887bcdce978d14a9dd213a2f56a6d7",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_B_v2s_9810.json": "44026701b9048b988c3856206b2edad8bed20a71381ac69a9521c531047e1340",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\istage\\zaxxon_B_v2s_9811.json": "ba3ac2a61af7de78bd085df4a00bd184b09057e9a352d457a60dc0fd8d9d0098",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\starts.json": "0365465b91854988001e5a5148d1acaa8cf92e8da958154863086bbbea8e2c18"
+  },
+  "closure_hash": "101a53692fb3c80e2c24f1ff46beec2e6c9474680740d816a3516c6b89f512d8"
+ }
+}

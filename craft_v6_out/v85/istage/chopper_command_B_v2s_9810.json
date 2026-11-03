@@ -1,0 +1,948 @@
+{
+ "game": "chopper_command",
+ "start": "B",
+ "arm": "v2s",
+ "seed": 9810,
+ "cap": 4000000,
+ "k_ref": 5,
+ "ladder": [
+  1695.0,
+  2260.0,
+  3390.0,
+  5650.0,
+  10170.0,
+  19210.0,
+  37290.0,
+  73450.0,
+  145770.0,
+  290410.0,
+  579690.0
+ ],
+ "S1": 2300.0,
+ "rungs": [
+  3,
+  4,
+  5
+ ],
+ "records": [
+  [
+   0,
+   2300.0,
+   2300.0,
+   0,
+   0
+  ],
+  [
+   72,
+   2400.0,
+   2400.0,
+   3,
+   0
+  ],
+  [
+   88,
+   2500.0,
+   2500.0,
+   7,
+   0
+  ],
+  [
+   108,
+   2600.0,
+   2600.0,
+   12,
+   0
+  ],
+  [
+   332,
+   2700.0,
+   2700.0,
+   68,
+   0
+  ],
+  [
+   1680,
+   2900.0,
+   2900.0,
+   145,
+   0
+  ],
+  [
+   4376,
+   3000.0,
+   3000.0,
+   99,
+   0
+  ],
+  [
+   5148,
+   3100.0,
+   3100.0,
+   155,
+   0
+  ],
+  [
+   5272,
+   3200.0,
+   3200.0,
+   186,
+   0
+  ],
+  [
+   5604,
+   3400.0,
+   3400.0,
+   269,
+   0
+  ],
+  [
+   8988,
+   3500.0,
+   3500.0,
+   221,
+   0
+  ],
+  [
+   22184,
+   3700.0,
+   3700.0,
+   356,
+   0
+  ],
+  [
+   32516,
+   3800.0,
+   3800.0,
+   470,
+   0
+  ],
+  [
+   48364,
+   3900.0,
+   3900.0,
+   446,
+   0
+  ],
+  [
+   51836,
+   4000.0,
+   4000.0,
+   451,
+   0
+  ],
+  [
+   70052,
+   4100.0,
+   4100.0,
+   594,
+   0
+  ],
+  [
+   78764,
+   4200.0,
+   4200.0,
+   648,
+   0
+  ],
+  [
+   100464,
+   4400.0,
+   4400.0,
+   975,
+   0
+  ],
+  [
+   125128,
+   4500.0,
+   4500.0,
+   1131,
+   0
+  ],
+  [
+   125160,
+   4700.0,
+   4700.0,
+   1139,
+   0
+  ],
+  [
+   125184,
+   4900.0,
+   4900.0,
+   1145,
+   0
+  ],
+  [
+   125208,
+   5100.0,
+   5100.0,
+   1151,
+   0
+  ],
+  [
+   125212,
+   5300.0,
+   5300.0,
+   1152,
+   0
+  ],
+  [
+   125216,
+   5500.0,
+   5500.0,
+   1153,
+   0
+  ],
+  [
+   731328,
+   5700.0,
+   5700.0,
+   685,
+   0
+  ],
+  [
+   731548,
+   5800.0,
+   5800.0,
+   740,
+   0
+  ],
+  [
+   757000,
+   5900.0,
+   5900.0,
+   719,
+   0
+  ],
+  [
+   757012,
+   6000.0,
+   6000.0,
+   722,
+   0
+  ],
+  [
+   757048,
+   6100.0,
+   6100.0,
+   731,
+   0
+  ],
+  [
+   776380,
+   6200.0,
+   6200.0,
+   828,
+   0
+  ],
+  [
+   778644,
+   6300.0,
+   6300.0,
+   867,
+   0
+  ],
+  [
+   781628,
+   6400.0,
+   6400.0,
+   895,
+   0
+  ],
+  [
+   781828,
+   6500.0,
+   6500.0,
+   945,
+   0
+  ],
+  [
+   828464,
+   6700.0,
+   6700.0,
+   1029,
+   0
+  ],
+  [
+   834912,
+   6800.0,
+   6800.0,
+   1082,
+   0
+  ],
+  [
+   859144,
+   6900.0,
+   6900.0,
+   994,
+   0
+  ],
+  [
+   1006580,
+   7000.0,
+   7000.0,
+   1022,
+   0
+  ],
+  [
+   1123548,
+   7100.0,
+   7100.0,
+   1301,
+   0
+  ],
+  [
+   1123588,
+   7400.0,
+   7400.0,
+   1311,
+   0
+  ],
+  [
+   1123612,
+   7700.0,
+   7700.0,
+   1317,
+   0
+  ],
+  [
+   1123616,
+   8000.0,
+   8000.0,
+   1318,
+   0
+  ],
+  [
+   1123620,
+   8300.0,
+   8300.0,
+   1319,
+   0
+  ],
+  [
+   1123628,
+   8600.0,
+   8600.0,
+   1321,
+   0
+  ],
+  [
+   1123632,
+   8900.0,
+   8900.0,
+   1322,
+   0
+  ],
+  [
+   1123636,
+   9200.0,
+   9200.0,
+   1323,
+   0
+  ],
+  [
+   1124100,
+   9400.0,
+   9400.0,
+   1439,
+   0
+  ],
+  [
+   1138868,
+   9600.0,
+   9600.0,
+   1419,
+   0
+  ],
+  [
+   1154592,
+   9700.0,
+   9700.0,
+   1595,
+   0
+  ],
+  [
+   1214184,
+   9800.0,
+   9800.0,
+   1605,
+   0
+  ],
+  [
+   1217940,
+   9900.0,
+   9900.0,
+   1631,
+   0
+  ],
+  [
+   1218004,
+   10000.0,
+   10000.0,
+   1647,
+   0
+  ],
+  [
+   1218192,
+   10200.0,
+   10200.0,
+   1694,
+   0
+  ],
+  [
+   1218680,
+   10400.0,
+   10400.0,
+   1816,
+   0
+  ],
+  [
+   1221916,
+   10500.0,
+   10500.0,
+   1899,
+   0
+  ],
+  [
+   1227936,
+   10600.0,
+   10600.0,
+   1812,
+   0
+  ],
+  [
+   1256104,
+   10700.0,
+   10700.0,
+   1908,
+   0
+  ],
+  [
+   1294844,
+   10800.0,
+   10800.0,
+   2045,
+   0
+  ],
+  [
+   1320592,
+   10900.0,
+   10900.0,
+   2004,
+   0
+  ],
+  [
+   1351496,
+   11100.0,
+   11100.0,
+   2050,
+   0
+  ],
+  [
+   1351528,
+   11500.0,
+   11500.0,
+   2058,
+   0
+  ],
+  [
+   1351544,
+   11900.0,
+   11900.0,
+   2062,
+   0
+  ],
+  [
+   1351552,
+   12300.0,
+   12300.0,
+   2064,
+   0
+  ],
+  [
+   1354068,
+   12400.0,
+   12400.0,
+   2116,
+   0
+  ],
+  [
+   1359248,
+   12500.0,
+   12500.0,
+   2109,
+   0
+  ],
+  [
+   1359456,
+   12700.0,
+   12700.0,
+   2161,
+   0
+  ],
+  [
+   1359616,
+   12800.0,
+   12800.0,
+   2201,
+   0
+  ],
+  [
+   1360308,
+   12900.0,
+   12900.0,
+   2329,
+   0
+  ],
+  [
+   1410808,
+   13000.0,
+   13000.0,
+   2309,
+   0
+  ],
+  [
+   1424944,
+   13100.0,
+   13100.0,
+   2354,
+   0
+  ],
+  [
+   1425228,
+   13200.0,
+   13200.0,
+   2425,
+   0
+  ],
+  [
+   1457276,
+   13400.0,
+   13400.0,
+   2509,
+   0
+  ],
+  [
+   1457492,
+   13500.0,
+   13500.0,
+   2563,
+   0
+  ],
+  [
+   1458376,
+   13600.0,
+   13600.0,
+   2541,
+   0
+  ],
+  [
+   1458652,
+   13800.0,
+   13800.0,
+   2610,
+   0
+  ],
+  [
+   1463420,
+   14000.0,
+   14000.0,
+   2683,
+   0
+  ],
+  [
+   1463484,
+   14500.0,
+   14500.0,
+   2699,
+   0
+  ],
+  [
+   1463488,
+   15000.0,
+   15000.0,
+   2700,
+   0
+  ],
+  [
+   1463492,
+   15500.0,
+   15500.0,
+   2701,
+   0
+  ],
+  [
+   1463508,
+   16000.0,
+   16000.0,
+   2705,
+   0
+  ],
+  [
+   1513472,
+   16100.0,
+   16100.0,
+   2757,
+   0
+  ],
+  [
+   1513568,
+   16200.0,
+   16200.0,
+   2781,
+   0
+  ],
+  [
+   1558256,
+   16300.0,
+   16300.0,
+   2786,
+   0
+  ],
+  [
+   1558524,
+   16500.0,
+   16500.0,
+   2853,
+   0
+  ],
+  [
+   1607176,
+   16600.0,
+   16600.0,
+   2931,
+   0
+  ],
+  [
+   1607724,
+   16800.0,
+   16800.0,
+   3017,
+   0
+  ],
+  [
+   1609232,
+   16900.0,
+   16900.0,
+   3011,
+   0
+  ],
+  [
+   1610128,
+   17100.0,
+   17100.0,
+   3036,
+   0
+  ],
+  [
+   1759284,
+   17300.0,
+   17300.0,
+   3161,
+   0
+  ],
+  [
+   2095816,
+   17400.0,
+   17400.0,
+   3257,
+   0
+  ],
+  [
+   2170044,
+   17600.0,
+   17600.0,
+   3325,
+   0
+  ],
+  [
+   2596812,
+   17800.0,
+   17800.0,
+   3430,
+   0
+  ],
+  [
+   2596844,
+   18400.0,
+   18400.0,
+   3438,
+   0
+  ],
+  [
+   2596848,
+   19000.0,
+   19000.0,
+   3439,
+   0
+  ],
+  [
+   2596852,
+   19600.0,
+   19600.0,
+   3440,
+   0
+  ]
+ ],
+ "T": {
+  "1": 0,
+  "2": 5604,
+  "3": 731328,
+  "4": 1218192,
+  "5": 2596852,
+  "6": null,
+  "7": null,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "T_total": {
+  "1": 0,
+  "2": 5604,
+  "3": 731328,
+  "4": 1218192,
+  "5": 2596852,
+  "6": null,
+  "7": null,
+  "8": null,
+  "9": null,
+  "10": null
+ },
+ "replay": [
+  {
+   "k": 3,
+   "ok": true,
+   "replayed": [
+    5700.0,
+    5700.0,
+    685
+   ],
+   "recorded": [
+    5700.0,
+    5700.0,
+    685
+   ]
+  },
+  {
+   "k": 5,
+   "ok": true,
+   "replayed": [
+    19600.0,
+    19600.0,
+    3440
+   ],
+   "recorded": [
+    19600.0,
+    19600.0,
+    3440
+   ]
+  }
+ ],
+ "interruption": false,
+ "summary": {
+  "expansions": 8617,
+  "cells": 2527,
+  "best_S": 19600.0,
+  "evicted": 0,
+  "billed": 2596852,
+  "resolution": [
+   8,
+   6,
+   4
+  ],
+  "rows": 0,
+  "probe_frames_after_entry": 0
+ },
+ "instrument": {},
+ "entry": {
+  "sha256": "4ac41350e1dad1e5b4506b1e0f42b03a746e60b42fd4b74d6aa2bca13628dcde",
+  "entry_frames": 164764
+ },
+ "oracle_frames": 0,
+ "wall_s": 955.8016421794891,
+ "peak_ws_mb": 117.44140625,
+ "peak_commit_mb": 194.71875,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "commit": "151d037351246c49df6af0512109ab56cd61c2a5",
+  "dirty": false,
+  "closure_hash": "be6068375f684814a1fa0f20aaf6717bad7f66831715efd64398cb860abbc300",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/explorer.py",
+    "3b87fccca13544b3e74f9b8b9ddbb360a9fdc483339aa4de0b546c3c7d5bb3ad"
+   ],
+   [
+    "ragnarok/agent_v83/logs.py",
+    "cfe84f39a62dcf37115152c43ab18938a76f9f79021c29bbc42081dd3932ee3a"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/agent_v83/views.py",
+    "021937daa253051fba4d61d52868184add7dace13e0e3e2d7d01316479d13bd1"
+   ],
+   [
+    "ragnarok/agent_v84/__init__.py",
+    "a29734aa62795bd6f6af9640017adb583c6c0c4bc7f39576e5782c0cb0ae6b6e"
+   ],
+   [
+    "ragnarok/agent_v84/explorer2.py",
+    "6c072f062c9fcce90d47082020ccadd2db5ba8ba00029d60f3538ab194870230"
+   ],
+   [
+    "ragnarok/agent_v84/framecode.py",
+    "f8915688e4b9b1db7a56482cb7805359ff38105f04f8ee34ee5364df6edec0b1"
+   ],
+   [
+    "ragnarok/agent_v84/rowlog.py",
+    "00ef9cd4deabbee99d0b780ec9cf336d2fee45a101f8365aa7d028bb7dfcfc07"
+   ],
+   [
+    "ragnarok/agent_v85/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "ragnarok/agent_v85/explorer2s.py",
+    "70d8406a8d65135bb0d72ed3691f294867ec47a86a9f820ca218836f3bc60e33"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/__init__.py",
+    "312233f98396ddb22f1ab032edfd73ff357e6f1dccf528e13fb4acac3a9d68d6"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/v2s.py",
+    "82a5e2ca4b21ed448731b520ee778ef13a98ca69bd6d0026c4694e13c0579b6a"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_job.py",
+    "6460f825ee9d04ac2d0daa3d39bf490e4272e514b5677380ed2347e5e76fbec3"
+   ]
+  ],
+  "closure_foreign": [],
+  "closure_consistent": true,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\starts.json": "0365465b91854988001e5a5148d1acaa8cf92e8da958154863086bbbea8e2c18",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\s1\\chopper_command_B_s1.pkl": "e63b30c1f2ba618bd653809e39f9d90e1fd0b47847dbb4e3f59c4b3276f821f3",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\entry\\chopper_command_9820_body.pkl": "4ac41350e1dad1e5b4506b1e0f42b03a746e60b42fd4b74d6aa2bca13628dcde",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\s0\\s1\\chopper_command_A_s1.pkl": "e658483728cf6063bb9dc550af7d04a058c52a2bfde92fe4426e5fa510d14939"
+  },
+  "segments": [
+   {
+    "code_sha": "151d037351246c49df6af0512109ab56cd61c2a5",
+    "dirty": false,
+    "launched": "2026-11-03 14:44:26",
+    "resumed_at_exp": null,
+    "closure_agrees": true
+   }
+  ],
+  "ckpt": {
+   "writes": 3,
+   "max_mb": 28.579,
+   "max_s": 0.374,
+   "every_s": 300.0,
+   "last_exp": 8339
+  },
+  "launched": "2026-11-03 14:44:26",
+  "ended": "2026-11-03 15:00:22",
+  "python": "3.14.3",
+  "hashseed": "0"
+ },
+ "E": 9820,
+ "k_first": 3,
+ "rungs_source": "s0",
+ "billed": 2596852,
+ "stopped": true,
+ "s1_sha256": "e63b30c1f2ba618bd653809e39f9d90e1fd0b47847dbb4e3f59c4b3276f821f3",
+ "exp": {
+  "n": 8617,
+  "meta_sha256": "6db0217ae5ede83ad2c67308feabc673fe66ac4ddba1f4ebaa2dfe8735c1d837",
+  "feat_sha256": "b5e8323b2dd7d4c19634db4f67429862033d768689a35a875f490612f74edba7"
+ },
+ "aborted": null
+}
