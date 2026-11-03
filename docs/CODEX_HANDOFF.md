@@ -426,3 +426,10 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   lanceur caché (scratchpad `s0_launcher.py`) qui attend ≥ 14,5 Go libres sur min(RAM, commit) ; journal
   `ragnarok_v85/craft_v6_out/v85/s0/stage0.log`. Si le lanceur a disparu, relancer
   `python scripts/v85_stage0.py run` depuis `F:\dev\ragnarok_v85` (reprend unité par unité).
+- Correction (6 h 44) : le superviseur à `--low 14` suspendait aussi les tests des agents (13,4 Go libres) ;
+  relancé à `--low 12 --high 14 --clow 12 --chigh 14` (règle des 12 Go de Jérémie et de la procédure
+  ragnarok-run). La marge v85 (§13.3) reste appliquée au lancement : portes ≥ 14,5 Go de `queue_v85.py` et
+  du lanceur S0. Pour suspendre un processus, le superviseur ne fait pas de distinction : l'arrêter laisse
+  ses suspendus en pause, il faut les relancer (`ram_supervisor.resume(pid)`).
+- Items 12-13 (familles W et M, objets) : workflow `wf_6f495eff-c54` dans le nouveau worktree
+  `F:\dev\ragnarok_v85f` (branche `arc4-v85-families`), à fusionner dans `arc4-v85` seulement sans calcul en cours.
