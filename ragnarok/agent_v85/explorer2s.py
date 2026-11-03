@@ -15,9 +15,16 @@
 - Injected objects (this module imports no family or evaluation module):
   steer: pick_cell(ex, rng_P, rng_C, e), pick_process(ex, rng_P, rng_C, i), on_put(ex, j), on_iter(ex, e),
          to_state(), from_state(s);
-  q5 (process 4, bandit k = 5): first_slot(ex, i, rng), next_slot(ex, t, slot, rng), to_state(), from_state(s);
-  chooser(ex, env, e) -> (i, q, slot) replaces propose(e, 0);
-  boundary(ex, e) is called at every expansion boundary (checkpoints).
+  q5 (process 4): first_slot(ex, i, rng), next_slot(ex, t, slot, rng), __len__(), to_state(), from_state(s);
+     the bandit has k = 4 while the library is empty (byte-identical to V2s) and gains a fifth arm, with
+     zero counts, at the first expansion boundary where it is not;
+  chooser(ex, env, e) -> (i, q, slot) replaces propose(e, 0); it may return (i, q, slot, rng) to name the
+     executed rollout's generator (O_4-dice: X_{e,w}), else X_e;
+  boundary(ex, e) is called at every expansion boundary (checkpoints);
+  after(ex, env, e, out) is called right after each executed rollout (out also carries the rollout's
+     ALE actions `acts` and emulated `frames` after the restore);
+  script (evaluator control D): ALE actions that expansion 0's rollout plays open-loop from the root, with
+     ordinary puts, no length limit and no stop at the second loss.
   With none of them the bandit has k = 4.
 """
 import math
@@ -30,13 +37,14 @@ from ragnarok.agent_v84.framecode import RES, codes
 
 class Explorer2s(Explorer2):
     def __init__(self, body, budget, seed, steer=None, q5=None, chooser=None, boundary=None, cap=20000,
-                 frontier=0.25, base_len=100, ext=50, max_len=400, rekey_every=250):
+                 frontier=0.25, base_len=100, ext=50, max_len=400, rekey_every=250, after=None, script=None):
         self.body, self.budget, self.seed = body, budget, int(seed)
         self.steer, self.q5, self.chooser, self.boundary = steer, q5, chooser, boundary
+        self.after, self.script = after, script
         self.arch = Archive2(cap)
         self.frontier = frontier
         self.base_len, self.ext, self.max_len, self.rekey_every = base_len, ext, max_len, rekey_every
-        self.bandit = Bandit(k=4 if q5 is None else 5)
+        self.bandit = Bandit(k=4)
         self.exp_rows, self.exp_meta = [], []
         self.coarse_count = {}
         self.hist = []
@@ -73,6 +81,12 @@ class Explorer2s(Explorer2):
         slot = self.q5.first_slot(self, i, rng) if q == 4 else self._first_slot(q, i, rng)
         return i, q, int(slot)
 
+    def _sync_k(self):
+        """The fifth bandit arm exists once the injected Q5 has a non-empty library."""
+        B = self.bandit
+        if self.q5 is not None and B.k == 4 and len(self.q5):
+            B.a, B.b, B.k = np.append(B.a, 0.0), np.append(B.b, 0.0), 5
+
     # ---------------------------------------------------------------- features
     def _features(self, i, q, slot0, env):
         A = self.arch
@@ -102,10 +116,11 @@ class Explorer2s(Explorer2):
         return np.array(f, np.float32)
 
     # ---------------------------------------------------------------- one rollout
-    def _rollout(self, env, i, q, slot, rng, e, dry=False, restored=None):
+    def _rollout(self, env, i, q, slot, rng, e, dry=False, restored=None, script=None):
         A, body = self.arch, self.body
         tr, ad = body.tracker, body.adapter
         obs, lives = env.restore(int(A.handle[i])) if restored is None else restored
+        f0, played = env.billed, bytearray()
         pos = None if np.isnan(A.mx[i]) else (float(A.mx[i]), float(A.my[i]))
         tr.pos, tr.miss = pos, 0
         S, depth, since_rise = float(A.S[i]), int(A.depth[i]), int(A.since_rise[i])
@@ -113,13 +128,19 @@ class Explorer2s(Explorer2):
         best_S, any_rise, max_S = self.best_S, self.any_rise, S
         over, top_sb = {}, int(A.sbin[A.used].max())
         L, t, losses, adv, new_cells = self.base_len, 0, 0, False, 0
-        while t < L:
-            if q == 4:
-                if t:
-                    slot = int(self.q5.next_slot(self, t, slot, rng))
-            elif t and REPEAT[PROCS[q]] < 1.0 and rng.random() > REPEAT[PROCS[q]]:
-                slot = int(self.slots[rng.integers(len(self.slots))])
-            obs, rise, nl, end = env.step(ad.to_button(slot))
+        while t < (L if script is None else len(script)):
+            if script is not None:
+                a = int(script[t])
+                slot = int(ad.to_effect(a))
+            else:
+                if q == 4:
+                    if t:
+                        slot = int(self.q5.next_slot(self, t, slot, rng))
+                elif t and REPEAT[PROCS[q]] < 1.0 and rng.random() > REPEAT[PROCS[q]]:
+                    slot = int(self.slots[rng.integers(len(self.slots))])
+                a = ad.to_button(slot)
+            obs, rise, nl, end = env.step(a)
+            played.append(a)
             t += 1
             depth += 1
             S += rise
@@ -132,7 +153,7 @@ class Explorer2s(Explorer2):
             if nl < lives:
                 losses += 1
                 after_loss = True
-                if losses >= 2:
+                if losses >= 2 and script is None:
                     break
             lives = nl
             me = body.track(obs)
@@ -165,7 +186,8 @@ class Explorer2s(Explorer2):
                 L = min(self.max_len, L + self.ext)
         if not dry:
             self.any_rise = any_rise
-        return dict(adv=adv, losses=losses, new_cells=new_cells, steps=t, max_S=max_S)
+        return dict(adv=adv, losses=losses, new_cells=new_cells, steps=t, max_S=max_S, frames=env.billed - f0,
+                    acts=bytes(played))
 
     # ---------------------------------------------------------------- run
     def run(self, env, obs=None, lives=None, S1=None, spent=Exception, resume=False):
@@ -188,17 +210,22 @@ class Explorer2s(Explorer2):
                 e = self.exp_n
                 if self.boundary is not None:
                     self.boundary(self, e)
+                self._sync_k()
                 if e and e % self.rekey_every == 0:
                     r = self._target_r(e)
                     if r != A.r:
                         A.rekey(r, env)
-                i, q, slot = self.chooser(self, env, e) if self.chooser is not None else self.propose(e, 0)
+                p = self.chooser(self, env, e) if self.chooser is not None else self.propose(e, 0)
+                i, q, slot = p[0], p[1], p[2]
                 A.chosen[i] += 1
                 prop = self.bandit.propensity(q, np.random.default_rng([self.seed, 1, e]))
                 restored = env.restore(int(A.handle[i]))
                 feat = self._features(i, q, slot, env)
-                out = self._rollout(env, i, q, slot, np.random.default_rng([self.seed, 85, e, 1000]), e,
-                                    restored=restored)
+                rx = p[3] if len(p) > 3 else np.random.default_rng([self.seed, 85, e, 1000])
+                out = self._rollout(env, i, q, slot, rx, e, restored=restored,
+                                    script=self.script if e == 0 else None)
+                if self.after is not None:
+                    self.after(self, env, e, out)
                 adv = out["adv"]
                 A.adv_children[i] += float(adv)
                 self.bandit.update(q, adv)
