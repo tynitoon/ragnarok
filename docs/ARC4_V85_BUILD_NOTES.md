@@ -1,6 +1,6 @@
 # ARC 4 v85 build notes (Part B, before any v85 live frame)
 
-Dated 4 November 2026. Written before S0, the I-stage or any v85 measurement; no v85 result has been observed.
+Dated 3 November 2026. Written before S0, the I-stage or any v85 measurement; no v85 result has been observed.
 The protocol `docs/ARC4_V85_PROTOCOL_EN.md` stays frozen (A.0: changes only in §10). These notes record how the
 code reads passages that the frozen text leaves open, so that every such choice is fixed before data exists.
 Any later change to a choice below must be a new dated note, written before the runs it affects.
