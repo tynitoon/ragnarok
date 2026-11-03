@@ -447,3 +447,11 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   7 corrigés ; M-3 tranché (note 6) : DM garde les 33 macros listées (le total « 32 » du §4.4 est une erreur
   d'addition). **Fusion dans `arc4-v85` seulement sans calcul en cours** (puis `v85_objects.py`, puis
   `v85_calib.py closures`, avant F1). Note 6 : interprétations à ratifier par Jérémie avant F1/G2.
+- 11 h 30 : **S0 terminé et commité** (`0a5f637`, avant toute image réelle) : 16 unités gardées, deux départs
+  valides partout, ni KC-start ni KC-floor (rapport plancher médian 86,5), U = 16 (P(ROOM|×2) 0,63 / 0,66 / 0,80
+  pour U = 10 / 12 / 16), G_4 = 3,91. Recherche de graines : seules occurrences = la branche des familles v85
+  (revue manuelle, note 7).
+- 11 h 31 : **étape G-build smoke lancée** (20 exécutions, breakout et pong, graine 9800 ; 3 processus cachés,
+  `queue_v85.py smoke --launch 3 --min-free 8`). Ensuite : vérifier les tests 4/8/9 sur ces sorties, puis
+  lancer l'étape I : `python scripts/queue_v85.py istage --launch 3 --min-free 8` depuis `F:\dev\ragnarok_v85`
+  (128 exécutions : 16 unités × 2 départs × (3 V2s + 1 D)). Ne rien commiter dans `ragnarok_v85` pendant les calculs.
