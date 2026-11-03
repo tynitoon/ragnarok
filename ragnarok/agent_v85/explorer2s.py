@@ -180,8 +180,10 @@ class Explorer2s(Explorer2):
                 me = self.body.track(obs)
                 cds, fine = codes(obs)
                 self.best_S, self.best_S_billed, self.best_S_exp, self.any_rise = float(S1), env.billed, 0, False
-                self._put((int(lives), s_bin(float(S1)), cds[A.r]), env, float(S1), int(lives), 0, me, cds, fine,
-                          -1, 0, False, -1, 0)
+                j, _ = self._put((int(lives), s_bin(float(S1)), cds[A.r]), env, float(S1), int(lives), 0, me, cds,
+                                 fine, -1, 0, False, -1, 0)
+                if self.steer is not None:
+                    self.steer.on_put(self, j)
             while True:
                 e = self.exp_n
                 if self.boundary is not None:

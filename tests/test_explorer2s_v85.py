@@ -23,10 +23,11 @@ def setup():
     e.step(0)
     rng = np.random.default_rng([SEED, 1])
     S = 0.0
-    for _ in range(200):
+    for _ in range(60):
         before = e._true_score
         e.step(int(rng.integers(e.n_actions)))
         S += max(0.0, e._true_score - before)
+    assert e.ale.lives() > 0 and not e.ale.game_over()
     blob = make_blob(e)
     body = Body()
     body.enter(SenseEnv85(GAME, seed=SEED), np.random.default_rng([SEED, 0]), SEED)
@@ -49,7 +50,7 @@ def outcome(tr, ex, summ):
 def test_determinism_and_resume(setup):
     env, tr, ex, obs, lives, S = fresh(setup)
     full = outcome(tr, ex, ex.run(env, obs, lives, S, spent=Spent))
-    assert ex.exp_n > 30 and len(tr.records) >= 1
+    assert ex.exp_n > 30 and len(ex.arch) > 20 and len(tr.records) >= 1
     env, tr, ex, obs, lives, S = fresh(setup)
     assert outcome(tr, ex, ex.run(env, obs, lives, S, spent=Spent)) == full
     ck = {}
