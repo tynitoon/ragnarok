@@ -378,5 +378,9 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - `ragnarok/evaluation/start_v85.py` (commit `9ff7fe9`) : les 16 unités, ordre `[9801, 1]`, rejeu de la
   lignée du haut (deux contextes), s1, cache du Body, identité du départ, règle des paliers comptés (A.4).
   3 tests verts, dont un vrai départ Alien A.
-- **Prochaine étape** : `ragnarok/agent_v85/explorer2s.py` (A.6), puis la suite de la partie B.
-  Aucun calcul lancé ; superviseur toujours arrêté.
+- `ragnarok/agent_v85/explorer2s.py` (commit `0103fef`) : V2s (A.6) depuis s1, flux par expansion,
+  `propose` sans effet de bord, rollout « à sec » pour le bac à sable, crochets injectés (steer, q5,
+  chooser, boundary), état de reprise. Tests verts : déterminisme, arrêt à l'expansion 17 puis reprise
+  identique à l'octet, propositions et rollouts à sec sans aucun effet.
+- **Prochaine étape** : `ragnarok/evaluation/oracle_v85.py` (A.7 : D, O_m, O_4-dice, K\*map, K\*mac,
+  placebos), puis `ckpt_v85.py` et la suite. Aucun calcul lancé ; superviseur toujours arrêté.
