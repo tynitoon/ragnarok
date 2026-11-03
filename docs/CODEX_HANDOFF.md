@@ -390,3 +390,13 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - **Prochaine étape** : finir `oracle_v85.py` (D, O_4-dice, K\*mac et K\*mac-exact, placebos GF4, GF,
   K̃mac ; spécification A.7 et §4.4), puis `ckpt_v85.py`, `scripts/v85_job.py` et la suite de la
   partie B. Aucun calcul lancé ; superviseur toujours arrêté.
+
+### 3 novembre (nuit) — rangement des worktrees (accord de Jérémie) et push GitLab
+- Jérémie a autorisé la suppression des dossiers inutilisés et demandé des commits et push réguliers.
+- Retirés après commit des petits résultats texte et push de leur branche (gros fichiers pkl/npz/png
+  supprimés avec le dossier) : v73 (`arc4-v73`), v74 (`arc4-v74`), v75 (`arc4-v75-offline`), v80
+  (`arc4-v80-theory`), v80c (`archive/v80c`), v81 (`arc4-v81-atlas`), v83run (`archive/v83run`, dont les
+  JSON de la salle A1), v84s (`arc4-v84-s`). Une branche se rouvre par `git worktree add ../ragnarok_vXX <branche>`.
+- Restent : `ragnarok` (master), `ragnarok_v84` (ses données `craft_v6_out/v84` sont lues par v85),
+  `ragnarok_v85` (en cours), `ragnarok_v83` (à retirer après le workflow v85 en cours, dont un test v84
+  lit encore les données A1). Branches `arc4-v83-promise`, `arc4-v84-clock`, `arc4-v85` poussées.
