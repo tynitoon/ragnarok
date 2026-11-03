@@ -382,5 +382,11 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   `propose` sans effet de bord, rollout « à sec » pour le bac à sable, crochets injectés (steer, q5,
   chooser, boundary), état de reprise. Tests verts : déterminisme, arrêt à l'expansion 17 puis reprise
   identique à l'octet, propositions et rollouts à sec sans aucun effet.
-- **Prochaine étape** : `ragnarok/evaluation/oracle_v85.py` (A.7 : D, O_m, O_4-dice, K\*map, K\*mac,
-  placebos), puis `ckpt_v85.py` et la suite. Aucun calcul lancé ; superviseur toujours arrêté.
+- `ragnarok/evaluation/oracle_v85.py`, partie 1 (commit `d45c311`) : O_m (coup d'œil gratuit par
+  proposition dans le bac à sable, puis la gagnante jouée sur un hasard neuf) et K\*map (carte de la
+  lignée, pilotage « où repartir », couverture). Test 6 en partie : O_1 et K\*map à carte vide
+  identiques à V2s à l'octet. Correction des tests : l'ancien prélude aléatoire finissait la partie de
+  Breakout (rollouts d'un pas) ; désormais vies vérifiées et archive > 20 cellules exigée.
+- **Prochaine étape** : finir `oracle_v85.py` (D, O_4-dice, K\*mac et K\*mac-exact, placebos GF4, GF,
+  K̃mac ; spécification A.7 et §4.4), puis `ckpt_v85.py`, `scripts/v85_job.py` et la suite de la
+  partie B. Aucun calcul lancé ; superviseur toujours arrêté.
