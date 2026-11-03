@@ -401,7 +401,7 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   `ragnarok_v85` (en cours), `ragnarok_v83` (à retirer après le workflow v85 en cours, dont un test v84
   lit encore les données A1). Branches `arc4-v83-promise`, `arc4-v84-clock`, `arc4-v85` poussées.
 
-### 4 novembre (nuit) — v85 partie B construite ; revue contradictoire en cours
+### 3 novembre (nuit) — v85 partie B construite ; revue contradictoire
 - Workflow `wf_00ae4471-8ab` (6 agents, fichiers disjoints) : instruments (D, O_4-dice, GF4, GF, K\*mac,
   K\*mac-exact, K̃mac, Q5 côté agent), points de reprise, registre des bras, `scripts/v85_job.py`,
   `queue_v85.py`, `v85_verdict.py`, `v85_calib.py`, `v85_stage0.py`, tests G-build 1-9 (95 tests verts,
@@ -413,3 +413,16 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   verdict, échecs « dés » non comptés, recherche de graines à étendre à toutes les branches git.
 - **Mémoire** : seulement ~9 Go libres (Photoshop ~6 Go) ; ne lancer S0 / l'étape I qu'avec ≥ 14,5 Go
   libres (portes de `queue_v85.py`) et le superviseur relancé caché depuis `F:\dev\ragnarok`.
+
+### 3 novembre (matin) — revue faite et corrigée ; S0 en attente de mémoire
+- Revue `wf_b15288ac-6a2` : 34 trouvailles, 27 confirmées, toutes corrigées avec un test qui échoue sans la
+  correction (bloquantes : G1-P pouvait être sauté et l'aiguillage ouvrir une famille sans contrôle placebo ;
+  le contrôle D comptait comme échecs les unités retirées par l'ajustement croisé). Suite v85 : 124 verts,
+  2 sautés (item 12). Commit `6322959` (+ date corrigée), poussé.
+- `docs/ARC4_V85_BUILD_NOTES.md` (worktree v85) : choix d'interprétation des passages ouverts du protocole,
+  figés avant toute donnée ; à relire par Jérémie. Règle : écrire les items 12-13 sur une branche à part et
+  ne fusionner qu'en l'absence de calcul en cours (arbre modifié = Interruption).
+- Superviseur relancé caché (`--low 14 --high 15 --clow 14 --chigh 15`, garde v85 de §13.3). S0 lancé par un
+  lanceur caché (scratchpad `s0_launcher.py`) qui attend ≥ 14,5 Go libres sur min(RAM, commit) ; journal
+  `ragnarok_v85/craft_v6_out/v85/s0/stage0.log`. Si le lanceur a disparu, relancer
+  `python scripts/v85_stage0.py run` depuis `F:\dev\ragnarok_v85` (reprend unité par unité).
