@@ -400,3 +400,16 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - Restent : `ragnarok` (master), `ragnarok_v84` (ses données `craft_v6_out/v84` sont lues par v85),
   `ragnarok_v85` (en cours), `ragnarok_v83` (à retirer après le workflow v85 en cours, dont un test v84
   lit encore les données A1). Branches `arc4-v83-promise`, `arc4-v84-clock`, `arc4-v85` poussées.
+
+### 4 novembre (nuit) — v85 partie B construite ; revue contradictoire en cours
+- Workflow `wf_00ae4471-8ab` (6 agents, fichiers disjoints) : instruments (D, O_4-dice, GF4, GF, K\*mac,
+  K\*mac-exact, K̃mac, Q5 côté agent), points de reprise, registre des bras, `scripts/v85_job.py`,
+  `queue_v85.py`, `v85_verdict.py`, `v85_calib.py`, `v85_stage0.py`, tests G-build 1-9 (95 tests verts,
+  2 sautés : bras F_M et W de l'item 12, écrits à F1). Commit `9a57b94`, poussé.
+- `ragnarok_v83` retiré à son tour (branche `arc4-v83-promise` poussée). Restent `ragnarok`, `ragnarok_v84`
+  (données lues par v85) et `ragnarok_v85`.
+- Revue contradictoire avant l'étape I : workflow `wf_b15288ac-6a2` (4 relecteurs, 4 vérificateurs,
+  1 correcteur). Défauts déjà connus à corriger : lecture de `starts.json` et ordre des unités dans le
+  verdict, échecs « dés » non comptés, recherche de graines à étendre à toutes les branches git.
+- **Mémoire** : seulement ~9 Go libres (Photoshop ~6 Go) ; ne lancer S0 / l'étape I qu'avec ≥ 14,5 Go
+  libres (portes de `queue_v85.py`) et le superviseur relancé caché depuis `F:\dev\ragnarok`.
