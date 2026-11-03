@@ -27,17 +27,29 @@ smoke caps are small, so no run here is a measurement.
    (volatile fields apart) and the same exp_meta / exp_feat bytes.
 5. Resume identity for the hook paths not killed elsewhere: D (mid-script), GF (steering), GF4 (chooser);
    kills mid-sandbox (O_4, O_4-dice), mid-rollout (K*map, Q5), a real process kill and a torn write are in
-   test_job_v85 and test_arms_v85.
+   test_job_v85 and test_arms_v85; the family arms X_S (killed after its activation) and X_on (mid-rollout,
+   after online re-mines) in test_family_w_v85 and test_family_m_v85.
 6. Prefix identity through the job: O_1 (all but the oracle-frame column and T_total), K*map with an empty
    map and Q5 with an empty library (temporary arm modules; everything but arm and instrument) equal V2s,
-   including the exp_meta and exp_feat hashes. F_M and the W arms do not exist yet (item 12): skipped.
+   including the exp_meta and exp_feat hashes. F_M (Part B item 12) is byte-identical to V2s for its first 250
+   expansions (run JSON apart from arm and captions, exp_meta and exp_feat bytes; the run is ended at the
+   boundary of expansion 250 by test_family_m_v85.stop_at; its first re-mine has run). Every W arm with a refit
+   (F_S, X_S, K_S, P_S, U_S, T, X4_S and X12_S; S and GF have no refit) is byte-identical to V2s on expansions
+   0..n*-1, n* = the first refit whose rows hold both classes, then active from n* and steering: runs at a cap
+   (40k) that passes n* = 100 on the breakout smoke start, with the unit's objects built by
+   scripts/v85_objects.py (Build.build_unit, LOGO over 12 small burned games truncated to 1000 G1b expansions,
+   so X12_S has its 12 heads) and kappa = test_family_w_v85.KAPPA_TEST (test values, not the kappa rule).
 7. Verdict and calibration code: tests/test_verdict_v85.py (referenced).
 8. O_4-dice re-execution equals its look-ahead (actions, frames after the restore, max S) on smoke runs at
    breakout A and B and pong A, through the job.
 9. Engineering report, craft_v6_out/v85/gbuild_engineering.json: peak commit (fresh processes), frames per
    second per arm type, checkpoint size and write time (one write of each reference run's final state, plus the
-   kill tests' checkpoint files), W steering cost (null: no W arm yet), worker count = min(4, floor(3.6 GB /
-   peak)) with 3.6 GB read as 3.6 * 1024 MiB (peak_commit_mb is in MiB). Reports what this module ran.
+   kill tests' checkpoint files), W steering cost (on the final state of test 6's X_S run, when it ran: wall time
+   of 200 picks on the C_e / P_{e,0} streams of the next expansions, of the steered ones alone (32 x 4 pairs
+   scored), of a cold and a warm refit on all of the run's rows and on the breakout G1b run pair's rows (a 4M
+   run's scale), and the X_S / V2s wall ratio at the same cap),
+   worker count = min(4, floor(3.6 GB / peak)) with 3.6 GB read as 3.6 * 1024 MiB (peak_commit_mb is in MiB).
+   Reports what this module ran.
 """
 import ast
 import hashlib
@@ -56,16 +68,21 @@ import types
 import numpy as np
 import pytest
 
+from ragnarok.agent_v85.critic_s import CriticS
 from ragnarok.agent_v85.explorer2s import Explorer2s
 from ragnarok.agent_v85.q5_v85 import Q5
 from ragnarok.evaluation import arms_v85, oracle_v85
 from ragnarok.evaluation import ckpt_v85 as ck
+from ragnarok.evaluation import objects_w_v85 as W
 from ragnarok.evaluation import start_v85 as ST
 from ragnarok.evaluation.oracle_v85 import KMap, OChooser, d_script
 from ragnarok.evaluation.pools_v83 import CALIBRATION, DEV, EXCLUDED, RESERVED, SEALED, SECOND
 from ragnarok.evaluation.senses_v85 import LOAD_FRAMES, SenseEnv85, Spent, Trace85
 from scripts import queue_v85 as Q
 from scripts import v85_job as J
+from scripts import v85_objects as OB
+from tests.test_family_m_v85 import stop_at as end_at_expansion
+from tests.test_family_w_v85 import KAPPA_TEST
 from tests.test_job_v85 import Kill, check_schema, stable
 from tests.test_senses_v85 import make_start
 from tests.test_v2_v84 import ALLOWED, BAD_ATTR, BAD_NAMES
@@ -110,9 +127,12 @@ GBUILD = {
         "tests/test_arms_v85.py::test_o4_dice_resumes_after_a_kill_inside_a_sandbox_pass",
         "tests/test_arms_v85.py::test_kmac_resumes_after_a_kill_inside_a_q5_rollout",
         "tests/test_senses_v85.py::test_checkpoint_resume_identical",
-        "tests/test_explorer2s_v85.py::test_determinism_and_resume"],
+        "tests/test_explorer2s_v85.py::test_determinism_and_resume",
+        "tests/test_family_w_v85.py::test_x_s_resumes_byte_identically_after_a_kill_past_its_activation",
+        "tests/test_family_m_v85.py::test_x_on_resumes_after_a_kill_mid_rollout_with_online_remines"],
     6: ["test_6_prefix_identity_to_v2s", "test_6_f_m_identical_to_v2s_for_250_expansions",
         "test_6_w_arms_identical_to_v2s_until_their_first_two_class_refit",
+        "tests/test_family_w_v85.py::test_x_s_identical_to_v2s_until_its_first_two_class_refit_then_steers",
         "tests/test_oracle_v85.py::test_prefix_identities",
         "tests/test_job_v85.py::test_o1_job_equals_v2s",
         "tests/test_arms_v85.py::test_kmac_tilde_without_derangement_equals_v2s"],
@@ -564,14 +584,152 @@ def test_6_prefix_identity_to_v2s(ref, monkeypatch, arm):
         assert o["records"] == v["records"] and o["T_total"] == v["T_total"] and o["oracle_frames"] == 0
 
 
-@pytest.mark.skip(reason="item 12, written at F1")
-def test_6_f_m_identical_to_v2s_for_250_expansions():
-    """F_M is byte-identical to V2s for its first 250 expansions (its arm module is written at F1)."""
+FM_N = 250                                                    # F_M's first re-mine boundary (§4.4)
 
 
-@pytest.mark.skip(reason="item 12, written at F1")
-def test_6_w_arms_identical_to_v2s_until_their_first_two_class_refit():
-    """Every W arm is byte-identical to V2s until its first two-class refit (written at F1)."""
+@needs_v84
+def test_6_f_m_identical_to_v2s_for_250_expansions(smokes, tmp_path):
+    """F_M (empty library plus online mining) is byte-identical to V2s for its first 250 expansions, through the
+    job; both runs are ended at the boundary of expansion 250, after F_M's first re-mine (after hook of 249)."""
+    sd, outs, seen = smokes(GAME), {}, {}
+    for arm in ("v2s", "f_m"):
+        outs[arm], seen[arm] = tmp_path / f"{GAME}_A_{arm}_{SEED}.json", {}
+        J.run(GAME, "A", arm, SEED, out=outs[arm], v85=sd, s0=sd, cap=2_000_000, smoke=True,
+              observe=end_at_expansion(FM_N, seen[arm]))
+    v, f = (json.loads(outs[a].read_text(encoding="utf-8")) for a in ("v2s", "f_m"))
+    ENG["fm_runs"] = [v, f]
+    assert v["summary"]["expansions"] == f["summary"]["expansions"] == FM_N and not v["stopped"]
+    keys = [k for k in v if k not in set(J.VOLATILE) | {"arm", "instrument"}]
+    assert {k: v[k] for k in keys} == {k: f[k] for k in keys}                        # incl. records, exp hashes
+    assert npz_bytes(outs["v2s"]) == npz_bytes(outs["f_m"])
+    ins = f["instrument"]
+    assert ins["mines"] == 1 and ins["rollouts_logged"] == FM_N and ins["bandit_k"] == 4 and ins["prior_size"] == 0
+    assert ins["every"] == FM_N and ins["q5_expansions"] == 0 and ins["object"]["kind"] is None
+    q5 = seen["f_m"]["hooks"]["q5"]
+    assert q5.mining and len(q5) == len(q5.kept) == ins["library_size"]               # the re-mine's own macros
+
+
+W_CRITICS = ("f_s", "x_s", "k_s", "p_s", "u_s", "t", "x4_s", "x12_s")   # every W arm with a refit (S, GF: none)
+W_CAP = 40_000                                    # breakout smoke A: ~140 expansions, both classes in the first 100
+W_POOL = (GAME, "pong", "bowling", "jamesbond", "time_pilot", "hero", "asterix", "bank_heist", "video_pinball",
+          "zaxxon", "gopher", "carnival", "phoenix")                  # 12 sources: X12_S's 12 heads
+W_NMAX = 1000
+
+
+@pytest.fixture(scope="module")
+def wobjects(smokes):
+    """The breakout smoke unit's family objects under <smoke>/objects, built once on first use by
+    scripts/v85_objects.py (Build.build_unit: the frozen builders, LOGO over W_POOL's other games, G1b streams
+    truncated to W_NMAX expansions), with test kappa values (test_family_w_v85.KAPPA_TEST)."""
+    box = {}
+
+    def get():
+        if "root" not in box:
+            sd = smokes(GAME)
+            b = OB.Build(sd, "dev", games=W_POOL, n_max=W_NMAX)
+            files = b.build_unit(GAME)
+            W.write_kappa(b.R, dict(kappa=dict(KAPPA_TEST), note="test values, not the kappa rule"))
+            box.update(root=b.R, files=files)
+        return box
+    return get
+
+
+@pytest.fixture(scope="module")
+def wruns(smokes, wobjects, tmp_path_factory):
+    """In-process smoke runs at W_CAP, once per arm (V2s included): (JSON, path, clock start, run objects of X_S
+    only, for test 9's steering cost)."""
+    d, cache = tmp_path_factory.mktemp("gbw"), {}
+
+    def get(arm):
+        if arm not in cache:
+            if arm != "v2s":
+                wobjects()
+            sd, out, seen = smokes(GAME), d / f"{GAME}_A_{arm}_{SEED}.json", {}
+            J.run(GAME, "A", arm, SEED, out=out, v85=sd, s0=sd, cap=W_CAP, smoke=True, observe=seen.update)
+            cache[arm] = (json.loads(out.read_text(encoding="utf-8")), out, int(seen["env"].clock_start),
+                          seen if arm == "x_s" else None)
+        return cache[arm]
+    get.cache = cache
+    return get
+
+
+@needs_v84
+@pytest.mark.parametrize("arm", W_CRITICS)
+def test_6_w_arms_identical_to_v2s_until_their_first_two_class_refit(wruns, wobjects, arm):
+    """Byte-identical to V2s on expansions 0..n*-1 (exp_meta, exp_feat, records up to the end of expansion
+    n* - 1), n* = the first refit (every 100) whose rows hold both classes; active from n*; then it steers and
+    the run differs from V2s. The run's object is the one v85_objects wrote (content hash) and kappa its arm's."""
+    v, vp, c0, _ = wruns("v2s")
+    o, op, c1, _ = wruns(arm)
+    za, zb = np.load(vp.with_suffix(".npz")), np.load(op.with_suffix(".npz"))
+    vm, vf, om, of = za["exp_meta"], za["exp_feat"], zb["exp_meta"], zb["exp_feat"]
+    n = next((k for k in range(100, len(vm) + 1, 100) if 0 < vm[:k, 3].sum() < k), None)
+    assert n is not None and len(om) > n + 10, "the run must pass its first two-class refit"
+    assert np.array_equal(om[:n], vm[:n]) and np.array_equal(of[:n], vf[:n]) and c0 == c1
+    cut = int(vm[n - 1, 4]) - c0                                                    # end of expansion n* - 1
+    assert [r for r in o["records"] if r[0] <= cut] == [r for r in v["records"] if r[0] <= cut]
+    ins = o["instrument"]
+    assert ins["active"] and ins["active_from"] == n and ins["refits_one_class"] == n // 100 - 1
+    assert ins["first_steered"] >= n and ins["steered_picks"] > 0 and ins["refits"] == len(range(n, len(om) + 1, 100))
+    assert not (len(om) == len(vm) and np.array_equal(om, vm)), "steering never changed the run"
+    draw = 1 if arm in W.DOSE else None
+    side = W.load_object(wobjects()["root"], arm, GAME, draw)[1]
+    assert ins["content_sha256"] == side["content_sha256"] and ins["kappa"] == KAPPA_TEST[W.KAPPA_OF[arm]]
+    assert f"w/{arm}/{W.obj_name(GAME, draw)}.npz" in wobjects()["files"] and o["aborted"] is None
+
+
+def _w_steering_cost(wruns):
+    """G-build test 9's W steering cost on the final state of test 6's X_S run (module docstring)."""
+    if "x_s" not in wruns.cache or "v2s" not in wruns.cache:
+        return None, "test 6's W runs did not run in this session"
+    o, _, _, seen = wruns.cache["x_s"]
+    v = wruns.cache["v2s"][0]
+    ex, crit = seen["ex"], seen["hooks"]["steer"]
+    if not crit.active:
+        return None, "the X_S run never activated its critic"
+    t_all, t_st, n_st, e0 = 0.0, 0.0, 0, int(ex.exp_n)
+    for e in range(e0, e0 + 200):
+        rp, rc = np.random.default_rng([SEED, 85, e, 0, 0]), np.random.default_rng([SEED, 85, e, 2000])
+        steered = np.random.default_rng([SEED, 85, e, 2000]).random() < crit.mix
+        t0 = time.perf_counter()
+        crit.pick_process(ex, rp, rc, crit.pick_cell(ex, rp, rc, e))
+        dt = time.perf_counter() - t0
+        t_all += dt
+        if steered:
+            t_st, n_st = t_st + dt, n_st + 1
+    twin = CriticS(crit.m, crit.sd, crit.Q, crit.Sigma, crit.kappa, LOAD_FRAMES)
+    t0 = time.perf_counter()
+    twin.refit(ex, e0)
+    cold = time.perf_counter() - t0
+    t0 = time.perf_counter()
+    twin.refit(ex, e0)
+    warm = time.perf_counter() - t0
+    big = None
+    try:                                               # a refit at a 4M run's scale: the game's G1b expansion rows
+        st = [W.load_run(GAME, r) for r in W.SEEDS]
+        rows = types.SimpleNamespace(exp_rows=[x for s in st for x in s["X"]],
+                                     exp_meta=[(e, 0, 0, int(a)) for e, a in
+                                               enumerate(np.concatenate([s["y"][W.HEAD] for s in st]))])
+        n = len(rows.exp_rows)
+        big_twin = CriticS(crit.m, crit.sd, crit.Q, crit.Sigma, crit.kappa, LOAD_FRAMES)
+        t0 = time.perf_counter()
+        big_twin.refit(rows, n)
+        bc = time.perf_counter() - t0
+        t0 = time.perf_counter()
+        big_twin.refit(rows, n)
+        big = dict(rows=n, ms_cold_refit=round(1e3 * bc, 1), ms_warm_refit=round(1e3 * (time.perf_counter() - t0), 1),
+                   refits_up_to_these_rows=n // 100, source=f"{GAME} G1b runs {list(W.SEEDS)}, all expansions")
+    except Exception as err:
+        big = dict(error=repr(err))
+    return dict(arm="x_s", cap=o["cap"], expansions=e0, cells=int(len(ex.arch)), d=int(crit.Q.shape[1]),
+                ms_per_pick=round(1e3 * t_all / 200, 3), ms_per_steered_pick=round(1e3 * t_st / max(n_st, 1), 3),
+                steered_of_200=n_st, ms_cold_refit=round(1e3 * cold, 2), ms_warm_refit=round(1e3 * warm, 2),
+                refits=o["instrument"]["refits"], steered_picks=o["instrument"]["steered_picks"],
+                wall_ratio_x_s_v2s=round(float(o["wall_s"]) / max(float(v["wall_s"]), 1e-9), 3),
+                refit_at_g1b_scale=big,
+                note="smoke state (small archive, ~140 rows); a 4M run scores the same 32 x 4 pairs per steered "
+                     "pick but refits every 100 expansions on all its rows (refit_at_g1b_scale: one refit on a "
+                     "G1b run pair's rows, the order of a 4M run's last refits)"), None
 
 
 # ---------------------------------------------------------------- 8. O_4-dice
@@ -586,7 +744,9 @@ def test_8_o4_dice_reexecution_matches_its_lookahead(ref, game, start):
 
 # ---------------------------------------------------------------- 9. engineering (never a failure)
 TYPES = dict(v2s="V2s", o1="O (sandbox)", o4="O (sandbox)", o4_dice="O (sandbox)", kmap="steering", gf="steering",
-             kmac="Q5", kmac_exact="Q5", kmac_tilde="Q5", gf4="chooser, no look-ahead", d="D (script)")
+             kmac="Q5", kmac_exact="Q5", kmac_tilde="Q5", gf4="chooser, no look-ahead", d="D (script)",
+             s="steering (single process)", **{a: "steering (critic)" for a in W_CRITICS},
+             **{a: "Q5 (mined)" for a in ("f_m", "x_on", "x_frozen", "k_mine", "dm_on", "p_on", "x4_on", "x12_on")})
 
 
 def _row(o, process):
@@ -601,7 +761,7 @@ def _row(o, process):
                 peak_commit_mb=round(o["peak_commit_mb"], 1))
 
 
-def test_9_engineering_report(ref, fresh):
+def test_9_engineering_report(ref, fresh, wruns):
     rep = dict(test="G-build test 9 (Part B): engineering figures, never a kill",
                note="smoke runs on seed 9800 at small caps (never a measurement); a 4M run's archive grows to the "
                     "20k-cell cap, so its peak commit and checkpoints are larger than here. 'fresh' rows are child "
@@ -611,6 +771,9 @@ def test_9_engineering_report(ref, fresh):
     try:
         rep["provenance"] = J.stamp((), cwd=str(ROOT), paths=J.PATHS)
         rows = [_row(o, "fresh") for o, _ in fresh.cache.values()] + [_row(o, "pytest") for o, _ in ref.cache.values()]
+        rows += [dict(_row(c[0], "pytest"), note=f"test 6 W run, cap {W_CAP}") for c in wruns.cache.values()]
+        rows += [dict(_row(o, "pytest"), note=f"test 6 F_M pair, ended at expansion {FM_N}")
+                 for o in ENG.get("fm_runs", [])]
         rep["runs"] = rows
         for t in sorted({r["type"] for r in rows}):
             rs = [r for r in rows if r["type"] == t]
@@ -627,8 +790,10 @@ def test_9_engineering_report(ref, fresh):
         rep["peak_commit_mb"] = peak
         rep["worker_count"] = None if not peak else min(4, math.floor(3.6 * 1024 / peak))
         rep["worker_rule"] = "min(4, floor(3.6 GB / measured peak commit)) (§13.2); 3.6 GB = 3.6 * 1024 MiB"
-        rep["W_steering_cost"] = None
-        rep["W_note"] = "no W arm yet (Part B item 12, written at F1)"
+        try:
+            rep["W_steering_cost"], rep["W_note"] = _w_steering_cost(wruns)
+        except Exception as err:                               # never a failure
+            rep["W_steering_cost"], rep["W_note"] = None, f"W steering cost not measured: {err!r}"
         rep["free_gb_min_ram_commit"] = round(Q.free_gb(), 2) if os.name == "nt" else None
         rep["written"] = time.strftime("%Y-%m-%d %H:%M:%S")
     except Exception as err:                                   # never a failure
