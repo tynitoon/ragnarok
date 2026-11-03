@@ -467,3 +467,17 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
 - 12 h 40 : `arc4-v85` déjà fusionné DANS `arc4-v85-families` (commit `866396d`, conflit des notes résolu : notes
   5, 6, 7) ; la fusion de l'étape (2) sera donc une avance rapide :
   `git -C F:\dev\ragnarok_v85 merge --ff-only arc4-v85-families` (seulement quand aucun calcul ne tourne).
+
+### 3 novembre (soir) — étape I terminée : ARRÊT avant G1 (en vérification indépendante)
+- Étape I : 128/128 exécutions en 7 h 30 (sorties et premier verdict commités, `980a211`).
+- Verdict (`istage_verdict.json`) : **Interruption** (rejeu non exact : yars_revenge/A/v2s/9807) ; contrôle D
+  réussi (r_g = 8 partout, exact) ; **ligne instrument R = 0,809, IC99 [0,682 ; 0,964] → INSTRUMENT-FAIL**, qui
+  arrête avant G1 selon le texte figé. Sans yars : R 0,809 [0,66 ; 0,97]. Le groupe {9807, 9810} monte plus vite
+  que les deux autres (13 unités sur 16) ; {9806,9809} vs {9808,9811} : R 1,03.
+- Diagnostic yars (scratchpad `diag_yars*`) : exécution déterministe ; les états ALE sérialisés du rejeu continu et
+  des sauvegardes vivantes sont identiques jusqu'au maillon 289, puis la suite après `restoreState` diffère de la
+  suite continue depuis le même état : une partie de l'état de l'émulateur n'est pas dans la sauvegarde ALE ;
+  l'explorateur a accumulé ~47 000 points de hausse non reproductibles en continu.
+- Vérification indépendante en cours : workflow `wf_7b462b2f-1b5` (recalcul sans le code du verdict, audit du
+  code, ampleur de l'artefact de restauration sur les 16 jeux, synthèse). Puis : document de résultat, et la
+  décision de la suite avec Jérémie (le protocole arrête G1 ; la suite d'arc est à choisir).
