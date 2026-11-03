@@ -1,0 +1,475 @@
+{
+ "version": 1,
+ "game": "phoenix",
+ "k_star": 5,
+ "ladder": [
+  888.0,
+  1184.0,
+  1776.0,
+  2960.0,
+  5328.0,
+  10064.0,
+  19536.0,
+  38480.0,
+  76368.0,
+  152144.0,
+  303696.0
+ ],
+ "entry_seeds": {
+  "A": 9819,
+  "B": 9820
+ },
+ "K_g": [
+  4,
+  5
+ ],
+ "k_first": 4,
+ "k_ref": 5,
+ "kept": true,
+ "drop": null,
+ "rule": {
+  "2": {
+   "M": 1776.0,
+   "above_S1": true,
+   "gaps": [
+    3980,
+    2092
+   ],
+   "median_gap": 3036.0,
+   "gap_ok": false,
+   "record": [
+    23,
+    28
+   ],
+   "counted": false
+  },
+  "3": {
+   "M": 2960.0,
+   "above_S1": true,
+   "gaps": [
+    51264,
+    17060
+   ],
+   "median_gap": 34162.0,
+   "gap_ok": false,
+   "record": [
+    29,
+    37
+   ],
+   "counted": false
+  },
+  "4": {
+   "M": 5328.0,
+   "above_S1": true,
+   "gaps": [
+    65636,
+    1701068
+   ],
+   "median_gap": 883352.0,
+   "gap_ok": true,
+   "record": [
+    44,
+    45
+   ],
+   "counted": true
+  },
+  "5": {
+   "M": 10064.0,
+   "above_S1": true,
+   "gaps": [
+    798208,
+    2622600
+   ],
+   "median_gap": 1710404.0,
+   "gap_ok": true,
+   "record": [
+    84,
+    83
+   ],
+   "counted": true
+  }
+ },
+ "natural": {
+  "A": {
+   "1": 0,
+   "2": 3980,
+   "3": 51264,
+   "4": 65636,
+   "5": 798208
+  },
+  "B": {
+   "1": 0,
+   "2": 2092,
+   "3": 17060,
+   "4": 1701068,
+   "5": 2622600
+  }
+ },
+ "A": {
+  "valid": true,
+  "E": 9819,
+  "s1": "s1/phoenix_A_s1.pkl",
+  "s1_sha256": "7b2b89f0df84d9e946af8d33041f1ee1af335de8f6558b28f43c81d60305a4f2",
+  "context": "after_step",
+  "record": 84,
+  "S1": 1500.0,
+  "lives": 2,
+  "step": 689,
+  "steps_above": 2091,
+  "identity": {
+   "ok": true,
+   "all_steps_equal": true,
+   "rungs": {
+    "2": [
+     [
+      73,
+      1900.0
+     ],
+     [
+      73,
+      1900.0
+     ]
+    ],
+    "3": [
+     [
+      271,
+      3170.0
+     ],
+     [
+      271,
+      3170.0
+     ]
+    ],
+    "4": [
+     [
+      706,
+      5510.0
+     ],
+     [
+      706,
+      5510.0
+     ]
+    ],
+    "5": [
+     [
+      2090,
+      10430.0
+     ],
+     [
+      2090,
+      10430.0
+     ]
+    ]
+   }
+  },
+  "entry": {
+   "path": "entry/phoenix_9819_body.pkl",
+   "sha256": "948419016a61c302855b45c444172bdd9d753b9fc3a13eaed36e118f7cf78b71",
+   "entry_frames": 108028
+  },
+  "entry_report": {
+   "entry_frames": 108028,
+   "warm_frames": 48000,
+   "adapter_frames": 49560,
+   "my_sizes": [
+    31.0,
+    31.0,
+    31.0,
+    31.0,
+    31.0
+   ],
+   "my_size": 31.0,
+   "lost_frac": 0.21333333333333335,
+   "slots": {
+    "0,0,0": [
+     0
+    ],
+    "0,0,1": [
+     1
+    ],
+    "1,0,0": [
+     2
+    ],
+    "-1,0,0": [
+     3
+    ],
+    "priv0": [
+     4
+    ],
+    "1,0,1": [
+     5
+    ],
+    "-1,0,1": [
+     6
+    ],
+    "priv1": [
+     7
+    ]
+   },
+   "n_resp": 18
+  },
+  "body_loads": true,
+  "wall_s": 19.67790460586548,
+  "floor": {
+   "k_ref": 5,
+   "delta_depth": 2091,
+   "F": 8724,
+   "natural_gap": 798208,
+   "ratio": 91.4956441999083
+  }
+ },
+ "B": {
+  "valid": true,
+  "E": 9820,
+  "s1": "s1/phoenix_B_s1.pkl",
+  "s1_sha256": "2117b8e0113d6bcd3ea3f1131840dbfcecf992010047bbc223d2a26a1461b757",
+  "context": "after_step",
+  "record": 83,
+  "S1": 1230.0,
+  "lives": 2,
+  "step": 771,
+  "steps_above": 1963,
+  "identity": {
+   "ok": true,
+   "all_steps_equal": true,
+   "rungs": {
+    "2": [
+     [
+      139,
+      2020.0
+     ],
+     [
+      139,
+      2020.0
+     ]
+    ],
+    "3": [
+     [
+      412,
+      3060.0
+     ],
+     [
+      412,
+      3060.0
+     ]
+    ],
+    "4": [
+     [
+      1014,
+      5750.0
+     ],
+     [
+      1014,
+      5750.0
+     ]
+    ],
+    "5": [
+     [
+      1962,
+      10190.0
+     ],
+     [
+      1962,
+      10190.0
+     ]
+    ]
+   }
+  },
+  "entry": {
+   "path": "entry/phoenix_9820_body.pkl",
+   "sha256": "40fa69297261b7eb98b02a7c5b2225b63f2e4034f717514c2ae43dc4a3e6e76c",
+   "entry_frames": 106740
+  },
+  "entry_report": {
+   "entry_frames": 106740,
+   "warm_frames": 48000,
+   "adapter_frames": 49560,
+   "my_sizes": [
+    31.0,
+    50.0,
+    50.0,
+    31.0,
+    31.0
+   ],
+   "my_size": 31.0,
+   "lost_frac": 0.2693333333333333,
+   "slots": {
+    "0,0,0": [
+     0
+    ],
+    "0,0,1": [
+     1
+    ],
+    "1,0,0": [
+     2
+    ],
+    "-1,0,0": [
+     3
+    ],
+    "priv0": [
+     4
+    ],
+    "1,0,1": [
+     5
+    ],
+    "-1,0,1": [
+     6
+    ],
+    "priv1": [
+     7
+    ]
+   },
+   "n_resp": 18
+  },
+  "body_loads": true,
+  "wall_s": 19.35875177383423,
+  "floor": {
+   "k_ref": 5,
+   "delta_depth": 1963,
+   "F": 8152,
+   "natural_gap": 2622600,
+   "ratio": 321.71246319921494
+  }
+ },
+ "ref_gap": 1710404.0,
+ "g4": {
+  "A": {
+   "e_M1": 25,
+   "e_ref": 1927,
+   "n": 1902,
+   "raised": 25,
+   "p": 0.013144058885383806,
+   "G4": 3.921824440973428
+  },
+  "B": {
+   "e_M1": 41,
+   "e_ref": 6371,
+   "n": 6330,
+   "raised": 30,
+   "p": 0.004739336492890996,
+   "G4": 3.971653719832568
+  }
+ },
+ "wall_s": 39.04303431510925,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "code_sha": "26a3f4ff4c5008502af2e9654df90fe555fe48f9",
+  "dirty": false,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "launched": "2026-11-03 11:15:04",
+  "launched_ts": 1793700904.3808048,
+  "inputs": {
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\bars\\phoenix_9706.json": "d25991c11afcb2339c2bec9628d4782452f292b3964c4afb581c32039c76441f",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\phoenix_9712.json": "a6a2e07accb6f7ac2e6b5d5c29bc0a45a3c04b9fcd74d8be3e35680a5d4dceaa",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\phoenix_9712.npz": "1a1c14585141bb652b347002258752aa3c7aca0f174eb6f0d3c7c6053d3a1659",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\phoenix_9713.json": "bd127d0515e0bd0702318fc8224a310efb6342fdeb983d8b1658dbb036b4b384",
+   "F:\\dev\\ragnarok_v84\\craft_v6_out\\v84\\g1b\\phoenix_9713.npz": "48ca060307d520fcc829807769ecf60b0060480a2562d32e8b1c56ce548fd975"
+  },
+  "closure_hash": "6ed40c15af1d15de83ec0903531abc67d6f0776ce1132c16c24c8ec34534dac9",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/pools_v83.py",
+    "5173c37a9d084b6c54487a1d0e02058fda18b9098a58784fdd765537eec58c8d"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_calib.py",
+    "6967297256d34692b41ab469f84270e76e63474331314756a674adb087a8b2bd"
+   ],
+   [
+    "scripts/v85_stage0.py",
+    "9bf55736d55652b77dad5ba1d5a15927ebc612c1bbe006c305ad9656c9a9b951"
+   ],
+   [
+    "scripts/v85_verdict.py",
+    "ef6800a084b41f24f87058bdd269a35a0185994a43e252d64e5d5410d02f04bf"
+   ]
+  ],
+  "closure_foreign": []
+ }
+}

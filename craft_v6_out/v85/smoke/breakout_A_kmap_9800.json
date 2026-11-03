@@ -1,0 +1,863 @@
+{
+ "game": "breakout",
+ "start": "A",
+ "arm": "kmap",
+ "seed": 9800,
+ "cap": 500000,
+ "k_ref": 8,
+ "ladder": [
+  3.3000000000000003,
+  4.4,
+  6.6000000000000005,
+  11.0,
+  19.8,
+  37.400000000000006,
+  72.60000000000001,
+  143.0,
+  283.8,
+  565.4000000000001,
+  1128.6000000000001
+ ],
+ "S1": 5.0,
+ "rungs": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "records": [
+  [
+   0,
+   5.0,
+   5.0,
+   0,
+   0
+  ],
+  [
+   632,
+   6.0,
+   6.0,
+   28,
+   0
+  ],
+  [
+   4308,
+   7.0,
+   7.0,
+   240,
+   0
+  ],
+  [
+   4464,
+   8.0,
+   8.0,
+   279,
+   0
+  ],
+  [
+   6372,
+   9.0,
+   9.0,
+   318,
+   0
+  ],
+  [
+   6516,
+   10.0,
+   10.0,
+   354,
+   0
+  ],
+  [
+   7956,
+   14.0,
+   14.0,
+   379,
+   0
+  ],
+  [
+   39344,
+   15.0,
+   15.0,
+   393,
+   0
+  ],
+  [
+   39560,
+   16.0,
+   16.0,
+   417,
+   0
+  ],
+  [
+   41496,
+   17.0,
+   17.0,
+   442,
+   0
+  ],
+  [
+   43504,
+   18.0,
+   18.0,
+   465,
+   0
+  ],
+  [
+   65176,
+   19.0,
+   19.0,
+   339,
+   0
+  ],
+  [
+   65560,
+   23.0,
+   23.0,
+   381,
+   0
+  ],
+  [
+   69824,
+   24.0,
+   24.0,
+   419,
+   0
+  ],
+  [
+   71628,
+   25.0,
+   25.0,
+   443,
+   0
+  ],
+  [
+   74792,
+   29.0,
+   29.0,
+   469,
+   0
+  ],
+  [
+   87468,
+   30.0,
+   30.0,
+   485,
+   0
+  ],
+  [
+   96560,
+   31.0,
+   31.0,
+   500,
+   0
+  ],
+  [
+   97112,
+   32.0,
+   32.0,
+   515,
+   0
+  ],
+  [
+   122840,
+   33.0,
+   33.0,
+   531,
+   0
+  ],
+  [
+   127048,
+   34.0,
+   34.0,
+   546,
+   0
+  ],
+  [
+   136156,
+   38.0,
+   38.0,
+   562,
+   0
+  ],
+  [
+   142384,
+   42.0,
+   42.0,
+   578,
+   0
+  ],
+  [
+   213416,
+   46.0,
+   46.0,
+   595,
+   0
+  ],
+  [
+   216416,
+   50.0,
+   50.0,
+   612,
+   0
+  ],
+  [
+   217016,
+   51.0,
+   51.0,
+   627,
+   0
+  ],
+  [
+   220236,
+   55.0,
+   55.0,
+   643,
+   0
+  ],
+  [
+   220548,
+   59.0,
+   59.0,
+   660,
+   0
+  ],
+  [
+   222068,
+   63.0,
+   63.0,
+   676,
+   0
+  ],
+  [
+   222136,
+   67.0,
+   67.0,
+   693,
+   0
+  ],
+  [
+   229316,
+   68.0,
+   68.0,
+   710,
+   0
+  ],
+  [
+   230996,
+   75.0,
+   75.0,
+   727,
+   0
+  ],
+  [
+   234228,
+   79.0,
+   79.0,
+   744,
+   0
+  ],
+  [
+   234492,
+   83.0,
+   83.0,
+   761,
+   0
+  ],
+  [
+   237188,
+   90.0,
+   90.0,
+   780,
+   0
+  ],
+  [
+   237716,
+   97.0,
+   97.0,
+   798,
+   0
+  ],
+  [
+   242884,
+   98.0,
+   98.0,
+   814,
+   0
+  ],
+  [
+   244436,
+   99.0,
+   99.0,
+   829,
+   0
+  ],
+  [
+   261120,
+   100.0,
+   100.0,
+   844,
+   0
+  ],
+  [
+   265144,
+   101.0,
+   101.0,
+   859,
+   0
+  ],
+  [
+   271776,
+   102.0,
+   102.0,
+   874,
+   0
+  ],
+  [
+   272232,
+   106.0,
+   106.0,
+   890,
+   0
+  ],
+  [
+   273992,
+   108.0,
+   108.0,
+   876,
+   0
+  ],
+  [
+   274264,
+   109.0,
+   109.0,
+   892,
+   0
+  ],
+  [
+   274324,
+   110.0,
+   110.0,
+   907,
+   0
+  ],
+  [
+   276528,
+   111.0,
+   111.0,
+   923,
+   0
+  ],
+  [
+   290872,
+   114.0,
+   114.0,
+   924,
+   0
+  ],
+  [
+   300648,
+   115.0,
+   115.0,
+   939,
+   0
+  ],
+  [
+   307948,
+   119.0,
+   119.0,
+   955,
+   0
+  ],
+  [
+   308692,
+   123.0,
+   123.0,
+   972,
+   0
+  ],
+  [
+   339328,
+   127.0,
+   127.0,
+   988,
+   0
+  ],
+  [
+   341620,
+   131.0,
+   131.0,
+   1005,
+   0
+  ],
+  [
+   346044,
+   138.0,
+   138.0,
+   1022,
+   0
+  ],
+  [
+   348432,
+   139.0,
+   139.0,
+   1039,
+   0
+  ],
+  [
+   349404,
+   142.0,
+   142.0,
+   1040,
+   0
+  ],
+  [
+   355032,
+   149.0,
+   149.0,
+   1058,
+   0
+  ],
+  [
+   355104,
+   156.0,
+   156.0,
+   1076,
+   0
+  ],
+  [
+   359028,
+   163.0,
+   163.0,
+   1095,
+   0
+  ],
+  [
+   360396,
+   170.0,
+   170.0,
+   1113,
+   0
+  ],
+  [
+   372708,
+   171.0,
+   171.0,
+   1130,
+   0
+  ],
+  [
+   373308,
+   175.0,
+   175.0,
+   1146,
+   0
+  ],
+  [
+   378360,
+   179.0,
+   179.0,
+   1162,
+   0
+  ],
+  [
+   386940,
+   182.0,
+   182.0,
+   1162,
+   0
+  ],
+  [
+   391588,
+   189.0,
+   189.0,
+   1181,
+   0
+  ],
+  [
+   391660,
+   196.0,
+   196.0,
+   1199,
+   0
+  ],
+  [
+   394496,
+   197.0,
+   197.0,
+   1217,
+   0
+  ],
+  [
+   402132,
+   203.0,
+   203.0,
+   1218,
+   0
+  ],
+  [
+   403424,
+   210.0,
+   210.0,
+   1212,
+   0
+  ],
+  [
+   403684,
+   214.0,
+   214.0,
+   1241,
+   0
+  ],
+  [
+   403708,
+   221.0,
+   221.0,
+   1247,
+   0
+  ],
+  [
+   403728,
+   228.0,
+   228.0,
+   1252,
+   0
+  ],
+  [
+   403744,
+   235.0,
+   235.0,
+   1256,
+   0
+  ],
+  [
+   405232,
+   242.0,
+   242.0,
+   1284,
+   0
+  ],
+  [
+   405248,
+   249.0,
+   249.0,
+   1288,
+   0
+  ],
+  [
+   405264,
+   256.0,
+   256.0,
+   1292,
+   0
+  ],
+  [
+   405280,
+   263.0,
+   263.0,
+   1296,
+   0
+  ],
+  [
+   405300,
+   270.0,
+   270.0,
+   1301,
+   0
+  ],
+  [
+   405320,
+   277.0,
+   277.0,
+   1306,
+   0
+  ],
+  [
+   405340,
+   284.0,
+   284.0,
+   1311,
+   0
+  ]
+ ],
+ "T": {
+  "1": 0,
+  "2": 4308,
+  "3": 7956,
+  "4": 65560,
+  "5": 136156,
+  "6": 230996,
+  "7": 355032,
+  "8": 405340,
+  "9": null,
+  "10": null
+ },
+ "T_total": {
+  "1": 0,
+  "2": 4308,
+  "3": 7956,
+  "4": 65560,
+  "5": 136156,
+  "6": 230996,
+  "7": 355032,
+  "8": 405340,
+  "9": null,
+  "10": null
+ },
+ "replay": [
+  {
+   "k": 2,
+   "ok": true,
+   "replayed": [
+    7.0,
+    7.0,
+    240
+   ],
+   "recorded": [
+    7.0,
+    7.0,
+    240
+   ]
+  },
+  {
+   "k": 8,
+   "ok": true,
+   "replayed": [
+    284.0,
+    284.0,
+    1311
+   ],
+   "recorded": [
+    284.0,
+    284.0,
+    1311
+   ]
+  }
+ ],
+ "interruption": false,
+ "summary": {
+  "expansions": 3192,
+  "cells": 274,
+  "best_S": 284.0,
+  "evicted": 0,
+  "billed": 405340,
+  "resolution": [
+   11,
+   8,
+   8
+  ],
+  "rows": 0,
+  "probe_frames_after_entry": 0
+ },
+ "instrument": {
+  "map_size": 29,
+  "coins": 1630,
+  "found": 1630,
+  "coverage": 1.0,
+  "MAP_WEAK": false,
+  "map_sha256": "c00f62e434e2f56ad048ee0a70baf0f9b2dd38e435b837fbe405148fe7441178",
+  "map_frames": 4892
+ },
+ "entry": {
+  "sha256": "1c765e387f247048f24984bfb5b1835488ae6e32b2d3736e2e4800645ad312d1",
+  "entry_frames": 88652
+ },
+ "oracle_frames": 0,
+ "wall_s": 90.65988731384277,
+ "peak_ws_mb": 110.2734375,
+ "peak_commit_mb": 182.35546875,
+ "claim_header": "Every v85 claim concerns a SEARCH WITH BILLED REWINDS (savestates; 60 frames per restore; every emulated frame of the agent billed). It starts from a savestate shared by all arms: a state, chosen by the evaluator, at the game's first matched rung M1 on an earlier V2 run's lineage that reached the top rung. The root's sensed rise is set to that lineage's own sensed rise and is identical for all arms. It uses the senses granted on 22 October 2026: pixels, its own buttons, max(0, r_step) per step, lives. Evaluator instruments (D, O, K*) additionally use unbilled look-ahead or future-path data, reported as oracle frames; they are not agents. It is not live play without savestates.",
+ "senses": {
+  "granted": "2026-10-22",
+  "agent_inputs": [
+   "pixels",
+   "own buttons",
+   "max(0, r_step) per step",
+   "lives"
+  ],
+  "root_S": "S(s1): the reference lineage's own sensed rise, identical for all arms",
+  "never_read": [
+   "RAM",
+   "true score",
+   "game names",
+   "downloaded weights"
+  ],
+  "ram_read_by_any_v85_component": false,
+  "instruments": "evaluator only (ragnarok/evaluation/), never agents: unbilled look-ahead or future-path data, reported as oracle frames"
+ },
+ "provenance": {
+  "commit": "0a5f6370307adb065efd848114829e6edee65a5b",
+  "dirty": false,
+  "closure_hash": "98b7b729caeafd27cd9c50b5f6fe256ad057b32fd43b360ba7c24d3c4231504c",
+  "closure_files": [
+   [
+    "ragnarok/__init__.py",
+    "4cb44fdd7a968961fccb21bee5c6aea50ca8a807f35b0a114c2d93cc43ea05ad"
+   ],
+   [
+    "ragnarok/agent_v71/__init__.py",
+    "93dda7801e6b775fde4b0ac14386e35615b6d9dbc50f4d27812b45d50aab5d93"
+   ],
+   [
+    "ragnarok/agent_v71/env.py",
+    "9da8c8492d0656151c17b85e7ef66dffe06bd42ac306c420f251943d0f7e1d90"
+   ],
+   [
+    "ragnarok/agent_v71/tracker.py",
+    "329066364455a4fb4581ebb814d6fc3bb6902cea2988f47c404f3888764414ab"
+   ],
+   [
+    "ragnarok/agent_v83/__init__.py",
+    "c822a22c9cf0d492517a5961b0449904ac14cb085dfe1b8a698e25b04da10856"
+   ],
+   [
+    "ragnarok/agent_v83/adapter.py",
+    "dd9cf686649baf80279ad50ae4a7671203da3706cd3ef8e9ef76601fd287e412"
+   ],
+   [
+    "ragnarok/agent_v83/entry.py",
+    "b9b34f63bba3216d155c8d349a32a9866a9730d98edf91b520cf5950c5db861c"
+   ],
+   [
+    "ragnarok/agent_v83/explorer.py",
+    "3b87fccca13544b3e74f9b8b9ddbb360a9fdc483339aa4de0b546c3c7d5bb3ad"
+   ],
+   [
+    "ragnarok/agent_v83/logs.py",
+    "cfe84f39a62dcf37115152c43ab18938a76f9f79021c29bbc42081dd3932ee3a"
+   ],
+   [
+    "ragnarok/agent_v83/probe.py",
+    "7b123150a18b2fdaa407d5f481a9c709b3fd9dc9ff273c68d81e78c567b5f361"
+   ],
+   [
+    "ragnarok/agent_v83/views.py",
+    "021937daa253051fba4d61d52868184add7dace13e0e3e2d7d01316479d13bd1"
+   ],
+   [
+    "ragnarok/agent_v84/__init__.py",
+    "a29734aa62795bd6f6af9640017adb583c6c0c4bc7f39576e5782c0cb0ae6b6e"
+   ],
+   [
+    "ragnarok/agent_v84/explorer2.py",
+    "6c072f062c9fcce90d47082020ccadd2db5ba8ba00029d60f3538ab194870230"
+   ],
+   [
+    "ragnarok/agent_v84/framecode.py",
+    "f8915688e4b9b1db7a56482cb7805359ff38105f04f8ee34ee5364df6edec0b1"
+   ],
+   [
+    "ragnarok/agent_v84/rowlog.py",
+    "00ef9cd4deabbee99d0b780ec9cf336d2fee45a101f8365aa7d028bb7dfcfc07"
+   ],
+   [
+    "ragnarok/agent_v85/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "ragnarok/agent_v85/explorer2s.py",
+    "70d8406a8d65135bb0d72ed3691f294867ec47a86a9f820ca218836f3bc60e33"
+   ],
+   [
+    "ragnarok/agent_v85/q5_v85.py",
+    "80c72711e478ae8340ac910798e3c3134c9a156d5be9849a3728baf24be8fa20"
+   ],
+   [
+    "ragnarok/evaluation/__init__.py",
+    "54783891a328fa01fd4f7508e1f95a6343620ebb53801b4c4141bbb494a8d835"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/__init__.py",
+    "312233f98396ddb22f1ab032edfd73ff357e6f1dccf528e13fb4acac3a9d68d6"
+   ],
+   [
+    "ragnarok/evaluation/arms_v85/kmap.py",
+    "ca55e1acd443b52bc2df20b29cd07101a32d42b22d451a12a640d2700647723f"
+   ],
+   [
+    "ragnarok/evaluation/ckpt_v85.py",
+    "90616233047df290c57e61cc54d3c5c8176b60c992eab8e58a40134ffeca0900"
+   ],
+   [
+    "ragnarok/evaluation/oracle_v85.py",
+    "418ae806f6f13e9efafdc970808ea6576994c0b864172bbf4a65aac24b7c1c08"
+   ],
+   [
+    "ragnarok/evaluation/provenance_v81.py",
+    "5fd905b6c6ee7da75ba18c224524920c10e91e3f151c3ba9d8caf9f8fc2bd242"
+   ],
+   [
+    "ragnarok/evaluation/senses_v83.py",
+    "d1206e54403dc7a8822dbb0eb967c45cfbe6e36dd76aad8a04a8dfb8f30346d7"
+   ],
+   [
+    "ragnarok/evaluation/senses_v84.py",
+    "124ebc146d24894fcc4377ad2d17ab1119dbd738da054d3f6a597ebec0871019"
+   ],
+   [
+    "ragnarok/evaluation/senses_v85.py",
+    "fd1ee6b080a6a554d4202aee6611849f49d0b0723061ffeb82f6d683b79734e2"
+   ],
+   [
+    "ragnarok/evaluation/start_v85.py",
+    "8ce09927fd6325addc4c9e4a0e4829f071f6d30d231986a886142268c85048df"
+   ],
+   [
+    "scripts/__init__.py",
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   ],
+   [
+    "scripts/ref_extract_v70.py",
+    "88a59e5daa89ec41a5f415fd5b233704f9a99eddef56d7ed3bc86098c1544fc7"
+   ],
+   [
+    "scripts/v85_job.py",
+    "6460f825ee9d04ac2d0daa3d39bf490e4272e514b5677380ed2347e5e76fbec3"
+   ]
+  ],
+  "closure_foreign": [],
+  "closure_consistent": true,
+  "code_tree": "e71ea98f8d909741c78cc54014e3e28463fa175b:49282ff1204a8306f6e26f069c01cdb7e17022df:9a06a7eff4738cf7d04d08808165bbfcf9df6c13",
+  "inputs": {
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\breakout\\starts.json": "49b517701ae07accc3215b2eaa1bf4fe110fdbbfdad018dde7ef8006f9b38510",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\breakout\\breakout_A_s1.pkl": "4c0a1a27fc03e25f88efee76f2a08977c04f7e5b398955b89d0554ced3db3929",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\breakout\\breakout_9800_body.pkl": "1c765e387f247048f24984bfb5b1835488ae6e32b2d3736e2e4800645ad312d1",
+   "F:\\dev\\ragnarok_v85\\craft_v6_out\\v85\\smoke\\breakout\\breakout_B_s1.pkl": "cb530ddb745ff3760d1292f8dda72a6588b713e94fa2e7711a3577ebad3e83c9"
+  },
+  "segments": [
+   {
+    "code_sha": "0a5f6370307adb065efd848114829e6edee65a5b",
+    "dirty": false,
+    "launched": "2026-11-03 11:52:52",
+    "resumed_at_exp": null,
+    "closure_agrees": true
+   }
+  ],
+  "ckpt": {
+   "writes": 0,
+   "max_mb": 0.0,
+   "max_s": 0.0,
+   "every_s": 300.0,
+   "last_exp": null
+  },
+  "launched": "2026-11-03 11:52:52",
+  "ended": "2026-11-03 11:54:22",
+  "python": "3.14.3",
+  "hashseed": "0"
+ },
+ "E": 9800,
+ "k_first": 2,
+ "rungs_source": "s0",
+ "billed": 405340,
+ "stopped": true,
+ "s1_sha256": "4c0a1a27fc03e25f88efee76f2a08977c04f7e5b398955b89d0554ced3db3929",
+ "exp": {
+  "n": 3192,
+  "meta_sha256": "301535346fad551f1a035c02db51f7d74dd513f5746207524c9cdd69e5024d6f",
+  "feat_sha256": "697ec57d18d0707098c118f7f58db7ae3e7ff85df7fee28f1663ce71958bc649"
+ },
+ "aborted": null
+}

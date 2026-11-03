@@ -308,6 +308,16 @@ Rejected by the verifiers (kept for the record):
 
 Tests after the fixes: Run from F:\dev\ragnarok_v85 with F:\dev\ragnarok\.venv-arc4\Scripts\python.exe, one process at a time. (1) pytest -q tests/test_senses_v85.py tests/test_start_v85.py tests/test_explorer2s_v85.py tests/test_oracle_v85.py: 21 passed (354.9 s). (2) pytest -q tests/test_job_v85.py: 17 passed (205.9 s). (3) pytest -q tests/test_verdict_v85.py tests/test_stage0_v85.py: 41 passed (30 verdict + 11 stage0, 89.6 s). (4) pytest -q tests/test_arms_v85.py: 11 passed (156.2 s). (5) pytest -q tests/test_gbuild_v85.py: 34 passed, 2 skipped (both pre-existing 'item 12, written at F1' skips; 407.2 s). Fail-without-fix check: the HEAD code (git archive HEAD into the scratchpad copy C:\Users\jeremie\AppData\Local\Temp\claude\F--dev-ragnarok\826ba484-cdf9-442a-89b7-2049c18871fc\scratchpad\old_head) was run with the new tests, and every new or changed test fails there. Verdict: 19 failed. Job (new tests plus the extended real-process-kill test): 7 of 7 failed. Stage0: the K5 test failed and the sim_seed fixture errored. Oracle: test_no_lookahead_after_the_run_is_over failed. V2s byte identity held: explorer2s.py is unchanged, and test_explorer2s_v85, test_oracle_v85::test_prefix_identities, test_job_v85::test_o1_job_equals_v2s and the G-build identity tests pass. Nothing was committed or deleted. No real v85 compute was run.
 
+## 5. Operational note (3 November 2026, 07:00, before S0)
+
+The §13.3 launch gate (>= 14.5 GB free on min(RAM, commit)) and the 14 GB supervisor guard exist so that the Tavern
+project keeps its memory. Jérémie said on 3 November that Tavern does not run today and will be launched the day
+after tomorrow. `scripts/queue_v85.py` gains `--min-free GB` (default 14.5, unchanged); S0 and the I-stage are
+launched with a 12.5 GB gate while Tavern is off. The RAM supervisor runs at `--low 12 --high 14 --clow 12
+--chigh 14` (Jérémie's 12 GB rule): when Tavern returns, it suspends Ragnarok processes below 12 GB, and workers
+are relaunched with the default gate. This changes only when jobs start, never what a job computes: runs are
+deterministic and resumable, and no result criterion depends on it.
+
 ## 6. Families W and M, items 12-13 (3 November 2026, before F1 and before any v85 data)
 
 Written on branch `arc4-v85-families` (worktree `ragnarok_v85f`) by workflow `wf_6f495eff-c54` (family W, family M,
@@ -412,3 +422,21 @@ object's content. Jérémie may override this before F1.
 - Seeds: tests/test_family_w_v85.py::test_x12_s_closure_build_through_the_job_and_its_run_refused uses seed 9826 in production mode on the breakout smoke start, because 9826 is the closure seed under test. With the fix in place no expansion runs; only env.start_from is executed. During my revert check (a scratch copy with the fix removed), that test instead played one full 4M-frame breakout run at 9826 in a pytest temp directory (293 s, one process, nothing recorded). It was never a measurement, but it was a §12 G2 seed.
 - Machine: the RAM supervisor (12 GB guard; free RAM baseline 12.2-12.7 GB) suspended my test processes at 09:51, 10:29 (a test-4 v85_job child) and 11:04. The timeouts ended the first two, and I stopped the third myself (my own pytest, PID 19728). I re-ran each chunk. At 11:12 the parent workflow started S0 (scripts/v85_stage0.py run) and restarted the supervisor with --low 6 --high 8. My last file (test_job_v85, 3m52s) ran beside it as the only process of mine.
 - Test 9 rewrote the untracked F:\dev\ragnarok_v85f\craft_v6_out\v85\gbuild_engineering.json (do not commit). Nothing was committed or deleted in the worktree; F:\dev\ragnarok_v85 was not touched. The revert-check copies are in C:\Users\jeremie\AppData\Local\Temp\claude\F--dev-ragnarok\826ba484-cdf9-442a-89b7-2049c18871fc\scratchpad\prefix, with the script C:\Users\jeremie\AppData\Local\Temp\claude\F--dev-ragnarok\826ba484-cdf9-442a-89b7-2049c18871fc\scratchpad\revert.py.
+
+## 7. S0 result and seed-grep hand review (3 November 2026, 11:30, before any v85 live frame)
+
+S0 (`scripts/v85_stage0.py run`, code `26a3f4f`, clean tree, entry seeds 9819 / 9820) ran 11:12-11:29:
+complete; 16 units kept, every one with both starts valid; KC-start false; KC-floor false (median floor ratio 86.5,
+threshold 8); natural spike-ins at n = 4, tau = 0.2, 1.75 / 1.25: P(ROOM | x2) = 0.63 (U = 10), 0.66 (U = 12),
+0.80 (U = 16), so U = 16; G_4 = 3.91. Files and SHA-256 in `craft_v6_out/v85/s0/s0.json`, committed with this note.
+
+Seed grep (A.10.1(f)): `seed_grep.json` says PASS = false with 66 foreign hits. By the module's own rule, copies of
+v85 files on another branch are foreign and reviewed by hand. Hand review: all 66 hits are the same 33 files of
+v85's own items 12-13 (branch `arc4-v85-families` and its worktree `ragnarok_v85f`, written today with the v85
+seeds of §12); no other worktree and no other branch (master, v73-v84 archives) contains the block 9800-9899.
+The block is unused by any earlier work: the check passes on review. The file is kept as written.
+
+Correction to note 5: it was written at 11:10, not 07:00. With Tavern off, S0 was launched with an 8 GB gate and
+the supervisor runs at `--low 6 --high 8 --clow 6 --chigh 8`; a hidden switch (`supervisor_switch.py`, armed for
+5 November 06:00) restores the standard 12 / 14 before Tavern returns. The G-build smoke stage and the I-stage use
+`queue_v85.py --min-free 8` until then.
