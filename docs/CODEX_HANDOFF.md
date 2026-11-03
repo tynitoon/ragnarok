@@ -441,3 +441,9 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   (`queue_v85.py --min-free 8`, lanceur S0) ; note de construction 5 à corriger après S0 (heure, valeurs 8/6).
 - S0 lancé à 11 h 12 (`craft_v6_out/v85/s0/stage0.log` dans le worktree v85). Ne rien commiter dans
   `ragnarok_v85` pendant qu'il tourne.
+- Items 12-13 faits : branche `arc4-v85-families` (worktree `ragnarok_v85f`, commit `b298516`, poussée) —
+  familles W (critique en ligne, a priori X_S/K_S/P_S/U_S/T/F_S, S) et M (mineur, ré-extraction en ligne,
+  DM, P_on, X_frozen), 17 bras, `scripts/v85_objects.py` ; 201 tests verts, 0 sauté ; revue : 8 mineurs,
+  7 corrigés ; M-3 tranché (note 6) : DM garde les 33 macros listées (le total « 32 » du §4.4 est une erreur
+  d'addition). **Fusion dans `arc4-v85` seulement sans calcul en cours** (puis `v85_objects.py`, puis
+  `v85_calib.py closures`, avant F1). Note 6 : interprétations à ratifier par Jérémie avant F1/G2.
