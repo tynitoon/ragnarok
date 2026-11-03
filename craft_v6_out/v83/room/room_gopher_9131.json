@@ -1,0 +1,75 @@
+{
+ "game": "gopher",
+ "seed": 9131,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 111812,
+  "warm_frames": 48000,
+  "adapter_frames": 50768,
+  "my_sizes": [
+   353.0,
+   353.0,
+   353.0,
+   353.0,
+   353.0
+  ],
+  "my_size": 353.0,
+  "lost_frac": 0.0,
+  "slots": {
+   "0,0,0": [
+    0,
+    2
+   ],
+   "0,0,1": [
+    1,
+    5
+   ],
+   "1,0,0": [
+    3
+   ],
+   "-1,0,0": [
+    4
+   ],
+   "1,0,1": [
+    6
+   ],
+   "-1,0,1": [
+    7
+   ]
+  },
+  "n_resp": 20
+ },
+ "summary": {
+  "iters": 4103,
+  "cells": 15,
+  "best_S": 0.0,
+  "evicted": 0,
+  "billed": 2000000,
+  "probe_calls": 12,
+  "probe_frames": 7248,
+  "wall_s": 807.3755533695221
+ },
+ "records": [
+  [
+   111812,
+   0.0
+  ]
+ ],
+ "n_rises": 157,
+ "rises_300k": 157,
+ "median_rise": 20.0,
+ "n_rows": 98481,
+ "peak_ws_mb": 450.9765625,
+ "peak_commit_mb": 1223.51953125,
+ "wall_s": 824.3990602493286,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 11:08:03",
+  "launched_ts": 1792660083.7675214,
+  "inputs": {}
+ }
+}

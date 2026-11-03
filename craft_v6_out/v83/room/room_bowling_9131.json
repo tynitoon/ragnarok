@@ -1,0 +1,69 @@
+{
+ "game": "bowling",
+ "seed": 9131,
+ "cap": 2000000,
+ "stop_at": null,
+ "max_iters": null,
+ "steer": null,
+ "entry": {
+  "entry_frames": 91084,
+  "warm_frames": 48000,
+  "adapter_frames": 34584,
+  "my_sizes": [
+   96.0,
+   96.0,
+   96.0,
+   96.0,
+   96.0
+  ],
+  "my_size": 96.0,
+  "lost_frac": 0.634,
+  "slots": {
+   "0,0,0": [
+    0
+   ],
+   "1,1,0": [
+    1,
+    4,
+    5
+   ],
+   "0,-1,0": [
+    2
+   ],
+   "0,1,0": [
+    3
+   ]
+  },
+  "n_resp": 6
+ },
+ "summary": {
+  "iters": 1358,
+  "cells": 16,
+  "best_S": 0.0,
+  "evicted": 0,
+  "billed": 2000016,
+  "probe_calls": 2749,
+  "probe_frames": 1286532,
+  "wall_s": 431.14718532562256
+ },
+ "records": [
+  [
+   91084,
+   0.0
+  ]
+ ],
+ "n_rises": 48,
+ "rises_300k": 48,
+ "median_rise": 3.0,
+ "n_rows": 32592,
+ "peak_ws_mb": 151.53515625,
+ "peak_commit_mb": 923.578125,
+ "wall_s": 448.3820655345917,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 10:32:01",
+  "launched_ts": 1792657921.3831933,
+  "inputs": {}
+ }
+}

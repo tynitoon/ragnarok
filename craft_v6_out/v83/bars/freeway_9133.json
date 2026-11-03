@@ -1,0 +1,54 @@
+{
+ "bars": {
+  "freeway": {
+   "constant": [
+    0.0,
+    21.2,
+    0.0
+   ],
+   "uniform": 0.0,
+   "uniform_eps": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "random_repeat": 4.1,
+   "repeat_eps": [
+    4.0,
+    4.0,
+    4.0,
+    5.0,
+    5.0,
+    1.0,
+    3.0,
+    3.0,
+    6.0,
+    6.0
+   ],
+   "best_constant": {
+    "button": 1,
+    "mean": 21.2
+   },
+   "B": 21.2,
+   "median_rise": 1.0,
+   "n_rises": 253,
+   "u": 10.6,
+   "wall_s": 90.23934698104858
+  }
+ },
+ "seed": 9133,
+ "provenance": {
+  "code_sha": "2b22e9416ed645ca17327783e5207efd10c235b6",
+  "dirty": false,
+  "launched": "2026-10-22 09:46:23",
+  "launched_ts": 1792655183.9801774,
+  "inputs": {}
+ }
+}
