@@ -368,3 +368,15 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   `v85_stage0.py`, `v85_calib.py`, `v85_verdict.py`, `queue_v85.py` ; tests de construction 1-9 avant
   l'étape I. Rigueur proportionnée : revue contradictoire avant l'étape I et avant G1 seulement.
 - Relancer le superviseur caché avant tout calcul (voir l'entrée du 24 octobre).
+
+### 3 novembre (suite) — v85 partie B : étapes 1 et 2 codées et testées
+- `ragnarok/evaluation/senses_v85.py` (commit `d4cd5f8` dans `../ragnarok_v85`) : `start_from` (reset,
+  NOOP, restauration de s1, horloge et plafond relatifs), `sandbox()` (non facturé, non tracé ; clone,
+  reset et free interdits ; tout restauré), Trace85 (colonne images oracle, `replay85` depuis s1),
+  `to_state`/`from_state` selon §13.3. 7 tests verts (breakout, qbert), dont trajectoires identiques
+  avec ou sans passages en bac à sable, et reprise identique.
+- `ragnarok/evaluation/start_v85.py` (commit `9ff7fe9`) : les 16 unités, ordre `[9801, 1]`, rejeu de la
+  lignée du haut (deux contextes), s1, cache du Body, identité du départ, règle des paliers comptés (A.4).
+  3 tests verts, dont un vrai départ Alien A.
+- **Prochaine étape** : `ragnarok/agent_v85/explorer2s.py` (A.6), puis la suite de la partie B.
+  Aucun calcul lancé ; superviseur toujours arrêté.
