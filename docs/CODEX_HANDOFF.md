@@ -433,3 +433,11 @@ de `g0_verdict.json`. Chances écrites : G0 ≈ 0,2 ; positif scellé ≈ 0,5 %.
   ses suspendus en pause, il faut les relancer (`ram_supervisor.resume(pid)`).
 - Items 12-13 (familles W et M, objets) : workflow `wf_6f495eff-c54` dans le nouveau worktree
   `F:\dev\ragnarok_v85f` (branche `arc4-v85-families`), à fusionner dans `arc4-v85` seulement sans calcul en cours.
+- 11 h 13 : Jérémie : Tavern ne tourne pas aujourd'hui, relance après-demain (5 nov.). Seulement ~12 Go libres
+  (nombreux petits processus : Claude, ChatGPT, Codex…). Superviseur temporaire `--low 6 --high 8 --clow 6
+  --chigh 8` (sécurité de la machine) ; retour AUTOMATIQUE au réglage standard 12/14 le 5 nov. à 06:00 par
+  `scratchpad/supervisor_switch.py` (journal `craft_v6_out/ram_supervisor_switch.log`). Si ce script a disparu,
+  remettre le superviseur à 12/14 avant que Tavern ne reparte. Portes de lancement à 8 Go aujourd'hui
+  (`queue_v85.py --min-free 8`, lanceur S0) ; note de construction 5 à corriger après S0 (heure, valeurs 8/6).
+- S0 lancé à 11 h 12 (`craft_v6_out/v85/s0/stage0.log` dans le worktree v85). Ne rien commiter dans
+  `ragnarok_v85` pendant qu'il tourne.
