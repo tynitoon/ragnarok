@@ -1,0 +1,123 @@
+{
+ "game": "demon_attack",
+ "seed": 5,
+ "demo_len": 1365,
+ "demo_events": 41,
+ "demo_true_score": 370.0,
+ "frames_enter": 218484,
+ "frames_explore": 378408,
+ "slots": {
+  "0,0,0": [
+   "NOOP"
+  ],
+  "0,-1,0": [
+   "FIRE"
+  ],
+  "1,0,0": [
+   "RIGHT"
+  ],
+  "-1,0,0": [
+   "LEFT"
+  ],
+  "1,0,1": [
+   "RIGHTFIRE"
+  ],
+  "-1,0,1": [
+   "LEFTFIRE"
+  ]
+ },
+ "adapter_info": [
+  {
+   "button": "NOOP",
+   "moved_frac": 0.0,
+   "dx": 0.0,
+   "dy": 0.0,
+   "diff_noop": 0.0,
+   "slot": "0,0,0"
+  },
+  {
+   "button": "FIRE",
+   "moved_frac": 0.5,
+   "dx": 0.0,
+   "dy": -15.0,
+   "diff_noop": 0.54,
+   "slot": "0,-1,0"
+  },
+  {
+   "button": "RIGHT",
+   "moved_frac": 0.67,
+   "dx": 7.66,
+   "dy": 0.0,
+   "diff_noop": 0.67,
+   "slot": "1,0,0"
+  },
+  {
+   "button": "LEFT",
+   "moved_frac": 0.79,
+   "dx": -5.59,
+   "dy": -0.29,
+   "diff_noop": 0.79,
+   "slot": "-1,0,0"
+  },
+  {
+   "button": "RIGHTFIRE",
+   "moved_frac": 0.83,
+   "dx": 7.5,
+   "dy": -0.01,
+   "diff_noop": 0.83,
+   "slot": "1,0,1"
+  },
+  {
+   "button": "LEFTFIRE",
+   "moved_frac": 0.92,
+   "dx": -5.59,
+   "dy": -0.29,
+   "diff_noop": 0.92,
+   "slot": "-1,0,1"
+  }
+ ],
+ "roles": {
+  "score": [
+   6,
+   16,
+   63,
+   101
+  ]
+ },
+ "death_signal": {
+  "lives_counter": false,
+  "vanish_k": 2,
+  "lost_frac": 0.095,
+  "my_sizes": [
+   52.0,
+   52.0,
+   52.0,
+   52.0,
+   52.0
+  ]
+ },
+ "branch_noise": {
+  "game": "demon_attack",
+  "seed": 5,
+  "base": "0,-1,0",
+  "const_values": {
+   "0,0,0": -0.19,
+   "0,-1,0": 1.88,
+   "1,0,0": -0.31,
+   "1,0,1": 0.56,
+   "-1,0,0": 0.31,
+   "-1,0,1": 1.44
+  },
+  "roots": 20,
+  "K": 4,
+  "det_gain": 1.85,
+  "det_choice_true_gain": 1.712,
+  "det_choice_true_gain_when_moved": 2.141,
+  "det_moved_frac": 0.8,
+  "sto_gain_K": 1.837,
+  "agree": 0.6,
+  "sd_within": 0.233,
+  "secs": 169
+ },
+ "secs": 393
+}
